@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>// Place global declarations here.
+clock clk;
+chan reset;
+
+</declaration><template><name x="5" y="5">Observer</name><declaration>// Place local declarations here.
+</declaration><location id="id0" x="40" y="-232"><name x="30" y="-262">taken</name><committed/></location><location id="id1" x="-120" y="-232"><name x="-130" y="-262">idle</name></location><init ref="id1"/><transition><source ref="id1"/><target ref="id0"/><label kind="synchronisation" x="-64" y="-304">reset?</label><nail x="-96" y="-280"/><nail x="16" y="-280"/></transition><transition><source ref="id0"/><target ref="id1"/><label kind="assignment" x="-64" y="-192">clk := 0</label><nail x="0" y="-200"/><nail x="-88" y="-200"/></transition></template><template><name>Automata</name><location id="id2" x="-16" y="-56"><name x="-26" y="-86">loop</name></location><init ref="id2"/><transition><source ref="id2"/><target ref="id2"/><label kind="guard" x="88" y="-80">clk &gt;= 2 and clk &lt;= 3</label><label kind="synchronisation" x="88" y="-56">reset!</label><nail x="80" y="8"/><nail x="80" y="-120"/></transition></template><system>// Place template instantiations here.
+a = Automata();
+o = Observer();
+
+
+// List one or more processes to be composed into a system.
+system a, o;
+</system></nta>
