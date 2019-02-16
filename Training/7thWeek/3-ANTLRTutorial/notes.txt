@@ -1,0 +1,64 @@
+Parsing is simpler if we break it down into two similar but distinct tasks or stages: lexical analysis and actual parsing.
+
+The process of grouping characters into words or symbols (tokens) is called lexical analysis or simply tokenizing.
+We call a program that tokenizes the input a <lexer>.
+The lexer can group related tokens into token classes, or token types.
+The lexer groups vocabulary symbols into types when the parser cares only about the type, not the individual symbols.
+Tokens consist of at least two pieces of information: the token type (identifying the lexical structure) and the text matched for that token by the lexer.
+
+The second stage is the actual parser and feeds off of these tokens to recognize the sentence structure. By default, ANTLR-generated parsers build a data structure called a parse tree or syntax tree that records how the parser recognized the structure of the input sentence and its component phrases.
+
+The interior nodes of the parse tree are phrase names that group and identify their children.
+The root node is the most abstract phrase name.
+The leaves of a parse tree are always the input tokens.
+
+By producing a parse tree, a parser delivers a handy data structure to the rest of the application that contains complete information about how the parser grouped the symbols into phrases. Trees are easy to process in subsequent steps and are well understood by programmers. Better yet, the parser can generate parse trees automatically.
+
+By operating off parse trees, multiple applications that need to recognize the same language can reuse a single parser.
+The other choice is to embed application-specific code snippets directly into the grammar, which is what parser generators have done traditionally. Parse trees make for a much tidier and more decoupled design.
+
+Parse trees are also useful for translations that require multiple passes (tree walks) because of computation dependencies where one stage needs information from a previous stage. In other cases, an application is just a heck of a lot easier to code and test in multiple stages because it's so complex. Rather than reparse the input characters for each stage, we can just walk the parse tree multiple times, which is much more efficient.
+
+---------------
+
+To make a language application, we have to execute some appropriate code for each input phrase or subphrase. The easiest way to do that is to operate on the parse tree created automatically by the parser.
+The nice thing about operating on the tree is that we're back in familiar Java territory.
+There's no further ANTLR syntax to learn in order to build an application.
+
+Let's look more closely at the data structures and class names ANTLR uses for recognition and for prase trees.
+A passing familiarity with these will make future discussions more concrete.
+
+We learned that lexers process characters and pass tokens to the parser, which in turns checks syntax and creates a parse tree. The corresponding ANTLR classes are CharStream, Lexer, Token, Parser and ParseTree. The "pipe" connecting the lexer and parser is called a TokenStream.
+
+ANTLR data structures share as much data as possible to reduce memory requirements. Leaf (token) nodes in the parse tree are containers that point at tokens in the token stream. The tokens record start and stop character indexes into the CharStream, rather than making copies of substrings. There are no tokens associated with whitespace characters since we can assume the lexer tosses out whitespace.
+
+ParseTree subclasses RuleNode and TerminalNode correspond to subtree roots and leaf nodes. RuleNode has familiar methods such as getChild() and getParent(), but RuleNode isn't specific to a particular grammar. To better support access to the elements within specific nodes, ANTLR generates a RuleNode subclass for each rule. These are called context objects because they record everything we know about the recognition of a phrase by a rule. Each context object knows the start and stop tokens for the recognized phrase and provides access to all of the elements of that phrase.
+
+Given this description of concrete types, we could write code by hand to perform a depth-first walk of the tree. We could perform whatever actions we wanted as we discovered and finished nodes. Typical operations are things such as computing results, updating data structures, or generating output. Rather than writing the same tree-walking boilerplate code over again for each application, though, we can use the tree-walking mechanisms that ANTLR generates automatically.
+
+---------------
+
+ANTLR provides support for two tree-walking mechanisms in its runtime library. By default, ANTLR generates a parse-tree listener interface that responds to events triggered by the built-in tree walker. The listeners themselves are exactly like SAX document handler objects for XML parsers. The methods in a listener are just callbacks. Once we look at listeners, we'll see how ANTLR can also generate tree walkers that follow the visitor design pattern.
+
+There are situations where we want to control the walk, explicitly calling methods to visit children. Option -visitor asks ANTLR to generate a visitor interface from a grammar with a visit method per rule.
+
+---------------
+
+Language: a language is a set of valid sentences; sentences are composed of phrases, which are composed of subphrases, and so on.
+Grammar: a grammar formally defines the syntax rules of a language. Each rule in a grammar expresses the structure of a subphrase.
+
+Syntax tree or parse tree: this represents the structure of the sentence where each subtree root gives an abstract name to the elements beneath it. The subtree roots correspond to grammar rule names. The leaves of the tree are symbols or tokens of the sentence.
+
+Token: a token is a vocabulary symbol in a language; these can represent a category of symbols such as "identifier" or can represent a single operator or keyword.
+
+Lexer or tokenizer: this breaks up an input character stream into tokens. A lexer performs lexical analysis.
+
+Parser: a parser checks sentences for membership in a specific language by checking the sentence's structure against the rules of a grammar. The best analogy for parsing is traversing a maze.
+
+Recursive-descent parser: a specific kind of top-down parser implemented with a function for each rule in the grammar.
+
+Lookahead parsers: use lookahead to make decisions by comparing the symbols that begin each alternative.
+
+---------------
+
+
