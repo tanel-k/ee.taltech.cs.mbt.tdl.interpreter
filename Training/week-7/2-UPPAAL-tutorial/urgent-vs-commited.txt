@@ -1,0 +1,13 @@
+Urgent|committed location: time not allowed to pass.
+Urgent: other transitions may interleave if they do not require time to pass as well.
+Committed: only interleavings with other committed states are allowed.
+
+http://ppedreiras.av.it.pt/resources/empse0809/slides/TheUppaalModelChecker-Julian.pdf
+Urgent locations freeze time; i.e. time is not allowed to pass when a process is in an urgent location.
+- The location must be left before time can pass;
+- Other transitions may happen before, as long as they do not require time to pass.
+
+Committed locations also freeze time; i.e. time is not allowed to pass when a process is in one of them.
+- When a model has one or more active committed locations, no transitions other than those leaving said locations can be enabled;
+- If several processes are in a committed location at the same time, then they will interleave;
+- Committed locations are useful for creating atomic sequences.
