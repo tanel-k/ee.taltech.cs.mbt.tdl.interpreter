@@ -1,0 +1,5 @@
+A listener-based approach is greate because all of the tree walking and method triggering is done automatically.
+Sometimes, though, automatic tree walking is also a weakness because we can't control the walk itself.
+For example, we might want to walk a parse tree for a C program, ignoring everything inside functions by skipping the function body subtrees.
+Listener event methods also can't use method return values to pass data around.
+When we need to control the walk or want to return values with event-method return values, we use a visitor pattern.

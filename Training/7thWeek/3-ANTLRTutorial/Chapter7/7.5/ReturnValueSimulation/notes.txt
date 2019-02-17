@@ -1,0 +1,2 @@
+Using a stack field is a bit awkward but works fine.
+We have to make sure that the event methods push and pop things in the correct order across listener events. Visitors with return values do away with the awkwardness of the stack but require that we manually visit the nodes of the tree. The third option is to capture partial results by stashing them in tree nodes.

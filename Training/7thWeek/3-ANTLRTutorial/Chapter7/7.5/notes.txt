@@ -1,0 +1,41 @@
+In this section, we're going to explore mechanisms that let event methods pass data around without altering the event method signatures. We'll build three different implementations of the same simple calculator based upon the LExpr expression grammar from the previous section. The first implementation uses visitor method return values, the second defines a field shared among event methods, and the third annotates parse tree nodes to squirrel away values of interest.
+
+---------
+
+To get reusable and retargetable grammars, we need to keep them completely clear of user-defined actions.
+This means putting all of the application specific code into some kind of listener or visitor external to the grammar.
+
+Listeners and visitors operate on parse trees, and ANTLR automatically generates appropriate tree-walking interfaces and default implementations.
+Since the event method signatures are fixed and not application specific, we looked at three ways event methods can share information.
+* Native Java call stack: visitor methods return a value of user-defined type. If a visitor needs to pass parameters it must also use one of the next two techniques;
+* Stack-based: a stack field simulates parameters and return values like the Java call stack;
+* Annotator: a map field annotates nodes with useful values.
+
+All three are completely decoupled from the grammar itself and nicely encapsulated in specialized objects. Beyond that, there are advantages and disadvantages to each.
+The needs of our problem and personal taste dictate which approach to take.
+There's also no reason that we can't use a variety of solutions even within the same application.
+
+Visitor methods read nicely because they directly call other visitor methods to get partial results and can return values like any other method. That is also their negative.
+Visitor methods must explicitly visit their children whereas the listeners do not.
+Because the visitor has a general interface, it can't define arguments.
+Visitors must use one of the otehr solutions to pass arguments to visitor methods it calls on children.
+A visitor's space efficiency is good because it has to keep around only a few partial results at any one time. There are no partial results hanging around after the tree walk.
+While visitor methods can return values, each value must be of the same type, unlike other solutions.
+
+The stack-based solution can simulate arguments and return values with a stack, but there's a chance of a disconnect when manually managing the stack.
+This can occur because the listener methods aren't calling each other directly.
+As programmers, we have to make sure that what we push is appropriately popped off by future event method calls.
+The stack can pass multiple values and multiple return values.
+The stack-based solution is also space efficient because it does not attach anything to the tree.
+All partial results storage goes away after the tree walk.
+
+The annotator is my default solution because it allows me to arbitrarily provide information to event methods operating on nodes above and below in the parse tree. I can pass multiple values around and they can be of arbitrary types.
+
+Annotation is better than using a stack with fleeting values in many cases. There is less chance of a disconnect btwn the data-passing expectations of the various methods.
+Annotating the tree with setValue(Ctx, value) is less intuitive than saying retunr value but is more general.
+The only disadvantage of this approach over the other two is that the partial results are kept around during the tree walk and so it has a larger memory footprint.
+
+On the other hand, being able to annotate the tree is precisely what we need in some applications. If your application requires multiple passes over the tree, it's convenient for the first pass to compute and squirrel away data in the tree.
+The second pass then has easy access to the data s the parse-tree walker rewalks the tree.
+
+All in all, tree annotation is extremely flexible and has an acceptable memory burden.

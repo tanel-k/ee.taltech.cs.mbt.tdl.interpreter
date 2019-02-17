@@ -61,4 +61,341 @@ Lookahead parsers: use lookahead to make decisions by comparing the symbols that
 
 ---------------
 
+The constraints of word order and dependency, derived from natural language, blossom into four abstract computer language patterns.
+* Sequence: this is a sequence of elements such as the values in an array initializer;
+* Choice: this is a choice between multiple, alternative phrases such as the different kinds of statements in a programming language;
+* Token dependence: the presence of one token requires the presence of its counterpart elsewhere in a phrase such as matching left and right parentheses;
+* Nested phrase: this is a self-similar language construct such as nested arithmetic expressions or nested statement blocks in a programming language;
+
+To implement these patterns, we really only need grammar rules comprised of alternatives, token references, and rule references (Backus-Naur-Format [BNF]). For convenience, though, we'll also group those elements into subrules. Subrules are just in-lined rules wrapped in parentheses. We can mark subrules as optional(?) and as zero-or-more (*) or one-or-more (+) loops to recognize the enclosed grammar fragments multiple times (Extended Backus-Naur-Format [EBNF]).
+
+Grammars consist of a header that names the grammar and a set of rules that can invoke each other.
+
+grammar MyG;
+rule1: <<stuff>> ;
+rule2: <<more stuff>> ;
+...
+
+Just like writing software, we have to figure out which rules we need, what <<stuff>> is, and which rule is the start rule (analogous to a main() method).
+
+Proper grammar design mirrors functional decomposition or top-down design in the programming world. That means we work from the coarsest to the finest level, identifying language structures and encoding them as grammatical rules. So, the first task is to find a name for the coarsest language structure, which becomes our start rule.
+
+Designing the contents of the start rule is a matter of describing the overall format of the input in English pseudocode, kind of like we do when writing software. For example, "a comma-separated-value (CSV) file is a sequence of rows terminated by newlines". The essential word file to the left of "is a" is the rule name, and everything to the right becomes the <<stuff>> on the right side of a rule definition.
+
+file: <<sequence of rows that are terminated by newlines>> ;
+
+Then we step down a level in granularity by describing the elements identified on the right side of the start rule. The nouns on the right side are typically references to either tokens or yet-to-be-defined rules. The tokens are elements that our brain normally latches onto as words, punctuation or operators.
+
+Just as words are the atomic elements in an English sentence, tokens are the atoms in a parser grammar. The rule references, however, refer to other language structures that need to be broken down into more detail like row.
+
+Stepping down another level of detail, we could say that a row is a sequence of fields separated by commas. Then, a field is a number of string:
+file : <<sequence of rows that are terminated by newlines>> ;
+row  : <<sequence of fields separated by commas >> ;
+field: <<number or string >>;
+
+When we run out of rules to define, we have a rough draft of our grammar.
+
+---------------
+
+Reference manuals are often pretty loose for grammar clarity reasons, meaning that the grammar recognizes lots of sentences not in the language. Or, the grammar might be ambiguous, able to match the same input sequence in more than one way.
+
+We really need a single interpretation of each input sentence to translate it or perform some other task.
+
+---------------
+
+Language patterns
+Sequence
+The structure you'll see most often in computer languages is a sequence of elements, such as the sequence of methods in a class definition.
+
+retr    : 'RETR' INT '\n' ;
+
+Let's look at an arbitrarily long sequence such as the simple list of integers in a Matlab vector like [1 2 3]. As with a finite sequence, we want one element to follow the next, but we can't list all possible integer lists with rule fragments like INT INT INT INT ....
+
+To encode a sequence of one or more elements, we use the + subrule operator. For example, (INT)+ describes an arbitrarily long sequence of integers. As a shorthand, INT+ is OK too. To specify that a list can be empty, we use the zero-or-more * operator: INT*.
+This operator is analogous to a loop in a programming language, which of course is how ANTLR-generated parsers implement them.
+
+Variations on this pattern include the sequence with terminator and sequence with separator. CSV files demonstrate both nicely:
+file    :   (row '\n')* ;
+row     :   field (',' field)* ;
+field   :   INT ;
+
+There is a special kind of zero-or-one sequence, specified with the ?, that we use to express optional constructs. The optional operator is kind of like a choice btwn something and nothing. ('=' expr)? is the same as ('=' expr | )
+
+Alternatives
+A language with only one setnence would be pretty boring. Even the simplest languages have multiple valid sentences. This brings us to the choice pattern.
+
+To express the notion of choice in a language, we use the | as the "or" operator in ANTLR rules to separate grammatical choices called alternatives or productions. Grammars are full of choices:
+
+field : INT | STRING ;
+
+Any time you find yourself saying "language structure x can be either this or that," then you've identified a choice pattern. Use | in rule x.
+
+There are two key remaining patterns to look at: token dependency and phrase nesting. They're typically used together in grammars, but let's start with token dependencies in isolation for simplicity.
+
+Token Dependency
+Previously, we used INT+ to express the nonempty sequence of integers in a Matlab vector, [1 2 3]. To specify a vector with the surrounding square brackets, we need a way to express dependencies between tokens. If we see one symbol in a sentence, we must find its matching counterpart elsewhere in the sentence. To express this with a grammar, we use a sequence that specifies both symbols, usually enclosing or grouping other elements. In this case, we completely specify vectors like this:
+
+vector : '[' INT+ ']' ;
+
+In any nontrivial program in your favorite language, you'll see all sorts of grouping symbols that must occur in pairs: (...), {...}, and [...]. F.ex:
+
+expr:   expr '(' exprList? ')'
+    |   expr '[' expr ']'
+   ...
+    ;
+
+Keep in mind that dependent symbols don't necessarily have to match. C-derived languages also have the a?b:c ternary operator where the ? sets up a requirement to see : later in the phrase.
+
+Nested Phrase
+A nested phrase has a self-similar language structure, one whose subphrases conform to that same structure. Expressions are the quintessential self-similar language structure and are made up of nested subexpressions separated by operators. Similarly, a while's code block is a code block nested within an outer code block. We express self-similar language structures using recursive rules in grammars. So, if the pseudocode for a rule references itself, we are going to need a recursive (self-referencing) rule.
+
+Most nontrigvial languages have multiple self-similar constructs, leading to lots of recursive rules. Let's look at an expression rule for a simple language that has just three kinds of expressions: indexed array references, parenthesized expressions and integers. Here's how we would express that in ANTLR notation:
+
+expr: ID '[' expr ']'
+    | '(' expr ')'
+    | INT
+    ;
+
+Not all languages have expressions, such as data formats, but most languages will have fairly complex expressions. Moreover, expression grammar specifications are not always obvious, so it's worth spending some time digging into the details of recognizing expressions.
+
+Reference: ANTLR core grammar notation:
+Syntax              Description
+x                   Match token, rule reference, or subrule x
+x y ... z           Match a sequence of rule elements
+(...|...|...)       Subrule with multiple alternatives.
+x?                  Match x or skip it
+x*                  Match x zero or more times
+x+                  Match x one or more times
+r:...;              Define rule r
+r:...|...|...;      Define rule r with multiple alternatives
+
+Common computer language patterns:
+Sequence
+A finite or arbitrarily long sequence of tokens or subphrases.
+Sequence with terminator
+An arbitrarily long, potentially empty sequence of tokens or subphrases separated by a token, usually a semicolon or newline.
+Sequence with separator
+A nonempty arbitrarily long sequence of tokens or subphrases separated by a token, usually a comma, semicolon, or period.
+Choice
+A set of alternative phrases.
+Token dependency
+The presence of one token requires the presence of one or more subsequent tokens.
+Nested phrase
+A self-similar language structure.
+
+---------------
+
+Expressions have always been a hassle to specify with top-down grammars and to recognize by hand with recursive-descent parsers, first because the most natural grammar is ambiguous and second because the most natural specification uses a special kind of recursion called left recursion.
+
+For now keep in mind that top-down grammars and parsers cannot deal with left recursion in their classic form.
+
+Imagine a simple arithmetic expression language:
+expr    :   expr '*' expr
+        |   expr '+' expr
+        |   INT
+        ;
+
+The problem is that this rule is ambiguous for some input phrases. In other words, this rule can match a single input stream in more than one way. It's fine for simple integers and for single-operator expressions such as 1+2 and 1*2 because there is only one way to match them.
+
+The problem is that the rule as specified can interpret input such as 1+2*3 in two ways:
+1+(2*3)
+(1+2)*3
+
+This is a question of operator precedence, and conventional grammars simply have no way to specify precedence. Most grammar tools use extra notation to specify the operator precedence.
+
+Instead ANTLR resolves ambiguities in favor of the alternative given first, implicitly allowing us to specify operator precedence. Rule expr has the multiplication alternative before the addition alternative, so ANTLR resolves the oprator ambiguity for 1+2*3 in favor of the multiplications.
+
+By default, ANTLR associates operators left to right as we'd expect for * and +. Some operators like exponentiations group right to left, though, so we have to manually specify the associativity on the oprator token using option a assoc:
+expr    :   expr '^'<assoc=right> expr // ^ operator is right associative
+        | INT
+        ;
+
+2^3^4 -> 2^(3^4)
+
+expr    :   expr '^'<assoc=right> expr
+        :   expr '*' expr
+        :   expr '+' expr
+        :   INT
+        ;
+
+ANTLR v3 cannot handle left-recursive rules. However, one of ANTLR v4's major improvements is that it can now handle direct left recursion. A left-recursive rule is one that either directly or indirectly invokes itself on the left edge of an alternative. The expr rule is directly left recursive because everything but the INT alternative starts with a reference to the expr rule itself. (It's also right recursive because of the expr references on the right edges of some alternatives).
+
+While ANTLR v4 can handle direct left recursion, it can't handle indirect left recursions. That means we can't factor expr into the grammatically equivalent rules:
+expr    : expo
+        | ...
+        ;
+expo    : expr '^'<assoc=right> expr ;
+
+---------------
+
+Computer languages look remarkably similar lexically.
+Lexically, then, functional, procedural, declarative, and object-oriented languages look pretty much the same.
+That's great because we have to learn only how to describe identifiers and integers once and, with little variation, apply them to most programming languages. As with parsers, lexers use rules to describe the various language constructs. We get to use essentially the same notation. The only difference is that parsers recognize grammatical structure in a token stream and lexers recognize grammatical structure in a character stream.
+
+Since lexing and parsing rules have similar structures, ANTLR allows us to combine both in a single grammar file. But since lexing and parsing are two distinct phases of language recognition, we must tell ANTLR which phase is associated with each rule. We do this by starting lexer rule names with uppercase letters and parser rule names with lowercase letters. For example, ID is a lexical rule name and expr is a parser rule name.
+
+When starting a new grammar, I typically cut and paste rules from an existing grammar, such as Java, for the common lexical constructs, identifiers, numbers, strings, comments and whitespace.
+
+For keywords, operators, and punctuation, we don't need lexer rules because we can directly reference them in parser rules in single quotes like 'while', '*', and '++'. Some developers prefer to use lexer rule references such as MULT instead of literal '*'. That way they can change the multiply operator character without altering references to MULT in the parser rules. Having both the literal and lexical rule MULT is no problem; they both result in the same token type.
+
+Identifiers
+In grammar pseudocode, a basic identifier is a nonempty sequence of uppercase and lowercase letters. We know to express the sequence pattern using notation (...)+. Because the elements of the sequence can be either uppercase or lowercase, we also know that we'll have a choice operator inside the subrule.
+
+ID : ('a'..'z'|'A'..'Z')+ ;
+
+The only new ANTLR notation here is the range operator: 'a'..'z' means any character from a to z.
+As a shorthand for character sets, ANTLR supports the more familiar regular expression set notation:
+ID : [a-zA-Z]+ ;
+
+Rules such as ID sometimes conflict with other lexical rules or literals referenced in the grammar such as 'enum'.
+
+grammar KeywordTest;
+enumDef : 'enum' '{' ... '}' ;
+...
+FOR : 'for' ;
+...
+ID : [a-zA-Z]+ ;
+
+ANTLR collects and separates all of the string literals and lexer rules from the parser rules. Literals such as 'enum' become lexical rules and go immediately after the parser rules but before the explicit lexical rules.
+
+ANTLR lexers resolve ambiguities between lexical rules by favoring the rule specified first. That means your ID rule should be defined after all of your keyword rules, like it is here relative to FOR. ANTLR puts the implicitly generated lexical rules for literals before explicit lexer rules, so those always have priority. In this case, 'enum' is given priority over ID automatically.
+
+Numbers
+Describing integer numbers such as 10 is easy because it's just a sequence of digits.
+INT : '0' .. '9'+ ;
+or
+INT : [0-9]+ ;
+
+Floating point numbers are much more complicated but we can make a simplified version easily if we ignore exponents. A floating-point number is a sequence of digits followed by a period and then optionally a fractional part, or it starts with a period and continues with a sequence of digits. A period by itself is not legal.
+FLOAT   :   DIGIT + '.' DIGIT*
+        |           '.' DIGIT+
+        ;
+fragment
+DIGIT   :   [0-9] ;
+Here we're also using a helper rule, DIGIT, so we don't have to write [0-9] everywhere.
+By prefixing the rule with fragment, we let ANTLR know that the rule will be used only by other lexical rules. It is not a token in and of itself. This means that we could not reference DIGIT from a parser rule.
+
+String Literals
+The next token that computer languages tend to have in common is the string literal like "Hello". Most use double quotes, but some use single quotes or even both. Regardless of the choice of delimiters, we match them using a rule that consumes everything between the delimiters. In grammar pseudocode, a string is a sequence of any characters between double quotes.
+
+STRING : '"' .*? '"' ;
+
+The dot wildcard operator matches any single character. Therefore .* would be a loop that matches any sequence of zero or more characters. Of course that would consume until the end of the file, which is not very useful. Instead ANTLR provides support for nongreedy subrules using standard regular expression notation (? suffix). Nongreedy means essentially to "scarf characters until you se what follows the subrule in the lexer rule".
+
+To be more precise, nongreedy subrules match the fewest number of characters while still allowing the entire surrounding rule to match.
+
+Our STRING rule is not quite good enough yet because it doesn't allow double quotes inside strings. To support that, most languages define escape sequences starting with a backslash. To get a double quote inside a double-quoted string, we use \". To support common escape characters we need something like the following:
+
+STRING: '"' (ESC|.)*? '"' ;
+fragment
+ESC: '\\"' | '\\\\' ;
+ANTLR itself needs to escape the escape character, so that's why we need \\ to specify the \ character (backslash).
+
+Comments and Whitespace
+When a lexer matches the tokens we've defined so far, it emits them via the token stream to the parser. The parser then checks the grammatical structure of the stream. But when the lexer matches comment and whitespace tokens, we'd like to toss them out. That way, the parser doesn't have to worry about matching optional comments and whitespace everywhere. For example, the following rule would be very awkward and error-prone where WS is a whitespace lexical rule:
+assign : ID (WS|COMMENT)? '=' (WS|COMMENT)? expr (WS|COMMENT)? ;
+
+Defining these discarded tokens is the same as for nondiscarded tokens. We just have to indicate that the lexer should throw them out using the skip command. For example, here is how to match both single-line and multiline comments for C-derived languages:
+
+LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ;
+COMMENT      : '/*' .*? '*/'       -> skip ;
+
+The lexer accepts a number of commands following the -> operator; skip is just one of them.
+
+Most programming languages treat whitespace characters as token separators but otherwise ignore them. Python is an exception because it uses whitespace for particular syntax purposes. Here is how to tell ANTLR to throw out whitespace:
+WS : (' '|'\t'|'\r'|'\n')+ -> skip ;
+
+or
+
+WS : [ \t\r\n]+ -> skip ;
+
+When newline is both whitespace to be ignored and the command terminator, we have a problem.
+Newline is context-sensitive. In one grammatical context, we should throw out newlines and in another we should pass it to the parser so that it knows a command has finished. For example, in Python, f() followed by newline executes the code, calling f. But we could also insert an extra newline between the parns. Python waits until the newline after the ) before executing the call.
+
+---------------
+
+Because ANTLR lexer rules can use recursion, lexers are technically as powerful as parsers. That means we could match even grammatical structure in the lexer. Or, at the opposite extreme, we could treat characters as tokens and use a parser to apply grammatical structure to a character stream. These are called scannerless parsers.
+
+Where to draw the line between the lexer and the parser is a function of the language but also a function of the intended application. A few rules of thumb will get us pretty far.
+
+* Match and discard anything in the lexer that the parser does not need to see at all. Recognize and toss out things like whitespace and comments for programming languages. Otherwise the parser would have to constantly check to see whether there are comments or whitespace in between tokens.
+
+* Match common tokens such as identifiers, keywords, strings and numbers in the lexer. The parser has more overhead than the lexer, so we shouldn't burden the parser with, say, putting digits together to recognize integers.
+
+* Lump together into a single token type those lexical structures that the parser does not need to distinguish. There's no point in sending separate token types if we do not distinguish between integers and floating-point numbers.
+
+* Lump together anything that the parser can treat as a single entity. For example, if the parser doesn't care about the contents of an XML tag, the lexer can lump everything between angle brackets into a single token type called TAG.
+
+* On the other hand, if the parser needs to pull apart a lump of text to process it, the lexer should pass the individual components as tokens to the parser. For example, if the parser needs to process the elements of an IP address, the lexer should send individual tokens for the IP components.
+
+When we say the parser doesn't care, we really mean that our application doesn't care.
+
+---------------
+
+Now that we know how to formally define languages using ANTLR grammar syntax, it's time to breathe some life into our grammars. By itself, a grammar isn't that useful because the associated parser tells us only whether an input sentence conforms to a language specification. To build language applications, we need the parser to trigger specific actions when it seems specific input sentences phrases or tokens. The collection of phrase -> action pairs represents our language application or at least the interface between the grammar and a larger surrounding application.
+
+In this chapter, we're going to learn how to use parse-tree listeners and visitors to build language applications. A listener is an object that responds to rule entry and exit events (phrase recognition events) triggered by a parse-tree walker as it discovers and finishes nodes. To support situations where an application must control how a tree is walked, ANTLR-generated parse trees also support the well-known tree visitor pattern.
+
+The biggest difference between listeners and visitors is that listener methods aren't responsible for explicitly calling methods to walk their children. Visitors, on the other hand, must explicitly trigger visits to child nodes to keep the tree traversal going. Visitors get to control the order of traversal and how much of the tree gets visited because of these explicit calls to visit children. For convenience, I'll use the term event method to refer to either a listener callback or a visitor method.
+
+Our goal in this chapter is to understand exactly what tree-walking facilities ANTLR builds for us and why. We'll start by looking at the origins of the listener mechanism and how we can keep application specific code out of our grammars using listeners and visitors. Next, we'll learn how to get ANTLR to generate more precise events, one for each alternative in a rule.
+
+---------------
+
+The listener and visitor mechanisms decouple grammars from application code, providing some compelling benefits. Such decoupling nicely encapsulates an application instead of fracturing it and dispersing the pieces across a grammar. Without embedded actions, we can reuse the same grammar in different applications without even recompiling the generated parser.
+
+ANTLR can also generate parsers in different programming languages for the same grammar if it's bereft of actions. Integrating grammar bug fixes or updates is also easy because we don't have to worry about merge conflicts because of embedded actions.
+
+We will investigate the evolution from grammar with embedded actions to completely decoupled grammar and application. The following property file grammar with embedded actions sketched with <<..>> reads property files, one property assignment per line. Actions like <<start file>> are just stand-ins for appropriate Java code.
+
+grammar PropertyFile;
+file : {<<start file>>} prop+ {<<finish file>>} ;
+prop : ID '=' STRING '\n' {<<process property>>} ;
+LID  : [a-z]+ ;
+STRING : '"' .*? '"' ;
+
+Such a tight coupling ties the grammar to one specific application. A better approach is to create a subclass of PropertyFileParser, the parser generated by ANTLR, and convert the embedded actions to methods. The refactoring leaves only trivial method call actions in the grammar that trigger the newly created methods. Then, by subclassing the parser, we can implement any number of different applications without altering the grammar.
+
+One refactoring looks like this:
+grammar PropertyFile;
+@members {
+    void startFile() { } // blank implementations
+    void finishFile() { }
+    void defineProperty(Token name, Token value) { }
+}
+file : {startFile();} prop+ {finishFile();} ;
+prop : ID '=' STRING '\n' {defineProperty($ID, $STRING)} ;
+ID   : [a-z]+ ;
+STRING : '"' .*? '"' ;
+
+This decoupling makes the grammar reusable for different applications, but the grammar is still tied to java because of the method calls. We'll deal with that shortly.
+
+To demonstrate the reusability of the refactored grammar, let's build two different "applications", starting with one that just prints out the properties as it encounters them. The process is simply to extend the parser class generated by ANTLR and override on or more of the methods triggered by the grammar.
+
+class PropertyFilePrinter extends PropertyFileParser {
+    void defineProperty(Token name, Token value) {
+        System.out.println(name.getText()+"="+value.getText());
+    }
+}
+
+Notice that we don't have to override startFile() or finishFile() because of the default implementations in the PropertyFileParser superclass generated by ANTLR.
+
+To launch this application, we need to create an instance of our special PropertyFilePrinter parser subclass instead of the usual PropertyFileParser:
+PropertyFileLexer lexer = new PropertyFileLexer(input);
+CommonTokenStream tokens = new CommonTokenStream(lexer);
+PropertyFilePrinter parser = new PropertyFilePrinter(tokens);
+parser.file(); // launch our special version of the parser
+
+As a second application, let's load the properties into a map instead of printing them out. All we have to do is create a new subclass and put different functionality in defineProperty().
+
+class PropertyFileLoader extends PropertyFileParser {
+    Map<String,String> props = new OrderedHashMap<String, String>();
+    void defineProperty(Token name, Token value) {
+        props.put(name.getText(), value.getText());
+    }
+}
+
+This grammar still has the problem that the embedded actions restrict us to generating parsers only in Java. To make the grammar reusable and language neutral, we need to completely avoid embedded actions. The next two sections show how to do that with a listener and a visitor.
+
+---------------
 
