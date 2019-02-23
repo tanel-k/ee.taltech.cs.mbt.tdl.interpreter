@@ -91,6 +91,8 @@ In the initial phase of implementation, this is considered nice-to-have.
 
 #### Problems with Programmatic Flow
 
+##### Trapset expression Equivalence
+
 The same trapset can be used more than once throughout an expression, for example A(**TS**<sub>**1**</sub>; **TS**<sub>**2**</sub>) &rarrc; E(**TS**<sub>**1**</sub>; **TS**<sub>**2**</sub>).
 
 This is the reason why broadcast channels should be used for trapset-expression edges in `modelObject`.
@@ -98,10 +100,32 @@ Somehow we need to ensure that recognizing automatons at the layer just above th
 
 This can be achieved by:
 
-1. Providing a reference to the upper layer expression representation-object to lower levels;
+1. Providing a reference to the ancestor expression representation-object to successor lower levels;
 2. Walking through the trapset-expression layer after all the upper layers are "ready";
 3. Retaining only unique trapset-expressions and providing them references to all "user" nodes at the ancestor level;
 4. Modifying nodes at the ancestor layer so that they use the correct downstream broadcast channels.
 
-If we want to implement it this way we will need to create the templates only *after* the full expression parse tree has been traversed and processed.
+If we want to implement it this way we will need to create the templates only *after* the full expression parse tree has been traversed and processed (meaning we need to keep representative objects in memory until we are sure the model object is ready for serialization).
+
+##### Simplification
+
+At this point it is relatively unclear how to best implement simplification rules so that the result isn't a simple string-matching operation. This will not be trivial but is crucial. Probably we can leverage the parse tree representation - but how do we create a new parse tree after simplification?
+
+This will probably prove to be the most significant part, perhaps even the highlight, of the thesis.
+
+### Components needed
+
+| ID   | Component                          | Implementation notes                           | Deps | Ticket? |
+| ---- | ---------------------------------- | ---------------------------------------------- | ---- | ------- |
+| 1    | TDL<sup>TP</sup> expression parser | ANTLR4                                         | N/A  | N       |
+| 2    | Uppaal XML parser/constructor      | Java + Dom4j?<br />Java C++ wrapper + libutap? | N/A  | N       |
+| 3    | Test model assembler               | Java + 1, 2                                    | 1, 2 | N       |
+
+### Sub-components
+
+| Parent ID | ID   | Sub-component                                                | Notes | Ticket? |
+| --------- | ---- | ------------------------------------------------------------ | ----- | ------- |
+| 3         | 1    | Test model builder (with serialization capabilities)         | -     | N       |
+| 3         | 2    | TDL<sup>TP</sup> expression tree walker (with modification capabilities) | -     | N       |
+| 3         | 3    | TDL<sup>TP</sup> expression simplification module            | -     | N       |
 
