@@ -4,7 +4,7 @@ Administration:
 
 /due MonthName DayNumber
 /estimate Xd Xh Xmin
-/label ~Priority:Normal
+/label ~"Priority: Normal"
 
 /assign me
 /subscribe
