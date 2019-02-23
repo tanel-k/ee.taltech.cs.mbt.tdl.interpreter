@@ -1,17 +1,32 @@
 ### Inputs
 
+---
+
+We expect the following to be provided by the user:
+
 * TDL<sup>TP</sup> expression;
 * Uppaal model M<sup>SUT</sup> in XML format.
 
 #### Expectations on Input
 
+We expect the following from user input:
+
+* TDL<sup>TP</sup> expression is valid;
 * TDL<sup>TP</sup> expression involves trapsets that are "defined" in terms of edges in M<sup>SUT</sup>.
 
-### Outputs:
+### Outputs
+
+---
+
+We produce the following as a result of processing provided inputs.
 
 * Uppaal test model M<sup>TEST</sup> (parallel composition of system model M<sup>SUT</sup>,  test stopwatch model M<sup>SW</sup>, operation automata model M<sup>OP</sup>) in XML format.
 
 ### Facilities Needed for Processing Inputs
+
+---
+
+We need the following capabilities to handle inputs:
 
 * ability to parse TDL<sup>TP</sup> expressions and traverse the resulting parse tree;
 * ability to parse Uppaal model XML:
@@ -25,6 +40,10 @@
   * ability to retrieve and parse the system declaration.
 
 ### Facilities Needed for Producing Output
+
+---
+
+We need to following capabilities to produce user-expected output:
 
 * ability to construct unique variable names;
 * ability to modify Uppaal model XML format in memory:
@@ -47,14 +66,23 @@
 
 ### Nice to have
 
+---
+
+These are items that are not critical but enhance user experience or otherwise improve the quality of the deliverable:
+
+* a nice user interface for editing TDL expressions and running the interpreter on them;
 * logic for prettifying automata templates (no overlap of edges; assignments and other "labels" clearly visible) (in terms of scope this is actually huge);
 * additional simplification rules (*may be needed for qualifying for an "A" grade*);
 * validation of the test model (using *bisimulation*) (per comments in #13 this should actually be fairly doable).
 
 ### Programmatic Flow
 
+---
+
+Logical flow activated by user input (abstract description):
+
 1. User provides Uppaal XML (`modelXml`) and TDL<sup>TP</sup> expression (`rootExpression`);
-2. `rootExpression` expression is validated;
+2. `rootExpression` is validated;
 3. negations in `rootExpression` are pushed to the ground level (`negationNormalizedExpression`);
 4. Empty set reduction is performed:
    * Parsing of `negationNormalizedExpression` is performed to determine trapset expressions;
@@ -91,6 +119,8 @@ In the initial phase of implementation, this is considered nice-to-have.
 
 #### Problems with Programmatic Flow
 
+Based on initial review, the following issues become evident.
+
 ##### Trapset expression Equivalence
 
 The same trapset can be used more than once throughout an expression, for example A(**TS**<sub>**1**</sub>; **TS**<sub>**2**</sub>) &rarrc; E(**TS**<sub>**1**</sub>; **TS**<sub>**2**</sub>).
@@ -113,19 +143,23 @@ At this point it is relatively unclear how to best implement simplification rule
 
 This will probably prove to be the most significant part, perhaps even the highlight, of the thesis.
 
-### Components needed
+### Component Overview (Preliminary)
 
-| ID   | Component                          | Implementation notes                           | Deps | Ticket? |
-| ---- | ---------------------------------- | ---------------------------------------------- | ---- | ------- |
-| 1    | TDL<sup>TP</sup> expression parser | ANTLR4                                         | N/A  | N       |
-| 2    | Uppaal XML parser/constructor      | Java + Dom4j?<br />Java C++ wrapper + libutap? | N/A  | N       |
-| 3    | Test model assembler               | Java + 1, 2                                    | 1, 2 | N       |
+Note that some of these components can be written into a single artifact.
+All of the information below is subject to change when problems occur during implementation.
 
-### Sub-components
-
-| Parent ID | ID   | Sub-component                                                | Notes | Ticket? |
-| --------- | ---- | ------------------------------------------------------------ | ----- | ------- |
-| 3         | 1    | Test model builder (with serialization capabilities)         | -     | N       |
-| 3         | 2    | TDL<sup>TP</sup> expression tree walker (with modification capabilities) | -     | N       |
-| 3         | 3    | TDL<sup>TP</sup> expression simplification module            | -     | N       |
+| ID   | Component                                           | Implementation notes                                         | Tech                  | Deps                      | Ticket? |
+| ---- | --------------------------------------------------- | ------------------------------------------------------------ | --------------------- | ------------------------- | ------- |
+| 0    | TDL<sup>TP</sup> grammar and base parser            | Parses and validates strings that represent TDL<sup>TP</sup> expressions. | Java, ANTLR4          | N/A                       | N       |
+| 1    | TDL<sup>TP</sup> expression object model            | An independent model for parse trees of TDL expressions as well as tree walking facilities. | Java                  | N/A                       | N       |
+| 2    | TDL<sup>TP</sup> expression parser                  | We need to use the base parser (0) to construct a model of the expression (1), free from ANTLR4-related details. | Java                  | 0, 1                      | N       |
+| 3    | TDL<sup>TP</sup> expression object model facilities | Should provide facilities for inspecting and modifying the object representations of TDL  expressions (1). | Java                  | 1                         | N       |
+| 4    | Uppaal system object model                          | An independent model for representing Uppaal projects.       | Java                  | N/A                       | N       |
+| 5    | Uppaal system parser/serializer                     | Parses Uppaal XML projects and produces corresponding object representations (4).<br />Provides facilities for serializing said object representations. | Java, Dom4j? libutap? | 4                         | N       |
+| 6    | Uppaal system model facilities                      | Provides facilities for inspecting and modifying the object representation of an Uppaal model. | Java                  | 4                         | N       |
+| 7    | Test specification object model                     | We need this to have a representation of the recognizer objects (and other similar artifacts) needed to produce a test model from the Uppaal object model and  the TDL object model. | Java                  | 1, 4                      | N       |
+| 8    | Test specification object model facilities          | Provides facilities for creating a test spec object model. Should expose trapset expression logic for (9). | Java                  | 1, 4, 7                   | N       |
+| 9    | TDL<sup>TP</sup> expression simplification library  | Uses (8) to perform empty set simplification and higher-level simplification on the expression object model (1). | Java                  | 1, 4, 7, 8                | N       |
+| 10   | TDL<sup>TP</sup> interpreter                        | Parses (2, 5) Uppaal system, TDL<sup>TP</sup> expression into object representations (1, 4).<br />Performs simplification using the simplification library (9).<br />Walks the parse tree of the simplified expression to construct the test model (7) using test spec object model facilities (8).<br />Serializes the test model using the Uppaal object model serializer (5). | Java                  | 1, 2, 3, 4, 5, 6, 7, 8, 9 | N       |
+| 11   | TDL<sup>TP</sup> interpreter UI                     | Nice-to-have                                                 | ?                     | 10                        | N/A     |
 
