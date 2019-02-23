@@ -13,6 +13,6 @@ Meet on Day/Month at HH:MM to discuss the following topics:
 /due MonthName DayNumber
 /label ~"Priority: Major"
 
-/assign me, @OtherAttendee
+/assign me
 /subscribe
 /label ~Meeting ~AwaitingScheduling ~DoNotLogTime
