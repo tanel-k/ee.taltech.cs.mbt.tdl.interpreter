@@ -193,7 +193,7 @@ $$
 $$
 stating that the (atomic) property $a$ must hold before $t$ time units and that $\phi$ must hold *until* then. Here we assume that $a$ is of the form $A_i \text{ at } l$. Now to verify that a system S satisfies $\psi$ we extend it with the test automata $T$:
 
-![1551035819902](images\Figure5.png)
+![1551035819902](/images/Figure5.png)
 
 Here $T'$ is assumed to be an already constructed test automata for the sub-property $\phi$ (*not explained here - does it circle back into the predecessor location?*), and $'a'$ is a probe action inserting into the component $A_i$ at location $l$. Now, it can be shown that our original system $S$ will satisfy $\phi \text{ Until }_{\lt t} a$ if and only if $S \vert T$ satisfies the invariance property $\forall \square \neg (T \text { at } \text{bad})$.
 
