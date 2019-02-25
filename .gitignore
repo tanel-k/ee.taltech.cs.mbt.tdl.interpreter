@@ -1,1 +1,13 @@
+# Ignore Java auxiliaries:
 *.class
+
+# Ignore LaTeX auxiliaries:
+*.log
+*.synctex.gz
+*.aux
+*.pdf
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*-blx.bib
