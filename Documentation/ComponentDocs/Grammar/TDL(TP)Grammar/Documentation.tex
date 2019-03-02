@@ -1,0 +1,43 @@
+\documentclass[12pt,oneside,a4paper,draft,notitlepage]{report}
+\usepackage[backend=biber,sorting=none,maxbibnames=99]{biblatex}
+\usepackage{setspace}
+\usepackage{backnaur}
+
+\title{
+	Implementation of a grammar parser for the TDL\textsuperscript{TP} expression language
+}
+
+\addbibresource{Sources.bib}
+\pagenumbering{gobble}
+\singlespacing
+
+\begin{document}
+	\maketitle
+
+	\section*{Background}
+	\par Describe issue raised by \cite{tdlarticle}.
+
+	\section*{Requirements}
+	\par Describe BNF.
+	\begin{bnf*}
+	\bnfprod{list}
+	{\bnfpn{listitems} \bnfor \bnfes}\\
+	\bnfprod{listitems}
+	{\bnfpn{item} \bnfor \bnfpn{item}
+		\bnfsp \bnfts{;} \bnfsp \bnfpn{listitems}}\\
+	\bnfprod{item}
+	{\bnftd{description of item}}
+	\end{bnf*}
+
+	\section*{Analysis}
+	\par Analyze BNF presented above. Choose technological approach.
+
+	\section*{Implementation}
+	\par Describe choices for technological approach. Describe the artifact.
+
+	\printbibliography[
+		title=Sources
+	]
+
+\end{document}
+
