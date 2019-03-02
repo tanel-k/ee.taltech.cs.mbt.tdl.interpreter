@@ -1,0 +1,167 @@
+\documentclass[12pt,oneside,a4paper,notitlepage]{report}
+\usepackage[backend=biber,sorting=none,maxbibnames=99]{biblatex}
+\usepackage{setspace}
+\usepackage{syntax}
+\usepackage{wasysym}
+\usepackage{textcomp}
+\usepackage{newfloat}
+
+\title{
+	Implementation of a grammar parser for the TDL\textsuperscript{TP} expression language
+}
+
+\DeclareFloatingEnvironment[
+	fileext   = logr,
+	listname  = {List of Grammars},
+	name      = Grammar,
+	placement = htp
+]{GrammarWrapper}
+\setlength{\grammarindent}{5em}
+\setlength{\grammarparsep}{5pt plus 1pt minus 1pt}
+
+\addbibresource{Sources.bib}
+\pagenumbering{gobble}
+\singlespacing
+
+\newcommand{\texttilde}{\raisebox{0.5ex}{\texttildelow}}
+
+\begin{document}
+	\maketitle
+
+	\section*{Background}
+	\par Section 3 in \cite{tdlarticle} describes the syntax of the TDL\textsuperscript{TP} expression language in BNF:
+
+	\begin{GrammarWrapper}
+		\begin{grammar}
+		% https://tex.stackexchange.com/questions/24886/which-package-can-be-used-to-write-bnf-grammars
+		% http://texdoc.net/texmf-dist/doc/latex/mdwtools/syntax.pdf
+		<Expression>	::=	'(' <Expression> ')'
+		\alt 				'A' <TrapsetExpression>
+		\alt 				'E' <TrapsetExpression>
+		\alt 				<UnaryOp> <Expression>
+		\alt 				<Expression> <BinaryOp> <Expression>
+		\alt 				<Expression> '\texttilde\textgreater' <Expression>
+		\alt 				<Expression> '\texttilde\textgreater' '[' <RelOp> <NUM> ']' <Expression>
+		\alt 				'\#' <Expression> <RelOp> <NUM>
+		
+		<TrapsetExpressions>	::=	'(' <TrapsetExpression> ')'
+		\alt						'!' <ID>
+		\alt 						<ID> '\textbackslash' <ID>
+		\alt						<ID> ';' <ID>
+		
+		<UnaryOp>	::= 'not'
+		
+		<BinaryOp>	::= '\&' | 'or' | '=\textgreater' | '\textless=\textgreater'
+		
+		<RelOp> 	::= '\textless' | '=' | '\textgreater' | '\textless=' | '\textgreater='
+		
+		<ID> 		::= 'TR' <NUM>
+		
+		<NUM> 		::= ('0' ... '9')+
+		\end{grammar}
+		\caption{TDL\textsuperscript{TP} grammar}\label{bnf:original}
+	\end{GrammarWrapper}
+
+	As part of the basic functionality of the interpreter, we need to be able to parse an input expression in TDL\textsuperscript{TP} and traverse the resulting concrete syntax tree (parse tree). The first step towards achieving this functionality is the generation of a lexer and a parser for the language. 
+
+	\section*{Requirements Analysis}
+	% https://arxiv.org/ftp/arxiv/papers/1409/1409.2378.pdf ?
+	% https://nm.wu.ac.at/nm/strembeck/publications/europlop09.pdf ?
+	\par The BNF in grammar~\ref{bnf:original} can be adjusted to make it more convenient for the user to specify expressions. We list the adjustments below:
+	\begin{itemize}
+		\item to reduce ambiguity, logical operators such as implication (\texttt{'=\textgreater'}) and iff (\texttt{'\textless=\textgreater'}) should be differentiated from relational operators over natural numbers which also use the \texttt{'='} token (i.e \texttt{'\textgreater='}, \texttt{'\textless='}) - we achieve this by replacing \texttt{'='} with the equally easy-to-use token \texttt{'-'} in the logical operators: \texttt{'-\textgreater'}, \texttt{'\textless-\textgreater'};
+		\item if at some point we wish to have \texttt{'\textless ID\textgreater'} values that can start with either \texttt{'A'} or \texttt{'E'}, it will be visually difficult to identify usage of the universal (\texttt{'A'}) and the existential (\texttt{'E'}) quantifier in an expression - to fix this, we must enforce the use of brackets around the arguments of these quantifiers;
+		\item for consistency, logical negation (\texttt{'not'}), conjunction (\texttt{'\&'}), disjunction (\texttt{'or'}), implication (\texttt{'-\textgreater'}) and equivalence (\texttt{'\textless-\textgreater'}) should all be either textual (\texttt{'not'}, \texttt{'and'}, \texttt{'or'}, \texttt{'implies'}, \texttt{'iff'}) or symbolic (\texttt{'\texttilde'}, \texttt{'\&'}, \texttt{'|'}, \texttt{'-\textgreater'}, \texttt{'\textless-\textgreater'}) - there are arguments for both approaches but the conciseness of the symbolic approach is a good enough argument for it to be chosen;
+		\item for multi-token operators (e.g \texttt{'-\textgreater'}, \texttt{'\textless-\textgreater'}, \texttt{'\textless='}, \texttt{'\textgreater='}), we should allow an arbitrary amount of whitespace between component tokens to reduce the number of potential typing errors.
+	\end{itemize}
+
+	\bigskip
+
+	\newpage
+	\par A new grammar can be produced based on grammar~\ref{bnf:original} and the adjustments we specified previously. This grammar is displayed in the listing below. Each distinguishable expression type is also provided with an identifying label in brackets.
+		
+	\begin{GrammarWrapper}
+		\begin{grammar}
+			% https://tex.stackexchange.com/questions/24886/which-package-can-be-used-to-write-bnf-grammars
+			% http://texdoc.net/texmf-dist/doc/latex/mdwtools/syntax.pdf
+			<Expression>	::=	'(' <Expression> ')'
+			\alt 				'A' '(' <TrapsetExpression> ')' \textit{(UQTE)}
+			\alt 				'E' '(' <TrapsetExpression> ')' \textit{(EQTE)}
+			\alt 				<UnaryOp> <Expression> \textit{(NE)}
+			\alt 				<Expression> <BinaryOp> <Expression> \textit{(BLE)}
+			\alt 				<Expression> '\texttilde' '\textgreater' <Expression> \textit{(LTE)}
+			\alt 				<Expression> '\texttilde' '\textgreater' '[' <RelOp> <NUM> ']' <Expression> \textit{(BLTE)}
+			\alt 				'\#' <Expression> <RelOp> <NUM> \textit{(CRE)}
+	
+			<TrapsetExpressions>	::=	'(' <TrapsetExpression> ')'
+			\alt						'!' <ID> \textit{(CTE)}
+			\alt 						<ID> '\textbackslash' <ID> \textit{(RCTE)}
+			\alt						<ID> ';' <ID> \textit{(LPTE)}
+	
+			<UnaryOp>	::= '\texttilde'
+	
+			<BinaryOp>	::= '\&' | '|' | '-' '\textgreater' | '\textless' '-' '\textgreater'
+	
+			<RelOp> 	::= '\textless' | '=' | '\textgreater' | '\textless' '=' | '\textgreater' '='
+	
+			<ID> 		::= 'TR' <NUM>
+	
+			<NUM> 		::= ('0' ... '9')+
+		\end{grammar}
+		\caption{Modified TDL\textsuperscript{TP} grammar}\label{bnf:modified}
+	\end{GrammarWrapper}
+
+	\newpage
+
+	\par We describe the labels used in grammar~\ref{bnf:modified} below: % https://en.wikibooks.org/wiki/LaTeX/Tables
+
+	\begin{table}[h]
+		\caption{Expression Types}
+		\centering
+		\begin{tabular}{l l l}
+			\hline
+			Label 	& Expression Type						& Concrete TDL example \\
+			\hline
+			UQTE	& Universally quantified trapset expr.		& \texttt{A(!TS1)} \\
+			EQTE 	& Existentially quantified trapset expr.	& \texttt{E(TS1;TS2)} \\
+			NE 		& Negated 									& \texttt{\texttilde A(TS1/TS2)} \\
+			BE 		& Binary 									& \texttt{A(!TS1) \& (E(!TS1) | A(TS1/TS2))} \\
+			LTE 	& Leads-to 									& \texttt{E(TS2;TS3)\texttilde\textgreater E(TS1;TS2)} \\
+			BLTE 	& Time-bounded leads-to						& \texttt{E(TS2;TS3)\texttilde\textgreater [\textgreater 2] E(TS1;TS2)} \\
+			CRE 	& Conditional repetition 					& \texttt{\#A(TS1/TS2)\textgreater 3} \\
+			CTE 	& Absolute trapset complement				& \texttt{!TS} \\
+			RCTE 	& Relative trapset complement				& \texttt{TS1/TS2} \\
+			LPTE 	& Linked trapset pair 						& \texttt{TS1;TS2} \\
+		\end{tabular}
+		\label{tbl:expr-types}
+	\end{table}
+
+	\bigskip
+
+	\par The expression types listed in table~\ref{tbl:expr-types} will be used in upcoming sections when describing the implementation of these requirements.
+
+	\subsection*{Summary}
+	\par The TDL\textsuperscript{TP} parser needs to satisfy these primary requirements:
+	\begin{itemize}
+		\item ability to parse a valid expression from grammar~\ref{bnf:modified} and report basic errors for invalid expressions;
+		\item provide facilities for the construction of a concrete syntax tree (parse tree) for use by other components. 
+	\end{itemize}
+
+	\section*{Implementation}
+	\par Describe section.
+
+	\subsection*{Approach}
+	\par Describe approach.
+
+	\subsection*{Technology}
+	\par Describe technology choices here.
+
+	\subsection*{Details}
+	\par ANTLR4 grammar,  etc.
+
+	\printbibliography[
+		title=Sources
+	]
+
+\end{document}
+
