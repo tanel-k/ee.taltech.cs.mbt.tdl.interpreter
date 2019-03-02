@@ -39,6 +39,11 @@
                 <argument>-package</argument>
                 <argument>ee.taltech.cs.mbt.tdl.expression.grammar.antlr</argument>
               </arguments>
+              <includes>TDLExpressionLanguage.g4</includes>
+              <!-- treatWarningsAsErrors>false</treatWarningsAsErrors -->
+              <!-- options / -->
+              <!-- atn>false</atn -->
+              <!-- forceATN>false</forceATN -->
             </configuration>
           </execution>
         </executions>
