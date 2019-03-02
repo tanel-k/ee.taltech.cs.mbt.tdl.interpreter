@@ -1,3 +1,6 @@
+# IntelliJ IDEA
+.idea
+
 # Ignore Java auxiliaries:
 *.class
 
