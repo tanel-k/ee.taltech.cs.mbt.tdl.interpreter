@@ -1,15 +1,22 @@
 \documentclass[12pt,oneside,a4paper,draft,notitlepage]{report}
 \usepackage[backend=biber,sorting=none,maxbibnames=99]{biblatex}
 \usepackage{setspace}
-\usepackage{backnaur}
+\usepackage{syntax}
+\usepackage{wasysym}
+\usepackage{textcomp}
 
 \title{
 	Implementation of a grammar parser for the TDL\textsuperscript{TP} expression language
 }
 
+\setlength{\grammarindent}{12em}
+\setlength{\grammarparsep}{5pt plus 1pt minus 1pt}
+
 \addbibresource{Sources.bib}
 \pagenumbering{gobble}
 \singlespacing
+
+\newcommand{\texttilde}{\raisebox{0.5ex}{\texttildelow}}
 
 \begin{document}
 	\maketitle
@@ -19,15 +26,32 @@
 
 	\section*{Requirements}
 	\par Describe BNF.
-	\begin{bnf*}
-	\bnfprod{list}
-	{\bnfpn{listitems} \bnfor \bnfes}\\
-	\bnfprod{listitems}
-	{\bnfpn{item} \bnfor \bnfpn{item}
-		\bnfsp \bnfts{;} \bnfsp \bnfpn{listitems}}\\
-	\bnfprod{item}
-	{\bnftd{description of item}}
-	\end{bnf*}
+	\begin{grammar}
+		% http://texdoc.net/texmf-dist/doc/latex/mdwtools/syntax.pdf
+		<Expression>	::=	'(' <Expression> ')'
+		\alt 				'A' <TrapsetExpression>
+		\alt 				'E' <TrapsetExpression>
+		\alt 				<UnaryOp> <Expression>
+		\alt 				<Expression> <BinaryOp> <Expression>
+		\alt 				<Expression> '\texttilde\textgreater' <Expression>
+		\alt 				<Expression> '\texttilde\textgreater' '[' <RelOp> <NUM> ']' <Expression>
+		\alt 				'\#' <Expression> <RelOp> <NUM>
+
+		<TrapsetExpressions>	::=	'(' <TrapsetExpression> ')'
+		\alt						'!' <ID>
+		\alt 						<ID> '\textbackslash' <ID>
+		\alt						<ID> ';' <ID>
+
+		<UnaryOp>	::= 'not'
+
+		<BinaryOp>	::= '\&' | 'or' | '=\textgreater' | '\textless=\textgreater'
+
+		<RelOp> 	::= '\textless' | '=' | '\textgreater' | '\textless=' | '\textgreater='
+
+		<ID> 		::= 'TR' <NUM>
+
+		<NUM> 		::= ('0' ... '9')+
+	\end{grammar}
 
 	\section*{Analysis}
 	\par Analyze BNF presented above. Choose technological approach.
