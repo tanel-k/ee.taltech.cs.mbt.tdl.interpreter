@@ -14,6 +14,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -30,13 +31,13 @@
               <goal>antlr4</goal>
             </goals>
             <configuration>
-              <outputDirectory>${basedir}/src/main/java/ee/taltech/cs/mbt/tdl/expression/grammar</outputDirectory>
-              <sourceDirectory>${basedir}/src/main/resources/grammar-source/antlr4</sourceDirectory>
-              <libDirectory>${basedir}/src/main/resources/grammar-source/antlr4/imports</libDirectory>
+              <outputDirectory>src/main/java/ee/taltech/cs/mbt/tdl/expression/grammar/antlr</outputDirectory>
+              <sourceDirectory>src/main/resources/grammar-source/antlr</sourceDirectory>
+              <libDirectory>src/main/resources/grammar-source/antlr/imports</libDirectory>
               <visitor>true</visitor>
               <arguments>
                 <argument>-package</argument>
-                <argument>ee.taltech.cs.mbt.tdl.expression.grammar</argument>
+                <argument>ee.taltech.cs.mbt.tdl.expression.grammar.antlr</argument>
               </arguments>
             </configuration>
           </execution>
@@ -53,10 +54,12 @@
     </dependency>
   </dependencies>
 
-  <properties />
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <name>TDL(TP) Grammar</name>
-  <description>Supports the generation of parsers for the TDL(TP) expression language</description>
+  <description>Supports the generation of parsers for the TDL(TP) expression language.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
     <name>TalTech</name>
