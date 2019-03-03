@@ -5,9 +5,10 @@
 \usepackage{wasysym}
 \usepackage{textcomp}
 \usepackage{newfloat}
+\usepackage{multirow}
 
 \title{
-	Implementation of a grammar parser for the TDL\textsuperscript{TP} expression language
+	Generation of a parser for the TDL\textsuperscript{TP} expression language
 }
 
 \DeclareFloatingEnvironment[
@@ -77,7 +78,6 @@
 
 	\bigskip
 
-	\newpage
 	\par A new grammar can be produced based on grammar~\ref{bnf:original} and the adjustments we specified previously. This grammar is displayed in the listing below. Each distinguishable expression type is also provided with an identifying label in brackets.
 		
 	\begin{GrammarWrapper}
@@ -118,21 +118,23 @@
 	\begin{table}[h]
 		\caption{Expression Types}
 		\centering
-		\begin{tabular}{l l l}
-			\hline
-			Label 	& Expression Type						& Concrete TDL example \\
-			\hline
-			UQTE	& Universally quantified trapset expr.		& \texttt{A(!TS1)} \\
-			EQTE 	& Existentially quantified trapset expr.	& \texttt{E(TS1;TS2)} \\
-			NE 		& Negated 									& \texttt{\texttilde A(TS1/TS2)} \\
-			BE 		& Binary 									& \texttt{A(!TS1) \& (E(!TS1) | A(TS1/TS2))} \\
-			LTE 	& Leads-to 									& \texttt{E(TS2;TS3)\texttilde\textgreater E(TS1;TS2)} \\
-			BLTE 	& Time-bounded leads-to						& \texttt{E(TS2;TS3)\texttilde\textgreater [\textgreater 2] E(TS1;TS2)} \\
-			CRE 	& Conditional repetition 					& \texttt{\#A(TS1/TS2)\textgreater 3} \\
-			CTE 	& Absolute trapset complement				& \texttt{!TS} \\
-			RCTE 	& Relative trapset complement				& \texttt{TS1/TS2} \\
-			LPTE 	& Linked trapset pair 						& \texttt{TS1;TS2} \\
-		\end{tabular}
+		\makebox[\textwidth]{
+			\begin{tabular}{l l l}
+				\hline
+				Label 	& Expression Type						& Concrete TDL example \\
+				\hline
+				UQTE	& Universally quantified trapset expr.		& \texttt{A(!TS1)} \\
+				EQTE 	& Existentially quantified trapset expr.	& \texttt{E(TS1;TS2)} \\
+				NE 		& Negated 									& \texttt{\texttilde A(TS1/TS2)} \\
+				BE 		& Binary 									& \texttt{A(!TS1) \& (E(!TS1) | A(TS1/TS2))} \\
+				LTE 	& Leads-to 									& \texttt{E(TS2;TS3)\texttilde\textgreater E(TS1;TS2)} \\
+				BLTE 	& Time-bounded leads-to						& \texttt{E(TS2;TS3)\texttilde\textgreater [\textgreater 2] E(TS1;TS2)} \\
+				CRE 	& Conditional repetition 					& \texttt{\#A(TS1/TS2)\textgreater 3} \\
+				CTE 	& Absolute trapset complement				& \texttt{!TS} \\
+				RCTE 	& Relative trapset complement				& \texttt{TS1/TS2} \\
+				LPTE 	& Linked trapset pair 						& \texttt{TS1;TS2} \\
+			\end{tabular}
+		}
 		\label{tbl:expr-types}
 	\end{table}
 
@@ -140,11 +142,47 @@
 
 	\par The expression types listed in table~\ref{tbl:expr-types} will be used in upcoming sections when describing the implementation of these requirements.
 
-	\subsection*{Summary}
+	\bigskip
+	\par Note that grammar~\ref{bnf:modified} contains several operators for which we should define precedence rules. These rules are listed below:
+
+	\begin{table}[h]
+		\caption{Operator precedence}
+		\makebox[\textwidth]{
+			\begin{tabular}{l l l l}
+				\hline
+				Type & Argument domain & Operator & Precedence \\
+				\hline
+				\multirow{3}{*}{Trapset expression}
+				& \multirow{3}{*}{Trapset symbols}
+				  & Absolute complement (\texttt{!}) & 0 \\
+				& & Relative complement (\texttt{\textbackslash}) & 1 \\
+				& & Linked pair 		(\texttt{;}) & 2 \\
+				\hline
+				\multirow{2}{*}{Trapset quantifier} & \multirow{2}{*}{Trapset expressions}
+				  & Existential quantification (\texttt{E}) & 0 \\
+				& & Universal quantification   (\texttt{A}) & 0 \\
+				\hline
+				\multirow{7}{*}{Logical} & \multirow{7}{*}{Trapset quantifiers}
+				& Negation (\texttt{\texttilde}) & 0 \\
+				& & Conjunction (\texttt{\&}) & 1 \\
+				& & Disjunction (\texttt{|}) & 2 \\
+				& & Implication (\texttt{-\textgreater}) & 3 \\
+				& & Equivalence (\texttt{\textless-\textgreater}) & 4 \\
+				& & Leads to (\texttt{\texttilde\textgreater}) & 5 \\
+				& & Time-bounded leads to (\texttilde\textgreater [IntegerRelation]) & 5 \\
+			\end{tabular}
+		}
+		\label{tbl:oper-prec}
+	\end{table}
+
+	\newpage
+
+	\subsection*{Requirements Summary}
 	\par The TDL\textsuperscript{TP} parser needs to satisfy these primary requirements:
 	\begin{itemize}
-		\item ability to parse a valid expression from grammar~\ref{bnf:modified} and report basic errors for invalid expressions;
-		\item provide facilities for the construction of a concrete syntax tree (parse tree) for use by other components. 
+		\item able to parse a valid expression from grammar~\ref{bnf:modified} and report basic errors for invalid expressions;
+		\item adheres to the precedence rules defined in table~\ref{tbl:oper-prec};
+		\item provides facilities for the construction of a concrete syntax tree (parse tree). 
 	\end{itemize}
 
 	\section*{Implementation}
