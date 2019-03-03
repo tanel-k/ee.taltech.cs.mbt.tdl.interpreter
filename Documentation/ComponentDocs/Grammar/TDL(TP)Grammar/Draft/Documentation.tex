@@ -73,6 +73,7 @@
 		\item to reduce ambiguity, logical operators such as implication (\texttt{'=\textgreater'}) and iff (\texttt{'\textless=\textgreater'}) should be differentiated from relational operators over natural numbers which also use the \texttt{'='} token (i.e \texttt{'\textgreater='}, \texttt{'\textless='}) - we achieve this by replacing \texttt{'='} with the equally easy-to-use token \texttt{'-'} in the logical operators: \texttt{'-\textgreater'}, \texttt{'\textless-\textgreater'};
 		\item if at some point we wish to have \texttt{'\textless ID\textgreater'} values that can start with either \texttt{'A'} or \texttt{'E'}, it will be visually difficult to identify usage of the universal (\texttt{'A'}) and the existential (\texttt{'E'}) quantifier in an expression - to fix this, we must enforce the use of brackets around the arguments of these quantifiers;
 		\item for consistency, logical negation (\texttt{'not'}), conjunction (\texttt{'\&'}), disjunction (\texttt{'or'}), implication (\texttt{'-\textgreater'}) and equivalence (\texttt{'\textless-\textgreater'}) should all be either textual (\texttt{'not'}, \texttt{'and'}, \texttt{'or'}, \texttt{'implies'}, \texttt{'iff'}) or symbolic (\texttt{'\texttilde'}, \texttt{'\&'}, \texttt{'|'}, \texttt{'-\textgreater'}, \texttt{'\textless-\textgreater'}) - there are arguments for both approaches but the conciseness of the symbolic approach is a good enough argument for it to be chosen;
+		\item for consistency, the time-bounded leads-to operator \\ (\texttt{'\texttilde\textgreater [\textless RelOp\textgreater \textless NUM\textgreater]'}) and the conditional repetition operator \\ (\texttt{'\#~\textless Expression\textgreater \textless RelOp\textgreater \textless NUM\textgreater'}) should use the same wrapper construct for the integer relation (square brackets);
 		\item for multi-token operators (e.g \texttt{'-\textgreater'}, \texttt{'\textless-\textgreater'}, \texttt{'\textless='}, \texttt{'\textgreater='}), we should allow an arbitrary amount of whitespace between component tokens to reduce the number of potential typing errors.
 	\end{itemize}
 
@@ -91,7 +92,7 @@
 			\alt 				<Expression> <BinaryOp> <Expression> \textit{(BLE)}
 			\alt 				<Expression> '\texttilde' '\textgreater' <Expression> \textit{(LTE)}
 			\alt 				<Expression> '\texttilde' '\textgreater' '[' <RelOp> <NUM> ']' <Expression> \textit{(BLTE)}
-			\alt 				'\#' <Expression> <RelOp> <NUM> \textit{(CRE)}
+			\alt 				'\#' <Expression> '[' <RelOp> <NUM> ']' \textit{(CRE)}
 	
 			<TrapsetExpressions>	::=	'(' <TrapsetExpression> ')'
 			\alt						'!' <ID> \textit{(CTE)}
@@ -129,7 +130,7 @@
 				BE 		& Binary 									& \texttt{A(!TS1) \& (E(!TS1) | A(TS1/TS2))} \\
 				LTE 	& Leads-to 									& \texttt{E(TS2;TS3)\texttilde\textgreater E(TS1;TS2)} \\
 				BLTE 	& Time-bounded leads-to						& \texttt{E(TS2;TS3)\texttilde\textgreater [\textgreater 2] E(TS1;TS2)} \\
-				CRE 	& Conditional repetition 					& \texttt{\#A(TS1/TS2)\textgreater 3} \\
+				CRE 	& Conditional repetition 					& \texttt{\#A(TS1/TS2)[\textgreater 3]} \\
 				CTE 	& Absolute trapset complement				& \texttt{!TS} \\
 				RCTE 	& Relative trapset complement				& \texttt{TS1/TS2} \\
 				LPTE 	& Linked trapset pair 						& \texttt{TS1;TS2} \\
@@ -161,14 +162,15 @@
 				  & Existential quantification (\texttt{E}) & 0 \\
 				& & Universal quantification   (\texttt{A}) & 0 \\
 				\hline
-				\multirow{7}{*}{Logical} & \multirow{7}{*}{Trapset quantifiers}
+				\multirow{8}{*}{Logical} & \multirow{8}{*}{Trapset quantifiers}
 				  & Negation (\texttt{\texttilde}) & 0 \\
 				& & Conjunction (\texttt{\&}) & 1 \\
 				& & Disjunction (\texttt{|}) & 2 \\
 				& & Implication (\texttt{-\textgreater}) & 3 \\
 				& & Equivalence (\texttt{\textless-\textgreater}) & 4 \\
 				& & Leads to (\texttt{\texttilde\textgreater}) & 5 \\
-				& & Time-bounded leads to (\texttilde\textgreater [IntegerRelation]) & 5 \\
+				& & Time-bounded leads to (\texttt{\texttilde\textgreater [IntegerRelation]}) & 5 \\
+				& & Conditional repetition (\texttt{\# ... [IntegerRelation]}) & 6 \\
 			\end{tabular}
 		}
 		\label{tbl:oper-prec}

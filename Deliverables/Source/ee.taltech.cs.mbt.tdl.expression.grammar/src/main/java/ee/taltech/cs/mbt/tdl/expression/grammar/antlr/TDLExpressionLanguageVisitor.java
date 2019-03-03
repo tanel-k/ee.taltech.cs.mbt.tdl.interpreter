@@ -12,121 +12,157 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface TDLExpressionLanguageVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by the {@code timeBoundedLeadsToExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTimeBoundedLeadsToExpression(TDLExpressionLanguageParser.TimeBoundedLeadsToExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code equivalenceExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEquivalenceExpression(TDLExpressionLanguageParser.EquivalenceExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code leadsToExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLeadsToExpression(TDLExpressionLanguageParser.LeadsToExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code conditionalRepetitionExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConditionalRepetitionExpression(TDLExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code negatedExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNegatedExpression(TDLExpressionLanguageParser.NegatedExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code disjunctiveExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDisjunctiveExpression(TDLExpressionLanguageParser.DisjunctiveExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code implicativeExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImplicativeExpression(TDLExpressionLanguageParser.ImplicativeExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code groupedExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGroupedExpression(TDLExpressionLanguageParser.GroupedExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code groundTermExpression}
+	 * Visit a parse tree produced by the {@code GroundTermExpression}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitGroundTermExpression(TDLExpressionLanguageParser.GroundTermExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code conjunctiveExpression}
+	 * Visit a parse tree produced by the {@code LeadsToExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLeadsToExpression(TDLExpressionLanguageParser.LeadsToExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ImplicativeExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImplicativeExpression(TDLExpressionLanguageParser.ImplicativeExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code GroupedExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGroupedExpression(TDLExpressionLanguageParser.GroupedExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ConjunctiveExpression}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitConjunctiveExpression(TDLExpressionLanguageParser.ConjunctiveExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code universalTrapsetExpression}
+	 * Visit a parse tree produced by the {@code EquivalenceExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEquivalenceExpression(TDLExpressionLanguageParser.EquivalenceExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NegatedExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNegatedExpression(TDLExpressionLanguageParser.NegatedExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ConditionalRepetitionExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditionalRepetitionExpression(TDLExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TimeBoundedLeadsToExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTimeBoundedLeadsToExpression(TDLExpressionLanguageParser.TimeBoundedLeadsToExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code DisjunctiveExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDisjunctiveExpression(TDLExpressionLanguageParser.DisjunctiveExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code UniversalTrapsetExpression}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#quantifiedTrapsetExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitUniversalTrapsetExpression(TDLExpressionLanguageParser.UniversalTrapsetExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code existentialTrapsetExpression}
+	 * Visit a parse tree produced by the {@code ExistentialTrapsetExpression}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#quantifiedTrapsetExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExistentialTrapsetExpression(TDLExpressionLanguageParser.ExistentialTrapsetExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TDLExpressionLanguageParser#relationOverNaturals}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRelationOverNaturals(TDLExpressionLanguageParser.RelationOverNaturalsContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code linkedTrapsetPairExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLinkedTrapsetPairExpression(TDLExpressionLanguageParser.LinkedTrapsetPairExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code groupedTrapsetExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGroupedTrapsetExpression(TDLExpressionLanguageParser.GroupedTrapsetExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code relativeTrapsetComplementExpression}
+	 * Visit a parse tree produced by the {@code RelativeTrapsetComplementExpression}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code absoluteTrapsetComplementExpression}
+	 * Visit a parse tree produced by the {@code TrapsetIdentifierExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTrapsetIdentifierExpression(TDLExpressionLanguageParser.TrapsetIdentifierExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AbsoluteTrapsetComplementExpression}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAbsoluteTrapsetComplementExpression(TDLExpressionLanguageParser.AbsoluteTrapsetComplementExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LinkedTrapsetPairExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLinkedTrapsetPairExpression(TDLExpressionLanguageParser.LinkedTrapsetPairExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code GroupedTrapsetExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGroupedTrapsetExpression(TDLExpressionLanguageParser.GroupedTrapsetExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LessThanBound}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#boundOverNaturals}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLessThanBound(TDLExpressionLanguageParser.LessThanBoundContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code GreaterThanBound}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#boundOverNaturals}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGreaterThanBound(TDLExpressionLanguageParser.GreaterThanBoundContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LessThanOrEqBound}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#boundOverNaturals}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLessThanOrEqBound(TDLExpressionLanguageParser.LessThanOrEqBoundContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code GreaterThanOrEqBound}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#boundOverNaturals}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGreaterThanOrEqBound(TDLExpressionLanguageParser.GreaterThanOrEqBoundContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EqualityBound}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#boundOverNaturals}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqualityBound(TDLExpressionLanguageParser.EqualityBoundContext ctx);
 }

@@ -21,27 +21,26 @@ public class TDLExpressionLanguageParser extends Parser {
 		LOP_EXISTENTIAL_QUANTIFIER=6, LOP_NEGATION=7, LOP_CONJUNCTION=8, LOP_DISJUNCTION=9, 
 		LOP_IMPLICATION=10, LOP_EQUIVALENCE=11, LOP_LEADS_TO=12, LOP_REPETITION_COUNT=13, 
 		TOP_ABSOLUTE_COMPLEMENT=14, TOP_RELATIVE_COMPLEMENT=15, TOP_LINKED_PAIR=16, 
-		REL_LESS_THAN=17, REL_LESS_THAN_OR_EQ=18, REL_GREATER_THAN=19, REL_GREATER_THAN_OR_EQ=20, 
-		REL_EQUAL=21, TRAPSET_ID=22, NUMERIC_ID=23, NATURAL_NUMBER=24, WS=25;
+		REL_LESS_THAN_OR_EQ=17, REL_GREATER_THAN_OR_EQ=18, REL_LESS_THAN=19, REL_GREATER_THAN=20, 
+		REL_EQUAL=21, TRAPSET_ID=22, NATURAL_NUMBER=23, NUMERIC_ID=24, WS=25;
 	public static final int
-		RULE_expression = 0, RULE_quantifiedTrapsetExpression = 1, RULE_relationOverNaturals = 2, 
-		RULE_trapsetExpression = 3;
+		RULE_expression = 0, RULE_quantifiedTrapsetExpression = 1, RULE_trapsetExpression = 2, 
+		RULE_boundOverNaturals = 3;
 	public static final String[] ruleNames = {
-		"expression", "quantifiedTrapsetExpression", "relationOverNaturals", "trapsetExpression"
+		"expression", "quantifiedTrapsetExpression", "trapsetExpression", "boundOverNaturals"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'['", "']'", "'('", "')'", null, null, "'~'", "'&'", "'|'", "'->'", 
-		"'<->'", "'~>'", "'#'", "'!'", "'\\'", "';'", "'<'", "'<='", "'>'", "'>='", 
-		"'='"
+		null, "'['", "']'", "'('", "')'", null, null, "'~'", "'&'", "'|'", null, 
+		null, null, "'#'", "'!'", "'\\'", "';'", null, null, "'<'", "'>'", "'='"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "LEFT_BRACKET", "RIGHT_BRACKET", "LEFT_PAREN", "RIGHT_PAREN", "LOP_UNIVERSAL_QUANTIFIER", 
 		"LOP_EXISTENTIAL_QUANTIFIER", "LOP_NEGATION", "LOP_CONJUNCTION", "LOP_DISJUNCTION", 
 		"LOP_IMPLICATION", "LOP_EQUIVALENCE", "LOP_LEADS_TO", "LOP_REPETITION_COUNT", 
 		"TOP_ABSOLUTE_COMPLEMENT", "TOP_RELATIVE_COMPLEMENT", "TOP_LINKED_PAIR", 
-		"REL_LESS_THAN", "REL_LESS_THAN_OR_EQ", "REL_GREATER_THAN", "REL_GREATER_THAN_OR_EQ", 
-		"REL_EQUAL", "TRAPSET_ID", "NUMERIC_ID", "NATURAL_NUMBER", "WS"
+		"REL_LESS_THAN_OR_EQ", "REL_GREATER_THAN_OR_EQ", "REL_LESS_THAN", "REL_GREATER_THAN", 
+		"REL_EQUAL", "TRAPSET_ID", "NATURAL_NUMBER", "NUMERIC_ID", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -103,54 +102,22 @@ public class TDLExpressionLanguageParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class TimeBoundedLeadsToExpressionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
+	public static class GroundTermExpressionContext extends ExpressionContext {
+		public QuantifiedTrapsetExpressionContext quantifiedTrapsetExpression() {
+			return getRuleContext(QuantifiedTrapsetExpressionContext.class,0);
 		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode LOP_LEADS_TO() { return getToken(TDLExpressionLanguageParser.LOP_LEADS_TO, 0); }
-		public TerminalNode LEFT_BRACKET() { return getToken(TDLExpressionLanguageParser.LEFT_BRACKET, 0); }
-		public RelationOverNaturalsContext relationOverNaturals() {
-			return getRuleContext(RelationOverNaturalsContext.class,0);
-		}
-		public TerminalNode RIGHT_BRACKET() { return getToken(TDLExpressionLanguageParser.RIGHT_BRACKET, 0); }
-		public TimeBoundedLeadsToExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public GroundTermExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterTimeBoundedLeadsToExpression(this);
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterGroundTermExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitTimeBoundedLeadsToExpression(this);
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitGroundTermExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitTimeBoundedLeadsToExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class EquivalenceExpressionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode LOP_EQUIVALENCE() { return getToken(TDLExpressionLanguageParser.LOP_EQUIVALENCE, 0); }
-		public EquivalenceExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterEquivalenceExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitEquivalenceExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitEquivalenceExpression(this);
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitGroundTermExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -174,72 +141,6 @@ public class TDLExpressionLanguageParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitLeadsToExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ConditionalRepetitionExpressionContext extends ExpressionContext {
-		public TerminalNode LOP_REPETITION_COUNT() { return getToken(TDLExpressionLanguageParser.LOP_REPETITION_COUNT, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public RelationOverNaturalsContext relationOverNaturals() {
-			return getRuleContext(RelationOverNaturalsContext.class,0);
-		}
-		public ConditionalRepetitionExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterConditionalRepetitionExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitConditionalRepetitionExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitConditionalRepetitionExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class NegatedExpressionContext extends ExpressionContext {
-		public TerminalNode LOP_NEGATION() { return getToken(TDLExpressionLanguageParser.LOP_NEGATION, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public NegatedExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterNegatedExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitNegatedExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitNegatedExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class DisjunctiveExpressionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode LOP_DISJUNCTION() { return getToken(TDLExpressionLanguageParser.LOP_DISJUNCTION, 0); }
-		public DisjunctiveExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterDisjunctiveExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitDisjunctiveExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitDisjunctiveExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -287,25 +188,6 @@ public class TDLExpressionLanguageParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class GroundTermExpressionContext extends ExpressionContext {
-		public QuantifiedTrapsetExpressionContext quantifiedTrapsetExpression() {
-			return getRuleContext(QuantifiedTrapsetExpressionContext.class,0);
-		}
-		public GroundTermExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterGroundTermExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitGroundTermExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitGroundTermExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class ConjunctiveExpressionContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -329,6 +211,125 @@ public class TDLExpressionLanguageParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class EquivalenceExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode LOP_EQUIVALENCE() { return getToken(TDLExpressionLanguageParser.LOP_EQUIVALENCE, 0); }
+		public EquivalenceExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterEquivalenceExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitEquivalenceExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitEquivalenceExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NegatedExpressionContext extends ExpressionContext {
+		public TerminalNode LOP_NEGATION() { return getToken(TDLExpressionLanguageParser.LOP_NEGATION, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public NegatedExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterNegatedExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitNegatedExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitNegatedExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ConditionalRepetitionExpressionContext extends ExpressionContext {
+		public TerminalNode LOP_REPETITION_COUNT() { return getToken(TDLExpressionLanguageParser.LOP_REPETITION_COUNT, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode LEFT_BRACKET() { return getToken(TDLExpressionLanguageParser.LEFT_BRACKET, 0); }
+		public BoundOverNaturalsContext boundOverNaturals() {
+			return getRuleContext(BoundOverNaturalsContext.class,0);
+		}
+		public TerminalNode RIGHT_BRACKET() { return getToken(TDLExpressionLanguageParser.RIGHT_BRACKET, 0); }
+		public ConditionalRepetitionExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterConditionalRepetitionExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitConditionalRepetitionExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitConditionalRepetitionExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class TimeBoundedLeadsToExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode LOP_LEADS_TO() { return getToken(TDLExpressionLanguageParser.LOP_LEADS_TO, 0); }
+		public TerminalNode LEFT_BRACKET() { return getToken(TDLExpressionLanguageParser.LEFT_BRACKET, 0); }
+		public BoundOverNaturalsContext boundOverNaturals() {
+			return getRuleContext(BoundOverNaturalsContext.class,0);
+		}
+		public TerminalNode RIGHT_BRACKET() { return getToken(TDLExpressionLanguageParser.RIGHT_BRACKET, 0); }
+		public TimeBoundedLeadsToExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterTimeBoundedLeadsToExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitTimeBoundedLeadsToExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitTimeBoundedLeadsToExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DisjunctiveExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode LOP_DISJUNCTION() { return getToken(TDLExpressionLanguageParser.LOP_DISJUNCTION, 0); }
+		public DisjunctiveExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterDisjunctiveExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitDisjunctiveExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitDisjunctiveExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final ExpressionContext expression() throws RecognitionException {
 		return expression(0);
@@ -345,7 +346,7 @@ public class TDLExpressionLanguageParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(20);
+			setState(22);
 			switch (_input.LA(1)) {
 			case LOP_NEGATION:
 				{
@@ -356,7 +357,7 @@ public class TDLExpressionLanguageParser extends Parser {
 				setState(9);
 				match(LOP_NEGATION);
 				setState(10);
-				expression(8);
+				expression(9);
 				}
 				break;
 			case LEFT_PAREN:
@@ -372,34 +373,38 @@ public class TDLExpressionLanguageParser extends Parser {
 				match(RIGHT_PAREN);
 				}
 				break;
+			case LOP_REPETITION_COUNT:
+				{
+				_localctx = new ConditionalRepetitionExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(15);
+				match(LOP_REPETITION_COUNT);
+				setState(16);
+				expression(0);
+				setState(17);
+				match(LEFT_BRACKET);
+				setState(18);
+				boundOverNaturals();
+				setState(19);
+				match(RIGHT_BRACKET);
+				}
+				break;
 			case LOP_UNIVERSAL_QUANTIFIER:
 			case LOP_EXISTENTIAL_QUANTIFIER:
 				{
 				_localctx = new GroundTermExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(15);
+				setState(21);
 				quantifiedTrapsetExpression();
-				}
-				break;
-			case LOP_REPETITION_COUNT:
-				{
-				_localctx = new ConditionalRepetitionExpressionContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(16);
-				match(LOP_REPETITION_COUNT);
-				setState(17);
-				expression(0);
-				setState(18);
-				relationOverNaturals();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(46);
+			setState(48);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -407,90 +412,90 @@ public class TDLExpressionLanguageParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(44);
+					setState(46);
 					switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 					case 1:
 						{
 						_localctx = new ConjunctiveExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(22);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(23);
-						match(LOP_CONJUNCTION);
 						setState(24);
-						expression(8);
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						setState(25);
+						match(LOP_CONJUNCTION);
+						setState(26);
+						expression(9);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new DisjunctiveExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(25);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(26);
-						match(LOP_DISJUNCTION);
 						setState(27);
-						expression(7);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(28);
+						match(LOP_DISJUNCTION);
+						setState(29);
+						expression(8);
 						}
 						break;
 					case 3:
 						{
 						_localctx = new ImplicativeExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(28);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(29);
-						match(LOP_IMPLICATION);
 						setState(30);
-						expression(6);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(31);
+						match(LOP_IMPLICATION);
+						setState(32);
+						expression(7);
 						}
 						break;
 					case 4:
 						{
 						_localctx = new EquivalenceExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(31);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(32);
-						match(LOP_EQUIVALENCE);
 						setState(33);
-						expression(5);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(34);
+						match(LOP_EQUIVALENCE);
+						setState(35);
+						expression(6);
 						}
 						break;
 					case 5:
 						{
 						_localctx = new LeadsToExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(34);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(35);
-						match(LOP_LEADS_TO);
 						setState(36);
-						expression(4);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(37);
+						match(LOP_LEADS_TO);
+						setState(38);
+						expression(5);
 						}
 						break;
 					case 6:
 						{
 						_localctx = new TimeBoundedLeadsToExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(37);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(38);
-						match(LOP_LEADS_TO);
 						setState(39);
-						match(LEFT_BRACKET);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(40);
-						relationOverNaturals();
+						match(LOP_LEADS_TO);
 						setState(41);
-						match(RIGHT_BRACKET);
+						match(LEFT_BRACKET);
 						setState(42);
-						expression(3);
+						boundOverNaturals();
+						setState(43);
+						match(RIGHT_BRACKET);
+						setState(44);
+						expression(4);
 						}
 						break;
 					}
 					} 
 				}
-				setState(48);
+				setState(50);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			}
@@ -567,19 +572,19 @@ public class TDLExpressionLanguageParser extends Parser {
 		QuantifiedTrapsetExpressionContext _localctx = new QuantifiedTrapsetExpressionContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_quantifiedTrapsetExpression);
 		try {
-			setState(59);
+			setState(61);
 			switch (_input.LA(1)) {
 			case LOP_UNIVERSAL_QUANTIFIER:
 				_localctx = new UniversalTrapsetExpressionContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(49);
-				match(LOP_UNIVERSAL_QUANTIFIER);
-				setState(50);
-				match(LEFT_PAREN);
 				setState(51);
-				trapsetExpression(0);
+				match(LOP_UNIVERSAL_QUANTIFIER);
 				setState(52);
+				match(LEFT_PAREN);
+				setState(53);
+				trapsetExpression(0);
+				setState(54);
 				match(RIGHT_PAREN);
 				}
 				break;
@@ -587,106 +592,14 @@ public class TDLExpressionLanguageParser extends Parser {
 				_localctx = new ExistentialTrapsetExpressionContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(54);
-				match(LOP_EXISTENTIAL_QUANTIFIER);
-				setState(55);
-				match(LEFT_PAREN);
 				setState(56);
-				trapsetExpression(0);
+				match(LOP_EXISTENTIAL_QUANTIFIER);
 				setState(57);
+				match(LEFT_PAREN);
+				setState(58);
+				trapsetExpression(0);
+				setState(59);
 				match(RIGHT_PAREN);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class RelationOverNaturalsContext extends ParserRuleContext {
-		public TerminalNode REL_LESS_THAN() { return getToken(TDLExpressionLanguageParser.REL_LESS_THAN, 0); }
-		public TerminalNode NATURAL_NUMBER() { return getToken(TDLExpressionLanguageParser.NATURAL_NUMBER, 0); }
-		public TerminalNode REL_GREATER_THAN() { return getToken(TDLExpressionLanguageParser.REL_GREATER_THAN, 0); }
-		public TerminalNode REL_LESS_THAN_OR_EQ() { return getToken(TDLExpressionLanguageParser.REL_LESS_THAN_OR_EQ, 0); }
-		public TerminalNode REL_GREATER_THAN_OR_EQ() { return getToken(TDLExpressionLanguageParser.REL_GREATER_THAN_OR_EQ, 0); }
-		public TerminalNode REL_EQUAL() { return getToken(TDLExpressionLanguageParser.REL_EQUAL, 0); }
-		public RelationOverNaturalsContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_relationOverNaturals; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterRelationOverNaturals(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitRelationOverNaturals(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitRelationOverNaturals(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final RelationOverNaturalsContext relationOverNaturals() throws RecognitionException {
-		RelationOverNaturalsContext _localctx = new RelationOverNaturalsContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_relationOverNaturals);
-		try {
-			setState(71);
-			switch (_input.LA(1)) {
-			case REL_LESS_THAN:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(61);
-				match(REL_LESS_THAN);
-				setState(62);
-				match(NATURAL_NUMBER);
-				}
-				break;
-			case REL_GREATER_THAN:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(63);
-				match(REL_GREATER_THAN);
-				setState(64);
-				match(NATURAL_NUMBER);
-				}
-				break;
-			case REL_LESS_THAN_OR_EQ:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(65);
-				match(REL_LESS_THAN_OR_EQ);
-				setState(66);
-				match(NATURAL_NUMBER);
-				}
-				break;
-			case REL_GREATER_THAN_OR_EQ:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(67);
-				match(REL_GREATER_THAN_OR_EQ);
-				setState(68);
-				match(NATURAL_NUMBER);
-				}
-				break;
-			case REL_EQUAL:
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(69);
-				match(REL_EQUAL);
-				setState(70);
-				match(NATURAL_NUMBER);
 				}
 				break;
 			default:
@@ -713,6 +626,66 @@ public class TDLExpressionLanguageParser extends Parser {
 		public TrapsetExpressionContext() { }
 		public void copyFrom(TrapsetExpressionContext ctx) {
 			super.copyFrom(ctx);
+		}
+	}
+	public static class RelativeTrapsetComplementExpressionContext extends TrapsetExpressionContext {
+		public List<TrapsetExpressionContext> trapsetExpression() {
+			return getRuleContexts(TrapsetExpressionContext.class);
+		}
+		public TrapsetExpressionContext trapsetExpression(int i) {
+			return getRuleContext(TrapsetExpressionContext.class,i);
+		}
+		public TerminalNode TOP_RELATIVE_COMPLEMENT() { return getToken(TDLExpressionLanguageParser.TOP_RELATIVE_COMPLEMENT, 0); }
+		public RelativeTrapsetComplementExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterRelativeTrapsetComplementExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitRelativeTrapsetComplementExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitRelativeTrapsetComplementExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class TrapsetIdentifierExpressionContext extends TrapsetExpressionContext {
+		public TerminalNode TRAPSET_ID() { return getToken(TDLExpressionLanguageParser.TRAPSET_ID, 0); }
+		public TrapsetIdentifierExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterTrapsetIdentifierExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitTrapsetIdentifierExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitTrapsetIdentifierExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class AbsoluteTrapsetComplementExpressionContext extends TrapsetExpressionContext {
+		public TerminalNode TOP_ABSOLUTE_COMPLEMENT() { return getToken(TDLExpressionLanguageParser.TOP_ABSOLUTE_COMPLEMENT, 0); }
+		public TrapsetExpressionContext trapsetExpression() {
+			return getRuleContext(TrapsetExpressionContext.class,0);
+		}
+		public AbsoluteTrapsetComplementExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterAbsoluteTrapsetComplementExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitAbsoluteTrapsetComplementExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitAbsoluteTrapsetComplementExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class LinkedTrapsetPairExpressionContext extends TrapsetExpressionContext {
@@ -759,49 +732,6 @@ public class TDLExpressionLanguageParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class RelativeTrapsetComplementExpressionContext extends TrapsetExpressionContext {
-		public List<TrapsetExpressionContext> trapsetExpression() {
-			return getRuleContexts(TrapsetExpressionContext.class);
-		}
-		public TrapsetExpressionContext trapsetExpression(int i) {
-			return getRuleContext(TrapsetExpressionContext.class,i);
-		}
-		public TerminalNode TOP_RELATIVE_COMPLEMENT() { return getToken(TDLExpressionLanguageParser.TOP_RELATIVE_COMPLEMENT, 0); }
-		public RelativeTrapsetComplementExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterRelativeTrapsetComplementExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitRelativeTrapsetComplementExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitRelativeTrapsetComplementExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class AbsoluteTrapsetComplementExpressionContext extends TrapsetExpressionContext {
-		public TerminalNode TOP_ABSOLUTE_COMPLEMENT() { return getToken(TDLExpressionLanguageParser.TOP_ABSOLUTE_COMPLEMENT, 0); }
-		public TrapsetExpressionContext trapsetExpression() {
-			return getRuleContext(TrapsetExpressionContext.class,0);
-		}
-		public AbsoluteTrapsetComplementExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterAbsoluteTrapsetComplementExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitAbsoluteTrapsetComplementExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitAbsoluteTrapsetComplementExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 
 	public final TrapsetExpressionContext trapsetExpression() throws RecognitionException {
 		return trapsetExpression(0);
@@ -812,13 +742,13 @@ public class TDLExpressionLanguageParser extends Parser {
 		int _parentState = getState();
 		TrapsetExpressionContext _localctx = new TrapsetExpressionContext(_ctx, _parentState);
 		TrapsetExpressionContext _prevctx = _localctx;
-		int _startState = 6;
-		enterRecursionRule(_localctx, 6, RULE_trapsetExpression, _p);
+		int _startState = 4;
+		enterRecursionRule(_localctx, 4, RULE_trapsetExpression, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(80);
+			setState(71);
 			switch (_input.LA(1)) {
 			case TOP_ABSOLUTE_COMPLEMENT:
 				{
@@ -826,10 +756,10 @@ public class TDLExpressionLanguageParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(74);
+				setState(64);
 				match(TOP_ABSOLUTE_COMPLEMENT);
-				setState(75);
-				trapsetExpression(3);
+				setState(65);
+				trapsetExpression(4);
 				}
 				break;
 			case LEFT_PAREN:
@@ -837,58 +767,67 @@ public class TDLExpressionLanguageParser extends Parser {
 				_localctx = new GroupedTrapsetExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(76);
+				setState(66);
 				match(LEFT_PAREN);
-				setState(77);
+				setState(67);
 				trapsetExpression(0);
-				setState(78);
+				setState(68);
 				match(RIGHT_PAREN);
+				}
+				break;
+			case TRAPSET_ID:
+				{
+				_localctx = new TrapsetIdentifierExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(70);
+				match(TRAPSET_ID);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(90);
+			setState(81);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(88);
-					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
+					setState(79);
+					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 					case 1:
 						{
 						_localctx = new RelativeTrapsetComplementExpressionContext(new TrapsetExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_trapsetExpression);
-						setState(82);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(83);
+						setState(73);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(74);
 						match(TOP_RELATIVE_COMPLEMENT);
-						setState(84);
-						trapsetExpression(3);
+						setState(75);
+						trapsetExpression(4);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new LinkedTrapsetPairExpressionContext(new TrapsetExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_trapsetExpression);
-						setState(85);
-						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-						setState(86);
+						setState(76);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(77);
 						match(TOP_LINKED_PAIR);
-						setState(87);
-						trapsetExpression(2);
+						setState(78);
+						trapsetExpression(3);
 						}
 						break;
 					}
 					} 
 				}
-				setState(92);
+				setState(83);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			}
 			}
 		}
@@ -903,11 +842,184 @@ public class TDLExpressionLanguageParser extends Parser {
 		return _localctx;
 	}
 
+	public static class BoundOverNaturalsContext extends ParserRuleContext {
+		public BoundOverNaturalsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_boundOverNaturals; }
+	 
+		public BoundOverNaturalsContext() { }
+		public void copyFrom(BoundOverNaturalsContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class GreaterThanOrEqBoundContext extends BoundOverNaturalsContext {
+		public TerminalNode REL_GREATER_THAN_OR_EQ() { return getToken(TDLExpressionLanguageParser.REL_GREATER_THAN_OR_EQ, 0); }
+		public TerminalNode NATURAL_NUMBER() { return getToken(TDLExpressionLanguageParser.NATURAL_NUMBER, 0); }
+		public GreaterThanOrEqBoundContext(BoundOverNaturalsContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterGreaterThanOrEqBound(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitGreaterThanOrEqBound(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitGreaterThanOrEqBound(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class EqualityBoundContext extends BoundOverNaturalsContext {
+		public TerminalNode REL_EQUAL() { return getToken(TDLExpressionLanguageParser.REL_EQUAL, 0); }
+		public TerminalNode NATURAL_NUMBER() { return getToken(TDLExpressionLanguageParser.NATURAL_NUMBER, 0); }
+		public EqualityBoundContext(BoundOverNaturalsContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterEqualityBound(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitEqualityBound(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitEqualityBound(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class GreaterThanBoundContext extends BoundOverNaturalsContext {
+		public TerminalNode REL_GREATER_THAN() { return getToken(TDLExpressionLanguageParser.REL_GREATER_THAN, 0); }
+		public TerminalNode NATURAL_NUMBER() { return getToken(TDLExpressionLanguageParser.NATURAL_NUMBER, 0); }
+		public GreaterThanBoundContext(BoundOverNaturalsContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterGreaterThanBound(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitGreaterThanBound(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitGreaterThanBound(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LessThanBoundContext extends BoundOverNaturalsContext {
+		public TerminalNode REL_LESS_THAN() { return getToken(TDLExpressionLanguageParser.REL_LESS_THAN, 0); }
+		public TerminalNode NATURAL_NUMBER() { return getToken(TDLExpressionLanguageParser.NATURAL_NUMBER, 0); }
+		public LessThanBoundContext(BoundOverNaturalsContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterLessThanBound(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitLessThanBound(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitLessThanBound(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LessThanOrEqBoundContext extends BoundOverNaturalsContext {
+		public TerminalNode REL_LESS_THAN_OR_EQ() { return getToken(TDLExpressionLanguageParser.REL_LESS_THAN_OR_EQ, 0); }
+		public TerminalNode NATURAL_NUMBER() { return getToken(TDLExpressionLanguageParser.NATURAL_NUMBER, 0); }
+		public LessThanOrEqBoundContext(BoundOverNaturalsContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterLessThanOrEqBound(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitLessThanOrEqBound(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitLessThanOrEqBound(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final BoundOverNaturalsContext boundOverNaturals() throws RecognitionException {
+		BoundOverNaturalsContext _localctx = new BoundOverNaturalsContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_boundOverNaturals);
+		try {
+			setState(94);
+			switch (_input.LA(1)) {
+			case REL_LESS_THAN:
+				_localctx = new LessThanBoundContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(84);
+				match(REL_LESS_THAN);
+				setState(85);
+				match(NATURAL_NUMBER);
+				}
+				break;
+			case REL_GREATER_THAN:
+				_localctx = new GreaterThanBoundContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(86);
+				match(REL_GREATER_THAN);
+				setState(87);
+				match(NATURAL_NUMBER);
+				}
+				break;
+			case REL_LESS_THAN_OR_EQ:
+				_localctx = new LessThanOrEqBoundContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(88);
+				match(REL_LESS_THAN_OR_EQ);
+				setState(89);
+				match(NATURAL_NUMBER);
+				}
+				break;
+			case REL_GREATER_THAN_OR_EQ:
+				_localctx = new GreaterThanOrEqBoundContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(90);
+				match(REL_GREATER_THAN_OR_EQ);
+				setState(91);
+				match(NATURAL_NUMBER);
+				}
+				break;
+			case REL_EQUAL:
+				_localctx = new EqualityBoundContext(_localctx);
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(92);
+				match(REL_EQUAL);
+				setState(93);
+				match(NATURAL_NUMBER);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
 		case 0:
 			return expression_sempred((ExpressionContext)_localctx, predIndex);
-		case 3:
+		case 2:
 			return trapsetExpression_sempred((TrapsetExpressionContext)_localctx, predIndex);
 		}
 		return true;
@@ -915,56 +1027,57 @@ public class TDLExpressionLanguageParser extends Parser {
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 7);
+			return precpred(_ctx, 8);
 		case 1:
-			return precpred(_ctx, 6);
+			return precpred(_ctx, 7);
 		case 2:
-			return precpred(_ctx, 5);
+			return precpred(_ctx, 6);
 		case 3:
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 5);
 		case 4:
-			return precpred(_ctx, 3);
+			return precpred(_ctx, 4);
 		case 5:
-			return precpred(_ctx, 2);
+			return precpred(_ctx, 3);
 		}
 		return true;
 	}
 	private boolean trapsetExpression_sempred(TrapsetExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 6:
-			return precpred(_ctx, 2);
+			return precpred(_ctx, 3);
 		case 7:
-			return precpred(_ctx, 1);
+			return precpred(_ctx, 2);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\33`\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2"+
-		"\27\n\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3"+
-		"\2\3\2\3\2\3\2\3\2\3\2\3\2\7\2/\n\2\f\2\16\2\62\13\2\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\3\3\5\3>\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\5\4J\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5S\n\5\3\5\3\5\3\5\3\5\3\5\3"+
-		"\5\7\5[\n\5\f\5\16\5^\13\5\3\5\2\4\2\b\6\2\4\6\b\2\2l\2\26\3\2\2\2\4="+
-		"\3\2\2\2\6I\3\2\2\2\bR\3\2\2\2\n\13\b\2\1\2\13\f\7\t\2\2\f\27\5\2\2\n"+
-		"\r\16\7\5\2\2\16\17\5\2\2\2\17\20\7\6\2\2\20\27\3\2\2\2\21\27\5\4\3\2"+
-		"\22\23\7\17\2\2\23\24\5\2\2\2\24\25\5\6\4\2\25\27\3\2\2\2\26\n\3\2\2\2"+
-		"\26\r\3\2\2\2\26\21\3\2\2\2\26\22\3\2\2\2\27\60\3\2\2\2\30\31\f\t\2\2"+
-		"\31\32\7\n\2\2\32/\5\2\2\n\33\34\f\b\2\2\34\35\7\13\2\2\35/\5\2\2\t\36"+
-		"\37\f\7\2\2\37 \7\f\2\2 /\5\2\2\b!\"\f\6\2\2\"#\7\r\2\2#/\5\2\2\7$%\f"+
-		"\5\2\2%&\7\16\2\2&/\5\2\2\6\'(\f\4\2\2()\7\16\2\2)*\7\3\2\2*+\5\6\4\2"+
-		"+,\7\4\2\2,-\5\2\2\5-/\3\2\2\2.\30\3\2\2\2.\33\3\2\2\2.\36\3\2\2\2.!\3"+
-		"\2\2\2.$\3\2\2\2.\'\3\2\2\2/\62\3\2\2\2\60.\3\2\2\2\60\61\3\2\2\2\61\3"+
-		"\3\2\2\2\62\60\3\2\2\2\63\64\7\7\2\2\64\65\7\5\2\2\65\66\5\b\5\2\66\67"+
-		"\7\6\2\2\67>\3\2\2\289\7\b\2\29:\7\5\2\2:;\5\b\5\2;<\7\6\2\2<>\3\2\2\2"+
-		"=\63\3\2\2\2=8\3\2\2\2>\5\3\2\2\2?@\7\23\2\2@J\7\32\2\2AB\7\25\2\2BJ\7"+
-		"\32\2\2CD\7\24\2\2DJ\7\32\2\2EF\7\26\2\2FJ\7\32\2\2GH\7\27\2\2HJ\7\32"+
-		"\2\2I?\3\2\2\2IA\3\2\2\2IC\3\2\2\2IE\3\2\2\2IG\3\2\2\2J\7\3\2\2\2KL\b"+
-		"\5\1\2LM\7\20\2\2MS\5\b\5\5NO\7\5\2\2OP\5\b\5\2PQ\7\6\2\2QS\3\2\2\2RK"+
-		"\3\2\2\2RN\3\2\2\2S\\\3\2\2\2TU\f\4\2\2UV\7\21\2\2V[\5\b\5\5WX\f\3\2\2"+
-		"XY\7\22\2\2Y[\5\b\5\4ZT\3\2\2\2ZW\3\2\2\2[^\3\2\2\2\\Z\3\2\2\2\\]\3\2"+
-		"\2\2]\t\3\2\2\2^\\\3\2\2\2\n\26.\60=IRZ\\";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\33c\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2"+
+		"\3\2\5\2\31\n\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3"+
+		"\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\7\2\61\n\2\f\2\16\2\64\13\2\3\3\3\3"+
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3@\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\5\4J\n\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4R\n\4\f\4\16\4U\13\4\3\5\3\5"+
+		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5a\n\5\3\5\2\4\2\6\6\2\4\6\b\2\2p\2"+
+		"\30\3\2\2\2\4?\3\2\2\2\6I\3\2\2\2\b`\3\2\2\2\n\13\b\2\1\2\13\f\7\t\2\2"+
+		"\f\31\5\2\2\13\r\16\7\5\2\2\16\17\5\2\2\2\17\20\7\6\2\2\20\31\3\2\2\2"+
+		"\21\22\7\17\2\2\22\23\5\2\2\2\23\24\7\3\2\2\24\25\5\b\5\2\25\26\7\4\2"+
+		"\2\26\31\3\2\2\2\27\31\5\4\3\2\30\n\3\2\2\2\30\r\3\2\2\2\30\21\3\2\2\2"+
+		"\30\27\3\2\2\2\31\62\3\2\2\2\32\33\f\n\2\2\33\34\7\n\2\2\34\61\5\2\2\13"+
+		"\35\36\f\t\2\2\36\37\7\13\2\2\37\61\5\2\2\n !\f\b\2\2!\"\7\f\2\2\"\61"+
+		"\5\2\2\t#$\f\7\2\2$%\7\r\2\2%\61\5\2\2\b&\'\f\6\2\2\'(\7\16\2\2(\61\5"+
+		"\2\2\7)*\f\5\2\2*+\7\16\2\2+,\7\3\2\2,-\5\b\5\2-.\7\4\2\2./\5\2\2\6/\61"+
+		"\3\2\2\2\60\32\3\2\2\2\60\35\3\2\2\2\60 \3\2\2\2\60#\3\2\2\2\60&\3\2\2"+
+		"\2\60)\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\62\63\3\2\2\2\63\3\3\2\2\2"+
+		"\64\62\3\2\2\2\65\66\7\7\2\2\66\67\7\5\2\2\678\5\6\4\289\7\6\2\29@\3\2"+
+		"\2\2:;\7\b\2\2;<\7\5\2\2<=\5\6\4\2=>\7\6\2\2>@\3\2\2\2?\65\3\2\2\2?:\3"+
+		"\2\2\2@\5\3\2\2\2AB\b\4\1\2BC\7\20\2\2CJ\5\6\4\6DE\7\5\2\2EF\5\6\4\2F"+
+		"G\7\6\2\2GJ\3\2\2\2HJ\7\30\2\2IA\3\2\2\2ID\3\2\2\2IH\3\2\2\2JS\3\2\2\2"+
+		"KL\f\5\2\2LM\7\21\2\2MR\5\6\4\6NO\f\4\2\2OP\7\22\2\2PR\5\6\4\5QK\3\2\2"+
+		"\2QN\3\2\2\2RU\3\2\2\2SQ\3\2\2\2ST\3\2\2\2T\7\3\2\2\2US\3\2\2\2VW\7\25"+
+		"\2\2Wa\7\31\2\2XY\7\26\2\2Ya\7\31\2\2Z[\7\23\2\2[a\7\31\2\2\\]\7\24\2"+
+		"\2]a\7\31\2\2^_\7\27\2\2_a\7\31\2\2`V\3\2\2\2`X\3\2\2\2`Z\3\2\2\2`\\\3"+
+		"\2\2\2`^\3\2\2\2a\t\3\2\2\2\n\30\60\62?IQS`";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -33,7 +33,7 @@
             <configuration>
               <outputDirectory>src/main/java/ee/taltech/cs/mbt/tdl/expression/grammar/antlr</outputDirectory>
               <sourceDirectory>src/main/resources/grammar-source/antlr</sourceDirectory>
-              <libDirectory>src/main/resources/grammar-source/antlr/imports</libDirectory>
+              <libDirectory>src/main/resources/grammar-source/antlr</libDirectory>
               <visitor>true</visitor>
               <arguments>
                 <argument>-package</argument>

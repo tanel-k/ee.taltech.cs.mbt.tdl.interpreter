@@ -17,25 +17,13 @@ public class TDLExpressionLanguageBaseListener implements TDLExpressionLanguageL
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeBoundedLeadsToExpression(TDLExpressionLanguageParser.TimeBoundedLeadsToExpressionContext ctx) { }
+	@Override public void enterGroundTermExpression(TDLExpressionLanguageParser.GroundTermExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeBoundedLeadsToExpression(TDLExpressionLanguageParser.TimeBoundedLeadsToExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEquivalenceExpression(TDLExpressionLanguageParser.EquivalenceExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEquivalenceExpression(TDLExpressionLanguageParser.EquivalenceExpressionContext ctx) { }
+	@Override public void exitGroundTermExpression(TDLExpressionLanguageParser.GroundTermExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -48,42 +36,6 @@ public class TDLExpressionLanguageBaseListener implements TDLExpressionLanguageL
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLeadsToExpression(TDLExpressionLanguageParser.LeadsToExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterConditionalRepetitionExpression(TDLExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitConditionalRepetitionExpression(TDLExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNegatedExpression(TDLExpressionLanguageParser.NegatedExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNegatedExpression(TDLExpressionLanguageParser.NegatedExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDisjunctiveExpression(TDLExpressionLanguageParser.DisjunctiveExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDisjunctiveExpression(TDLExpressionLanguageParser.DisjunctiveExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -113,18 +65,6 @@ public class TDLExpressionLanguageBaseListener implements TDLExpressionLanguageL
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGroundTermExpression(TDLExpressionLanguageParser.GroundTermExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitGroundTermExpression(TDLExpressionLanguageParser.GroundTermExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterConjunctiveExpression(TDLExpressionLanguageParser.ConjunctiveExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -132,6 +72,66 @@ public class TDLExpressionLanguageBaseListener implements TDLExpressionLanguageL
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitConjunctiveExpression(TDLExpressionLanguageParser.ConjunctiveExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEquivalenceExpression(TDLExpressionLanguageParser.EquivalenceExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEquivalenceExpression(TDLExpressionLanguageParser.EquivalenceExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNegatedExpression(TDLExpressionLanguageParser.NegatedExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNegatedExpression(TDLExpressionLanguageParser.NegatedExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConditionalRepetitionExpression(TDLExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConditionalRepetitionExpression(TDLExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTimeBoundedLeadsToExpression(TDLExpressionLanguageParser.TimeBoundedLeadsToExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTimeBoundedLeadsToExpression(TDLExpressionLanguageParser.TimeBoundedLeadsToExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDisjunctiveExpression(TDLExpressionLanguageParser.DisjunctiveExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDisjunctiveExpression(TDLExpressionLanguageParser.DisjunctiveExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -161,13 +161,37 @@ public class TDLExpressionLanguageBaseListener implements TDLExpressionLanguageL
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRelationOverNaturals(TDLExpressionLanguageParser.RelationOverNaturalsContext ctx) { }
+	@Override public void enterRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRelationOverNaturals(TDLExpressionLanguageParser.RelationOverNaturalsContext ctx) { }
+	@Override public void exitRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTrapsetIdentifierExpression(TDLExpressionLanguageParser.TrapsetIdentifierExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTrapsetIdentifierExpression(TDLExpressionLanguageParser.TrapsetIdentifierExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAbsoluteTrapsetComplementExpression(TDLExpressionLanguageParser.AbsoluteTrapsetComplementExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAbsoluteTrapsetComplementExpression(TDLExpressionLanguageParser.AbsoluteTrapsetComplementExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -197,25 +221,61 @@ public class TDLExpressionLanguageBaseListener implements TDLExpressionLanguageL
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx) { }
+	@Override public void enterLessThanBound(TDLExpressionLanguageParser.LessThanBoundContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx) { }
+	@Override public void exitLessThanBound(TDLExpressionLanguageParser.LessThanBoundContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAbsoluteTrapsetComplementExpression(TDLExpressionLanguageParser.AbsoluteTrapsetComplementExpressionContext ctx) { }
+	@Override public void enterGreaterThanBound(TDLExpressionLanguageParser.GreaterThanBoundContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAbsoluteTrapsetComplementExpression(TDLExpressionLanguageParser.AbsoluteTrapsetComplementExpressionContext ctx) { }
+	@Override public void exitGreaterThanBound(TDLExpressionLanguageParser.GreaterThanBoundContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLessThanOrEqBound(TDLExpressionLanguageParser.LessThanOrEqBoundContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLessThanOrEqBound(TDLExpressionLanguageParser.LessThanOrEqBoundContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGreaterThanOrEqBound(TDLExpressionLanguageParser.GreaterThanOrEqBoundContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGreaterThanOrEqBound(TDLExpressionLanguageParser.GreaterThanOrEqBoundContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEqualityBound(TDLExpressionLanguageParser.EqualityBoundContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEqualityBound(TDLExpressionLanguageParser.EqualityBoundContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
