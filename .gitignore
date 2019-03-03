@@ -1,3 +1,9 @@
+# IntelliJ IDEA
+*.iml
+.idea
+target
+
+
 # Ignore Java auxiliaries:
 *.class
 
