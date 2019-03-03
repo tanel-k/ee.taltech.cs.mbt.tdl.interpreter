@@ -12,7 +12,7 @@
 \title{
 	Generation of a Parser for the TDL\textsuperscript{TP} Expression Language
 }
-
+\author{Tanel Prikk}
 \DeclareFloatingEnvironment[
 	fileext   = logr,
 	listname  = {List of Grammars},
@@ -65,6 +65,8 @@
 		\caption{TDL\textsuperscript{TP} grammar}\label{bnf:original}
 	\end{GrammarWrapper}
 
+	\newpage
+
 	As part of the basic functionality of the interpreter, we need to be able to parse an input expression in TDL\textsuperscript{TP} and traverse the resulting concrete syntax tree (parse tree). The first step towards achieving this functionality is the generation of a lexer and a parser for the language. 
 
 	\section*{Requirements Analysis}
@@ -79,7 +81,7 @@
 		\item for multi-token operators (e.g \texttt{'-\textgreater'}, \texttt{'\textless-\textgreater'}, \texttt{'\textless='}, \texttt{'\textgreater='}), we should allow an arbitrary amount of whitespace between component tokens to reduce the number of potential typing errors.
 	\end{itemize}
 
-	\bigskip
+	\newpage
 
 	\par A new grammar can be produced based on grammar~\ref{bnf:original} and the adjustments we specified previously. This grammar is displayed in the listing below. Each distinguishable expression type is also provided with an identifying label in brackets.
 		
@@ -191,8 +193,8 @@
 	\section*{Implementation}
 	\par The following subsections present information on the implementation of the TDL\textsuperscript{TP} parser.
 
-	\subsection*{Technology Choice}
-	\par Because we are essentially implementing a proof-of-concept, our main criteria for selecting the appropriate technology are:
+	\subsection*{Technology}
+	\par Because we are essentially implementing a proof-of-concept, our main criteria for choosing the appropriate technology are:
 	\begin{itemize}
 		\item ease-of-use (readability, gradual learning curve);
 		\item support for multiple target platforms;
@@ -214,10 +216,10 @@
 	Terence Parr, the author of ANTLR 4, provides a comprehensive ANTLR 4 tutorial in \cite{antlrtutorial}.
 
 	\subsection*{Technical Details}
-	\par This section lists implementation details related to using ANTLR 4 to generate a parser for TDL\textsuperscript{TP}.
+	\par This section presents implementation details related to using ANTLR 4 to generate a parser for TDL\textsuperscript{TP}.
 
 	\subsubsection*{ANTLR 4 grammar}
-	\par ANTLR has its own grammar definition language (described in \cite{antlrtutorial}). The result of converting grammar~\ref{bnf:modified} to an ANTLR  grammar is presented in the listing below:
+	\par ANTLR has its own grammar definition language (described in \cite{antlrtutorial}). The result of converting grammar~\ref{bnf:modified} to an ANTLR  grammar is displayed in the listing below:
 	
 	\begin{lstlisting}[
 		basicstyle=\small,
