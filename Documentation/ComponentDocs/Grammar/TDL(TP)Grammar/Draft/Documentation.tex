@@ -8,7 +8,7 @@
 \usepackage{multirow}
 
 \title{
-	Generation of a parser for the TDL\textsuperscript{TP} expression language
+	Generation of a Parser for the TDL\textsuperscript{TP} Expression Language
 }
 
 \DeclareFloatingEnvironment[
@@ -152,8 +152,7 @@
 				\hline
 				Type & Argument domain & Operator & Precedence \\
 				\hline
-				\multirow{3}{*}{Trapset expression}
-				& \multirow{3}{*}{Trapset symbols}
+				\multirow{3}{*}{Trapset expression} & \multirow{3}{*}{Trapset symbols}
 				  & Absolute complement (\texttt{!}) & 0 \\
 				& & Relative complement (\texttt{\textbackslash}) & 1 \\
 				& & Linked pair 		(\texttt{;}) & 2 \\
@@ -163,7 +162,7 @@
 				& & Universal quantification   (\texttt{A}) & 0 \\
 				\hline
 				\multirow{7}{*}{Logical} & \multirow{7}{*}{Trapset quantifiers}
-				& Negation (\texttt{\texttilde}) & 0 \\
+				  & Negation (\texttt{\texttilde}) & 0 \\
 				& & Conjunction (\texttt{\&}) & 1 \\
 				& & Disjunction (\texttt{|}) & 2 \\
 				& & Implication (\texttt{-\textgreater}) & 3 \\
@@ -186,20 +185,35 @@
 	\end{itemize}
 
 	\section*{Implementation}
-	\par Describe section.
-
-	\subsection*{Approach}
-	\par Describe approach.
+	\par The following subsections present implementation details for the TDL\textsuperscript{TP} parser.
 
 	\subsection*{Technology}
-	\par Describe technology choices here.
+	\par Because we are essentially implementing a proof-of-concept, our main criteria for selecting the appropriate technology are:
+	\begin{itemize}
+		\item ease-of-use (readability, gradual learning curve);
+		\item support for multiple target platforms;
+		\item support for parse tree generation.
+	\end{itemize}.
+
+	\par In order to save time, it makes sense to use an existing toolkit which satisfies the above-mentioned criteria.
+
+	\bigskip
+
+	\par ANTLR (ANother Tool for Language Recognition, \cite{antlrsite}) is our preferred parser generation tool. Given a grammar, it will generate a parser which is capable of building parse trees. We chose ANTLR (version 4) because it supports the following features:
+	\begin{itemize}
+		\item multiple target languages (including \texttt{Java}, \texttt{Python});
+		\item availability of testing and debugging utilities (e.g AST graph generation, lexer debugging);
+		\item direct left recursion \cite{antlrrecursion};
+		\item generation of parsers whose parsing strategy (\textit{ALL(*)}) tends to exhibit linear time complexity behavior in practice \cite{antlrcomplex}.
+	\end{itemize}
+
+	Terence Parr, the author of ANTLR 4, provides a comprehensive ANTLR 4 tutorial in \cite{antlrtutorial}.
 
 	\subsection*{Details}
-	\par ANTLR4 grammar,  etc.
+	\par ANTLR4 grammar, visitor vs event pattern  etc.
 
 	\printbibliography[
 		title=Sources
 	]
 
 \end{document}
-
