@@ -1,14 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [X.Y.Z] YYYY-MM-DDD
-### Changed
-- Example change.
-
+## [1.0] - 2019-04-??
 ### Added
-- Example addition.
+- Added ee.taltech.cs.mbt.tdl.expression.grammar; an ANTLR parser/lexer for TDL<sup>TP</sup>.
+- Added documentation for ee.taltech.cs.mbt.tdl.expression.grammar.
+- Simplified component documentation folder structure.
+- Added IntelliJ fluff to .gitignore.
+
+### Changed
+- Nada
 
 ### Removed
-- Example removal.
-
-
+- Nada
