@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.concrete.logical;
 
-import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.arity.AbsBinaryOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.logical.AbsLogicalOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.logical.arity.AbsBinaryLogicalOperatorNode;
 
-public class DisjunctionNode extends AbsBinaryOperatorNode<AbsExpressionNode> {
+public class DisjunctionNode extends AbsBinaryLogicalOperatorNode<AbsLogicalOperatorNode> {
 }

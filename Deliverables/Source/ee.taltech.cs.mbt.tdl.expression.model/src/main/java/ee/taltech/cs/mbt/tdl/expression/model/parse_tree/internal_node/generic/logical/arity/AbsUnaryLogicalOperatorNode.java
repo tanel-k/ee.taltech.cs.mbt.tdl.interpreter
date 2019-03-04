@@ -2,20 +2,25 @@ package ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.
 
 import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.arity.AbsUnaryOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.logical.INegatable;
+import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.arity.IUnaryOperator;
+import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.logical.AbsLogicalOperatorNode;
 
 public abstract class AbsUnaryLogicalOperatorNode<O extends AbsExpressionNode>
-	extends AbsUnaryOperatorNode<O>
-	implements INegatable
+	extends AbsLogicalOperatorNode<O>
+	implements IUnaryOperator<O>
 {
-	private boolean negated;
-
-	public boolean isNegated() {
-		return negated;
+	@Override
+	public O getOperand() {
+		return getOperand(ORD_FIRST_OPERAND);
 	}
 
-	public void setNegated(boolean negated) {
-		this.negated = negated;
+	@Override
+	public void setOperand(O operand) {
+		setOperand(ORD_FIRST_OPERAND, operand);
+	}
+
+	public AbsUnaryLogicalOperatorNode() {
+		super(ARITY_UNARY);
 	}
 }
 
