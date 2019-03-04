@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.
 import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.AbsOperatorNode;
 
-public class AbsLogicalOperatorNode<O extends AbsExpressionNode> extends AbsOperatorNode<O> {
+public abstract class AbsLogicalOperatorNode<O extends AbsExpressionNode> extends AbsOperatorNode<O> {
 	private boolean negated;
 
 	public boolean isNegated() {

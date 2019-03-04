@@ -1,13 +1,11 @@
-package ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.trapset.arity;
+package ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.trapset;
 
-import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.arity.AbsBinaryOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.arity.IBinaryOperator;
-import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.trapset.AbsTrapsetOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.arity.IBinaryOperatorNode;
 import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.leaf_node.TrapsetSymbolNode;
 
 public abstract class AbsBinaryTrapsetOperatorNode
 	extends AbsTrapsetOperatorNode
-	implements IBinaryOperator<TrapsetSymbolNode>
+	implements IBinaryOperatorNode<TrapsetSymbolNode>
 {
 	@Override
 	public TrapsetSymbolNode getFirstOperand() {

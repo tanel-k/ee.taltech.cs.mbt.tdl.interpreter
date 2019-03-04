@@ -1,14 +1,11 @@
-package ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.logical.arity;
+package ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.logical;
 
 import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.arity.AbsBinaryOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.arity.IBinaryOperator;
-import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.logical.AbsLogicalOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.trapset.arity.AbsBinaryTrapsetOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.parse_tree.internal_node.generic.arity.IBinaryOperatorNode;
 
 public abstract class AbsBinaryLogicalOperatorNode<O extends AbsExpressionNode>
 	extends AbsLogicalOperatorNode<O>
-	implements IBinaryOperator<O>
+	implements IBinaryOperatorNode<O>
 {
 	@Override
 	public O getFirstOperand() {
