@@ -95,13 +95,15 @@ placement = htp
 		\item \label{simp-2} the negation operation is applicable for all logical operations - we can treat negation as an attribute for logical operation nodes (which provides a justification for having a grouping of such nodes);
 		\item \label{simp-3} bound nodes (which, when treated as a whole, are a kind of terminal in TDL expression trees) are only applicable for certain logical operations; we can assume that it will not be necessary to visit such nodes separately - we can move them into logical operator node types;
 		\item \label{simp-4} items \ref{simp-1} and \ref{simp-3} allow us to have the trapset symbol node type as the only leaf node type;
-		\item \label{simp-5} items \ref{simp-1} and \ref{simp-3} allow us to have only operator node types as internal node types;
+		\item \label{simp-5} items \ref{simp-1} and \ref{simp-3} allow us to have operator node types as the only internal node types;
 		\item \label{simp-6} each operator node has a restricted domain of possible operators - this can be used when defining operator node types to encode expectations on operands;
 		\item \label{simp-7} all internal operator node types have a minimum arity of 1 and a maximum arity of 2 - this allows us to specify useful intermediate operator parent types which help guide and prevent clients from ignoring arity restrictions;
-		\item \label{simp-8} the root node object is always an operator node.
+		\item \label{simp-last} the root node object is always an operator node.
 	\end{enumerate}
 
 
+	\par Based on simplifications \ref{simp-1}-\ref{simp-last} we can construct the following generic expression tree object model:
+	
 
 	\section*{Implementation}
 	\par Stub.
