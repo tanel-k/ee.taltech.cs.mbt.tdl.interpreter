@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal;
 
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.AbsExpressionTree;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.internal.AbsOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.AbsExpressionTree;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
 
 public abstract class AbsExpressionTreeVisitor<T extends AbsExpressionTree<R>, R extends AbsExpressionNode>
 	implements IExpressionTreeVisitor

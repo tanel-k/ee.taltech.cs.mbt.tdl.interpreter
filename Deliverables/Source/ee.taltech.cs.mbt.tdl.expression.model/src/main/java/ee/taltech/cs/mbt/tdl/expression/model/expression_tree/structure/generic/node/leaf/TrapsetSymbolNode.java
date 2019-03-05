@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.leaf;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.leaf;
 
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal.IExpressionTreeVisitor;
 

@@ -1,6 +1,6 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.leaf;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.leaf;
 
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.AbsExpressionNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
 
 public abstract class AbsExpressionLeafNode<SymbolType> extends AbsExpressionNode {
 	private SymbolType symbol;

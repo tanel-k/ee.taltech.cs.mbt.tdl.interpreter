@@ -1,8 +1,8 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.internal.logical;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.logical;
 
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.internal.AbsOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.internal.IBinaryOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.IBinaryOperatorNode;
 
 public abstract class AbsBinaryLogicalOperatorNode<O extends AbsExpressionNode>
 	extends AbsLogicalOperatorNode<O>

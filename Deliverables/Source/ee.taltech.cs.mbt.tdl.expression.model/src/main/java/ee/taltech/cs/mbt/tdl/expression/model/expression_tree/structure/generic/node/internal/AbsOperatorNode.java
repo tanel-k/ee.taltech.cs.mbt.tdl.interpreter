@@ -1,6 +1,6 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.internal;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal;
 
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.AbsExpressionNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
 
 import java.util.ArrayList;
 import java.util.Collections;

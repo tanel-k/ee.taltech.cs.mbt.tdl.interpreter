@@ -1,7 +1,7 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.internal.trapset;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.trapset;
 
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.internal.IBinaryOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.leaf.TrapsetSymbolNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.IBinaryOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.leaf.TrapsetSymbolNode;
 
 public abstract class AbsBinaryTrapsetOperatorNode
 	extends AbsTrapsetOperatorNode
