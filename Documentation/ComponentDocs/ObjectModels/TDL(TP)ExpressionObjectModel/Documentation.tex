@@ -7,6 +7,7 @@
 %\usepackage{wasysym}
 \usepackage{textcomp}
 \usepackage{newfloat}
+\usepackage{enumitem}
 
 \title{
 	Implementing an Object Model for TDL\textsuperscript{TP} Expressions
@@ -33,12 +34,12 @@ placement = htp
 	\maketitle
 
 	\section*{Background}
-	\par Our ANTLR-generated parser is capable of building parse trees for TDL\textsuperscript{TP} expressions. The object structure of said trees is, however, dependent on the ANTLR library. Higher-level components that will work with TDL parse trees should be decoupled from this implementation detail. To achieve this, we define an independent object model which provides facilities for storage and manipulation of TDL parse trees. In the future, we will also write an adapter for converting ANTLR TDL parse trees to objects from our independent object model.
+	\par Our ANTLR-generated parser is capable of building parse trees for TDL\textsuperscript{TP} expressions. The object structure of said trees is, however, dependent on the ANTLR library. Higher-level components that will work with TDL parse trees should be decoupled from this implementation detail. To achieve this, we define an independent object model which provides facilities for storage and traversal of TDL parse trees. In the future, we will also write a adapter logic for converting ANTLR TDL parse trees to objects from our independent object model.
 
 	\newpage
 
 	\section*{Requirements Analysis}
-	\par Considering that in we need to work with a parse tree (concrete syntax tree), a suitable data structure for storing this is a rooted ordered tree. A classical implementation of such a tree is pointer-based. We provide a class diagram below:
+	\par Considering that we need to work with a parse tree (concrete syntax tree, henceforth expression tree), a suitable data structure for storing this is a rooted ordered tree. A classical implementation of such a tree is pointer-based. We provide a class diagram below:
 
 	\begin{figure}[h]
 		\begin{center}
@@ -48,11 +49,12 @@ placement = htp
 		\label{fig:basic-tree}
 	\end{figure}
 
-	\par A simple approach would directly utilize the tree data structure from figure~\ref{fig:basic-tree} and provide implementations only for the data objects that will be referenced in \texttt{TreeNode} instances. However, this is too inconvenient to work with as consumers of the object model would have to be aware of the syntax rules for TDL in order to use the parse tree effectively. A better approach is to provide specific \texttt{TreeNode} implementations per expression type. This allows us to encode structural rules in the APIs of parse tree nodes.
+	\par A simple approach would directly utilize the tree data structure from figure~\ref{fig:basic-tree} and provide implementations for each possible expression node that may occur in an abstract expression tree. 
+	However, this is too inconvenient for clients to work with. A better approach is to take the basic \texttt{Tree} data structure as a basis for a specialized expression tree. We can encode structural rules in the APIs of the objects in an expression tree.
 
 	\newpage
 
-	\par To begin specifying \texttt{TreeNode} sub-classes, we should take into consideration the grammar for the language, reproduced below:
+	\par To begin specifying our expression tree object model, we should take into consideration the grammar for the language, reproduced below:
 
 	\begin{GrammarWrapper}
 		\begin{grammar}
@@ -87,35 +89,19 @@ placement = htp
 
 	\newpage
 
-	\par Based on grammar~\ref{bnf:modified}, we can produce the following broad classification for nodes in a TDL expression parse tree:
+	\par We can note the following simplifying factors based on grammar~\ref{bnf:modified}:
+	\begin{enumerate}[label=\textbf{\arabic*.},ref=\textit{\arabic*.}]
+		\item \label{simp-1} instead of treating operators as terminals, we can use them to create operator node objects in our data model;
+		\item \label{simp-2} the negation operation is applicable for all logical operations - we can treat negation as an attribute for logical operation nodes (which provides a justification for having a grouping of such nodes);
+		\item \label{simp-3} bound nodes (which, when treated as a whole, are a kind of terminal in TDL expression trees) are only applicable for certain logical operations; we can assume that it will not be necessary to visit such nodes separately - we can move them into logical operator node types;
+		\item \label{simp-4} items \ref{simp-1} and \ref{simp-3} allow us to have the trapset symbol node type as the only leaf node type;
+		\item \label{simp-5} items \ref{simp-1} and \ref{simp-3} allow us to have only operator node types as internal node types;
+		\item \label{simp-6} each operator node has a restricted domain of possible operators - this can be used when defining operator node types to encode expectations on operands;
+		\item \label{simp-7} all internal operator node types have a minimum arity of 1 and a maximum arity of 2 - this allows us to specify useful intermediate operator parent types which help guide and prevent clients from ignoring arity restrictions;
+		\item \label{simp-8} the root node object is always an operator node.
+	\end{enumerate}
 
-	\begin{table}[h]
-		\caption{Parse tree node types}
-		\centering
-		\makebox[\textwidth]{
-			\begin{tabular}{l l l}
-				\hline
-				Node type & Maximum arity & Child nodes \\
-				\hline
-				Logical expression & quaternary & l. operator, l. expressions, bound, q. trapset expressions \\
-				Bound & binary & bound operator, natural number \\
-				Quantified trapset expression & binary & quantifier, trapset expression \\
-				Trapset expression & ternary & trapset operator, trapset symbols \\
-				Trapset symbol & N/A & N/A \\
-			\end{tabular}
-		}
-		\label{tbl:parse-tree-node-types}
-	\end{table}
 
-	\par Note the following:
-	\begin{itemize}
-		\item the root node is a logical expression node;
-		\item only trapset symbol nodes do not have an operator;
-		\item only logical expression nodes can have children of the same type;
-		\item only logical expression nodes and quantified trapset expression nodes can be negated.
-	\end{itemize}
-
-	Let's define 4 subclasses. 
 
 	\section*{Implementation}
 	\par Stub.
