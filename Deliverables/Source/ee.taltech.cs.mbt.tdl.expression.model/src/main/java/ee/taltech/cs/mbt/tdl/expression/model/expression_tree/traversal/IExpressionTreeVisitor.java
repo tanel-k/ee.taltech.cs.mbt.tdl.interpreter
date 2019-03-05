@@ -1,10 +1,10 @@
 package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal;
 
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.internal_node.concrete.logical.*;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.internal_node.concrete.trapset.AbsoluteComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.internal_node.concrete.trapset.LinkedPairNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.internal_node.concrete.trapset.RelativeComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.leaf_node.TrapsetSymbolNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.logical.*;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.AbsoluteComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.RelativeComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.leaf.TrapsetSymbolNode;
 
 public interface IExpressionTreeVisitor {
 	void visitConjunctionNode(ConjunctionNode conjunctionNode);

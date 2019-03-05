@@ -1,11 +1,13 @@
 package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal;
 
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.ExpressionTree;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.internal_node.generic.AbsOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.AbsExpressionTree;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.AbsExpressionNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.structure.node.internal.AbsOperatorNode;
 
-public abstract class AbsExpressionTreeVisitor implements IExpressionTreeVisitor {
-	public void visitTree(ExpressionTree expressionTree) {
+public abstract class AbsExpressionTreeVisitor<T extends AbsExpressionTree<R>, R extends AbsExpressionNode>
+	implements IExpressionTreeVisitor
+{
+	public void visitTree(T expressionTree) {
 		expressionTree.getRootNode().accept(this);
 	}
 
@@ -13,6 +15,10 @@ public abstract class AbsExpressionTreeVisitor implements IExpressionTreeVisitor
 		for (AbsExpressionNode expressionNode : operatorNode.getOperandNodes()) {
 			expressionNode.accept(this);
 		}
+	}
+
+	public void visitChild(AbsExpressionNode expressionNode) {
+		expressionNode.accept(this);
 	}
 
 	public void visitChildren(AbsExpressionNode expressionNode) {
