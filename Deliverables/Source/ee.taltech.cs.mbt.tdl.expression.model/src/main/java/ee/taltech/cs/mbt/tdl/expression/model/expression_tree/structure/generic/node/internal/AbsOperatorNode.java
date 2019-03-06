@@ -16,6 +16,10 @@ public abstract class AbsOperatorNode<O extends AbsExpressionNode> extends AbsEx
 	private int arity;
 	private List<O> operandNodes;
 
+	public int getArity() {
+		return arity;
+	}
+
 	public void setOperand(int ordinal, O operand) {
 		if (ordinal >= arity)
 			throw new IllegalArgumentException("Attempted to set operand with out of bounds ordinal.");

@@ -5,7 +5,6 @@ import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.LinkedPairNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.leaf.TrapsetSymbolNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal.ExpressionTreeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal.BaseExpressionTreeVisitor;
 
 public class Test {
@@ -30,7 +29,7 @@ public class Test {
 		leadsTo.setSecondOperand(eq);
 		tree.setRootNode(leadsTo);
 
-		ExpressionTreeVisitor visitor = new BaseExpressionTreeVisitor() {
+		BaseExpressionTreeVisitor visitor = new BaseExpressionTreeVisitor() {
 			@Override
 			public void visitLeadsToBoundedNode(LeadsToBoundedNode leadsToBoundedNode) {
 				System.out.println("leadsToBounded");

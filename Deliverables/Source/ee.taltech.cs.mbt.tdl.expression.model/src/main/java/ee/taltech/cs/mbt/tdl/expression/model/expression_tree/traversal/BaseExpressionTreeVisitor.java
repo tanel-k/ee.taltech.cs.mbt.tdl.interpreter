@@ -6,7 +6,7 @@ import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.leaf.TrapsetSymbolNode;
 
-public class BaseExpressionTreeVisitor extends ExpressionTreeVisitor {
+public class BaseExpressionTreeVisitor implements IExpressionTreeVisitor {
 	@Override
 	public void visitConjunctionNode(ConjunctionNode conjunctionNode) {
 		visitChildren(conjunctionNode);
