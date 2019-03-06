@@ -6,8 +6,8 @@ import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.LinkedPairNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.leaf.TrapsetSymbolNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.operator.AbsOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
 
 public interface IExpressionTreeVisitor {
 	default void visitTree(ExpressionTree tree) {

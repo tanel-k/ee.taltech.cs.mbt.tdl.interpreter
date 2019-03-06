@@ -4,7 +4,7 @@ import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.LinkedPairNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.RelativeComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.leaf.TrapsetSymbolNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal.BaseExpressionTreeVisitor;
 
 public class Test {

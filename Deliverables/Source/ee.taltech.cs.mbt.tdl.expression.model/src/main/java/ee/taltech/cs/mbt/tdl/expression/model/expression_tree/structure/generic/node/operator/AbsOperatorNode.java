@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.operator;
 
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
 
@@ -6,19 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbsOperatorNode<O extends AbsExpressionNode> extends AbsExpressionNode {
-	public static final int ORD_FIRST_OPERAND = 0;
-	public static final int ORD_SECOND_OPERAND = 1;
-
-	public static final int ARITY_UNARY = 1;
-	public static final int ARITY_BINARY = 2;
-
+public abstract class AbsOperatorNode<O extends AbsExpressionNode> extends AbsExpressionNode implements IOperator<O> {
 	private int arity;
 	private List<O> operandNodes;
-
-	public int getArity() {
-		return arity;
-	}
 
 	public void setOperand(int ordinal, O operand) {
 		if (ordinal >= arity)
@@ -36,8 +26,8 @@ public abstract class AbsOperatorNode<O extends AbsExpressionNode> extends AbsEx
 		return Collections.unmodifiableList(operandNodes);
 	}
 
-	public AbsOperatorNode(int arity) {
-		this.arity = arity;
-		this.operandNodes = new ArrayList<>(Collections.nCopies(arity, null));
+	public AbsOperatorNode() {
+		this.arity = getArity();
+		this.operandNodes = new ArrayList<>(Collections.nCopies(this.arity, null));
 	}
 }
