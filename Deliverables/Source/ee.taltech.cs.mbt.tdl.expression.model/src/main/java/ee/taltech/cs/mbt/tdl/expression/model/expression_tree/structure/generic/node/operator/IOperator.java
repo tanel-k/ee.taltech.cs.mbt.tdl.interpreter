@@ -10,5 +10,5 @@ public interface IOperator<O> {
 	O getOperand(int ordinal);
 	void setOperand(int ordinal, O operator);
 
-	int getArity();
+	int getOperatorArity();
 }

@@ -3,11 +3,6 @@ package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.operator.IOperator;
 
 public interface IBinaryOperator<O> extends IOperator<O> {
-	@Override
-	default int getArity() {
-		return ARITY_BINARY;
-	}
-
 	default O getFirstOperand() {
 		return getOperand(ORDINAL_FIRST);
 	}
@@ -22,5 +17,10 @@ public interface IBinaryOperator<O> extends IOperator<O> {
 
 	default void setSecondOperand(O operand) {
 		setOperand(ORDINAL_SECOND, operand);
+	}
+
+	@Override
+	default int getOperatorArity() {
+		return ARITY_BINARY;
 	}
 }
