@@ -34,7 +34,7 @@ placement = htp
 	\maketitle
 
 	\section*{Background}
-	\par Our ANTLR-generated parser is capable of building parse trees for TDL\textsuperscript{TP} expressions. The object structure of said trees is, however, dependent on the ANTLR library. Higher-level components that will work with TDL parse trees should be decoupled from this implementation detail. To achieve this, we define an independent object model which provides facilities for storage and traversal of TDL parse trees. In the future, we will also write a adapter logic for converting ANTLR TDL parse trees to objects from our independent object model.
+	\par Our ANTLR-generated parser is capable of building parse trees for TDL\textsuperscript{TP} expressions. The object structure of said trees is, however, dependent on the ANTLR library. Higher-level components that will work with TDL parse trees should be decoupled from this implementation detail. To achieve this, we define an independent object model which provides facilities for storage and traversal of TDL parse trees. In the future, we will also write adapter logic for converting ANTLR TDL parse trees to objects from our independent object model.
 
 	\newpage
 
@@ -91,20 +91,20 @@ placement = htp
 
 	\par We can note the following simplifying factors based on grammar~\ref{bnf:modified}:
 	\begin{enumerate}[label=\textbf{\arabic*.},ref=\textit{\arabic*}]
-		\item \label{simp-1} instead of treating operators as terminals, we can use them to create operator node objects in our data model;
-		\item \label{simp-2} the negation operation is applicable for all logical operations - we can treat negation as an attribute for logical operation nodes (which provides a justification for having a grouping of such nodes);
-		\item \label{simp-3} bound nodes (which, when treated as a whole, are a kind of terminal in TDL expression trees) are only applicable for certain logical operations; we can assume that it will not be necessary to visit such nodes separately - we can move them into logical operator node types;
+		\item \label{simp-1} instead of treating operators as terminals, we can use them to create operator node types in our data model;
+		\item \label{simp-2} the negation operation is applicable for all abstract logical operations - we can treat negation as an attribute for logical operation nodes (which provides a justification for having a grouping of such node types);
+		\item \label{simp-3} bound nodes (which, when treated as a whole, are a kind of terminal in TDL expression trees) are only applicable for certain logical operations; we can assume that it will not be necessary to visit such nodes separately - we can move them into the structure of concrete logical operator node types;
 		\item \label{simp-4} items \ref{simp-1} and \ref{simp-3} allow us to have the trapset symbol node type as the only leaf node type;
 		\item \label{simp-5} items \ref{simp-1} and \ref{simp-3} allow us to have operator node types as the only internal node types;
-		\item \label{simp-6} each operator node has a restricted domain of possible operators - this can be used when defining operator node types to encode expectations on operands;
+		\item \label{simp-6} each operator node has a restricted domain of possible operators - this can be used when defining operator node types to encode expectations on operand instances;
 		\item \label{simp-7} item \ref{simp-5} allows us to have the trapset operator node type and the logical operator node type as the only variants of an internal node type;
-		\item \label{simp-8} all internal operator node types have a minimum arity of 1 and a maximum arity of 2 - this allows us to specify useful intermediate operator parent types which help guide and prevent clients from ignoring arity restrictions;
-		\item \label{simp-last} the root node object is always an operator node.
+		\item \label{simp-8} all internal operator node types have a minimum arity of 1 and a maximum arity of 2 - this allows us to specify arity contracts which help guide and prevent clients from ignoring arity restrictions;
+		\item \label{simp-9} the root node object is always an operator node.
 	\end{enumerate}
 
 	\newpage
 
-	\par Based on simplifications \ref{simp-1}, \ref{simp-5}, \ref{simp-6}, and \ref{simp-last} we can construct the following generic expression tree object model:
+	\par Based on simplifications \ref{simp-1}, \ref{simp-5}, \ref{simp-6}, and \ref{simp-9} we can construct the following generic expression tree object model:
 	
 	\begin{figure}[h]
 		\begin{center}
@@ -116,6 +116,38 @@ placement = htp
 	\end{figure}
 
 	\newpage
+
+	\par Simplifications \ref{simp-2}, \ref{simp-4}, and \ref{simp-7} allow us to encode logical operators and trapset symbol nodes in the model:
+
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics[width=\textwidth]
+			{Models/BasicConcreteExpressionTree}
+		\end{center}
+		\caption{Model extended with logical and trapset operators.}
+		\label{fig:basic-concrete-expr-tree}
+	\end{figure}
+
+	\par Now we can utilize \ref{simp-9} and provide a concrete sub-type for \texttt{AbsExpressionTree}:
+
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics[width=0.5\textwidth]
+			{Models/ExpressionTreeModelFragment}
+		\end{center}
+		\caption{Expression tree root.}
+		\label{fig:expression-tree-model-fragment}
+	\end{figure}
+
+	\newpage
+
+	\par TODO!
+	\begin{itemize}
+		\item Arity explained \ref{simp-8};
+		\item Concrete operator types \ref{simp-6};
+		\item Bound nodes \ref{simp-3};
+		\item Tree visitor;
+	\end{itemize}
 
 	\section*{Implementation}
 	\par Stub.
