@@ -35,7 +35,7 @@ placement = htp
 	\maketitle
 
 	\section*{Background}
-	\par Our ANTLR-generated parser is capable of building parse trees for TDL\textsuperscript{TP} expressions. The object structure of said trees is, however, dependent on the ANTLR library. Higher-level components that will work with TDL parse trees should be decoupled from this implementation detail. To achieve this, we define an independent object model which provides facilities for storage and traversal of TDL parse trees. In the future, we will also write adapter logic for converting ANTLR TDL parse trees to objects from our independent object model.
+	\par Our ANTLR-generated parser is capable of building parse trees for TDL\textsuperscript{TP} expressions. The object structure of said trees is, however, dependent on the ANTLR library. Higher-level components that will work with TDL parse trees should be decoupled from this implementation detail. To achieve this, we define an independent object model which provides facilities for storage and traversal of TDL parse trees. In the future, we will also write converter logic for transforming ANTLR parse trees into a decoupled expression tree object structure.
 
 	\newpage
 
@@ -102,6 +102,8 @@ placement = htp
 		\item \label{simp-8} all internal operator node types have a minimum arity of 1 and a maximum arity of 2 - this allows us to specify arity contracts which help guide and prevent clients from ignoring arity restrictions;
 		\item \label{simp-9} the root node object is always an operator node.
 	\end{enumerate}
+
+	Note that we ignore the possibility that new TDL operators could use multiple operand domains. Logic for this can be added into the model when needed.
 
 	\newpage
 
@@ -193,7 +195,9 @@ placement = htp
 	\newpage
 
 	\par Note that we had to define two arity contract sub-classes for both\\
-	\texttt{AbsTrapsetOperatorNode} and \texttt{AbsLogicalOperatorNode}. The reason for this is that it lets clients understand the API for operator types more easily. This isn't a problem with two main operator types but it will make adding operator types inconvenient in the future. In the following section we explain a work-around (hack) in the implementation language \textit{(this will look bad in the thesis)}.
+	\texttt{AbsTrapsetOperatorNode} and \texttt{AbsLogicalOperatorNode}. The reason for this is that it lets clients understand the API for operator types more easily. This isn't a problem with two main operator types but it will make adding operator types inconvenient in the future. In the following section we explain a work-around (hack) in the chosen implementation language \textit{(this will look bad in the thesis)}.
+
+	\bigskip
 
 	\par We also implement a visitor interface for the expression tree. This interface is based on the Visitor pattern described in \cite{patternbook}.
 
@@ -201,17 +205,17 @@ placement = htp
 	\par The following subsections present information on the implementation of the TDL\textsuperscript{TP} expression tree object model.
 
 	\subsection*{Technology}
-	\par Since the ANTLR-generated grammar for TDL\textsuperscript{TP} is implemented in Java, it will be easier for us to implement an adapter between the object model defined here and the ANTLR grammar object model if we implement th expression object model in Java as well.
+	\par Since the ANTLR-generated grammar for TDL\textsuperscript{TP} is implemented in Java, it will be easier for us to write an adapter between the object model defined here and the ANTLR grammar object model if we use Java here as well.
 
 	\subsection*{Technical Details}
 	\par This section provides the most important implementation details for the expression object model.
 
-	\subsubsection*{Arity Fix}
+	\subsubsection*{A Note on Arity Contracts}
 	\par In TDL\textsuperscript{TP}, operators can be binary or unary. In the future, it is possible that we will also need to support new operators with different arities.
 
 	\bigskip
 
-	\par In any case, clients should not have to infer the arity of a concrete operator implementation - this information should be encoded in the contract of the implementation.
+	\par In any case, clients should not have to infer the arity of a concrete operator implementation - this information should be encoded in the contract of the implementation for maximum convenience.
 
 	\newpage
 
@@ -299,6 +303,7 @@ public abstract class AbsLogicalUnaryOperatorNode<O extends AbsExpressionNode>
   extends AbsLogicalOperatorNode<O>, AbsUnaryOperator<O> {
 	...
 }
+
 // AbsTrapsetOperatorNode is extended analogously
 	\end{lstlisting}
 	\bigskip 
@@ -309,7 +314,7 @@ public abstract class AbsLogicalUnaryOperatorNode<O extends AbsExpressionNode>
 
 	\newpage
 
-	\par Our only solution is use arity interfaces that provide default implementations for arity contract methods:
+	\par Our only solution is to use arity interfaces that provide default implementations for arity contract methods:
 	\begin{lstlisting}[
 basicstyle=\small,
 caption={Arity contract work-around in Java.},label={lst:multiple-inheritance}
@@ -350,7 +355,7 @@ public ConcreteOperator
 
 	\newpage
 
-	\par This solution allows us to simply extend \texttt{AbsOperatorNode} in our abstract sub-classes. Concrete classes should use the either the \texttt{IBinaryOperator} or the \texttt{IUnaryOperator} interface to include an arity contract. For example:
+	\par This solution allows us to simply extend \texttt{AbsOperatorNode} in our abstract sub-classes. Concrete descendant classes should use the either the \texttt{IBinaryOperator} or the \texttt{IUnaryOperator} interface to include an arity contract. For example:
 	\begin{lstlisting}[
 basicstyle=\small,
 caption={Arity contract work-around in Java.},label={lst:multiple-inheritance}
@@ -366,39 +371,96 @@ public class ImplicationNode
 }
 	\end{lstlisting}
 
-	\par In this solution, we are simulating multiple inheritance via Java defender methods. Note that this actually goes against the intended purpose of defenders and interfaces (\cite{defaultmethodslink}).
+	\par In this solution, we are simulating multiple inheritance via Java defender methods. Note that this actually goes against the intended purpose of defenders and interfaces (\cite{defaultmethodslink}) but can easily be refactored when needed.
 
 	\bigskip
 
-	\par The only problem is that \texttt{AbsOperatorNode} needs to have an initial arity when constructed (which it will use to initialize an operand array). Interfaces cannot fix this easily.
+	\par The remaining problem is that \texttt{AbsOperatorNode} needs to have an initial arity when constructed (which it will use to initialize an operand array). Interfaces cannot fix this easily as they clearly have no business setting restrictions on constructors for implementer classes.
 
 	\bigskip
 
-	\par One solution is to define \texttt{IOperator.getArity()} and provide default impls in the \texttt{I(\textit{Binary|Unary})Operator} child interfaces. This way we can provide a default constructor that lacks an arity argument.
+	\par The solution we chose is to define \texttt{IOperator.getArity()} and provide default impls in the \texttt{I(\textit{Binary|Unary})Operator} child interfaces. This way we can provide a default constructor that lacks an arity argument.
 
 	\subsubsection*{Client-facing Classes}
 	\par The remainder of this section devotes a sub-section for each client-facing class. A list of these classes is presented below:
 	\begin{itemize}
-		\item \texttt{ExpressionTree};
-		\item \texttt{TrapsetSymbolNode};
-		\item \texttt{AbsoluteComplementNode};
-		\item \texttt{LinkedPairNode};
-		\item \texttt{RelativeComplementNode};
-		\item \texttt{UniversalQuantificationNode};
-		\item \texttt{ExistentialQuantificationNode};
-		\item \texttt{Bound};
-		\item \texttt{EBoundType};
-		\item \texttt{BoundedRepetitionNode};
-		\item \texttt{ConjunctionNode};
-		\item \texttt{DisjunctionNode};
-		\item \texttt{ImplicationNode};
-		\item \texttt{LeadsToNode};
-		\item \texttt{BoundedLeadsToNode};
-		\item \texttt{IExpressionTreeVisitor};
-		\item \texttt{BaseExpressionTreeVisitor}.
+		\item Tree root:
+		\subitem \texttt{ExpressionTree};
+		\item Tree leaves:
+		\subitem \texttt{TrapsetSymbolNode};
+		\item Trapset operator types:
+		\subitem \texttt{AbsoluteComplementNode};
+		\subitem \texttt{LinkedPairNode};
+		\subitem \texttt{RelativeComplementNode};
+		\item Logical operator modifiers:
+		\subitem \texttt{Bound};
+		\subitem \texttt{EBoundType};
+		\item Logical operator types:
+		\subitem Only accept trapset operation operands:
+		\subsubitem \texttt{UniversalQuantificationNode};
+		\subsubitem \texttt{ExistentialQuantificationNode};
+		\subitem Only accept logical operation operands:
+		\subsubitem \texttt{BoundedRepetitionNode};
+		\subsubitem \texttt{ConjunctionNode};
+		\subsubitem \texttt{DisjunctionNode};
+		\subsubitem \texttt{ImplicationNode};
+		\subsubitem \texttt{LeadsToNode};
+		\subsubitem \texttt{BoundedLeadsToNode};
+		\item Traversal utilities:
+		\subitem \texttt{IExpressionTreeVisitor};
+		\subitem \texttt{BaseExpressionTreeVisitor}.
 	\end{itemize}
-BaseExpressionTreeVisitor
-	\subsubsection{\texttt{}}
+
+	\subsubsection{\texttt{ExpressionTree}}
+	\par Container for the expression tree. Allows clients to get and set a root node for the expression tree. The root node is expected to be a logical operator node.
+
+	\subsubsection{\texttt{TrapsetSymbolNode}}
+	\par Class for expression tree leaf nodes. Allows to get and set a symbol string.
+
+	\subsubsection{\texttt{AbsoluteComplementNode}}
+	\par Class for an expression tree unary logical operator node. Only accepts instances of \texttt{TrapsetSymbolNode} as the operand.
+
+	\subsubsection{\texttt{LinkedPairNode}}
+	\par Class for an expression tree binary logical operator node. Only accepts instances of \texttt{TrapsetSymbolNode} as operands.
+
+	\subsubsection{\texttt{RelativeComplementNode}}
+	\par Class for an expression tree binary logical operator node. Only accepts instances of \texttt{TrapsetSymbolNode} as operands.
+
+	\subsubsection{\texttt{Bound}}
+	\par Expression tree logical operator modifier class. Represents a bound on a logical operator. Defines getters and setters for the type of the bound and the bound value.
+
+	\subsubsection{\texttt{EBoundType}}
+	\par Enumerates bound types. Used in \texttt{Bound}.
+
+	\subsubsection{\texttt{UniversalQuantificationNode}}
+	\par Class for an expression tree unary logical operator node. Only accepts instances of \texttt{AbsTrapsetOperatorNode} as the operand.
+
+	\subsubsection{\texttt{ExistentialQuantificationNode}}
+	\par Class for an expression tree unary logical operator node. Only accepts instances of \texttt{AbsTrapsetOperatorNode} as the operand.
+
+	\subsubsection{\texttt{BoundedRepetitionNode}}
+	\par Class for an expression tree unary logical operator node. Only accepts instances of \texttt{AbsLogicalOperatorNode} as the operand.
+
+	\subsubsection{\texttt{ConjunctionNode}}
+	\par Class for an expression tree binary logical operator node. Only accepts instances of \texttt{AbsLogicalOperatorNode} as operands.
+
+	\subsubsection{\texttt{DisjunctionNode}}
+	\par Class for an expression tree binary logical operator node. Only accepts instances of \texttt{AbsLogicalOperatorNode} as operands.
+
+	\subsubsection{\texttt{ImplicationNode}}
+	\par Class for an expression tree binary logical operator node. Only accepts instances of \texttt{AbsLogicalOperatorNode} as operands.
+
+	\subsubsection{\texttt{LeadsToNode}}
+	\par Class for an expression tree binary logical operator node. Only accepts instances of \texttt{AbsLogicalOperatorNode} as operands.
+
+	\subsubsection{\texttt{BoundedLeadsToNode}}
+	\par Inherits from \texttt{LeadsToNode}, extends it with a \texttt{Bound} member.
+
+	\subsubsection{\texttt{IExpressionTreeVisitor}}
+	\par Visitor (\cite{patternbook}) interface with \texttt{visit(\textit{Name})Node()} methods for each concrete node type in the object model.
+
+	\subsubsection{\texttt{BaseExpressionTreeVisitor}}
+	\par A base implementation of \texttt{IExpressionTreeVisitor}. Will perform a depth-first traversal of the expression tree by default. Can be extended to implement only selected \texttt{visit} methods - this way we can process only a subset of the nodes in the full expression tree, ignoring the rest.
 
 	\printbibliography[
 		title=Sources
