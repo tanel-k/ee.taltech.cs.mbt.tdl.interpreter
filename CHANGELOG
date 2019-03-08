@@ -3,10 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0] - 2019-04-??
 ### Added
-- Added ee.taltech.cs.mbt.tdl.expression.grammar; an ANTLR parser/lexer for TDL<sup>TP</sup>.
-- Added documentation for ee.taltech.cs.mbt.tdl.expression.grammar.
-- Simplified component documentation folder structure.
-- Added IntelliJ fluff to .gitignore.
+- #24: Added (and documented) ee.taltech.cs.mbt.tdl.expression.grammar; an ANTLR parser/lexer for TDL<sup>TP</sup>.
+- #24: Added documentation for ee.taltech.cs.mbt.tdl.expression.grammar.
+- #24: Simplified component documentation folder structure.
+- #24: Added IntelliJ fluff to .gitignore.
+- #25: Added (and documented) ee.taltech.cs.mbt.tdl.expression.model - can be used to decouple higher level logic from ANTLR generated code
 
 ### Changed
 - Nada
