@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.operator;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal;
 
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
 
@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class AbsOperatorNode<O extends AbsExpressionNode> extends AbsExpressionNode implements IOperator<O> {
-	private int arity;
+	public final int arity;
 	private List<O> operandNodes;
 
 	public void setOperand(int ordinal, O operand) {
@@ -26,8 +26,7 @@ public abstract class AbsOperatorNode<O extends AbsExpressionNode> extends AbsEx
 		return Collections.unmodifiableList(operandNodes);
 	}
 
-	private void init(int arity) {
-		this.arity = arity;
+	private void initStorage() {
 		this.operandNodes = new ArrayList<>(Collections.nCopies(this.arity, null));
 	}
 
@@ -98,7 +97,7 @@ public abstract class AbsOperatorNode<O extends AbsExpressionNode> extends AbsEx
 		 *  abstract class AbsOperatorNode extends IOperator:
 		 *      ...
 		 *
-		 * The solution allows us to simply extend AbsOperatorNode in our abstract sub-classes.
+		 * This solution allows us to simply extend AbsOperatorNode in our abstract sub-classes.
 		 * Concrete classes should use the IBinaryOperator or the IUnaryOperator interface to include an arity contract.
 		 *
 		 *   abstract class AbsLogicalOperatorNode extends AbsOperatorNode:
@@ -112,13 +111,15 @@ public abstract class AbsOperatorNode<O extends AbsExpressionNode> extends AbsEx
 		 *
 		 * The only problem is that AbsOperatorNode needs to have an initial arity when constructed.
 		 * Interfaces cannot fix this easily.
-		 * The solution is to define getOperatorArity() in IOperator and provide default impls in I{Binary|Unary}Operator.
+		 * The solution is to define getArity() in IOperator and provide default impls in I{Binary|Unary}Operator.
 		 * Then we can provide a default constructor that lacks the arity argument.
 		 */
-		init(this.getOperatorArity());
+		this.arity = getArity();
+		initStorage();
 	}
 
-	public AbsOperatorNode(int arity) {
-		init(arity);
+	protected AbsOperatorNode(int arity) {
+		this.arity = arity;
+		initStorage();
 	}
 }

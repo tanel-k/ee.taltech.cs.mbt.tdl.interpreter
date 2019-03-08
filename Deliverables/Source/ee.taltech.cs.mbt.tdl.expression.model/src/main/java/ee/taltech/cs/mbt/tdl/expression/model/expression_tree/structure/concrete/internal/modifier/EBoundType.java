@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.modifier;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.modifier;
 
 public enum EBoundType {
 	EQUALS,

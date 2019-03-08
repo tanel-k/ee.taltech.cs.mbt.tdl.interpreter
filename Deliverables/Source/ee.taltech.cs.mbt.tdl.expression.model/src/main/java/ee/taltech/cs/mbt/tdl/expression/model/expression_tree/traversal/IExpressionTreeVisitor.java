@@ -1,13 +1,13 @@
 package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal;
 
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.logical.*;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.AbsoluteComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.LinkedPairNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.RelativeComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.operator.AbsOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.*;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.trapset.AbsoluteComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.trapset.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.trapset.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
 
 public interface IExpressionTreeVisitor {
 	default void visitTree(ExpressionTree tree) {
@@ -31,9 +31,9 @@ public interface IExpressionTreeVisitor {
 	void visitDisjunctionNode(DisjunctionNode disjunctionNode);
 
 	void visitImplicationNode(ImplicationNode implicationNode);
-	void visitLeadsToBoundedNode(LeadsToBoundedNode leadsToBoundedNode);
+	void visitLeadsToBoundedNode(BoundedLeadsToNode boundedLeadsToNode);
 	void visitLeadsToNode(LeadsToNode leadsToNode);
-	void visitRepetitionBoundedNode(RepetitionBoundedNode repetitionBoundedNode);
+	void visitRepetitionBoundedNode(BoundedRepetitionNode boundedRepetitionNode);
 	void visitUniversalQuantificationNode(UniversalQuantificationNode universalQuantificationNode);
 	void visitExistentialQuantificationNode(ExistentialQuantificationNode existentialQuantificationNode);
 

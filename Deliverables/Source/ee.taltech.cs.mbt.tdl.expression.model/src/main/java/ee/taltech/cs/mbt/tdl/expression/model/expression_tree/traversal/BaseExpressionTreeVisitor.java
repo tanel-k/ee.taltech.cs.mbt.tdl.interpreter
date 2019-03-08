@@ -1,9 +1,9 @@
 package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal;
 
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.logical.*;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.AbsoluteComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.LinkedPairNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.trapset.RelativeComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.*;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.trapset.AbsoluteComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.trapset.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.trapset.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
 
 public class BaseExpressionTreeVisitor implements IExpressionTreeVisitor {
@@ -23,8 +23,8 @@ public class BaseExpressionTreeVisitor implements IExpressionTreeVisitor {
 	}
 
 	@Override
-	public void visitLeadsToBoundedNode(LeadsToBoundedNode leadsToBoundedNode) {
-		visitChildren(leadsToBoundedNode);
+	public void visitLeadsToBoundedNode(BoundedLeadsToNode boundedLeadsToNode) {
+		visitChildren(boundedLeadsToNode);
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class BaseExpressionTreeVisitor implements IExpressionTreeVisitor {
 	}
 
 	@Override
-	public void visitRepetitionBoundedNode(RepetitionBoundedNode repetitionBoundedNode) {
-		visitChildren(repetitionBoundedNode);
+	public void visitRepetitionBoundedNode(BoundedRepetitionNode boundedRepetitionNode) {
+		visitChildren(boundedRepetitionNode);
 	}
 
 	@Override

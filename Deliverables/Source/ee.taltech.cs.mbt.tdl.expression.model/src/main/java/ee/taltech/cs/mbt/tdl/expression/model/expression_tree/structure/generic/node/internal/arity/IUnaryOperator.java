@@ -1,6 +1,6 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.operator.arity;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.arity;
 
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.operator.IOperator;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.IOperator;
 
 public interface IUnaryOperator<O> extends IOperator<O> {
 	default O getOperand() {
@@ -12,7 +12,7 @@ public interface IUnaryOperator<O> extends IOperator<O> {
 	}
 
 	@Override
-	default int getOperatorArity() {
+	default int getArity() {
 		return ARITY_UNARY;
 	}
 }

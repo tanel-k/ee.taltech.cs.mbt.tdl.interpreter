@@ -1,7 +1,7 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.logical.generic;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.generic;
 
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.operator.AbsOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
 
 public abstract class AbsLogicalOperatorNode<O extends AbsExpressionNode> extends AbsOperatorNode<O> {
 	private boolean negated;
