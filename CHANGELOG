@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - #24: Simplified component documentation folder structure.
 - #24: Added IntelliJ fluff to .gitignore.
 - #25: Added (and documented) ee.taltech.cs.mbt.tdl.expression.model - can be used to decouple higher level logic from ANTLR generated code
+- #26: WIP
 
 ### Changed
 - Nada
