@@ -19,10 +19,11 @@ public interface IExpressionTreeVisitor {
 	}
 
 	default void visitChildren(AbsExpressionNode expressionNode) {
-		if (expressionNode instanceof AbsOperatorNode) {
-			AbsOperatorNode<?> operatorNode = (AbsOperatorNode<?>) expressionNode;
-			for (AbsExpressionNode operand : operatorNode.getOperandNodes()) {
-				visitChild(operand);
+		if (AbsOperatorNode.class.isInstance(expressionNode)) {
+			AbsOperatorNode<? extends AbsExpressionNode, ?> operatorNode =
+				(AbsOperatorNode<? extends AbsExpressionNode, ?>) expressionNode;
+			for (AbsExpressionNode child : operatorNode.getOperandContainer().getListView()) {
+				visitChild(child);
 			}
 		}
 	}

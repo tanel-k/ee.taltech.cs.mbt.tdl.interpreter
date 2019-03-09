@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal;
+package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.arity;
 
 public interface IOperator<O> {
 	int ARITY_UNARY = 1;
