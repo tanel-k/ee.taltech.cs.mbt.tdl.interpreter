@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 
 public class ExpressionParser {
+	// FIXME: Adjust according to changes in GrammarFacade
 	public ExpressionTree parseExpression(String expression, Charset charset) {
 		try {
 			return parseExpression(new ByteArrayInputStream(expression.getBytes(charset)));

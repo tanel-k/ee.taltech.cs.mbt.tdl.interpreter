@@ -5,12 +5,20 @@ import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-public class ParseTreeConverter implements IConverter<ParseTree, ExpressionTree> {
-	@Override
+public class ParseTreeConverter {
+	public ParseTreeConverter() { }
+
+	@SuppressWarnings("unchecked")
 	public ExpressionTree convert(ParseTree parseTree) {
-		ExpressionTree<AbsLogicalOperatorNode> expressionTree = new ExpressionTree<>();
+		ParseTreeConversionListener conversionListener = new ParseTreeConversionListener();
+
 		ParseTreeWalker walker = new ParseTreeWalker();
-		walker.walk(new ParseTreeConversionListener(), parseTree);
+		walker.walk(conversionListener, parseTree);
+
+		ExpressionTree expressionTree = new ExpressionTree();
+		AbsLogicalOperatorNode rootNode = conversionListener.getRootNode();
+		expressionTree.setRootNode(rootNode);
+
 		return expressionTree;
 	}
 }

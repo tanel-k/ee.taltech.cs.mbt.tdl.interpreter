@@ -3,6 +3,7 @@ package ee.taltech.cs.mbt.tdl.expression.parser.facade.converter;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseListener;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageParser.*;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.generic.AbsLogicalOperatorNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.modifier.Bound;
@@ -19,7 +20,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.List;
 import java.util.Stack;
 
-public class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
+class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
+	private ExpressionTree expressionTree;
 	private AbsLogicalOperatorNode rootNode;
 	private Stack<AbsOperatorNode> operatorCache = new Stack<>();
 	private Stack<Stack<AbsExpressionNode>> operandCache = new Stack<>();
@@ -75,6 +77,19 @@ public class ParseTreeConversionListener extends TDLExpressionLanguageBaseListen
 
 	private void visitTrapsetSymbol(TerminalNode trapsetSymbolTerminal) {
 		operandCache.peek().add(new TrapsetSymbolNode(trapsetSymbolTerminal.getText()));
+	}
+
+	public AbsLogicalOperatorNode getRootNode() {
+		AbsLogicalOperatorNode rootNode = this.rootNode;
+		reset();
+		return rootNode;
+	}
+
+	public void reset() {
+		this.negationFlag = false;
+		this.operandCache = new Stack<>();
+		this.operatorCache = new Stack<>();
+		this.rootNode = null;
 	}
 
 	@Override
