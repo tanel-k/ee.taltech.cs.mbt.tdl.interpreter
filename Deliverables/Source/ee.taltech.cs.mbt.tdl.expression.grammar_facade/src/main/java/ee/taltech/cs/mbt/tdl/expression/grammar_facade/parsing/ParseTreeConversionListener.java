@@ -1,9 +1,8 @@
-package ee.taltech.cs.mbt.tdl.expression.grammar_facade.bridge;
+package ee.taltech.cs.mbt.tdl.expression.grammar_facade.parsing;
 
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseListener;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.generic.AbsLogicalOperatorNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.modifier.Bound;
@@ -21,11 +20,45 @@ import java.util.List;
 import java.util.Stack;
 
 class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
-	private ExpressionTree expressionTree;
 	private AbsLogicalOperatorNode rootNode;
 	private Stack<AbsOperatorNode> operatorCache = new Stack<>();
 	private Stack<Stack<AbsExpressionNode>> operandCache = new Stack<>();
-	private boolean negationFlag = false;
+	private boolean negateNextLogicalOperation = false;
+
+	private static class BoundVisitor extends TDLExpressionLanguageBaseVisitor<Bound> {
+
+		private Bound bound = new Bound();
+
+		@Override
+		public Bound visitLessThanOrEqBound(LessThanOrEqBoundContext ctx) {
+			bound.setBoundType(EBoundType.LESS_THAN_OR_EQUAL_TO);
+			return bound;
+		}
+
+		@Override
+		public Bound visitLessThanBound(LessThanBoundContext ctx) {
+			bound.setBoundType(EBoundType.LESS_THAN);
+			return bound;
+		}
+
+		@Override
+		public Bound visitGreaterThanOrEqBound(GreaterThanOrEqBoundContext ctx) {
+			bound.setBoundType(EBoundType.GREATER_THAN_OR_EQUAL_TO);
+			return bound;
+		}
+
+		@Override
+		public Bound visitGreaterThanBound(GreaterThanBoundContext ctx) {
+			bound.setBoundType(EBoundType.GREATER_THAN);
+			return bound;
+		}
+
+		@Override
+		public Bound visitEqualityBound(EqualityBoundContext ctx) {
+			bound.setBoundType(EBoundType.EQUALS);
+			return bound;
+		}
+	}
 
 	private Bound extractBound(ParseTree tree) {
 		return new BoundVisitor().visit(tree);
@@ -34,8 +67,8 @@ class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
 	private void handleOperatorNodeEntry(AbsOperatorNode operatorNode) {
 		if (operatorNode instanceof AbsLogicalOperatorNode) {
 			AbsLogicalOperatorNode logicalOperatorNode = (AbsLogicalOperatorNode) operatorNode;
-			logicalOperatorNode.setNegated(negationFlag);
-			negationFlag = false;
+			logicalOperatorNode.setNegated(negateNextLogicalOperation);
+			negateNextLogicalOperation = false;
 
 			if (rootNode == null)
 				rootNode = logicalOperatorNode;
@@ -53,8 +86,8 @@ class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
 	private void handleOperatorNodeExit() {
 		if (operatorCache.isEmpty())
 			return;
-		AbsOperatorNode operatorNode = operatorCache.pop();
 
+		AbsOperatorNode operatorNode = operatorCache.pop();
 		if (operandCache.isEmpty())
 			return;
 
@@ -65,8 +98,6 @@ class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
 			expressionNode.setParentNode(operatorNode);
 			operatorNode.getOperandContainer().setOperand(ordinal++, expressionNode);
 		}
-
-		operandCache.pop();
 	}
 
 	private void visitTrapsetSymbols(List<TerminalNode> trapsetTerminals) {
@@ -79,27 +110,18 @@ class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
 		operandCache.peek().add(new TrapsetSymbolNode(trapsetSymbolTerminal.getText()));
 	}
 
-	public AbsLogicalOperatorNode getRootNode() {
-		AbsLogicalOperatorNode rootNode = this.rootNode;
-		reset();
-		return rootNode;
-	}
-
-	public void reset() {
-		this.negationFlag = false;
-		this.operandCache = new Stack<>();
-		this.operatorCache = new Stack<>();
-		this.rootNode = null;
+	AbsLogicalOperatorNode getRootNode() {
+		return this.rootNode;
 	}
 
 	@Override
 	public void enterNegatedExpression(NegatedExpressionContext ctx) {
-		this.negationFlag = Boolean.TRUE;
+		this.negateNextLogicalOperation = Boolean.TRUE;
 	}
 
 	@Override
 	public void exitNegatedExpression(NegatedExpressionContext ctx) {
-		this.negationFlag = Boolean.FALSE;
+		this.negateNextLogicalOperation = Boolean.FALSE;
 	}
 
 	@Override
@@ -227,40 +249,5 @@ class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
 	@Override
 	public void exitLinkedTrapsetPairExpression(LinkedTrapsetPairExpressionContext ctx) {
 		handleOperatorNodeExit();
-	}
-
-	private static class BoundVisitor extends TDLExpressionLanguageBaseVisitor<Bound> {
-
-		private Bound bound = new Bound();
-
-		@Override
-		public Bound visitLessThanOrEqBound(LessThanOrEqBoundContext ctx) {
-			bound.setBoundType(EBoundType.LESS_THAN_OR_EQUAL_TO);
-			return bound;
-		}
-
-		@Override
-		public Bound visitLessThanBound(LessThanBoundContext ctx) {
-			bound.setBoundType(EBoundType.LESS_THAN);
-			return bound;
-		}
-
-		@Override
-		public Bound visitGreaterThanOrEqBound(GreaterThanOrEqBoundContext ctx) {
-			bound.setBoundType(EBoundType.GREATER_THAN_OR_EQUAL_TO);
-			return bound;
-		}
-
-		@Override
-		public Bound visitGreaterThanBound(GreaterThanBoundContext ctx) {
-			bound.setBoundType(EBoundType.GREATER_THAN);
-			return bound;
-		}
-
-		@Override
-		public Bound visitEqualityBound(EqualityBoundContext ctx) {
-			bound.setBoundType(EBoundType.EQUALS);
-			return bound;
-		}
 	}
 }
