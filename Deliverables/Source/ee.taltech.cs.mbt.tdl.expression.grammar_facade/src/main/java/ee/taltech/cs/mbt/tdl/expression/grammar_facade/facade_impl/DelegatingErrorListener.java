@@ -1,8 +1,7 @@
-package ee.taltech.cs.mbt.tdl.expression.grammar_facade.parsing;
+package ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl;
 
-import ee.taltech.cs.mbt.tdl.expression.grammar_facade.IDelegator;
-import ee.taltech.cs.mbt.tdl.expression.grammar_facade.runtime.ErrorListener;
-import ee.taltech.cs.mbt.tdl.expression.grammar_facade.runtime.ErrorListener.SyntaxError;
+import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorListener;
+import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorListener.SyntaxError;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 

@@ -1,14 +1,13 @@
-package ee.taltech.cs.mbt.tdl.expression.grammar_facade.parsing;
+package ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl;
 
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageLexer;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageParser;
-import ee.taltech.cs.mbt.tdl.expression.grammar_facade.runtime.ErrorListener;
-import ee.taltech.cs.mbt.tdl.expression.grammar_facade.runtime.ErrorStrategyConfig;
+import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorListener;
+import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorStrategyConfig;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.DefaultErrorStrategy;
-import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;

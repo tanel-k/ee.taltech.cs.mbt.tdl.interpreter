@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.expression.grammar_facade.parsing;
+package ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl;
 
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.generic.AbsLogicalOperatorNode;

@@ -1,9 +1,8 @@
-package ee.taltech.cs.mbt.tdl.expression.parser;
+package ee.taltech.cs.mbt.tdl.expression.grammar_facade;
 
-import ee.taltech.cs.mbt.tdl.expression.grammar_facade.parsing.ParserFacade;
+import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.ParserFacade;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
 
-import javax.swing.text.html.parser.Parser;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
