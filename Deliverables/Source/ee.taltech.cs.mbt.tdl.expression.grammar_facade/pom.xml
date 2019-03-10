@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
-  <artifactId>parser</artifactId>
+  <artifactId>grammar_facade</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -26,7 +26,12 @@
   <dependencies>
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
-      <artifactId>grammar_facade</artifactId>
+      <artifactId>model</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
+      <artifactId>grammar</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
@@ -35,8 +40,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>TDL(TP) Expression Parser</name>
-  <description>Provides parsing utilities for TDL(TP) expressions.</description>
+  <name>TDL(TP) Grammar Facade</name>
+  <description>Provides a simplified interface for the TDL(TP) parser/lexer implementation.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
     <name>TalTech</name>

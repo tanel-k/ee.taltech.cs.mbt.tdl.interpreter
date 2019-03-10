@@ -1,9 +1,9 @@
-package ee.taltech.cs.mbt.tdl.expression.parser.facade;
+package ee.taltech.cs.mbt.tdl.expression.grammar_facade;
 
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageLexer;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageParser;
+import ee.taltech.cs.mbt.tdl.expression.grammar_facade.bridge.ParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
-import ee.taltech.cs.mbt.tdl.expression.parser.facade.converter.ParseTreeConverter;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;

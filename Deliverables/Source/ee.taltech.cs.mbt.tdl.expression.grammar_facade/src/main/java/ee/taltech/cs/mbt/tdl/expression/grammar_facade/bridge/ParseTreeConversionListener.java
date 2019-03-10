@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.expression.parser.facade.converter;
+package ee.taltech.cs.mbt.tdl.expression.grammar_facade.bridge;
 
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseListener;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseVisitor;
