@@ -153,30 +153,6 @@ public interface TDLExpressionLanguageListener extends ParseTreeListener {
 	 */
 	void exitExistentialTrapsetExpression(TDLExpressionLanguageParser.ExistentialTrapsetExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code RelativeTrapsetComplementExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code RelativeTrapsetComplementExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code TrapsetIdentifierExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterTrapsetIdentifierExpression(TDLExpressionLanguageParser.TrapsetIdentifierExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code TrapsetIdentifierExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitTrapsetIdentifierExpression(TDLExpressionLanguageParser.TrapsetIdentifierExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code AbsoluteTrapsetComplementExpression}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
 	 * @param ctx the parse tree
@@ -189,6 +165,18 @@ public interface TDLExpressionLanguageListener extends ParseTreeListener {
 	 */
 	void exitAbsoluteTrapsetComplementExpression(TDLExpressionLanguageParser.AbsoluteTrapsetComplementExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code RelativeTrapsetComplementExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code RelativeTrapsetComplementExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code LinkedTrapsetPairExpression}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
 	 * @param ctx the parse tree
@@ -200,18 +188,6 @@ public interface TDLExpressionLanguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLinkedTrapsetPairExpression(TDLExpressionLanguageParser.LinkedTrapsetPairExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code GroupedTrapsetExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterGroupedTrapsetExpression(TDLExpressionLanguageParser.GroupedTrapsetExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code GroupedTrapsetExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitGroupedTrapsetExpression(TDLExpressionLanguageParser.GroupedTrapsetExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code LessThanBound}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#boundOverNaturals}.

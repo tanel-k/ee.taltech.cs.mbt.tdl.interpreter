@@ -96,20 +96,6 @@ public interface TDLExpressionLanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExistentialTrapsetExpression(TDLExpressionLanguageParser.ExistentialTrapsetExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code RelativeTrapsetComplementExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code TrapsetIdentifierExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTrapsetIdentifierExpression(TDLExpressionLanguageParser.TrapsetIdentifierExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code AbsoluteTrapsetComplementExpression}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
 	 * @param ctx the parse tree
@@ -117,19 +103,19 @@ public interface TDLExpressionLanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAbsoluteTrapsetComplementExpression(TDLExpressionLanguageParser.AbsoluteTrapsetComplementExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code RelativeTrapsetComplementExpression}
+	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRelativeTrapsetComplementExpression(TDLExpressionLanguageParser.RelativeTrapsetComplementExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code LinkedTrapsetPairExpression}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLinkedTrapsetPairExpression(TDLExpressionLanguageParser.LinkedTrapsetPairExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code GroupedTrapsetExpression}
-	 * labeled alternative in {@link TDLExpressionLanguageParser#trapsetExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGroupedTrapsetExpression(TDLExpressionLanguageParser.GroupedTrapsetExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code LessThanBound}
 	 * labeled alternative in {@link TDLExpressionLanguageParser#boundOverNaturals}.

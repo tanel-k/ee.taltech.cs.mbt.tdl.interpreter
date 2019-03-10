@@ -583,7 +583,7 @@ public class TDLExpressionLanguageParser extends Parser {
 				setState(52);
 				match(LEFT_PAREN);
 				setState(53);
-				trapsetExpression(0);
+				trapsetExpression();
 				setState(54);
 				match(RIGHT_PAREN);
 				}
@@ -597,7 +597,7 @@ public class TDLExpressionLanguageParser extends Parser {
 				setState(57);
 				match(LEFT_PAREN);
 				setState(58);
-				trapsetExpression(0);
+				trapsetExpression();
 				setState(59);
 				match(RIGHT_PAREN);
 				}
@@ -629,11 +629,9 @@ public class TDLExpressionLanguageParser extends Parser {
 		}
 	}
 	public static class RelativeTrapsetComplementExpressionContext extends TrapsetExpressionContext {
-		public List<TrapsetExpressionContext> trapsetExpression() {
-			return getRuleContexts(TrapsetExpressionContext.class);
-		}
-		public TrapsetExpressionContext trapsetExpression(int i) {
-			return getRuleContext(TrapsetExpressionContext.class,i);
+		public List<TerminalNode> TRAPSET_ID() { return getTokens(TDLExpressionLanguageParser.TRAPSET_ID); }
+		public TerminalNode TRAPSET_ID(int i) {
+			return getToken(TDLExpressionLanguageParser.TRAPSET_ID, i);
 		}
 		public TerminalNode TOP_RELATIVE_COMPLEMENT() { return getToken(TDLExpressionLanguageParser.TOP_RELATIVE_COMPLEMENT, 0); }
 		public RelativeTrapsetComplementExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
@@ -651,28 +649,9 @@ public class TDLExpressionLanguageParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class TrapsetIdentifierExpressionContext extends TrapsetExpressionContext {
-		public TerminalNode TRAPSET_ID() { return getToken(TDLExpressionLanguageParser.TRAPSET_ID, 0); }
-		public TrapsetIdentifierExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterTrapsetIdentifierExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitTrapsetIdentifierExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitTrapsetIdentifierExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class AbsoluteTrapsetComplementExpressionContext extends TrapsetExpressionContext {
 		public TerminalNode TOP_ABSOLUTE_COMPLEMENT() { return getToken(TDLExpressionLanguageParser.TOP_ABSOLUTE_COMPLEMENT, 0); }
-		public TrapsetExpressionContext trapsetExpression() {
-			return getRuleContext(TrapsetExpressionContext.class,0);
-		}
+		public TerminalNode TRAPSET_ID() { return getToken(TDLExpressionLanguageParser.TRAPSET_ID, 0); }
 		public AbsoluteTrapsetComplementExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -689,11 +668,9 @@ public class TDLExpressionLanguageParser extends Parser {
 		}
 	}
 	public static class LinkedTrapsetPairExpressionContext extends TrapsetExpressionContext {
-		public List<TrapsetExpressionContext> trapsetExpression() {
-			return getRuleContexts(TrapsetExpressionContext.class);
-		}
-		public TrapsetExpressionContext trapsetExpression(int i) {
-			return getRuleContext(TrapsetExpressionContext.class,i);
+		public List<TerminalNode> TRAPSET_ID() { return getTokens(TDLExpressionLanguageParser.TRAPSET_ID); }
+		public TerminalNode TRAPSET_ID(int i) {
+			return getToken(TDLExpressionLanguageParser.TRAPSET_ID, i);
 		}
 		public TerminalNode TOP_LINKED_PAIR() { return getToken(TDLExpressionLanguageParser.TOP_LINKED_PAIR, 0); }
 		public LinkedTrapsetPairExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
@@ -711,124 +688,47 @@ public class TDLExpressionLanguageParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class GroupedTrapsetExpressionContext extends TrapsetExpressionContext {
-		public TerminalNode LEFT_PAREN() { return getToken(TDLExpressionLanguageParser.LEFT_PAREN, 0); }
-		public TrapsetExpressionContext trapsetExpression() {
-			return getRuleContext(TrapsetExpressionContext.class,0);
-		}
-		public TerminalNode RIGHT_PAREN() { return getToken(TDLExpressionLanguageParser.RIGHT_PAREN, 0); }
-		public GroupedTrapsetExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).enterGroupedTrapsetExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TDLExpressionLanguageListener ) ((TDLExpressionLanguageListener)listener).exitGroupedTrapsetExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TDLExpressionLanguageVisitor ) return ((TDLExpressionLanguageVisitor<? extends T>)visitor).visitGroupedTrapsetExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 
 	public final TrapsetExpressionContext trapsetExpression() throws RecognitionException {
-		return trapsetExpression(0);
-	}
-
-	private TrapsetExpressionContext trapsetExpression(int _p) throws RecognitionException {
-		ParserRuleContext _parentctx = _ctx;
-		int _parentState = getState();
-		TrapsetExpressionContext _localctx = new TrapsetExpressionContext(_ctx, _parentState);
-		TrapsetExpressionContext _prevctx = _localctx;
-		int _startState = 4;
-		enterRecursionRule(_localctx, 4, RULE_trapsetExpression, _p);
+		TrapsetExpressionContext _localctx = new TrapsetExpressionContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_trapsetExpression);
 		try {
-			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
 			setState(71);
-			switch (_input.LA(1)) {
-			case TOP_ABSOLUTE_COMPLEMENT:
-				{
+			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+			case 1:
 				_localctx = new AbsoluteTrapsetComplementExpressionContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-
-				setState(64);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(63);
 				match(TOP_ABSOLUTE_COMPLEMENT);
+				setState(64);
+				match(TRAPSET_ID);
+				}
+				break;
+			case 2:
+				_localctx = new RelativeTrapsetComplementExpressionContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
 				setState(65);
-				trapsetExpression(4);
-				}
-				break;
-			case LEFT_PAREN:
-				{
-				_localctx = new GroupedTrapsetExpressionContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
+				match(TRAPSET_ID);
 				setState(66);
-				match(LEFT_PAREN);
+				match(TOP_RELATIVE_COMPLEMENT);
 				setState(67);
-				trapsetExpression(0);
-				setState(68);
-				match(RIGHT_PAREN);
+				match(TRAPSET_ID);
 				}
 				break;
-			case TRAPSET_ID:
+			case 3:
+				_localctx = new LinkedTrapsetPairExpressionContext(_localctx);
+				enterOuterAlt(_localctx, 3);
 				{
-				_localctx = new TrapsetIdentifierExpressionContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
+				setState(68);
+				match(TRAPSET_ID);
+				setState(69);
+				match(TOP_LINKED_PAIR);
 				setState(70);
 				match(TRAPSET_ID);
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			_ctx.stop = _input.LT(-1);
-			setState(81);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					if ( _parseListeners!=null ) triggerExitRuleEvent();
-					_prevctx = _localctx;
-					{
-					setState(79);
-					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
-					case 1:
-						{
-						_localctx = new RelativeTrapsetComplementExpressionContext(new TrapsetExpressionContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_trapsetExpression);
-						setState(73);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(74);
-						match(TOP_RELATIVE_COMPLEMENT);
-						setState(75);
-						trapsetExpression(4);
-						}
-						break;
-					case 2:
-						{
-						_localctx = new LinkedTrapsetPairExpressionContext(new TrapsetExpressionContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_trapsetExpression);
-						setState(76);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(77);
-						match(TOP_LINKED_PAIR);
-						setState(78);
-						trapsetExpression(3);
-						}
-						break;
-					}
-					} 
-				}
-				setState(83);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
-			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -837,7 +737,7 @@ public class TDLExpressionLanguageParser extends Parser {
 			_errHandler.recover(this, re);
 		}
 		finally {
-			unrollRecursionContexts(_parentctx);
+			exitRule();
 		}
 		return _localctx;
 	}
@@ -948,15 +848,15 @@ public class TDLExpressionLanguageParser extends Parser {
 		BoundOverNaturalsContext _localctx = new BoundOverNaturalsContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_boundOverNaturals);
 		try {
-			setState(94);
+			setState(83);
 			switch (_input.LA(1)) {
 			case REL_LESS_THAN:
 				_localctx = new LessThanBoundContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(84);
+				setState(73);
 				match(REL_LESS_THAN);
-				setState(85);
+				setState(74);
 				match(NATURAL_NUMBER);
 				}
 				break;
@@ -964,9 +864,9 @@ public class TDLExpressionLanguageParser extends Parser {
 				_localctx = new GreaterThanBoundContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(86);
+				setState(75);
 				match(REL_GREATER_THAN);
-				setState(87);
+				setState(76);
 				match(NATURAL_NUMBER);
 				}
 				break;
@@ -974,9 +874,9 @@ public class TDLExpressionLanguageParser extends Parser {
 				_localctx = new LessThanOrEqBoundContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(88);
+				setState(77);
 				match(REL_LESS_THAN_OR_EQ);
-				setState(89);
+				setState(78);
 				match(NATURAL_NUMBER);
 				}
 				break;
@@ -984,9 +884,9 @@ public class TDLExpressionLanguageParser extends Parser {
 				_localctx = new GreaterThanOrEqBoundContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(90);
+				setState(79);
 				match(REL_GREATER_THAN_OR_EQ);
-				setState(91);
+				setState(80);
 				match(NATURAL_NUMBER);
 				}
 				break;
@@ -994,9 +894,9 @@ public class TDLExpressionLanguageParser extends Parser {
 				_localctx = new EqualityBoundContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(92);
+				setState(81);
 				match(REL_EQUAL);
-				setState(93);
+				setState(82);
 				match(NATURAL_NUMBER);
 				}
 				break;
@@ -1019,8 +919,6 @@ public class TDLExpressionLanguageParser extends Parser {
 		switch (ruleIndex) {
 		case 0:
 			return expression_sempred((ExpressionContext)_localctx, predIndex);
-		case 2:
-			return trapsetExpression_sempred((TrapsetExpressionContext)_localctx, predIndex);
 		}
 		return true;
 	}
@@ -1041,43 +939,32 @@ public class TDLExpressionLanguageParser extends Parser {
 		}
 		return true;
 	}
-	private boolean trapsetExpression_sempred(TrapsetExpressionContext _localctx, int predIndex) {
-		switch (predIndex) {
-		case 6:
-			return precpred(_ctx, 3);
-		case 7:
-			return precpred(_ctx, 2);
-		}
-		return true;
-	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\33c\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\33X\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2"+
 		"\3\2\5\2\31\n\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3"+
 		"\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\7\2\61\n\2\f\2\16\2\64\13\2\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3@\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\3\4\5\4J\n\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4R\n\4\f\4\16\4U\13\4\3\5\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5a\n\5\3\5\2\4\2\6\6\2\4\6\b\2\2p\2"+
-		"\30\3\2\2\2\4?\3\2\2\2\6I\3\2\2\2\b`\3\2\2\2\n\13\b\2\1\2\13\f\7\t\2\2"+
-		"\f\31\5\2\2\13\r\16\7\5\2\2\16\17\5\2\2\2\17\20\7\6\2\2\20\31\3\2\2\2"+
-		"\21\22\7\17\2\2\22\23\5\2\2\2\23\24\7\3\2\2\24\25\5\b\5\2\25\26\7\4\2"+
-		"\2\26\31\3\2\2\2\27\31\5\4\3\2\30\n\3\2\2\2\30\r\3\2\2\2\30\21\3\2\2\2"+
-		"\30\27\3\2\2\2\31\62\3\2\2\2\32\33\f\n\2\2\33\34\7\n\2\2\34\61\5\2\2\13"+
-		"\35\36\f\t\2\2\36\37\7\13\2\2\37\61\5\2\2\n !\f\b\2\2!\"\7\f\2\2\"\61"+
-		"\5\2\2\t#$\f\7\2\2$%\7\r\2\2%\61\5\2\2\b&\'\f\6\2\2\'(\7\16\2\2(\61\5"+
-		"\2\2\7)*\f\5\2\2*+\7\16\2\2+,\7\3\2\2,-\5\b\5\2-.\7\4\2\2./\5\2\2\6/\61"+
-		"\3\2\2\2\60\32\3\2\2\2\60\35\3\2\2\2\60 \3\2\2\2\60#\3\2\2\2\60&\3\2\2"+
-		"\2\60)\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\62\63\3\2\2\2\63\3\3\2\2\2"+
-		"\64\62\3\2\2\2\65\66\7\7\2\2\66\67\7\5\2\2\678\5\6\4\289\7\6\2\29@\3\2"+
-		"\2\2:;\7\b\2\2;<\7\5\2\2<=\5\6\4\2=>\7\6\2\2>@\3\2\2\2?\65\3\2\2\2?:\3"+
-		"\2\2\2@\5\3\2\2\2AB\b\4\1\2BC\7\20\2\2CJ\5\6\4\6DE\7\5\2\2EF\5\6\4\2F"+
-		"G\7\6\2\2GJ\3\2\2\2HJ\7\30\2\2IA\3\2\2\2ID\3\2\2\2IH\3\2\2\2JS\3\2\2\2"+
-		"KL\f\5\2\2LM\7\21\2\2MR\5\6\4\6NO\f\4\2\2OP\7\22\2\2PR\5\6\4\5QK\3\2\2"+
-		"\2QN\3\2\2\2RU\3\2\2\2SQ\3\2\2\2ST\3\2\2\2T\7\3\2\2\2US\3\2\2\2VW\7\25"+
-		"\2\2Wa\7\31\2\2XY\7\26\2\2Ya\7\31\2\2Z[\7\23\2\2[a\7\31\2\2\\]\7\24\2"+
-		"\2]a\7\31\2\2^_\7\27\2\2_a\7\31\2\2`V\3\2\2\2`X\3\2\2\2`Z\3\2\2\2`\\\3"+
-		"\2\2\2`^\3\2\2\2a\t\3\2\2\2\n\30\60\62?IQS`";
+		"\3\4\5\4J\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5V\n\5\3\5\2\3"+
+		"\2\6\2\4\6\b\2\2c\2\30\3\2\2\2\4?\3\2\2\2\6I\3\2\2\2\bU\3\2\2\2\n\13\b"+
+		"\2\1\2\13\f\7\t\2\2\f\31\5\2\2\13\r\16\7\5\2\2\16\17\5\2\2\2\17\20\7\6"+
+		"\2\2\20\31\3\2\2\2\21\22\7\17\2\2\22\23\5\2\2\2\23\24\7\3\2\2\24\25\5"+
+		"\b\5\2\25\26\7\4\2\2\26\31\3\2\2\2\27\31\5\4\3\2\30\n\3\2\2\2\30\r\3\2"+
+		"\2\2\30\21\3\2\2\2\30\27\3\2\2\2\31\62\3\2\2\2\32\33\f\n\2\2\33\34\7\n"+
+		"\2\2\34\61\5\2\2\13\35\36\f\t\2\2\36\37\7\13\2\2\37\61\5\2\2\n !\f\b\2"+
+		"\2!\"\7\f\2\2\"\61\5\2\2\t#$\f\7\2\2$%\7\r\2\2%\61\5\2\2\b&\'\f\6\2\2"+
+		"\'(\7\16\2\2(\61\5\2\2\7)*\f\5\2\2*+\7\16\2\2+,\7\3\2\2,-\5\b\5\2-.\7"+
+		"\4\2\2./\5\2\2\6/\61\3\2\2\2\60\32\3\2\2\2\60\35\3\2\2\2\60 \3\2\2\2\60"+
+		"#\3\2\2\2\60&\3\2\2\2\60)\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\62\63\3"+
+		"\2\2\2\63\3\3\2\2\2\64\62\3\2\2\2\65\66\7\7\2\2\66\67\7\5\2\2\678\5\6"+
+		"\4\289\7\6\2\29@\3\2\2\2:;\7\b\2\2;<\7\5\2\2<=\5\6\4\2=>\7\6\2\2>@\3\2"+
+		"\2\2?\65\3\2\2\2?:\3\2\2\2@\5\3\2\2\2AB\7\20\2\2BJ\7\30\2\2CD\7\30\2\2"+
+		"DE\7\21\2\2EJ\7\30\2\2FG\7\30\2\2GH\7\22\2\2HJ\7\30\2\2IA\3\2\2\2IC\3"+
+		"\2\2\2IF\3\2\2\2J\7\3\2\2\2KL\7\25\2\2LV\7\31\2\2MN\7\26\2\2NV\7\31\2"+
+		"\2OP\7\23\2\2PV\7\31\2\2QR\7\24\2\2RV\7\31\2\2ST\7\27\2\2TV\7\31\2\2U"+
+		"K\3\2\2\2UM\3\2\2\2UO\3\2\2\2UQ\3\2\2\2US\3\2\2\2V\t\3\2\2\2\b\30\60\62"+
+		"?IU";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
