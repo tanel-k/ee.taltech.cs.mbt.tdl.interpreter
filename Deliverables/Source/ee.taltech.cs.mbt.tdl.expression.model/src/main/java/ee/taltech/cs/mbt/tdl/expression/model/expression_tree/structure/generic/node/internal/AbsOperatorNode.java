@@ -4,18 +4,17 @@ import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.operands.OperandContainer;
 
 public abstract class AbsOperatorNode<
-			OperandType extends AbsExpressionNode,
-			OperandContainerType extends OperandContainer<OperandType>
+		OperandType extends AbsExpressionNode,
+		OperandContainerType extends OperandContainer<OperandType>
 		>
-	extends AbsExpressionNode
-{
+		extends AbsExpressionNode {
 	private final OperandContainerType operandContainer;
-
-	public OperandContainerType getOperandContainer() {
-		 return getOperandContainer();
-	}
 
 	public AbsOperatorNode(OperandContainerType operandContainer) {
 		this.operandContainer = operandContainer;
+	}
+
+	public OperandContainerType getOperandContainer() {
+		return operandContainer;
 	}
 }

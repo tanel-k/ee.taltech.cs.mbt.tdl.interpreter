@@ -5,16 +5,16 @@ import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal.IExpressionTreeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal.IVisitableNode;
 
-public class ConjunctionNode extends AbsLogicalOperatorNode<
+public class EquivalenceNode extends AbsLogicalOperatorNode<
 		AbsLogicalOperatorNode,
 		BinaryOperandContainer<AbsLogicalOperatorNode>
 		> implements IVisitableNode {
-	public ConjunctionNode() {
+	public EquivalenceNode() {
 		super(new BinaryOperandContainer<>());
 	}
 
 	@Override
 	public void accept(IExpressionTreeVisitor visitor) {
-		visitor.visitConjunctionNode(this);
+		visitor.visitEquivalenceNode(this);
 	}
 }

@@ -13,6 +13,11 @@ public class BaseExpressionTreeVisitor implements IExpressionTreeVisitor {
 	}
 
 	@Override
+	public void visitEquivalenceNode(EquivalenceNode equivalenceNode) {
+		visitChildren(equivalenceNode);
+	}
+
+	@Override
 	public void visitDisjunctionNode(DisjunctionNode disjunctionNode) {
 		visitChildren(disjunctionNode);
 	}
@@ -23,7 +28,7 @@ public class BaseExpressionTreeVisitor implements IExpressionTreeVisitor {
 	}
 
 	@Override
-	public void visitLeadsToBoundedNode(BoundedLeadsToNode boundedLeadsToNode) {
+	public void visitBoundedLeadsToNode(BoundedLeadsToNode boundedLeadsToNode) {
 		visitChildren(boundedLeadsToNode);
 	}
 
@@ -33,7 +38,7 @@ public class BaseExpressionTreeVisitor implements IExpressionTreeVisitor {
 	}
 
 	@Override
-	public void visitRepetitionBoundedNode(BoundedRepetitionNode boundedRepetitionNode) {
+	public void visitBoundedRepetitionNode(BoundedRepetitionNode boundedRepetitionNode) {
 		visitChildren(boundedRepetitionNode);
 	}
 

@@ -2,5 +2,6 @@ package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concret
 
 public interface IBounded {
 	Bound getBound();
+
 	void setBound(Bound bound);
 }

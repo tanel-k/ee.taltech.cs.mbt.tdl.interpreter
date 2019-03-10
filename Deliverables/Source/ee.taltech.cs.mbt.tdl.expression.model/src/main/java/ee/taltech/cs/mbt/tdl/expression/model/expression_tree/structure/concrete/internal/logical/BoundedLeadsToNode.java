@@ -19,6 +19,6 @@ public class BoundedLeadsToNode extends LeadsToNode implements IBounded {
 
 	@Override
 	public void accept(IExpressionTreeVisitor visitor) {
-		visitor.visitLeadsToBoundedNode(this);
+		visitor.visitBoundedLeadsToNode(this);
 	}
 }

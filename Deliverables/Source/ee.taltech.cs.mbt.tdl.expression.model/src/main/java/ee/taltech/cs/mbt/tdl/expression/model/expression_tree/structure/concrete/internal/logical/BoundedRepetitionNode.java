@@ -3,16 +3,19 @@ package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concret
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.generic.AbsLogicalOperatorNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.modifier.Bound;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.modifier.IBounded;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.arity.IUnaryOperator;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.operands.arity.UnaryOperandContainer;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal.IExpressionTreeVisitor;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.traversal.IVisitableNode;
 
 public class BoundedRepetitionNode extends AbsLogicalOperatorNode<
-		AbsLogicalOperatorNode, UnaryOperandContainer<AbsLogicalOperatorNode>>
-	implements IBounded
-{
+		AbsLogicalOperatorNode,
+		UnaryOperandContainer<AbsLogicalOperatorNode>
+		> implements IBounded, IVisitableNode {
 	private Bound bound;
+
+	public BoundedRepetitionNode() {
+		super(new UnaryOperandContainer<>());
+	}
 
 	@Override
 	public Bound getBound() {
@@ -26,10 +29,6 @@ public class BoundedRepetitionNode extends AbsLogicalOperatorNode<
 
 	@Override
 	public void accept(IExpressionTreeVisitor visitor) {
-		visitor.visitRepetitionBoundedNode(this);
-	}
-
-	public BoundedRepetitionNode() {
-		super(new UnaryOperandContainer<>());
+		visitor.visitBoundedRepetitionNode(this);
 	}
 }

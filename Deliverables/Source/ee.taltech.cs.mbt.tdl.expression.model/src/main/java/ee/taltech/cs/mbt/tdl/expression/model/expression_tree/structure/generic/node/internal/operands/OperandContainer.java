@@ -1,10 +1,12 @@
 package ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.operands;
 
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class OperandContainer<OperandType> {
+public class OperandContainer<OperandType extends AbsExpressionNode> {
 	public static final int ARITY_UNARY = 1;
 	public static final int ARITY_BINARY = 2;
 
@@ -13,6 +15,11 @@ public class OperandContainer<OperandType> {
 
 	public final int arity;
 	private List<OperandType> operands;
+
+	public OperandContainer(int arity) {
+		this.arity = arity;
+		this.operands = new ArrayList<>(Collections.nCopies(this.arity, null));
+	}
 
 	public int getArity() {
 		return arity;
@@ -29,15 +36,11 @@ public class OperandContainer<OperandType> {
 		return this.operands.get(ordinal);
 	}
 
-	public void setOperand(int ordinal, OperandType operand) {
+	public OperandContainer<OperandType> setOperand(int ordinal, OperandType operand) {
 		if (ordinal < 0 || arity <= ordinal) {
 			throw new IllegalArgumentException("Ordinal out of bounds.");
 		}
 		this.operands.set(ordinal, operand);
-	}
-
-	public OperandContainer(int arity) {
-		this.arity = arity;
-		this.operands = new ArrayList<>(Collections.nCopies(this.arity, null));
+		return this;
 	}
 }
