@@ -1,23 +1,44 @@
 package ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl;
 
+import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageLexer;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageParser;
+import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.ParseTreeConversionListener.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorListener;
 import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorStrategyConfig;
+import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorStrategyConfig.InvalidExpressionException;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.generic.AbsLogicalOperatorNode;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.DefaultErrorStrategy;
+import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ParserFacade {
+	public static class ParseException extends Exception {
+		private ParseException(String msg, Throwable t) { super(msg, t); }
+		private ParseException(Throwable t) { this(t.getMessage(), t); }
+	}
+
 	private ErrorStrategyConfig errorStrategyConfig;
 	private List<ErrorListener> errorListeners;
+
+	private ExpressionTree convertParseTree(ParseTree parseTree) throws ParseTreeStructureException {
+		ParseTreeConversionListener conversionListener = new ParseTreeConversionListener();
+
+		ParseTreeWalker walker = new ParseTreeWalker();
+		walker.walk(conversionListener, parseTree);
+
+		return conversionListener.constructTree();
+	}
 
 	public ParserFacade() {
 		this.errorStrategyConfig = new ErrorStrategyConfig();
@@ -47,7 +68,7 @@ public class ParserFacade {
 		return this;
 	}
 
-	public ExpressionTree parse(InputStream in) throws IOException {
+	public ExpressionTree parse(InputStream in) throws IOException, ParseException {
 		ANTLRInputStream input = new ANTLRInputStream(in);
 		TDLExpressionLanguageLexer lexer = new TDLExpressionLanguageLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -65,7 +86,10 @@ public class ParserFacade {
 			.forEach(parser::addErrorListener);
 
 		ParseTree parseTree = parser.expression();
-		return new ParseTreeConverter()
-			.convert(parseTree);
+		try {
+			return convertParseTree(parseTree);
+		} catch (ParseTreeStructureException ex) {
+			throw new ParseException(ex);
+		}
 	}
 }

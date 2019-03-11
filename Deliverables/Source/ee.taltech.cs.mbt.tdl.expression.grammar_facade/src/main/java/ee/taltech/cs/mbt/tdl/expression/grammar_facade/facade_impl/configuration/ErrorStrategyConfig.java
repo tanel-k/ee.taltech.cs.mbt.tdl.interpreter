@@ -14,7 +14,9 @@ public class ErrorStrategyConfig {
 		private boolean singleTokenInsertEnabled = true;
 		private boolean singleTokenDeleteEnabled = true;
 
-		private InlineErrorRecoveryConfig(ErrorStrategyConfig parentConfig) { }
+		private InlineErrorRecoveryConfig(ErrorStrategyConfig parentConfig) {
+			this.parentConfig = parentConfig;
+		}
 
 		public boolean isEnabled() {
 			return parentConfig.isRecoveryEnabled() && enabled;

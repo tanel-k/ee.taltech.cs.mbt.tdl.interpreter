@@ -5,4 +5,7 @@ import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.
 
 public class ExpressionTree extends AbsExpressionTree<AbsLogicalOperatorNode> {
 	public ExpressionTree() { }
+	public ExpressionTree(AbsLogicalOperatorNode rootNode) {
+		setRootNode(rootNode);
+	}
 }

@@ -3,6 +3,8 @@ package ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseListener;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageParser.*;
+import ee.taltech.cs.mbt.tdl.expression.grammar_facade.ExpressionParser;
+import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.generic.AbsLogicalOperatorNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.modifier.Bound;
@@ -13,6 +15,7 @@ import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
+import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -20,13 +23,16 @@ import java.util.List;
 import java.util.Stack;
 
 class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
+	static class ParseTreeStructureException extends RuntimeException {
+		ParseTreeStructureException(String msg) { super(msg); }
+	}
+
 	private AbsLogicalOperatorNode rootNode;
 	private Stack<AbsOperatorNode> operatorCache = new Stack<>();
 	private Stack<Stack<AbsExpressionNode>> operandCache = new Stack<>();
 	private boolean negateNextLogicalOperation = false;
 
 	private static class BoundVisitor extends TDLExpressionLanguageBaseVisitor<Bound> {
-
 		private Bound bound = new Bound();
 
 		@Override
@@ -82,7 +88,6 @@ class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
 		operatorCache.push(operatorNode);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void handleOperatorNodeExit() {
 		if (operatorCache.isEmpty())
 			return;
@@ -96,8 +101,30 @@ class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
 		while (!operands.isEmpty()) {
 			AbsExpressionNode expressionNode = operands.pop();
 			expressionNode.setParentNode(operatorNode);
-			operatorNode.getOperandContainer().setOperand(ordinal++, expressionNode);
+			try {
+				operatorNode.getOperandContainer().setOperand(ordinal, expressionNode);
+				ordinal++;
+			} catch (ClassCastException cse) {
+				throw new ParseTreeStructureException(
+						"Expression node " + expressionNode.getClass().getName()
+						+ " cannot be an operand of " + operatorNode.getClass().getName()
+						+ " at ordinal " + ordinal + "."
+					);
+			}
 		}
+	}
+
+	public ExpressionTree constructTree() throws ParseTreeStructureException {
+		if (getRootNode() == null) {
+			throw new ParseTreeStructureException("Parse tree is rootless.");
+		}
+
+		return new ExpressionTree(getRootNode());
+	}
+
+	@Override
+	public void visitErrorNode(ErrorNode node) {
+		throw new ParseTreeStructureException("Parse tree contains an error node (" + node.getText() + ").");
 	}
 
 	private void visitTrapsetSymbols(List<TerminalNode> trapsetTerminals) {
