@@ -1,24 +1,19 @@
 package ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl;
 
-import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageLexer;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageParser;
 import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.ParseTreeConversionListener.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorListener;
 import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorStrategyConfig;
-import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorStrategyConfig.InvalidExpressionException;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.generic.AbsLogicalOperatorNode;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.DefaultErrorStrategy;
-import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 

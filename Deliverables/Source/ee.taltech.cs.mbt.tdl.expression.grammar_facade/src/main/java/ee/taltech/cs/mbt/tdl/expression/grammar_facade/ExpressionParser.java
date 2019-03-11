@@ -2,7 +2,6 @@ package ee.taltech.cs.mbt.tdl.expression.grammar_facade;
 
 import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.ParserFacade;
 import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.ParserFacade.ParseException;
-import ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl.configuration.ErrorListener;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
 
 import java.io.ByteArrayInputStream;

@@ -3,7 +3,6 @@ package ee.taltech.cs.mbt.tdl.expression.grammar_facade.facade_impl;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseListener;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.expression.grammar.antlr.TDLExpressionLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.expression.grammar_facade.ExpressionParser;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.ExpressionTree;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.generic.AbsLogicalOperatorNode;
