@@ -95,14 +95,32 @@ class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
 		if (operandCache.isEmpty())
 			return;
 
-		int ordinal = 0;
+		int arity = operatorNode.getOperandContainer().getArity();
+		int ordinal = arity - 1;
 		Stack<AbsExpressionNode> operands = operandCache.pop();
+		if (operands.size() < arity) {
+			throw new ParseTreeStructureException(
+					"Operator node " + operatorNode.getClass().getName()
+					+ " with arity " + operatorNode.getOperandContainer().getArity()
+					+ " does not have enough operands."
+				);
+		}
+
 		while (!operands.isEmpty()) {
+			if (ordinal < 0) {
+				throw new ParseTreeStructureException(
+						"Operator node " + operatorNode.getClass().getName()
+						+ " with arity " + operatorNode.getOperandContainer().getArity()
+						+ " received too many operands."
+					);
+			}
+	
 			AbsExpressionNode expressionNode = operands.pop();
+
 			expressionNode.setParentNode(operatorNode);
 			try {
 				operatorNode.getOperandContainer().setOperand(ordinal, expressionNode);
-				ordinal++;
+				ordinal--;
 			} catch (ClassCastException cse) {
 				throw new ParseTreeStructureException(
 						"Expression node " + expressionNode.getClass().getName()
