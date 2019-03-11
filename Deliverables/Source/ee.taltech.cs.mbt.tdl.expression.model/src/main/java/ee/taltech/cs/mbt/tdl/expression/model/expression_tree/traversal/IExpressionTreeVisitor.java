@@ -11,34 +11,50 @@ import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.generic.
 
 public interface IExpressionTreeVisitor {
 	default void visitTree(ExpressionTree tree) {
-		tree.getRootNode().accept(this);
+		AbsExpressionNode rootNode = tree.getRootNode();
+		if (rootNode instanceof IVisitableNode) {
+			((IVisitableNode) rootNode).accept(this);
+		}
 	}
 
 	default void visitChild(AbsExpressionNode expressionNode) {
-		expressionNode.accept(this);
+		if (expressionNode instanceof IVisitableNode) {
+			((IVisitableNode) expressionNode).accept(this);
+		}
 	}
 
 	default void visitChildren(AbsExpressionNode expressionNode) {
-		if (expressionNode instanceof AbsOperatorNode) {
-			AbsOperatorNode<?> operatorNode = (AbsOperatorNode<?>) expressionNode;
-			for (AbsExpressionNode operand : operatorNode.getOperandNodes()) {
-				visitChild(operand);
+		if (AbsOperatorNode.class.isInstance(expressionNode)) {
+			AbsOperatorNode<? extends AbsExpressionNode, ?> operatorNode =
+					(AbsOperatorNode<? extends AbsExpressionNode, ?>) expressionNode;
+			for (AbsExpressionNode child : operatorNode.getOperandContainer().getListView()) {
+				visitChild(child);
 			}
 		}
 	}
 
 	void visitConjunctionNode(ConjunctionNode conjunctionNode);
+
 	void visitDisjunctionNode(DisjunctionNode disjunctionNode);
 
+	void visitEquivalenceNode(EquivalenceNode equivalenceNode);
+
 	void visitImplicationNode(ImplicationNode implicationNode);
-	void visitLeadsToBoundedNode(BoundedLeadsToNode boundedLeadsToNode);
+
+	void visitBoundedLeadsToNode(BoundedLeadsToNode boundedLeadsToNode);
+
 	void visitLeadsToNode(LeadsToNode leadsToNode);
-	void visitRepetitionBoundedNode(BoundedRepetitionNode boundedRepetitionNode);
+
+	void visitBoundedRepetitionNode(BoundedRepetitionNode boundedRepetitionNode);
+
 	void visitUniversalQuantificationNode(UniversalQuantificationNode universalQuantificationNode);
+
 	void visitExistentialQuantificationNode(ExistentialQuantificationNode existentialQuantificationNode);
 
 	void visitAbsoluteComplementNode(AbsoluteComplementNode absoluteComplementNode);
+
 	void visitLinkedPairNode(LinkedPairNode linkedPairNode);
+
 	void visitRelativeComplementNode(RelativeComplementNode relativeComplementNode);
 
 	void visitTrapsetSymbolNode(TrapsetSymbolNode trapsetSymbolNode);

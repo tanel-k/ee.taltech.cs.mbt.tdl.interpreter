@@ -19,11 +19,9 @@ quantifiedTrapsetExpression : LOP_UNIVERSAL_QUANTIFIER LEFT_PAREN trapsetExpress
                             ;
 
 // Trapset expressions:
-trapsetExpression : LEFT_PAREN trapsetExpression RIGHT_PAREN # GroupedTrapsetExpression
-                  | TOP_ABSOLUTE_COMPLEMENT trapsetExpression # AbsoluteTrapsetComplementExpression
-                  | trapsetExpression TOP_RELATIVE_COMPLEMENT trapsetExpression # RelativeTrapsetComplementExpression
-                  | trapsetExpression TOP_LINKED_PAIR trapsetExpression # LinkedTrapsetPairExpression
-                  | TRAPSET_ID # TrapsetIdentifierExpression
+trapsetExpression : TOP_ABSOLUTE_COMPLEMENT TRAPSET_ID # AbsoluteTrapsetComplementExpression
+                  | TRAPSET_ID TOP_RELATIVE_COMPLEMENT TRAPSET_ID # RelativeTrapsetComplementExpression
+                  | TRAPSET_ID TOP_LINKED_PAIR TRAPSET_ID # LinkedTrapsetPairExpression
                   ;
 
 // Partial relation over natural numbers:
@@ -42,7 +40,7 @@ LEFT_PAREN      : '(' ;
 RIGHT_PAREN     : ')' ;
 
 // Logical operators:
-LOP_UNIVERSAL_QUANTIFIER    : [Aa] ;
+LOP_UNIVERSAL_QUANTIFIER    : [Uu] ;
 LOP_EXISTENTIAL_QUANTIFIER  : [Ee] ;
 LOP_NEGATION                : '~' ;
 LOP_CONJUNCTION             : '&' ;
