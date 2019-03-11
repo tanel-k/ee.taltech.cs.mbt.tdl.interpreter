@@ -5,7 +5,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_expression_grammar.antlr.TDLExpressi
 import ee.taltech.cs.mbt.tdl.expression.tdl_expression_grammar_facade.facade_impl.ParseTreeConversionListener.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.expression.tdl_expression_grammar_facade.facade_impl.configuration.ErrorListener;
 import ee.taltech.cs.mbt.tdl.expression.tdl_expression_grammar_facade.facade_impl.configuration.ErrorStrategyConfig;
-import ee.taltech.cs.mbt.tdl.expression.model.tdl_expression_model.expression_tree.structure.concrete.ExpressionTree;
+import ee.taltech.cs.mbt.tdl.expression.tdl_expression_model.expression_tree.structure.concrete.ExpressionTree;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.DefaultErrorStrategy;
