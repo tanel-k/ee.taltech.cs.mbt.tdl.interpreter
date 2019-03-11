@@ -114,7 +114,7 @@ class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
 						+ " received too many operands."
 					);
 			}
-	
+
 			AbsExpressionNode expressionNode = operands.pop();
 
 			expressionNode.setParentNode(operatorNode);
