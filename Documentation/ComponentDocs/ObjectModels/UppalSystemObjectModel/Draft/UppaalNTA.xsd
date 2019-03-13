@@ -100,7 +100,7 @@
  
     <xs:complexType name="NameType">
         <xs:annotation>
-            <xs:documentation>Specifies the name of an Uppaal TA template.</xs:documentation>
+            <xs:documentation>Specifies a name that can be positioned on the GUI.</xs:documentation>
         </xs:annotation>
         <xs:simpleContent>
             <xs:extension base="xs:string">
@@ -114,6 +114,7 @@
             <xs:documentation>Specifies a location in an Uppaal TA template.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
+            <xs:element name="name" type="NameType" minOccurs="0" maxOccurs="1" />
             <xs:element name="label" type="LocationLabelType" minOccurs="0" maxOccurs="unbounded" />
             <xs:choice minOccurs="0">
                 <xs:element name="urgent" type="EmptyType">
