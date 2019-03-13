@@ -1,8 +1,8 @@
-package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.labels;
+package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.labels;
 
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.labels.generic.AbsUppaalGuiLabel;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.labels.generic.AbsUTAGuiLabel;
 
-public class UTASynchronizationLabel extends AbsUppaalGuiLabel<String> {
+public class UTASynchronizationLabel extends AbsUTAGuiLabel<String> {
 	public static final String LABEL_TYPE = "SYNCHRONIZATION";
 
 	private boolean inbound;

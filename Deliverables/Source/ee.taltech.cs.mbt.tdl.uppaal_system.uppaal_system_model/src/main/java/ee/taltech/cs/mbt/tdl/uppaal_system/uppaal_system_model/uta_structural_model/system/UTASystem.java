@@ -1,6 +1,6 @@
-package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.system;
+package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.system;
 
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.templates.UTATemplate;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.templates.UTATemplate;
 
 import java.util.Map;
 

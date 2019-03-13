@@ -1,8 +1,8 @@
-package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.templates;
+package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.templates;
 
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.gui.generic.AbsUTAGuiPositionable;
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.locations.UTALocation;
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.transitions.UTATransitionGraph;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.generic.AbsUTAGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.locations.UTALocation;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.transitions.UTATransitionGraph;
 
 public class UTATemplate {
 	public static class TemplateName extends AbsUTAGuiPositionable {

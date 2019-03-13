@@ -1,7 +1,7 @@
-package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.locations;
+package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.locations;
 
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.gui.UTAGuiCoordinates;
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.gui.generic.AbsUTAGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.UTAGuiCoordinates;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.generic.AbsUTAGuiPositionable;
 
 public class UTALocation {
 	public static class LocationName extends AbsUTAGuiPositionable {

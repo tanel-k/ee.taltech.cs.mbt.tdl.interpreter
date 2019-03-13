@@ -1,12 +1,12 @@
-package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.labels.generic;
+package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.labels.generic;
 
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_visual_language.gui.generic.AbsUTAGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.generic.AbsUTAGuiPositionable;
 
-public abstract class AbsUppaalGuiLabel<ContentType> extends AbsUTAGuiPositionable {
+public abstract class AbsUTAGuiLabel<ContentType> extends AbsUTAGuiPositionable {
 	private String labelType;
 	private ContentType content;
 
-	public AbsUppaalGuiLabel(String labelType) {
+	public AbsUTAGuiLabel(String labelType) {
 		this.labelType = labelType;
 	}
 
