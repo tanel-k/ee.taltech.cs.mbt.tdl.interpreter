@@ -1,10 +1,12 @@
 package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.locations;
 
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.UTAGuiCoordinates;
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.generic.AbsUTAGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.IGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.GuiCoordinates;
+
 
 public class UTALocation {
-	public static class LocationName extends AbsUTAGuiPositionable {
+	public static class LocationName implements IGuiPositionable {
+		private GuiCoordinates guiCoordinates;
 		private String name;
 
 		public String getName() {
@@ -14,11 +16,21 @@ public class UTALocation {
 		public void setName(String name) {
 			this.name = name;
 		}
+
+		@Override
+		public GuiCoordinates getGuiCoordinates() {
+			return guiCoordinates;
+		}
+
+		@Override
+		public void setGuiCoordinates(GuiCoordinates guiCoordinates) {
+			this.guiCoordinates = guiCoordinates;
+		}
 	}
 
 	private String id;
 	private LocationName name;
-	private UTAGuiCoordinates nameCoordinates;
+	private GuiCoordinates nameCoordinates;
 	private UTALocationLabelContainer labelContainer;
 	private UTALocationExitPolicy exitPolicy = UTALocationExitPolicy.NORMAL;
 
@@ -40,11 +52,11 @@ public class UTALocation {
 		this.name = name;
 	}
 
-	public UTAGuiCoordinates getNameCoordinates() {
+	public GuiCoordinates getNameCoordinates() {
 		return nameCoordinates;
 	}
 
-	public void setNameCoordinates(UTAGuiCoordinates nameCoordinates) {
+	public void setNameCoordinates(GuiCoordinates nameCoordinates) {
 		this.nameCoordinates = nameCoordinates;
 	}
 

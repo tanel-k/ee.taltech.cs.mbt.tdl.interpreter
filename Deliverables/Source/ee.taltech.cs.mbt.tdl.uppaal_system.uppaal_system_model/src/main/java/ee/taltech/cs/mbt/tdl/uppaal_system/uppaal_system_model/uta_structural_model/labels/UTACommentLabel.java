@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_m
 import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.labels.generic.AbsUTAGuiLabel;
 
 public class UTACommentLabel extends AbsUTAGuiLabel<String> {
-	public static String LABEL_TYPE = "COMMENT";
+	public static final String LABEL_TYPE = "COMMENT";
 
 	public UTACommentLabel() {
 		super(LABEL_TYPE);

@@ -1,12 +1,14 @@
 package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.templates;
 
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.generic.AbsUTAGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.IGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.locations.UTALocation;
 import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.transitions.UTATransitionGraph;
 
 public class UTATemplate {
-	public static class TemplateName extends AbsUTAGuiPositionable {
+	public static class TemplateName implements IGuiPositionable {
 		private String name;
+		private GuiCoordinates guiCoordinates;
 
 		public String getName() {
 			return name;
@@ -15,13 +17,23 @@ public class UTATemplate {
 		public void setName(String name) {
 			this.name = name;
 		}
+
+		@Override
+		public GuiCoordinates getGuiCoordinates() {
+			return guiCoordinates;
+		}
+
+		@Override
+		public void setGuiCoordinates(GuiCoordinates guiCoordinates) {
+			this.guiCoordinates = guiCoordinates;
+		}
 	}
 
 	private TemplateName name;
-	private UTATemplateParameters parameters;
-	private UTATemplateDeclarations declarations;
 	private UTALocation initialLocation;
+	private UTATemplateParameters parameters;
 	private UTATransitionGraph transitionGraph;
+	private UTATemplateDeclarations declarations;
 
 	public UTATemplate() { }
 
