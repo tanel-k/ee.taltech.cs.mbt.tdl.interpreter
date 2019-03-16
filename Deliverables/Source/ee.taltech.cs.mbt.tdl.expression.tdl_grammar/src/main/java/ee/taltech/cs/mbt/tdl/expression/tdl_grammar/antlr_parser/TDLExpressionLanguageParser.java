@@ -1,5 +1,5 @@
 // Generated from TDLExpressionLanguage.g4 by ANTLR 4.5
-package ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr;
+package ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;

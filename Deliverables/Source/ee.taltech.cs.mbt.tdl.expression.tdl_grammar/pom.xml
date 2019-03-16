@@ -31,13 +31,13 @@
               <goal>antlr4</goal>
             </goals>
             <configuration>
-              <outputDirectory>src/main/java/ee/taltech/cs/mbt/tdl/expression/tdl_grammar/antlr</outputDirectory>
+              <outputDirectory>src/main/java/ee/taltech/cs/mbt/tdl/expression/tdl_grammar/antlr_parser</outputDirectory>
               <sourceDirectory>src/main/resources/grammar-source/antlr</sourceDirectory>
               <libDirectory>src/main/resources/grammar-source/antlr</libDirectory>
               <visitor>true</visitor>
               <arguments>
                 <argument>-package</argument>
-                <argument>ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr</argument>
+                <argument>ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser</argument>
               </arguments>
               <includes>TDLExpressionLanguage.g4</includes>
               <!-- treatWarningsAsErrors>false</treatWarningsAsErrors -->

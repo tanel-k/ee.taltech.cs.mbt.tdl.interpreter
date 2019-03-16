@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr.TDLExpressionLanguageBaseListener;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr.TDLExpressionLanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr.TDLExpressionLanguageParser.*;
+import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TDLExpressionLanguageBaseListener;
+import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TDLExpressionLanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TDLExpressionLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.ExpressionTree;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.generic.AbsLogicalOperatorNode;

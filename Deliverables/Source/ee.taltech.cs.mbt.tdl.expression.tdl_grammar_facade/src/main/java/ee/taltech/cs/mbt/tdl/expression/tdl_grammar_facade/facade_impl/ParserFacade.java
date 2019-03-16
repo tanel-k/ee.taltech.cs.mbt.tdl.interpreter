@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr.TDLExpressionLanguageLexer;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr.TDLExpressionLanguageParser;
+import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TDLExpressionLanguageLexer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TDLExpressionLanguageParser;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl.ParseTreeConversionListener.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl.configuration.ErrorListener;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl.configuration.ErrorStrategyConfig;
