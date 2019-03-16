@@ -3,7 +3,9 @@ package ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_m
 import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.IGuiPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.locations.UTALocation;
-import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.transitions.UTATransitionGraph;
+import ee.taltech.cs.mbt.tdl.uppaal_system.uppaal_system_model.uta_structural_model.transitions.UTATransition;
+
+import java.util.List;
 
 public class UTATemplate {
 	public static class TemplateName implements IGuiPositionable {
@@ -32,7 +34,7 @@ public class UTATemplate {
 	private TemplateName name;
 	private UTALocation initialLocation;
 	private UTATemplateParameters parameters;
-	private UTATransitionGraph transitionGraph;
+	private UTATransitionMap transitionMap;
 	private UTATemplateDeclarations declarations;
 
 	public UTATemplate() { }
@@ -69,11 +71,11 @@ public class UTATemplate {
 		this.initialLocation = initialLocation;
 	}
 
-	public UTATransitionGraph getTransitionGraph() {
-		return transitionGraph;
+	public UTATransitionMap getTransitionMap() {
+		return transitionMap;
 	}
 
-	public void setTransitionGraph(UTATransitionGraph transitionGraph) {
-		this.transitionGraph = transitionGraph;
+	public void setTransitionMap(UTATransitionMap transitionMap) {
+		this.transitionMap = transitionMap;
 	}
 }

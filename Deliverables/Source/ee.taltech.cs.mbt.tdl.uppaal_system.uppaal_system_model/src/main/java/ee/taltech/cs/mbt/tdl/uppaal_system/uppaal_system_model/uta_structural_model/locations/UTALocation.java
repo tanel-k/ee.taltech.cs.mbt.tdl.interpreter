@@ -75,4 +75,24 @@ public class UTALocation {
 	public void setLabelContainer(UTALocationLabelContainer locationLabelContainer) {
 		this.labelContainer = locationLabelContainer;
 	}
+
+	@Override
+	public int hashCode() {
+		return id == null
+			? 0
+			: getId().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		if (!(obj instanceof  UTALocation))
+			return false;
+		UTALocation other = (UTALocation) obj;
+		return (id == null && other.id == null)
+			|| id.equals(other.id);
+	}
 }
