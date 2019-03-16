@@ -1,0 +1,5 @@
+package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.uta_expression_model;
+
+public class Stub {
+	// TODO: Read UTA documentation
+}

@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
+  <artifactId>tdl_grammar</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-maven-plugin</artifactId>
+        <version>4.5</version>
+        <executions>
+          <execution>
+            <id>generate-parser</id>
+            <goals>
+              <goal>antlr4</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>src/main/java/ee/taltech/cs/mbt/tdl/expression/tdl_grammar/antlr</outputDirectory>
+              <sourceDirectory>src/main/resources/grammar-source/antlr</sourceDirectory>
+              <libDirectory>src/main/resources/grammar-source/antlr</libDirectory>
+              <visitor>true</visitor>
+              <arguments>
+                <argument>-package</argument>
+                <argument>ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr</argument>
+              </arguments>
+              <includes>TDLExpressionLanguage.g4</includes>
+              <!-- treatWarningsAsErrors>false</treatWarningsAsErrors -->
+              <!-- options / -->
+              <!-- atn>false</atn -->
+              <!-- forceATN>false</forceATN -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr4</artifactId>
+      <version>4.5</version>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <name>TDL(TP) Grammar</name>
+  <description>Supports the generation of parsers for the TDL(TP) expression language.</description>
+  <inceptionYear>2019</inceptionYear>
+  <organization>
+    <name>TalTech</name>
+    <url>https://www.taltech.ee</url>
+  </organization>
+  <developers>
+    <developer>
+      <id>null</id>
+      <name>Tanel Prikk</name>
+      <email>tanel.prikk@taltech.ee</email>
+      <organization>TalTech</organization>
+      <organizationUrl>https://www.taltech.ee</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <system>GitLab</system>
+    <url>https://gitlab.cs.ttu.ee/Tanel.Prikk/iapb/issues</url>
+  </issueManagement>
+</project>
