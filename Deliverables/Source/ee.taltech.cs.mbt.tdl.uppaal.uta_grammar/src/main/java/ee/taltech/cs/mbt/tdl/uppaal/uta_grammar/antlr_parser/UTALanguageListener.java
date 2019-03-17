@@ -1107,13 +1107,13 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitExpressionGrouped(UTALanguageParser.ExpressionGroupedContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExpressionArrayLookup}
+	 * Enter a parse tree produced by the {@code ArrayLookupExpression}
 	 * labeled alternative in {@link UTALanguageParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterExpressionArrayLookup(UTALanguageParser.ExpressionArrayLookupContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ExpressionArrayLookup}
+	 * Exit a parse tree produced by the {@code ArrayLookupExpression}
 	 * labeled alternative in {@link UTALanguageParser#expression}.
 	 * @param ctx the parse tree
 	 */

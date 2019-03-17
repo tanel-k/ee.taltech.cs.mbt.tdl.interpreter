@@ -359,7 +359,7 @@ expression
             expression
         # ExpressionExistentialQuantification
     | expression GROUP_LEFT_PAREN argumentList GROUP_RIGHT_PAREN
-        # ExpressionWithArguments
+        # ExpressionCall
     | EXPR_LITERAL_DEADLOCK
         # ExpressionDeadlockLiteral
     | EXPR_LITERAL_TRUE
@@ -369,7 +369,7 @@ expression
     | NATURAL_NUMBER
         # ExpressionNaturalNumber
     | IDENTIFIER
-        # ExpressionVariableRef
+        # ExpressionIdentifierRef
     ;
 
 parameterList
@@ -377,10 +377,10 @@ parameterList
     ;
 
 parameter
-    : type parameterVariable arrayDeclaration*
+    : type parameterIdentifier arrayDeclaration*
     ;
 
-parameterVariable
+parameterIdentifier
     : COMMON_TOK_AMPERSAND IDENTIFIER
         # ByReferenceVariable
     | IDENTIFIER

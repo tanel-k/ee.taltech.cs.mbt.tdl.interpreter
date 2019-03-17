@@ -659,7 +659,7 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpressionGrouped(UTALanguageParser.ExpressionGroupedContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExpressionArrayLookup}
+	 * Visit a parse tree produced by the {@code ArrayLookupExpression}
 	 * labeled alternative in {@link UTALanguageParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

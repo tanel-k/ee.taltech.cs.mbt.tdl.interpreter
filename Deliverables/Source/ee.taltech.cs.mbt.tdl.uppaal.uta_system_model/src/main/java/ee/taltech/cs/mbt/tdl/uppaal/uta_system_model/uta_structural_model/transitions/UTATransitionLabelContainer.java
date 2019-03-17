@@ -1,7 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.uta_structural_model.transitions;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.uta_structural_model.labels.*;
-import ee.taltech.cs.mbt.tdl.uppaal_system.uta_system_model.uta_structural_model.labels.*;
 
 public class UTATransitionLabelContainer {
 	private UTAGuardLabel guardLabel;
