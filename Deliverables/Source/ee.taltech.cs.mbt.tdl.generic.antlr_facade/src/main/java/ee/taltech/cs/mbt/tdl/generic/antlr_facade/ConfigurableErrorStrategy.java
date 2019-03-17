@@ -1,7 +1,7 @@
-package ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl;
+package ee.taltech.cs.mbt.tdl.generic.antlr_facade;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl.configuration.ErrorStrategyConfig;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl.configuration.ErrorStrategyConfig.InvalidExpressionException;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorStrategyConfig;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorStrategyConfig.InvalidExpressionException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.IntervalSet;
 

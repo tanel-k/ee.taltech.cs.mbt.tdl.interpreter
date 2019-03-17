@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
-  <artifactId>tdl_expression_grammar_facade</artifactId>
+  <artifactId>tdl_parser</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -32,6 +32,11 @@
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
       <artifactId>tdl_grammar</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.generic</groupId>
+      <artifactId>antlr_facade</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>

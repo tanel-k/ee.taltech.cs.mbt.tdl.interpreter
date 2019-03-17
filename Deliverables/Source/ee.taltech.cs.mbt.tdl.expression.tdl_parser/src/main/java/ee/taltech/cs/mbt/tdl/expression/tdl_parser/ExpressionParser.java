@@ -1,8 +1,8 @@
-package ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade;
+package ee.taltech.cs.mbt.tdl.expression.tdl_parser;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl.ParserFacade;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl.ParserFacade.ParseException;
+import ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr_facade.TDLAntlrParserFacade;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.ExpressionTree;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -11,17 +11,17 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class ExpressionParser {
-	private ParserFacade parserFacade;
+	private TDLAntlrParserFacade parserFacade;
 
 	public ExpressionParser() {
-		this(new ParserFacade());
+		this(new TDLAntlrParserFacade());
 	}
 
-	public ExpressionParser(ParserFacade parserFacade) {
+	public ExpressionParser(TDLAntlrParserFacade parserFacade) {
 		this.parserFacade = parserFacade;
 	}
 
-	public ParserFacade getParserFacade() {
+	public TDLAntlrParserFacade getParserFacade() {
 		return parserFacade;
 	}
 

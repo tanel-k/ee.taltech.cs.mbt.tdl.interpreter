@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-  <artifactId>uta_grammar_facade</artifactId>
+  <artifactId>uta_parser</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -32,6 +32,11 @@
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
       <artifactId>uta_system_model</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.generic</groupId>
+      <artifactId>antlr_facade</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>

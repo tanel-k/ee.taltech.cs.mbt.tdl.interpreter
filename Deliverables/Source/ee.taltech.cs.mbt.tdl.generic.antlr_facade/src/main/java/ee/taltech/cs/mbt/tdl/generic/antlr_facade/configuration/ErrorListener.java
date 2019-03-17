@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl.configuration;
+package ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration;
 
 public class ErrorListener {
 	public static class SyntaxError {

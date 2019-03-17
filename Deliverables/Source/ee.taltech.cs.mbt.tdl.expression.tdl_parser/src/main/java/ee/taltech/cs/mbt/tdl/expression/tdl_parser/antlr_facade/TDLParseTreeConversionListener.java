@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl;
+package ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr_facade;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TDLExpressionLanguageBaseListener;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TDLExpressionLanguageBaseVisitor;
@@ -14,6 +14,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseTreeStructureException;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -21,11 +22,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.List;
 import java.util.Stack;
 
-class ParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
-	static class ParseTreeStructureException extends RuntimeException {
-		ParseTreeStructureException(String msg) { super(msg); }
-	}
-
+class TDLParseTreeConversionListener extends TDLExpressionLanguageBaseListener {
 	private AbsLogicalOperatorNode rootNode;
 	private Stack<AbsOperatorNode> operatorCache = new Stack<>();
 	private Stack<Stack<AbsExpressionNode>> operandCache = new Stack<>();

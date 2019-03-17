@@ -1,18 +1,17 @@
-package ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl;
+package ee.taltech.cs.mbt.tdl.generic.antlr_facade;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl.configuration.ErrorListener;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar_facade.facade_impl.configuration.ErrorListener.SyntaxError;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorListener;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorListener.SyntaxError;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
-class DelegatingErrorListener extends org.antlr.v4.runtime.BaseErrorListener implements IDelegator<ErrorListener> {
+class DelegatingErrorListener extends org.antlr.v4.runtime.BaseErrorListener {
 	private ErrorListener listenerDelegate = null;
 
 	DelegatingErrorListener(ErrorListener listenerDelegate) {
 		this.listenerDelegate = listenerDelegate;
 	}
 
-	@Override
 	public ErrorListener getDelegate() {
 		return listenerDelegate;
 	}
