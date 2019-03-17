@@ -35,7 +35,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>Generic ANTLR grammar facade</name>
+  <name>Utilities for Implementing ANTLR grammar Facades</name>
   <description>Provides utilities for implementing facades for ANTLR grammars.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>

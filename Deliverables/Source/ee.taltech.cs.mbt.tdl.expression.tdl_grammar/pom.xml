@@ -63,7 +63,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>TDL(TP) Grammar</name>
+  <name>TDL(TP) (ANTLR) Grammar</name>
   <description>Supports the generation of parsers for the TDL(TP) expression language.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>

@@ -45,7 +45,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>TDL(TP) Grammar Facade</name>
+  <name>TDL(TP) Parser Implementation</name>
   <description>Provides a simplified interface for the TDL(TP) parser/lexer implementation.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>

@@ -31,7 +31,7 @@
     </dependency>
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-      <artifactId>uta_grammar_facade</artifactId>
+      <artifactId>uta_parser</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
