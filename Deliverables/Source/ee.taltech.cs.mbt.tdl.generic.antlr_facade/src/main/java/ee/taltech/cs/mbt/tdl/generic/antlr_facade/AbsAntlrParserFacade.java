@@ -16,7 +16,7 @@ public abstract class AbsAntlrParserFacade<
 		OutputType,
 		LexerType extends Lexer,
 		ParserType extends Parser,
-		ExtractorListenerType extends ParseTreeListener
+		ParseTreeConverterListener extends ParseTreeListener
 	> {
 	public static class ParseTreeStructureException extends RuntimeException {
 		public ParseTreeStructureException(String msg) { super(msg); }
@@ -30,31 +30,57 @@ public abstract class AbsAntlrParserFacade<
 	private ErrorStrategyConfig errorStrategyConfig;
 	private List<ErrorListener> errorListeners;
 
-	private OutputType walkParseTree(ParseTree parseTree) throws ParseTreeStructureException {
-		ExtractorListenerType extractorListener = getExtractorListener();
-		ParseTreeWalker walker = new ParseTreeWalker();
-		walker.walk(extractorListener, parseTree);
-		return getOutputFromExtractor(extractorListener);
+	private OutputType convertParseTree(ParseTree parseTree) throws ParseException {
+		try {
+			ParseTreeConverterListener converterListener = getConverterListener();
+			ParseTreeWalker walker = new ParseTreeWalker();
+			walker.walk(converterListener, parseTree);
+			return getOutputFromConverter(converterListener);
+		} catch (ParseTreeStructureException ex) {
+			throw new ParseException(ex.getMessage(), ex);
+		}
 	}
 
 	protected abstract ParserType getParserInstance(TokenStream tokenStream);
 	protected abstract LexerType getLexerInstance(CharStream forInputStream);
 
 	protected abstract ParseTree constructParseTree(ParserType parser);
-	protected abstract ExtractorListenerType getExtractorListener();
-	protected abstract OutputType getOutputFromExtractor(ExtractorListenerType fromConverter);
+	protected abstract ParseTreeConverterListener getConverterListener();
+	protected abstract OutputType getOutputFromConverter(ParseTreeConverterListener fromConverter);
+
+	protected ParserType getInputParser(InputStream in) throws IOException {
+		ANTLRInputStream input = new ANTLRInputStream(in);
+
+		LexerType lexer = getLexerInstance(input);
+		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+		ParserType parser = getParserInstance(tokenStream);
+		return parser;
+	}
+
+	protected void configureParser(ParserType parser) {
+		if (getErrorStrategyConfig() == null) {
+			parser.setErrorHandler(new DefaultErrorStrategy());
+		} else {
+			parser.setErrorHandler(new ConfigurableAntlrErrorStrategy(getErrorStrategyConfig()));
+		}
+
+		parser.removeErrorListeners();
+		getErrorListeners().stream()
+				.map(DelegatingAntlrErrorListener::new)
+				.forEach(parser::addErrorListener);
+	}
 
 	public AbsAntlrParserFacade() {
 		this.errorStrategyConfig = new ErrorStrategyConfig();
 		this.errorListeners = new LinkedList<>();
 	}
 
-	public void addErrorListener(ErrorListener errorListener) {
-		this.errorListeners.add(errorListener);
+	public List<ErrorListener> getErrorListeners() {
+		return errorListeners;
 	}
 
-	public void clearErrorListeners() {
-		this.errorListeners.clear();
+	public void addErrorListener(ErrorListener errorListener) {
+		this.errorListeners.add(errorListener);
 	}
 
 	public ErrorStrategyConfig getErrorStrategyConfig() {
@@ -66,29 +92,9 @@ public abstract class AbsAntlrParserFacade<
 	}
 
 	public OutputType parse(InputStream in) throws IOException, ParseException {
-		ANTLRInputStream input = new ANTLRInputStream(in);
-
-		LexerType lexer = getLexerInstance(input);
-		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-		ParserType parser = getParserInstance(tokenStream);
-
-		if (errorStrategyConfig == null) {
-			parser.setErrorHandler(new DefaultErrorStrategy());
-		} else {
-			parser.setErrorHandler(new ConfigurableErrorStrategy(errorStrategyConfig));
-		}
-
-		parser.removeErrorListeners();
-		errorListeners.stream()
-				.map(DelegatingErrorListener::new)
-				.forEach(parser::addErrorListener);
-
+		ParserType parser = getInputParser(in);
+		configureParser(parser);
 		ParseTree parseTree = constructParseTree(parser);
-
-		try {
-			return walkParseTree(parseTree);
-		} catch (ParseTreeStructureException ex) {
-			throw new ParseException(ex);
-		}
+		return convertParseTree(parseTree);
 	}
 }

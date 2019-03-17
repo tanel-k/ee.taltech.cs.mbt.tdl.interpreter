@@ -5,7 +5,7 @@ import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorStrategyCon
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.IntervalSet;
 
-class ConfigurableErrorStrategy extends DefaultErrorStrategy {
+class ConfigurableAntlrErrorStrategy extends DefaultErrorStrategy {
 	private ErrorStrategyConfig strategyConfig;
 
 	@Override
@@ -86,7 +86,7 @@ class ConfigurableErrorStrategy extends DefaultErrorStrategy {
 		return super.singleTokenDeletion(recognizer);
 	}
 
-	ConfigurableErrorStrategy(ErrorStrategyConfig strategyConfig) {
+	ConfigurableAntlrErrorStrategy(ErrorStrategyConfig strategyConfig) {
 		this.strategyConfig = strategyConfig;
 	}
 

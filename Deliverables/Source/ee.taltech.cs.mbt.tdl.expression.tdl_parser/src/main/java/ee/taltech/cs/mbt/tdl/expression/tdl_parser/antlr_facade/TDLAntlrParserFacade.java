@@ -29,12 +29,12 @@ public class TDLAntlrParserFacade extends AbsAntlrParserFacade<
 	}
 
 	@Override
-	protected TDLParseTreeConversionListener getExtractorListener() {
+	protected TDLParseTreeConversionListener getConverterListener() {
 		return new TDLParseTreeConversionListener();
 	}
 
 	@Override
-	protected ExpressionTree getOutputFromExtractor(TDLParseTreeConversionListener fromConverter) {
+	protected ExpressionTree getOutputFromConverter(TDLParseTreeConversionListener fromConverter) {
 		return fromConverter.constructTree();
 	}
 

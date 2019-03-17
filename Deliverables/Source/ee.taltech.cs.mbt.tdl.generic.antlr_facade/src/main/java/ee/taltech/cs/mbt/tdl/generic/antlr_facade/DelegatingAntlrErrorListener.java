@@ -5,10 +5,10 @@ import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorListener.Sy
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
-class DelegatingErrorListener extends org.antlr.v4.runtime.BaseErrorListener {
+class DelegatingAntlrErrorListener extends org.antlr.v4.runtime.BaseErrorListener {
 	private ErrorListener listenerDelegate = null;
 
-	DelegatingErrorListener(ErrorListener listenerDelegate) {
+	DelegatingAntlrErrorListener(ErrorListener listenerDelegate) {
 		this.listenerDelegate = listenerDelegate;
 	}
 
