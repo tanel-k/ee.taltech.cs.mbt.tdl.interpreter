@@ -9,36 +9,37 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
+  <parent>
+    <groupId>ee.taltech.cs.mbt.tdl</groupId>
+    <artifactId>parent_pom</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../ee.taltech.cs.mbt.tdl.parent_pom/pom.xml</relativePath>
+  </parent>
+
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
       </plugin>
     </plugins>
   </build>
 
   <dependencies>
+    <!-- Internal -->
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
       <artifactId>uta_grammar</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-      <artifactId>uta_system_model</artifactId>
-      <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.generic</groupId>
       <artifactId>antlr_facade</artifactId>
-      <version>1.0-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
+      <artifactId>uta_system_model</artifactId>
+    </dependency>
+    <!-- /Internal -->
   </dependencies>
 
   <properties>

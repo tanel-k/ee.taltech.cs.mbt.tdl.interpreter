@@ -9,21 +9,22 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
+  <parent>
+    <groupId>ee.taltech.cs.mbt.tdl</groupId>
+    <artifactId>parent_pom</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../ee.taltech.cs.mbt.tdl.parent_pom/pom.xml</relativePath>
+  </parent>
+
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-maven-plugin</artifactId>
-        <version>4.5</version>
         <executions>
           <execution>
             <id>generate-parser</id>
@@ -57,8 +58,24 @@
     <dependency>
       <groupId>org.antlr</groupId>
       <artifactId>antlr4</artifactId>
-      <version>4.5</version>
     </dependency>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>stringtemplate</artifactId>
+    </dependency>
+    <!-- Internal -->
+    <!--
+      In order not to duplicate uta_system_model,
+      we need to include it as a dependency to support code generation.
+      Code generation is closely tied to the grammar of the language.
+      If we extract code generation from this artifact, we must keep
+      said artifact synchronized with the grammar stored here.
+     -->
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
+      <artifactId>uta_system_model</artifactId>
+    </dependency>
+    <!-- /Internal -->
   </dependencies>
 
   <properties>
