@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.
 
 import java.util.Objects;
 
-public class AbsArrayDeclaration<SizeSpecifier> {
+public abstract class AbsArrayDeclaration<SizeSpecifier> {
 	private SizeSpecifier sizeSpecifier;
 
 	public SizeSpecifier getSizeSpecifier() {

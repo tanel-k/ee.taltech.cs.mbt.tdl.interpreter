@@ -53,7 +53,7 @@ public class UTALanguageParser extends Parser {
 		RULE_statementBlock = 31, RULE_statement = 32, RULE_forLoopStatement = 33, 
 		RULE_forLoopHeader = 34, RULE_iterationStatement = 35, RULE_iterationHeader = 36, 
 		RULE_whileLoopStatement = 37, RULE_whileLoopHeader = 38, RULE_doWhileStatement = 39, 
-		RULE_ifStatement = 40, RULE_returnStatement = 41, RULE_loopInitializer = 42, 
+		RULE_conditionalStatement = 40, RULE_returnStatement = 41, RULE_loopInitializer = 42, 
 		RULE_loopCondition = 43, RULE_loopUpdate = 44, RULE_loopBody = 45, RULE_expression = 46, 
 		RULE_parameterList = 47, RULE_parameter = 48, RULE_parameterIdentifier = 49, 
 		RULE_argumentList = 50, RULE_type = 51, RULE_typeIdentifier = 52, RULE_fieldDeclaration = 53, 
@@ -70,7 +70,7 @@ public class UTALanguageParser extends Parser {
 		"variableInitialization", "initializerExpression", "declarationOfType", 
 		"declarationOfFunction", "functionNameParamsBody", "statementBlock", "statement", 
 		"forLoopStatement", "forLoopHeader", "iterationStatement", "iterationHeader", 
-		"whileLoopStatement", "whileLoopHeader", "doWhileStatement", "ifStatement", 
+		"whileLoopStatement", "whileLoopHeader", "doWhileStatement", "conditionalStatement", 
 		"returnStatement", "loopInitializer", "loopCondition", "loopUpdate", "loopBody", 
 		"expression", "parameterList", "parameter", "parameterIdentifier", "argumentList", 
 		"type", "typeIdentifier", "fieldDeclaration", "identifier", "arrayDeclaration", 
@@ -2555,8 +2555,8 @@ public class UTALanguageParser extends Parser {
 		}
 	}
 	public static class StatementConditionalContext extends StatementContext {
-		public IfStatementContext ifStatement() {
-			return getRuleContext(IfStatementContext.class,0);
+		public ConditionalStatementContext conditionalStatement() {
+			return getRuleContext(ConditionalStatementContext.class,0);
 		}
 		public StatementConditionalContext(StatementContext ctx) { copyFrom(ctx); }
 		@Override
@@ -2681,7 +2681,7 @@ public class UTALanguageParser extends Parser {
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(354);
-				ifStatement();
+				conditionalStatement();
 				}
 				break;
 			case 9:
@@ -3093,7 +3093,7 @@ public class UTALanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class IfStatementContext extends ParserRuleContext {
+	public static class ConditionalStatementContext extends ParserRuleContext {
 		public TerminalNode PHRASE_IF() { return getToken(UTALanguageParser.PHRASE_IF, 0); }
 		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UTALanguageParser.GROUP_LEFT_PAREN, 0); }
 		public ExpressionContext expression() {
@@ -3107,28 +3107,28 @@ public class UTALanguageParser extends Parser {
 			return getRuleContext(StatementContext.class,i);
 		}
 		public TerminalNode PHRASE_ELSE() { return getToken(UTALanguageParser.PHRASE_ELSE, 0); }
-		public IfStatementContext(ParserRuleContext parent, int invokingState) {
+		public ConditionalStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_ifStatement; }
+		@Override public int getRuleIndex() { return RULE_conditionalStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UTALanguageListener ) ((UTALanguageListener)listener).enterIfStatement(this);
+			if ( listener instanceof UTALanguageListener ) ((UTALanguageListener)listener).enterConditionalStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UTALanguageListener ) ((UTALanguageListener)listener).exitIfStatement(this);
+			if ( listener instanceof UTALanguageListener ) ((UTALanguageListener)listener).exitConditionalStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UTALanguageVisitor ) return ((UTALanguageVisitor<? extends T>)visitor).visitIfStatement(this);
+			if ( visitor instanceof UTALanguageVisitor ) return ((UTALanguageVisitor<? extends T>)visitor).visitConditionalStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final IfStatementContext ifStatement() throws RecognitionException {
-		IfStatementContext _localctx = new IfStatementContext(_ctx, getState());
-		enterRule(_localctx, 80, RULE_ifStatement);
+	public final ConditionalStatementContext conditionalStatement() throws RecognitionException {
+		ConditionalStatementContext _localctx = new ConditionalStatementContext(_ctx, getState());
+		enterRule(_localctx, 80, RULE_conditionalStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

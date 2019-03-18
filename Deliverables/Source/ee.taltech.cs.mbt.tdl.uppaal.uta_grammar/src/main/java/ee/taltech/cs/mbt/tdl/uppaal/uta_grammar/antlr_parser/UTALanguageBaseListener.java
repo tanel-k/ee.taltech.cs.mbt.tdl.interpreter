@@ -665,13 +665,13 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfStatement(UTALanguageParser.IfStatementContext ctx) { }
+	@Override public void enterConditionalStatement(UTALanguageParser.ConditionalStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfStatement(UTALanguageParser.IfStatementContext ctx) { }
+	@Override public void exitConditionalStatement(UTALanguageParser.ConditionalStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

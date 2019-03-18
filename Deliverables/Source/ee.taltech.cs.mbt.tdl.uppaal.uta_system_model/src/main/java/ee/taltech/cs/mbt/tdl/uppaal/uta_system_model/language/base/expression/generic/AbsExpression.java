@@ -1,5 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.internal.IExpressionVisitor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -87,6 +89,8 @@ public abstract class AbsExpression {
 	public Associativity getAssociativity() {
 		return Associativity.NONE;
 	}
+
+	public abstract void accept(IExpressionVisitor visitor);
 
 	@Override
 	public final int hashCode() {

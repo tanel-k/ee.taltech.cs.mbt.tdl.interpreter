@@ -357,11 +357,11 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDoWhileStatement(UTALanguageParser.DoWhileStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link UTALanguageParser#ifStatement}.
+	 * Visit a parse tree produced by {@link UTALanguageParser#conditionalStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfStatement(UTALanguageParser.IfStatementContext ctx);
+	T visitConditionalStatement(UTALanguageParser.ConditionalStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link UTALanguageParser#returnStatement}.
 	 * @param ctx the parse tree

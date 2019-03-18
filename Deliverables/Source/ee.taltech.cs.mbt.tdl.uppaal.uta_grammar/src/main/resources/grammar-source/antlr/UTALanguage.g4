@@ -172,7 +172,7 @@ statement
         # StatementWhileLoop
     | doWhileStatement
         # StatementDoWhile
-    | ifStatement
+    | conditionalStatement
         # StatementConditional
     | returnStatement
         # StatementReturn
@@ -217,7 +217,7 @@ doWhileStatement
     : PHRASE_DO loopBody PHRASE_WHILE loopCondition SEP_SEMICOLON
     ;
 
-ifStatement
+conditionalStatement
     : PHRASE_IF
         GROUP_LEFT_PAREN expression GROUP_RIGHT_PAREN
             statement

@@ -1,12 +1,14 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.container;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.AbsStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.AbsDeclarationStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.traversal.IStatementVisitor;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class DeclarationList {
+public class DeclarationList extends AbsStatement {
 	private Set<AbsDeclarationStatement> declarations;
 
 	public DeclarationList() {
@@ -32,5 +34,10 @@ public class DeclarationList {
 			return false;
 		DeclarationList other = (DeclarationList) obj;
 		return Objects.equals(other.declarations, this.declarations);
+	}
+
+	@Override
+	public void accept(IStatementVisitor visitor) {
+		visitor.visitDeclarationList(this);
 	}
 }

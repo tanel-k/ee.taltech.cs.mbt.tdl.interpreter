@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.channel_priority;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.AbsDeclarationStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.traversal.IStatementVisitor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,5 +33,10 @@ public class ChannelPriorityDeclaration extends AbsDeclarationStatement {
 			return false;
 		ChannelPriorityDeclaration other = (ChannelPriorityDeclaration) obj;
 		return Objects.equals(other.priorityList, this.priorityList);
+	}
+
+	@Override
+	public void accept(IStatementVisitor visitor) {
+		visitor.visitChannelPriorityDeclaration(this);
 	}
 }

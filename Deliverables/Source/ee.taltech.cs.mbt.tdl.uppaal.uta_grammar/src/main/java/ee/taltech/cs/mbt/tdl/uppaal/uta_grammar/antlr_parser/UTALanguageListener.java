@@ -591,15 +591,15 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitDoWhileStatement(UTALanguageParser.DoWhileStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#ifStatement}.
+	 * Enter a parse tree produced by {@link UTALanguageParser#conditionalStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfStatement(UTALanguageParser.IfStatementContext ctx);
+	void enterConditionalStatement(UTALanguageParser.ConditionalStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#ifStatement}.
+	 * Exit a parse tree produced by {@link UTALanguageParser#conditionalStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfStatement(UTALanguageParser.IfStatementContext ctx);
+	void exitConditionalStatement(UTALanguageParser.ConditionalStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link UTALanguageParser#returnStatement}.
 	 * @param ctx the parse tree

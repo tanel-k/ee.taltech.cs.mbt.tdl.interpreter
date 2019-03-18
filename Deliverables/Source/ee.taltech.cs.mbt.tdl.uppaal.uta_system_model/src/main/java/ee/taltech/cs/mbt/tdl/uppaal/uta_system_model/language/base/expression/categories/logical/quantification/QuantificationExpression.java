@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.quantification;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsUnaryExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.internal.IExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.AbsIdentifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.identifier_types.AbsTypeIdentifier;
@@ -24,6 +25,11 @@ public class QuantificationExpression<
 	@Override
 	public Associativity getAssociativity() {
 		return Associativity.LEFT;
+	}
+
+	@Override
+	public void accept(IExpressionVisitor visitor) {
+		visitor.visitQuantification(this);
 	}
 
 	public QuantificationType getQuantificationType() {

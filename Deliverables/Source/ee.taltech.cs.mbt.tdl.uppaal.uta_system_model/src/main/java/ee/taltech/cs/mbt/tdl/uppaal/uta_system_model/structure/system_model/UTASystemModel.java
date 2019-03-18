@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.system_model;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.sections.declarations.UTADeclarationList;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.sections.system.UTASystemDefinition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.uta_containers.declarations.UTADeclarationList;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.uta_containers.system.UTASystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates.UTATemplate;
 
 import java.util.Map;

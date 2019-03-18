@@ -1,13 +1,15 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.base;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.AbsIdentifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.AbsDeclarationStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.traversal.IStatementVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.identifier_types.AbsTypeIdentifier;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class TypeDeclaration<TypeIdentifier extends AbsTypeIdentifier> {
+public class TypeDeclaration<TypeIdentifier extends AbsTypeIdentifier> extends AbsDeclarationStatement {
 	private Type<TypeIdentifier> type;
 	private Set<AbsIdentifier> identifiers;
 
@@ -25,5 +27,10 @@ public class TypeDeclaration<TypeIdentifier extends AbsTypeIdentifier> {
 
 	public Set<AbsIdentifier> getIdentifiers() {
 		return identifiers;
+	}
+
+	@Override
+	public void accept(IStatementVisitor visitor) {
+		visitor.visitTypeDeclaration(this);
 	}
 }

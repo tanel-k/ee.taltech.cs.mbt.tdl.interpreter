@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.container.ParameterList;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.sections.declarations.UTADeclarationList;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.uta_containers.declarations.UTADeclarationList;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IGuiPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.locations.UTALocation;

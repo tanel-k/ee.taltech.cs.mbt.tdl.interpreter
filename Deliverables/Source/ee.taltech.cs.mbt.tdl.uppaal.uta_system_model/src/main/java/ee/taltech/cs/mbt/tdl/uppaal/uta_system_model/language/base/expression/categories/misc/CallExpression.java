@@ -2,6 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.c
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsUnaryExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.internal.IExpressionVisitor;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -22,6 +23,11 @@ public class CallExpression extends AbsUnaryExpression {
 	public void addArgument(AbsExpression argumentExpression) {
 		this.argumentList.add(argumentExpression);
 		invalidateSubtreeHash();
+	}
+
+	@Override
+	public void accept(IExpressionVisitor visitor) {
+		visitor.visitCall(this);
 	}
 
 	@Override

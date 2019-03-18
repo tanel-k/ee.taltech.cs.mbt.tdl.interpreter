@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.misc;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsUnaryExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.internal.IExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.AbsIdentifier;
 
 import java.util.Objects;
@@ -11,6 +12,11 @@ public class FieldAccessExpression<IdentifierType extends AbsIdentifier> extends
 	@Override
 	public Associativity getAssociativity() {
 		return Associativity.LEFT;
+	}
+
+	@Override
+	public void accept(IExpressionVisitor visitor) {
+		visitor.visitFieldAccess(this);
 	}
 
 	public IdentifierType getFieldIdentifier() {
