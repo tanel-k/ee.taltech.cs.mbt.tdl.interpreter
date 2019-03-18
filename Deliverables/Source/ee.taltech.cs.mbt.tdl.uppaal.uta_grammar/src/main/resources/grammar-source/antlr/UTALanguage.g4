@@ -1,12 +1,12 @@
 grammar UTALanguage;
 
 @lexer::members {
-public static final int CHAN_LANGUAGE = 0;
-public static final int CHAN_WHITESPACE = 1;
-public static final int CHAN_COMMENTS = 2;
+public static final int CHANNEL_LANGUAGE = 0;
+public static final int CHANNEL_WHITESPACE = 1;
+public static final int CHANNEL_COMMENTS = 2;
 }
 
-utaTemplateParameters
+utaTemplateParameterList
     : parameterList
     ;
 
@@ -21,15 +21,19 @@ utaTransitionSynchronization
         # ReactiveSynchronization
     ;
 
-utaLocationInvariantExpression : expression ;
+utaLocationInvariantExpression
+    : expression
+    ;
 
-utaTransitionGuardExpression : expression ;
+utaTransitionGuardExpression
+    : expression
+    ;
 
 utaTransitionSelectionList
     : selection (SEP_ENUMERATION selection)*
     ;
 
-utaDeclarations
+utaDeclarationList
     : declarationList ;
 
 utaSystemDefinition
@@ -39,10 +43,10 @@ utaSystemDefinition
     ;
 
 systemDeclarationBody
-    : systemDeclarationStatement*
+    : systemDeclaration*
     ;
 
-systemDeclarationStatement
+systemDeclaration
     : processVariableAssignment
     | declaration
     ;
@@ -52,13 +56,13 @@ processVariableAssignments
     ;
 
 processVariableAssignment
-    : IDENTIFIER GROUP_LEFT_PAREN parameterList GROUP_RIGHT_PAREN
+    : IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList GROUP_RIGHT_PAREN
         ASSG_OP
-      IDENTIFIER GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN SEP_SEMICOLON
+      IDENTIFIER_NAME GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN SEP_SEMICOLON
         # ProcessVarPartialTemplateInstantiation
-    | IDENTIFIER
+    | IDENTIFIER_NAME
         ASSG_OP
-      IDENTIFIER GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN SEP_SEMICOLON
+      IDENTIFIER_NAME GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN SEP_SEMICOLON
         # ProcessVarFullTemplateInstantiation
     ;
 
@@ -75,14 +79,14 @@ systemProcessRefList
     ;
 
 systemProcessExpression
-    : IDENTIFIER
+    : IDENTIFIER_NAME
     ;
 
 progressMeasureDeclaration
     : PHRASE_PROGRESS GROUP_LEFT_CURLY (expression SEP_SEMICOLON)* GROUP_RIGHT_CURLY
     ;
 
-selection : IDENTIFIER COMMON_TOK_COLON type ;
+selection : IDENTIFIER_NAME COMMON_TOK_COLON type ;
 
 declarationList : declaration* ;
 
@@ -107,19 +111,24 @@ channelRefList
 
 channelRefExpression
     : PHRASE_DEFAULT
-        # ChannelExprDefaultPriority
-    | channelRefExpression GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET
-        # ChannelExpChannelArrayLookup
-    | IDENTIFIER
-        # ChannelExprChannelVariableRef
+        # ChannelDefaultPriorityRef
+    | channelVariableRefExpression
+        # ChannelVariablePriorityRef
+    ;
+
+channelVariableRefExpression
+    : channelVariableRefExpression GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET
+        # ChannelVarRefArrayLookup
+    | IDENTIFIER_NAME
+        # ChannelVarIdentifierRef
     ;
 
 declarationOfVariable
-    : type variableId (SEP_ENUMERATION variableId)* SEP_SEMICOLON
+    : type variableInitialization (SEP_ENUMERATION variableInitialization)* SEP_SEMICOLON
     ;
 
-variableId
-    : IDENTIFIER arrayDeclaration* (ASSG_OP initializerExpression)?
+variableInitialization
+    : identifier (ASSG_OP initializerExpression)?
     ;
 
 initializerExpression
@@ -130,11 +139,18 @@ initializerExpression
     ;
 
 declarationOfType
-    : PHRASE_TYPEDEF type IDENTIFIER arrayDeclaration* (SEP_ENUMERATION IDENTIFIER arrayDeclaration*)* SEP_SEMICOLON
+    : PHRASE_TYPEDEF type identifier (SEP_ENUMERATION identifier)* SEP_SEMICOLON
     ;
 
 declarationOfFunction
-    : type IDENTIFIER GROUP_LEFT_PAREN parameterList GROUP_RIGHT_PAREN statementBlock
+    : type functionNameParamsBody
+        # DeclarationOfFunctionWithReturnType
+    | PHRASE_VOID functionNameParamsBody
+        # DeclarationOfVoidFunction
+    ;
+
+functionNameParamsBody
+    : IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList GROUP_RIGHT_PAREN statementBlock
     ;
 
 statementBlock
@@ -182,7 +198,7 @@ iterationStatement
 iterationHeader
     : PHRASE_FOR
         GROUP_LEFT_PAREN
-            IDENTIFIER COMMON_TOK_COLON type
+            IDENTIFIER_NAME COMMON_TOK_COLON type
         GROUP_RIGHT_PAREN
     ;
 
@@ -258,7 +274,7 @@ expression
         # ExpressionGrouped
     |<assoc=left> expression GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET
         # ExpressionArrayLookup
-    |<assoc=left> expression BINARY_OP_ACCESS_FIELD IDENTIFIER
+    |<assoc=left> expression BINARY_OP_ACCESS_FIELD IDENTIFIER_NAME
         # ExpressionFieldAccess
     |<assoc=right> COMMON_TOK_EXCLAMATION_MARK expression
         # ExpressionUnaryOpNegated
@@ -348,13 +364,13 @@ expression
         # ExpressionBinaryOpConjunctionPhrase
     |<assoc=left>  PHRASE_FOR_ALL
             GROUP_LEFT_PAREN
-                IDENTIFIER COMMON_TOK_COLON type
+                IDENTIFIER_NAME COMMON_TOK_COLON type
             GROUP_RIGHT_PAREN
             expression
         # ExpressionUniversalQuantification
     |<assoc=left> PHRASE_EXISTS
             GROUP_LEFT_PAREN
-                IDENTIFIER COMMON_TOK_COLON type
+                IDENTIFIER_NAME COMMON_TOK_COLON type
             GROUP_RIGHT_PAREN
             expression
         # ExpressionExistentialQuantification
@@ -368,7 +384,7 @@ expression
         # ExpressionFalseLiteral
     | NATURAL_NUMBER
         # ExpressionNaturalNumber
-    | IDENTIFIER
+    | IDENTIFIER_NAME
         # ExpressionIdentifierRef
     ;
 
@@ -377,13 +393,13 @@ parameterList
     ;
 
 parameter
-    : type parameterIdentifier arrayDeclaration*
+    : type parameterIdentifier
     ;
 
 parameterIdentifier
-    : COMMON_TOK_AMPERSAND IDENTIFIER
+    : COMMON_TOK_AMPERSAND identifier
         # ByReferenceVariable
-    | IDENTIFIER
+    | identifier
         # ByValueVariable
     ;
 
@@ -416,12 +432,19 @@ typeIdentifier
     | TYPE_STRUCT GROUP_LEFT_CURLY fieldDeclaration+ GROUP_RIGHT_CURLY
         # TypeIdStruct
     // Custom type (should be last since it matches a-zA-Z):
-    | IDENTIFIER
-        # TypeIdIdentifier
+    | IDENTIFIER_NAME
+        # TypeIdIdentifierName
     ;
 
 fieldDeclaration
-    : type IDENTIFIER arrayDeclaration* (SEP_ENUMERATION IDENTIFIER arrayDeclaration*)* SEP_SEMICOLON
+    : type identifier (SEP_ENUMERATION identifier)* SEP_SEMICOLON
+    ;
+
+identifier
+    : IDENTIFIER_NAME arrayDeclaration+
+        # ArrayIdentifier
+    | IDENTIFIER_NAME
+        # BaseIdentifier
     ;
 
 // When appended to a type, denotes an array
@@ -450,10 +473,9 @@ typePrefix
         # TypePrefixConstant
     ;
 
-SKIP_WS         : [ \t\n\r]+            -> channel(1) ; // CHAN_WHITESPACE
-SKIP_SL_COMMENT : '//' .*? ('\n'| EOF)  -> channel(2) ; // CHAN_COMMENTS
-SKIP_ML_COMMENT : '/*' .*? '*/'         -> channel(2) ; // CHAN_COMMENTS
-
+SKIP_SL_COMMENT : '//' .*? ('\n'| EOF)  -> channel(2) ; // CHANNEL_COMMENTS
+SKIP_ML_COMMENT : '/*' .*? '*/'         -> channel(2) ; // CHANNEL_COMMENTS
+SKIP_WS         : [ \t\n\r]+            -> channel(1) ; // CHANNEL_WHITESPACE
 
 // Uppaal types
 TYPE_INTEGER    : 'int' ;
@@ -526,27 +548,28 @@ GROUP_LEFT_PAREN      : '(' ;
 GROUP_RIGHT_PAREN     : ')' ;
 
 SEP_ENUMERATION     : ',' ; // separator for enumerated items
-SEP_SEMICOLON         : ';' ; // statement terminator in Uppaal
+SEP_SEMICOLON       : ';' ; // statement terminator in Uppaal
 
-PHRASE_NOT    : 'not' ;
-PHRASE_OR    : 'or' ;
-PHRASE_AND    : 'and' ;
+PHRASE_VOID     : 'void' ;
+PHRASE_NOT      : 'not' ;
+PHRASE_OR       : 'or' ;
+PHRASE_AND      : 'and' ;
 PHRASE_IMPLY    : 'imply' ;
-PHRASE_FOR_ALL   : 'forall' ;
-PHRASE_EXISTS : 'exists' ;
-PHRASE_TYPEDEF : 'typedef' ;
-PHRASE_IF      : 'if' ;
-PHRASE_ELSE    : 'else' ;
-PHRASE_FOR     : 'for' ;
-PHRASE_WHILE   : 'while' ;
-PHRASE_RETURN  : 'return' ;
-PHRASE_DO      : 'do' ;
-PHRASE_PRIORITY          : 'priority' ;
+PHRASE_FOR_ALL  : 'forall' ;
+PHRASE_EXISTS   : 'exists' ;
+PHRASE_TYPEDEF  : 'typedef' ;
+PHRASE_IF       : 'if' ;
+PHRASE_ELSE     : 'else' ;
+PHRASE_FOR      : 'for' ;
+PHRASE_WHILE    : 'while' ;
+PHRASE_RETURN   : 'return' ;
+PHRASE_DO       : 'do' ;
+PHRASE_PRIORITY : 'priority' ;
 PHRASE_DEFAULT  : 'default' ;
-PHRASE_SYSTEM : 'system' ;
+PHRASE_SYSTEM   : 'system' ;
 PHRASE_PROGRESS : 'progress' ;
 
-IDENTIFIER : [a-zA-Z_]([a-zA-Z0-9_])* ;
+IDENTIFIER_NAME : [a-zA-Z_]([a-zA-Z0-9_])* ;
 NATURAL_NUMBER : [0-9]+ ;
 
 fragment SYMBOL_ASSIGNMENT          : '=' ;

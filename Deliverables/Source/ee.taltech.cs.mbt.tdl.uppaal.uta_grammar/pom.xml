@@ -23,6 +23,22 @@
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>src/main/java/ee/taltech/cs/mbt/tdl/uppaal/uta_grammar/antlr_parser</directory>
+              <includes>
+                <include>*.java</include>
+                <include>*.tokens</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-maven-plugin</artifactId>
         <executions>

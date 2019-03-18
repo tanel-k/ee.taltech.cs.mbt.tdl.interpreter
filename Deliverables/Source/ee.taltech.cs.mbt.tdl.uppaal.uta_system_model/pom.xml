@@ -32,7 +32,7 @@
   </properties>
 
   <name>Uppaal System Object Model</name>
-  <description>Contains data structures for representing Uppaal systems.</description>
+  <description>Contains objects for representing Uppaal systems.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
     <name>TalTech</name>

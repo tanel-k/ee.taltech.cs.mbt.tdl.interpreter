@@ -1,9 +1,6 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.traversal;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.ExpressionTree;
-import ee.taltech.cs.mbt.tdl.expression.model.expression_tree.structure.concrete.internal.logical.*;
-import ee.taltech.cs.mbt.tdl.expression.model.tdl_expression_model.expression_tree.structure.concrete.internal.logical.*;
-import ee.taltech.cs.mbt.tdl.expression.tdl_expression_model.expression_tree.structure.concrete.internal.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.AbsoluteComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.LinkedPairNode;
