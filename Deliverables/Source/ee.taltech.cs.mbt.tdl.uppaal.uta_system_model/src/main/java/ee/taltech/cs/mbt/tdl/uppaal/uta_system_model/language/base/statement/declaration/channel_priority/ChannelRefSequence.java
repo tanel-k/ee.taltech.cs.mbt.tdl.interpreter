@@ -2,15 +2,21 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.de
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.channel_priority.channel_refs.AbsChannelRefExpression;
 
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class ChannelRefSequence {
+public class ChannelRefSequence implements Iterable<AbsChannelRefExpression> {
 	private Set<AbsChannelRefExpression> channelIdentifiers = new LinkedHashSet<>();
 
 	public Set<AbsChannelRefExpression> getChannelIdentifiers() {
 		return channelIdentifiers;
+	}
+
+	@Override
+	public Iterator<AbsChannelRefExpression> iterator() {
+		return channelIdentifiers.iterator();
 	}
 
 	@Override

@@ -41,6 +41,18 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterUtaDeclarations(UTALanguageParser.UtaDeclarationsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUtaDeclarations(UTALanguageParser.UtaDeclarationsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterActiveSynchronization(UTALanguageParser.ActiveSynchronizationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -65,13 +77,13 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUtaLocationInvariantExpression(UTALanguageParser.UtaLocationInvariantExpressionContext ctx) { }
+	@Override public void enterUtaTransitionSelectionSequence(UTALanguageParser.UtaTransitionSelectionSequenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUtaLocationInvariantExpression(UTALanguageParser.UtaLocationInvariantExpressionContext ctx) { }
+	@Override public void exitUtaTransitionSelectionSequence(UTALanguageParser.UtaTransitionSelectionSequenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -89,25 +101,13 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUtaTransitionSelectionList(UTALanguageParser.UtaTransitionSelectionListContext ctx) { }
+	@Override public void enterUtaLocationInvariantExpression(UTALanguageParser.UtaLocationInvariantExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUtaTransitionSelectionList(UTALanguageParser.UtaTransitionSelectionListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterUtaDeclarationList(UTALanguageParser.UtaDeclarationListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitUtaDeclarationList(UTALanguageParser.UtaDeclarationListContext ctx) { }
+	@Override public void exitUtaLocationInvariantExpression(UTALanguageParser.UtaLocationInvariantExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -125,37 +125,25 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSystemDeclarationBody(UTALanguageParser.SystemDeclarationBodyContext ctx) { }
+	@Override public void enterSystemDeclarationSequence(UTALanguageParser.SystemDeclarationSequenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSystemDeclarationBody(UTALanguageParser.SystemDeclarationBodyContext ctx) { }
+	@Override public void exitSystemDeclarationSequence(UTALanguageParser.SystemDeclarationSequenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSystemDeclaration(UTALanguageParser.SystemDeclarationContext ctx) { }
+	@Override public void enterSystemDeclarationStatement(UTALanguageParser.SystemDeclarationStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSystemDeclaration(UTALanguageParser.SystemDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterProcessVariableAssignments(UTALanguageParser.ProcessVariableAssignmentsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitProcessVariableAssignments(UTALanguageParser.ProcessVariableAssignmentsContext ctx) { }
+	@Override public void exitSystemDeclarationStatement(UTALanguageParser.SystemDeclarationStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -257,13 +245,13 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDeclarationList(UTALanguageParser.DeclarationListContext ctx) { }
+	@Override public void enterDeclarationSequence(UTALanguageParser.DeclarationSequenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDeclarationList(UTALanguageParser.DeclarationListContext ctx) { }
+	@Override public void exitDeclarationSequence(UTALanguageParser.DeclarationSequenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -389,25 +377,25 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInitializerBase(UTALanguageParser.InitializerBaseContext ctx) { }
+	@Override public void enterFlatInitializer(UTALanguageParser.FlatInitializerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInitializerBase(UTALanguageParser.InitializerBaseContext ctx) { }
+	@Override public void exitFlatInitializer(UTALanguageParser.FlatInitializerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInitializerForArray(UTALanguageParser.InitializerForArrayContext ctx) { }
+	@Override public void enterStructuredInitializer(UTALanguageParser.StructuredInitializerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInitializerForArray(UTALanguageParser.InitializerForArrayContext ctx) { }
+	@Override public void exitStructuredInitializer(UTALanguageParser.StructuredInitializerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -425,13 +413,13 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDeclarationOfFunctionWithReturnType(UTALanguageParser.DeclarationOfFunctionWithReturnTypeContext ctx) { }
+	@Override public void enterDeclarationOfValueFunction(UTALanguageParser.DeclarationOfValueFunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDeclarationOfFunctionWithReturnType(UTALanguageParser.DeclarationOfFunctionWithReturnTypeContext ctx) { }
+	@Override public void exitDeclarationOfValueFunction(UTALanguageParser.DeclarationOfValueFunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -6,7 +6,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 
 public abstract class AbsTrapsetOperatorNode<ContainerType extends OperandContainer<TrapsetSymbolNode>>
 		extends AbsOperatorNode<TrapsetSymbolNode, ContainerType> {
-	public AbsTrapsetOperatorNode(ContainerType operandContainer) {
+	protected AbsTrapsetOperatorNode(ContainerType operandContainer) {
 		super(operandContainer);
 	}
 }

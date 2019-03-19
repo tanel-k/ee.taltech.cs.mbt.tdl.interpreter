@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.FieldDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.traversal.ITypeIdentifierVisitor;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -11,6 +12,11 @@ public class StructTypeIdentifier extends AbsTypeIdentifier {
 
 	public Set<FieldDeclaration> getFieldDeclarations() {
 		return fieldDeclarations;
+	}
+
+	@Override
+	public void accept(ITypeIdentifierVisitor visitor) {
+		visitor.visitStructTypeIdentifier(this);
 	}
 
 	@Override

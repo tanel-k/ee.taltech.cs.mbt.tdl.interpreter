@@ -13,17 +13,19 @@ public abstract class AbsExpression {
 	private AbsExpression parentExpression;
 	private List<AbsExpression> childExpressions;
 
-	protected String id;
+	protected String hashSeed;
 	protected int childCount;
 	protected int subtreeHash;
 	protected boolean isSubtreeHashValid = false;
 
-	public AbsExpression(int childCount) {
+	protected AbsExpression(int childCount) {
 		this(null, childCount);
 	}
 
-	public AbsExpression(String id, int childCount) {
-		this.id = id != null ? id : this.getClass().getName();
+	protected AbsExpression(String hashSeed, int childCount) {
+		this.hashSeed = hashSeed != null
+			? hashSeed
+			: this.getClass().getName();
 		this.childCount = childCount;
 		this.childExpressions = new ArrayList<>(Collections.nCopies(this.childCount, null));
 	}
@@ -40,10 +42,6 @@ public abstract class AbsExpression {
 		setSubtreeHashValid(false);
 		if (getParentExpression() != null)
 			getParentExpression().invalidateSubtreeHash();
-	}
-
-	protected int getLocalHash() {
-		return Objects.hash(getId());
 	}
 
 	protected void setChildExpression(int position, AbsExpression childExpression) {
@@ -64,10 +62,6 @@ public abstract class AbsExpression {
 		if (position < 0 || position >= childCount)
 			throw new IllegalArgumentException("Child expression position " + position + " out of bounds.");
 		return this.childExpressions.get(position);
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	public int getChildCount() {
@@ -92,10 +86,18 @@ public abstract class AbsExpression {
 
 	public abstract void accept(IExpressionVisitor visitor);
 
+	protected int getLocalHash() {
+		return Objects.hash(getHashSeed());
+	}
+
+	protected String getHashSeed() {
+		return hashSeed;
+	}
+
 	@Override
 	public final int hashCode() {
 		if (!isSubtreeHashValid()) {
-			subtreeHash = Objects.hash(getId(), getLocalHash());
+			subtreeHash = Objects.hash(getHashSeed(), getLocalHash());
 			if (getChildExpressions() != null && getChildExpressions().size() > 0) {
 				for (AbsExpression child : getChildExpressions()) {
 					if (child != null)
@@ -116,7 +118,7 @@ public abstract class AbsExpression {
 		if (!(obj instanceof AbsExpression))
 			return false;
 		AbsExpression other = (AbsExpression) obj;
-		return Objects.equals(other.id, this.id)
+		return Objects.equals(other.hashSeed, this.hashSeed)
 			&& Objects.equals(other.childExpressions, this.childExpressions);
 	}
 }

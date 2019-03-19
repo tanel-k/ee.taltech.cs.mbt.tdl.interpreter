@@ -11,7 +11,7 @@ public abstract class AbsLogicalOperatorNode<
 		extends AbsOperatorNode<OperandType, ContainerType> {
 	private boolean negated;
 
-	public AbsLogicalOperatorNode(ContainerType operandContainer) {
+	protected AbsLogicalOperatorNode(ContainerType operandContainer) {
 		super(operandContainer);
 	}
 

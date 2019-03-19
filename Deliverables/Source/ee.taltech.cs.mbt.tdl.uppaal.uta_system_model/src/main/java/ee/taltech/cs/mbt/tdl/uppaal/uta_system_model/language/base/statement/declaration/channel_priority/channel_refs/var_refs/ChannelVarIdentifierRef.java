@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.channel_priority.channel_refs.var_refs;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.channel_priority.channel_refs.traversal.IChannelRefExpressionVisitor;
 
 import java.util.Objects;
 
@@ -13,6 +14,11 @@ public class ChannelVarIdentifierRef extends AbsChannelVarRef {
 
 	public void setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+	}
+
+	@Override
+	public void accept(IChannelRefExpressionVisitor visitor) {
+		visitor.visitChannelVarIdentifierRef(this);
 	}
 
 	@Override

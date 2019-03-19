@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.traversal.ITypeIdentifierVisitor;
 
 import java.util.Objects;
 
@@ -22,6 +23,11 @@ public class BoundedIntegerTypeIdentifier extends AbsTypeIdentifier {
 
 	public void setMaxBoundExpression(AbsExpression maxBoundExpression) {
 		this.maxBoundExpression = maxBoundExpression;
+	}
+
+	@Override
+	public void accept(ITypeIdentifierVisitor visitor) {
+		visitor.visitBoundedIntegerTypeIdentifier(this);
 	}
 
 	@Override

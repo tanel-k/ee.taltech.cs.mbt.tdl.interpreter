@@ -5,7 +5,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 public abstract class AbsExpressionLeafNode<SymbolType> extends AbsExpressionNode {
 	private SymbolType symbol;
 
-	public AbsExpressionLeafNode(SymbolType symbol) {
+	protected AbsExpressionLeafNode(SymbolType symbol) {
 		this.symbol = symbol;
 	}
 

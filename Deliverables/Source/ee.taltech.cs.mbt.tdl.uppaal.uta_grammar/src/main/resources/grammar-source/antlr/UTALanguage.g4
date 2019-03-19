@@ -17,7 +17,7 @@ utaTransitionUpdateList
     ;
 
 // UTA global and local declarations:
-utaDeclarationBlock
+utaDeclarations
     : declarationSequence
     ;
 
@@ -138,9 +138,9 @@ variableInitialization
 
 initializerExpression
     : expression
-        # InitializerBase
+        # FlatInitializer
     | GROUP_LEFT_CURLY initializerExpression (SEP_ENUMERATION initializerExpression)* GROUP_RIGHT_CURLY
-        # InitializerForArray
+        # StructuredInitializer
     ;
 
 declarationOfType
@@ -149,7 +149,7 @@ declarationOfType
 
 declarationOfFunction
     : type functionNameParamsBody
-        # DeclarationOfFunctionWithReturnType
+        # DeclarationOfValueFunction
     | PHRASE_VOID functionNameParamsBody
         # DeclarationOfVoidFunction
     ;
@@ -446,14 +446,14 @@ fieldDeclaration
     ;
 
 identifier
-    : IDENTIFIER_NAME arrayDeclaration+
+    : IDENTIFIER_NAME arrayModifier+
         # ArrayIdentifier
     | IDENTIFIER_NAME
         # BaseIdentifier
     ;
 
 // When appended to a type, denotes an array
-arrayDeclaration
+arrayModifier
     // Array size can be specified as an integer
     : GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET
         # ArraySizeFromExpression

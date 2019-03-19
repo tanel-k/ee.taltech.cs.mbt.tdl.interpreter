@@ -3,15 +3,21 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.de
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.traversal.IStatementVisitor;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class ChannelPriorityDeclaration extends AbsDeclarationStatement {
+public class ChannelPriorityDeclaration extends AbsDeclarationStatement implements Iterable<ChannelRefSequence> {
 	private List<ChannelRefSequence> prioritySequence = new LinkedList<>();
 
 	public List<ChannelRefSequence> getPrioritySequence() {
 		return prioritySequence;
+	}
+
+	@Override
+	public Iterator<ChannelRefSequence> iterator() {
+		return prioritySequence.iterator();
 	}
 
 	@Override

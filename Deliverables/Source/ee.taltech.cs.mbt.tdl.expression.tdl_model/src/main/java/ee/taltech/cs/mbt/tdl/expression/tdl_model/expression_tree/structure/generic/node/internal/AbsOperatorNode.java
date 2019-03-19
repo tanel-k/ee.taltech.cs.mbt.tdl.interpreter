@@ -10,7 +10,7 @@ public abstract class AbsOperatorNode<
 		extends AbsExpressionNode {
 	private final OperandContainerType operandContainer;
 
-	public AbsOperatorNode(OperandContainerType operandContainer) {
+	protected AbsOperatorNode(OperandContainerType operandContainer) {
 		this.operandContainer = operandContainer;
 	}
 

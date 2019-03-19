@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.traversal.ITypeIdentifierVisitor;
 
 import java.util.Objects;
 
@@ -13,6 +14,11 @@ public class IdRefTypeIdentifier extends AbsTypeIdentifier {
 
 	public void setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+	}
+
+	@Override
+	public void accept(ITypeIdentifierVisitor visitor) {
+		visitor.visitIdRefTypeIdentifier(this);
 	}
 
 	@Override

@@ -24,6 +24,12 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUtaTransitionUpdateList(UTALanguageParser.UtaTransitionUpdateListContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link UTALanguageParser#utaDeclarations}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUtaDeclarations(UTALanguageParser.UtaDeclarationsContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ActiveSynchronization}
 	 * labeled alternative in {@link UTALanguageParser#utaTransitionSynchronization}.
 	 * @param ctx the parse tree
@@ -38,11 +44,11 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitReactiveSynchronization(UTALanguageParser.ReactiveSynchronizationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link UTALanguageParser#utaLocationInvariantExpression}.
+	 * Visit a parse tree produced by {@link UTALanguageParser#utaTransitionSelectionSequence}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUtaLocationInvariantExpression(UTALanguageParser.UtaLocationInvariantExpressionContext ctx);
+	T visitUtaTransitionSelectionSequence(UTALanguageParser.UtaTransitionSelectionSequenceContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link UTALanguageParser#utaTransitionGuardExpression}.
 	 * @param ctx the parse tree
@@ -50,17 +56,11 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUtaTransitionGuardExpression(UTALanguageParser.UtaTransitionGuardExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link UTALanguageParser#utaTransitionSelectionList}.
+	 * Visit a parse tree produced by {@link UTALanguageParser#utaLocationInvariantExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUtaTransitionSelectionList(UTALanguageParser.UtaTransitionSelectionListContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link UTALanguageParser#utaDeclarationList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitUtaDeclarationList(UTALanguageParser.UtaDeclarationListContext ctx);
+	T visitUtaLocationInvariantExpression(UTALanguageParser.UtaLocationInvariantExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link UTALanguageParser#utaSystemDefinition}.
 	 * @param ctx the parse tree
@@ -68,23 +68,17 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUtaSystemDefinition(UTALanguageParser.UtaSystemDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link UTALanguageParser#systemDeclarationBody}.
+	 * Visit a parse tree produced by {@link UTALanguageParser#systemDeclarationSequence}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSystemDeclarationBody(UTALanguageParser.SystemDeclarationBodyContext ctx);
+	T visitSystemDeclarationSequence(UTALanguageParser.SystemDeclarationSequenceContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link UTALanguageParser#systemDeclaration}.
+	 * Visit a parse tree produced by {@link UTALanguageParser#systemDeclarationStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSystemDeclaration(UTALanguageParser.SystemDeclarationContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link UTALanguageParser#processVariableAssignments}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitProcessVariableAssignments(UTALanguageParser.ProcessVariableAssignmentsContext ctx);
+	T visitSystemDeclarationStatement(UTALanguageParser.SystemDeclarationStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ProcessVarPartialTemplateInstantiation}
 	 * labeled alternative in {@link UTALanguageParser#processVariableAssignment}.
@@ -136,11 +130,11 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSelection(UTALanguageParser.SelectionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link UTALanguageParser#declarationList}.
+	 * Visit a parse tree produced by {@link UTALanguageParser#declarationSequence}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDeclarationList(UTALanguageParser.DeclarationListContext ctx);
+	T visitDeclarationSequence(UTALanguageParser.DeclarationSequenceContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link UTALanguageParser#declaration}.
 	 * @param ctx the parse tree
@@ -206,19 +200,19 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariableInitialization(UTALanguageParser.VariableInitializationContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code InitializerBase}
+	 * Visit a parse tree produced by the {@code FlatInitializer}
 	 * labeled alternative in {@link UTALanguageParser#initializerExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInitializerBase(UTALanguageParser.InitializerBaseContext ctx);
+	T visitFlatInitializer(UTALanguageParser.FlatInitializerContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code InitializerForArray}
+	 * Visit a parse tree produced by the {@code StructuredInitializer}
 	 * labeled alternative in {@link UTALanguageParser#initializerExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInitializerForArray(UTALanguageParser.InitializerForArrayContext ctx);
+	T visitStructuredInitializer(UTALanguageParser.StructuredInitializerContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link UTALanguageParser#declarationOfType}.
 	 * @param ctx the parse tree
@@ -226,12 +220,12 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDeclarationOfType(UTALanguageParser.DeclarationOfTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code DeclarationOfFunctionWithReturnType}
+	 * Visit a parse tree produced by the {@code DeclarationOfValueFunction}
 	 * labeled alternative in {@link UTALanguageParser#declarationOfFunction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDeclarationOfFunctionWithReturnType(UTALanguageParser.DeclarationOfFunctionWithReturnTypeContext ctx);
+	T visitDeclarationOfValueFunction(UTALanguageParser.DeclarationOfValueFunctionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code DeclarationOfVoidFunction}
 	 * labeled alternative in {@link UTALanguageParser#declarationOfFunction}.
@@ -886,14 +880,14 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	T visitBaseIdentifier(UTALanguageParser.BaseIdentifierContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ArraySizeFromExpression}
-	 * labeled alternative in {@link UTALanguageParser#arrayDeclaration}.
+	 * labeled alternative in {@link UTALanguageParser#arrayModifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArraySizeFromExpression(UTALanguageParser.ArraySizeFromExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ArraySizeFromType}
-	 * labeled alternative in {@link UTALanguageParser#arrayDeclaration}.
+	 * labeled alternative in {@link UTALanguageParser#arrayModifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */

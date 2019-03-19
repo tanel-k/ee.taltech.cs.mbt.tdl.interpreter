@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.channel_priority.channel_refs.var_refs;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.channel_priority.channel_refs.traversal.IChannelRefExpressionVisitor;
 
 import java.util.Objects;
 
@@ -22,6 +23,11 @@ public class ChannelArrayVarLookupRef<VarRefType extends AbsChannelVarRef> exten
 
 	public void setLookupExpression(AbsExpression lookupExpression) {
 		this.lookupExpression = lookupExpression;
+	}
+
+	@Override
+	public void accept(IChannelRefExpressionVisitor visitor) {
+		visitor.visitChannelArrayVarLookupRef(this);
 	}
 
 	@Override

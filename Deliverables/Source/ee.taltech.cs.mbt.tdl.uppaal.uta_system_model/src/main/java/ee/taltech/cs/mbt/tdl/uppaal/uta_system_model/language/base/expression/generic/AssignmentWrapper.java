@@ -20,7 +20,7 @@ public class AssignmentWrapper<
 	}
 
 	private AssignmentWrapper(WrappedType operatorExpression) {
-		super(operatorExpression.getId() + ID_SUFFIX, operatorExpression.childCount);
+		super(operatorExpression.getHashSeed() + ID_SUFFIX, operatorExpression.childCount);
 		this.operatorExpression = operatorExpression;
 	}
 

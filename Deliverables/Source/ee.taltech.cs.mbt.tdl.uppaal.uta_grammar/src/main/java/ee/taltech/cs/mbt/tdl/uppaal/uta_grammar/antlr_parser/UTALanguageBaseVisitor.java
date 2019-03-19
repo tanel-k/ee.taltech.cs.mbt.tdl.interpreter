@@ -32,6 +32,13 @@ public class UTALanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitUtaDeclarations(UTALanguageParser.UtaDeclarationsContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitActiveSynchronization(UTALanguageParser.ActiveSynchronizationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -46,7 +53,7 @@ public class UTALanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUtaLocationInvariantExpression(UTALanguageParser.UtaLocationInvariantExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUtaTransitionSelectionSequence(UTALanguageParser.UtaTransitionSelectionSequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -60,14 +67,7 @@ public class UTALanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUtaTransitionSelectionList(UTALanguageParser.UtaTransitionSelectionListContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitUtaDeclarationList(UTALanguageParser.UtaDeclarationListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUtaLocationInvariantExpression(UTALanguageParser.UtaLocationInvariantExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -81,21 +81,14 @@ public class UTALanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSystemDeclarationBody(UTALanguageParser.SystemDeclarationBodyContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSystemDeclarationSequence(UTALanguageParser.SystemDeclarationSequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSystemDeclaration(UTALanguageParser.SystemDeclarationContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitProcessVariableAssignments(UTALanguageParser.ProcessVariableAssignmentsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSystemDeclarationStatement(UTALanguageParser.SystemDeclarationStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -158,7 +151,7 @@ public class UTALanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDeclarationList(UTALanguageParser.DeclarationListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDeclarationSequence(UTALanguageParser.DeclarationSequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -235,14 +228,14 @@ public class UTALanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInitializerBase(UTALanguageParser.InitializerBaseContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFlatInitializer(UTALanguageParser.FlatInitializerContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInitializerForArray(UTALanguageParser.InitializerForArrayContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStructuredInitializer(UTALanguageParser.StructuredInitializerContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -256,7 +249,7 @@ public class UTALanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDeclarationOfFunctionWithReturnType(UTALanguageParser.DeclarationOfFunctionWithReturnTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDeclarationOfValueFunction(UTALanguageParser.DeclarationOfValueFunctionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

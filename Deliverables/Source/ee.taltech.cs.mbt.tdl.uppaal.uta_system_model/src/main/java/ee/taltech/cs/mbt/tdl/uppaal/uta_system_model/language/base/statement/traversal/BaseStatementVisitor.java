@@ -19,54 +19,21 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.uta
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.uta_system.process.ProcessVariableAssignment;
 
 public class BaseStatementVisitor implements IStatementVisitor {
-	@Override
-	public void visitReturn(ReturnStatement returnStatement) { }
-
-	@Override
-	public void visitExpression(ExpressionStatement expressionStatement) { }
-
-	@Override
-	public void visitEmpty(EmptyStatement emptyStatement) { }
-
-	@Override
-	public void visitConditional(ConditionalStatement conditionalStatement) { }
-
-	@Override
-	public void visitStatementBlock(StatementBlock statementBlock) { }
-
-	@Override
-	public void visitWhileLoop(WhileLoop whileLoop) { }
-
-	@Override
-	public void visitDoWhileLoop(DoWhileLoop doWhileLoop) { }
-
-	@Override
-	public void visitForLoop(ForLoop forLoop) { }
-
-	@Override
-	public void visitIterationLoop(IterationLoop iterationLoop) { }
-
-	@Override
-	public void visitValueFunctionDeclaration(ValueFunctionDeclaration functionDeclaration) { }
-
-	@Override
-	public void visitVoidFunctionDeclaration(VoidFunctionDeclaration voidFunctionDeclaration) { }
-
-	@Override
-	public void visitVariableDeclaration(VariableDeclaration variableDeclaration) { }
-
-	@Override
-	public void visitChannelPriorityDeclaration(ChannelPriorityDeclaration channelPriorityDeclaration) { }
-
-	@Override
-	public void visitDeclarationList(DeclarationStatementList declarationStatementList) { }
-
-	@Override
-	public void visitTypeDeclaration(TypeDeclaration typeDeclaration) { }
-
-	@Override
-	public void visitTemplateInstantiation(ProcessVariableAssignment processVariableAssignment) { }
-
-	@Override
-	public void visitPartialTemplateInstantiation(PartialTemplateInstantiation partialTemplateInstantiation) { }
+	@Override public void visitReturn(ReturnStatement returnStatement) { }
+	@Override public void visitExpression(ExpressionStatement expressionStatement) { }
+	@Override public void visitEmpty(EmptyStatement emptyStatement) { }
+	@Override public void visitConditional(ConditionalStatement conditionalStatement) { }
+	@Override public void visitStatementBlock(StatementBlock statementBlock) { }
+	@Override public void visitWhileLoop(WhileLoop whileLoop) { }
+	@Override public void visitDoWhileLoop(DoWhileLoop doWhileLoop) { }
+	@Override public void visitForLoop(ForLoop forLoop) { }
+	@Override public void visitIterationLoop(IterationLoop iterationLoop) { }
+	@Override public void visitValueFunctionDeclaration(ValueFunctionDeclaration functionDeclaration) { }
+	@Override public void visitVoidFunctionDeclaration(VoidFunctionDeclaration voidFunctionDeclaration) { }
+	@Override public void visitVariableDeclaration(VariableDeclaration variableDeclaration) { }
+	@Override public void visitChannelPriorityDeclaration(ChannelPriorityDeclaration channelPriorityDeclaration) { }
+	@Override public void visitDeclarationList(DeclarationStatementList declarationStatementList) { }
+	@Override public void visitTypeDeclaration(TypeDeclaration typeDeclaration) { }
+	@Override public void visitTemplateInstantiation(ProcessVariableAssignment processVariableAssignment) { }
+	@Override public void visitPartialTemplateInstantiation(PartialTemplateInstantiation partialTemplateInstantiation) { }
 }
