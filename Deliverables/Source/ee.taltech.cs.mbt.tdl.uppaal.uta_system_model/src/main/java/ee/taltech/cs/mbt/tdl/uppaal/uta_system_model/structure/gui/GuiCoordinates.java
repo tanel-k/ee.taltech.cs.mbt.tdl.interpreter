@@ -1,17 +1,17 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui;
 
-public class GuiCoordinates {
+public class GuiCoordinates implements IColorable {
 	private int x;
 	private int y;
-	private String color;
+	private Color color;
 
 	public GuiCoordinates() { }
 
 	public GuiCoordinates(int x, int y) {
-		this(x, y, null);
+		this(x, y, Color.BLACK);
 	}
 
-	public GuiCoordinates(int x, int y, String color) {
+	public GuiCoordinates(int x, int y, Color color) {
 		this.x = x;
 		this.y = y;
 		this.color = color;
@@ -33,11 +33,13 @@ public class GuiCoordinates {
 		this.y = y;
 	}
 
-	public String getColor() {
+	@Override
+	public Color getColor() {
 		return color;
 	}
 
-	public void setColor(String color) {
+	@Override
+	public void setColor(Color color) {
 		this.color = color;
 	}
 }

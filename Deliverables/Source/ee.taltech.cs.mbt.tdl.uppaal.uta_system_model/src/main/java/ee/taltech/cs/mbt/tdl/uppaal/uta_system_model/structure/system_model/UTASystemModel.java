@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.system_model;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.uta_containers.declarations.UTADeclarationList;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.container.DeclarationSequence;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.uta_containers.system.UTASystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates.UTATemplate;
 
@@ -10,7 +10,7 @@ public class UTASystemModel {
 	private String name;
 	private Map<String, UTATemplate> templateNameMap;
 	private UTASystemDefinition systemDefinition;
-	private UTADeclarationList globalDeclarations;
+	private DeclarationSequence globalDeclarations;
 
 	public String getName() {
 		return name;
@@ -36,11 +36,11 @@ public class UTASystemModel {
 		this.systemDefinition = systemDefinition;
 	}
 
-	public UTADeclarationList getGlobalDeclarations() {
+	public DeclarationSequence getGlobalDeclarations() {
 		return globalDeclarations;
 	}
 
-	public void setGlobalDeclarations(UTADeclarationList globalDeclarations) {
+	public void setGlobalDeclarations(DeclarationSequence globalDeclarations) {
 		this.globalDeclarations = globalDeclarations;
 	}
 }

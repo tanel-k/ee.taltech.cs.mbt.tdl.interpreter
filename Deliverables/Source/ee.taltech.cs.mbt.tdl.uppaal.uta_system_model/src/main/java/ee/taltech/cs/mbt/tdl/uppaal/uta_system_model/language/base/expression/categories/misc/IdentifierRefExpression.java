@@ -1,12 +1,11 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.misc;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.leaf.AbsLeafExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.internal.IExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.AbsIdentifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
 
 import java.util.Objects;
 
-public class IdentifierRefExpression<IdentifierType extends AbsIdentifier> extends AbsLeafExpression {
+public class IdentifierRefExpression<IdentifierType> extends AbsLeafExpression {
 	private IdentifierType identifier;
 
 	public IdentifierType getIdentifier() {

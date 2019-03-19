@@ -1,21 +1,17 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.base;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.AbsIdentifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.traversal.IStatementVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.identifier_types.AbsTypeIdentifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.AbsTypeIdentifier;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class TypeDeclaration<TypeIdentifier extends AbsTypeIdentifier> extends AbsDeclarationStatement {
 	private Type<TypeIdentifier> type;
-	private Set<AbsIdentifier> identifiers;
-
-	public TypeDeclaration() {
-		this.identifiers = new LinkedHashSet<>();
-	}
+	private Set<Identifier> identifiers = new LinkedHashSet<>();
 
 	public Type<TypeIdentifier> getType() {
 		return type;
@@ -25,7 +21,7 @@ public class TypeDeclaration<TypeIdentifier extends AbsTypeIdentifier> extends A
 		this.type = type;
 	}
 
-	public Set<AbsIdentifier> getIdentifiers() {
+	public Set<Identifier> getIdentifiers() {
 		return identifiers;
 	}
 

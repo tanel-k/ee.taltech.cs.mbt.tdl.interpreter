@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.de
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.traversal.IStatementVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.identifier_types.AbsTypeIdentifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.AbsTypeIdentifier;
 
 public class ValueFunctionDeclaration<ValueTypeIdentifier extends AbsTypeIdentifier> extends AbsFunctionDeclaration {
 	private Type<ValueTypeIdentifier> returnType;

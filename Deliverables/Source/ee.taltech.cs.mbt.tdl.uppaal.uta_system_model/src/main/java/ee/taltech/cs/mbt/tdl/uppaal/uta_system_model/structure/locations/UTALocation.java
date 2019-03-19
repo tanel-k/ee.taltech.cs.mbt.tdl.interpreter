@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.locations;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IGuiPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.GuiCoordinates;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IGuiPositionable;
 
 
 public class UTALocation {
@@ -32,7 +32,7 @@ public class UTALocation {
 	private LocationName name;
 	private GuiCoordinates nameCoordinates;
 	private UTALocationLabelContainer labelContainer;
-	private UTALocationExitPolicy exitPolicy = UTALocationExitPolicy.NORMAL;
+	private ELocationExitPolicy exitPolicy = ELocationExitPolicy.NORMAL;
 
 	public UTALocation() { }
 
@@ -60,11 +60,11 @@ public class UTALocation {
 		this.nameCoordinates = nameCoordinates;
 	}
 
-	public UTALocationExitPolicy getExitPolicy() {
+	public ELocationExitPolicy getExitPolicy() {
 		return exitPolicy;
 	}
 
-	public void setExitPolicy(UTALocationExitPolicy exitPolicy) {
+	public void setExitPolicy(ELocationExitPolicy exitPolicy) {
 		this.exitPolicy = exitPolicy;
 	}
 

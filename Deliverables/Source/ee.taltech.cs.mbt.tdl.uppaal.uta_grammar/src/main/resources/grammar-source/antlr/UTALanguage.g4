@@ -6,14 +6,22 @@ public static final int CHANNEL_WHITESPACE = 1;
 public static final int CHANNEL_COMMENTS = 2;
 }
 
+// UTA template parameters:
 utaTemplateParameterList
     : parameterList
     ;
 
+// UTA transition assignments:
 utaTransitionUpdateList
     : expression (SEP_ENUMERATION expression)*
     ;
 
+// UTA global and local declarations:
+utaDeclarationBlock
+    : declarationSequence
+    ;
+
+// UTA transition synchronization:
 utaTransitionSynchronization
     : expression COMMON_TOK_EXCLAMATION_MARK
         # ActiveSynchronization
@@ -21,38 +29,35 @@ utaTransitionSynchronization
         # ReactiveSynchronization
     ;
 
-utaLocationInvariantExpression
-    : expression
+// UTA transition select:
+utaTransitionSelectionSequence
+    : selection (SEP_ENUMERATION selection)*
     ;
 
+// UTA transition guard:
 utaTransitionGuardExpression
     : expression
     ;
 
-utaTransitionSelectionList
-    : selection (SEP_ENUMERATION selection)*
+// UTA location invariant
+utaLocationInvariantExpression
+    : expression
     ;
 
-utaDeclarationList
-    : declarationList ;
-
+// UTA system definition:
 utaSystemDefinition
-    : systemDeclarationBody
+    : systemDeclarationSequence
       systemLine?
       progressMeasureDeclaration?
     ;
 
-systemDeclarationBody
-    : systemDeclaration*
+systemDeclarationSequence
+    : systemDeclarationStatement*
     ;
 
-systemDeclaration
+systemDeclarationStatement
     : processVariableAssignment
     | declaration
-    ;
-
-processVariableAssignments
-    : processVariableAssignment*
     ;
 
 processVariableAssignment
@@ -88,7 +93,7 @@ progressMeasureDeclaration
 
 selection : IDENTIFIER_NAME COMMON_TOK_COLON type ;
 
-declarationList : declaration* ;
+declarationSequence : declaration* ;
 
 declaration
     : declarationOfVariable
@@ -154,7 +159,7 @@ functionNameParamsBody
     ;
 
 statementBlock
-    : GROUP_LEFT_CURLY declarationList statement* GROUP_RIGHT_CURLY
+    : GROUP_LEFT_CURLY declarationSequence statement* GROUP_RIGHT_CURLY
     ;
 
 statement

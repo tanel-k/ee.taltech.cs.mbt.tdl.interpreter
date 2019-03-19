@@ -1,13 +1,13 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.function;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.containers.ParameterDeclarationList;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.grouping.StatementBlock;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.container.ParameterList;
 
 public abstract class AbsFunctionDeclaration extends AbsDeclarationStatement {
 	private Identifier name;
-	private ParameterList parameters;
+	private ParameterDeclarationList parameters;
 	private StatementBlock body;
 
 	public Identifier getName() {
@@ -18,11 +18,11 @@ public abstract class AbsFunctionDeclaration extends AbsDeclarationStatement {
 		this.name = name;
 	}
 
-	public ParameterList getParameters() {
+	public ParameterDeclarationList getParameters() {
 		return parameters;
 	}
 
-	public void setParameters(ParameterList parameters) {
+	public void setParameters(ParameterDeclarationList parameters) {
 		this.parameters = parameters;
 	}
 

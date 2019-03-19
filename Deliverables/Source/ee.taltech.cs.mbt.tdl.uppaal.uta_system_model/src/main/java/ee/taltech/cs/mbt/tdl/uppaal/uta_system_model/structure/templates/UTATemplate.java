@@ -1,9 +1,9 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.container.ParameterList;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.uta_containers.declarations.UTADeclarationList;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.containers.ParameterDeclarationList;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.container.DeclarationSequence;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.GuiCoordinates;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IGuiPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.locations.UTALocation;
 
 public class UTATemplate {
@@ -32,11 +32,11 @@ public class UTATemplate {
 
 	private TemplateName name;
 
-	private ParameterList parameters;
+	private ParameterDeclarationList parameters;
 	private UTATransitionMap transitionMap;
 
 	private UTALocation initialLocation;
-	private UTADeclarationList localDeclarations;
+	private DeclarationSequence localDeclarations;
 
 	public UTATemplate() { }
 
@@ -48,11 +48,11 @@ public class UTATemplate {
 		this.name = name;
 	}
 
-	public ParameterList getParameters() {
+	public ParameterDeclarationList getParameters() {
 		return parameters;
 	}
 
-	public void setParameters(ParameterList parameters) {
+	public void setParameters(ParameterDeclarationList parameters) {
 		this.parameters = parameters;
 	}
 
@@ -72,11 +72,11 @@ public class UTATemplate {
 		this.transitionMap = transitionMap;
 	}
 
-	public UTADeclarationList getLocalDeclarations() {
+	public DeclarationSequence getLocalDeclarations() {
 		return localDeclarations;
 	}
 
-	public void setLocalDeclarations(UTADeclarationList localDeclarations) {
+	public void setLocalDeclarations(DeclarationSequence localDeclarations) {
 		this.localDeclarations = localDeclarations;
 	}
 }

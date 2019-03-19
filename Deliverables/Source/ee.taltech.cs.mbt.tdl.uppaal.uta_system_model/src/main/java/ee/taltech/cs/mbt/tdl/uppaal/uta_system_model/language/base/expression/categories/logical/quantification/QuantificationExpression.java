@@ -1,26 +1,19 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.quantification;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsUnaryExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.internal.IExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.AbsIdentifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.identifier_types.AbsTypeIdentifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.AbsTypeIdentifier;
 
 import java.util.Objects;
 
 public class QuantificationExpression<
-		VarTypeIdentifier extends AbsTypeIdentifier, IdentifierType extends AbsIdentifier
-	> extends AbsUnaryExpression
+		VarTypeIdentifier extends AbsTypeIdentifier, IdentifierType
+		> extends AbsUnaryExpression
 {
-	public static enum QuantificationType { UNIVERSAL, EXISTENTIAL };
-
-	private QuantificationType quantificationType;
+	private EQuantificationType quantificationType;
 	private Type<VarTypeIdentifier> iterationVariableType;
 	private IdentifierType iterationVariableIdentifier;
-
-	public QuantificationExpression(QuantificationType quantificationType) {
-		this.quantificationType = quantificationType;
-	}
 
 	@Override
 	public Associativity getAssociativity() {
@@ -32,7 +25,7 @@ public class QuantificationExpression<
 		visitor.visitQuantification(this);
 	}
 
-	public QuantificationType getQuantificationType() {
+	public EQuantificationType getQuantificationType() {
 		return quantificationType;
 	}
 

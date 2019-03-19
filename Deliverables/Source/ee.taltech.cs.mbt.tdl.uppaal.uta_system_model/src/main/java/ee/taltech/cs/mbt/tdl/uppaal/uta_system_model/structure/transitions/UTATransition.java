@@ -1,12 +1,14 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.transitions;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IColorable;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.locations.UTALocation;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.Color;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.GuiCoordinates;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IColorable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.locations.UTALocation;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class UTATransition implements IColorable {
 	public static class TransitionNail implements IGuiPositionable {
@@ -24,7 +26,7 @@ public class UTATransition implements IColorable {
 	}
 
 	private String id;
-	private String colorString;
+	private Color color;
 	private UTALocation sourceLocation;
 	private UTALocation targetLocation;
 	private List<TransitionNail> transitionNails;
@@ -67,20 +69,18 @@ public class UTATransition implements IColorable {
 	}
 
 	@Override
-	public String getColorString() {
-		return colorString;
+	public Color getColor() {
+		return color;
 	}
 
 	@Override
-	public void setColorString(String colorString) {
-		this.colorString = colorString;
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	@Override
 	public int hashCode() {
-		return id == null
-				? 0
-				: getId().hashCode();
+		return Objects.hash(getId());
 	}
 
 	@Override
@@ -92,7 +92,6 @@ public class UTATransition implements IColorable {
 		if (!(obj instanceof  UTATransition))
 			return false;
 		UTATransition other = (UTATransition) obj;
-		return (id == null && other.id == null)
-				|| id.equals(other.id);
+		return Objects.equals(other.id, this.id);
 	}
 }

@@ -8,19 +8,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class ChannelPriorityDeclaration extends AbsDeclarationStatement {
-	private List<ChannelRefList> priorityList;
+	private List<ChannelRefSequence> prioritySequence = new LinkedList<>();
 
-	public ChannelPriorityDeclaration() {
-		this.priorityList = new LinkedList<>();
-	}
-
-	public List<ChannelRefList> getPriorityList() {
-		return priorityList;
+	public List<ChannelRefSequence> getPrioritySequence() {
+		return prioritySequence;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getPriorityList());
+		return Objects.hash(getPrioritySequence());
 	}
 
 	@Override
@@ -32,7 +28,7 @@ public class ChannelPriorityDeclaration extends AbsDeclarationStatement {
 		if (!(obj instanceof ChannelPriorityDeclaration))
 			return false;
 		ChannelPriorityDeclaration other = (ChannelPriorityDeclaration) obj;
-		return Objects.equals(other.priorityList, this.priorityList);
+		return Objects.equals(other.prioritySequence, this.prioritySequence);
 	}
 
 	@Override

@@ -2,32 +2,28 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.c
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsUnaryExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.internal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
 
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class CallExpression extends AbsUnaryExpression {
-	private List<AbsExpression> argumentList;
-
-	public CallExpression() {
-		this.argumentList = new LinkedList<>();
-	}
+public class CallExpression extends AbsUnaryExpression implements Iterable<AbsExpression> {
+	private List<AbsExpression> argumentList = new LinkedList<>();
 
 	public List<AbsExpression> getArgumentList() {
-		return Collections.unmodifiableList(argumentList);
-	}
-
-	public void addArgument(AbsExpression argumentExpression) {
-		this.argumentList.add(argumentExpression);
-		invalidateSubtreeHash();
+		return argumentList;
 	}
 
 	@Override
 	public void accept(IExpressionVisitor visitor) {
 		visitor.visitCall(this);
+	}
+
+	@Override
+	public Iterator<AbsExpression> iterator() {
+		return argumentList.iterator();
 	}
 
 	@Override

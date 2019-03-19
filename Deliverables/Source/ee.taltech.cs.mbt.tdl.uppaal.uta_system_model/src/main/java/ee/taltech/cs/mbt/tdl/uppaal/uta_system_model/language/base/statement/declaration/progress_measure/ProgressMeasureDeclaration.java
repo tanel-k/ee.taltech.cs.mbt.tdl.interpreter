@@ -6,11 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ProgressMeasureDeclaration {
-	private List<AbsExpression> measureExpressions;
-
-	public ProgressMeasureDeclaration() {
-		this.measureExpressions = new LinkedList<>();
-	}
+	private List<AbsExpression> measureExpressions = new LinkedList<>();
 
 	public List<AbsExpression> getMeasureExpressions() {
 		return measureExpressions;
