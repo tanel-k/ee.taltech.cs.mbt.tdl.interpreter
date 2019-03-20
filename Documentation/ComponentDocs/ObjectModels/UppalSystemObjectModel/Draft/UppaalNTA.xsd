@@ -2,17 +2,15 @@
 <xs:schema 
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
-    xmlns:en="urn:enumtest"
     xmlns="http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd"
     targetNamespace="http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd"
-    elementFormDefault="qualified"
-    vc:minVersion="1.1">
-    <xs:element name='nta'>
+    elementFormDefault="qualified">
+    <xs:element name="nta">
         <xs:annotation>
             <xs:documentation>An Uppaal system description.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:all>
+            <xs:sequence>
                 <xs:element name="imports" type="xs:string" minOccurs="0" maxOccurs="1">
                     <xs:annotation>
                         <xs:documentation>Appears to be a legacy remnant from previous versions of Uppaal.</xs:documentation>
@@ -34,7 +32,7 @@
                         <xs:documentation>Contains the system model declaration.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
-            </xs:all>
+            </xs:sequence>
         </xs:complexType>
     </xs:element>
 
@@ -66,7 +64,7 @@
         <xs:annotation>
             <xs:documentation>An Uppaal TA template.</xs:documentation>
         </xs:annotation>
-        <xs:all>
+        <xs:sequence>
             <xs:element name="name" type="NameType" minOccurs="1" maxOccurs="1" />
             <xs:element name="parameter" type="ParameterType" minOccurs="0" maxOccurs="1" />
             <xs:element name="declaration" type="xs:string" minOccurs="0" maxOccurs="1">
@@ -77,7 +75,7 @@
             <xs:element name="location" type="LocationType" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="init" type="InitType" minOccurs="0" maxOccurs="1" />
             <xs:element name="transition" type="TransitionType" minOccurs="0" maxOccurs="unbounded" />
-        </xs:all>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="ParameterType">
@@ -131,7 +129,6 @@
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required" />
         <xs:attributeGroup ref="OptCoordAndColorAttrGroup" />
-        <xs:assert test="count(en:label/attribute::kind) = count(distinct-values(en:label/attribute::kind))" />
     </xs:complexType>
 
     <xs:complexType name="EmptyType" />
@@ -140,15 +137,14 @@
         <xs:annotation>
             <xs:documentation>Describes a transition between locations in an Uppaal TA template.</xs:documentation>
         </xs:annotation>
-        <xs:all>
+        <xs:sequence>
             <xs:element name="source" type="IdRefType" minOccurs="1" maxOccurs="1" />
             <xs:element name="target" type="IdRefType" minOccurs="1" maxOccurs="1" />
             <xs:element name="label" type="TransitionLabelType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="nail" type="NailType" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:all>
+        </xs:sequence>
         <xs:attribute name="id" type="xs:string" />
         <xs:attributeGroup ref="OptCoordAndColorAttrGroup" />
-        <xs:assert test="count(en:label/attribute::kind) = count(distinct-values(en:label/attribute::kind))" />
     </xs:complexType>
 
     <xs:complexType name="IdRefType">

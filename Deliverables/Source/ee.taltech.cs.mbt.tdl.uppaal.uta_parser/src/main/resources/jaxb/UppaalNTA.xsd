@@ -65,7 +65,7 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="name" type="NameType" minOccurs="1" maxOccurs="1" />
-            <xs:element name="parameter" type="ParameterType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="parameters" type="ParametersType" minOccurs="0" maxOccurs="1" />
             <xs:element name="declaration" type="xs:string" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>A text node containing local declarations for the template.</xs:documentation>
@@ -77,7 +77,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="ParameterType">
+    <xs:complexType name="ParametersType">
         <xs:annotation>
             <xs:documentation>Parameters for an Uppaal TA template.</xs:documentation>
         </xs:annotation>

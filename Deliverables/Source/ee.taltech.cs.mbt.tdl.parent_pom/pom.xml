@@ -71,7 +71,7 @@
           <artifactId>jaxb2-maven-plugin</artifactId>
           <version>${jaxb2Plugin.version}</version>
           <configuration>
-            <clearOutputDir>true</clearOutputDir>
+            <clearOutputDir>false</clearOutputDir>
           </configuration>
         </plugin>
         <plugin>
