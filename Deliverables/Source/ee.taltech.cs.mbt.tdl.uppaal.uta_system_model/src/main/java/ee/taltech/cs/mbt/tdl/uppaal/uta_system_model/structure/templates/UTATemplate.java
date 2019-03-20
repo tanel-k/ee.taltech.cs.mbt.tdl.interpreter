@@ -1,10 +1,13 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.containers.ParameterDeclarationList;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.container.DeclarationSequence;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IGuiPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.locations.UTALocation;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class UTATemplate {
 	public static class TemplateName implements IGuiPositionable {
@@ -32,11 +35,11 @@ public class UTATemplate {
 
 	private TemplateName name;
 
-	private ParameterDeclarationList parameters;
+	private Set<ParameterDeclaration> parameters = new LinkedHashSet<>();
 	private UTATransitionMap transitionMap;
 
 	private UTALocation initialLocation;
-	private DeclarationSequence localDeclarations;
+	private Set<AbsDeclarationStatement> localDeclarations = new LinkedHashSet<>();
 
 	public UTATemplate() { }
 
@@ -48,12 +51,8 @@ public class UTATemplate {
 		this.name = name;
 	}
 
-	public ParameterDeclarationList getParameters() {
+	public Set<ParameterDeclaration> getParameters() {
 		return parameters;
-	}
-
-	public void setParameters(ParameterDeclarationList parameters) {
-		this.parameters = parameters;
 	}
 
 	public UTALocation getInitialLocation() {
@@ -72,11 +71,7 @@ public class UTATemplate {
 		this.transitionMap = transitionMap;
 	}
 
-	public DeclarationSequence getLocalDeclarations() {
+	public Set<AbsDeclarationStatement> getLocalDeclarations() {
 		return localDeclarations;
-	}
-
-	public void setLocalDeclarations(DeclarationSequence localDeclarations) {
-		this.localDeclarations = localDeclarations;
 	}
 }

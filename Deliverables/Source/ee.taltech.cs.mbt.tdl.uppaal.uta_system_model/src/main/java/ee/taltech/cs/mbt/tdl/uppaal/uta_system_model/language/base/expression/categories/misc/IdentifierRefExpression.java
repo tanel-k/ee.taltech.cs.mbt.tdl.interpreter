@@ -2,24 +2,25 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.c
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.leaf.AbsLeafExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 
 import java.util.Objects;
 
-public class IdentifierRefExpression<IdentifierType> extends AbsLeafExpression {
-	private IdentifierType identifier;
+public class IdentifierRefExpression extends AbsLeafExpression {
+	private IdentifierName identifierName;
 
-	public IdentifierType getIdentifier() {
-		return identifier;
+	public IdentifierName getIdentifierName() {
+		return identifierName;
 	}
 
-	public void setIdentifier(IdentifierType identifier) {
-		this.identifier = identifier;
+	public void setIdentifierName(IdentifierName identifierName) {
+		this.identifierName = identifierName;
 		invalidateSubtreeHash();
 	}
 
 	@Override
 	protected int getLocalHash() {
-		return Objects.hash(getIdentifier());
+		return Objects.hash(getIdentifierName());
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class IdentifierRefExpression<IdentifierType> extends AbsLeafExpression {
 			if (!(obj instanceof IdentifierRefExpression))
 				return false;
 			IdentifierRefExpression other = (IdentifierRefExpression) obj;
-			return Objects.equals(other.identifier, this.identifier);
+			return Objects.equals(other.identifierName, this.identifierName);
 		}
 		return false;
 	}

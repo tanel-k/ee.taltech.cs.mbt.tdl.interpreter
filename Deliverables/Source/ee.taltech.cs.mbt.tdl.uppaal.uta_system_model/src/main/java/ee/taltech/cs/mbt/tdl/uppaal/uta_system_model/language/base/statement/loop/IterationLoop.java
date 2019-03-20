@@ -1,19 +1,19 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.loop;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.traversal.IStatementVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.AbsTypeIdentifier;
 
 public class IterationLoop<LoopVarTypeIdentifier extends AbsTypeIdentifier> extends AbsLoopStatement {
-	private Identifier loopVariable;
+	private IdentifierName loopVariable;
 	private Type<LoopVarTypeIdentifier> iteratedType;
 
-	public Identifier getLoopVariable() {
+	public IdentifierName getLoopVariable() {
 		return loopVariable;
 	}
 
-	public void setLoopVariable(Identifier loopVariable) {
+	public void setLoopVariable(IdentifierName loopVariable) {
 		this.loopVariable = loopVariable;
 	}
 
@@ -27,6 +27,6 @@ public class IterationLoop<LoopVarTypeIdentifier extends AbsTypeIdentifier> exte
 
 	@Override
 	public void accept(IStatementVisitor visitor) {
-		visitor.visitIterationLoop(this);
+		visitor.visitIteration(this);
 	}
 }

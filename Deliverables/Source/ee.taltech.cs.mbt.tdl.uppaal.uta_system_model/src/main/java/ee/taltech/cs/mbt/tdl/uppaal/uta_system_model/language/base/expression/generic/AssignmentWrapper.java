@@ -15,7 +15,7 @@ public class AssignmentWrapper<
 
 	public static <
 		WrappedType extends AbsInternalExpression & IHasAssignmentCounterpart
-	> AssignmentWrapper<WrappedType> getAssignmentCounterpart(WrappedType operation) {
+	> AssignmentWrapper<WrappedType> wrap(WrappedType operation) {
 		return new AssignmentWrapper<>(operation);
 	}
 
@@ -47,6 +47,16 @@ public class AssignmentWrapper<
 	@Override
 	public List<AbsExpression> getChildExpressions() {
 		return operatorExpression.getChildExpressions();
+	}
+
+	@Override
+	public void setChildExpression(int position, AbsExpression childExpression) {
+		operatorExpression.setChildExpression(position, childExpression);
+	}
+
+	@Override
+	public AbsExpression getChildExpression(int position) {
+		return operatorExpression.getChildExpression(position);
 	}
 
 	@Override

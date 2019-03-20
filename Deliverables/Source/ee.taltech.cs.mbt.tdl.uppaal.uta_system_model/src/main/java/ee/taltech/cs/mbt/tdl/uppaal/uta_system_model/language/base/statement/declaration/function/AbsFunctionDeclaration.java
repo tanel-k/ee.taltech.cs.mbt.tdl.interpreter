@@ -1,29 +1,28 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.function;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.containers.ParameterDeclarationList;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.grouping.StatementBlock;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.ParameterDeclaration;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public abstract class AbsFunctionDeclaration extends AbsDeclarationStatement {
-	private Identifier name;
-	private ParameterDeclarationList parameters;
+	private IdentifierName name;
+	private Set<ParameterDeclaration> parameterDeclarations = new LinkedHashSet<>();
 	private StatementBlock body;
 
-	public Identifier getName() {
+	public IdentifierName getName() {
 		return name;
 	}
 
-	public void setName(Identifier name) {
+	public void setName(IdentifierName name) {
 		this.name = name;
 	}
 
-	public ParameterDeclarationList getParameters() {
-		return parameters;
-	}
-
-	public void setParameters(ParameterDeclarationList parameters) {
-		this.parameters = parameters;
+	public Set<ParameterDeclaration> getParameterDeclarations() {
+		return parameterDeclarations;
 	}
 
 	public StatementBlock getBody() {

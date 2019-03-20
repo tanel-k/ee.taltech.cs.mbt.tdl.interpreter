@@ -25,6 +25,6 @@ public class ForLoop extends AbsConditionalLoopStatement{
 
 	@Override
 	public void accept(IStatementVisitor visitor) {
-		visitor.visitForLoop(this);
+		visitor.visitFor(this);
 	}
 }

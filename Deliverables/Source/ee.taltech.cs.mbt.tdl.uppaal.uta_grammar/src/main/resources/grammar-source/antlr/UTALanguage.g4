@@ -8,7 +8,22 @@ public static final int CHANNEL_COMMENTS = 2;
 
 // UTA template parameters:
 utaTemplateParameterList
-    : parameterList
+    : parameterList?
+    ;
+
+parameterList
+    : parameter (SEP_ENUMERATION parameter)*
+    ;
+
+parameter
+    : type parameterIdentifier
+    ;
+
+parameterIdentifier
+    : COMMON_TOK_AMPERSAND identifierNameVariant
+        # ByReferenceVariable
+    | identifierNameVariant
+        # ByValueVariable
     ;
 
 // UTA transition assignments:
@@ -60,13 +75,13 @@ systemDeclarationStatement
     | declaration
     ;
 
+// This will class with assignment expressions if used at the same alt layer.
+// Currently this alts with declarations, which do not clash with the productions below.
 processVariableAssignment
-    : IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList GROUP_RIGHT_PAREN
-        ASSG_OP
+    : IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList GROUP_RIGHT_PAREN ASSG_OP
       IDENTIFIER_NAME GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN SEP_SEMICOLON
         # ProcessVarPartialTemplateInstantiation
-    | IDENTIFIER_NAME
-        ASSG_OP
+    | IDENTIFIER_NAME ASSG_OP
       IDENTIFIER_NAME GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN SEP_SEMICOLON
         # ProcessVarFullTemplateInstantiation
     ;
@@ -80,10 +95,10 @@ systemProcessesList
     ;
 
 systemProcessRefList
-    : systemProcessExpression (SEP_ENUMERATION systemProcessExpression)*
+    : systemProcessRef (SEP_ENUMERATION systemProcessRef)*
     ;
 
-systemProcessExpression
+systemProcessRef
     : IDENTIFIER_NAME
     ;
 
@@ -96,14 +111,14 @@ selection : IDENTIFIER_NAME COMMON_TOK_COLON type ;
 declarationSequence : declaration* ;
 
 declaration
-    : declarationOfVariable
-    | declarationOfType
+    : type variableInitialization (SEP_ENUMERATION variableInitialization)* SEP_SEMICOLON
+        # VariableDeclaration
+    | PHRASE_TYPEDEF type identifierNameVariant (SEP_ENUMERATION identifierNameVariant)* SEP_SEMICOLON
+        # TypeDeclaration
     | declarationOfFunction
-    | declarationOfChannelPriority
-    ;
-
-declarationOfChannelPriority
-    : TYPE_CHANNEL PHRASE_PRIORITY channelPrioritySpecExpression SEP_SEMICOLON
+        # FunctionDeclaration
+    | TYPE_CHANNEL PHRASE_PRIORITY channelPrioritySpecExpression SEP_SEMICOLON
+        # ChannelPriorityDeclaration
     ;
 
 channelPrioritySpecExpression
@@ -116,24 +131,15 @@ channelRefList
 
 channelRefExpression
     : PHRASE_DEFAULT
-        # ChannelDefaultPriorityRef
-    | channelVariableRefExpression
-        # ChannelVariablePriorityRef
-    ;
-
-channelVariableRefExpression
-    : channelVariableRefExpression GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET
-        # ChannelVarRefArrayLookup
+        # ChannelDefaultPriorityExpr
     | IDENTIFIER_NAME
-        # ChannelVarIdentifierRef
-    ;
-
-declarationOfVariable
-    : type variableInitialization (SEP_ENUMERATION variableInitialization)* SEP_SEMICOLON
+        # ChannelIdentifierNameExpr
+    | arrayIdentifierLookup
+        # ChannelArrayLookupExr
     ;
 
 variableInitialization
-    : identifier (ASSG_OP initializerExpression)?
+    : identifierNameVariant (ASSG_OP initializerExpression)?
     ;
 
 initializerExpression
@@ -143,94 +149,61 @@ initializerExpression
         # StructuredInitializer
     ;
 
-declarationOfType
-    : PHRASE_TYPEDEF type identifier (SEP_ENUMERATION identifier)* SEP_SEMICOLON
-    ;
-
 declarationOfFunction
-    : type functionNameParamsBody
+    : type IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList? GROUP_RIGHT_PAREN blockOfStatements
         # DeclarationOfValueFunction
-    | PHRASE_VOID functionNameParamsBody
+    | PHRASE_VOID IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList? GROUP_RIGHT_PAREN blockOfStatements
         # DeclarationOfVoidFunction
     ;
 
-functionNameParamsBody
-    : IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList GROUP_RIGHT_PAREN statementBlock
-    ;
-
-statementBlock
+blockOfStatements
     : GROUP_LEFT_CURLY declarationSequence statement* GROUP_RIGHT_CURLY
     ;
 
 statement
-    : statementBlock
-        # StatetementBlock
+    : blockOfStatements
+        # StatementBlock
     | SEP_SEMICOLON
         # StatementEmpty
     | expression SEP_SEMICOLON
         # StatementExpression
-    | forLoopStatement
+    | PHRASE_FOR
+      GROUP_LEFT_PAREN
+        loopInitializer SEP_SEMICOLON
+        loopCondition SEP_SEMICOLON
+        loopUpdate
+      GROUP_RIGHT_PAREN
+      loopBody
         # StatementForLoop
-    | iterationStatement
+    | PHRASE_FOR
+      GROUP_LEFT_PAREN
+        IDENTIFIER_NAME COMMON_TOK_COLON type
+      GROUP_RIGHT_PAREN
+      loopBody
         # StatementIteration
-    | whileLoopStatement
+    | PHRASE_WHILE
+      GROUP_LEFT_PAREN
+        loopCondition
+      GROUP_RIGHT_PAREN
+      loopBody
         # StatementWhileLoop
-    | doWhileStatement
+    | PHRASE_DO loopBody PHRASE_WHILE loopCondition SEP_SEMICOLON
         # StatementDoWhile
-    | conditionalStatement
+    | PHRASE_IF
+      GROUP_LEFT_PAREN expression GROUP_RIGHT_PAREN
+      primaryStatement
+      (PHRASE_ELSE alternativeStatement)?
         # StatementConditional
-    | returnStatement
+    | PHRASE_RETURN expression? SEP_SEMICOLON
         # StatementReturn
     ;
 
-forLoopStatement
-    : forLoopHeader loopBody
+primaryStatement
+    : statement
     ;
 
-forLoopHeader
-    : PHRASE_FOR
-        GROUP_LEFT_PAREN
-            loopInitializer SEP_SEMICOLON
-            loopCondition SEP_SEMICOLON
-            loopUpdate
-        GROUP_RIGHT_PAREN
-    ;
-
-iterationStatement
-    : iterationHeader loopBody
-    ;
-
-iterationHeader
-    : PHRASE_FOR
-        GROUP_LEFT_PAREN
-            IDENTIFIER_NAME COMMON_TOK_COLON type
-        GROUP_RIGHT_PAREN
-    ;
-
-whileLoopStatement
-    : whileLoopHeader loopBody
-    ;
-
-whileLoopHeader
-    : PHRASE_WHILE
-        GROUP_LEFT_PAREN
-            loopCondition
-        GROUP_RIGHT_PAREN
-    ;
-
-doWhileStatement
-    : PHRASE_DO loopBody PHRASE_WHILE loopCondition SEP_SEMICOLON
-    ;
-
-conditionalStatement
-    : PHRASE_IF
-        GROUP_LEFT_PAREN expression GROUP_RIGHT_PAREN
-            statement
-        (PHRASE_ELSE statement)?
-    ;
-
-returnStatement
-    : PHRASE_RETURN expression? SEP_SEMICOLON
+alternativeStatement
+    : statement
     ;
 
 loopInitializer
@@ -393,21 +366,6 @@ expression
         # ExpressionIdentifierRef
     ;
 
-parameterList
-    : parameter (SEP_ENUMERATION parameter)*
-    ;
-
-parameter
-    : type parameterIdentifier
-    ;
-
-parameterIdentifier
-    : COMMON_TOK_AMPERSAND identifier
-        # ByReferenceVariable
-    | identifier
-        # ByValueVariable
-    ;
-
 argumentList : expression (SEP_ENUMERATION expression)* ;
 
 type : typePrefix? typeIdentifier ;
@@ -441,19 +399,23 @@ typeIdentifier
         # TypeIdIdentifierName
     ;
 
-fieldDeclaration
-    : type identifier (SEP_ENUMERATION identifier)* SEP_SEMICOLON
+arrayIdentifierLookup
+    : IDENTIFIER_NAME (GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET)+
     ;
 
-identifier
-    : IDENTIFIER_NAME arrayModifier+
+fieldDeclaration
+    : type identifierNameVariant (SEP_ENUMERATION identifierNameVariant)* SEP_SEMICOLON
+    ;
+
+identifierNameVariant
+    : IDENTIFIER_NAME arraySizeModifier+
         # ArrayIdentifier
     | IDENTIFIER_NAME
         # BaseIdentifier
     ;
 
 // When appended to a type, denotes an array
-arrayModifier
+arraySizeModifier
     // Array size can be specified as an integer
     : GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET
         # ArraySizeFromExpression

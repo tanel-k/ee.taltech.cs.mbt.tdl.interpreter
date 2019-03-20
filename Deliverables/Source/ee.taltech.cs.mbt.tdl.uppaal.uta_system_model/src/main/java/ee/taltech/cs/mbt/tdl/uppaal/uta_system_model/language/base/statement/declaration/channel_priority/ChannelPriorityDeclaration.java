@@ -8,15 +8,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class ChannelPriorityDeclaration extends AbsDeclarationStatement implements Iterable<ChannelRefSequence> {
-	private List<ChannelRefSequence> prioritySequence = new LinkedList<>();
+public class ChannelPriorityDeclaration extends AbsDeclarationStatement implements Iterable<ChannelRefs> {
+	private List<ChannelRefs> prioritySequence = new LinkedList<>();
 
-	public List<ChannelRefSequence> getPrioritySequence() {
+	public List<ChannelRefs> getPrioritySequence() {
 		return prioritySequence;
 	}
 
 	@Override
-	public Iterator<ChannelRefSequence> iterator() {
+	public Iterator<ChannelRefs> iterator() {
 		return prioritySequence.iterator();
 	}
 

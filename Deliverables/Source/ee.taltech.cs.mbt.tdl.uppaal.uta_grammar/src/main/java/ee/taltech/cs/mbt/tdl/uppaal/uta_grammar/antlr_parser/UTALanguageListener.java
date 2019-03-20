@@ -19,6 +19,50 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitUtaTemplateParameterList(UTALanguageParser.UtaTemplateParameterListContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link UTALanguageParser#parameterList}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameterList(UTALanguageParser.ParameterListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link UTALanguageParser#parameterList}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameterList(UTALanguageParser.ParameterListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link UTALanguageParser#parameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameter(UTALanguageParser.ParameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link UTALanguageParser#parameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameter(UTALanguageParser.ParameterContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ByReferenceVariable}
+	 * labeled alternative in {@link UTALanguageParser#parameterIdentifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterByReferenceVariable(UTALanguageParser.ByReferenceVariableContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ByReferenceVariable}
+	 * labeled alternative in {@link UTALanguageParser#parameterIdentifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitByReferenceVariable(UTALanguageParser.ByReferenceVariableContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ByValueVariable}
+	 * labeled alternative in {@link UTALanguageParser#parameterIdentifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterByValueVariable(UTALanguageParser.ByValueVariableContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ByValueVariable}
+	 * labeled alternative in {@link UTALanguageParser#parameterIdentifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitByValueVariable(UTALanguageParser.ByValueVariableContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link UTALanguageParser#utaTransitionUpdateList}.
 	 * @param ctx the parse tree
 	 */
@@ -177,15 +221,15 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitSystemProcessRefList(UTALanguageParser.SystemProcessRefListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#systemProcessExpression}.
+	 * Enter a parse tree produced by {@link UTALanguageParser#systemProcessRef}.
 	 * @param ctx the parse tree
 	 */
-	void enterSystemProcessExpression(UTALanguageParser.SystemProcessExpressionContext ctx);
+	void enterSystemProcessRef(UTALanguageParser.SystemProcessRefContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#systemProcessExpression}.
+	 * Exit a parse tree produced by {@link UTALanguageParser#systemProcessRef}.
 	 * @param ctx the parse tree
 	 */
-	void exitSystemProcessExpression(UTALanguageParser.SystemProcessExpressionContext ctx);
+	void exitSystemProcessRef(UTALanguageParser.SystemProcessRefContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link UTALanguageParser#progressMeasureDeclaration}.
 	 * @param ctx the parse tree
@@ -217,25 +261,53 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitDeclarationSequence(UTALanguageParser.DeclarationSequenceContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#declaration}.
+	 * Enter a parse tree produced by the {@code VariableDeclaration}
+	 * labeled alternative in {@link UTALanguageParser#declaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterDeclaration(UTALanguageParser.DeclarationContext ctx);
+	void enterVariableDeclaration(UTALanguageParser.VariableDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#declaration}.
+	 * Exit a parse tree produced by the {@code VariableDeclaration}
+	 * labeled alternative in {@link UTALanguageParser#declaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitDeclaration(UTALanguageParser.DeclarationContext ctx);
+	void exitVariableDeclaration(UTALanguageParser.VariableDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#declarationOfChannelPriority}.
+	 * Enter a parse tree produced by the {@code TypeDeclaration}
+	 * labeled alternative in {@link UTALanguageParser#declaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterDeclarationOfChannelPriority(UTALanguageParser.DeclarationOfChannelPriorityContext ctx);
+	void enterTypeDeclaration(UTALanguageParser.TypeDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#declarationOfChannelPriority}.
+	 * Exit a parse tree produced by the {@code TypeDeclaration}
+	 * labeled alternative in {@link UTALanguageParser#declaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitDeclarationOfChannelPriority(UTALanguageParser.DeclarationOfChannelPriorityContext ctx);
+	void exitTypeDeclaration(UTALanguageParser.TypeDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FunctionDeclaration}
+	 * labeled alternative in {@link UTALanguageParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionDeclaration(UTALanguageParser.FunctionDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FunctionDeclaration}
+	 * labeled alternative in {@link UTALanguageParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionDeclaration(UTALanguageParser.FunctionDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ChannelPriorityDeclaration}
+	 * labeled alternative in {@link UTALanguageParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterChannelPriorityDeclaration(UTALanguageParser.ChannelPriorityDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ChannelPriorityDeclaration}
+	 * labeled alternative in {@link UTALanguageParser#declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitChannelPriorityDeclaration(UTALanguageParser.ChannelPriorityDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link UTALanguageParser#channelPrioritySpecExpression}.
 	 * @param ctx the parse tree
@@ -257,63 +329,41 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitChannelRefList(UTALanguageParser.ChannelRefListContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ChannelDefaultPriorityRef}
+	 * Enter a parse tree produced by the {@code ChannelDefaultPriorityExpr}
 	 * labeled alternative in {@link UTALanguageParser#channelRefExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterChannelDefaultPriorityRef(UTALanguageParser.ChannelDefaultPriorityRefContext ctx);
+	void enterChannelDefaultPriorityExpr(UTALanguageParser.ChannelDefaultPriorityExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ChannelDefaultPriorityRef}
+	 * Exit a parse tree produced by the {@code ChannelDefaultPriorityExpr}
 	 * labeled alternative in {@link UTALanguageParser#channelRefExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitChannelDefaultPriorityRef(UTALanguageParser.ChannelDefaultPriorityRefContext ctx);
+	void exitChannelDefaultPriorityExpr(UTALanguageParser.ChannelDefaultPriorityExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ChannelVariablePriorityRef}
+	 * Enter a parse tree produced by the {@code ChannelIdentifierNameExpr}
 	 * labeled alternative in {@link UTALanguageParser#channelRefExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterChannelVariablePriorityRef(UTALanguageParser.ChannelVariablePriorityRefContext ctx);
+	void enterChannelIdentifierNameExpr(UTALanguageParser.ChannelIdentifierNameExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ChannelVariablePriorityRef}
+	 * Exit a parse tree produced by the {@code ChannelIdentifierNameExpr}
 	 * labeled alternative in {@link UTALanguageParser#channelRefExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitChannelVariablePriorityRef(UTALanguageParser.ChannelVariablePriorityRefContext ctx);
+	void exitChannelIdentifierNameExpr(UTALanguageParser.ChannelIdentifierNameExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ChannelVarRefArrayLookup}
-	 * labeled alternative in {@link UTALanguageParser#channelVariableRefExpression}.
+	 * Enter a parse tree produced by the {@code ChannelArrayLookupExr}
+	 * labeled alternative in {@link UTALanguageParser#channelRefExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterChannelVarRefArrayLookup(UTALanguageParser.ChannelVarRefArrayLookupContext ctx);
+	void enterChannelArrayLookupExr(UTALanguageParser.ChannelArrayLookupExrContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ChannelVarRefArrayLookup}
-	 * labeled alternative in {@link UTALanguageParser#channelVariableRefExpression}.
+	 * Exit a parse tree produced by the {@code ChannelArrayLookupExr}
+	 * labeled alternative in {@link UTALanguageParser#channelRefExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitChannelVarRefArrayLookup(UTALanguageParser.ChannelVarRefArrayLookupContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ChannelVarIdentifierRef}
-	 * labeled alternative in {@link UTALanguageParser#channelVariableRefExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterChannelVarIdentifierRef(UTALanguageParser.ChannelVarIdentifierRefContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ChannelVarIdentifierRef}
-	 * labeled alternative in {@link UTALanguageParser#channelVariableRefExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitChannelVarIdentifierRef(UTALanguageParser.ChannelVarIdentifierRefContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#declarationOfVariable}.
-	 * @param ctx the parse tree
-	 */
-	void enterDeclarationOfVariable(UTALanguageParser.DeclarationOfVariableContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#declarationOfVariable}.
-	 * @param ctx the parse tree
-	 */
-	void exitDeclarationOfVariable(UTALanguageParser.DeclarationOfVariableContext ctx);
+	void exitChannelArrayLookupExr(UTALanguageParser.ChannelArrayLookupExrContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link UTALanguageParser#variableInitialization}.
 	 * @param ctx the parse tree
@@ -349,16 +399,6 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitStructuredInitializer(UTALanguageParser.StructuredInitializerContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#declarationOfType}.
-	 * @param ctx the parse tree
-	 */
-	void enterDeclarationOfType(UTALanguageParser.DeclarationOfTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#declarationOfType}.
-	 * @param ctx the parse tree
-	 */
-	void exitDeclarationOfType(UTALanguageParser.DeclarationOfTypeContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code DeclarationOfValueFunction}
 	 * labeled alternative in {@link UTALanguageParser#declarationOfFunction}.
 	 * @param ctx the parse tree
@@ -383,37 +423,27 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitDeclarationOfVoidFunction(UTALanguageParser.DeclarationOfVoidFunctionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#functionNameParamsBody}.
+	 * Enter a parse tree produced by {@link UTALanguageParser#blockOfStatements}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunctionNameParamsBody(UTALanguageParser.FunctionNameParamsBodyContext ctx);
+	void enterBlockOfStatements(UTALanguageParser.BlockOfStatementsContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#functionNameParamsBody}.
+	 * Exit a parse tree produced by {@link UTALanguageParser#blockOfStatements}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunctionNameParamsBody(UTALanguageParser.FunctionNameParamsBodyContext ctx);
+	void exitBlockOfStatements(UTALanguageParser.BlockOfStatementsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#statementBlock}.
+	 * Enter a parse tree produced by the {@code StatementBlock}
+	 * labeled alternative in {@link UTALanguageParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void enterStatementBlock(UTALanguageParser.StatementBlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#statementBlock}.
+	 * Exit a parse tree produced by the {@code StatementBlock}
+	 * labeled alternative in {@link UTALanguageParser#statement}.
 	 * @param ctx the parse tree
 	 */
 	void exitStatementBlock(UTALanguageParser.StatementBlockContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code StatetementBlock}
-	 * labeled alternative in {@link UTALanguageParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void enterStatetementBlock(UTALanguageParser.StatetementBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code StatetementBlock}
-	 * labeled alternative in {@link UTALanguageParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void exitStatetementBlock(UTALanguageParser.StatetementBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code StatementEmpty}
 	 * labeled alternative in {@link UTALanguageParser#statement}.
@@ -511,95 +541,25 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitStatementReturn(UTALanguageParser.StatementReturnContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#forLoopStatement}.
+	 * Enter a parse tree produced by {@link UTALanguageParser#primaryStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterForLoopStatement(UTALanguageParser.ForLoopStatementContext ctx);
+	void enterPrimaryStatement(UTALanguageParser.PrimaryStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#forLoopStatement}.
+	 * Exit a parse tree produced by {@link UTALanguageParser#primaryStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitForLoopStatement(UTALanguageParser.ForLoopStatementContext ctx);
+	void exitPrimaryStatement(UTALanguageParser.PrimaryStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#forLoopHeader}.
+	 * Enter a parse tree produced by {@link UTALanguageParser#alternativeStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterForLoopHeader(UTALanguageParser.ForLoopHeaderContext ctx);
+	void enterAlternativeStatement(UTALanguageParser.AlternativeStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#forLoopHeader}.
+	 * Exit a parse tree produced by {@link UTALanguageParser#alternativeStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitForLoopHeader(UTALanguageParser.ForLoopHeaderContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#iterationStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterIterationStatement(UTALanguageParser.IterationStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#iterationStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitIterationStatement(UTALanguageParser.IterationStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#iterationHeader}.
-	 * @param ctx the parse tree
-	 */
-	void enterIterationHeader(UTALanguageParser.IterationHeaderContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#iterationHeader}.
-	 * @param ctx the parse tree
-	 */
-	void exitIterationHeader(UTALanguageParser.IterationHeaderContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#whileLoopStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterWhileLoopStatement(UTALanguageParser.WhileLoopStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#whileLoopStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitWhileLoopStatement(UTALanguageParser.WhileLoopStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#whileLoopHeader}.
-	 * @param ctx the parse tree
-	 */
-	void enterWhileLoopHeader(UTALanguageParser.WhileLoopHeaderContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#whileLoopHeader}.
-	 * @param ctx the parse tree
-	 */
-	void exitWhileLoopHeader(UTALanguageParser.WhileLoopHeaderContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#doWhileStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterDoWhileStatement(UTALanguageParser.DoWhileStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#doWhileStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitDoWhileStatement(UTALanguageParser.DoWhileStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#conditionalStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterConditionalStatement(UTALanguageParser.ConditionalStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#conditionalStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitConditionalStatement(UTALanguageParser.ConditionalStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#returnStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterReturnStatement(UTALanguageParser.ReturnStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#returnStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitReturnStatement(UTALanguageParser.ReturnStatementContext ctx);
+	void exitAlternativeStatement(UTALanguageParser.AlternativeStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link UTALanguageParser#loopInitializer}.
 	 * @param ctx the parse tree
@@ -1289,50 +1249,6 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitExpressionAssignOpAddition(UTALanguageParser.ExpressionAssignOpAdditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#parameterList}.
-	 * @param ctx the parse tree
-	 */
-	void enterParameterList(UTALanguageParser.ParameterListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#parameterList}.
-	 * @param ctx the parse tree
-	 */
-	void exitParameterList(UTALanguageParser.ParameterListContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link UTALanguageParser#parameter}.
-	 * @param ctx the parse tree
-	 */
-	void enterParameter(UTALanguageParser.ParameterContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link UTALanguageParser#parameter}.
-	 * @param ctx the parse tree
-	 */
-	void exitParameter(UTALanguageParser.ParameterContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ByReferenceVariable}
-	 * labeled alternative in {@link UTALanguageParser#parameterIdentifier}.
-	 * @param ctx the parse tree
-	 */
-	void enterByReferenceVariable(UTALanguageParser.ByReferenceVariableContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ByReferenceVariable}
-	 * labeled alternative in {@link UTALanguageParser#parameterIdentifier}.
-	 * @param ctx the parse tree
-	 */
-	void exitByReferenceVariable(UTALanguageParser.ByReferenceVariableContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ByValueVariable}
-	 * labeled alternative in {@link UTALanguageParser#parameterIdentifier}.
-	 * @param ctx the parse tree
-	 */
-	void enterByValueVariable(UTALanguageParser.ByValueVariableContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ByValueVariable}
-	 * labeled alternative in {@link UTALanguageParser#parameterIdentifier}.
-	 * @param ctx the parse tree
-	 */
-	void exitByValueVariable(UTALanguageParser.ByValueVariableContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link UTALanguageParser#argumentList}.
 	 * @param ctx the parse tree
 	 */
@@ -1449,6 +1365,16 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitTypeIdIdentifierName(UTALanguageParser.TypeIdIdentifierNameContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link UTALanguageParser#arrayIdentifierLookup}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayIdentifierLookup(UTALanguageParser.ArrayIdentifierLookupContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link UTALanguageParser#arrayIdentifierLookup}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayIdentifierLookup(UTALanguageParser.ArrayIdentifierLookupContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link UTALanguageParser#fieldDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -1460,49 +1386,49 @@ public interface UTALanguageListener extends ParseTreeListener {
 	void exitFieldDeclaration(UTALanguageParser.FieldDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ArrayIdentifier}
-	 * labeled alternative in {@link UTALanguageParser#identifier}.
+	 * labeled alternative in {@link UTALanguageParser#identifierNameVariant}.
 	 * @param ctx the parse tree
 	 */
 	void enterArrayIdentifier(UTALanguageParser.ArrayIdentifierContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code ArrayIdentifier}
-	 * labeled alternative in {@link UTALanguageParser#identifier}.
+	 * labeled alternative in {@link UTALanguageParser#identifierNameVariant}.
 	 * @param ctx the parse tree
 	 */
 	void exitArrayIdentifier(UTALanguageParser.ArrayIdentifierContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code BaseIdentifier}
-	 * labeled alternative in {@link UTALanguageParser#identifier}.
+	 * labeled alternative in {@link UTALanguageParser#identifierNameVariant}.
 	 * @param ctx the parse tree
 	 */
 	void enterBaseIdentifier(UTALanguageParser.BaseIdentifierContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code BaseIdentifier}
-	 * labeled alternative in {@link UTALanguageParser#identifier}.
+	 * labeled alternative in {@link UTALanguageParser#identifierNameVariant}.
 	 * @param ctx the parse tree
 	 */
 	void exitBaseIdentifier(UTALanguageParser.BaseIdentifierContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ArraySizeFromExpression}
-	 * labeled alternative in {@link UTALanguageParser#arrayModifier}.
+	 * labeled alternative in {@link UTALanguageParser#arraySizeModifier}.
 	 * @param ctx the parse tree
 	 */
 	void enterArraySizeFromExpression(UTALanguageParser.ArraySizeFromExpressionContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code ArraySizeFromExpression}
-	 * labeled alternative in {@link UTALanguageParser#arrayModifier}.
+	 * labeled alternative in {@link UTALanguageParser#arraySizeModifier}.
 	 * @param ctx the parse tree
 	 */
 	void exitArraySizeFromExpression(UTALanguageParser.ArraySizeFromExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ArraySizeFromType}
-	 * labeled alternative in {@link UTALanguageParser#arrayModifier}.
+	 * labeled alternative in {@link UTALanguageParser#arraySizeModifier}.
 	 * @param ctx the parse tree
 	 */
 	void enterArraySizeFromType(UTALanguageParser.ArraySizeFromTypeContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code ArraySizeFromType}
-	 * labeled alternative in {@link UTALanguageParser#arrayModifier}.
+	 * labeled alternative in {@link UTALanguageParser#arraySizeModifier}.
 	 * @param ctx the parse tree
 	 */
 	void exitArraySizeFromType(UTALanguageParser.ArraySizeFromTypeContext ctx);

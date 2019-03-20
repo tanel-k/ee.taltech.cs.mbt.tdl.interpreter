@@ -44,7 +44,7 @@ public abstract class AbsExpression {
 			getParentExpression().invalidateSubtreeHash();
 	}
 
-	protected void setChildExpression(int position, AbsExpression childExpression) {
+	public void setChildExpression(int position, AbsExpression childExpression) {
 		if (position < 0 || position >= childCount)
 			throw new IllegalArgumentException("Child expression position " + position + " out of bounds.");
 
@@ -58,7 +58,7 @@ public abstract class AbsExpression {
 		invalidateSubtreeHash();
 	}
 
-	protected AbsExpression getChildExpression(int position) {
+	public AbsExpression getChildExpression(int position) {
 		if (position < 0 || position >= childCount)
 			throw new IllegalArgumentException("Child expression position " + position + " out of bounds.");
 		return this.childExpressions.get(position);
@@ -76,7 +76,7 @@ public abstract class AbsExpression {
 		this.parentExpression = parentExpression;
 	}
 
-	public List<AbsExpression> getChildExpressions() {
+	protected List<AbsExpression> getChildExpressions() {
 		return Collections.unmodifiableList(childExpressions);
 	}
 

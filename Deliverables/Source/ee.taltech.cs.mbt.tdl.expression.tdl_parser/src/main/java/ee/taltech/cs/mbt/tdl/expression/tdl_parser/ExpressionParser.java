@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_parser;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr_facade.TDLAntlrParserFacade;
+import ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr_facade.TDLAntlrParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.ExpressionTree;
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseException;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParseTreeConverter.ParseException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -11,18 +11,18 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class ExpressionParser {
-	private TDLAntlrParserFacade parserFacade;
+	private TDLAntlrParseTreeConverter parseTreeConverter;
 
 	public ExpressionParser() {
-		this(new TDLAntlrParserFacade());
+		this(new TDLAntlrParseTreeConverter());
 	}
 
-	public ExpressionParser(TDLAntlrParserFacade parserFacade) {
-		this.parserFacade = parserFacade;
+	public ExpressionParser(TDLAntlrParseTreeConverter parseTreeConverter) {
+		this.parseTreeConverter = parseTreeConverter;
 	}
 
-	public TDLAntlrParserFacade getParserFacade() {
-		return parserFacade;
+	public TDLAntlrParseTreeConverter getParseTreeConverter() {
+		return parseTreeConverter;
 	}
 
 	public ExpressionTree parseExpression(String expression) throws ParseException {
@@ -38,6 +38,6 @@ public class ExpressionParser {
 	}
 
 	public ExpressionTree parseExpression(InputStream in) throws IOException, ParseException {
-		return parserFacade.parse(in);
+		return parseTreeConverter.parse(in);
 	}
 }

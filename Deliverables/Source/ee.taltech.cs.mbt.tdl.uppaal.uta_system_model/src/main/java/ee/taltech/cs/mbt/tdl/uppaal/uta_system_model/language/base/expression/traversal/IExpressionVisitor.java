@@ -9,10 +9,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.ca
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.hybrid.PrefixIncrementExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.literals.KeywordLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.literals.NaturalNumberLiteral;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.ConjunctionExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.DisjunctionExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.EqualityExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.NegationExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.inequality.GTEExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.inequality.GreaterThanExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.inequality.LTEExpression;
@@ -68,4 +65,5 @@ public interface IExpressionVisitor {
 	void visitPhrasalImplication(PhrasalImplicationExpression implication);
 	void visitPhrasalNegation(PhrasalNegation negation);
 	void visitAssignmentWrapper(AssignmentWrapper assignmentWrapper);
+	void visitInequality(InequalityExpression inequalityExpression);
 }

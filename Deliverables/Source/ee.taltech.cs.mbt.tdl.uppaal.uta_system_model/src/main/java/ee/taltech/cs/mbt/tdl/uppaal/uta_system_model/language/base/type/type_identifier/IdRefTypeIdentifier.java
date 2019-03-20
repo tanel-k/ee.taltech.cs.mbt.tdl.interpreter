@@ -1,19 +1,19 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Identifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.traversal.ITypeIdentifierVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.visitation.ITypeIdentifierVisitor;
 
 import java.util.Objects;
 
 public class IdRefTypeIdentifier extends AbsTypeIdentifier {
-	private Identifier identifier;
+	private IdentifierName identifierName;
 
-	public Identifier getIdentifier() {
-		return identifier;
+	public IdentifierName getIdentifierName() {
+		return identifierName;
 	}
 
-	public void setIdentifier(Identifier identifier) {
-		this.identifier = identifier;
+	public void setIdentifierName(IdentifierName identifierName) {
+		this.identifierName = identifierName;
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class IdRefTypeIdentifier extends AbsTypeIdentifier {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getIdentifier());
+		return Objects.hash(getIdentifierName());
 	}
 
 	@Override
@@ -35,6 +35,6 @@ public class IdRefTypeIdentifier extends AbsTypeIdentifier {
 		if (!(obj instanceof IdRefTypeIdentifier))
 			return false;
 		IdRefTypeIdentifier other = (IdRefTypeIdentifier) obj;
-		return Objects.equals(other.getIdentifier(), this.getIdentifier());
+		return Objects.equals(other.getIdentifierName(), this.getIdentifierName());
 	}
 }

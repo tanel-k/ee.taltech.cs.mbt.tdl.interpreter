@@ -2,18 +2,17 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.c
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsUnaryExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.AbsTypeIdentifier;
 
 import java.util.Objects;
 
-public class QuantificationExpression<
-		VarTypeIdentifier extends AbsTypeIdentifier, IdentifierType
-		> extends AbsUnaryExpression
+public class QuantificationExpression<VarTypeIdentifier extends AbsTypeIdentifier> extends AbsUnaryExpression
 {
 	private EQuantificationType quantificationType;
 	private Type<VarTypeIdentifier> iterationVariableType;
-	private IdentifierType iterationVariableIdentifier;
+	private IdentifierName identifierName;
 
 	@Override
 	public Associativity getAssociativity() {
@@ -29,12 +28,16 @@ public class QuantificationExpression<
 		return quantificationType;
 	}
 
-	public IdentifierType getIterationVariableIdentifier() {
-		return iterationVariableIdentifier;
+	public void setQuantificationType(EQuantificationType quantificationType) {
+		this.quantificationType = quantificationType;
 	}
 
-	public void setIterationVariableIdentifier(IdentifierType iterationVariableIdentifier) {
-		this.iterationVariableIdentifier = iterationVariableIdentifier;
+	public IdentifierName getIdentifierName() {
+		return identifierName;
+	}
+
+	public void setIdentifierName(IdentifierName identifierName) {
+		this.identifierName = identifierName;
 		invalidateSubtreeHash();
 	}
 
@@ -51,7 +54,7 @@ public class QuantificationExpression<
 	protected int getLocalHash() {
 		return Objects.hash(
 			getQuantificationType(),
-			getIterationVariableIdentifier(),
+			getIdentifierName(),
 			getIterationVariableType()
 		);
 	}
@@ -65,7 +68,7 @@ public class QuantificationExpression<
 				return false;
 			QuantificationExpression other = (QuantificationExpression) obj;
 			return Objects.equals(other.quantificationType, this.quantificationType)
-				&& Objects.equals(other.iterationVariableIdentifier, this.iterationVariableIdentifier)
+				&& Objects.equals(other.identifierName, this.identifierName)
 				&& Objects.equals(other.iterationVariableType, this.iterationVariableType);
 		}
 		return false;

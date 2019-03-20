@@ -2,11 +2,12 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.c
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsUnaryExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 
 import java.util.Objects;
 
-public class FieldAccessExpression<IdentifierType> extends AbsUnaryExpression {
-	private IdentifierType fieldIdentifier;
+public class FieldAccessExpression extends AbsUnaryExpression {
+	private IdentifierName identifierName;
 
 	@Override
 	public Associativity getAssociativity() {
@@ -18,18 +19,18 @@ public class FieldAccessExpression<IdentifierType> extends AbsUnaryExpression {
 		visitor.visitFieldAccess(this);
 	}
 
-	public IdentifierType getFieldIdentifier() {
-		return fieldIdentifier;
+	public IdentifierName getIdentifierName() {
+		return identifierName;
 	}
 
-	public void setFieldIdentifier(IdentifierType fieldIdentifier) {
-		this.fieldIdentifier = fieldIdentifier;
+	public void setIdentifierName(IdentifierName identifierName) {
+		this.identifierName = identifierName;
 		invalidateSubtreeHash();
 	}
 
 	@Override
 	protected int getLocalHash() {
-		return Objects.hash(getFieldIdentifier());
+		return Objects.hash(getIdentifierName());
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class FieldAccessExpression<IdentifierType> extends AbsUnaryExpression {
 			if (!(obj instanceof FieldAccessExpression))
 				return false;
 			FieldAccessExpression other = (FieldAccessExpression) obj;
-			return Objects.equals(other.fieldIdentifier, this.fieldIdentifier);
+			return Objects.equals(other.identifierName, this.identifierName);
 		}
 		return false;
 	}

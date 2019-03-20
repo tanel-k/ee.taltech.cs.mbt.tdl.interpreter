@@ -5,6 +5,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.tra
 public class DoWhileLoop extends WhileLoop {
 	@Override
 	public void accept(IStatementVisitor visitor) {
-		visitor.visitDoWhileLoop(this);
+		visitor.visitDoWhile(this);
 	}
 }

@@ -1,16 +1,17 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.system_model;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.container.DeclarationSequence;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.uta_containers.system.UTASystemDefinition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.declaration.AbsDeclarationStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates.UTATemplate;
 
 import java.util.Map;
+import java.util.Set;
 
 public class UTASystemModel {
 	private String name;
 	private Map<String, UTATemplate> templateNameMap;
-	private UTASystemDefinition systemDefinition;
-	private DeclarationSequence globalDeclarations;
+	private SystemDefinition systemDefinition;
+	private Set<AbsDeclarationStatement> globalDeclarations;
 
 	public String getName() {
 		return name;
@@ -28,19 +29,15 @@ public class UTASystemModel {
 		this.templateNameMap = templateNameMap;
 	}
 
-	public UTASystemDefinition getSystemDefinition() {
+	public SystemDefinition getSystemDefinition() {
 		return systemDefinition;
 	}
 
-	public void setSystemDefinition(UTASystemDefinition systemDefinition) {
+	public void setSystemDefinition(SystemDefinition systemDefinition) {
 		this.systemDefinition = systemDefinition;
 	}
 
-	public DeclarationSequence getGlobalDeclarations() {
+	public Set<AbsDeclarationStatement> getGlobalDeclarations() {
 		return globalDeclarations;
-	}
-
-	public void setGlobalDeclarations(DeclarationSequence globalDeclarations) {
-		this.globalDeclarations = globalDeclarations;
 	}
 }

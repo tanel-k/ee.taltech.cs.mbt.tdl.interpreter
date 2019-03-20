@@ -9,10 +9,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.ca
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.hybrid.PrefixIncrementExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.literals.KeywordLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.literals.NaturalNumberLiteral;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.ConjunctionExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.DisjunctionExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.EqualityExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.NegationExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.inequality.GTEExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.inequality.GreaterThanExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.inequality.LTEExpression;
@@ -68,4 +65,5 @@ public class BaseExpressionVisitor implements IExpressionVisitor {
 	@Override public void visitPhrasalImplication(PhrasalImplicationExpression implication) { }
 	@Override public void visitPhrasalNegation(PhrasalNegation negation) { }
 	@Override public void visitAssignmentWrapper(AssignmentWrapper assignmentWrapper) { }
+	@Override public void visitInequality(InequalityExpression inequalityExpression) { }
 }
