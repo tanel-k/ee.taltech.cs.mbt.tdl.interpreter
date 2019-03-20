@@ -1,0 +1,19 @@
+// Place global declarations here.
+const int E = 0;
+const int A = 1;
+const int H = 2;
+
+const int JOBS = 10;
+const int HAMMERS = 1;
+const int MALLETS = 1;
+const int JOBBERS = 2;
+const int[0,2] jobs[JOBS] = {H,A,H,H,H,E,E,A,A,A};
+typedef int[0, MALLETS-1] mallet_t;
+typedef int[0, HAMMERS-1] hammer_t;
+typedef int[0, JOBBERS-1] jobber_t;
+/* When two automata synchronize on some channel ch, this means that
+ * a ch! transition of one automaton occurs simultaneously with
+ * a ch? transition of another automaton.
+ * A ch! or ch? transition can never occur on its own:
+ * ch! always has to synchronize with ch? and vice versa.
+ **/
