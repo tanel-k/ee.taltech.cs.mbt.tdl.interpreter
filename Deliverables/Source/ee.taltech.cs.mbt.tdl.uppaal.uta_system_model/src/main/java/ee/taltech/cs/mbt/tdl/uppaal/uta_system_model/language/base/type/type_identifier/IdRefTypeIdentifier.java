@@ -5,6 +5,13 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_ide
 
 import java.util.Objects;
 
+/**
+ * Identifies the use of a named type.<br/>
+ * Syntax fragment:<br/>
+ * <pre>
+ * TypeId        ::= ID | ...
+ * </pre>
+ */
 public class IdRefTypeIdentifier extends AbsTypeIdentifier {
 	private IdentifierName identifierName;
 

@@ -197,25 +197,25 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProcessVarPartialTemplateInstantiation(UTALanguageParser.ProcessVarPartialTemplateInstantiationContext ctx) { }
+	@Override public void enterPartialTemplateInstantiation(UTALanguageParser.PartialTemplateInstantiationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProcessVarPartialTemplateInstantiation(UTALanguageParser.ProcessVarPartialTemplateInstantiationContext ctx) { }
+	@Override public void exitPartialTemplateInstantiation(UTALanguageParser.PartialTemplateInstantiationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProcessVarFullTemplateInstantiation(UTALanguageParser.ProcessVarFullTemplateInstantiationContext ctx) { }
+	@Override public void enterFullTemplateInstantiation(UTALanguageParser.FullTemplateInstantiationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProcessVarFullTemplateInstantiation(UTALanguageParser.ProcessVarFullTemplateInstantiationContext ctx) { }
+	@Override public void exitFullTemplateInstantiation(UTALanguageParser.FullTemplateInstantiationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -497,18 +497,6 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementEmpty(UTALanguageParser.StatementEmptyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStatementEmpty(UTALanguageParser.StatementEmptyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterStatementExpression(UTALanguageParser.StatementExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -588,6 +576,18 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStatementReturn(UTALanguageParser.StatementReturnContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatementEmpty(UTALanguageParser.StatementEmptyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatementEmpty(UTALanguageParser.StatementEmptyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -785,6 +785,18 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExpressionUnaryOpAdditiveIdentity(UTALanguageParser.ExpressionUnaryOpAdditiveIdentityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpressionUnaryOpAdditiveIdentity(UTALanguageParser.ExpressionUnaryOpAdditiveIdentityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpressionTernary(UTALanguageParser.ExpressionTernaryContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -936,6 +948,18 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpressionBinaryOpSubtraction(UTALanguageParser.ExpressionBinaryOpSubtractionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpressionUnaryOpAdditiveInverse(UTALanguageParser.ExpressionUnaryOpAdditiveInverseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpressionUnaryOpAdditiveInverse(UTALanguageParser.ExpressionUnaryOpAdditiveInverseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1181,18 +1205,6 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressionUnaryOpNegative(UTALanguageParser.ExpressionUnaryOpNegativeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpressionUnaryOpNegative(UTALanguageParser.ExpressionUnaryOpNegativeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterExpressionBinaryOpDisjunctionPhrase(UTALanguageParser.ExpressionBinaryOpDisjunctionPhraseContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1272,18 +1284,6 @@ public class UTALanguageBaseListener implements UTALanguageListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpressionGetAndDecrement(UTALanguageParser.ExpressionGetAndDecrementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpressionUnaryOpPositive(UTALanguageParser.ExpressionUnaryOpPositiveContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpressionUnaryOpPositive(UTALanguageParser.ExpressionUnaryOpPositiveContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

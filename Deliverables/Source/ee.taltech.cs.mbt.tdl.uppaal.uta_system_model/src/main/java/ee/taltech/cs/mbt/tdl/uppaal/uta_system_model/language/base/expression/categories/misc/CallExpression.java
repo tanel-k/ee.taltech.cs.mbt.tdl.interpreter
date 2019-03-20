@@ -9,9 +9,31 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class CallExpression extends AbsUnaryExpression implements Iterable<AbsExpression> {
+/**
+ * Represents an UPPAAL structured type field access.<br/>
+ * Syntax:<br/>
+ * <pre>
+ * Expression ::= ...
+ *             |  Expression '.' ID
+ *             | ...
+ * </pre>
+ * <table>
+ *   <tr>
+ *     <th>Method</th>
+ *     <th>Return type description</th>
+ *   </tr>
+ *   <tr>
+ *     <td>{@link #getChild()}</td>
+ *     <td>The expression that gets called.</td>
+ *   </tr>
+ * </table>
+ */
+public class CallExpression extends AbsUnaryExpression {
 	private List<AbsExpression> argumentList = new LinkedList<>();
 
+	/**
+	 * @return Arguments supplied in the call.
+	 */
 	public List<AbsExpression> getArgumentList() {
 		return argumentList;
 	}
@@ -19,11 +41,6 @@ public class CallExpression extends AbsUnaryExpression implements Iterable<AbsEx
 	@Override
 	public void accept(IExpressionVisitor visitor) {
 		visitor.visitCall(this);
-	}
-
-	@Override
-	public Iterator<AbsExpression> iterator() {
-		return argumentList.iterator();
 	}
 
 	@Override

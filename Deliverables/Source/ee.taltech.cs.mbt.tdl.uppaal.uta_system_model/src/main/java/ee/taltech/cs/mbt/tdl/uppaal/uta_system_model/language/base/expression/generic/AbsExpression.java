@@ -7,16 +7,49 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Represents an expression in UPPAAL syntax.<br/>
+ * Here we represent expressions as tree structures in which each node extends this class.<br/>
+ * In UPPAAL, assignments are also treated as expressions.<br/>
+ * <br/>
+ * Syntax:<br/>
+ * <pre>
+ * Expression ::= ID
+ *             |  NAT
+ *             |  Expression '[' Expression ']'
+ *             |  '(' Expression ')'
+ *             |  Expression '++' | '++' Expression
+ *             |  Expression '--' | '--' Expression
+ *             |  Expression Assign Expression
+ *             |  Unary Expression
+ *             |  Expression Binary Expression
+ *             |  Expression '?' Expression ':' Expression
+ *             |  Expression '.' ID
+ *             |  Expression '(' Arguments ')'
+ *             |  'forall' '(' ID ':' Type ')' Expression
+ *             |  'exists' '(' ID ':' Type ')' Expression
+ *             |  'deadlock' | 'true' | 'false'
+ * Arguments  ::= [ Expression ( ',' Expression )* ]
+ * Assign     ::= '=' | ':=' | '+=' | '-=' | '*=' | '/=' | '%='
+ *             | '|=' | '&amp;=' | '^=' | '&lt;&lt;=' | '&gt;&gt;='
+ * Unary      ::= '+' | '-' | '!' | 'not'
+ * Binary     ::= '&lt;' | '&lt;=' | '==' | '!=' | '&gt;=' | '&gt;'
+ *             |  '+' | '-' | '*' | '/' | '%' | '&'
+ *             |  '|' | '^' | '&lt;&lt;' | '&gt;&gt;' | '&&' | '||'
+ *             |  '&lt;?' | '&gt;?' | 'or' | 'and' | 'imply'
+ * </pre>
+ */
 public abstract class AbsExpression {
+	/** The associativity of an expression operator. */
 	public static enum Associativity { LEFT, RIGHT, NONE }
 
 	private AbsExpression parentExpression;
 	private List<AbsExpression> childExpressions;
+	private int subtreeHash;
+	private boolean isSubtreeHashValid = false;
 
-	protected String hashSeed;
+	private String hashSeed;
 	protected int childCount;
-	protected int subtreeHash;
-	protected boolean isSubtreeHashValid = false;
 
 	protected AbsExpression(int childCount) {
 		this(null, childCount);
@@ -44,7 +77,7 @@ public abstract class AbsExpression {
 			getParentExpression().invalidateSubtreeHash();
 	}
 
-	public void setChildExpression(int position, AbsExpression childExpression) {
+	protected void setChildExpression(int position, AbsExpression childExpression) {
 		if (position < 0 || position >= childCount)
 			throw new IllegalArgumentException("Child expression position " + position + " out of bounds.");
 
@@ -58,7 +91,7 @@ public abstract class AbsExpression {
 		invalidateSubtreeHash();
 	}
 
-	public AbsExpression getChildExpression(int position) {
+	protected AbsExpression getChildExpression(int position) {
 		if (position < 0 || position >= childCount)
 			throw new IllegalArgumentException("Child expression position " + position + " out of bounds.");
 		return this.childExpressions.get(position);

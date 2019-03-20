@@ -6,9 +6,20 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Id
 
 import java.util.Objects;
 
+/**
+ * Represents a simple identifier reference expression.<br/>
+ * Syntax:<br/>
+ * <pre>
+ * Expression ::= ID
+ *             |  ...
+ * </pre>
+ */
 public class IdentifierRefExpression extends AbsLeafExpression {
 	private IdentifierName identifierName;
 
+	/**
+	 * @return The referenced identifier.
+	 */
 	public IdentifierName getIdentifierName() {
 		return identifierName;
 	}

@@ -3,6 +3,30 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.c
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsBinaryExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
 
+/**
+ * Represents a greater-than-or-equal-to inequality.<br/>
+ * Syntax:<br/>
+ * <pre>
+ * Expression ::= ...
+ *             |  Expression '&gt;=' Expression
+ *             | ...
+ * </pre>
+ * <br/>
+ * <table>
+ *   <tr>
+ *     <th>Method</th>
+ *     <th>Return type description</th>
+ *   </tr>
+ *   <tr>
+ *     <td>{@link #getLeftChild()}</td>
+ *     <td>The left operand.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>{@link #getRightChild()}</td>
+ *     <td>The right operand.</td>
+ *   </tr>
+ * </table>
+ */
 public class GTEExpression extends AbsBinaryExpression {
 	@Override
 	public Associativity getAssociativity() {

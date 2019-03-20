@@ -2,6 +2,14 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier;
 
 import java.util.Objects;
 
+/**
+ * Represents a valid identifier in UPPAAL.<br/>
+ * Adapted from UPPAAL documentation:<br/>
+ * <i>
+ * The valid identifier names are described by the following regular expression:<br/>
+ * [a-zA-Z_]([a-zA-Z0-9_])*
+ * </i>
+ */
 public class IdentifierName {
 	private String name;
 

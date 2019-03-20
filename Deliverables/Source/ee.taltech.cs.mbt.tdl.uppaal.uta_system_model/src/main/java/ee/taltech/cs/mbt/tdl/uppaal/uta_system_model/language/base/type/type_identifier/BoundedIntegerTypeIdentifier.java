@@ -5,6 +5,16 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_ide
 
 import java.util.Objects;
 
+/**
+ * Identifies a bounded integer Uppaal type.<br/>
+ * Bounds are defined using expressions (@see {@link AbsExpression}).
+ * Syntax fragment:<br/>
+ * <pre>
+ * TypeId        ::= ...
+ *                |  'int' '[' Expression ',' Expression ']'
+ *                | ...
+ * </pre>
+ */
 public class BoundedIntegerTypeIdentifier extends AbsTypeIdentifier {
 	private AbsExpression minBoundExpression;
 	private AbsExpression maxBoundExpression;

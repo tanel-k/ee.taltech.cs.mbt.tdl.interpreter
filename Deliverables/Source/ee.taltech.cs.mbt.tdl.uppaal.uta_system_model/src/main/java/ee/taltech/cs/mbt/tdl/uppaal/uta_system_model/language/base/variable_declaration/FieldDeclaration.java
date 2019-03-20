@@ -6,6 +6,10 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_ide
 
 import java.util.Objects;
 
+/**
+ * Represents the declaration of a field in an UPPAAL struct.<br/>
+ * @param <FieldTypeIdentifier> See {@link AbsTypeIdentifier} and {@link Type}.
+ */
 public class FieldDeclaration<FieldTypeIdentifier extends AbsTypeIdentifier> {
 	private Type<FieldTypeIdentifier> type;
 	private IdentifierName identifierName;

@@ -4,6 +4,11 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.ge
 
 import java.util.Objects;
 
+/**
+ * Represents leaf nodes that are literals.
+ * @param <RepresentationType>
+ * Java type used for the representation of the leaf node inside this beam.
+ */
 public abstract class AbsLiteralExpression<RepresentationType> extends AbsLeafExpression {
 	private RepresentationType representation;
 

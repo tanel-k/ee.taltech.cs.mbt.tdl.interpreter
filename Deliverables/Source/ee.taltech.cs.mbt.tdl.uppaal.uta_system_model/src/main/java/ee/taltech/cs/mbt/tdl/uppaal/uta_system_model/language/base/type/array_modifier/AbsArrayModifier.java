@@ -4,6 +4,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.array_mo
 
 import java.util.Objects;
 
+/**
+ * Represents an array modifier which can be appended to
+ * an parameter/field identifier in a declaration to mark the
+ * latter parameter/field as an array type.
+ * @param <SizeSpecifier> Type used to represent the size specified in the modifier.
+ */
 public abstract class AbsArrayModifier<SizeSpecifier> {
 	private SizeSpecifier sizeSpecifier;
 

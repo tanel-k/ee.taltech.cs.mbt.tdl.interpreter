@@ -2,8 +2,15 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.co
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.AbsStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.traversal.IStatementVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.statement.visitation.IStatementVisitor;
 
+/**
+ * Represents an UPPAAL 'If'-statement.<br/>
+ * Syntax:<br/>
+ * <pre>
+ * IfStatment ::= 'if' '(' Expression ')' Statement [ 'else' Statement ]
+ * </pre>
+ */
 public class ConditionalStatement extends AbsStatement {
 	private AbsExpression conditionExpression;
 

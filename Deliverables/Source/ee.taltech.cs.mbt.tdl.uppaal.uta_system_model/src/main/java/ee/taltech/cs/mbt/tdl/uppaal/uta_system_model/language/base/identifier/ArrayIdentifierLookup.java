@@ -1,10 +1,22 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.access.ArrayLookupExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
 
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Represents an array lookup performed on a plain array identifier {@link IdentifierName}.<br/>
+ * Note we also have {@link ArrayLookupExpression}.<br/>
+ * The latter allows for an expression to be used as the lookup target.<br/>
+ * <br/>
+ * Syntax:<br/>
+ * <pre>
+ * Lookup ::= ID
+ *         |  Lookup '[' Expression ']'
+ * </pre>
+ */
 public class ArrayIdentifierLookup {
 	private IdentifierName identifierName;
 	private List<AbsExpression> lookupExpressions = new LinkedList<>();

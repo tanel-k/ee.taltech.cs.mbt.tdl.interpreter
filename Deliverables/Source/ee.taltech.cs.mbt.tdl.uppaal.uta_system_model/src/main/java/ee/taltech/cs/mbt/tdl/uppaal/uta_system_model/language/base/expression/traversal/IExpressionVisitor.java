@@ -31,8 +31,8 @@ public interface IExpressionVisitor {
 	void visitMinimum(MinimumExpression minimum);
 	void visitModulo(ModuloExpression modulo);
 	void visitMultiplication(MultiplicationExpression multiplication);
-	void visitNegative(NegativeExpression negative);
-	void visitPositive(PositiveExpression positive);
+	void visitAdditiveInverse(AdditiveInverseExpression negative);
+	void visitAdditiveIdentity(AdditiveIdentityExpression positive);
 	void visitSubtraction(SubtractionExpression subtraction);
 	void visitBitwiseAnd(BitwiseAndExpression bitwiseAnd);
 	void visitBitwiseExclusiveOr(BitwiseExclusiveOrExpression bitwiseExclusiveOr);

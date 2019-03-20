@@ -5,6 +5,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.tr
 
 import java.util.List;
 
+/**
+ * See {@link IHasAssignmentCounterpart}.<br/>
+ * This class is meant to be used as a wrapper around
+ * operations which have an assignment variant.<br/>
+ * By using the wrapper we mark the nested expression
+ * as an assignment.<br/>
+ * @param <WrappedType> See {@link AbsInternalExpression}.
+ */
 public class AssignmentWrapper<
 		WrappedType extends AbsInternalExpression & IHasAssignmentCounterpart
 	> extends AbsInternalExpression
@@ -45,12 +53,12 @@ public class AssignmentWrapper<
 	}
 
 	@Override
-	public List<AbsExpression> getChildExpressions() {
+	protected List<AbsExpression> getChildExpressions() {
 		return operatorExpression.getChildExpressions();
 	}
 
 	@Override
-	public void setChildExpression(int position, AbsExpression childExpression) {
+	protected void setChildExpression(int position, AbsExpression childExpression) {
 		operatorExpression.setChildExpression(position, childExpression);
 	}
 

@@ -31,8 +31,8 @@ public class BaseExpressionVisitor implements IExpressionVisitor {
 	@Override public void visitMinimum(MinimumExpression minimum) { }
 	@Override public void visitModulo(ModuloExpression modulo) { }
 	@Override public void visitMultiplication(MultiplicationExpression multiplication) { }
-	@Override public void visitNegative(NegativeExpression negative) { }
-	@Override public void visitPositive(PositiveExpression positive) { }
+	@Override public void visitAdditiveInverse(AdditiveInverseExpression negative) { }
+	@Override public void visitAdditiveIdentity(AdditiveIdentityExpression positive) { }
 	@Override public void visitSubtraction(SubtractionExpression subtraction) { }
 	@Override public void visitBitwiseAnd(BitwiseAndExpression bitwiseAnd) { }
 	@Override public void visitBitwiseExclusiveOr(BitwiseExclusiveOrExpression bitwiseExclusiveOr) { }

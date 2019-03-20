@@ -167,29 +167,29 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitSystemDeclarationStatement(UTALanguageParser.SystemDeclarationStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ProcessVarPartialTemplateInstantiation}
-	 * labeled alternative in {@link UTALanguageParser#processVariableAssignment}.
+	 * Enter a parse tree produced by the {@code PartialTemplateInstantiation}
+	 * labeled alternative in {@link UTALanguageParser#templateInstantiation}.
 	 * @param ctx the parse tree
 	 */
-	void enterProcessVarPartialTemplateInstantiation(UTALanguageParser.ProcessVarPartialTemplateInstantiationContext ctx);
+	void enterPartialTemplateInstantiation(UTALanguageParser.PartialTemplateInstantiationContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ProcessVarPartialTemplateInstantiation}
-	 * labeled alternative in {@link UTALanguageParser#processVariableAssignment}.
+	 * Exit a parse tree produced by the {@code PartialTemplateInstantiation}
+	 * labeled alternative in {@link UTALanguageParser#templateInstantiation}.
 	 * @param ctx the parse tree
 	 */
-	void exitProcessVarPartialTemplateInstantiation(UTALanguageParser.ProcessVarPartialTemplateInstantiationContext ctx);
+	void exitPartialTemplateInstantiation(UTALanguageParser.PartialTemplateInstantiationContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ProcessVarFullTemplateInstantiation}
-	 * labeled alternative in {@link UTALanguageParser#processVariableAssignment}.
+	 * Enter a parse tree produced by the {@code FullTemplateInstantiation}
+	 * labeled alternative in {@link UTALanguageParser#templateInstantiation}.
 	 * @param ctx the parse tree
 	 */
-	void enterProcessVarFullTemplateInstantiation(UTALanguageParser.ProcessVarFullTemplateInstantiationContext ctx);
+	void enterFullTemplateInstantiation(UTALanguageParser.FullTemplateInstantiationContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ProcessVarFullTemplateInstantiation}
-	 * labeled alternative in {@link UTALanguageParser#processVariableAssignment}.
+	 * Exit a parse tree produced by the {@code FullTemplateInstantiation}
+	 * labeled alternative in {@link UTALanguageParser#templateInstantiation}.
 	 * @param ctx the parse tree
 	 */
-	void exitProcessVarFullTemplateInstantiation(UTALanguageParser.ProcessVarFullTemplateInstantiationContext ctx);
+	void exitFullTemplateInstantiation(UTALanguageParser.FullTemplateInstantiationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link UTALanguageParser#systemLine}.
 	 * @param ctx the parse tree
@@ -445,18 +445,6 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitStatementBlock(UTALanguageParser.StatementBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code StatementEmpty}
-	 * labeled alternative in {@link UTALanguageParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void enterStatementEmpty(UTALanguageParser.StatementEmptyContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code StatementEmpty}
-	 * labeled alternative in {@link UTALanguageParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void exitStatementEmpty(UTALanguageParser.StatementEmptyContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code StatementExpression}
 	 * labeled alternative in {@link UTALanguageParser#statement}.
 	 * @param ctx the parse tree
@@ -540,6 +528,18 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStatementReturn(UTALanguageParser.StatementReturnContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code StatementEmpty}
+	 * labeled alternative in {@link UTALanguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatementEmpty(UTALanguageParser.StatementEmptyContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code StatementEmpty}
+	 * labeled alternative in {@link UTALanguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatementEmpty(UTALanguageParser.StatementEmptyContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link UTALanguageParser#primaryStatement}.
 	 * @param ctx the parse tree
@@ -721,6 +721,18 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitExpressionCall(UTALanguageParser.ExpressionCallContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code ExpressionUnaryOpAdditiveIdentity}
+	 * labeled alternative in {@link UTALanguageParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressionUnaryOpAdditiveIdentity(UTALanguageParser.ExpressionUnaryOpAdditiveIdentityContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExpressionUnaryOpAdditiveIdentity}
+	 * labeled alternative in {@link UTALanguageParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressionUnaryOpAdditiveIdentity(UTALanguageParser.ExpressionUnaryOpAdditiveIdentityContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code ExpressionTernary}
 	 * labeled alternative in {@link UTALanguageParser#expression}.
 	 * @param ctx the parse tree
@@ -876,6 +888,18 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpressionBinaryOpSubtraction(UTALanguageParser.ExpressionBinaryOpSubtractionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ExpressionUnaryOpAdditiveInverse}
+	 * labeled alternative in {@link UTALanguageParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressionUnaryOpAdditiveInverse(UTALanguageParser.ExpressionUnaryOpAdditiveInverseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExpressionUnaryOpAdditiveInverse}
+	 * labeled alternative in {@link UTALanguageParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressionUnaryOpAdditiveInverse(UTALanguageParser.ExpressionUnaryOpAdditiveInverseContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ExpressionTrueLiteral}
 	 * labeled alternative in {@link UTALanguageParser#expression}.
@@ -1117,18 +1141,6 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 */
 	void exitExpressionArrayLookup(UTALanguageParser.ExpressionArrayLookupContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExpressionUnaryOpNegative}
-	 * labeled alternative in {@link UTALanguageParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionUnaryOpNegative(UTALanguageParser.ExpressionUnaryOpNegativeContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ExpressionUnaryOpNegative}
-	 * labeled alternative in {@link UTALanguageParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionUnaryOpNegative(UTALanguageParser.ExpressionUnaryOpNegativeContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code ExpressionBinaryOpDisjunctionPhrase}
 	 * labeled alternative in {@link UTALanguageParser#expression}.
 	 * @param ctx the parse tree
@@ -1212,18 +1224,6 @@ public interface UTALanguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpressionGetAndDecrement(UTALanguageParser.ExpressionGetAndDecrementContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ExpressionUnaryOpPositive}
-	 * labeled alternative in {@link UTALanguageParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionUnaryOpPositive(UTALanguageParser.ExpressionUnaryOpPositiveContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ExpressionUnaryOpPositive}
-	 * labeled alternative in {@link UTALanguageParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionUnaryOpPositive(UTALanguageParser.ExpressionUnaryOpPositiveContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ExpressionBinaryOpConjunction}
 	 * labeled alternative in {@link UTALanguageParser#expression}.

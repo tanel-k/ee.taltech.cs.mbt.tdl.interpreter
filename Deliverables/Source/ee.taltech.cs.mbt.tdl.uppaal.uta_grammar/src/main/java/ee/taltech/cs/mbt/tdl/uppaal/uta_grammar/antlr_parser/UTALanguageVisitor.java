@@ -106,19 +106,19 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSystemDeclarationStatement(UTALanguageParser.SystemDeclarationStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ProcessVarPartialTemplateInstantiation}
-	 * labeled alternative in {@link UTALanguageParser#processVariableAssignment}.
+	 * Visit a parse tree produced by the {@code PartialTemplateInstantiation}
+	 * labeled alternative in {@link UTALanguageParser#templateInstantiation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProcessVarPartialTemplateInstantiation(UTALanguageParser.ProcessVarPartialTemplateInstantiationContext ctx);
+	T visitPartialTemplateInstantiation(UTALanguageParser.PartialTemplateInstantiationContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ProcessVarFullTemplateInstantiation}
-	 * labeled alternative in {@link UTALanguageParser#processVariableAssignment}.
+	 * Visit a parse tree produced by the {@code FullTemplateInstantiation}
+	 * labeled alternative in {@link UTALanguageParser#templateInstantiation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProcessVarFullTemplateInstantiation(UTALanguageParser.ProcessVarFullTemplateInstantiationContext ctx);
+	T visitFullTemplateInstantiation(UTALanguageParser.FullTemplateInstantiationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link UTALanguageParser#systemLine}.
 	 * @param ctx the parse tree
@@ -270,13 +270,6 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatementBlock(UTALanguageParser.StatementBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code StatementEmpty}
-	 * labeled alternative in {@link UTALanguageParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStatementEmpty(UTALanguageParser.StatementEmptyContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code StatementExpression}
 	 * labeled alternative in {@link UTALanguageParser#statement}.
 	 * @param ctx the parse tree
@@ -325,6 +318,13 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStatementReturn(UTALanguageParser.StatementReturnContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code StatementEmpty}
+	 * labeled alternative in {@link UTALanguageParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementEmpty(UTALanguageParser.StatementEmptyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link UTALanguageParser#primaryStatement}.
 	 * @param ctx the parse tree
@@ -432,6 +432,13 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpressionCall(UTALanguageParser.ExpressionCallContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ExpressionUnaryOpAdditiveIdentity}
+	 * labeled alternative in {@link UTALanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionUnaryOpAdditiveIdentity(UTALanguageParser.ExpressionUnaryOpAdditiveIdentityContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ExpressionTernary}
 	 * labeled alternative in {@link UTALanguageParser#expression}.
 	 * @param ctx the parse tree
@@ -522,6 +529,13 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpressionBinaryOpSubtraction(UTALanguageParser.ExpressionBinaryOpSubtractionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExpressionUnaryOpAdditiveInverse}
+	 * labeled alternative in {@link UTALanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionUnaryOpAdditiveInverse(UTALanguageParser.ExpressionUnaryOpAdditiveInverseContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExpressionTrueLiteral}
 	 * labeled alternative in {@link UTALanguageParser#expression}.
@@ -663,13 +677,6 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpressionArrayLookup(UTALanguageParser.ExpressionArrayLookupContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExpressionUnaryOpNegative}
-	 * labeled alternative in {@link UTALanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionUnaryOpNegative(UTALanguageParser.ExpressionUnaryOpNegativeContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code ExpressionBinaryOpDisjunctionPhrase}
 	 * labeled alternative in {@link UTALanguageParser#expression}.
 	 * @param ctx the parse tree
@@ -718,13 +725,6 @@ public interface UTALanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpressionGetAndDecrement(UTALanguageParser.ExpressionGetAndDecrementContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ExpressionUnaryOpPositive}
-	 * labeled alternative in {@link UTALanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionUnaryOpPositive(UTALanguageParser.ExpressionUnaryOpPositiveContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExpressionBinaryOpConjunction}
 	 * labeled alternative in {@link UTALanguageParser#expression}.

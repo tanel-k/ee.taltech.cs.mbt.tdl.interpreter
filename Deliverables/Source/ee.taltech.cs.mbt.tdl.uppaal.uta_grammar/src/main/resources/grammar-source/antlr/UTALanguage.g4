@@ -71,19 +71,19 @@ systemDeclarationSequence
     ;
 
 systemDeclarationStatement
-    : processVariableAssignment
+    : templateInstantiation
     | declaration
     ;
 
 // This will class with assignment expressions if used at the same alt layer.
 // Currently this alts with declarations, which do not clash with the productions below.
-processVariableAssignment
+templateInstantiation
     : IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList GROUP_RIGHT_PAREN ASSG_OP
       IDENTIFIER_NAME GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN SEP_SEMICOLON
-        # ProcessVarPartialTemplateInstantiation
+        # PartialTemplateInstantiation
     | IDENTIFIER_NAME ASSG_OP
       IDENTIFIER_NAME GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN SEP_SEMICOLON
-        # ProcessVarFullTemplateInstantiation
+        # FullTemplateInstantiation
     ;
 
 systemLine
@@ -163,8 +163,6 @@ blockOfStatements
 statement
     : blockOfStatements
         # StatementBlock
-    | SEP_SEMICOLON
-        # StatementEmpty
     | expression SEP_SEMICOLON
         # StatementExpression
     | PHRASE_FOR
@@ -196,6 +194,8 @@ statement
         # StatementConditional
     | PHRASE_RETURN expression? SEP_SEMICOLON
         # StatementReturn
+    | SEP_SEMICOLON
+        # StatementEmpty
     ;
 
 primaryStatement
@@ -265,9 +265,9 @@ expression
     |<assoc=right> UNARY_OP_DECREMENT expression
         # ExpressionDecrementAndGet
     |<assoc=right> COMMON_TOK_MINUS expression
-        # ExpressionUnaryOpNegative
+        # ExpressionUnaryOpAdditiveInverse
     |<assoc=right> COMMON_TOK_PLUS expression
-        # ExpressionUnaryOpPositive
+        # ExpressionUnaryOpAdditiveIdentity
     |<assoc=left> expression BINARY_OP_MULTIPLICATION expression
         # ExpressionBinaryOpMultiplication
     |<assoc=left> expression BINARY_OP_DIVISION expression

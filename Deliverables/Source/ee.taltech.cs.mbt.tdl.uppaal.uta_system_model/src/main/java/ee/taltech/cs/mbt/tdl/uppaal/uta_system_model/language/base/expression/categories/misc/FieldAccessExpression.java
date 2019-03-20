@@ -6,6 +6,25 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Id
 
 import java.util.Objects;
 
+/**
+ * Represents an UPPAAL structured type field access.<br/>
+ * Syntax:<br/>
+ * <pre>
+ * Expression ::= ...
+ *             |  Expression '.' ID
+ *             | ...
+ * </pre>
+ * <table>
+ *   <tr>
+ *     <th>Method</th>
+ *     <th>Return type description</th>
+ *   </tr>
+ *   <tr>
+ *     <td>{@link #getChild()} </td>
+ *     <td>The structure whose fields are accessed.</td>
+ *   </tr>
+ * </table>
+ */
 public class FieldAccessExpression extends AbsUnaryExpression {
 	private IdentifierName identifierName;
 
@@ -19,10 +38,16 @@ public class FieldAccessExpression extends AbsUnaryExpression {
 		visitor.visitFieldAccess(this);
 	}
 
+	/**
+	 * @return The identifier of the field that is being accessed.
+	 */
 	public IdentifierName getIdentifierName() {
 		return identifierName;
 	}
 
+	/**
+	 * @param identifierName The identifier of the field that is being accessed.
+	 */
 	public void setIdentifierName(IdentifierName identifierName) {
 		this.identifierName = identifierName;
 		invalidateSubtreeHash();

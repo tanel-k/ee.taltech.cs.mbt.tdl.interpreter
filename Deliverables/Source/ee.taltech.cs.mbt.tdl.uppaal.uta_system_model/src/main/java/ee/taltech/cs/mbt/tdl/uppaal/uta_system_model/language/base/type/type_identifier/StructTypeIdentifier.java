@@ -1,16 +1,27 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.FieldDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.visitation.ITypeIdentifierVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.FieldDeclaration;
 
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
+/**
+ * Identifies the UPPAAL record type.<br/>
+ * Syntax fragment:<br/>
+ * <pre>
+ * TypeId        ::= ...
+ *                |  ...
+ *                |  'struct' '{' FieldDecl (FieldDecl)* '}'
+ * FieldDecl     ::= Type ID ArrayDecl* (',' ID ArrayDecl*)* ';'
+ * ArrayDecl     ::= '[' Expression ']' |  '[' Type ']'
+ * </pre>
+ */
 public class StructTypeIdentifier extends AbsTypeIdentifier {
-	private Set<FieldDeclaration> fieldDeclarations = new LinkedHashSet<>();
+	private List<FieldDeclaration> fieldDeclarations = new LinkedList<>();
 
-	public Set<FieldDeclaration> getFieldDeclarations() {
+	public List<FieldDeclaration> getFieldDeclarations() {
 		return fieldDeclarations;
 	}
 
