@@ -67,6 +67,14 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>jaxb2-maven-plugin</artifactId>
+          <version>${jaxb2Plugin.version}</version>
+          <configuration>
+            <clearOutputDir>true</clearOutputDir>
+          </configuration>
+        </plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${mavenCompiler.version}</version>
@@ -95,6 +103,7 @@
     <mavenCompiler.version>3.3</mavenCompiler.version>
     <mavenCleaner.version>3.1.0</mavenCleaner.version>
     <stringTemplate.version>4.0.2</stringTemplate.version>
+    <jaxb2Plugin.version>2.3</jaxb2Plugin.version>
   </properties>
 
   <name>TDL(TP) Interpreter Parent POM</name>

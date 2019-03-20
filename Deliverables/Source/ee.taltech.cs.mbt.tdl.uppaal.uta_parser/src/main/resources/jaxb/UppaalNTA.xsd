@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd"
+    targetNamespace="http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd"
+    elementFormDefault="qualified">
+    <xs:element name="nta">
+        <xs:annotation>
+            <xs:documentation>An Uppaal system description.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="imports" type="xs:string" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>Appears to be a legacy remnant from previous versions of Uppaal.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="declaration" type="xs:string" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>A text node containing global declarations for the TA system.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="template" type="TemplateType" minOccurs="1" maxOccurs="unbounded" />
+                <xs:element name="instantiation" type="xs:string" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>Appears to be a legacy remnant from previous versions of Uppaal.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="system" type="xs:string" minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>Contains the system model declaration.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:attributeGroup name="OptCoordAttrGroup">
+        <xs:annotation>
+            <xs:documentation>Optional GUI coordinates.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="x" type="xs:int" use="optional" />
+        <xs:attribute name="y" type="xs:int" use="optional" />
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="CoordAttrGroup">
+        <xs:annotation>
+            <xs:documentation>Mandatory GUI coordinates.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="x" type="xs:int" use="required" />
+        <xs:attribute name="y" type="xs:int" use="required" />
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="OptCoordAndColorAttrGroup">
+        <xs:annotation>
+            <xs:documentation>Optional GUI coordinates and a color identifier.</xs:documentation>
+        </xs:annotation>
+        <xs:attributeGroup ref="OptCoordAttrGroup" />
+        <xs:attribute name="color" type="xs:string" use="optional" />
+    </xs:attributeGroup>
+
+    <xs:complexType name="TemplateType">
+        <xs:annotation>
+            <xs:documentation>An Uppaal TA template.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="name" type="NameType" minOccurs="1" maxOccurs="1" />
+            <xs:element name="parameter" type="ParameterType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="declaration" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>A text node containing local declarations for the template.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="location" type="LocationType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="init" type="InitType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="transition" type="TransitionType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ParameterType">
+        <xs:annotation>
+            <xs:documentation>Parameters for an Uppaal TA template.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attributeGroup ref="OptCoordAttrGroup" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="InitType">
+        <xs:annotation>
+            <xs:documentation>Specifies the id of the initial location in an Uppaal TA template.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="ref" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="NameType">
+        <xs:annotation>
+            <xs:documentation>Specifies a name that can be positioned on the GUI.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attributeGroup ref="OptCoordAttrGroup" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="LocationType">
+        <xs:annotation>
+            <xs:documentation>Specifies a location in an Uppaal TA template.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="name" type="NameType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="label" type="LocationLabelType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:choice minOccurs="0">
+                <xs:element name="urgent" type="EmptyType">
+                    <xs:annotation>
+                        <xs:documentation>Marks a location as urgent; a location cannot be marked both urgent and committed at the same time.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="committed" type="EmptyType">
+                    <xs:annotation>
+                        <xs:documentation>Marks a location as committed; a location cannot be marked both urgent and committed at the same time.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attributeGroup ref="OptCoordAndColorAttrGroup" />
+    </xs:complexType>
+
+    <xs:complexType name="EmptyType" />
+
+    <xs:complexType name="TransitionType">
+        <xs:annotation>
+            <xs:documentation>Describes a transition between locations in an Uppaal TA template.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="source" type="IdRefType" minOccurs="1" maxOccurs="1" />
+            <xs:element name="target" type="IdRefType" minOccurs="1" maxOccurs="1" />
+            <xs:element name="label" type="TransitionLabelType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="nail" type="NailType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" />
+        <xs:attributeGroup ref="OptCoordAndColorAttrGroup" />
+    </xs:complexType>
+
+    <xs:complexType name="IdRefType">
+        <xs:annotation>
+            <xs:documentation>Common pattern for referencing Uppaal template items by id.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="ref" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="LocationLabelType">
+        <xs:annotation>
+            <xs:documentation>Specifies labels which can be attached to a location inside a template.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="kind" type="LocationLabelKind" />
+                <xs:attributeGroup ref="OptCoordAttrGroup" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="TransitionLabelType">
+        <xs:annotation>
+            <xs:documentation>Specifies labels which can be attached to a transition in a template.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="kind" type="TransitionLabelKind" />
+                <xs:attributeGroup ref="OptCoordAttrGroup" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="LocationLabelKind">
+        <xs:annotation>
+            <xs:documentation>Specifies the possible values of the 'kind' attribute of location labels.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="invariant" />
+            <xs:enumeration value="comments" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TransitionLabelKind">
+        <xs:annotation>
+            <xs:documentation>Specifies the possible values of the 'kind' attribute of transition labels.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="comments" />
+            <xs:enumeration value="select" />
+            <xs:enumeration value="guard" />
+            <xs:enumeration value="synchronisation" />
+            <xs:enumeration value="assignment" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="NailType">
+        <xs:annotation>
+            <xs:documentation>GUI element - used to describe the vertices a transition arrow must pass through on the path from the source location to the target location.</xs:documentation>
+        </xs:annotation>
+        <xs:attributeGroup ref="CoordAttrGroup" />
+    </xs:complexType>
+</xs:schema>

@@ -25,6 +25,29 @@
     </plugins>
   </build>
 
+  <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>jaxb2-maven-plugin</artifactId>
+    <executions>
+      <execution>
+        <id>xjc</id>
+        <goals>
+          <goal>xjc</goal>
+        </goals>
+      </execution>
+    </executions>
+    <configuration>
+      <xjbSources>
+        <xjbSource>.xjb</xjbSource>
+      </xjbSources>
+      <sources>
+        <source>src/main/resources/jaxb/UppaalNTA.xsd</source>
+      </sources>
+      <outputDirectory>${basedir}/src/main/java/ee/taltech/cs/mbt/tdl/uppaal/tdl_parser/xml/parsing/jaxb</outputDirectory>
+      <clearOutputDir>false</clearOutputDir>
+    </configuration>
+  </plugin>
+
   <dependencies>
     <!-- Internal -->
     <dependency>
