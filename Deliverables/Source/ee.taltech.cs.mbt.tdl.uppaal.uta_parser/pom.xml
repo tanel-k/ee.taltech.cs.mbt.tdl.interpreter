@@ -28,7 +28,7 @@
         <configuration>
           <filesets>
             <fileset>
-              <directory>src/main/java/ee/taltech/cs/mbt/tdl/uppaal/tdl_parser/xml/parsing/jaxb</directory>
+              <directory>src/main/java/ee/taltech/cs/mbt/tdl/uppaal/tdl_parser/xml/jaxb</directory>
               <includes>
                 <include>*.java</include>
               </includes>
@@ -49,7 +49,12 @@
           </execution>
         </executions>
         <configuration>
-          <packageName>ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.xml.parsing.jaxb</packageName>
+          <packageName>ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.xml.jaxb</packageName>
+          <generateEpisode>false</generateEpisode>
+          <extension>true</extension>
+          <readOnly>true</readOnly>
+          <noPackageLevelAnnotations>true</noPackageLevelAnnotations>
+          <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
           <xjbSources>
             <xjbSource>src/main/resources/jaxb/UppaalNTA.xjb</xjbSource>
           </xjbSources>
