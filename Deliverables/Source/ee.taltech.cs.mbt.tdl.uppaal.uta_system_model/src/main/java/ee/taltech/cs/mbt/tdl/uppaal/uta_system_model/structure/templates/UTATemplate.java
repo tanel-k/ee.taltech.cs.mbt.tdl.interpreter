@@ -11,15 +11,15 @@ import java.util.Set;
 
 public class UTATemplate {
 	public static class TemplateName implements IGuiPositionable {
-		private String name;
+		private String nameString;
 		private GuiCoordinates guiCoordinates;
 
-		public String getName() {
-			return name;
+		public String getNameString() {
+			return nameString;
 		}
 
-		public void setName(String name) {
-			this.name = name;
+		public void setNameString(String nameString) {
+			this.nameString = nameString;
 		}
 
 		@Override
@@ -42,6 +42,10 @@ public class UTATemplate {
 	private Set<AbsDeclarationStatement> localDeclarations = new LinkedHashSet<>();
 
 	public UTATemplate() { }
+
+	public String getId() {
+		return getName().getNameString();
+	}
 
 	public TemplateName getName() {
 		return name;

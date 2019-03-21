@@ -4,12 +4,13 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.A
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates.UTATemplate;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class UTASystem {
 	private String name;
-	private Map<String, UTATemplate> templateNameMap;
+	private Map<String, UTATemplate> templateNameMap = new HashMap<>();
 	private SystemDefinition systemDefinition;
 	private Set<AbsDeclarationStatement> globalDeclarations;
 
@@ -21,12 +22,8 @@ public class UTASystem {
 		this.name = name;
 	}
 
-	public Map<String, UTATemplate> getTemplateNameMap() {
+	public Map<String, UTATemplate> getTemplateMap() {
 		return templateNameMap;
-	}
-
-	public void setTemplateNameMap(Map<String, UTATemplate> templateNameMap) {
-		this.templateNameMap = templateNameMap;
 	}
 
 	public SystemDefinition getSystemDefinition() {
