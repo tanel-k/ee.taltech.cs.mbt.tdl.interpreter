@@ -11,6 +11,9 @@
     <xjc:simple/>
   </jxb:globalBindings>
   <jxb:bindings schemaLocation="UppaalNTA.xsd">
+    <jxb:bindings node="//xs:element[@name='nta']">
+      <jxb:class name="XmlNodeNta"/>
+    </jxb:bindings>
     <jxb:bindings node="//xs:complexType[@name='NtaSystemType']">
       <jxb:class name="XmlNodeNtaSystem"/>
     </jxb:bindings>

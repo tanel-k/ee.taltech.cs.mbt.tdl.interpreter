@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="name" type="{}NameType"/&gt;
- *         &lt;element name="parameters" type="{}ParametersType" minOccurs="0"/&gt;
+ *         &lt;element name="parameter" type="{}ParametersType" minOccurs="0"/&gt;
  *         &lt;element name="declaration" type="{}LocalDeclarationsType" minOccurs="0"/&gt;
  *         &lt;element name="location" type="{}LocationType" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element name="init" type="{}InitType" minOccurs="0"/&gt;
@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TemplateType", propOrder = {
     "name",
-    "parameters",
+    "parameter",
     "declaration",
     "locations",
     "init",
@@ -48,7 +48,7 @@ public class XmlNodeTemplate {
 
     @XmlElement(required = true)
     protected XmlNodeName name;
-    protected XmlNodeParameters parameters;
+    protected XmlNodeParameters parameter;
     protected XmlNodeLocalDeclarations declaration;
     @XmlElement(name = "location")
     protected List<XmlNodeLocation> locations = new LinkedList<XmlNodeLocation>();
@@ -85,31 +85,31 @@ public class XmlNodeTemplate {
     }
 
     /**
-     * Gets the value of the parameters property.
+     * Gets the value of the parameter property.
      * 
      * @return
      *     possible object is
      *     {@link XmlNodeParameters }
      *     
      */
-    public XmlNodeParameters getParameters() {
-        return parameters;
+    public XmlNodeParameters getParameter() {
+        return parameter;
     }
 
     /**
-     * Sets the value of the parameters property.
+     * Sets the value of the parameter property.
      * 
      * @param value
      *     allowed object is
      *     {@link XmlNodeParameters }
      *     
      */
-    public void setParameters(XmlNodeParameters value) {
-        this.parameters = value;
+    public void setParameter(XmlNodeParameters value) {
+        this.parameter = value;
     }
 
-    public boolean isSetParameters() {
-        return (this.parameters!= null);
+    public boolean isSetParameter() {
+        return (this.parameter!= null);
     }
 
     /**

@@ -84,7 +84,7 @@
     </xs:annotation>
     <xs:sequence>
       <xs:element name="name" type="NameType" minOccurs="1" maxOccurs="1"/>
-      <xs:element name="parameters" type="ParametersType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="parameter" type="ParametersType" minOccurs="0" maxOccurs="1"/>
       <xs:element name="declaration" type="LocalDeclarationsType" minOccurs="0" maxOccurs="1"/>
       <xs:element name="location" type="LocationType" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="init" type="InitType" minOccurs="0" maxOccurs="1"/>

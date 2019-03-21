@@ -30,6 +30,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link XmlNodeNta }
+     * 
+     */
+    public XmlNodeNta createXmlNodeNta() {
+        return new XmlNodeNta();
+    }
+
+    /**
      * Create an instance of {@link XmlNodeNtaSystem }
      * 
      */
@@ -54,14 +62,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link XmlNodeTemplate }
-     * 
-     */
-    public XmlNodeTemplate createXmlNodeTemplate() {
-        return new XmlNodeTemplate();
-    }
-
-    /**
      * Create an instance of {@link XmlNodeInstantiation }
      * 
      */
@@ -75,6 +75,14 @@ public class ObjectFactory {
      */
     public XmlNodeSystemDefinition createXmlNodeSystemDefinition() {
         return new XmlNodeSystemDefinition();
+    }
+
+    /**
+     * Create an instance of {@link XmlNodeTemplate }
+     * 
+     */
+    public XmlNodeTemplate createXmlNodeTemplate() {
+        return new XmlNodeTemplate();
     }
 
     /**
