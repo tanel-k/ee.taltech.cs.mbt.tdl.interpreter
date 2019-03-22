@@ -1,6 +1,5 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.ByReferenceVariableContext;
@@ -11,7 +10,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.ParameterIdentifierConverter.ParameterIdentifierData;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.array_modifier.AbsArrayModifier;
-import org.antlr.v4.runtime.tree.ErrorNode;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -47,15 +45,8 @@ public class ParameterIdentifierConverter
 	}
 
 	@Override
-	public ParameterIdentifierData convert(ParameterIdentifierContext rootContext) throws ParseTreeStructureException {
+	public ParameterIdentifierData convert(ParameterIdentifierContext rootContext) {
 		return rootContext.accept(this);
-	}
-
-	@Override
-	public ParameterIdentifierData visitErrorNode(ErrorNode node) {
-		throw new ParseTreeStructureException(
-			"Parameter identifier subtree contains an error node (" + node.getText() + ")."
-		);
 	}
 
 	@Override

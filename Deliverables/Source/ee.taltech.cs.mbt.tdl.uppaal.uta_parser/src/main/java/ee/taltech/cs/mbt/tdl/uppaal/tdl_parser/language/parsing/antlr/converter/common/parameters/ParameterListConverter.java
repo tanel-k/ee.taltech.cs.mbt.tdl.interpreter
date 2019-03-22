@@ -1,29 +1,25 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.parameters;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.ParameterContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.ParameterListContext;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.ParameterIdentifierConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.ParameterIdentifierConverter.ParameterIdentifierData;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type.TypeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.ParameterContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.ParameterListContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.AbsTypeIdentifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.ParameterDeclaration;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParameterListConverter extends UTALanguageBaseVisitor<List<ParameterDeclaration<AbsTypeIdentifier>>>
-	implements IParseTreeConverter<List<ParameterDeclaration<AbsTypeIdentifier>>, ParameterListContext> {
+public class ParameterListConverter extends UTALanguageBaseVisitor<List<ParameterDeclaration>>
+	implements IParseTreeConverter<List<ParameterDeclaration>, ParameterListContext> {
 
 	@Override
-	public List<ParameterDeclaration<AbsTypeIdentifier>> convert(
-		ParameterListContext rootContext) throws ParseTreeStructureException
-	{
-		List<ParameterDeclaration<AbsTypeIdentifier>> parameterDeclarations = new LinkedList<>();
+	public List<ParameterDeclaration> convert(ParameterListContext rootContext) {
+		List<ParameterDeclaration> parameterDeclarations = new LinkedList<>();
 		for (ParameterContext parameterCtx : rootContext.parameter()) {
 			Type<AbsTypeIdentifier> parameterType = new TypeConverter()
 					.convert(parameterCtx.type());
@@ -37,7 +33,6 @@ public class ParameterListConverter extends UTALanguageBaseVisitor<List<Paramete
 			parameterDeclaration.setType(parameterType);
 			parameterDeclarations.add(parameterDeclaration);
 		}
-
 		return parameterDeclarations;
 	}
 }

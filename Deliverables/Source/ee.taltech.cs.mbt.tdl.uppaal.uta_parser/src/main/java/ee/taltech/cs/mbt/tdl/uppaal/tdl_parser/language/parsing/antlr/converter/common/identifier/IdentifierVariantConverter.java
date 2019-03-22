@@ -1,6 +1,5 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
@@ -11,7 +10,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Id
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.array_modifier.SizeExpressionArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.array_modifier.SizeTypeArrayModifier;
-import org.antlr.v4.runtime.tree.ErrorNode;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -38,15 +36,8 @@ public class IdentifierVariantConverter extends UTALanguageBaseVisitor<Identifie
 	}
 
 	@Override
-	public IdentifierData convert(IdentifierNameVariantContext rootContext) throws ParseTreeStructureException {
+	public IdentifierData convert(IdentifierNameVariantContext rootContext) {
 		return rootContext.accept(this);
-	}
-
-	@Override
-	public IdentifierData visitErrorNode(ErrorNode node) {
-		throw new ParseTreeStructureException(
-			"Identifier variant subtree contains an error node (" + node.getText() + ")."
-		);
 	}
 
 	@Override
@@ -70,12 +61,6 @@ public class IdentifierVariantConverter extends UTALanguageBaseVisitor<Identifie
 					SizeTypeArrayModifier arrayModifier = new SizeTypeArrayModifier();
 					arrayModifier.setSizeSpecifier(new TypeConverter().convert(sizeCtx.type()));
 					arrayModifiers.add(arrayModifier);
-				}
-				else
-				{
-					throw new ParseTreeStructureException(
-						"Encountered unrecognized array size modifier " + arrayModCtx.getClass().getName()
-					);
 				}
 			}
 		}

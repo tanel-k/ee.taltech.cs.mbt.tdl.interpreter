@@ -1,18 +1,17 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.declaration.DeclarationConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.SystemDefinition;
 
 public class SystemDefinitionConverter extends UTALanguageBaseVisitor<SystemDefinition>
 	implements IParseTreeConverter<SystemDefinition, UtaSystemDefinitionContext>
 {
 	@Override
-	public SystemDefinition convert(UtaSystemDefinitionContext rootContext) throws ParseTreeStructureException {
+	public SystemDefinition convert(UtaSystemDefinitionContext rootContext) {
 		SystemDefinition systemDefinition = new SystemDefinition();
 		injectSystemDeclarations(systemDefinition, rootContext.systemDeclarationSequence());
 		injectSystemLine(systemDefinition, rootContext.systemLine());

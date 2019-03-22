@@ -1,30 +1,21 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.IdentifierVariantConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.IdentifierVariantConverter.IdentifierData;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.FieldDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.*;
-import org.antlr.v4.runtime.tree.ErrorNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.FieldDeclaration;
 
 public class TypeIdentifierConverter extends UTALanguageBaseVisitor<AbsTypeIdentifier>
 	implements IParseTreeConverter<AbsTypeIdentifier, TypeIdentifierContext> {
 	@Override
-	public AbsTypeIdentifier convert(TypeIdentifierContext rootContext) throws ParseTreeStructureException {
+	public AbsTypeIdentifier convert(TypeIdentifierContext rootContext) {
 		return rootContext.accept(this);
-	}
-
-	@Override
-	public AbsTypeIdentifier visitErrorNode(ErrorNode node) {
-		throw new ParseTreeStructureException(
-			"Type identifier subtree contains an error node (" + node.getText() + ")."
-		);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.declaration;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.DeclarationContext;
@@ -15,7 +14,7 @@ public class DeclarationsConverter extends UTALanguageBaseVisitor<List<AbsDeclar
 	implements IParseTreeConverter<List<AbsDeclarationStatement>, UtaDeclarationsContext>
 {
 	@Override
-	public List<AbsDeclarationStatement> convert(UtaDeclarationsContext rootContext) throws ParseTreeStructureException {
+	public List<AbsDeclarationStatement> convert(UtaDeclarationsContext rootContext) {
 		List<AbsDeclarationStatement> declarationStatements = new LinkedList<>();
 		if (rootContext.declarationSequence() != null) {
 			for (DeclarationContext declCtx : rootContext.declarationSequence().declaration()) {

@@ -1,10 +1,9 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.access.ArrayLookupExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.arithmetic.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.binary.*;
@@ -34,13 +33,11 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.ge
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.AbsTypeIdentifier;
-import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 
-public class ExpressionConverter extends UTALanguageBaseVisitor<AbsExpression>
-	implements IParseTreeConverter<AbsExpression, ExpressionContext>
+public class ExpressionConverter extends UTALanguageBaseVisitor<AbsExpression> implements IParseTreeConverter<AbsExpression, ExpressionContext>
 {
 	private static final int BIN_EXPR_LEFT_CHILD = 0;
 	private static final int BIN_EXPR_RIGHT_CHILD = 1;
@@ -79,15 +76,8 @@ public class ExpressionConverter extends UTALanguageBaseVisitor<AbsExpression>
 	public ExpressionConverter() { }
 
 	@Override
-	public AbsExpression convert(ExpressionContext rootContext) throws ParseTreeStructureException {
+	public AbsExpression convert(ExpressionContext rootContext) {
 		return rootContext.accept(this);
-	}
-
-	@Override
-	public AbsExpression visitErrorNode(ErrorNode node) {
-		throw new ParseTreeStructureException(
-			"Expression subtree contains an error node (" + node.getText() + ")."
-		);
 	}
 
 	@Override

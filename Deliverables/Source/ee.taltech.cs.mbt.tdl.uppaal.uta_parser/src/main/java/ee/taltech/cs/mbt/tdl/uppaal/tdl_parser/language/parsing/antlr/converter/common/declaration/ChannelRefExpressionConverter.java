@@ -1,32 +1,23 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.declaration;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseTreeStructureException;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.ArrayIdentifierLookup;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.channel_priority.channel_reference.AbsChannelRef;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.channel_priority.channel_reference.ChannelArrayLookup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.channel_priority.channel_reference.ChannelIdentifierRef;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.channel_priority.channel_reference.DefaultChannelPriorityRef;
-import org.antlr.v4.runtime.tree.ErrorNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.ArrayIdentifierLookup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 
 public class ChannelRefExpressionConverter extends UTALanguageBaseVisitor<AbsChannelRef>
 		implements IParseTreeConverter<AbsChannelRef, ChannelRefExpressionContext>
 {
 	@Override
-	public AbsChannelRef convert(ChannelRefExpressionContext rootContext) throws ParseTreeStructureException {
-		return null;
-	}
-
-	@Override
-	public AbsChannelRef visitErrorNode(ErrorNode node) {
-		throw new ParseTreeStructureException(
-			"Channel reference expression subtree contains an error node (" + node.getText() + ")."
-		);
+	public AbsChannelRef convert(ChannelRefExpressionContext rootContext) {
+		return rootContext.accept(this);
 	}
 
 	@Override

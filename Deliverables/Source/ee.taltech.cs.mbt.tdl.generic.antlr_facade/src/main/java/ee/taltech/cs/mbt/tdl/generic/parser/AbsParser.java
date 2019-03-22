@@ -9,18 +9,8 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-public abstract class AbsParser<FacadeType extends AbsAntlrParserFacade<ResultType, ?, ? ,?, ?>, ResultType> {
-	private FacadeType parserFacade;
-
-	protected abstract FacadeType constructFacade();
-
-	protected AbsParser() {
-		this.parserFacade = constructFacade();
-	}
-
-	public FacadeType getParserFacade() {
-		return parserFacade;
-	}
+public abstract class AbsParser<ResultType> {
+	public abstract AbsAntlrParserFacade<ResultType, ?, ? ,?> getFacade();
 
 	public ResultType parseInput(String inputString) throws ParseException {
 		return parseInput(inputString, StandardCharsets.UTF_8);
@@ -35,6 +25,6 @@ public abstract class AbsParser<FacadeType extends AbsAntlrParserFacade<ResultTy
 	}
 
 	public ResultType parseInput(InputStream in) throws IOException, ParseException {
-		return parserFacade.parse(in);
+		return getFacade().parse(in);
 	}
 }

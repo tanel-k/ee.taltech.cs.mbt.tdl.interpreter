@@ -1,8 +1,13 @@
 package ee.taltech.cs.mbt.tdl.generic.antlr_facade;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorListener;
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorStrategyConfig;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorListenerFactory;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorStrategyConfigFactory;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.base.ErrorListener;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.base.ErrorStrategyConfig;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.bridge.ConfigurableAntlrErrorStrategy;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.bridge.DelegatingAntlrErrorListener;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter.ConversionException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -11,38 +16,27 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbsAntlrParserFacade<
-		OutputType,
-		LexerType extends Lexer,
-		ParserType extends Parser,
-		RootContextType extends ParseTree,
-		ConverterListenerType extends IParseTreeConverter<OutputType, RootContextType>
-	> {
-	public static class ParseTreeStructureException extends RuntimeException {
-		public ParseTreeStructureException(String msg) { super(msg); }
-	}
-
+public abstract class AbsAntlrParserFacade<OutputType, LexerType extends Lexer, ParserType extends Parser, RootContextType extends ParseTree> {
 	public static class ParseException extends Exception {
 		public ParseException(String msg, Throwable t) { super(msg, t); }
 	}
 
-	private ErrorStrategyConfig errorStrategyConfig;
-	private List<ErrorListener> errorListeners;
+	private ErrorStrategyConfig errorStrategyConfig = ErrorStrategyConfigFactory.defaultConfig();
+	private List<ErrorListener> errorListeners = new LinkedList<>();
 
 	private OutputType convertParseTree(RootContextType parseTree) throws ParseException {
 		try {
-			ConverterListenerType converter = getConverter();
+			IParseTreeConverter<OutputType, RootContextType> converter = getConverter();
 			return converter.convert(parseTree);
-		} catch (ParseTreeStructureException ex) {
+		} catch (ConversionException ex) {
 			throw new ParseException(ex.getMessage(), ex);
 		}
 	}
 
 	protected abstract ParserType getParserInstance(TokenStream tokenStream);
 	protected abstract LexerType getLexerInstance(CharStream forInputStream);
-
 	protected abstract RootContextType getRootContext(ParserType parser);
-	protected abstract ConverterListenerType getConverter();
+	protected abstract IParseTreeConverter<OutputType, RootContextType> getConverter();
 
 	protected ParserType getInputParser(InputStream in) throws IOException {
 		ANTLRInputStream input = new ANTLRInputStream(in);
@@ -67,8 +61,7 @@ public abstract class AbsAntlrParserFacade<
 	}
 
 	public AbsAntlrParserFacade() {
-		this.errorStrategyConfig = new ErrorStrategyConfig();
-		this.errorListeners = new LinkedList<>();
+		getErrorListeners().add(ErrorListenerFactory.defaultListener());
 	}
 
 	public List<ErrorListener> getErrorListeners() {
@@ -93,10 +86,12 @@ public abstract class AbsAntlrParserFacade<
 			configureParser(parser);
 			RootContextType rootContext = getRootContext(parser);
 			return convertParseTree(rootContext);
-		} catch (ParseException parseException) {
-			throw parseException;
-		}catch (Throwable t) {
-			throw new ParseException("Unexpected error", t);
+		} catch (IOException|ParseException ex) {
+			throw ex;
+		} catch (RecognitionException ex) {
+			throw new ParseException("Failed to recognize grammatical structure.", ex);
+		} catch (Throwable t) {
+			throw new ParseException("Unexpected error.", t);
 		}
 	}
 }
