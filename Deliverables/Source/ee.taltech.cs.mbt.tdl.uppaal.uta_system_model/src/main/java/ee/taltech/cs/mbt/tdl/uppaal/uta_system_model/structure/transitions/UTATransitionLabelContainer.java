@@ -3,12 +3,11 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.transitions;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.labels.*;
 
 public class UTATransitionLabelContainer {
+	private UTACommentLabel commentLabel;
 	private UTAGuardLabel guardLabel;
 	private UTAUpdatesLabel assignmentsLabel;
 	private UTASelectLabel selectLabel;
 	private UTASynchronizationLabel synchronizationLabel;
-
-	private UTACommentLabel commentLabel;
 
 	public UTAGuardLabel getGuardLabel() {
 		return guardLabel;
@@ -40,5 +39,13 @@ public class UTATransitionLabelContainer {
 
 	public void setSynchronizationLabel(UTASynchronizationLabel synchronizationLabel) {
 		this.synchronizationLabel = synchronizationLabel;
+	}
+
+	public UTACommentLabel getCommentLabel() {
+		return commentLabel;
+	}
+
+	public void setCommentLabel(UTACommentLabel commentLabel) {
+		this.commentLabel = commentLabel;
 	}
 }

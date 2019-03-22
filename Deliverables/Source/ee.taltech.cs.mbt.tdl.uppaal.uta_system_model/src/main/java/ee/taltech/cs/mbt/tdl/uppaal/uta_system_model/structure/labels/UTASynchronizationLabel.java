@@ -1,9 +1,9 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.labels;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.Synchronization;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.labels.generic.AbsUTAGuiLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.labels.generic.AbsUTALabel;
 
-public class UTASynchronizationLabel extends AbsUTAGuiLabel<Synchronization> {
+public class UTASynchronizationLabel extends AbsUTALabel<Synchronization> {
 	public boolean isOutbound() {
 		return getContent().isActiveSync();
 	}

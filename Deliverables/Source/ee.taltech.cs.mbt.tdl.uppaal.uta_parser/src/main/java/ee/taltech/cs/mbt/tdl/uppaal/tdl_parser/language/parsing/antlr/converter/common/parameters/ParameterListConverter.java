@@ -16,11 +16,11 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParameterListConverter extends UTALanguageBaseVisitor<Collection<ParameterDeclaration<AbsTypeIdentifier>>>
-	implements IParseTreeConverter<Collection<ParameterDeclaration<AbsTypeIdentifier>>, ParameterListContext> {
+public class ParameterListConverter extends UTALanguageBaseVisitor<List<ParameterDeclaration<AbsTypeIdentifier>>>
+	implements IParseTreeConverter<List<ParameterDeclaration<AbsTypeIdentifier>>, ParameterListContext> {
 
 	@Override
-	public Collection<ParameterDeclaration<AbsTypeIdentifier>> convert(
+	public List<ParameterDeclaration<AbsTypeIdentifier>> convert(
 		ParameterListContext rootContext) throws ParseTreeStructureException
 	{
 		List<ParameterDeclaration<AbsTypeIdentifier>> parameterDeclarations = new LinkedList<>();

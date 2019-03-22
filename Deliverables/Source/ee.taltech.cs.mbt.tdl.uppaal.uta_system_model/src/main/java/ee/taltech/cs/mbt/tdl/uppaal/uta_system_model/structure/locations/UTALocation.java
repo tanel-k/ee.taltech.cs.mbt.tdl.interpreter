@@ -1,13 +1,16 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.locations;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.Color;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.GuiCoordinates;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IColorable;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IPositionable;
 
+import java.util.Objects;
 
-public class UTALocation {
-	public static class LocationName implements IGuiPositionable {
-		private GuiCoordinates guiCoordinates;
+public class UTALocation implements IPositionable, IColorable {
+	public static class LocationName implements IPositionable {
 		private String name;
+		private GuiCoordinates coordinates;
 
 		public String getName() {
 			return name;
@@ -18,21 +21,22 @@ public class UTALocation {
 		}
 
 		@Override
-		public GuiCoordinates getGuiCoordinates() {
-			return guiCoordinates;
+		public GuiCoordinates getCoordinates() {
+			return coordinates;
 		}
 
 		@Override
-		public void setGuiCoordinates(GuiCoordinates guiCoordinates) {
-			this.guiCoordinates = guiCoordinates;
+		public void setCoordinates(GuiCoordinates coordinates) {
+			this.coordinates = coordinates;
 		}
 	}
 
 	private String id;
 	private LocationName name;
-	private GuiCoordinates nameCoordinates;
 	private UTALocationLabelContainer labelContainer;
 	private ELocationExitPolicy exitPolicy = ELocationExitPolicy.NORMAL;
+	private Color color;
+	private GuiCoordinates coordinates;
 
 	public UTALocation() { }
 
@@ -52,12 +56,24 @@ public class UTALocation {
 		this.name = name;
 	}
 
-	public GuiCoordinates getNameCoordinates() {
-		return nameCoordinates;
+	@Override
+	public GuiCoordinates getCoordinates() {
+		return coordinates;
 	}
 
-	public void setNameCoordinates(GuiCoordinates nameCoordinates) {
-		this.nameCoordinates = nameCoordinates;
+	@Override
+	public void setCoordinates(GuiCoordinates coordinates) {
+		this.coordinates = coordinates;
+	}
+
+	@Override
+	public Color getColor() {
+		return color;
+	}
+
+	@Override
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	public ELocationExitPolicy getExitPolicy() {
@@ -92,7 +108,6 @@ public class UTALocation {
 		if (!(obj instanceof  UTALocation))
 			return false;
 		UTALocation other = (UTALocation) obj;
-		return (id == null && other.id == null)
-			|| id.equals(other.id);
+		return Objects.equals(other.id, this.id);
 	}
 }

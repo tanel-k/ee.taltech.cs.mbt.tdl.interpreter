@@ -3,25 +3,37 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.transitions;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.Color;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IColorable;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IGuiPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.locations.UTALocation;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 public class UTATransition implements IColorable {
-	public static class TransitionNail implements IGuiPositionable {
-		private GuiCoordinates guiCoordinates;
+	public static class TransitionNail implements IPositionable, IColorable {
+		private Color color;
+		private GuiCoordinates coordinates;
 
 		@Override
-		public GuiCoordinates getGuiCoordinates() {
-			return guiCoordinates;
+		public Color getColor() {
+			return color;
 		}
 
 		@Override
-		public void setGuiCoordinates(GuiCoordinates guiCoordinates) {
-			this.guiCoordinates = guiCoordinates;
+		public void setColor(Color color) {
+			this.color = color;
+		}
+
+		@Override
+		public GuiCoordinates getCoordinates() {
+			return coordinates;
+		}
+
+		@Override
+		public void setCoordinates(GuiCoordinates coordinates) {
+			this.coordinates = coordinates;
 		}
 	}
 
@@ -29,12 +41,10 @@ public class UTATransition implements IColorable {
 	private Color color;
 	private UTALocation sourceLocation;
 	private UTALocation targetLocation;
-	private List<TransitionNail> transitionNails;
+	private List<TransitionNail> transitionNails  = new LinkedList<>();
 	private UTATransitionLabelContainer labelContainer;
 
-	public UTATransition() {
-		this.transitionNails = new LinkedList<>();
-	}
+	public UTATransition() { }
 
 	public String getId() {
 		return id;
@@ -62,6 +72,10 @@ public class UTATransition implements IColorable {
 
 	public UTATransitionLabelContainer getLabelContainer() {
 		return labelContainer;
+	}
+
+	public void setLabelContainer(UTATransitionLabelContainer labelContainer) {
+		this.labelContainer = labelContainer;
 	}
 
 	public List<TransitionNail> getTransitionNails() {

@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui;
 
 public class Color {
-	public static final int MAX_VALUE = 0xFFFF;
+	public static final int MAX_VALUE = 0xFFFFFF;
 	public static final int MIN_VALUE = 0;
 
 	public static final Color WHITE = Color.of(MAX_VALUE);
@@ -15,7 +15,6 @@ public class Color {
 	}
 
 	public static Color of(String hexString) {
-		hexString = hexString.replaceFirst("^0x", "");
 		int hexValue = Integer.parseInt(hexString, 16);
 		return of(hexValue);
 	}

@@ -1,61 +1,35 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.generic.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.ParameterDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.AbsDeclarationStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.GuiCoordinates;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.IGuiPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.locations.UTALocation;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.transitions.UTATransition;
 
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class UTATemplate {
-	public static class TemplateName implements IGuiPositionable {
-		private String nameString;
-		private GuiCoordinates guiCoordinates;
-
-		public String getNameString() {
-			return nameString;
-		}
-
-		public void setNameString(String nameString) {
-			this.nameString = nameString;
-		}
-
-		@Override
-		public GuiCoordinates getGuiCoordinates() {
-			return guiCoordinates;
-		}
-
-		@Override
-		public void setGuiCoordinates(GuiCoordinates guiCoordinates) {
-			this.guiCoordinates = guiCoordinates;
-		}
-	}
-
-	private TemplateName name;
-
-	private Set<ParameterDeclaration> parameters = new LinkedHashSet<>();
-	private UTATransitionMap transitionMap;
+	private String name;
+	private List<ParameterDeclaration> parameters = new LinkedList<>();
+	private DirectedMultigraph<UTALocation, UTATransition> locationGraph = new DirectedMultigraph<>();
 
 	private UTALocation initialLocation;
 	private Set<AbsDeclarationStatement> localDeclarations = new LinkedHashSet<>();
 
 	public UTATemplate() { }
 
-	public String getId() {
-		return getName().getNameString();
-	}
-
-	public TemplateName getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(TemplateName name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public Set<ParameterDeclaration> getParameters() {
+	public List<ParameterDeclaration> getParameters() {
 		return parameters;
 	}
 
@@ -67,12 +41,8 @@ public class UTATemplate {
 		this.initialLocation = initialLocation;
 	}
 
-	public UTATransitionMap getTransitionMap() {
-		return transitionMap;
-	}
-
-	public void setTransitionMap(UTATransitionMap transitionMap) {
-		this.transitionMap = transitionMap;
+	public DirectedMultigraph<UTALocation, UTATransition> getLocationGraph() {
+		return locationGraph;
 	}
 
 	public Set<AbsDeclarationStatement> getLocalDeclarations() {

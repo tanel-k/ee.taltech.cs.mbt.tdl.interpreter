@@ -15,21 +15,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates.UTATemp
 import java.io.InputStream;
 
 public class UTASystemParser {
-	public static class InvalidGlobalDeclarationsException extends UTASystemParseException {
-		InvalidGlobalDeclarationsException(Throwable t) { super(t); }
-	}
-
-	public static class InvalidSystemDefinitionException extends UTASystemParseException {
-		InvalidSystemDefinitionException(Throwable t) { super(t); }
-	}
-
-	public static class InvalidSystemInputException extends UTASystemParseException {
-		InvalidSystemInputException(String msg, Throwable t) { super(msg, t); }
-	}
-
 	UTASystemParser() { }
 
-	private void injectGlobalDeclarations(UTASystem utaSystem, XmlNodeNtaSystem ntaSystem) throws InvalidGlobalDeclarationsException {
+	private void injectGlobalDeclarations(UTASystem utaSystem, XmlNodeNtaSystem ntaSystem) throws UTASystemDeserializationEx {
 		if (!ntaSystem.isSetDeclaration())
 			return;
 		XmlNodeGlobalDeclarations globalDeclarations = ntaSystem.getDeclaration();
@@ -39,12 +27,12 @@ public class UTASystemParser {
 			utaSystem.getGlobalDeclarations().addAll(
 				new UTADeclarationsParser().parseInput(ntaSystem.getDeclaration().getValue())
 			);
-		} catch (ParseException e) {
-			throw new InvalidGlobalDeclarationsException(e);
+		} catch (ParseException ex) {
+			throw new UTASystemDeserializationEx("Could not parse global declarations [" + ex.getMessage() + "].", ex);
 		}
 	}
 
-	private void injectSystemDefinition(UTASystem utaSystem, XmlNodeNtaSystem ntaSystem) throws InvalidSystemDefinitionException {
+	private void injectSystemDefinition(UTASystem utaSystem, XmlNodeNtaSystem ntaSystem) throws UTASystemDeserializationEx {
 		if (!ntaSystem.isSetSystem())
 			return;
 		XmlNodeSystemDefinition systemDefinition = ntaSystem.getSystem();
@@ -55,22 +43,23 @@ public class UTASystemParser {
 				new UTASystemDefinitionParser().parseInput(systemDefinition.getValue())
 			);
 		} catch (ParseException ex) {
-			throw new InvalidSystemDefinitionException(ex);
+			throw new UTASystemDeserializationEx("Could not parse system definition [" + ex.getMessage() + "].", ex);
 		}
 	}
 
-	private void injectTemplates(UTASystem utaSystem, XmlNodeNtaSystem ntaSystem) throws UTATemplateParseException
-	{
+	private void injectTemplates(UTASystem utaSystem, XmlNodeNtaSystem ntaSystem) throws UTASystemDeserializationEx {
 		if (!ntaSystem.isSetTemplates())
 			return;
 		UTATemplateParser templateParser = UTATemplateSerializerFactory.newParser();
 		for (XmlNodeTemplate xmlTemplate : ntaSystem.getTemplates()) {
 			UTATemplate template = templateParser.parse(xmlTemplate);
-			utaSystem.getTemplateMap().put(template.getId(), template);
+			if (utaSystem.getTemplateMap().put(template.getName(), template) != null) {
+				throw new UTASystemDeserializationEx("Template name " + template.getName() + " is not unique within system.");
+			}
 		}
 	}
 
-	public UTASystem parse(InputStream in) throws UTASystemParseException
+	public UTASystem parse(InputStream in) throws UTASystemDeserializationEx
 	{
 		try {
 			XmlNodeNtaSystem ntaSystem = NtaMarshaller.unmarshal(in);
@@ -82,7 +71,7 @@ public class UTASystemParser {
 
 			return system;
 		} catch (NtaMarshallingException ex) {
-			throw new InvalidSystemInputException("Failed to deserialize system representation.", ex);
+			throw new UTASystemDeserializationEx("Failed to deserialize system representation.", ex);
 		}
 	}
 }
