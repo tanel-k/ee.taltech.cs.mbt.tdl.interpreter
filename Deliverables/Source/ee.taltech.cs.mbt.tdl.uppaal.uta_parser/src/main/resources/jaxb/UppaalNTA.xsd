@@ -170,8 +170,7 @@
       <xs:element name="label" type="TransitionLabelType" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="nail" type="NailType" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="id" type="xs:string"/>
-    <xs:attributeGroup ref="OptCoordAndColorAttrGroup"/>
+    <xs:attribute name="color" type="xs:string"/>
   </xs:complexType>
 
   <xs:complexType name="IdRefType">

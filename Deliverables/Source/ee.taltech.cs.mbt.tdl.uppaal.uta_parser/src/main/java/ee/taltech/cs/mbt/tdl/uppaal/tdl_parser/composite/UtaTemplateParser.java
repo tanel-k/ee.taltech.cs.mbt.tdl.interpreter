@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.*;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.xml.jaxb.*;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.Color;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.labels.*;
@@ -21,14 +21,11 @@ import java.util.Map;
 public class UtaTemplateParser {// FIXME: Extract XML/structure validation
 	private UtaLanguageParserFactory parserFactory = UtaLanguageParserFactory.newInstance();
 
-	UtaTemplateParser() { }
-	UtaTemplateParser(UtaLanguageParserFactory parserFactory) { this.parserFactory = parserFactory; }
+	protected UtaTemplateParser() { }
+	protected UtaTemplateParser(UtaLanguageParserFactory parserFactory) { this.parserFactory = parserFactory; }
 
 	private void injectName(UtaTemplate utaTemplate, XmlNodeTemplate templateXml) throws SystemDeserializationException {
-		XmlNodeName nameXml;
-		if (!templateXml.isSetName() || !(nameXml = templateXml.getName()).isSetValue())
-			throw new SystemDeserializationException("Template has no name.");
-		utaTemplate.setName(nameXml.getValue());
+		utaTemplate.setName(templateXml.getName().getValue());
 	}
 
 	private void injectParameters(UtaTemplate template, XmlNodeTemplate templateXml) throws SystemDeserializationException {
@@ -103,8 +100,6 @@ public class UtaTemplateParser {// FIXME: Extract XML/structure validation
 		for (XmlNodeLocationLabel locationLabelXml : locationXml.getLabels()) {
 			if (!locationLabelXml.isSetValue())
 				continue;
-			if (!locationLabelXml.isSetKind())
-				throw new SystemDeserializationException("Label for location " + location.getId() + " does not specify a kind.");
 			AbsUtaLabel<?> label = null;
 			switch (locationLabelXml.getKind()) {
 				case COMMENTS:
@@ -131,12 +126,6 @@ public class UtaTemplateParser {// FIXME: Extract XML/structure validation
 					break;
 			}
 
-			if (!locationLabelXml.isSetX() || !locationLabelXml.isSetY())
-				throw new SystemDeserializationException(
-					"Location [" + location.getId() + "] label of kind '"
-						+ locationLabelXml.getKind().value()
-						+ "' has no coordinates in template " + template.getName() + "."
-				);
 			label.setCoordinates(new GuiCoordinates(locationLabelXml.getX(), locationLabelXml.getY()));
 		}
 		location.setLabelContainer(labelContainer);
@@ -147,8 +136,6 @@ public class UtaTemplateParser {// FIXME: Extract XML/structure validation
 		for (XmlNodeTransitionLabel transitionLabelXml : transitionXml.getLabels()) {
 			if (!transitionLabelXml.isSetValue())
 				continue;
-			if (!transitionLabelXml.isSetKind())
-				throw new SystemDeserializationException("Label for transition " + transition.getId() + " does not specify a kind.");
 			AbsUtaLabel<?> label = null;
 			switch (transitionLabelXml.getKind()) {
 				case COMMENTS:
@@ -216,12 +203,6 @@ public class UtaTemplateParser {// FIXME: Extract XML/structure validation
 					break;
 			}
 
-			if (!transitionLabelXml.isSetX() || !transitionLabelXml.isSetY())
-				throw new SystemDeserializationException(
-						"Transition [" + transition.getId() +"] label of kind '"
-								+ transitionLabelXml.getKind().value()
-								+ "' has no coordinates in template " + template.getName() + "."
-				);
 			label.setCoordinates(new GuiCoordinates(transitionLabelXml.getX(), transitionLabelXml.getY()));
 		}
 
@@ -233,16 +214,10 @@ public class UtaTemplateParser {// FIXME: Extract XML/structure validation
 	}
 
 	private void injectLocations(UtaTemplate template, XmlNodeTemplate templateXml) throws SystemDeserializationException {
-		XmlNodeInitialLocation initLocXml;
-		if (!templateXml.isSetInit() || !(initLocXml = templateXml.getInit()).isSetRef())
-			throw new SystemDeserializationException("Template " + template.getName() + " must have an initial location.");
-
-		if (!templateXml.isSetLocations())
-			throw new SystemDeserializationException("Must define at least one location in template " + template.getName() + ".");
-
-		UtaLocation initialLocation = null;
+		XmlNodeInitialLocation initLocXml = templateXml.getInit();
 		String initialLocationID = initLocXml.getRef();
 		Map<String, UtaLocation> locationMap = new HashMap<>();
+		UtaLocation initialLocation = null;
 		for (XmlNodeLocation locationXml : templateXml.getLocations()) {
 			UtaLocation location = new UtaLocation();
 			injectLocationData(template, location, locationXml);
@@ -265,10 +240,6 @@ public class UtaTemplateParser {// FIXME: Extract XML/structure validation
 		for (XmlNodeTransition transitionXml : templateXml.getTransitions()) {
 			UtaTransition transition = new UtaTransition();
 			injectTransitionData(template, transition, transitionXml);
-
-			transitionXml.isSetSource(); // FIXME
-			transitionXml.isSetTarget(); // FIXME
-
 			UtaLocation sourceLocation = locationMap.get(transitionXml.getSource().getRef());
 			UtaLocation targetLocation = locationMap.get(transitionXml.getTarget().getRef());
 			template.getLocationGraph().addEdge(sourceLocation, targetLocation, transition);

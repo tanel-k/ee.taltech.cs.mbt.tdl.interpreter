@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-public abstract class AbsParser<ResultType> {
+public abstract class AbsAntlrParser<ResultType> {
 	public abstract AbsAntlrParserFacade<ResultType, ?, ? ,?> getFacade();
 
 	public ResultType parseInput(String inputString) throws ParseException {

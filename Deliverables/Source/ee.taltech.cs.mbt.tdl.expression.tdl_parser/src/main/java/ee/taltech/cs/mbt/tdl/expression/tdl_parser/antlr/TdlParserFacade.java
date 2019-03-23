@@ -8,7 +8,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr.converter.TdlParseTreeC
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade;
 import org.antlr.v4.runtime.*;
 
-public class TdlParserFacade extends AbsAntlrParserFacade<ExpressionTree, TDLExpressionLanguageLexer, TDLExpressionLanguageParser, ExpressionContext> {
+public class TdlParserFacade extends AbsAntlrParserFacade<ExpressionTree, TDLExpressionLanguageParser, ExpressionContext> {
 	@Override
 	protected TDLExpressionLanguageParser getParserInstance(TokenStream tokenStream) {
 		return new TDLExpressionLanguageParser(tokenStream);

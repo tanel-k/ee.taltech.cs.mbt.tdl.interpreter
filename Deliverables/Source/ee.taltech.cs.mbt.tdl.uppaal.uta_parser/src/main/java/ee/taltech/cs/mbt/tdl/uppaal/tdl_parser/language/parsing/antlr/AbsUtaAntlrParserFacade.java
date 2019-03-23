@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 public abstract class AbsUtaAntlrParserFacade<OutputType, RootContextType extends ParseTree>
-	extends AbsAntlrParserFacade<OutputType, UTALanguageLexer, UTALanguageParser, RootContextType>
+	extends AbsAntlrParserFacade<OutputType, UTALanguageParser, RootContextType>
 {
 	private RootContextType rootContext;
 

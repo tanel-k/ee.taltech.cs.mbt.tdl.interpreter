@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.base.ErrorListener;
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.base.ErrorStrategyConfig;
-import ee.taltech.cs.mbt.tdl.generic.parser.AbsParser;
+import ee.taltech.cs.mbt.tdl.generic.parser.AbsAntlrParser;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.UtaAntlrFacadeFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
@@ -35,73 +35,73 @@ public class UtaLanguageParserFactory {
 		facadeFactory.setErrorStrategyConfig(errorStrategyConfig);
 	}
 
-	public AbsParser<AbsExpression> guardParser() {
-		return new AbsParser<AbsExpression>() {
+	public AbsAntlrParser<AbsExpression> guardParser() {
+		return new AbsAntlrParser<AbsExpression>() {
 			@Override
-			public AbsAntlrParserFacade<AbsExpression, ?, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<AbsExpression, ?, ?> getFacade() {
 				return facadeFactory.guardFacade();
 			}
 		};
 	}
 
-	public AbsParser<AbsExpression> invariantParser() {
-		return new AbsParser<AbsExpression>() {
+	public AbsAntlrParser<AbsExpression> invariantParser() {
+		return new AbsAntlrParser<AbsExpression>() {
 			@Override
-			public AbsAntlrParserFacade<AbsExpression, ?, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<AbsExpression, ?, ?> getFacade() {
 				return facadeFactory.invariantFacade();
 			}
 		};
 	}
 
-	public AbsParser<List<AbsExpression>> updatesParser() {
-		return new AbsParser<List<AbsExpression>>() {
+	public AbsAntlrParser<List<AbsExpression>> updatesParser() {
+		return new AbsAntlrParser<List<AbsExpression>>() {
 			@Override
-			public AbsAntlrParserFacade<List<AbsExpression>, ?, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<List<AbsExpression>, ?, ?> getFacade() {
 				return facadeFactory.updatesFacade();
 			}
 		};
 	}
 
-	public AbsParser<List<ParameterDeclaration>> parameterListParser() {
-		return new AbsParser<List<ParameterDeclaration>>() {
+	public AbsAntlrParser<List<ParameterDeclaration>> parameterListParser() {
+		return new AbsAntlrParser<List<ParameterDeclaration>>() {
 			@Override
-			public AbsAntlrParserFacade<List<ParameterDeclaration>, ?, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<List<ParameterDeclaration>, ?, ?> getFacade() {
 				return facadeFactory.parametersFacade();
 			}
 		};
 	}
 
-	public AbsParser<SystemDefinition> systemDefinitionParser() {
-		return new AbsParser<SystemDefinition>() {
+	public AbsAntlrParser<SystemDefinition> systemDefinitionParser() {
+		return new AbsAntlrParser<SystemDefinition>() {
 			@Override
-			public AbsAntlrParserFacade<SystemDefinition, ?, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<SystemDefinition, ?, ?> getFacade() {
 				return facadeFactory.systemDefinitionFacade();
 			}
 		};
 	}
 
-	public AbsParser<List<Selection>> selectionParser() {
-		return new AbsParser<List<Selection>>() {
+	public AbsAntlrParser<List<Selection>> selectionParser() {
+		return new AbsAntlrParser<List<Selection>>() {
 			@Override
-			public AbsAntlrParserFacade<List<Selection>, ?, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<List<Selection>, ?, ?> getFacade() {
 				return facadeFactory.selectionFacade();
 			}
 		};
 	}
 
-	public AbsParser<Synchronization> synchronizationParser() {
-		return new AbsParser<Synchronization>() {
+	public AbsAntlrParser<Synchronization> synchronizationParser() {
+		return new AbsAntlrParser<Synchronization>() {
 			@Override
-			public AbsAntlrParserFacade<Synchronization, ?, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<Synchronization, ?, ?> getFacade() {
 				return facadeFactory.synchronizationFacade();
 			}
 		};
 	}
 
-	public AbsParser<List<AbsDeclarationStatement>> declarationsParser() {
-		return new AbsParser<List<AbsDeclarationStatement>>() {
+	public AbsAntlrParser<List<AbsDeclarationStatement>> declarationsParser() {
+		return new AbsAntlrParser<List<AbsDeclarationStatement>>() {
 			@Override
-			public AbsAntlrParserFacade<List<AbsDeclarationStatement>, ?, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<List<AbsDeclarationStatement>, ?, ?> getFacade() {
 				return facadeFactory.declarationsFacade();
 			}
 		};

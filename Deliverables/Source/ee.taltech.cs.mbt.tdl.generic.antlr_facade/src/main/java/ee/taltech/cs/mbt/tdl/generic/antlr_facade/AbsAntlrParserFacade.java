@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbsAntlrParserFacade<OutputType, LexerType extends Lexer, ParserType extends Parser, RootContextType extends ParseTree> {
+public abstract class AbsAntlrParserFacade<OutputType, ParserType extends Parser, RootContextType extends ParseTree> {
 	public static class ParseException extends Exception {
 		public ParseException(String msg, Throwable t) { super(msg, t); }
 	}
@@ -34,14 +34,14 @@ public abstract class AbsAntlrParserFacade<OutputType, LexerType extends Lexer, 
 	}
 
 	protected abstract ParserType getParserInstance(TokenStream tokenStream);
-	protected abstract LexerType getLexerInstance(CharStream forInputStream);
+	protected abstract Lexer getLexerInstance(CharStream forInputStream);
 	protected abstract RootContextType getRootContext(ParserType parser);
 	protected abstract IParseTreeConverter<OutputType, RootContextType> getConverter();
 
 	protected ParserType getInputParser(InputStream in) throws IOException {
 		ANTLRInputStream input = new ANTLRInputStream(in);
 
-		LexerType lexer = getLexerInstance(input);
+		Lexer lexer = getLexerInstance(input);
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		ParserType parser = getParserInstance(tokenStream);
 		return parser;

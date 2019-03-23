@@ -2,12 +2,12 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParserFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.xml.NtaMarshaller;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.xml.NtaMarshaller.NtaMarshallingException;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.xml.jaxb.XmlNodeGlobalDeclarations;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.xml.jaxb.XmlNodeNtaSystem;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.xml.jaxb.XmlNodeSystemDefinition;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.xml.jaxb.XmlNodeTemplate;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.NtaMarshaller;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.NtaMarshaller.NtaMarshallingException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeGlobalDeclarations;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeNtaSystem;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeSystemDefinition;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeTemplate;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.composite.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates.UtaTemplate;
 

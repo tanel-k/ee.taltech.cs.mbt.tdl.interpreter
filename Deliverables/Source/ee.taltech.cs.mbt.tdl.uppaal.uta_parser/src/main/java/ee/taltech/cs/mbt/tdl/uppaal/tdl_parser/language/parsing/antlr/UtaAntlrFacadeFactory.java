@@ -29,8 +29,8 @@ public class UtaAntlrFacadeFactory {
 		return new UtaAntlrFacadeFactory();
 	}
 
-	private ErrorStrategyConfig errorStrategyConfig = ErrorStrategyConfigFactory.failFastConfig();
 	private List<ErrorListener> errorListeners = new LinkedList<>();
+	private ErrorStrategyConfig errorStrategyConfig = ErrorStrategyConfigFactory.failFastConfig();
 
 	private UtaAntlrFacadeFactory() { }
 
