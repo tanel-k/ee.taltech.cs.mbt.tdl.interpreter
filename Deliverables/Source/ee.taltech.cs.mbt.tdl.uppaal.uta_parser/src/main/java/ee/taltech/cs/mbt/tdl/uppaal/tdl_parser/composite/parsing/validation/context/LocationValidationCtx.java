@@ -1,10 +1,8 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.validation.context;
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.context;
 
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeLocation;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeTemplate;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation.AbsValidationCtx;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation.ContextValidationResult;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation.ValidationError;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.AbsValidationCtx;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ContextValidationResult;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -22,29 +20,36 @@ public class LocationValidationCtx extends AbsValidationCtx<XmlNodeLocation, Tem
 
 	@Override
 	protected void performValidation(ContextValidationResult result) {
-		XmlNodeTemplate template = getParentContext().getContextObject();
 		XmlNodeLocation location = getContextObject();
 
-		boolean missingId = result.addErrorIf(
+		boolean missingId = result.addErrorMessageIf(
 			() -> !location.isSetId(),
-			() -> ValidationError.forMessage("Location has no identifier in " + template.getName())
+			() -> "missing id"
 		);
-		result.addErrorIf(
+		result.addErrorMessageIf(
 			() -> !location.isSetX() || !location.isSetY(),
-			() -> ValidationError.forMessage("Location " + location.getId() + " in " + template.getName() + " has no coordinates.")
+			() -> "missing coordinates"
 		);
-		result.addErrorIf(
+		result.addErrorMessageIf(
 			() -> !location.isSetUrgent() && location.isSetCommitted(),
-			() -> ValidationError.forMessage("Location " + location.getId() + " in " + template.getName() + " cannot be both urgent and committed at the same time.")
+			() -> "simultaneously urgent and committed"
 		);
 
 		if (!missingId) {
-			result.addErrorIf(
-					() -> getLocationIds().contains(location.getId()),
-					() -> ValidationError.forMessage("Location id " + location.getId() + " is not unique in " + template.getName())
+			result.addErrorMessageIf(
+				() -> getLocationIds().contains(location.getId()),
+				() -> "non-unique id"
 			);
 			getLocationIds().add(location.getId());
 		}
+	}
+
+	public String getName() {
+		return "location (" + (
+				getContextObject().isSetId()
+					? getContextObject().getId()
+					: "unidentified"
+			) + ")";
 	}
 
 	@Override

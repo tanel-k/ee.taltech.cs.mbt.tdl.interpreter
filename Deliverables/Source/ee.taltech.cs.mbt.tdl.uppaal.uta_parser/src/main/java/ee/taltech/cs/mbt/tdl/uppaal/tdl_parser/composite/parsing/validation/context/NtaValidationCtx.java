@@ -1,9 +1,9 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.validation.context;
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.context;
 
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeNta;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation.AbsValidationCtx;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation.AbsValidationRootCtx;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation.ContextValidationResult;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.AbsValidationCtx;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.AbsValidationRootCtx;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ContextValidationResult;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -15,6 +15,11 @@ public class NtaValidationCtx extends AbsValidationRootCtx<XmlNodeNta> {
 
 	@Override
 	protected void performValidation(ContextValidationResult validationErrors) { }
+
+	@Override
+	public String getName() {
+		return "system";
+	}
 
 	@Override
 	public Collection<AbsValidationCtx> orderedChildContexts() {

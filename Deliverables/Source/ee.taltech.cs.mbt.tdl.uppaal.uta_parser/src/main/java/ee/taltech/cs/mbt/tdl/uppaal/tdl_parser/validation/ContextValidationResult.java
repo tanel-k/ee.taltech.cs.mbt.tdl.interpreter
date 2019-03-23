@@ -1,13 +1,11 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation;
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 public class ContextValidationResult implements Iterable<ValidationError> {
+	private String fullyQualifiedContextName;
 	private AbsValidationCtx sourceCtx;
 	private List<ValidationError> errors = new LinkedList<>();
 
@@ -15,8 +13,28 @@ public class ContextValidationResult implements Iterable<ValidationError> {
 		this.sourceCtx = sourceCtx;
 	}
 
+	private String capitalize(String s) {
+		return s.substring(0, 1).toUpperCase() + s.substring(1);
+	}
+
+	protected String constructFullyQualifiedName() {
+		StringBuilder sb = new StringBuilder(capitalize(getSourceCtx().getName()));
+		AbsValidationCtx ctx = getSourceCtx().getParentContext();
+		while (ctx != null) {
+			sb.append(" in ").append(ctx.getName());
+			ctx = ctx.getParentContext();
+		}
+		return (fullyQualifiedContextName = sb.toString());
+	}
+
 	public boolean hasErrors() {
 		return !errors.isEmpty();
+	}
+
+	public String getQualifiedContextName() {
+		return fullyQualifiedContextName == null
+			? (fullyQualifiedContextName = constructFullyQualifiedName())
+			: fullyQualifiedContextName;
 	}
 
 	public AbsValidationCtx getSourceCtx() {
@@ -43,6 +61,13 @@ public class ContextValidationResult implements Iterable<ValidationError> {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean addErrorMessageIf(BooleanSupplier condition, Supplier<String> msgProvider) {
+		return addErrorIf(
+			condition,
+			() -> ValidationError.forMessage(getQualifiedContextName() + ": " + msgProvider.get() + ".")
+		);
 	}
 
 	@Override

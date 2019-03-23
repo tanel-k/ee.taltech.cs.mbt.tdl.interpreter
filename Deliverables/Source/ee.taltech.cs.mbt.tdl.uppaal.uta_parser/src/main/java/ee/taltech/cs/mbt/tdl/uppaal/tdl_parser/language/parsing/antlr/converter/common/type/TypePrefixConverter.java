@@ -10,7 +10,7 @@ public class TypePrefixConverter extends UTALanguageBaseVisitor<ETypePrefix>
 	@Override
 	public ETypePrefix convert(TypePrefixContext rootContext) {
 		ETypePrefix typePrefix;
-		if ((typePrefix = rootContext.accept(this)) == null)
+		if (rootContext == null || (typePrefix = rootContext.accept(this)) == null)
 			typePrefix = ETypePrefix.NONE;
 		return typePrefix;
 	}

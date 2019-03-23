@@ -5,7 +5,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.labels.*;
 public class UtaTransitionLabels {
 	private UtaCommentLabel commentLabel;
 	private UtaGuardLabel guardLabel;
-	private UtaUpdatesLabel assignmentsLabel;
+	private UtaAssignmentsLabel assignmentsLabel;
 	private UtaSelectLabel selectLabel;
 	private UtaSynchronizationLabel synchronizationLabel;
 
@@ -17,11 +17,11 @@ public class UtaTransitionLabels {
 		this.guardLabel = guardLabel;
 	}
 
-	public UtaUpdatesLabel getAssignmentsLabel() {
+	public UtaAssignmentsLabel getAssignmentsLabel() {
 		return assignmentsLabel;
 	}
 
-	public void setAssignmentsLabel(UtaUpdatesLabel assignmentsLabel) {
+	public void setAssignmentsLabel(UtaAssignmentsLabel assignmentsLabel) {
 		this.assignmentsLabel = assignmentsLabel;
 	}
 

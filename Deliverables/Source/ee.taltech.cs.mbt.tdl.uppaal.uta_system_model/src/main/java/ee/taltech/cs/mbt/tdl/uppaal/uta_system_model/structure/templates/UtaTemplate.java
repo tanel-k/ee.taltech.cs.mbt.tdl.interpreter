@@ -13,11 +13,10 @@ import java.util.Set;
 
 public class UtaTemplate {
 	private String name;
-	private List<ParameterDeclaration> parameters = new LinkedList<>();
-	private DirectedMultigraph<UtaLocation, UtaTransition> locationGraph = new DirectedMultigraph<>();
-
+	private List<ParameterDeclaration> parameters;
 	private UtaLocation initialLocation;
-	private Set<AbsDeclarationStatement> localDeclarations = new LinkedHashSet<>();
+	private DirectedMultigraph<UtaLocation, UtaTransition> locationGraph;
+	private List<AbsDeclarationStatement> localDeclarations;
 
 	public UtaTemplate() { }
 
@@ -30,7 +29,13 @@ public class UtaTemplate {
 	}
 
 	public List<ParameterDeclaration> getParameters() {
-		return parameters;
+		return parameters == null
+			? (parameters = new LinkedList<>())
+			: parameters;
+	}
+
+	public void setParameters(List<ParameterDeclaration> parameters) {
+		this.parameters = parameters;
 	}
 
 	public UtaLocation getInitialLocation() {
@@ -42,10 +47,22 @@ public class UtaTemplate {
 	}
 
 	public DirectedMultigraph<UtaLocation, UtaTransition> getLocationGraph() {
-		return locationGraph;
+		return locationGraph == null
+			? (locationGraph = new DirectedMultigraph<>())
+			: locationGraph;
 	}
 
-	public Set<AbsDeclarationStatement> getLocalDeclarations() {
-		return localDeclarations;
+	public void setLocationGraph(DirectedMultigraph<UtaLocation, UtaTransition> locationGraph) {
+		this.locationGraph = locationGraph;
+	}
+
+	public List<AbsDeclarationStatement> getLocalDeclarations() {
+		return localDeclarations == null
+			? (localDeclarations = new LinkedList<>())
+			: localDeclarations;
+	}
+
+	public void setLocalDeclarations(List<AbsDeclarationStatement> localDeclarations) {
+		this.localDeclarations = localDeclarations;
 	}
 }

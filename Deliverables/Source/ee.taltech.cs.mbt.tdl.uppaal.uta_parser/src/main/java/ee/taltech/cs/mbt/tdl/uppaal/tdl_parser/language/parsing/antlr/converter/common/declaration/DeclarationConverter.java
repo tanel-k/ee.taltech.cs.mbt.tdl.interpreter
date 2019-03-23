@@ -167,6 +167,7 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 			typeCpy.getArrayModifiers().addAll(identifierData.getArrayModifiers());
 			VariableDeclaration<AbsTypeIdentifier, AbsInitializer> variableDeclaration = new VariableDeclaration<>();
 			variableDeclaration.setType(typeCpy);
+			variableDeclaration.setIdentifierName(identifierData.getIdentifierName());
 			AbsInitializer initializer = varInitCtx.initializerExpression() != null
 				? new InitializerExpressionConverter()
 					.convert(varInitCtx.initializerExpression())
@@ -196,6 +197,8 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 			typeDeclarations.getDeclarations().add(typeDeclaration);
 		}
 
+		if (typeDeclarations.getDeclarations().size() == 1)
+			return typeDeclarations.getDeclarations().get(0);
 		return typeDeclarations;
 	}
 

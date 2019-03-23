@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation;
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -46,6 +46,7 @@ public abstract class AbsValidationCtx<CtxObjectT, ParentCtxT extends AbsValidat
 		return contextObject;
 	}
 
+	public abstract String getName();
 	public abstract Collection<AbsValidationCtx> orderedChildContexts();
 
 	public ContextValidationResult validate() {

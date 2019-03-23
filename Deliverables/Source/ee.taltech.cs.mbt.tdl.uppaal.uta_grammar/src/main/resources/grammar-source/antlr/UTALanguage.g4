@@ -352,7 +352,7 @@ expression
             GROUP_RIGHT_PAREN
             expression
         # ExpressionExistentialQuantification
-    | expression GROUP_LEFT_PAREN argumentList GROUP_RIGHT_PAREN
+    | expression GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN
         # ExpressionCall
     | EXPR_LITERAL_DEADLOCK
         # ExpressionDeadlockLiteral

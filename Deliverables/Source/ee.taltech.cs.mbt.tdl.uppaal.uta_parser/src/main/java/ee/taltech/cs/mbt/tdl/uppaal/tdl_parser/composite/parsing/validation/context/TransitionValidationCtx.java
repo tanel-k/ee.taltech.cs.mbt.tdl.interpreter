@@ -1,11 +1,9 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.validation.context;
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.context;
 
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeLocation;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeTemplate;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeTransition;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation.AbsValidationCtx;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation.ContextValidationResult;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation.ValidationError;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.AbsValidationCtx;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ContextValidationResult;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -35,33 +33,43 @@ public class TransitionValidationCtx extends AbsValidationCtx<XmlNodeTransition,
 
 	@Override
 	protected void performValidation(ContextValidationResult results) {
-		XmlNodeTemplate template = getParentContext().getContextObject();
 		XmlNodeTransition transition = getContextObject();
 
-		boolean missingSource = results.addErrorIf(
+		boolean missingSource = results.addErrorMessageIf(
 			() -> !transition.isSetSource() || !transition.getSource().isSetRef(),
-			() -> ValidationError.forMessage("Transition has no source reference in " + template.getName() + ".")
+			() -> "missing source reference"
 		);
-		boolean missingTarget = results.addErrorIf(
+		boolean missingTarget = results.addErrorMessageIf(
 			() -> !transition.isSetTarget() || !transition.getTarget().isSetRef(),
-			() -> ValidationError.forMessage("Transition has no target reference in " + template.getName() + ".")
+			() -> "missing target reference"
 		);
 
 		if (!missingSource) {
 			String sourceRef = transition.getSource().getRef();
-			results.addErrorIf(
+			results.addErrorMessageIf(
 				() -> !getLocationIds().contains(sourceRef),
-				() -> ValidationError.forMessage("Transition refers to non-existent location in " + template.getName() + ".")
+				() -> "refers to non-existent source location"
 			);
 		}
 
 		if (!missingTarget) {
 			String targetRef = transition.getTarget().getRef();
-			results.addErrorIf(
+			results.addErrorMessageIf(
 				() -> !getLocationIds().contains(targetRef),
-				() -> ValidationError.forMessage("Transition refers to non-existent location in " + template.getName() + ".")
+				() -> "refers to non-existent target location"
 			);
 		}
+	}
+
+	@Override
+	public String getName() {
+		String sourceName = getContextObject().isSetSource() && getContextObject().getSource().isSetRef()
+			? getContextObject().getSource().getRef()
+			: "unspecified";
+		String targetName = getContextObject().isSetTarget() && getContextObject().getTarget().isSetRef()
+			? getContextObject().getSource().getRef()
+			: "unspecified";
+		return "transition (" + sourceName + " -> " + targetName + ")";
 	}
 
 	@Override

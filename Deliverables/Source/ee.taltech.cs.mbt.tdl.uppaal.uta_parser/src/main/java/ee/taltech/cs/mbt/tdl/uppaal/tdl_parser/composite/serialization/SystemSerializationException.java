@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite;
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.serialization;
 
 public class SystemSerializationException extends Exception {
 	public SystemSerializationException(String msg) { super(msg); }

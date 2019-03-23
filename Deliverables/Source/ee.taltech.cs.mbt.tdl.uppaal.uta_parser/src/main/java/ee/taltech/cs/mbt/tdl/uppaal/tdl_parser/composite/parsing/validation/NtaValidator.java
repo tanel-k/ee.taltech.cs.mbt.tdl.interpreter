@@ -1,8 +1,8 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.validation;
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation;
 
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.validation.context.NtaValidationCtx;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.context.NtaValidationCtx;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.*;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.validation.AbsValidator;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.AbsValidator;
 
 public class NtaValidator extends AbsValidator<NtaValidationCtx> {
 	public static NtaValidator newInstance(XmlNodeNta nta) {

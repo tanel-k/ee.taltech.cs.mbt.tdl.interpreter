@@ -5,6 +5,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.labels.generic.Ab
 
 import java.util.List;
 
-public class UtaUpdatesLabel extends AbsUtaLabel<List<AbsExpression>> {
+public class UtaAssignmentsLabel extends AbsUtaLabel<List<AbsExpression>> {
 	// Marker class
 }

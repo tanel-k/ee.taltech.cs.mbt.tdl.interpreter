@@ -53,7 +53,7 @@ public class UtaLanguageParserFactory {
 		};
 	}
 
-	public AbsAntlrParser<List<AbsExpression>> updatesParser() {
+	public AbsAntlrParser<List<AbsExpression>> assignmentsParser() {
 		return new AbsAntlrParser<List<AbsExpression>>() {
 			@Override
 			public AbsAntlrParserFacade<List<AbsExpression>, ?, ?> getFacade() {

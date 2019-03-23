@@ -20,7 +20,7 @@ public class SynchronizationConverter extends UTALanguageBaseVisitor<Synchroniza
 	@Override
 	public Synchronization visitActiveSynchronization(ActiveSynchronizationContext ctx) {
 		Synchronization synchronization = initSynchronization(ctx.expression());
-		synchronization.setActiveSync(false);
+		synchronization.setActiveSync(true);
 		return synchronization;
 	}
 
