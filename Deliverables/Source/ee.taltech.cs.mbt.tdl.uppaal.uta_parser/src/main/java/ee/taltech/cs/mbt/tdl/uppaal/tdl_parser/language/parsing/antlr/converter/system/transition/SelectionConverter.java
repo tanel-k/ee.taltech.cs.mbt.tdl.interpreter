@@ -12,10 +12,18 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.selection.S
 public class SelectionConverter extends UTALanguageBaseVisitor<Selection<AbsTypeIdentifier>>
 	implements IParseTreeConverter<Selection<AbsTypeIdentifier>, SelectionContext>
 {
+	public static SelectionConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final SelectionConverter INSTANCE = new SelectionConverter();
+
+	private SelectionConverter() { }
+
 	@Override
 	public Selection<AbsTypeIdentifier> convert(SelectionContext rootContext) {
 		Selection<AbsTypeIdentifier> selection = new Selection<>();
-		Type<AbsTypeIdentifier> sourceType = new TypeConverter().convert(rootContext.type());
+		Type<AbsTypeIdentifier> sourceType = TypeConverter.getInstance().convert(rootContext.type());
 		IdentifierName targetIdentifier = new IdentifierName();
 		targetIdentifier.setName(rootContext.IDENTIFIER_NAME().getText());
 		selection.setSelectionSourceType(sourceType);

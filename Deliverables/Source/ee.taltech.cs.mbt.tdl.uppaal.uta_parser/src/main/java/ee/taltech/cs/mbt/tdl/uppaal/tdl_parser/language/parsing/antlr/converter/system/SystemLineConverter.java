@@ -13,6 +13,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.system_line
 public class SystemLineConverter extends UTALanguageBaseVisitor<SystemLine>
 	implements IParseTreeConverter<SystemLine, SystemLineContext>
 {
+	public static SystemLineConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final SystemLineConverter INSTANCE = new SystemLineConverter();
+
+	private SystemLineConverter() { }
+
 	@Override
 	public SystemLine convert(SystemLineContext rootContext) {
 		SystemProcessesListContext systemProcessesCtx = rootContext.systemProcessesList();

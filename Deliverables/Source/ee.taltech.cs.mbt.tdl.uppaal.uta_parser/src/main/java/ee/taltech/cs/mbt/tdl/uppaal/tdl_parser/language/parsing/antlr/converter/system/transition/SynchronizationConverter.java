@@ -12,6 +12,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.Synchroniza
 public class SynchronizationConverter extends UTALanguageBaseVisitor<Synchronization>
 	implements IParseTreeConverter<Synchronization, UtaTransitionSynchronizationContext>
 {
+	public static SynchronizationConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final SynchronizationConverter INSTANCE = new SynchronizationConverter();
+
+	private SynchronizationConverter() { }
+
 	@Override
 	public Synchronization convert(UtaTransitionSynchronizationContext rootContext) {
 		return rootContext.accept(this);
@@ -33,7 +41,7 @@ public class SynchronizationConverter extends UTALanguageBaseVisitor<Synchroniza
 
 	private Synchronization initSynchronization(ExpressionContext expressionCtx) {
 		Synchronization synchronization = new Synchronization();
-		synchronization.setVariableExpression(new ExpressionConverter().convert(expressionCtx));
+		synchronization.setVariableExpression(ExpressionConverter.getInstance().convert(expressionCtx));
 		return synchronization;
 	}
 }

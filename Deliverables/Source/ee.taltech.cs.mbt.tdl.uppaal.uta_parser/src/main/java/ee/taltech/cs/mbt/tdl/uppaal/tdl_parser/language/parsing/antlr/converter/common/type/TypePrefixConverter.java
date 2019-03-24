@@ -7,6 +7,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.ETypePre
 
 public class TypePrefixConverter extends UTALanguageBaseVisitor<ETypePrefix>
 	implements IParseTreeConverter<ETypePrefix, TypePrefixContext> {
+	public static TypePrefixConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final TypePrefixConverter INSTANCE = new TypePrefixConverter();
+
+	private TypePrefixConverter() { }
+
 	@Override
 	public ETypePrefix convert(TypePrefixContext rootContext) {
 		ETypePrefix typePrefix;

@@ -12,7 +12,16 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_ide
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.FieldDeclaration;
 
 public class TypeIdentifierConverter extends UTALanguageBaseVisitor<AbsTypeIdentifier>
-	implements IParseTreeConverter<AbsTypeIdentifier, TypeIdentifierContext> {
+	implements IParseTreeConverter<AbsTypeIdentifier, TypeIdentifierContext>
+{
+	public static TypeIdentifierConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final TypeIdentifierConverter INSTANCE = new TypeIdentifierConverter();
+
+	private TypeIdentifierConverter() { }
+
 	@Override
 	public AbsTypeIdentifier convert(TypeIdentifierContext rootContext) {
 		return rootContext.accept(this);
@@ -42,10 +51,10 @@ public class TypeIdentifierConverter extends UTALanguageBaseVisitor<AbsTypeIdent
 	public AbsTypeIdentifier visitTypeIdIntegerBounded(TypeIdIntegerBoundedContext ctx) {
 		BoundedIntegerTypeIdentifier boundedIntegerTypeIdentifier = new BoundedIntegerTypeIdentifier();
 		boundedIntegerTypeIdentifier.setMaxBoundExpression(
-			new ExpressionConverter().convert(ctx.expression(0))
+			ExpressionConverter.getInstance().convert(ctx.expression(0))
 		);
 		boundedIntegerTypeIdentifier.setMinBoundExpression(
-			new ExpressionConverter().convert(ctx.expression(1))
+			ExpressionConverter.getInstance().convert(ctx.expression(1))
 		);
 		return boundedIntegerTypeIdentifier;
 	}
@@ -54,7 +63,7 @@ public class TypeIdentifierConverter extends UTALanguageBaseVisitor<AbsTypeIdent
 	public AbsTypeIdentifier visitTypeIdScalar(TypeIdScalarContext ctx) {
 		ScalarTypeIdentifier scalarTypeIdentifier = new ScalarTypeIdentifier();
 		scalarTypeIdentifier.setSizeExpression(
-			new ExpressionConverter().convert(ctx.expression())
+			ExpressionConverter.getInstance().convert(ctx.expression())
 		);
 		return scalarTypeIdentifier;
 	}
@@ -64,11 +73,11 @@ public class TypeIdentifierConverter extends UTALanguageBaseVisitor<AbsTypeIdent
 		StructTypeIdentifier structTypeIdentifier = new StructTypeIdentifier();
 
 		for (FieldDeclarationContext fieldDeclarationCtx : ctx.fieldDeclaration()) {
-			Type<AbsTypeIdentifier> type = new TypeConverter().convert(fieldDeclarationCtx.type());
+			Type<AbsTypeIdentifier> type = TypeConverter.getInstance().convert(fieldDeclarationCtx.type());
 			for (IdentifierNameVariantContext identifierVariantCtx : fieldDeclarationCtx.identifierNameVariant()) {
 				Type<AbsTypeIdentifier> typeClone = type.clone();
 				IdentifierData identifierData =
-					new IdentifierVariantConverter().convert(identifierVariantCtx);
+					IdentifierVariantConverter.getInstance().convert(identifierVariantCtx);
 				typeClone.getArrayModifiers().addAll(identifierData.getArrayModifiers());
 				FieldDeclaration<AbsTypeIdentifier> fieldDeclaration = new FieldDeclaration<>();
 				fieldDeclaration.setType(typeClone);

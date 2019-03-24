@@ -12,9 +12,17 @@ import java.util.List;
 public class TemplateParameterListConverter extends UTALanguageBaseVisitor<List<ParameterDeclaration>>
 	implements IParseTreeConverter<List<ParameterDeclaration>, UtaTemplateParameterListContext>
 {
+	public static TemplateParameterListConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final TemplateParameterListConverter INSTANCE = new TemplateParameterListConverter();
+
+	private TemplateParameterListConverter() { }
+
 	@Override
 	public List<ParameterDeclaration> convert(UtaTemplateParameterListContext rootContext) {
 		ParameterListContext parameterListCtx = rootContext.parameterList();
-		return new ParameterListConverter().convert(parameterListCtx);
+		return ParameterListConverter.getInstance().convert(parameterListCtx);
 	}
 }

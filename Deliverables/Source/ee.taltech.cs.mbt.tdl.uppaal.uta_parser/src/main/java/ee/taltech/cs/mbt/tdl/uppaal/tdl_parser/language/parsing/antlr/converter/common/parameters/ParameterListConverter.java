@@ -17,13 +17,21 @@ import java.util.List;
 public class ParameterListConverter extends UTALanguageBaseVisitor<List<ParameterDeclaration>>
 	implements IParseTreeConverter<List<ParameterDeclaration>, ParameterListContext> {
 
+	private static final ParameterListConverter INSTANCE = new ParameterListConverter();
+
+	public static ParameterListConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private ParameterListConverter() { }
+
 	@Override
 	public List<ParameterDeclaration> convert(ParameterListContext rootContext) {
 		List<ParameterDeclaration> parameterDeclarations = new LinkedList<>();
 		for (ParameterContext parameterCtx : rootContext.parameter()) {
-			Type<AbsTypeIdentifier> parameterType = new TypeConverter()
+			Type<AbsTypeIdentifier> parameterType = TypeConverter.getInstance()
 					.convert(parameterCtx.type());
-			ParameterIdentifierData paramData = new ParameterIdentifierConverter()
+			ParameterIdentifierData paramData = ParameterIdentifierConverter.getInstance()
 					.convert(parameterCtx.parameterIdentifier());
 			parameterType.getArrayModifiers().addAll(paramData.getArrayModifiers());
 			parameterType.setReferenceType(paramData.isByReference());

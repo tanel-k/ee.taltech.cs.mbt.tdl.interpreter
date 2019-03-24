@@ -18,18 +18,18 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.transitions.UtaTr
 import java.util.HashMap;
 import java.util.Map;
 
-public class NtaTemplateConverter {
-	public static NtaTemplateConverter newInstance(UtaLanguageParserFactory parserFactory) {
-		return new NtaTemplateConverter(parserFactory);
+public class TemplateConverter {
+	public static TemplateConverter newInstance(UtaLanguageParserFactory parserFactory) {
+		return new TemplateConverter(parserFactory);
 	}
 
 	private UtaLanguageParserFactory languageParserFactory;
 
-	private NtaTemplateConverter(UtaLanguageParserFactory languageParserFactory) {
+	private TemplateConverter(UtaLanguageParserFactory languageParserFactory) {
 		this.languageParserFactory = languageParserFactory;
 	}
 
-	private void injectParameters(UtaTemplate template, XmlNodeTemplate templateXml) throws NtaEmbeddedCodeParseException {
+	private void injectParameters(UtaTemplate template, XmlNodeTemplate templateXml) throws EmbeddedCodeParseException {
 		if (!templateXml.isSetParameter() || !templateXml.getParameter().isSetValue())
 			return;
 
@@ -40,12 +40,12 @@ public class NtaTemplateConverter {
 					.parseInput(parameterString)
 			);
 		} catch (ParseException ex) {
-			throw new NtaEmbeddedCodeParseException("Failed to parse parameters.", ex)
+			throw new EmbeddedCodeParseException("Failed to parse parameters.", ex)
 				.setEmbeddedCode(parameterString);
 		}
 	}
 
-	private void injectLocalDeclarations(UtaTemplate utaTemplate, XmlNodeTemplate templateXml) throws NtaEmbeddedCodeParseException {
+	private void injectLocalDeclarations(UtaTemplate utaTemplate, XmlNodeTemplate templateXml) throws EmbeddedCodeParseException {
 		if (!templateXml.isSetDeclaration() || !templateXml.getDeclaration().isSetValue())
 			return;
 
@@ -56,12 +56,12 @@ public class NtaTemplateConverter {
 					.parseInput(declarations)
 			);
 		} catch (ParseException ex) {
-			throw new NtaEmbeddedCodeParseException("Failed to parse local declarations.", ex)
+			throw new EmbeddedCodeParseException("Failed to parse local declarations.", ex)
 				.setEmbeddedCode(declarations);
 		}
 	}
 
-	private void injectLocationData(UtaLocation location, XmlNodeLocation locationXml) throws NtaEmbeddedCodeParseException {
+	private void injectLocationData(UtaLocation location, XmlNodeLocation locationXml) throws EmbeddedCodeParseException {
 		location.setId(locationXml.getId());
 		location.setCoordinates(new GuiCoordinates(locationXml.getX(), locationXml.getY()));
 
@@ -86,7 +86,7 @@ public class NtaTemplateConverter {
 		injectLocationLabels(location, locationXml);
 	}
 
-	private void injectLocationLabels(UtaLocation location, XmlNodeLocation locationXml) throws NtaEmbeddedCodeParseException {
+	private void injectLocationLabels(UtaLocation location, XmlNodeLocation locationXml) throws EmbeddedCodeParseException {
 		UtaLocationLabels labelContainer = new UtaLocationLabels();
 		for (XmlNodeLocationLabel locationLabelXml : locationXml.getLabels()) {
 			if (!locationLabelXml.isSetValue())
@@ -110,7 +110,7 @@ public class NtaTemplateConverter {
 							.parseInput(invariantCondition)
 					);
 				} catch (ParseException ex) {
-					throw new NtaEmbeddedCodeParseException("Failed to parse invariant condition.", ex)
+					throw new EmbeddedCodeParseException("Failed to parse invariant condition.", ex)
 						.setEmbeddedCode(invariantCondition);
 				}
 				labelContainer.setInvariantLabel(invariantLabel);
@@ -123,7 +123,7 @@ public class NtaTemplateConverter {
 		location.setLabelContainer(labelContainer);
 	}
 
-	private void injectTransitionLabels(UtaTransition transition, XmlNodeTransition transitionXml) throws NtaEmbeddedCodeParseException {
+	private void injectTransitionLabels(UtaTransition transition, XmlNodeTransition transitionXml) throws EmbeddedCodeParseException {
 		UtaTransitionLabels labelContainer = new UtaTransitionLabels();
 		for (XmlNodeTransitionLabel transitionLabelXml : transitionXml.getLabels()) {
 			if (!transitionLabelXml.isSetValue())
@@ -186,7 +186,7 @@ public class NtaTemplateConverter {
 						break;
 				}
 			} catch (ParseException ex) {
-				throw new NtaEmbeddedCodeParseException(errMsg, ex)
+				throw new EmbeddedCodeParseException(errMsg, ex)
 					.setEmbeddedCode(embeddedCode);
 			}
 
@@ -204,13 +204,13 @@ public class NtaTemplateConverter {
 		}
 	}
 
-	private void injectTransitionData(UtaTransition transition, XmlNodeTransition transitionXml) throws NtaEmbeddedCodeParseException {
+	private void injectTransitionData(UtaTransition transition, XmlNodeTransition transitionXml) throws EmbeddedCodeParseException {
 		injectTransitionLabels(transition, transitionXml);
 		injectTransitionNails(transition, transitionXml);
 		transition.setColor(NtaConversionUtils.parseColor(transitionXml.getColor()));
 	}
 
-	private void injectLocations(UtaTemplate template, XmlNodeTemplate templateXml) throws NtaEmbeddedCodeParseException {
+	private void injectLocations(UtaTemplate template, XmlNodeTemplate templateXml) throws EmbeddedCodeParseException {
 		XmlNodeInitialLocation initLocXml = templateXml.getInit();
 		String initialLocationID = initLocXml.getRef();
 		Map<String, UtaLocation> locationMap = new HashMap<>();
@@ -239,7 +239,7 @@ public class NtaTemplateConverter {
 		return languageParserFactory;
 	}
 
-	public UtaTemplate parse(XmlNodeTemplate templateXml) throws NtaEmbeddedCodeParseException {
+	public UtaTemplate parse(XmlNodeTemplate templateXml) throws EmbeddedCodeParseException {
 		UtaTemplate utaTemplate = new UtaTemplate();
 		utaTemplate.setName(templateXml.getName().getValue());
 		injectParameters(utaTemplate, templateXml);

@@ -9,8 +9,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.SystemDefinitionConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.template.TemplateParameterListConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.transition.SynchronizationConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.transition.TransitionSelectsConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.transition.TransitionUpdatesConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.transition.SelectionSequenceConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.transition.AssignmentsConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.AbsDeclarationStatement;
@@ -62,7 +62,7 @@ public class UtaAntlrFacadeFactory {
 
 			@Override
 			protected IParseTreeConverter<AbsExpression, ExpressionContext> getConverter() {
-				return new ExpressionConverter();
+				return ExpressionConverter.getInstance();
 			}
 		});
 	}
@@ -76,7 +76,7 @@ public class UtaAntlrFacadeFactory {
 
 			@Override
 			protected IParseTreeConverter<AbsExpression, ExpressionContext> getConverter() {
-				return new ExpressionConverter();
+				return ExpressionConverter.getInstance();
 			}
 		});
 	}
@@ -90,7 +90,7 @@ public class UtaAntlrFacadeFactory {
 
 			@Override
 			protected IParseTreeConverter<SystemDefinition, UtaSystemDefinitionContext> getConverter() {
-				return new SystemDefinitionConverter();
+				return SystemDefinitionConverter.getInstance();
 			}
 		});
 	}
@@ -104,7 +104,7 @@ public class UtaAntlrFacadeFactory {
 
 			@Override
 			protected IParseTreeConverter<List<AbsExpression>, UtaTransitionUpdateListContext> getConverter() {
-				return new TransitionUpdatesConverter();
+				return AssignmentsConverter.getInstance();
 			}
 		});
 	}
@@ -118,7 +118,7 @@ public class UtaAntlrFacadeFactory {
 
 			@Override
 			protected IParseTreeConverter<List<Selection>, UtaTransitionSelectionSequenceContext> getConverter() {
-				return new TransitionSelectsConverter();
+				return SelectionSequenceConverter.getInstance();
 			}
 		});
 	}
@@ -132,7 +132,7 @@ public class UtaAntlrFacadeFactory {
 
 			@Override
 			protected IParseTreeConverter<Synchronization, UtaTransitionSynchronizationContext> getConverter() {
-				return new SynchronizationConverter();
+				return SynchronizationConverter.getInstance();
 			}
 		});
 	}
@@ -146,7 +146,7 @@ public class UtaAntlrFacadeFactory {
 
 			@Override
 			protected IParseTreeConverter<List<ParameterDeclaration>, UtaTemplateParameterListContext> getConverter() {
-				return new TemplateParameterListConverter();
+				return TemplateParameterListConverter.getInstance();
 			}
 		});
 	}
@@ -160,7 +160,7 @@ public class UtaAntlrFacadeFactory {
 
 			@Override
 			protected IParseTreeConverter<List<AbsDeclarationStatement>, UtaDeclarationsContext> getConverter() {
-				return new DeclarationsConverter();
+				return DeclarationsConverter.getInstance();
 			}
 		});
 	}

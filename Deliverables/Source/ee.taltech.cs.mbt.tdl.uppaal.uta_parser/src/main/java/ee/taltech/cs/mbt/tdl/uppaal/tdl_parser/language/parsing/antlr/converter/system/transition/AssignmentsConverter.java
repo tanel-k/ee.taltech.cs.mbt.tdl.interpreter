@@ -10,13 +10,22 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.ge
 import java.util.LinkedList;
 import java.util.List;
 
-public class TransitionUpdatesConverter extends UTALanguageBaseVisitor<List<AbsExpression>>
-		implements IParseTreeConverter<List<AbsExpression>, UtaTransitionUpdateListContext> {
+public class AssignmentsConverter extends UTALanguageBaseVisitor<List<AbsExpression>>
+		implements IParseTreeConverter<List<AbsExpression>, UtaTransitionUpdateListContext>
+{
+	public static AssignmentsConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final AssignmentsConverter INSTANCE = new AssignmentsConverter();
+
+	private AssignmentsConverter() { }
+
 	@Override
 	public List<AbsExpression> convert(UtaTransitionUpdateListContext rootContext) {
 		List<AbsExpression> updateExpressions = new LinkedList<>();
 		for (ExpressionContext exprCtx : rootContext.expression()) {
-			updateExpressions.add(new ExpressionConverter().convert(exprCtx));
+			updateExpressions.add(ExpressionConverter.getInstance().convert(exprCtx));
 		}
 		return updateExpressions;
 	}

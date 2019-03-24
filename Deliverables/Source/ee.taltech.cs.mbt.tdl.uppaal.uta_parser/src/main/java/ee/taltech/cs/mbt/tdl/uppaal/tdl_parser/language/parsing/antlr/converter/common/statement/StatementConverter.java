@@ -22,6 +22,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_ide
 public class StatementConverter extends UTALanguageBaseVisitor<AbsStatement>
 	implements IParseTreeConverter<AbsStatement, StatementContext>
 {
+	public static StatementConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final StatementConverter INSTANCE = new StatementConverter();
+
+	private StatementConverter() { }
+
 	@Override
 	public AbsStatement convert(StatementContext rootContext) {
 		return rootContext.accept(this);
@@ -44,7 +52,7 @@ public class StatementConverter extends UTALanguageBaseVisitor<AbsStatement>
 		if (nestedContext.declarationSequence() != null) {
 			for (DeclarationContext declarationContext : nestedContext.declarationSequence().declaration()) {
 				statementBlock.getDeclarations().add(
-					new DeclarationConverter().convert(declarationContext)
+					DeclarationConverter.getInstance().convert(declarationContext)
 				);
 			}
 		}
@@ -55,7 +63,7 @@ public class StatementConverter extends UTALanguageBaseVisitor<AbsStatement>
 	public AbsStatement visitStatementConditional(StatementConditionalContext ctx) {
 		ConditionalStatement conditionalStatement = new ConditionalStatement();
 		conditionalStatement.setConditionExpression(
-			new ExpressionConverter()
+			ExpressionConverter.getInstance()
 				.convert(ctx.expression())
 		);
 		conditionalStatement.setPrimaryStatement(
@@ -73,7 +81,7 @@ public class StatementConverter extends UTALanguageBaseVisitor<AbsStatement>
 	public AbsStatement visitStatementDoWhile(StatementDoWhileContext ctx) {
 		DoWhileLoop doWhileLoop = new DoWhileLoop();
 		doWhileLoop.setLoopCondition(
-			new ExpressionConverter().convert(ctx.loopCondition().expression())
+			ExpressionConverter.getInstance().convert(ctx.loopCondition().expression())
 		);
 		doWhileLoop.setBody(
 			ctx.loopBody().statement().accept(this)
@@ -85,15 +93,15 @@ public class StatementConverter extends UTALanguageBaseVisitor<AbsStatement>
 	public AbsStatement visitStatementForLoop(StatementForLoopContext ctx) {
 		ForLoop forLoop = new ForLoop();
 		forLoop.setInitializer(
-			new ExpressionConverter()
+			ExpressionConverter.getInstance()
 				.convert(ctx.loopInitializer().expression())
 		);
 		forLoop.setLoopCondition(
-			new ExpressionConverter()
+			ExpressionConverter.getInstance()
 				.convert(ctx.loopCondition().expression())
 		);
 		forLoop.setUpdate(
-			new ExpressionConverter()
+			ExpressionConverter.getInstance()
 				.convert(ctx.loopUpdate().expression())
 		);
 		forLoop.setBody(
@@ -106,8 +114,7 @@ public class StatementConverter extends UTALanguageBaseVisitor<AbsStatement>
 	public AbsStatement visitStatementWhileLoop(StatementWhileLoopContext ctx) {
 		WhileLoop whileLoop = new DoWhileLoop();
 		whileLoop.setLoopCondition(
-			new ExpressionConverter()
-				.convert(ctx.loopCondition().expression())
+			ExpressionConverter.getInstance().convert(ctx.loopCondition().expression())
 		);
 		whileLoop.setBody(
 			ctx.loopBody().statement().accept(this)
@@ -119,7 +126,7 @@ public class StatementConverter extends UTALanguageBaseVisitor<AbsStatement>
 	public AbsStatement visitStatementExpression(StatementExpressionContext ctx) {
 		ExpressionStatement expressionStatement = new ExpressionStatement();
 		expressionStatement.setExpression(
-			new ExpressionConverter().convert(ctx.expression())
+			ExpressionConverter.getInstance().convert(ctx.expression())
 		);
 		return expressionStatement;
 	}
@@ -128,8 +135,7 @@ public class StatementConverter extends UTALanguageBaseVisitor<AbsStatement>
 	public AbsStatement visitStatementIteration(StatementIterationContext ctx) {
 		IterationLoop<AbsTypeIdentifier> iterationLoop = new IterationLoop<>();
 		iterationLoop.setIteratedType(
-			new TypeConverter()
-				.convert(ctx.type())
+			TypeConverter.getInstance().convert(ctx.type())
 		);
 		IdentifierName loopVar = new IdentifierName();
 		loopVar.setName(ctx.IDENTIFIER_NAME().getText());
@@ -145,8 +151,7 @@ public class StatementConverter extends UTALanguageBaseVisitor<AbsStatement>
 		ReturnStatement returnStatement = new ReturnStatement();
 		if (ctx.expression() != null) {
 			returnStatement.setExpression(
-				new ExpressionConverter()
-					.convert(ctx.expression())
+				ExpressionConverter.getInstance().convert(ctx.expression())
 			);
 		}
 		return returnStatement;

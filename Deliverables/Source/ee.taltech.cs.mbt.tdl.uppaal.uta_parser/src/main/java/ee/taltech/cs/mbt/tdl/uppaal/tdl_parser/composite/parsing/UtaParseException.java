@@ -1,11 +1,8 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing;
 
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.NtaEmbeddedCodeParseException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.EmbeddedCodeParseException;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.NtaMarshaller.NtaMarshallingException;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ValidationError;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ValidationResult;
-
-import java.util.Iterator;
 
 public class UtaParseException extends Exception {
 	public static UtaParseException wrap(ValidationResult validationResult) {
@@ -16,13 +13,13 @@ public class UtaParseException extends Exception {
 		return new UtaParseException(ex).setMarshallingException(ex);
 	}
 
-	public static UtaParseException wrap(NtaEmbeddedCodeParseException ex) {
+	public static UtaParseException wrap(EmbeddedCodeParseException ex) {
 		return new UtaParseException(ex).setEmbeddedCodeParseException(ex);
 	}
 
 	private ValidationResult structureValidationResult;
 	private NtaMarshallingException marshallingException;
-	private NtaEmbeddedCodeParseException embeddedCodeParseException;
+	private EmbeddedCodeParseException embeddedCodeParseException;
 
 	private UtaParseException() { }
 	private UtaParseException(Throwable t) {
@@ -46,11 +43,11 @@ public class UtaParseException extends Exception {
 		return embeddedCodeParseException != null;
 	}
 
-	public NtaEmbeddedCodeParseException getEmbeddedCodeParseException() {
+	public EmbeddedCodeParseException getEmbeddedCodeParseException() {
 		return embeddedCodeParseException;
 	}
 
-	public UtaParseException setEmbeddedCodeParseException(NtaEmbeddedCodeParseException embeddedCodeParseException) {
+	public UtaParseException setEmbeddedCodeParseException(EmbeddedCodeParseException embeddedCodeParseException) {
 		this.embeddedCodeParseException = embeddedCodeParseException;
 		return this;
 	}

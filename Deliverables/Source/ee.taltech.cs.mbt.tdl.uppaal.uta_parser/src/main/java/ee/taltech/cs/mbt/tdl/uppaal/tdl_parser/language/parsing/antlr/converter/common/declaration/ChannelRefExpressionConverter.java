@@ -15,6 +15,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.Id
 public class ChannelRefExpressionConverter extends UTALanguageBaseVisitor<AbsChannelRef>
 		implements IParseTreeConverter<AbsChannelRef, ChannelRefExpressionContext>
 {
+	public static ChannelRefExpressionConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final ChannelRefExpressionConverter INSTANCE = new ChannelRefExpressionConverter();
+
+	private ChannelRefExpressionConverter() { }
+
 	@Override
 	public AbsChannelRef convert(ChannelRefExpressionContext rootContext) {
 		return rootContext.accept(this);
@@ -45,7 +53,7 @@ public class ChannelRefExpressionConverter extends UTALanguageBaseVisitor<AbsCha
 		arrayIdentifierLookup.setIdentifierName(identifierName);
 
 		for (ExpressionContext exprCtx : arrayAccessCtx.expression()) {
-			AbsExpression lookupExpression = new ExpressionConverter().convert(exprCtx);
+			AbsExpression lookupExpression = ExpressionConverter.getInstance().convert(exprCtx);
 			arrayIdentifierLookup.getLookupExpressions().add(lookupExpression);
 		}
 

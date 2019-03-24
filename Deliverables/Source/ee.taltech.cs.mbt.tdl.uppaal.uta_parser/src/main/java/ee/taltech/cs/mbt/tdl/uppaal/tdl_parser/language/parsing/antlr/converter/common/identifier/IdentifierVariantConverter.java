@@ -1,11 +1,11 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.IdentifierVariantConverter.IdentifierData;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type.TypeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.array_modifier.SizeExpressionArrayModifier;
@@ -18,6 +18,14 @@ import java.util.List;
 public class IdentifierVariantConverter extends UTALanguageBaseVisitor<IdentifierData>
 	implements IParseTreeConverter<IdentifierData, IdentifierNameVariantContext>
 {
+	public static IdentifierVariantConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final IdentifierVariantConverter INSTANCE = new IdentifierVariantConverter();
+
+	private IdentifierVariantConverter() { }
+
 	public static class IdentifierData {
 		private IdentifierName identifierName;
 		private Collection<AbsArrayModifier> arrayModifiers = new LinkedList<>();
@@ -52,14 +60,14 @@ public class IdentifierVariantConverter extends UTALanguageBaseVisitor<Identifie
 				{
 					ArraySizeFromExpressionContext sizeCtx = (ArraySizeFromExpressionContext) arrayModCtx;
 					SizeExpressionArrayModifier arrayModifier = new SizeExpressionArrayModifier();
-					arrayModifier.setSizeSpecifier(new ExpressionConverter().convert(sizeCtx.expression()));
+					arrayModifier.setSizeSpecifier(ExpressionConverter.getInstance().convert(sizeCtx.expression()));
 					arrayModifiers.add(arrayModifier);
 				}
 				else if (arrayModCtx instanceof ArraySizeFromTypeContext)
 				{
 					ArraySizeFromTypeContext sizeCtx = (ArraySizeFromTypeContext) arrayModCtx;
 					SizeTypeArrayModifier arrayModifier = new SizeTypeArrayModifier();
-					arrayModifier.setSizeSpecifier(new TypeConverter().convert(sizeCtx.type()));
+					arrayModifier.setSizeSpecifier(TypeConverter.getInstance().convert(sizeCtx.type()));
 					arrayModifiers.add(arrayModifier);
 				}
 			}

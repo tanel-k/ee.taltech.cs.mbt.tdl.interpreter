@@ -7,8 +7,15 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.AbsTypeIdentifier;
 
 public class TypeConverter extends UTALanguageBaseVisitor<Type<AbsTypeIdentifier>>
-	implements IParseTreeConverter<Type<AbsTypeIdentifier>, TypeContext>
-{
+	implements IParseTreeConverter<Type<AbsTypeIdentifier>, TypeContext> {
+	public static TypeConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final TypeConverter INSTANCE = new TypeConverter();
+
+	private TypeConverter() { }
+
 	@Override
 	public Type<AbsTypeIdentifier> convert(TypeContext rootContext) {
 		return rootContext.accept(this);
@@ -17,8 +24,8 @@ public class TypeConverter extends UTALanguageBaseVisitor<Type<AbsTypeIdentifier
 	@Override
 	public Type<AbsTypeIdentifier> visitType(TypeContext ctx) {
 		Type<AbsTypeIdentifier> type = new Type<>();
-		type.setTypePrefix(new TypePrefixConverter().convert(ctx.typePrefix()));
-		type.setTypeIdentifier(new TypeIdentifierConverter().convert(ctx.typeIdentifier()));
+		type.setTypePrefix(TypePrefixConverter.getInstance().convert(ctx.typePrefix()));
+		type.setTypeIdentifier(TypeIdentifierConverter.getInstance().convert(ctx.typeIdentifier()));
 		return type;
 	}
 }

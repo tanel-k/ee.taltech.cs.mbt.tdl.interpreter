@@ -10,6 +10,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.SystemDefin
 public class SystemDefinitionConverter extends UTALanguageBaseVisitor<SystemDefinition>
 	implements IParseTreeConverter<SystemDefinition, UtaSystemDefinitionContext>
 {
+	public static SystemDefinitionConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final SystemDefinitionConverter INSTANCE = new SystemDefinitionConverter();
+
+	private SystemDefinitionConverter() { }
+
 	@Override
 	public SystemDefinition convert(UtaSystemDefinitionContext rootContext) {
 		SystemDefinition systemDefinition = new SystemDefinition();
@@ -19,40 +27,31 @@ public class SystemDefinitionConverter extends UTALanguageBaseVisitor<SystemDefi
 		return systemDefinition;
 	}
 
-	private void injectSystemDeclarations(
-		SystemDefinition systemDefinition,
-		SystemDeclarationSequenceContext systemDeclCtx)
-	{
-		if (systemDeclCtx == null)
+	private void injectSystemDeclarations(SystemDefinition systemDefinition, SystemDeclarationSequenceContext declCtx) {
+		if (declCtx == null)
 			return;
-		for (SystemDeclarationStatementContext stmtCtx : systemDeclCtx.systemDeclarationStatement()) {
+		for (SystemDeclarationStatementContext stmtCtx : declCtx.systemDeclarationStatement()) {
 			DeclarationContext declarationCtx = stmtCtx.declaration();
 			systemDefinition.getDeclarations().add(
-				new DeclarationConverter().convert(declarationCtx)
+				DeclarationConverter.getInstance().convert(declarationCtx)
 			);
 		}
 	}
 
-	private void injectSystemLine(
-		SystemDefinition systemDefinition,
-		SystemLineContext systemLineCtx)
-	{
+	private void injectSystemLine(SystemDefinition systemDefinition, SystemLineContext systemLineCtx) {
 		if (systemLineCtx == null)
 			return;
 		systemDefinition.setSystemLine(
-			new SystemLineConverter().convert(systemLineCtx)
+			SystemLineConverter.getInstance().convert(systemLineCtx)
 		);
 	}
 
-	private void injectProgressMeasure(
-		SystemDefinition systemDefinition,
-		ProgressMeasureDeclarationContext progressMeasureDeclarationContext)
-	{
-		if (progressMeasureDeclarationContext == null)
+	private void injectProgressMeasure(SystemDefinition systemDefinition, ProgressMeasureDeclarationContext measureDeclCtx) {
+		if (measureDeclCtx == null)
 			return;
-		for (ExpressionContext exprCtx : progressMeasureDeclarationContext.expression()) {
+		for (ExpressionContext exprCtx : measureDeclCtx.expression()) {
 			systemDefinition.getProgressMeasureExpressions().add(
-				new ExpressionConverter().convert(exprCtx)
+				ExpressionConverter.getInstance().convert(exprCtx)
 			);
 		}
 	}

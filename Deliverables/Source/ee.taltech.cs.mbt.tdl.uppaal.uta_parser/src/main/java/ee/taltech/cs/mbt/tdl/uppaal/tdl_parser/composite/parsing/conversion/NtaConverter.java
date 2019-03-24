@@ -9,19 +9,19 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.composite.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates.UtaTemplate;
 
 public class NtaConverter {
-	public static NtaConverter newInstance(NtaTemplateConverter templateParser, UtaLanguageParserFactory languageParserFactory) {
+	public static NtaConverter newInstance(TemplateConverter templateParser, UtaLanguageParserFactory languageParserFactory) {
 		return new NtaConverter(templateParser, languageParserFactory);
 	}
 
-	private NtaTemplateConverter ntaTemplateConverter;
+	private TemplateConverter templateConverter;
 	private UtaLanguageParserFactory languageParserFactory;
 
-	private NtaConverter(NtaTemplateConverter ntaTemplateConverter, UtaLanguageParserFactory languageParserFactory) {
-		this.ntaTemplateConverter = ntaTemplateConverter;
+	private NtaConverter(TemplateConverter templateConverter, UtaLanguageParserFactory languageParserFactory) {
+		this.templateConverter = templateConverter;
 		this.languageParserFactory = languageParserFactory;
 	}
 
-	private void injectGlobalDeclarations(UtaSystem utaSystem, XmlNodeNtaSystem ntaSystem) throws NtaEmbeddedCodeParseException {
+	private void injectGlobalDeclarations(UtaSystem utaSystem, XmlNodeNtaSystem ntaSystem) throws EmbeddedCodeParseException {
 		if (!ntaSystem.isSetDeclaration() || !ntaSystem.getDeclaration().isSetValue())
 			return;
 
@@ -32,12 +32,12 @@ public class NtaConverter {
 					.parseInput(globalDeclarations)
 			);
 		} catch (ParseException ex) {
-			throw new NtaEmbeddedCodeParseException("Could not parse global declarations.", ex)
+			throw new EmbeddedCodeParseException("Could not parse global declarations.", ex)
 				.setEmbeddedCode(globalDeclarations);
 		}
 	}
 
-	private void injectSystemDefinition(UtaSystem utaSystem, XmlNodeNtaSystem ntaSystem) throws NtaEmbeddedCodeParseException {
+	private void injectSystemDefinition(UtaSystem utaSystem, XmlNodeNtaSystem ntaSystem) throws EmbeddedCodeParseException {
 		if (!ntaSystem.isSetSystem() || !ntaSystem.getSystem().isSetValue())
 			return;
 
@@ -48,30 +48,30 @@ public class NtaConverter {
 					.parseInput(systemDefinition)
 			);
 		} catch (ParseException ex) {
-			throw new NtaEmbeddedCodeParseException("Could not parse system definition.", ex)
+			throw new EmbeddedCodeParseException("Could not parse system definition.", ex)
 				.setEmbeddedCode(systemDefinition);
 		}
 	}
 
-	private void injectTemplates(UtaSystem utaSystem, XmlNodeNtaSystem ntaSystem) throws NtaEmbeddedCodeParseException {
+	private void injectTemplates(UtaSystem utaSystem, XmlNodeNtaSystem ntaSystem) throws EmbeddedCodeParseException {
 		if (!ntaSystem.isSetTemplates())
 			return;
 
 		for (XmlNodeTemplate xmlTemplate : ntaSystem.getTemplates()) {
-			UtaTemplate template = getNtaTemplateConverter().parse(xmlTemplate);
+			UtaTemplate template = getTemplateConverter().parse(xmlTemplate);
 			utaSystem.getTemplateMap().put(template.getName(), template);
 		}
 	}
 
-	private NtaTemplateConverter getNtaTemplateConverter() {
-		return ntaTemplateConverter;
+	private TemplateConverter getTemplateConverter() {
+		return templateConverter;
 	}
 
 	private UtaLanguageParserFactory getLanguageParserFactory() {
 		return languageParserFactory;
 	}
 
-	public UtaSystem convert(XmlNodeNta ntaXml) throws NtaEmbeddedCodeParseException {
+	public UtaSystem convert(XmlNodeNta ntaXml) throws EmbeddedCodeParseException {
 		UtaSystem system = new UtaSystem();
 
 		injectGlobalDeclarations(system, ntaXml);

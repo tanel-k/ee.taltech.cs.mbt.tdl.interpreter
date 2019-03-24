@@ -37,8 +37,13 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 
-public class ExpressionConverter extends UTALanguageBaseVisitor<AbsExpression> implements IParseTreeConverter<AbsExpression, ExpressionContext>
-{
+public class ExpressionConverter extends UTALanguageBaseVisitor<AbsExpression> implements IParseTreeConverter<AbsExpression, ExpressionContext> {
+	public static ExpressionConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final ExpressionConverter INSTANCE = new ExpressionConverter();
+
 	private static final int BIN_EXPR_LEFT_CHILD = 0;
 	private static final int BIN_EXPR_RIGHT_CHILD = 1;
 
@@ -73,7 +78,7 @@ public class ExpressionConverter extends UTALanguageBaseVisitor<AbsExpression> i
 		return unaryExpression;
 	}
 
-	public ExpressionConverter() { }
+	private ExpressionConverter() { }
 
 	@Override
 	public AbsExpression convert(ExpressionContext rootContext) {
@@ -85,7 +90,7 @@ public class ExpressionConverter extends UTALanguageBaseVisitor<AbsExpression> i
 		IdentifierName iterationVarName = new IdentifierName();
 		iterationVarName.setName(ctx.IDENTIFIER_NAME().getText());
 
-		Type<AbsTypeIdentifier> iterationVarType = ctx.type().accept(new TypeConverter());
+		Type<AbsTypeIdentifier> iterationVarType = TypeConverter.getInstance().convert(ctx.type());
 
 		AbsExpression quantifiedExpression = ctx.expression().accept(this);
 
@@ -93,7 +98,7 @@ public class ExpressionConverter extends UTALanguageBaseVisitor<AbsExpression> i
 		quantificationExpression.setQuantificationType(EQuantificationType.EXISTENTIAL);
 		quantificationExpression.setIterationVariableType(iterationVarType);
 		quantificationExpression.setIdentifierName(iterationVarName);
-		quantificationExpression.setChild(quantificationExpression);
+		quantificationExpression.setChild(quantifiedExpression);
 
 		return quantificationExpression;
 	}
@@ -103,7 +108,7 @@ public class ExpressionConverter extends UTALanguageBaseVisitor<AbsExpression> i
 		IdentifierName iterationVarName = new IdentifierName();
 		iterationVarName.setName(ctx.IDENTIFIER_NAME().getText());
 
-		Type<AbsTypeIdentifier> iterationVarType = ctx.type().accept(new TypeConverter());
+		Type<AbsTypeIdentifier> iterationVarType = TypeConverter.getInstance().convert(ctx.type());
 
 		AbsExpression quantifiedExpression = ctx.expression().accept(this);
 
@@ -111,7 +116,7 @@ public class ExpressionConverter extends UTALanguageBaseVisitor<AbsExpression> i
 		quantificationExpression.setQuantificationType(EQuantificationType.UNIVERSAL);
 		quantificationExpression.setIterationVariableType(iterationVarType);
 		quantificationExpression.setIdentifierName(iterationVarName);
-		quantificationExpression.setChild(quantificationExpression);
+		quantificationExpression.setChild(quantifiedExpression);
 
 		return quantificationExpression;
 	}

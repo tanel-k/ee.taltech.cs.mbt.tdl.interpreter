@@ -9,13 +9,22 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.selection.S
 import java.util.LinkedList;
 import java.util.List;
 
-public class TransitionSelectsConverter extends UTALanguageBaseVisitor<List<Selection>>
-	implements IParseTreeConverter<List<Selection>, UtaTransitionSelectionSequenceContext> {
+public class SelectionSequenceConverter extends UTALanguageBaseVisitor<List<Selection>>
+	implements IParseTreeConverter<List<Selection>, UtaTransitionSelectionSequenceContext>
+{
+	public static SelectionSequenceConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final SelectionSequenceConverter INSTANCE = new SelectionSequenceConverter();
+
+	private SelectionSequenceConverter() { }
+
 	@Override
 	public List<Selection> convert(UtaTransitionSelectionSequenceContext rootContext) {
 		List<Selection> selectionList = new LinkedList<>();
 		for (SelectionContext selectionCtx : rootContext.selection()) {
-			selectionList.add(new SelectionConverter().convert(selectionCtx));
+			selectionList.add(SelectionConverter.getInstance().convert(selectionCtx));
 		}
 		return selectionList;
 	}

@@ -37,6 +37,14 @@ import java.util.List;
 public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationStatement>
 	implements IParseTreeConverter<AbsDeclarationStatement, DeclarationContext>
 {
+	public static DeclarationConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final DeclarationConverter INSTANCE = new DeclarationConverter();
+
+	private DeclarationConverter() { }
+
 	@Override
 	public AbsDeclarationStatement convert(DeclarationContext rootContext) {
 		return rootContext.accept(this);
@@ -49,7 +57,7 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 		injectTemplateInstNames(templateInstantiation, ctx.IDENTIFIER_NAME());
 		injectTemplateInstArgs(templateInstantiation, ctx.argumentList());
 		templateInstantiation.getParameters().addAll(
-				new ParameterListConverter().convert(ctx.parameterList())
+			ParameterListConverter.getInstance().convert(ctx.parameterList())
 		);
 		return templateInstantiation;
 	}
@@ -78,7 +86,7 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 		if (argumentListContext == null)
 			return;
 		for (ExpressionContext expressionContext : argumentListContext.expression()) {
-			AbsExpression argExpr = new ExpressionConverter().convert(expressionContext);
+			AbsExpression argExpr = ExpressionConverter.getInstance().convert(expressionContext);
 			templateInstantiation.getArguments().add(argExpr);
 		}
 	}
@@ -94,10 +102,10 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 		ValueFunctionDeclaration<AbsTypeIdentifier> valueFunctionDeclaration = new ValueFunctionDeclaration<>();
 
 		StatementBlock functionBody = new StatementBlock();
-		Type<AbsTypeIdentifier> returnType = new TypeConverter().convert(ctx.type());
+		Type<AbsTypeIdentifier> returnType = TypeConverter.getInstance().convert(ctx.type());
 		if (ctx.blockOfStatements().statement() != null) {
 			for (StatementContext statementCtx : ctx.blockOfStatements().statement()) {
-				functionBody.getStatements().add(new StatementConverter().convert(statementCtx));
+				functionBody.getStatements().add(StatementConverter.getInstance().convert(statementCtx));
 			}
 		}
 
@@ -111,6 +119,7 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 		valueFunctionDeclaration.setReturnType(returnType);
 		valueFunctionDeclaration.setBody(functionBody);
 		valueFunctionDeclaration.setName(functionName);
+
 		return valueFunctionDeclaration;
 	}
 
@@ -121,7 +130,7 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 		StatementBlock functionBody = new StatementBlock();
 		if (ctx.blockOfStatements().statement() != null) {
 			for (StatementContext statementCtx : ctx.blockOfStatements().statement()) {
-				functionBody.getStatements().add(new StatementConverter().convert(statementCtx));
+				functionBody.getStatements().add(StatementConverter.getInstance().convert(statementCtx));
 			}
 		}
 
@@ -134,6 +143,7 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 
 		valueFunctionDeclaration.setBody(functionBody);
 		valueFunctionDeclaration.setName(functionName);
+
 		return valueFunctionDeclaration;
 	}
 
@@ -143,9 +153,9 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 	{
 		for (ParameterContext parameterCtx : parameterCtxs) {
 			ParameterDeclaration<AbsTypeIdentifier> parameterDeclaration = new ParameterDeclaration<>();
-			ParameterIdentifierData parameterIdentifierData = new ParameterIdentifierConverter()
+			ParameterIdentifierData parameterIdentifierData = ParameterIdentifierConverter.getInstance()
 				.convert(parameterCtx.parameterIdentifier());
-			Type<AbsTypeIdentifier> parameterType = new TypeConverter()
+			Type<AbsTypeIdentifier> parameterType = TypeConverter.getInstance()
 				.convert(parameterCtx.type());
 			parameterType.setReferenceType(parameterIdentifierData.isByReference());
 			parameterType.getArrayModifiers().addAll(parameterIdentifierData.getArrayModifiers());
@@ -159,9 +169,9 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 	public AbsDeclarationStatement visitVariableDeclaration(VariableDeclarationContext ctx) {
 		VariableDeclarationList variableDeclarations = new VariableDeclarationList();
 
-		Type<AbsTypeIdentifier> type = new TypeConverter().convert(ctx.type());
+		Type<AbsTypeIdentifier> type = TypeConverter.getInstance().convert(ctx.type());
 		for (VariableInitializationContext varInitCtx : ctx.variableInitialization()) {
-			IdentifierData identifierData = new IdentifierVariantConverter()
+			IdentifierData identifierData = IdentifierVariantConverter.getInstance()
 				.convert(varInitCtx.identifierNameVariant());
 			Type<AbsTypeIdentifier> typeCpy = type.clone();
 			typeCpy.getArrayModifiers().addAll(identifierData.getArrayModifiers());
@@ -169,25 +179,27 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 			variableDeclaration.setType(typeCpy);
 			variableDeclaration.setIdentifierName(identifierData.getIdentifierName());
 			AbsInitializer initializer = varInitCtx.initializerExpression() != null
-				? new InitializerExpressionConverter()
+				? InitializerExpressionConverter.getInstance()
 					.convert(varInitCtx.initializerExpression())
 				: null;
 			variableDeclaration.setInitializer(initializer);
 			variableDeclarations.getDeclarations().add(variableDeclaration);
 		}
 
-		return variableDeclarations.getDeclarations().size() > 1
-			? variableDeclarations
-			: variableDeclarations.getDeclarations().iterator().next();
+		AbsDeclarationStatement result = variableDeclarations;
+		if (variableDeclarations.getDeclarations().size() == 1)
+			result = variableDeclarations.getDeclarations().get(0);
+
+		return result;
 	}
 
 	@Override
 	public AbsDeclarationStatement visitTypeDeclaration(TypeDeclarationContext ctx) {
 		TypeDeclarationList typeDeclarations = new TypeDeclarationList();
 
-		Type<AbsTypeIdentifier> type = new TypeConverter().convert(ctx.type());
+		Type<AbsTypeIdentifier> type = TypeConverter.getInstance().convert(ctx.type());
 		for (IdentifierNameVariantContext identifierCtx : ctx.identifierNameVariant()) {
-			IdentifierData identifierData = new IdentifierVariantConverter()
+			IdentifierData identifierData = IdentifierVariantConverter.getInstance()
 				.convert(identifierCtx);
 			Type<AbsTypeIdentifier> typeCpy = type.clone();
 			typeCpy.getArrayModifiers().addAll(identifierData.getArrayModifiers());
@@ -199,6 +211,7 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 
 		if (typeDeclarations.getDeclarations().size() == 1)
 			return typeDeclarations.getDeclarations().get(0);
+
 		return typeDeclarations;
 	}
 
@@ -209,7 +222,7 @@ public class DeclarationConverter extends UTALanguageBaseVisitor<AbsDeclarationS
 		for (ChannelRefListContext refsCtx : prioritySpecCtx.channelRefList()) {
 			ChannelRefList channelRefList = new ChannelRefList();
 			for (ChannelRefExpressionContext channelRefCtx : refsCtx.channelRefExpression()) {
-				AbsChannelRef channelRef = new ChannelRefExpressionConverter().convert(channelRefCtx);
+				AbsChannelRef channelRef = ChannelRefExpressionConverter.getInstance().convert(channelRefCtx);
 				channelRefList.getChannelRefs().add(channelRef);
 			}
 			channelPriorityDeclaration.getPrioritySequence().add(channelRefList);

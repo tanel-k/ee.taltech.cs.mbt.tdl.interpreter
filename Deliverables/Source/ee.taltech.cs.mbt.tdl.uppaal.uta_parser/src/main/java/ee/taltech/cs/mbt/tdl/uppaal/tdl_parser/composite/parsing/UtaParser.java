@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing;
 
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.NtaConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.NtaConverterFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.NtaEmbeddedCodeParseException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.EmbeddedCodeParseException;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.NtaValidator;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParserFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.NtaMarshaller;
@@ -44,7 +44,7 @@ public class UtaParser {
 			return getConverter().convert(ntaXml);
 		} catch (NtaMarshallingException ex) {
 			throw UtaParseException.wrap(ex);
-		} catch (NtaEmbeddedCodeParseException ex) {
+		} catch (EmbeddedCodeParseException ex) {
 			throw UtaParseException.wrap(ex);
 		}
 	}

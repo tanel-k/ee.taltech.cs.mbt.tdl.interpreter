@@ -1,13 +1,13 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.IdentifierVariantConverter.IdentifierData;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.ParameterIdentifierConverter.ParameterIdentifierData;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.ByReferenceVariableContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.ByValueVariableContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.IdentifierNameVariantContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.ParameterIdentifierContext;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.IdentifierVariantConverter.IdentifierData;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.ParameterIdentifierConverter.ParameterIdentifierData;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.array_modifier.AbsArrayModifier;
 
@@ -18,6 +18,14 @@ public class ParameterIdentifierConverter
 	extends UTALanguageBaseVisitor<ParameterIdentifierData>
 	implements IParseTreeConverter<ParameterIdentifierData, ParameterIdentifierContext>
 {
+	public static ParameterIdentifierConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final ParameterIdentifierConverter INSTANCE = new ParameterIdentifierConverter();
+
+	private ParameterIdentifierConverter() { }
+
 	public static class ParameterIdentifierData {
 		private boolean byReference;
 		private IdentifierName identifierName;
@@ -67,7 +75,7 @@ public class ParameterIdentifierConverter
 
 	private ParameterIdentifierData visitIdentifierNameVariant(
 		IdentifierNameVariantContext identifierNameVariantContext) {
-		IdentifierData identifierData = new IdentifierVariantConverter().convert(identifierNameVariantContext);
+		IdentifierData identifierData = IdentifierVariantConverter.getInstance().convert(identifierNameVariantContext);
 		ParameterIdentifierData parameterIdentifierData = new ParameterIdentifierData();
 		parameterIdentifierData.setIdentifierName(identifierData.getIdentifierName());
 		parameterIdentifierData.getArrayModifiers().addAll(identifierData.getArrayModifiers());

@@ -13,6 +13,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.v
 public class InitializerExpressionConverter extends UTALanguageBaseVisitor<AbsInitializer>
 	implements IParseTreeConverter<AbsInitializer, InitializerExpressionContext>
 {
+	public static InitializerExpressionConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final InitializerExpressionConverter INSTANCE = new InitializerExpressionConverter();
+
+	private InitializerExpressionConverter() { }
+
 	@Override
 	public AbsInitializer convert(InitializerExpressionContext rootContext) {
 		return rootContext.accept(this);
@@ -22,7 +30,7 @@ public class InitializerExpressionConverter extends UTALanguageBaseVisitor<AbsIn
 	public AbsInitializer visitFlatInitializer(FlatInitializerContext ctx) {
 		FlatInitializer flatInitializer = new FlatInitializer();
 		flatInitializer.setExpression(
-			new ExpressionConverter().convert(ctx.expression())
+			ExpressionConverter.getInstance().convert(ctx.expression())
 		);
 		return flatInitializer;
 	}
