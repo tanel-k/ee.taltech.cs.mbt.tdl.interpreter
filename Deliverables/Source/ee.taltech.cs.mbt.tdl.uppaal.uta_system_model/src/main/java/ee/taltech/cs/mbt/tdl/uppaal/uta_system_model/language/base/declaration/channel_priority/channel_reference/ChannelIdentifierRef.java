@@ -20,7 +20,7 @@ public class ChannelIdentifierRef extends AbsChannelRef {
 	}
 
 	@Override
-	public void accept(IChannelRefVisitor visitor) {
-		visitor.visitChannelIdentifierRef(this);
+	public <T> T accept(IChannelRefVisitor<T> visitor) {
+		return visitor.visitChannelIdentifierRef(this);
 	}
 }

@@ -12,7 +12,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.v
  */
 public class VoidFunctionDeclaration extends AbsFunctionDeclaration {
 	@Override
-	public void accept(IDeclarationVisitor declarationVisitor) {
-		declarationVisitor.visitVoidFunctionDeclaration(this);
+	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
+		return declarationVisitor.visitVoidFunctionDeclaration(this);
 	}
 }

@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.misc;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsUnaryExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.visitation.IExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 
 import java.util.Objects;
@@ -34,8 +34,8 @@ public class FieldAccessExpression extends AbsUnaryExpression {
 	}
 
 	@Override
-	public void accept(IExpressionVisitor visitor) {
-		visitor.visitFieldAccess(this);
+	public <T> T accept(IExpressionVisitor<T> visitor) {
+		return visitor.visitFieldAccess(this);
 	}
 
 	/**

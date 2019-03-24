@@ -20,5 +20,5 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.v
  * Note also, that in a block statement (the body of a function), declarations may occur before any statements do.
  */
 public abstract class AbsDeclarationStatement {
-	public abstract void accept(IDeclarationVisitor declarationVisitor);
+	public abstract <T> T accept(IDeclarationVisitor<T> declarationVisitor);
 }

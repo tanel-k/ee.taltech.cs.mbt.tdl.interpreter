@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsBinaryExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.visitation.IExpressionVisitor;
 
 /**
  * Represents an inequality test operation.<br/>
@@ -34,7 +34,7 @@ public class InequalityExpression extends AbsBinaryExpression {
 	}
 
 	@Override
-	public void accept(IExpressionVisitor visitor) {
-		visitor.visitInequality(this);
+	public <T> T accept(IExpressionVisitor<T> visitor) {
+		return visitor.visitInequality(this);
 	}
 }

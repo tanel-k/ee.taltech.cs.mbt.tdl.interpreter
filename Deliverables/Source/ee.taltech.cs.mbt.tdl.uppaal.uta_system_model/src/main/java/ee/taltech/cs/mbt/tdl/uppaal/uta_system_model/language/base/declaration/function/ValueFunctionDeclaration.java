@@ -26,7 +26,7 @@ public class ValueFunctionDeclaration<ValueTypeIdentifier extends AbsTypeIdentif
 	}
 
 	@Override
-	public void accept(IDeclarationVisitor declarationVisitor) {
-		declarationVisitor.visitValueFunctionDeclaration(this);
+	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
+		return declarationVisitor.visitValueFunctionDeclaration(this);
 	}
 }

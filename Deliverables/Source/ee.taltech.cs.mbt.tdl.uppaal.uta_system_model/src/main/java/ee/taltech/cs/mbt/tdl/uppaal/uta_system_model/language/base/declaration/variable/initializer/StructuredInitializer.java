@@ -17,7 +17,7 @@ public class StructuredInitializer extends AbsInitializer {
 	}
 
 	@Override
-	void accept(IInitializerVisitor visitor) {
-		visitor.visitStructuredInitializer(this);
+	public <T> T accept(IInitializerVisitor<T> visitor) {
+		return visitor.visitStructuredInitializer(this);
 	}
 }

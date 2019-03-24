@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.visitation.IExpressionVisitor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +41,7 @@ import java.util.Objects;
  */
 public abstract class AbsExpression {
 	/** The associativity of an expression operator. */
-	public static enum Associativity { LEFT, RIGHT, NONE }
+	public enum Associativity { LEFT, RIGHT, NONE }
 
 	private AbsExpression parentExpression;
 	private List<AbsExpression> childExpressions;
@@ -117,7 +117,7 @@ public abstract class AbsExpression {
 		return Associativity.NONE;
 	}
 
-	public abstract void accept(IExpressionVisitor visitor);
+	public abstract <T> T accept(IExpressionVisitor<T> visitor);
 
 	protected int getLocalHash() {
 		return Objects.hash(getHashSeed());

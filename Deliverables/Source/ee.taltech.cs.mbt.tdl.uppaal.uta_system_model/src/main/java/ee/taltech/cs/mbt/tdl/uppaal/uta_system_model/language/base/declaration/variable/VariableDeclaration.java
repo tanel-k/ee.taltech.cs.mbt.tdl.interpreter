@@ -63,8 +63,8 @@ public class VariableDeclaration<
 	}
 
 	@Override
-	public void accept(IDeclarationVisitor declarationVisitor) {
-		declarationVisitor.visitVariableDeclaration(this);
+	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
+		return declarationVisitor.visitVariableDeclaration(this);
 	}
 
 	@Override

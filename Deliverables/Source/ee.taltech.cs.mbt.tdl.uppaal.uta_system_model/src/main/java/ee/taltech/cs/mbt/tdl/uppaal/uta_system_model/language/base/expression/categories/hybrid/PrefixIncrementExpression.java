@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.hybrid;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsUnaryExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.visitation.IExpressionVisitor;
 
 /**
  * Represents a prefix increment operation.<br/>
@@ -29,7 +29,7 @@ public class PrefixIncrementExpression extends AbsUnaryExpression {
 	}
 
 	@Override
-	public void accept(IExpressionVisitor visitor) {
-		visitor.visitPrefixIncrement(this);
+	public <T> T accept(IExpressionVisitor<T> visitor) {
+		return visitor.visitPrefixIncrement(this);
 	}
 }

@@ -35,8 +35,8 @@ public class ChannelPriorityDeclaration extends AbsDeclarationStatement implemen
 	}
 
 	@Override
-	public void accept(IDeclarationVisitor declarationVisitor) {
-		declarationVisitor.visitChannelPriorityDeclaration(this);
+	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
+		return declarationVisitor.visitChannelPriorityDeclaration(this);
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class FlatInitializer extends AbsInitializer {
 	}
 
 	@Override
-	void accept(IInitializerVisitor visitor) {
-		visitor.visitFlatInitializer(this);
+	public <T> T accept(IInitializerVisitor<T> visitor) {
+		return visitor.visitFlatInitializer(this);
 	}
 }

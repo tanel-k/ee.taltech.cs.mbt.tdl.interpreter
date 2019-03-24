@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.phrasal;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsBinaryExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.visitation.IExpressionVisitor;
 
 /**
  * Represents a conjunction operation (phrase).<br/>
@@ -34,7 +34,7 @@ public class PhrasalConjunctionExpression extends AbsBinaryExpression {
 	}
 
 	@Override
-	public void accept(IExpressionVisitor visitor) {
-		visitor.visitPhrasalConjunction(this);
+	public <T> T accept(IExpressionVisitor<T> visitor) {
+		return visitor.visitPhrasalConjunction(this);
 	}
 }

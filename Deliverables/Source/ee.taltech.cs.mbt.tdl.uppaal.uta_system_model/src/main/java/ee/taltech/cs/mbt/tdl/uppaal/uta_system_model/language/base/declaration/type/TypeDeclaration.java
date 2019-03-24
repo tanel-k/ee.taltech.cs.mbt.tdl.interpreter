@@ -38,8 +38,8 @@ public class TypeDeclaration<TypeIdentifier extends AbsTypeIdentifier> extends A
 	}
 
 	@Override
-	public void accept(IDeclarationVisitor declarationVisitor) {
-		declarationVisitor.visitTypeDeclaration(this);
+	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
+		return declarationVisitor.visitTypeDeclaration(this);
 	}
 
 	@Override

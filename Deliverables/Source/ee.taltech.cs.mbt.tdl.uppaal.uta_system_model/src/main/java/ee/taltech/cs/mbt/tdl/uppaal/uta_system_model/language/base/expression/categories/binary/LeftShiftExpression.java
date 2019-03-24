@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.c
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.IHasAssignmentCounterpart;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsBinaryExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.visitation.IExpressionVisitor;
 
 /**
  * Represents a left shift operation.<br/>
@@ -35,7 +35,7 @@ public class LeftShiftExpression extends AbsBinaryExpression implements IHasAssi
 	}
 
 	@Override
-	public void accept(IExpressionVisitor visitor) {
-		visitor.visitLeftShift(this);
+	public <T> T accept(IExpressionVisitor<T> visitor) {
+		return visitor.visitLeftShift(this);
 	}
 }

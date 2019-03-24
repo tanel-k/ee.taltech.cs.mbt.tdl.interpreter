@@ -18,7 +18,7 @@ public class VariableDeclarationList extends AbsDeclarationStatement {
 	}
 
 	@Override
-	public void accept(IDeclarationVisitor declarationVisitor) {
-		declarationVisitor.visitVariableDeclarationList(this);
+	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
+		return declarationVisitor.visitVariableDeclarationList(this);
 	}
 }

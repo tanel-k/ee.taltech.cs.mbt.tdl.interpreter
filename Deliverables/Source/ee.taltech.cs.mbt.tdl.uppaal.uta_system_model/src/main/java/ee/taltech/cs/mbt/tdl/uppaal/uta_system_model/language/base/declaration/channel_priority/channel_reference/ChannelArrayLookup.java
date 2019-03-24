@@ -20,7 +20,7 @@ public class ChannelArrayLookup extends AbsChannelRef {
 	}
 
 	@Override
-	public void accept(IChannelRefVisitor visitor) {
-		visitor.visitChannelArrayLookup(this);
+	public <T> T accept(IChannelRefVisitor<T> visitor) {
+		return visitor.visitChannelArrayLookup(this);
 	}
 }

@@ -14,7 +14,7 @@ public class DefaultChannelPriorityRef extends AbsChannelRef {
 	private DefaultChannelPriorityRef() {}
 
 	@Override
-	public void accept(IChannelRefVisitor visitor) {
-		visitor.visitDefaultChannelPriorityRef(this);
+	public <T> T accept(IChannelRefVisitor<T> visitor) {
+		return visitor.visitDefaultChannelPriorityRef(this);
 	}
 }

@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsInternalExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.visitation.IExpressionVisitor;
 
 import java.util.List;
 
@@ -78,8 +78,8 @@ public class AssignmentWrapper<
 	}
 
 	@Override
-	public void accept(IExpressionVisitor visitor) {
-		visitor.visitAssignmentWrapper(this);
+	public <T> T accept(IExpressionVisitor<T> visitor) {
+		return visitor.visitAssignmentWrapper(this);
 	}
 
 	public WrappedType getOperatorExpression() {

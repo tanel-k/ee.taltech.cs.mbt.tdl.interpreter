@@ -23,8 +23,8 @@ public class TypeDeclarationList extends AbsDeclarationStatement implements Iter
 	}
 
 	@Override
-	public void accept(IDeclarationVisitor declarationVisitor) {
-		declarationVisitor.visitTypeDeclarationList(this);
+	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
+		return declarationVisitor.visitTypeDeclarationList(this);
 	}
 
 	@Override

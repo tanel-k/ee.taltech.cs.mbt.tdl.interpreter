@@ -7,5 +7,5 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.c
  * channel priority declaration.<br/>
  */
 public abstract class AbsChannelRef {
-	public abstract void accept(IChannelRefVisitor visitor);
+	public abstract <T> T accept(IChannelRefVisitor<T> visitor);
 }

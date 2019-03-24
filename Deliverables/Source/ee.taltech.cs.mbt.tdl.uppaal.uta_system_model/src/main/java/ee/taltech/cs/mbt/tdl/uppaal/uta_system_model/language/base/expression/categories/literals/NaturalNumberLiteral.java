@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.literals;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.traversal.IExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.visitation.IExpressionVisitor;
 
 import java.math.BigInteger;
 
@@ -33,7 +33,7 @@ public class NaturalNumberLiteral extends AbsLiteralExpression<BigInteger> {
 	}
 
 	@Override
-	public void accept(IExpressionVisitor visitor) {
-		visitor.visitNaturalNumber(this);
+	public <T> T accept(IExpressionVisitor<T> visitor) {
+		return visitor.visitNaturalNumber(this);
 	}
 }
