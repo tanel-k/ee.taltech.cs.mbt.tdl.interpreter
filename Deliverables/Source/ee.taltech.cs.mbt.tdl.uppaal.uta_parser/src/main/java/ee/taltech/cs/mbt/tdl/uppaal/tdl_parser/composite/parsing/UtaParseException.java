@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing;
 
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.EmbeddedCodeParseException;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.NtaMarshaller.NtaMarshallingException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.UtaCodeException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.UtaNodeMarshaller.UtaMarshallingException;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ValidationResult;
 
 public class UtaParseException extends Exception {
@@ -9,17 +9,17 @@ public class UtaParseException extends Exception {
 		return new UtaParseException().setStructureValidationResult(validationResult);
 	}
 
-	public static UtaParseException wrap(NtaMarshallingException ex) {
+	public static UtaParseException wrap(UtaMarshallingException ex) {
 		return new UtaParseException(ex).setMarshallingException(ex);
 	}
 
-	public static UtaParseException wrap(EmbeddedCodeParseException ex) {
-		return new UtaParseException(ex).setEmbeddedCodeParseException(ex);
+	public static UtaParseException wrap(UtaCodeException ex) {
+		return new UtaParseException(ex).setUtaCodeException(ex);
 	}
 
 	private ValidationResult structureValidationResult;
-	private NtaMarshallingException marshallingException;
-	private EmbeddedCodeParseException embeddedCodeParseException;
+	private UtaMarshallingException marshallingException;
+	private UtaCodeException utaCodeException;
 
 	private UtaParseException() { }
 	private UtaParseException(Throwable t) {
@@ -30,25 +30,25 @@ public class UtaParseException extends Exception {
 		return marshallingException != null;
 	}
 
-	public NtaMarshallingException getMarshallingException() {
+	public UtaMarshallingException getMarshallingException() {
 		return marshallingException;
 	}
 
-	public UtaParseException setMarshallingException(NtaMarshallingException marshallingException) {
+	public UtaParseException setMarshallingException(UtaMarshallingException marshallingException) {
 		this.marshallingException = marshallingException;
 		return this;
 	}
 
 	public boolean hasEmbeddedCodeParseException() {
-		return embeddedCodeParseException != null;
+		return utaCodeException != null;
 	}
 
-	public EmbeddedCodeParseException getEmbeddedCodeParseException() {
-		return embeddedCodeParseException;
+	public UtaCodeException getUtaCodeException() {
+		return utaCodeException;
 	}
 
-	public UtaParseException setEmbeddedCodeParseException(EmbeddedCodeParseException embeddedCodeParseException) {
-		this.embeddedCodeParseException = embeddedCodeParseException;
+	public UtaParseException setUtaCodeException(UtaCodeException utaCodeException) {
+		this.utaCodeException = utaCodeException;
 		return this;
 	}
 

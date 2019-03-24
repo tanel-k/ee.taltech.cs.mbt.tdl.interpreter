@@ -1,11 +1,11 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.ETypePrefix;
 
-public class TypePrefixConverter extends UTALanguageBaseVisitor<ETypePrefix>
+public class TypePrefixConverter extends UtaLanguageBaseVisitor<ETypePrefix>
 	implements IParseTreeConverter<ETypePrefix, TypePrefixContext> {
 	public static TypePrefixConverter getInstance() {
 		return INSTANCE;

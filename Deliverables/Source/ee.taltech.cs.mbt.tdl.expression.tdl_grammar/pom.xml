@@ -56,7 +56,7 @@
                 <argument>-package</argument>
                 <argument>ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser</argument>
               </arguments>
-              <includes>TDLExpressionLanguage.g4</includes>
+              <includes>TdlExpressionLanguage.g4</includes>
               <!-- treatWarningsAsErrors>false</treatWarningsAsErrors -->
               <!-- options / -->
               <!-- atn>false</atn -->

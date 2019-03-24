@@ -30,147 +30,147 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link XmlNodeNta }
+     * Create an instance of {@link UtaNode }
      * 
      */
-    public XmlNodeNta createXmlNodeNta() {
-        return new XmlNodeNta();
+    public UtaNode createUtaNode() {
+        return new UtaNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeNtaSystem }
+     * Create an instance of {@link SystemNode }
      * 
      */
-    public XmlNodeNtaSystem createXmlNodeNtaSystem() {
-        return new XmlNodeNtaSystem();
+    public SystemNode createSystemNode() {
+        return new SystemNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeImports }
+     * Create an instance of {@link ImportsNode }
      * 
      */
-    public XmlNodeImports createXmlNodeImports() {
-        return new XmlNodeImports();
+    public ImportsNode createImportsNode() {
+        return new ImportsNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeGlobalDeclarations }
+     * Create an instance of {@link GlobalDeclarationsNode }
      * 
      */
-    public XmlNodeGlobalDeclarations createXmlNodeGlobalDeclarations() {
-        return new XmlNodeGlobalDeclarations();
+    public GlobalDeclarationsNode createGlobalDeclarationsNode() {
+        return new GlobalDeclarationsNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeInstantiation }
+     * Create an instance of {@link InstantiationNode }
      * 
      */
-    public XmlNodeInstantiation createXmlNodeInstantiation() {
-        return new XmlNodeInstantiation();
+    public InstantiationNode createInstantiationNode() {
+        return new InstantiationNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeSystemDefinition }
+     * Create an instance of {@link SystemDefinitionNode }
      * 
      */
-    public XmlNodeSystemDefinition createXmlNodeSystemDefinition() {
-        return new XmlNodeSystemDefinition();
+    public SystemDefinitionNode createSystemDefinitionNode() {
+        return new SystemDefinitionNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeTemplate }
+     * Create an instance of {@link TemplateNode }
      * 
      */
-    public XmlNodeTemplate createXmlNodeTemplate() {
-        return new XmlNodeTemplate();
+    public TemplateNode createTemplateNode() {
+        return new TemplateNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeLocalDeclarations }
+     * Create an instance of {@link LocalDeclarationsNode }
      * 
      */
-    public XmlNodeLocalDeclarations createXmlNodeLocalDeclarations() {
-        return new XmlNodeLocalDeclarations();
+    public LocalDeclarationsNode createLocalDeclarationsNode() {
+        return new LocalDeclarationsNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeParameters }
+     * Create an instance of {@link ParametersNode }
      * 
      */
-    public XmlNodeParameters createXmlNodeParameters() {
-        return new XmlNodeParameters();
+    public ParametersNode createParametersNode() {
+        return new ParametersNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeInitialLocation }
+     * Create an instance of {@link InitialLocationNode }
      * 
      */
-    public XmlNodeInitialLocation createXmlNodeInitialLocation() {
-        return new XmlNodeInitialLocation();
+    public InitialLocationNode createInitialLocationNode() {
+        return new InitialLocationNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeName }
+     * Create an instance of {@link NameNode }
      * 
      */
-    public XmlNodeName createXmlNodeName() {
-        return new XmlNodeName();
+    public NameNode createNameNode() {
+        return new NameNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeLocation }
+     * Create an instance of {@link LocationNode }
      * 
      */
-    public XmlNodeLocation createXmlNodeLocation() {
-        return new XmlNodeLocation();
+    public LocationNode createLocationNode() {
+        return new LocationNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeMarker }
+     * Create an instance of {@link MarkerNode }
      * 
      */
-    public XmlNodeMarker createXmlNodeMarker() {
-        return new XmlNodeMarker();
+    public MarkerNode createMarkerNode() {
+        return new MarkerNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeTransition }
+     * Create an instance of {@link TransitionNode }
      * 
      */
-    public XmlNodeTransition createXmlNodeTransition() {
-        return new XmlNodeTransition();
+    public TransitionNode createTransitionNode() {
+        return new TransitionNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeIdReference }
+     * Create an instance of {@link IdReferenceNode }
      * 
      */
-    public XmlNodeIdReference createXmlNodeIdReference() {
-        return new XmlNodeIdReference();
+    public IdReferenceNode createIdReferenceNode() {
+        return new IdReferenceNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeLocationLabel }
+     * Create an instance of {@link LocationLabelNode }
      * 
      */
-    public XmlNodeLocationLabel createXmlNodeLocationLabel() {
-        return new XmlNodeLocationLabel();
+    public LocationLabelNode createLocationLabelNode() {
+        return new LocationLabelNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeTransitionLabel }
+     * Create an instance of {@link TransitionLabelNode }
      * 
      */
-    public XmlNodeTransitionLabel createXmlNodeTransitionLabel() {
-        return new XmlNodeTransitionLabel();
+    public TransitionLabelNode createTransitionLabelNode() {
+        return new TransitionLabelNode();
     }
 
     /**
-     * Create an instance of {@link XmlNodeTransitionNail }
+     * Create an instance of {@link TransitionNailNode }
      * 
      */
-    public XmlNodeTransitionNail createXmlNodeTransitionNail() {
-        return new XmlNodeTransitionNail();
+    public TransitionNailNode createTransitionNailNode() {
+        return new TransitionNailNode();
     }
 
 }

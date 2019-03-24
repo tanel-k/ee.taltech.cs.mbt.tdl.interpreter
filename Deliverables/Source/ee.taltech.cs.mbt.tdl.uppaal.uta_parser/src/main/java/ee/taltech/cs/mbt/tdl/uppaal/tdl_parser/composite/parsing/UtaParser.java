@@ -1,13 +1,13 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing;
 
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.NtaConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.NtaConverterFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.EmbeddedCodeParseException;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.NtaValidator;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.UtaCodeException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.UtaNodeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.UtaConverterFactory;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.UtaNodeValidator;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParserFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.NtaMarshaller;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.NtaMarshaller.NtaMarshallingException;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.XmlNodeNta;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.UtaNodeMarshaller;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.UtaNodeMarshaller.UtaMarshallingException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.UtaNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ValidationResult;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.composite.UtaSystem;
 
@@ -22,29 +22,29 @@ public class UtaParser {
 		if (languageParserFactory == null)
 			throw new IllegalArgumentException("Missing language parser factory.");
 		UtaParser parser = new UtaParser();
-		parser.converter = NtaConverterFactory.newConverter(languageParserFactory);
+		parser.converter = UtaConverterFactory.newConverter(languageParserFactory);
 		return parser;
 	}
 
-	private NtaConverter converter;
+	private UtaNodeConverter converter;
 
 	private UtaParser() { }
 
-	public NtaConverter getConverter() {
+	public UtaNodeConverter getConverter() {
 		return converter;
 	}
 
 	public UtaSystem parse(InputStream in) throws UtaParseException {
 		try {
-			XmlNodeNta ntaXml = NtaMarshaller.unmarshal(in);
-			NtaValidator validator = NtaValidator.newInstance(ntaXml);
+			UtaNode ntaXml = UtaNodeMarshaller.unmarshal(in);
+			UtaNodeValidator validator = UtaNodeValidator.newInstance(ntaXml);
 			ValidationResult validationResult = validator.validate();
 			if (validationResult.hasErrors())
 				throw UtaParseException.wrap(validationResult);
 			return getConverter().convert(ntaXml);
-		} catch (NtaMarshallingException ex) {
+		} catch (UtaMarshallingException ex) {
 			throw UtaParseException.wrap(ex);
-		} catch (EmbeddedCodeParseException ex) {
+		} catch (UtaCodeException ex) {
 			throw UtaParseException.wrap(ex);
 		}
 	}

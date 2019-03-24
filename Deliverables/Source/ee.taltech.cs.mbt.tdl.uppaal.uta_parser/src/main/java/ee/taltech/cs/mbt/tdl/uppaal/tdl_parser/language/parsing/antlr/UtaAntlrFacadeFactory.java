@@ -11,8 +11,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.transition.SynchronizationConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.transition.SelectionSequenceConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.transition.AssignmentsConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.ParameterDeclaration;
@@ -56,7 +56,7 @@ public class UtaAntlrFacadeFactory {
 	public AbsUtaAntlrParserFacade<AbsExpression, ExpressionContext> invariantFacade() {
 		return configure(new AbsUtaAntlrParserFacade<AbsExpression, ExpressionContext>() {
 			@Override
-			protected ExpressionContext getRootContext(UTALanguageParser parser) {
+			protected ExpressionContext getRootContext(UtaLanguageParser parser) {
 				return parser.utaLocationInvariantExpression().expression();
 			}
 
@@ -70,7 +70,7 @@ public class UtaAntlrFacadeFactory {
 	public AbsUtaAntlrParserFacade<AbsExpression, ExpressionContext> guardFacade() {
 		return configure(new AbsUtaAntlrParserFacade<AbsExpression, ExpressionContext>() {
 			@Override
-			protected ExpressionContext getRootContext(UTALanguageParser parser) {
+			protected ExpressionContext getRootContext(UtaLanguageParser parser) {
 				return parser.utaLocationInvariantExpression().expression();
 			}
 
@@ -84,7 +84,7 @@ public class UtaAntlrFacadeFactory {
 	public AbsUtaAntlrParserFacade<SystemDefinition, UtaSystemDefinitionContext> systemDefinitionFacade() {
 		return configure(new AbsUtaAntlrParserFacade<SystemDefinition, UtaSystemDefinitionContext>() {
 			@Override
-			protected UtaSystemDefinitionContext getRootContext(UTALanguageParser parser) {
+			protected UtaSystemDefinitionContext getRootContext(UtaLanguageParser parser) {
 				return parser.utaSystemDefinition();
 			}
 
@@ -98,7 +98,7 @@ public class UtaAntlrFacadeFactory {
 	public AbsUtaAntlrParserFacade<List<AbsExpression>, UtaTransitionUpdateListContext> updatesFacade() {
 		return configure(new AbsUtaAntlrParserFacade<List<AbsExpression>, UtaTransitionUpdateListContext>() {
 			@Override
-			protected UtaTransitionUpdateListContext getRootContext(UTALanguageParser parser) {
+			protected UtaTransitionUpdateListContext getRootContext(UtaLanguageParser parser) {
 				return parser.utaTransitionUpdateList();
 			}
 
@@ -112,7 +112,7 @@ public class UtaAntlrFacadeFactory {
 	public AbsUtaAntlrParserFacade<List<Selection>, UtaTransitionSelectionSequenceContext> selectionFacade() {
 		return configure(new AbsUtaAntlrParserFacade<List<Selection>, UtaTransitionSelectionSequenceContext>() {
 			@Override
-			protected UtaTransitionSelectionSequenceContext getRootContext(UTALanguageParser parser) {
+			protected UtaTransitionSelectionSequenceContext getRootContext(UtaLanguageParser parser) {
 				return parser.utaTransitionSelectionSequence();
 			}
 
@@ -126,7 +126,7 @@ public class UtaAntlrFacadeFactory {
 	public AbsUtaAntlrParserFacade<Synchronization, UtaTransitionSynchronizationContext> synchronizationFacade() {
 		return configure(new AbsUtaAntlrParserFacade<Synchronization, UtaTransitionSynchronizationContext>() {
 			@Override
-			protected UtaTransitionSynchronizationContext getRootContext(UTALanguageParser parser) {
+			protected UtaTransitionSynchronizationContext getRootContext(UtaLanguageParser parser) {
 				return parser.utaTransitionSynchronization();
 			}
 
@@ -140,7 +140,7 @@ public class UtaAntlrFacadeFactory {
 	public AbsUtaAntlrParserFacade<List<ParameterDeclaration>, UtaTemplateParameterListContext> parametersFacade() {
 		return configure(new AbsUtaAntlrParserFacade<List<ParameterDeclaration>, UtaTemplateParameterListContext>() {
 			@Override
-			protected UtaTemplateParameterListContext getRootContext(UTALanguageParser parser) {
+			protected UtaTemplateParameterListContext getRootContext(UtaLanguageParser parser) {
 				return parser.utaTemplateParameterList();
 			}
 
@@ -154,7 +154,7 @@ public class UtaAntlrFacadeFactory {
 	public AbsUtaAntlrParserFacade<List<AbsDeclarationStatement>, UtaDeclarationsContext> declarationsFacade() {
 		return configure(new AbsUtaAntlrParserFacade<List<AbsDeclarationStatement>, UtaDeclarationsContext>() {
 			@Override
-			protected UtaDeclarationsContext getRootContext(UTALanguageParser parser) {
+			protected UtaDeclarationsContext getRootContext(UtaLanguageParser parser) {
 				return parser.utaDeclarations();
 			}
 

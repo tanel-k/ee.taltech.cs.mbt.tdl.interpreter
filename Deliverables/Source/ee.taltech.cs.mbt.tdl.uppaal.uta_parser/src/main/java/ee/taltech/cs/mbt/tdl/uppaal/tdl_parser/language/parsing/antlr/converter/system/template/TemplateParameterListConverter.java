@@ -2,14 +2,14 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.parameters.ParameterListConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.ParameterListContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.UtaTemplateParameterListContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ParameterListContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.UtaTemplateParameterListContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.ParameterDeclaration;
 
 import java.util.List;
 
-public class TemplateParameterListConverter extends UTALanguageBaseVisitor<List<ParameterDeclaration>>
+public class TemplateParameterListConverter extends UtaLanguageBaseVisitor<List<ParameterDeclaration>>
 	implements IParseTreeConverter<List<ParameterDeclaration>, UtaTemplateParameterListContext>
 {
 	public static TemplateParameterListConverter getInstance() {

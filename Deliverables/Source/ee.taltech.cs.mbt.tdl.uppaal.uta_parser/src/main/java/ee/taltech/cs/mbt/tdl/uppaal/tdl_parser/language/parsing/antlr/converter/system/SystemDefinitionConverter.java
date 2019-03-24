@@ -3,11 +3,11 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.declaration.DeclarationConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.SystemDefinition;
 
-public class SystemDefinitionConverter extends UTALanguageBaseVisitor<SystemDefinition>
+public class SystemDefinitionConverter extends UtaLanguageBaseVisitor<SystemDefinition>
 	implements IParseTreeConverter<SystemDefinition, UtaSystemDefinitionContext>
 {
 	public static SystemDefinitionConverter getInstance() {

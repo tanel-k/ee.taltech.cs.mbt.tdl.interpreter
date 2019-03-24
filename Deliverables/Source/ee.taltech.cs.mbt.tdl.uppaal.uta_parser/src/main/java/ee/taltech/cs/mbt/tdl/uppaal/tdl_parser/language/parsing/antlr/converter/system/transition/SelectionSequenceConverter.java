@@ -1,15 +1,15 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system.transition;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.SelectionContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.UtaTransitionSelectionSequenceContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SelectionContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.UtaTransitionSelectionSequenceContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.selection.Selection;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class SelectionSequenceConverter extends UTALanguageBaseVisitor<List<Selection>>
+public class SelectionSequenceConverter extends UtaLanguageBaseVisitor<List<Selection>>
 	implements IParseTreeConverter<List<Selection>, UtaTransitionSelectionSequenceContext>
 {
 	public static SelectionSequenceConverter getInstance() {

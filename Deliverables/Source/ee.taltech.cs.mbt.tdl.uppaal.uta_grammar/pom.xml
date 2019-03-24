@@ -58,7 +58,7 @@
                 <!-- argument>-lib</argument -->
                 <!-- argument>${basedir}/src/main/resources/grammar-source/antlr/imports</argument -->
               </arguments>
-              <includes>UTALanguage.g4</includes>
+              <includes>UtaLanguage.g4</includes>
               <!-- treatWarningsAsErrors>false</treatWarningsAsErrors -->
               <!-- options / -->
               <!-- atn>false</atn -->

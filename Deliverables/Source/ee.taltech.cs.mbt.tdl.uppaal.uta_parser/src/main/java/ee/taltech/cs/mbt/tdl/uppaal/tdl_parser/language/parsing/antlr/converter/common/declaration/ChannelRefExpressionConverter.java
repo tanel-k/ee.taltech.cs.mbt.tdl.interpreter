@@ -2,8 +2,8 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UTALanguageParser.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.channel_priority.channel_reference.AbsChannelRef;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.channel_priority.channel_reference.ChannelArrayLookup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.channel_priority.channel_reference.ChannelIdentifierRef;
@@ -12,7 +12,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.ge
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.ArrayIdentifierLookup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
 
-public class ChannelRefExpressionConverter extends UTALanguageBaseVisitor<AbsChannelRef>
+public class ChannelRefExpressionConverter extends UtaLanguageBaseVisitor<AbsChannelRef>
 		implements IParseTreeConverter<AbsChannelRef, ChannelRefExpressionContext>
 {
 	public static ChannelRefExpressionConverter getInstance() {

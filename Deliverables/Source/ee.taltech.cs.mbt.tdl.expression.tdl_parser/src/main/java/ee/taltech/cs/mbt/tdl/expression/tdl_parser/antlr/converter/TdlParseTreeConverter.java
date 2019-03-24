@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr.converter;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TDLExpressionLanguageBaseListener;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TDLExpressionLanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TDLExpressionLanguageParser.*;
+import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageBaseListener;
+import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.ExpressionTree;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.generic.AbsLogicalOperatorNode;
@@ -23,7 +23,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.List;
 import java.util.Stack;
 
-public class TdlParseTreeConverter extends TDLExpressionLanguageBaseListener
+public class TdlParseTreeConverter extends TdlExpressionLanguageBaseListener
 	implements IParseTreeConverter<ExpressionTree, ExpressionContext>
 {
 	private static class RuntimeConversionException extends RuntimeException {
@@ -62,7 +62,7 @@ public class TdlParseTreeConverter extends TDLExpressionLanguageBaseListener
 		return new ExpressionTree(getRootNode());
 	}
 
-	private static class BoundVisitor extends TDLExpressionLanguageBaseVisitor<Bound> {
+	private static class BoundVisitor extends TdlExpressionLanguageBaseVisitor<Bound> {
 		private Bound bound = new Bound();
 
 		@Override
