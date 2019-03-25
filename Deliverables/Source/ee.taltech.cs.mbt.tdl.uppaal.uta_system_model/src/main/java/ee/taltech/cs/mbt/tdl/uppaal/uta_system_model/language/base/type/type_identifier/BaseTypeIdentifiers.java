@@ -22,8 +22,8 @@ public class BaseTypeIdentifiers {
 		private BooleanTypeIdentifier() { }
 
 		@Override
-		public void accept(ITypeIdentifierVisitor visitor) {
-			visitor.visitBooleanTypeIdentifier(this);
+		public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
+			return visitor.visitBooleanTypeIdentifier(this);
 		}
 	}
 
@@ -39,8 +39,8 @@ public class BaseTypeIdentifiers {
 		private IntegerTypeIdentifier() { }
 
 		@Override
-		public void accept(ITypeIdentifierVisitor visitor) {
-			visitor.visitIntegerTypeIdentifier(this);
+		public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
+			return visitor.visitIntegerTypeIdentifier(this);
 		}
 	}
 
@@ -55,20 +55,24 @@ public class BaseTypeIdentifiers {
 		private ChannelTypeIdentifier() { }
 
 		@Override
-		public void accept(ITypeIdentifierVisitor visitor) {
-			visitor.visitChannelTypeIdentifier(this);
+		public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
+			return visitor.visitChannelTypeIdentifier(this);
 		}
 	}
 
 	/**
 	 * Identifies the predefined UPPAAL type `clock`.
+	 * Syntax fragment:<br/>
+	 * <pre>
+	 * TypeId        ::= ... | 'clock' | ...
+	 * </pre>
 	 */
 	public static class ClockTypeIdentifier extends AbsTypeIdentifier {
 		private ClockTypeIdentifier() { }
 
 		@Override
-		public void accept(ITypeIdentifierVisitor visitor) {
-			visitor.visitClockTypeIdentifier(this);
+		public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
+			return visitor.visitClockTypeIdentifier(this);
 		}
 	}
 

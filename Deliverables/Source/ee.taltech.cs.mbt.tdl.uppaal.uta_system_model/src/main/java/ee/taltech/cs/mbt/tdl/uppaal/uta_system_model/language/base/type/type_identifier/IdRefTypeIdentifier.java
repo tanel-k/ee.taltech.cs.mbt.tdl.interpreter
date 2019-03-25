@@ -24,8 +24,8 @@ public class IdRefTypeIdentifier extends AbsTypeIdentifier {
 	}
 
 	@Override
-	public void accept(ITypeIdentifierVisitor visitor) {
-		visitor.visitIdRefTypeIdentifier(this);
+	public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
+		return visitor.visitIdRefTypeIdentifier(this);
 	}
 
 	@Override

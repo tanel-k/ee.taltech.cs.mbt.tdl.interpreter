@@ -36,8 +36,8 @@ public class BoundedIntegerTypeIdentifier extends AbsTypeIdentifier {
 	}
 
 	@Override
-	public void accept(ITypeIdentifierVisitor visitor) {
-		visitor.visitBoundedIntegerTypeIdentifier(this);
+	public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
+		return visitor.visitBoundedIntegerTypeIdentifier(this);
 	}
 
 	@Override

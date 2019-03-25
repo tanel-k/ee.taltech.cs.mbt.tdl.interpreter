@@ -21,7 +21,7 @@ public abstract class AbsArrayModifier<SizeSpecifier> {
 		this.sizeSpecifier = sizeSpecifier;
 	}
 
-	public abstract void accept(IArrayModifierVisitor arrayModifierVisitor);
+	public abstract <T> T accept(IArrayModifierVisitor<T> visitor);
 
 	@Override
 	public int hashCode() {

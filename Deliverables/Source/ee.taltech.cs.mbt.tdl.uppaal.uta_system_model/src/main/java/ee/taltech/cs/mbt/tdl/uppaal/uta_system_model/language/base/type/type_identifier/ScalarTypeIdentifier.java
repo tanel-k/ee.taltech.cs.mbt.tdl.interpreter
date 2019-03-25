@@ -41,8 +41,8 @@ public class ScalarTypeIdentifier extends AbsTypeIdentifier {
 	}
 
 	@Override
-	public void accept(ITypeIdentifierVisitor visitor) {
-		visitor.visitScalarTypeIdentifier(this);
+	public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
+		return visitor.visitScalarTypeIdentifier(this);
 	}
 
 	@Override

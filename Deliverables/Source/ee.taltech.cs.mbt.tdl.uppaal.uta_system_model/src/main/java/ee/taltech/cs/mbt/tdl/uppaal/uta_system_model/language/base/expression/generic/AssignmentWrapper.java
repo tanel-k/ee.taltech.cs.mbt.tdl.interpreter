@@ -19,7 +19,7 @@ public class AssignmentWrapper<
 {
 	public static final String ID_SUFFIX = "Assignment";
 
-	private WrappedType operatorExpression;
+	private WrappedType wrappedExpression;
 
 	public static <
 		WrappedType extends AbsInternalExpression & IHasAssignmentCounterpart
@@ -27,49 +27,49 @@ public class AssignmentWrapper<
 		return new AssignmentWrapper<>(operation);
 	}
 
-	private AssignmentWrapper(WrappedType operatorExpression) {
-		super(operatorExpression.getHashSeed() + ID_SUFFIX, operatorExpression.childCount);
-		this.operatorExpression = operatorExpression;
+	private AssignmentWrapper(WrappedType wrappedExpression) {
+		super(wrappedExpression.getHashSeed() + ID_SUFFIX, wrappedExpression.childCount);
+		this.wrappedExpression = wrappedExpression;
 	}
 
 	@Override
 	protected int getLocalHash() {
-		return operatorExpression.getLocalHash();
+		return wrappedExpression.getLocalHash();
 	}
 
 	@Override
 	protected boolean isSubtreeHashValid() {
-		return operatorExpression.isSubtreeHashValid();
+		return wrappedExpression.isSubtreeHashValid();
 	}
 
 	@Override
 	protected void setSubtreeHashValid(boolean subtreeHashValid) {
-		operatorExpression.setSubtreeHashValid(subtreeHashValid);
+		wrappedExpression.setSubtreeHashValid(subtreeHashValid);
 	}
 
 	@Override
 	protected void invalidateSubtreeHash() {
-		operatorExpression.invalidateSubtreeHash();
+		wrappedExpression.invalidateSubtreeHash();
 	}
 
 	@Override
 	protected List<AbsExpression> getChildExpressions() {
-		return operatorExpression.getChildExpressions();
+		return wrappedExpression.getChildExpressions();
 	}
 
 	@Override
 	protected void setChildExpression(int position, AbsExpression childExpression) {
-		operatorExpression.setChildExpression(position, childExpression);
+		wrappedExpression.setChildExpression(position, childExpression);
 	}
 
 	@Override
 	public AbsExpression getChildExpression(int position) {
-		return operatorExpression.getChildExpression(position);
+		return wrappedExpression.getChildExpression(position);
 	}
 
 	@Override
 	public AbsExpression getParentExpression() {
-		return operatorExpression.getParentExpression();
+		return wrappedExpression.getParentExpression();
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class AssignmentWrapper<
 		return visitor.visitAssignmentWrapper(this);
 	}
 
-	public WrappedType getOperatorExpression() {
-		return operatorExpression;
+	public WrappedType getWrappedExpression() {
+		return wrappedExpression;
 	}
 }

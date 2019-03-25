@@ -49,8 +49,8 @@
             </goals>
             <configuration>
               <outputDirectory>src/main/java/ee/taltech/cs/mbt/tdl/expression/tdl_grammar/antlr_parser</outputDirectory>
-              <sourceDirectory>src/main/resources/grammar-source/antlr</sourceDirectory>
-              <libDirectory>src/main/resources/grammar-source/antlr</libDirectory>
+              <sourceDirectory>src/main/resources/grammar-source</sourceDirectory>
+              <!-- libDirectory>src/main/resources/grammar-source</libDirectory -->
               <visitor>true</visitor>
               <arguments>
                 <argument>-package</argument>

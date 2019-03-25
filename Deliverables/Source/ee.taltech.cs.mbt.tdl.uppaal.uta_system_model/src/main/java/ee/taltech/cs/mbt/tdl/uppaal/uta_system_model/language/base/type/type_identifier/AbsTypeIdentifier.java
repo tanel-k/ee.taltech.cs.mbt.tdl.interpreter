@@ -18,5 +18,5 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_ide
  * </pre>
  */
 public abstract class AbsTypeIdentifier {
-	public abstract void accept(ITypeIdentifierVisitor visitor);
+	public abstract <T> T accept(ITypeIdentifierVisitor<T> visitor);
 }

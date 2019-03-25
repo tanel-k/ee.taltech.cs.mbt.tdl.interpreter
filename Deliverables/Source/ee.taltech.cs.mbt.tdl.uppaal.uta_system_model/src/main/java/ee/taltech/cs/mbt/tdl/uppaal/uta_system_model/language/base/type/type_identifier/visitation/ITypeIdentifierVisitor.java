@@ -9,13 +9,13 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_ide
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.ScalarTypeIdentifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.StructTypeIdentifier;
 
-public interface ITypeIdentifierVisitor {
-	void visitStructTypeIdentifier(StructTypeIdentifier structTypeIdentifier);
-	void visitScalarTypeIdentifier(ScalarTypeIdentifier scalarTypeIdentifier);
-	void visitIdRefTypeIdentifier(IdRefTypeIdentifier idRefTypeIdentifier);
-	void visitBoundedIntegerTypeIdentifier(BoundedIntegerTypeIdentifier boundedIntegerTypeIdentifier);
-	void visitBooleanTypeIdentifier(BooleanTypeIdentifier booleanTypeIdentifier);
-	void visitIntegerTypeIdentifier(IntegerTypeIdentifier integerTypeIdentifier);
-	void visitChannelTypeIdentifier(ChannelTypeIdentifier channelTypeIdentifier);
-	void visitClockTypeIdentifier(ClockTypeIdentifier clockTypeIdentifier);
+public interface ITypeIdentifierVisitor<T> {
+	T visitStructTypeIdentifier(StructTypeIdentifier identifier);
+	T visitScalarTypeIdentifier(ScalarTypeIdentifier identifier);
+	T visitIdRefTypeIdentifier(IdRefTypeIdentifier identifier);
+	T visitBoundedIntegerTypeIdentifier(BoundedIntegerTypeIdentifier identifier);
+	T visitBooleanTypeIdentifier(BooleanTypeIdentifier identifier);
+	T visitIntegerTypeIdentifier(IntegerTypeIdentifier identifier);
+	T visitChannelTypeIdentifier(ChannelTypeIdentifier identifier);
+	T visitClockTypeIdentifier(ClockTypeIdentifier identifier);
 }

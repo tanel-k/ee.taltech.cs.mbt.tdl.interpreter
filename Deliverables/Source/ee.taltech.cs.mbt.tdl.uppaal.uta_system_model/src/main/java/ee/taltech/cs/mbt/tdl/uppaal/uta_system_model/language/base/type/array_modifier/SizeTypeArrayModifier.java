@@ -9,7 +9,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.array_mo
  */
 public class SizeTypeArrayModifier extends AbsArrayModifier<Type> {
 	@Override
-	public void accept(IArrayModifierVisitor arrayModifierVisitor) {
-		arrayModifierVisitor.visitSizeTypeModifier(this);
+	public <T> T accept(IArrayModifierVisitor<T> visitor) {
+		return visitor.visitSizeTypeModifier(this);
 	}
 }

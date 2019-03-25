@@ -10,12 +10,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.v
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.variable.container.VariableDeclarationList;
 
 public interface IDeclarationVisitor<T> {
-	T visitVariableDeclaration(VariableDeclaration variableDeclaration);
-	T visitVariableDeclarationList(VariableDeclarationList variableDeclarationList);
-	T visitTypeDeclaration(TypeDeclaration typeDeclaration);
-	T visitTypeDeclarationList(TypeDeclarationList typeDeclarations);
-	T visitVoidFunctionDeclaration(VoidFunctionDeclaration voidFunctionDeclaration);
-	T visitValueFunctionDeclaration(ValueFunctionDeclaration valueFunctionDeclaration);
-	T visitChannelPriorityDeclaration(ChannelPriorityDeclaration channelRefs);
-	T visitTemplateInstantiation(TemplateInstantiation templateInstantiation);
+	T visitVariableDeclaration(VariableDeclaration stmt);
+	T visitVariableDeclarationList(VariableDeclarationList stmt);
+	T visitTypeDeclaration(TypeDeclaration stmt);
+	T visitTypeDeclarationList(TypeDeclarationList stmt);
+	T visitVoidFunctionDeclaration(VoidFunctionDeclaration stmt);
+	T visitValueFunctionDeclaration(ValueFunctionDeclaration stmt);
+	T visitChannelPriorityDeclaration(ChannelPriorityDeclaration stmt);
+	T visitTemplateInstantiation(TemplateInstantiation stmt);
 }
