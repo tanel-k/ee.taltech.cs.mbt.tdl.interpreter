@@ -6,140 +6,77 @@ public static final int CHANNEL_WHITESPACE = 1;
 public static final int CHANNEL_COMMENTS = 2;
 }
 
-// UTA template parameters:
-utaTemplateParameterList
-    : parameterList?
-    ;
-
-parameterList
-    : parameter (SEP_ENUMERATION parameter)*
-    ;
-
-parameter
-    : type parameterIdentifier
-    ;
-
-parameterIdentifier
-    : COMMON_TOK_AMPERSAND identifierNameVariant
-        # ByReferenceVariable
-    | identifierNameVariant
-        # ByValueVariable
-    ;
-
-// UTA transition assignments:
-utaTransitionUpdateList
-    : expression (SEP_ENUMERATION expression)*
-    ;
-
-// UTA global and local declarations:
-utaDeclarations
-    : declarationSequence
-    ;
-
-// UTA transition synchronization:
-utaTransitionSynchronization
+synchronization
     : expression COMMON_TOK_EXCLAMATION_MARK
         # ActiveSynchronization
     | expression COMMON_TOK_QUESTION_MARK
         # ReactiveSynchronization
     ;
 
-// UTA transition select:
-utaTransitionSelectionSequence
+selectionSequence
     : selection (SEP_ENUMERATION selection)*
     ;
 
-// UTA transition guard:
-utaTransitionGuardExpression
-    : expression
-    ;
+selection : IDENTIFIER_NAME COMMON_TOK_COLON type ;
 
-// UTA location invariant
-utaLocationInvariantExpression
-    : expression
-    ;
-
-// UTA system definition:
-utaSystemDefinition
-    : systemDeclarationSequence
+systemDefinition
+    : declarationSequence?
       systemLine?
       progressMeasureDeclaration?
     ;
 
-systemDeclarationSequence
-    : systemDeclarationStatement*
-    ;
-
-systemDeclarationStatement
-    : templateInstantiation
-    | declaration
-    ;
-
-// This will class with assignment expressions if used at the same alt layer.
-// Currently this alts with declarations, which do not clash with the productions below.
-templateInstantiation
-    : IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList GROUP_RIGHT_PAREN ASSG_OP
-      IDENTIFIER_NAME GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN SEP_SEMICOLON
-        # PartialTemplateInstantiation
-    | IDENTIFIER_NAME ASSG_OP
-      IDENTIFIER_NAME GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN SEP_SEMICOLON
-        # FullTemplateInstantiation
-    ;
-
 systemLine
-    : PHRASE_SYSTEM systemProcessesList SEP_SEMICOLON
+    : PHRASE_SYSTEM systemProcessSequence SEP_SEMICOLON
     ;
 
-systemProcessesList
-    : systemProcessRefList (COMMON_TOK_LESS_THAN systemProcessRefList)*
+systemProcessSequence
+    : systemProcessGroup (COMMON_TOK_LESS_THAN systemProcessGroup)*
     ;
 
-systemProcessRefList
-    : systemProcessRef (SEP_ENUMERATION systemProcessRef)*
-    ;
-
-systemProcessRef
-    : IDENTIFIER_NAME
+systemProcessGroup
+    : IDENTIFIER_NAME (SEP_ENUMERATION IDENTIFIER_NAME)*
     ;
 
 progressMeasureDeclaration
     : PHRASE_PROGRESS GROUP_LEFT_CURLY (expression SEP_SEMICOLON)* GROUP_RIGHT_CURLY
     ;
 
-selection : IDENTIFIER_NAME COMMON_TOK_COLON type ;
-
-declarationSequence : declaration* ;
+declarationSequence : declaration+ ;
 
 declaration
     : type variableInitialization (SEP_ENUMERATION variableInitialization)* SEP_SEMICOLON
         # VariableDeclaration
-    | PHRASE_TYPEDEF type identifierNameVariant (SEP_ENUMERATION identifierNameVariant)* SEP_SEMICOLON
+    | PHRASE_TYPEDEF type identifierDeclaration (SEP_ENUMERATION identifierDeclaration)* SEP_SEMICOLON
         # TypeDeclaration
     | declarationOfFunction
         # FunctionDeclaration
-    | TYPE_CHANNEL PHRASE_PRIORITY channelPrioritySpecExpression SEP_SEMICOLON
+    | TYPE_CHANNEL PHRASE_PRIORITY channelPrioritySequence SEP_SEMICOLON
         # ChannelPriorityDeclaration
+    | IDENTIFIER_NAME (GROUP_LEFT_PAREN parameterSequence? GROUP_RIGHT_PAREN)?
+      ASSG_OP
+      IDENTIFIER_NAME GROUP_LEFT_PAREN argumentSequence? GROUP_RIGHT_PAREN SEP_SEMICOLON
+        # TemplateInstantiation
     ;
 
-channelPrioritySpecExpression
-    : channelRefList (COMMON_TOK_LESS_THAN channelRefList)+
+channelPrioritySequence
+    : channelPriorityGroup (COMMON_TOK_LESS_THAN channelPriorityGroup)+
     ;
 
-channelRefList
-    : channelRefExpression (SEP_ENUMERATION channelRefExpression)*
+channelPriorityGroup
+    : channelReference (SEP_ENUMERATION channelReference)*
     ;
 
-channelRefExpression
+channelReference
     : PHRASE_DEFAULT
-        # ChannelDefaultPriorityExpr
+        # DefaultChannelReference
+    | arrayVariableLookup
+        # ChannelArrayLookup
     | IDENTIFIER_NAME
-        # ChannelIdentifierNameExpr
-    | arrayIdentifierLookup
-        # ChannelArrayLookupExr
+        # ChannelIdentifierReference
     ;
 
 variableInitialization
-    : identifierNameVariant (ASSG_OP initializerExpression)?
+    : identifierDeclaration (ASSG_OP initializerExpression)?
     ;
 
 initializerExpression
@@ -150,77 +87,48 @@ initializerExpression
     ;
 
 declarationOfFunction
-    : type IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList? GROUP_RIGHT_PAREN blockOfStatements
-        # DeclarationOfValueFunction
-    | PHRASE_VOID IDENTIFIER_NAME GROUP_LEFT_PAREN parameterList? GROUP_RIGHT_PAREN blockOfStatements
-        # DeclarationOfVoidFunction
+    : type IDENTIFIER_NAME GROUP_LEFT_PAREN parameterSequence? GROUP_RIGHT_PAREN statementBlock
+        # ValueFunctionDeclaration
+    | PHRASE_VOID IDENTIFIER_NAME GROUP_LEFT_PAREN parameterSequence? GROUP_RIGHT_PAREN statementBlock
+        # VoidFunctionDeclaration
     ;
 
-blockOfStatements
-    : GROUP_LEFT_CURLY declarationSequence statement* GROUP_RIGHT_CURLY
+statementBlock
+    : GROUP_LEFT_CURLY declarationSequence? statementSequence? GROUP_RIGHT_CURLY
     ;
+
+statementSequence : statement+ ;
 
 statement
-    : blockOfStatements
-        # StatementBlock
+    : statementBlock
+        # BlockStatement
     | expression SEP_SEMICOLON
-        # StatementExpression
+        # ExpressionStatement
     | PHRASE_FOR
-      GROUP_LEFT_PAREN
-        loopInitializer SEP_SEMICOLON
-        loopCondition SEP_SEMICOLON
-        loopUpdate
-      GROUP_RIGHT_PAREN
-      loopBody
-        # StatementForLoop
+      GROUP_LEFT_PAREN expression SEP_SEMICOLON expression SEP_SEMICOLON expression GROUP_RIGHT_PAREN
+      statement
+        # ForLoopStatement
     | PHRASE_FOR
-      GROUP_LEFT_PAREN
-        IDENTIFIER_NAME COMMON_TOK_COLON type
-      GROUP_RIGHT_PAREN
-      loopBody
-        # StatementIteration
-    | PHRASE_WHILE
-      GROUP_LEFT_PAREN
-        loopCondition
-      GROUP_RIGHT_PAREN
-      loopBody
-        # StatementWhileLoop
-    | PHRASE_DO loopBody PHRASE_WHILE loopCondition SEP_SEMICOLON
-        # StatementDoWhile
+      GROUP_LEFT_PAREN IDENTIFIER_NAME COMMON_TOK_COLON type GROUP_RIGHT_PAREN
+      statement
+        # IterationStatement
+    | PHRASE_WHILE GROUP_LEFT_PAREN expression GROUP_RIGHT_PAREN
+      statement
+        # WhileLoopStatement
+    | PHRASE_DO statement PHRASE_WHILE expression SEP_SEMICOLON
+        # DoWhileStatement
     | PHRASE_IF
       GROUP_LEFT_PAREN expression GROUP_RIGHT_PAREN
-      primaryStatement
-      (PHRASE_ELSE alternativeStatement)?
-        # StatementConditional
+      statement
+      (PHRASE_ELSE statement)?
+        # ConditionalStatement
     | PHRASE_RETURN expression? SEP_SEMICOLON
         # StatementReturn
     | SEP_SEMICOLON
-        # StatementEmpty
+        # EmptyStatement
     ;
 
-primaryStatement
-    : statement
-    ;
-
-alternativeStatement
-    : statement
-    ;
-
-loopInitializer
-    : expression
-    ;
-
-loopCondition
-    : expression
-    ;
-
-loopUpdate
-    : expression
-    ;
-
-loopBody
-    : statement
-    ;
+expressionSequence : expression (SEP_ENUMERATION expression)* ;
 
 /*
 Expression associativity and precedence (listed from highest to lowest)
@@ -249,179 +157,170 @@ left            | forall exists
 */
 expression
     :<assoc=left> GROUP_LEFT_PAREN expression GROUP_RIGHT_PAREN
-        # ExpressionGrouped
+        # ExpressionGroup
     |<assoc=left> expression GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET
-        # ExpressionArrayLookup
+        # ArrayLookupExpression
     |<assoc=left> expression BINARY_OP_ACCESS_FIELD IDENTIFIER_NAME
-        # ExpressionFieldAccess
-    |<assoc=right> COMMON_TOK_EXCLAMATION_MARK expression
-        # ExpressionUnaryOpNegated
+        # FieldAccessExpression
+    |<assoc=right> (COMMON_TOK_EXCLAMATION_MARK | PHRASE_NOT) expression
+        # NegationExpression
     |<assoc=right> expression UNARY_OP_INCREMENT
-        # ExpressionIncrementAndGet
+        # SuffixIncrementExpression
     |<assoc=right> UNARY_OP_INCREMENT expression
-        # ExpressionGetAndIncrement
+        # PrefixIncrementExpression
     |<assoc=right> expression UNARY_OP_DECREMENT
-        # ExpressionGetAndDecrement
+        # SuffixDecrementExpression
     |<assoc=right> UNARY_OP_DECREMENT expression
-        # ExpressionDecrementAndGet
+        # PrefixDecrementExpression
     |<assoc=right> COMMON_TOK_MINUS expression
-        # ExpressionUnaryOpAdditiveInverse
+        # AdditiveInverseExpression
     |<assoc=right> COMMON_TOK_PLUS expression
-        # ExpressionUnaryOpAdditiveIdentity
+        # AdditiveIdentityExpression
     |<assoc=left> expression BINARY_OP_MULTIPLICATION expression
-        # ExpressionBinaryOpMultiplication
+        # MultiplicationExpression
     |<assoc=left> expression BINARY_OP_DIVISION expression
-        # ExpressionBinaryOpDivision
+        # DivisionExpression
     |<assoc=left> expression BINARY_OP_MODULO expression
-        # ExpressionBinaryOpModulo
+        # ModuloExpression
     |<assoc=left> expression COMMON_TOK_MINUS expression
-        # ExpressionBinaryOpSubtraction
+        # SubtractionExpression
     |<assoc=left> expression COMMON_TOK_PLUS expression
-        # ExpressionBinaryOpAddition
+        # AdditionExpression
     |<assoc=left> expression BINARY_OP_LEFT_SHIFT expression
-        # ExpressionBinaryOpLeftShift
+        # LeftShiftExpression
     |<assoc=left> expression BINARY_OP_RIGHT_SHIFT expression
-        # ExpressionBinaryOpRightShift
+        # RightShiftExpression
     |<assoc=left> expression BINARY_OP_MAX expression
-        # ExpressionBinaryOpMaximum
+        # MaximumExpression
     |<assoc=left> expression BINARY_OP_MIN expression
-        # ExpressionBinaryOpMinimum
+        # MinimumExpression
     |<assoc=left> expression COMMON_TOK_LESS_THAN expression
-        # ExpressionBinaryOpLessThan
+        # LessThanExpression
     |<assoc=left> expression BINARY_OP_LESS_THAN_OR_EQUAL_TO expression
-        # ExpressionBinaryOpLessThanOrEqual
+        # LessThanOrEqualExpression
     |<assoc=left> expression BINARY_OP_GREATER_THAN expression
-        # ExpressionBinaryOpGreaterThan
+        # GreaterThanExpression
     |<assoc=left> expression BINARY_OP_GREATER_THAN_OR_EQUAL expression
-        # ExpressionBinaryOpGreaterThanOrEqual
+        # GreaterThanOrEqualExpression
     |<assoc=left> expression BINARY_OP_EQUAL expression
-        # ExpressionBinaryOpEqual
+        # EqualityExpression
     |<assoc=left> expression BINARY_OP_NOT_EQUAL expression
-        # ExpressionBinaryOpNotEqual
+        # InequalityExpression
     |<assoc=left> expression COMMON_TOK_AMPERSAND expression
-        # ExpressionBinaryOpBitwiseAnd
+        # BitwiseAndExpression
     |<assoc=left> expression BINARY_OP_BITWISE_XOR expression
-        # ExpressionBinaryOpBitwiseXOR
+        # BitwiseXorExpression
     |<assoc=left> expression BINARY_OP_BITWISE_OR expression
-        # ExpressionBinaryOpBitwiseOr
+        # BitwiseOrExpression
     |<assoc=left> expression BINARY_OP_CONJUNCTION expression
-        # ExpressionBinaryOpConjunction
+        # ConjunctionExpression
     |<assoc=left> expression BINARY_OP_DISJUNCTION expression
-        # ExpressionBinaryOpDisjunction
+        # DisjunctionExpression
     |<assoc=right> expression COMMON_TOK_QUESTION_MARK expression COMMON_TOK_COLON expression
-        # ExpressionTernary
-    |<assoc=right> expression ASSG_OP expression
-        # ExpressionAssignOp
-    |<assoc=right> expression ASSG_OP_ADDITION expression
-        # ExpressionAssignOpAddition
-    |<assoc=right> expression ASSG_OP_SUBTRACTION expression
-        # ExpressionAssignOpSubtraction
-    |<assoc=right> expression ASSG_OP_MULTIPLICATION expression
-        # ExpressionAssignOpMultiplication
-    |<assoc=right> expression ASSG_OP_DIVISION expression
-        # ExpressionAssignOpDivision
-    |<assoc=right> expression ASSG_OP_MODULO expression
-        # ExpressionAssignOpModulo
-    |<assoc=right> expression ASSG_OP_BITWISE_AND expression
-        # ExpressionAssignOpBitwiseAnd
-    |<assoc=right> expression ASSG_OP_BITWISE_OR expression
-        # ExpressionAssignOpBitwiseOr
-    |<assoc=right> expression ASSG_OP_LEFT_SHIFT expression
-        # ExpressionAssignOpLeftShift
-    |<assoc=right> expression ASSG_OP_RIGHT_SHIFT expression
-        # ExpressionAssignOpRightShift
-    |<assoc=right> expression ASSG_OP_BITWISE_XOR expression
-        # ExpressionAssignOpBitwiseXOR
-    |<assoc=right> PHRASE_NOT expression
-        # ExpressionUnaryOpNegatedPhrase
-    |<assoc=left> expression PHRASE_OR expression
-        # ExpressionBinaryOpDisjunctionPhrase
+        # TernaryExpression
     |<assoc=left> expression PHRASE_IMPLY expression
-        # ExpressionBinaryOpImplicationPhrase
-    |<assoc=left> expression PHRASE_AND expression
-        # ExpressionBinaryOpConjunctionPhrase
-    |<assoc=left>  PHRASE_FOR_ALL
-            GROUP_LEFT_PAREN
-                IDENTIFIER_NAME COMMON_TOK_COLON type
-            GROUP_RIGHT_PAREN
-            expression
-        # ExpressionUniversalQuantification
-    |<assoc=left> PHRASE_EXISTS
-            GROUP_LEFT_PAREN
-                IDENTIFIER_NAME COMMON_TOK_COLON type
-            GROUP_RIGHT_PAREN
-            expression
-        # ExpressionExistentialQuantification
-    | expression GROUP_LEFT_PAREN argumentList? GROUP_RIGHT_PAREN
-        # ExpressionCall
+        # ImplicationExpression
+    |<assoc=left> (PHRASE_EXISTS | PHRASE_FOR_ALL) GROUP_LEFT_PAREN IDENTIFIER_NAME COMMON_TOK_COLON type GROUP_RIGHT_PAREN
+          expression
+        # QuantificationExpression
+    | expression GROUP_LEFT_PAREN argumentSequence? GROUP_RIGHT_PAREN
+        # CallExpression
+    |<assoc=right> expression ASSG_OP expression
+        # AssignmentExpression
+    |<assoc=right> expression ASSG_OP_MULTIPLICATION expression
+        # MultiplicationAssignmentExpr
+    |<assoc=right> expression ASSG_OP_DIVISION expression
+        # DivisionAssignmentExpr
+    |<assoc=right> expression ASSG_OP_MODULO expression
+        # ModuloAssignmentExpr
+    |<assoc=right> expression ASSG_OP_SUBTRACTION expression
+        # SubtractionAssignmentExpr
+    |<assoc=right> expression ASSG_OP_ADDITION expression
+        # AdditionAssignmentExpr
+    |<assoc=right> expression ASSG_OP_LEFT_SHIFT expression
+        # LeftShiftAssignmentExpr
+    |<assoc=right> expression ASSG_OP_RIGHT_SHIFT expression
+        # RightShiftAssignmentExpr
+    |<assoc=right> expression ASSG_OP_BITWISE_AND expression
+        # BitwiseAndAssignmentExpr
+    |<assoc=right> expression ASSG_OP_BITWISE_XOR expression
+        # BitwiseXorAssignmentExpr
+    |<assoc=right> expression ASSG_OP_BITWISE_OR expression
+        # BitwiseOrAssignmentExpr
     | EXPR_LITERAL_DEADLOCK
-        # ExpressionDeadlockLiteral
+        # DeadlockLiteral
     | EXPR_LITERAL_TRUE
-        # ExpressionTrueLiteral
+        # TrueLiteral
     | EXPR_LITERAL_FALSE
-        # ExpressionFalseLiteral
+        # FalseLiteral
     | NATURAL_NUMBER
-        # ExpressionNaturalNumber
+        # NaturalNumberLiteral
     | IDENTIFIER_NAME
-        # ExpressionIdentifierRef
+        # IdentifierExpression
     ;
 
-argumentList : expression (SEP_ENUMERATION expression)* ;
+parameterSequence : parameter (SEP_ENUMERATION parameter)* ;
+
+parameter : type referenceModifier? identifierDeclaration ;
+
+referenceModifier : COMMON_TOK_AMPERSAND ;
+
+argumentSequence : expression (SEP_ENUMERATION expression)* ;
 
 type : typePrefix? typeIdentifier ;
 
 typeIdentifier
     // Integer type:
     : TYPE_INTEGER
-        # TypeIdInteger
+        # IntegerTypeId
     // Clock type
     | TYPE_CLOCK
-        # TypeIdClock
+        # ClockTypeId
     // Channel type
     | TYPE_CHANNEL
-        # TypeIdChannel
+        # ChannelTypeId
     // Boolean type
     | TYPE_BOOLEAN
-        # TypeIdBoolean
+        # BooleanTypeId
     // Integer type (with min and max bound):
     | TYPE_INTEGER GROUP_LEFT_BRACKET expression SEP_ENUMERATION expression GROUP_RIGHT_BRACKET
-        # TypeIdIntegerBounded
+        # BoundedIntegerTypeId
     // Scalar type:
     // Scalar types only have assignment and identity testing operations.
     | TYPE_SCALAR GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET
-        # TypeIdScalar
+        # ScalarTypeId
     // Record type:
     // Follows C notation
     | TYPE_STRUCT GROUP_LEFT_CURLY fieldDeclaration+ GROUP_RIGHT_CURLY
-        # TypeIdStruct
+        # StructTypeId
     // Custom type (should be last since it matches a-zA-Z):
     | IDENTIFIER_NAME
-        # TypeIdIdentifierName
+        # CustomTypeId
     ;
 
-arrayIdentifierLookup
+arrayVariableLookup
     : IDENTIFIER_NAME (GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET)+
     ;
 
 fieldDeclaration
-    : type identifierNameVariant (SEP_ENUMERATION identifierNameVariant)* SEP_SEMICOLON
+    : type identifierDeclaration (SEP_ENUMERATION identifierDeclaration)* SEP_SEMICOLON
     ;
 
-identifierNameVariant
+identifierDeclaration
     : IDENTIFIER_NAME arraySizeModifier+
-        # ArrayIdentifier
+        # ArrayIdentifierDeclaration
     | IDENTIFIER_NAME
-        # BaseIdentifier
+        # BaseIdentifierDeclaration
     ;
 
 // When appended to a type, denotes an array
 arraySizeModifier
     // Array size can be specified as an integer
     : GROUP_LEFT_BRACKET expression GROUP_RIGHT_BRACKET
-        # ArraySizeFromExpression
+        # ExpressionArraySizeModifier
     // Or as a bounded integer type or scalar set type
     | GROUP_LEFT_BRACKET type GROUP_RIGHT_BRACKET
-        # ArraySizeFromType
+        # TypeArraySizeModifier
     ;
 
 typePrefix

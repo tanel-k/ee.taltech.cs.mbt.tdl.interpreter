@@ -14,9 +14,4 @@ public class ProcessRefCtx extends AbsCodeGenerationCtx {
 	public void setIdentifierName(IdentifierNameCtx identifierName) {
 		this.identifierName = identifierName;
 	}
-
-	@Override
-	public <T> T accept(ICodeGenerationCtxVisitor<T> visitor) {
-		return visitor.visitProcessRef(this);
-	}
 }

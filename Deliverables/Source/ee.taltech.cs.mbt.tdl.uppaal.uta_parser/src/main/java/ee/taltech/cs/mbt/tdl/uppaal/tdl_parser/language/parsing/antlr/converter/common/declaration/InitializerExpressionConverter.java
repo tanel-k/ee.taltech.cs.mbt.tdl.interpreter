@@ -6,12 +6,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisi
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.FlatInitializerContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.InitializerExpressionContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.StructuredInitializerContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.variable.initializer.AbsInitializer;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.variable.initializer.FlatInitializer;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.variable.initializer.StructuredInitializer;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.AbsVariableInitializer;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.FlatVariableInitializer;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.StructuredVariableInitializer;
 
-public class InitializerExpressionConverter extends UtaLanguageBaseVisitor<AbsInitializer>
-	implements IParseTreeConverter<AbsInitializer, InitializerExpressionContext>
+public class InitializerExpressionConverter extends UtaLanguageBaseVisitor<AbsVariableInitializer>
+	implements IParseTreeConverter<AbsVariableInitializer, InitializerExpressionContext>
 {
 	public static InitializerExpressionConverter getInstance() {
 		return INSTANCE;
@@ -22,13 +22,13 @@ public class InitializerExpressionConverter extends UtaLanguageBaseVisitor<AbsIn
 	private InitializerExpressionConverter() { }
 
 	@Override
-	public AbsInitializer convert(InitializerExpressionContext rootContext) {
+	public AbsVariableInitializer convert(InitializerExpressionContext rootContext) {
 		return rootContext.accept(this);
 	}
 
 	@Override
-	public AbsInitializer visitFlatInitializer(FlatInitializerContext ctx) {
-		FlatInitializer flatInitializer = new FlatInitializer();
+	public AbsVariableInitializer visitFlatInitializer(FlatInitializerContext ctx) {
+		FlatVariableInitializer flatInitializer = new FlatVariableInitializer();
 		flatInitializer.setExpression(
 			ExpressionConverter.getInstance().convert(ctx.expression())
 		);
@@ -36,8 +36,8 @@ public class InitializerExpressionConverter extends UtaLanguageBaseVisitor<AbsIn
 	}
 
 	@Override
-	public AbsInitializer visitStructuredInitializer(StructuredInitializerContext ctx) {
-		StructuredInitializer structuredInitializer = new StructuredInitializer();
+	public AbsVariableInitializer visitStructuredInitializer(StructuredInitializerContext ctx) {
+		StructuredVariableInitializer structuredInitializer = new StructuredVariableInitializer();
 		for (InitializerExpressionContext initExprCtx : ctx.initializerExpression()) {
 			structuredInitializer.getInitializers().add(
 				initExprCtx.accept(this)

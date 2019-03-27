@@ -39,35 +39,26 @@ public class UtaLanguageParser extends Parser {
 		PHRASE_WHILE=73, PHRASE_RETURN=74, PHRASE_DO=75, PHRASE_PRIORITY=76, PHRASE_DEFAULT=77, 
 		PHRASE_SYSTEM=78, PHRASE_PROGRESS=79, IDENTIFIER_NAME=80, NATURAL_NUMBER=81;
 	public static final int
-		RULE_utaTemplateParameterList = 0, RULE_parameterList = 1, RULE_parameter = 2, 
-		RULE_parameterIdentifier = 3, RULE_utaTransitionUpdateList = 4, RULE_utaDeclarations = 5, 
-		RULE_utaTransitionSynchronization = 6, RULE_utaTransitionSelectionSequence = 7, 
-		RULE_utaTransitionGuardExpression = 8, RULE_utaLocationInvariantExpression = 9, 
-		RULE_utaSystemDefinition = 10, RULE_systemDeclarationSequence = 11, RULE_systemDeclarationStatement = 12, 
-		RULE_templateInstantiation = 13, RULE_systemLine = 14, RULE_systemProcessesList = 15, 
-		RULE_systemProcessRefList = 16, RULE_systemProcessRef = 17, RULE_progressMeasureDeclaration = 18, 
-		RULE_selection = 19, RULE_declarationSequence = 20, RULE_declaration = 21, 
-		RULE_channelPrioritySpecExpression = 22, RULE_channelRefList = 23, RULE_channelRefExpression = 24, 
-		RULE_variableInitialization = 25, RULE_initializerExpression = 26, RULE_declarationOfFunction = 27, 
-		RULE_blockOfStatements = 28, RULE_statement = 29, RULE_primaryStatement = 30, 
-		RULE_alternativeStatement = 31, RULE_loopInitializer = 32, RULE_loopCondition = 33, 
-		RULE_loopUpdate = 34, RULE_loopBody = 35, RULE_expression = 36, RULE_argumentList = 37, 
-		RULE_type = 38, RULE_typeIdentifier = 39, RULE_arrayIdentifierLookup = 40, 
-		RULE_fieldDeclaration = 41, RULE_identifierNameVariant = 42, RULE_arraySizeModifier = 43, 
-		RULE_typePrefix = 44;
+		RULE_synchronization = 0, RULE_selectionSequence = 1, RULE_selection = 2, 
+		RULE_systemDefinition = 3, RULE_systemLine = 4, RULE_systemProcessSequence = 5, 
+		RULE_systemProcessGroup = 6, RULE_progressMeasureDeclaration = 7, RULE_declarationSequence = 8, 
+		RULE_declaration = 9, RULE_channelPrioritySequence = 10, RULE_channelPriorityGroup = 11, 
+		RULE_channelReference = 12, RULE_variableInitialization = 13, RULE_initializerExpression = 14, 
+		RULE_declarationOfFunction = 15, RULE_statementBlock = 16, RULE_statementSequence = 17, 
+		RULE_statement = 18, RULE_expressionSequence = 19, RULE_expression = 20, 
+		RULE_parameterSequence = 21, RULE_parameter = 22, RULE_argumentSequence = 23, 
+		RULE_type = 24, RULE_typeIdentifier = 25, RULE_arrayVariableLookup = 26, 
+		RULE_fieldDeclaration = 27, RULE_identifierDeclaration = 28, RULE_arraySizeModifier = 29, 
+		RULE_typePrefix = 30;
 	public static final String[] ruleNames = {
-		"utaTemplateParameterList", "parameterList", "parameter", "parameterIdentifier", 
-		"utaTransitionUpdateList", "utaDeclarations", "utaTransitionSynchronization", 
-		"utaTransitionSelectionSequence", "utaTransitionGuardExpression", "utaLocationInvariantExpression", 
-		"utaSystemDefinition", "systemDeclarationSequence", "systemDeclarationStatement", 
-		"templateInstantiation", "systemLine", "systemProcessesList", "systemProcessRefList", 
-		"systemProcessRef", "progressMeasureDeclaration", "selection", "declarationSequence", 
-		"declaration", "channelPrioritySpecExpression", "channelRefList", "channelRefExpression", 
-		"variableInitialization", "initializerExpression", "declarationOfFunction", 
-		"blockOfStatements", "statement", "primaryStatement", "alternativeStatement", 
-		"loopInitializer", "loopCondition", "loopUpdate", "loopBody", "expression", 
-		"argumentList", "type", "typeIdentifier", "arrayIdentifierLookup", "fieldDeclaration", 
-		"identifierNameVariant", "arraySizeModifier", "typePrefix"
+		"synchronization", "selectionSequence", "selection", "systemDefinition", 
+		"systemLine", "systemProcessSequence", "systemProcessGroup", "progressMeasureDeclaration", 
+		"declarationSequence", "declaration", "channelPrioritySequence", "channelPriorityGroup", 
+		"channelReference", "variableInitialization", "initializerExpression", 
+		"declarationOfFunction", "statementBlock", "statementSequence", "statement", 
+		"expressionSequence", "expression", "parameterSequence", "parameter", 
+		"argumentSequence", "type", "typeIdentifier", "arrayVariableLookup", "fieldDeclaration", 
+		"identifierDeclaration", "arraySizeModifier", "typePrefix"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -154,394 +145,23 @@ public class UtaLanguageParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class UtaTemplateParameterListContext extends ParserRuleContext {
-		public ParameterListContext parameterList() {
-			return getRuleContext(ParameterListContext.class,0);
-		}
-		public UtaTemplateParameterListContext(ParserRuleContext parent, int invokingState) {
+	public static class SynchronizationContext extends ParserRuleContext {
+		public SynchronizationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_utaTemplateParameterList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterUtaTemplateParameterList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitUtaTemplateParameterList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitUtaTemplateParameterList(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final UtaTemplateParameterListContext utaTemplateParameterList() throws RecognitionException {
-		UtaTemplateParameterListContext _localctx = new UtaTemplateParameterListContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_utaTemplateParameterList);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(91);
-			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TYPE_INTEGER) | (1L << TYPE_CLOCK) | (1L << TYPE_CHANNEL) | (1L << TYPE_BOOLEAN) | (1L << TYPE_SCALAR) | (1L << TYPE_STRUCT) | (1L << TYPE_PREFIX_URGENT) | (1L << TYPE_PREFIX_BROADCAST) | (1L << TYPE_PREFIX_META) | (1L << TYPE_PREFIX_CONST))) != 0) || _la==IDENTIFIER_NAME) {
-				{
-				setState(90);
-				parameterList();
-				}
-			}
-
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ParameterListContext extends ParserRuleContext {
-		public List<ParameterContext> parameter() {
-			return getRuleContexts(ParameterContext.class);
-		}
-		public ParameterContext parameter(int i) {
-			return getRuleContext(ParameterContext.class,i);
-		}
-		public List<TerminalNode> SEP_ENUMERATION() { return getTokens(UtaLanguageParser.SEP_ENUMERATION); }
-		public TerminalNode SEP_ENUMERATION(int i) {
-			return getToken(UtaLanguageParser.SEP_ENUMERATION, i);
-		}
-		public ParameterListContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_parameterList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterParameterList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitParameterList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitParameterList(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final ParameterListContext parameterList() throws RecognitionException {
-		ParameterListContext _localctx = new ParameterListContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_parameterList);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(93);
-			parameter();
-			setState(98);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==SEP_ENUMERATION) {
-				{
-				{
-				setState(94);
-				match(SEP_ENUMERATION);
-				setState(95);
-				parameter();
-				}
-				}
-				setState(100);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ParameterContext extends ParserRuleContext {
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public ParameterIdentifierContext parameterIdentifier() {
-			return getRuleContext(ParameterIdentifierContext.class,0);
-		}
-		public ParameterContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_parameter; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterParameter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitParameter(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitParameter(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final ParameterContext parameter() throws RecognitionException {
-		ParameterContext _localctx = new ParameterContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_parameter);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(101);
-			type();
-			setState(102);
-			parameterIdentifier();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ParameterIdentifierContext extends ParserRuleContext {
-		public ParameterIdentifierContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_parameterIdentifier; }
+		@Override public int getRuleIndex() { return RULE_synchronization; }
 	 
-		public ParameterIdentifierContext() { }
-		public void copyFrom(ParameterIdentifierContext ctx) {
+		public SynchronizationContext() { }
+		public void copyFrom(SynchronizationContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class ByValueVariableContext extends ParameterIdentifierContext {
-		public IdentifierNameVariantContext identifierNameVariant() {
-			return getRuleContext(IdentifierNameVariantContext.class,0);
-		}
-		public ByValueVariableContext(ParameterIdentifierContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterByValueVariable(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitByValueVariable(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitByValueVariable(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ByReferenceVariableContext extends ParameterIdentifierContext {
-		public TerminalNode COMMON_TOK_AMPERSAND() { return getToken(UtaLanguageParser.COMMON_TOK_AMPERSAND, 0); }
-		public IdentifierNameVariantContext identifierNameVariant() {
-			return getRuleContext(IdentifierNameVariantContext.class,0);
-		}
-		public ByReferenceVariableContext(ParameterIdentifierContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterByReferenceVariable(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitByReferenceVariable(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitByReferenceVariable(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final ParameterIdentifierContext parameterIdentifier() throws RecognitionException {
-		ParameterIdentifierContext _localctx = new ParameterIdentifierContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_parameterIdentifier);
-		try {
-			setState(107);
-			switch (_input.LA(1)) {
-			case COMMON_TOK_AMPERSAND:
-				_localctx = new ByReferenceVariableContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(104);
-				match(COMMON_TOK_AMPERSAND);
-				setState(105);
-				identifierNameVariant();
-				}
-				break;
-			case IDENTIFIER_NAME:
-				_localctx = new ByValueVariableContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(106);
-				identifierNameVariant();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class UtaTransitionUpdateListContext extends ParserRuleContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public List<TerminalNode> SEP_ENUMERATION() { return getTokens(UtaLanguageParser.SEP_ENUMERATION); }
-		public TerminalNode SEP_ENUMERATION(int i) {
-			return getToken(UtaLanguageParser.SEP_ENUMERATION, i);
-		}
-		public UtaTransitionUpdateListContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_utaTransitionUpdateList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterUtaTransitionUpdateList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitUtaTransitionUpdateList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitUtaTransitionUpdateList(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final UtaTransitionUpdateListContext utaTransitionUpdateList() throws RecognitionException {
-		UtaTransitionUpdateListContext _localctx = new UtaTransitionUpdateListContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_utaTransitionUpdateList);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(109);
-			expression(0);
-			setState(114);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==SEP_ENUMERATION) {
-				{
-				{
-				setState(110);
-				match(SEP_ENUMERATION);
-				setState(111);
-				expression(0);
-				}
-				}
-				setState(116);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class UtaDeclarationsContext extends ParserRuleContext {
-		public DeclarationSequenceContext declarationSequence() {
-			return getRuleContext(DeclarationSequenceContext.class,0);
-		}
-		public UtaDeclarationsContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_utaDeclarations; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterUtaDeclarations(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitUtaDeclarations(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitUtaDeclarations(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final UtaDeclarationsContext utaDeclarations() throws RecognitionException {
-		UtaDeclarationsContext _localctx = new UtaDeclarationsContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_utaDeclarations);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(117);
-			declarationSequence();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class UtaTransitionSynchronizationContext extends ParserRuleContext {
-		public UtaTransitionSynchronizationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_utaTransitionSynchronization; }
-	 
-		public UtaTransitionSynchronizationContext() { }
-		public void copyFrom(UtaTransitionSynchronizationContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class ActiveSynchronizationContext extends UtaTransitionSynchronizationContext {
+	public static class ActiveSynchronizationContext extends SynchronizationContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public TerminalNode COMMON_TOK_EXCLAMATION_MARK() { return getToken(UtaLanguageParser.COMMON_TOK_EXCLAMATION_MARK, 0); }
-		public ActiveSynchronizationContext(UtaTransitionSynchronizationContext ctx) { copyFrom(ctx); }
+		public ActiveSynchronizationContext(SynchronizationContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterActiveSynchronization(this);
@@ -556,12 +176,12 @@ public class UtaLanguageParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ReactiveSynchronizationContext extends UtaTransitionSynchronizationContext {
+	public static class ReactiveSynchronizationContext extends SynchronizationContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public TerminalNode COMMON_TOK_QUESTION_MARK() { return getToken(UtaLanguageParser.COMMON_TOK_QUESTION_MARK, 0); }
-		public ReactiveSynchronizationContext(UtaTransitionSynchronizationContext ctx) { copyFrom(ctx); }
+		public ReactiveSynchronizationContext(SynchronizationContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterReactiveSynchronization(this);
@@ -577,19 +197,19 @@ public class UtaLanguageParser extends Parser {
 		}
 	}
 
-	public final UtaTransitionSynchronizationContext utaTransitionSynchronization() throws RecognitionException {
-		UtaTransitionSynchronizationContext _localctx = new UtaTransitionSynchronizationContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_utaTransitionSynchronization);
+	public final SynchronizationContext synchronization() throws RecognitionException {
+		SynchronizationContext _localctx = new SynchronizationContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_synchronization);
 		try {
-			setState(125);
-			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+			setState(68);
+			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
 			case 1:
 				_localctx = new ActiveSynchronizationContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(119);
+				setState(62);
 				expression(0);
-				setState(120);
+				setState(63);
 				match(COMMON_TOK_EXCLAMATION_MARK);
 				}
 				break;
@@ -597,9 +217,9 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new ReactiveSynchronizationContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(122);
+				setState(65);
 				expression(0);
-				setState(123);
+				setState(66);
 				match(COMMON_TOK_QUESTION_MARK);
 				}
 				break;
@@ -616,7 +236,7 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class UtaTransitionSelectionSequenceContext extends ParserRuleContext {
+	public static class SelectionSequenceContext extends ParserRuleContext {
 		public List<SelectionContext> selection() {
 			return getRuleContexts(SelectionContext.class);
 		}
@@ -627,47 +247,47 @@ public class UtaLanguageParser extends Parser {
 		public TerminalNode SEP_ENUMERATION(int i) {
 			return getToken(UtaLanguageParser.SEP_ENUMERATION, i);
 		}
-		public UtaTransitionSelectionSequenceContext(ParserRuleContext parent, int invokingState) {
+		public SelectionSequenceContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_utaTransitionSelectionSequence; }
+		@Override public int getRuleIndex() { return RULE_selectionSequence; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterUtaTransitionSelectionSequence(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSelectionSequence(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitUtaTransitionSelectionSequence(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSelectionSequence(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitUtaTransitionSelectionSequence(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSelectionSequence(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final UtaTransitionSelectionSequenceContext utaTransitionSelectionSequence() throws RecognitionException {
-		UtaTransitionSelectionSequenceContext _localctx = new UtaTransitionSelectionSequenceContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_utaTransitionSelectionSequence);
+	public final SelectionSequenceContext selectionSequence() throws RecognitionException {
+		SelectionSequenceContext _localctx = new SelectionSequenceContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_selectionSequence);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(127);
+			setState(70);
 			selection();
-			setState(132);
+			setState(75);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEP_ENUMERATION) {
 				{
 				{
-				setState(128);
+				setState(71);
 				match(SEP_ENUMERATION);
-				setState(129);
+				setState(72);
 				selection();
 				}
 				}
-				setState(134);
+				setState(77);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -684,37 +304,43 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class UtaTransitionGuardExpressionContext extends ParserRuleContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+	public static class SelectionContext extends ParserRuleContext {
+		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
+		public TerminalNode COMMON_TOK_COLON() { return getToken(UtaLanguageParser.COMMON_TOK_COLON, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
 		}
-		public UtaTransitionGuardExpressionContext(ParserRuleContext parent, int invokingState) {
+		public SelectionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_utaTransitionGuardExpression; }
+		@Override public int getRuleIndex() { return RULE_selection; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterUtaTransitionGuardExpression(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSelection(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitUtaTransitionGuardExpression(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSelection(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitUtaTransitionGuardExpression(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSelection(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final UtaTransitionGuardExpressionContext utaTransitionGuardExpression() throws RecognitionException {
-		UtaTransitionGuardExpressionContext _localctx = new UtaTransitionGuardExpressionContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_utaTransitionGuardExpression);
+	public final SelectionContext selection() throws RecognitionException {
+		SelectionContext _localctx = new SelectionContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_selection);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(135);
-			expression(0);
+			setState(78);
+			match(IDENTIFIER_NAME);
+			setState(79);
+			match(COMMON_TOK_COLON);
+			setState(80);
+			type();
 			}
 		}
 		catch (RecognitionException re) {
@@ -728,53 +354,9 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class UtaLocationInvariantExpressionContext extends ParserRuleContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public UtaLocationInvariantExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_utaLocationInvariantExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterUtaLocationInvariantExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitUtaLocationInvariantExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitUtaLocationInvariantExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final UtaLocationInvariantExpressionContext utaLocationInvariantExpression() throws RecognitionException {
-		UtaLocationInvariantExpressionContext _localctx = new UtaLocationInvariantExpressionContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_utaLocationInvariantExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(137);
-			expression(0);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class UtaSystemDefinitionContext extends ParserRuleContext {
-		public SystemDeclarationSequenceContext systemDeclarationSequence() {
-			return getRuleContext(SystemDeclarationSequenceContext.class,0);
+	public static class SystemDefinitionContext extends ParserRuleContext {
+		public DeclarationSequenceContext declarationSequence() {
+			return getRuleContext(DeclarationSequenceContext.class,0);
 		}
 		public SystemLineContext systemLine() {
 			return getRuleContext(SystemLineContext.class,0);
@@ -782,48 +364,55 @@ public class UtaLanguageParser extends Parser {
 		public ProgressMeasureDeclarationContext progressMeasureDeclaration() {
 			return getRuleContext(ProgressMeasureDeclarationContext.class,0);
 		}
-		public UtaSystemDefinitionContext(ParserRuleContext parent, int invokingState) {
+		public SystemDefinitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_utaSystemDefinition; }
+		@Override public int getRuleIndex() { return RULE_systemDefinition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterUtaSystemDefinition(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSystemDefinition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitUtaSystemDefinition(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSystemDefinition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitUtaSystemDefinition(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSystemDefinition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final UtaSystemDefinitionContext utaSystemDefinition() throws RecognitionException {
-		UtaSystemDefinitionContext _localctx = new UtaSystemDefinitionContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_utaSystemDefinition);
+	public final SystemDefinitionContext systemDefinition() throws RecognitionException {
+		SystemDefinitionContext _localctx = new SystemDefinitionContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_systemDefinition);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(139);
-			systemDeclarationSequence();
-			setState(141);
+			setState(83);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TYPE_INTEGER) | (1L << TYPE_CLOCK) | (1L << TYPE_CHANNEL) | (1L << TYPE_BOOLEAN) | (1L << TYPE_SCALAR) | (1L << TYPE_STRUCT) | (1L << TYPE_PREFIX_URGENT) | (1L << TYPE_PREFIX_BROADCAST) | (1L << TYPE_PREFIX_META) | (1L << TYPE_PREFIX_CONST) | (1L << PHRASE_VOID))) != 0) || _la==PHRASE_TYPEDEF || _la==IDENTIFIER_NAME) {
+				{
+				setState(82);
+				declarationSequence();
+				}
+			}
+
+			setState(86);
 			_la = _input.LA(1);
 			if (_la==PHRASE_SYSTEM) {
 				{
-				setState(140);
+				setState(85);
 				systemLine();
 				}
 			}
 
-			setState(144);
+			setState(89);
 			_la = _input.LA(1);
 			if (_la==PHRASE_PROGRESS) {
 				{
-				setState(143);
+				setState(88);
 				progressMeasureDeclaration();
 				}
 			}
@@ -841,284 +430,10 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class SystemDeclarationSequenceContext extends ParserRuleContext {
-		public List<SystemDeclarationStatementContext> systemDeclarationStatement() {
-			return getRuleContexts(SystemDeclarationStatementContext.class);
-		}
-		public SystemDeclarationStatementContext systemDeclarationStatement(int i) {
-			return getRuleContext(SystemDeclarationStatementContext.class,i);
-		}
-		public SystemDeclarationSequenceContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_systemDeclarationSequence; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSystemDeclarationSequence(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSystemDeclarationSequence(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSystemDeclarationSequence(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final SystemDeclarationSequenceContext systemDeclarationSequence() throws RecognitionException {
-		SystemDeclarationSequenceContext _localctx = new SystemDeclarationSequenceContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_systemDeclarationSequence);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(149);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TYPE_INTEGER) | (1L << TYPE_CLOCK) | (1L << TYPE_CHANNEL) | (1L << TYPE_BOOLEAN) | (1L << TYPE_SCALAR) | (1L << TYPE_STRUCT) | (1L << TYPE_PREFIX_URGENT) | (1L << TYPE_PREFIX_BROADCAST) | (1L << TYPE_PREFIX_META) | (1L << TYPE_PREFIX_CONST) | (1L << PHRASE_VOID))) != 0) || _la==PHRASE_TYPEDEF || _la==IDENTIFIER_NAME) {
-				{
-				{
-				setState(146);
-				systemDeclarationStatement();
-				}
-				}
-				setState(151);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class SystemDeclarationStatementContext extends ParserRuleContext {
-		public TemplateInstantiationContext templateInstantiation() {
-			return getRuleContext(TemplateInstantiationContext.class,0);
-		}
-		public DeclarationContext declaration() {
-			return getRuleContext(DeclarationContext.class,0);
-		}
-		public SystemDeclarationStatementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_systemDeclarationStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSystemDeclarationStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSystemDeclarationStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSystemDeclarationStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final SystemDeclarationStatementContext systemDeclarationStatement() throws RecognitionException {
-		SystemDeclarationStatementContext _localctx = new SystemDeclarationStatementContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_systemDeclarationStatement);
-		try {
-			setState(154);
-			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
-			case 1:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(152);
-				templateInstantiation();
-				}
-				break;
-			case 2:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(153);
-				declaration();
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class TemplateInstantiationContext extends ParserRuleContext {
-		public TemplateInstantiationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_templateInstantiation; }
-	 
-		public TemplateInstantiationContext() { }
-		public void copyFrom(TemplateInstantiationContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class PartialTemplateInstantiationContext extends TemplateInstantiationContext {
-		public List<TerminalNode> IDENTIFIER_NAME() { return getTokens(UtaLanguageParser.IDENTIFIER_NAME); }
-		public TerminalNode IDENTIFIER_NAME(int i) {
-			return getToken(UtaLanguageParser.IDENTIFIER_NAME, i);
-		}
-		public List<TerminalNode> GROUP_LEFT_PAREN() { return getTokens(UtaLanguageParser.GROUP_LEFT_PAREN); }
-		public TerminalNode GROUP_LEFT_PAREN(int i) {
-			return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, i);
-		}
-		public ParameterListContext parameterList() {
-			return getRuleContext(ParameterListContext.class,0);
-		}
-		public List<TerminalNode> GROUP_RIGHT_PAREN() { return getTokens(UtaLanguageParser.GROUP_RIGHT_PAREN); }
-		public TerminalNode GROUP_RIGHT_PAREN(int i) {
-			return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, i);
-		}
-		public TerminalNode ASSG_OP() { return getToken(UtaLanguageParser.ASSG_OP, 0); }
-		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
-		public ArgumentListContext argumentList() {
-			return getRuleContext(ArgumentListContext.class,0);
-		}
-		public PartialTemplateInstantiationContext(TemplateInstantiationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterPartialTemplateInstantiation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitPartialTemplateInstantiation(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitPartialTemplateInstantiation(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class FullTemplateInstantiationContext extends TemplateInstantiationContext {
-		public List<TerminalNode> IDENTIFIER_NAME() { return getTokens(UtaLanguageParser.IDENTIFIER_NAME); }
-		public TerminalNode IDENTIFIER_NAME(int i) {
-			return getToken(UtaLanguageParser.IDENTIFIER_NAME, i);
-		}
-		public TerminalNode ASSG_OP() { return getToken(UtaLanguageParser.ASSG_OP, 0); }
-		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
-		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
-		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
-		public ArgumentListContext argumentList() {
-			return getRuleContext(ArgumentListContext.class,0);
-		}
-		public FullTemplateInstantiationContext(TemplateInstantiationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterFullTemplateInstantiation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitFullTemplateInstantiation(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitFullTemplateInstantiation(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final TemplateInstantiationContext templateInstantiation() throws RecognitionException {
-		TemplateInstantiationContext _localctx = new TemplateInstantiationContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_templateInstantiation);
-		int _la;
-		try {
-			setState(178);
-			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
-			case 1:
-				_localctx = new PartialTemplateInstantiationContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(156);
-				match(IDENTIFIER_NAME);
-				setState(157);
-				match(GROUP_LEFT_PAREN);
-				setState(158);
-				parameterList();
-				setState(159);
-				match(GROUP_RIGHT_PAREN);
-				setState(160);
-				match(ASSG_OP);
-				setState(161);
-				match(IDENTIFIER_NAME);
-				setState(162);
-				match(GROUP_LEFT_PAREN);
-				setState(164);
-				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXPR_LITERAL_TRUE) | (1L << EXPR_LITERAL_FALSE) | (1L << EXPR_LITERAL_DEADLOCK) | (1L << UNARY_OP_INCREMENT) | (1L << UNARY_OP_DECREMENT) | (1L << COMMON_TOK_PLUS) | (1L << COMMON_TOK_MINUS) | (1L << COMMON_TOK_EXCLAMATION_MARK) | (1L << GROUP_LEFT_PAREN) | (1L << PHRASE_NOT))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (PHRASE_FOR_ALL - 67)) | (1L << (PHRASE_EXISTS - 67)) | (1L << (IDENTIFIER_NAME - 67)) | (1L << (NATURAL_NUMBER - 67)))) != 0)) {
-					{
-					setState(163);
-					argumentList();
-					}
-				}
-
-				setState(166);
-				match(GROUP_RIGHT_PAREN);
-				setState(167);
-				match(SEP_SEMICOLON);
-				}
-				break;
-			case 2:
-				_localctx = new FullTemplateInstantiationContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(169);
-				match(IDENTIFIER_NAME);
-				setState(170);
-				match(ASSG_OP);
-				setState(171);
-				match(IDENTIFIER_NAME);
-				setState(172);
-				match(GROUP_LEFT_PAREN);
-				setState(174);
-				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXPR_LITERAL_TRUE) | (1L << EXPR_LITERAL_FALSE) | (1L << EXPR_LITERAL_DEADLOCK) | (1L << UNARY_OP_INCREMENT) | (1L << UNARY_OP_DECREMENT) | (1L << COMMON_TOK_PLUS) | (1L << COMMON_TOK_MINUS) | (1L << COMMON_TOK_EXCLAMATION_MARK) | (1L << GROUP_LEFT_PAREN) | (1L << PHRASE_NOT))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (PHRASE_FOR_ALL - 67)) | (1L << (PHRASE_EXISTS - 67)) | (1L << (IDENTIFIER_NAME - 67)) | (1L << (NATURAL_NUMBER - 67)))) != 0)) {
-					{
-					setState(173);
-					argumentList();
-					}
-				}
-
-				setState(176);
-				match(GROUP_RIGHT_PAREN);
-				setState(177);
-				match(SEP_SEMICOLON);
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
 	public static class SystemLineContext extends ParserRuleContext {
 		public TerminalNode PHRASE_SYSTEM() { return getToken(UtaLanguageParser.PHRASE_SYSTEM, 0); }
-		public SystemProcessesListContext systemProcessesList() {
-			return getRuleContext(SystemProcessesListContext.class,0);
+		public SystemProcessSequenceContext systemProcessSequence() {
+			return getRuleContext(SystemProcessSequenceContext.class,0);
 		}
 		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
 		public SystemLineContext(ParserRuleContext parent, int invokingState) {
@@ -1142,15 +457,15 @@ public class UtaLanguageParser extends Parser {
 
 	public final SystemLineContext systemLine() throws RecognitionException {
 		SystemLineContext _localctx = new SystemLineContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_systemLine);
+		enterRule(_localctx, 8, RULE_systemLine);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(180);
+			setState(91);
 			match(PHRASE_SYSTEM);
-			setState(181);
-			systemProcessesList();
-			setState(182);
+			setState(92);
+			systemProcessSequence();
+			setState(93);
 			match(SEP_SEMICOLON);
 			}
 		}
@@ -1165,58 +480,58 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class SystemProcessesListContext extends ParserRuleContext {
-		public List<SystemProcessRefListContext> systemProcessRefList() {
-			return getRuleContexts(SystemProcessRefListContext.class);
+	public static class SystemProcessSequenceContext extends ParserRuleContext {
+		public List<SystemProcessGroupContext> systemProcessGroup() {
+			return getRuleContexts(SystemProcessGroupContext.class);
 		}
-		public SystemProcessRefListContext systemProcessRefList(int i) {
-			return getRuleContext(SystemProcessRefListContext.class,i);
+		public SystemProcessGroupContext systemProcessGroup(int i) {
+			return getRuleContext(SystemProcessGroupContext.class,i);
 		}
 		public List<TerminalNode> COMMON_TOK_LESS_THAN() { return getTokens(UtaLanguageParser.COMMON_TOK_LESS_THAN); }
 		public TerminalNode COMMON_TOK_LESS_THAN(int i) {
 			return getToken(UtaLanguageParser.COMMON_TOK_LESS_THAN, i);
 		}
-		public SystemProcessesListContext(ParserRuleContext parent, int invokingState) {
+		public SystemProcessSequenceContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_systemProcessesList; }
+		@Override public int getRuleIndex() { return RULE_systemProcessSequence; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSystemProcessesList(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSystemProcessSequence(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSystemProcessesList(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSystemProcessSequence(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSystemProcessesList(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSystemProcessSequence(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final SystemProcessesListContext systemProcessesList() throws RecognitionException {
-		SystemProcessesListContext _localctx = new SystemProcessesListContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_systemProcessesList);
+	public final SystemProcessSequenceContext systemProcessSequence() throws RecognitionException {
+		SystemProcessSequenceContext _localctx = new SystemProcessSequenceContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_systemProcessSequence);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(184);
-			systemProcessRefList();
-			setState(189);
+			setState(95);
+			systemProcessGroup();
+			setState(100);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMON_TOK_LESS_THAN) {
 				{
 				{
-				setState(185);
+				setState(96);
 				match(COMMON_TOK_LESS_THAN);
-				setState(186);
-				systemProcessRefList();
+				setState(97);
+				systemProcessGroup();
 				}
 				}
-				setState(191);
+				setState(102);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1233,103 +548,59 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class SystemProcessRefListContext extends ParserRuleContext {
-		public List<SystemProcessRefContext> systemProcessRef() {
-			return getRuleContexts(SystemProcessRefContext.class);
-		}
-		public SystemProcessRefContext systemProcessRef(int i) {
-			return getRuleContext(SystemProcessRefContext.class,i);
+	public static class SystemProcessGroupContext extends ParserRuleContext {
+		public List<TerminalNode> IDENTIFIER_NAME() { return getTokens(UtaLanguageParser.IDENTIFIER_NAME); }
+		public TerminalNode IDENTIFIER_NAME(int i) {
+			return getToken(UtaLanguageParser.IDENTIFIER_NAME, i);
 		}
 		public List<TerminalNode> SEP_ENUMERATION() { return getTokens(UtaLanguageParser.SEP_ENUMERATION); }
 		public TerminalNode SEP_ENUMERATION(int i) {
 			return getToken(UtaLanguageParser.SEP_ENUMERATION, i);
 		}
-		public SystemProcessRefListContext(ParserRuleContext parent, int invokingState) {
+		public SystemProcessGroupContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_systemProcessRefList; }
+		@Override public int getRuleIndex() { return RULE_systemProcessGroup; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSystemProcessRefList(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSystemProcessGroup(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSystemProcessRefList(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSystemProcessGroup(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSystemProcessRefList(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSystemProcessGroup(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final SystemProcessRefListContext systemProcessRefList() throws RecognitionException {
-		SystemProcessRefListContext _localctx = new SystemProcessRefListContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_systemProcessRefList);
+	public final SystemProcessGroupContext systemProcessGroup() throws RecognitionException {
+		SystemProcessGroupContext _localctx = new SystemProcessGroupContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_systemProcessGroup);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(192);
-			systemProcessRef();
-			setState(197);
+			setState(103);
+			match(IDENTIFIER_NAME);
+			setState(108);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEP_ENUMERATION) {
 				{
 				{
-				setState(193);
+				setState(104);
 				match(SEP_ENUMERATION);
-				setState(194);
-				systemProcessRef();
+				setState(105);
+				match(IDENTIFIER_NAME);
 				}
 				}
-				setState(199);
+				setState(110);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class SystemProcessRefContext extends ParserRuleContext {
-		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
-		public SystemProcessRefContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_systemProcessRef; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSystemProcessRef(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSystemProcessRef(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSystemProcessRef(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final SystemProcessRefContext systemProcessRef() throws RecognitionException {
-		SystemProcessRefContext _localctx = new SystemProcessRefContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_systemProcessRef);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(200);
-			match(IDENTIFIER_NAME);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1378,83 +649,33 @@ public class UtaLanguageParser extends Parser {
 
 	public final ProgressMeasureDeclarationContext progressMeasureDeclaration() throws RecognitionException {
 		ProgressMeasureDeclarationContext _localctx = new ProgressMeasureDeclarationContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_progressMeasureDeclaration);
+		enterRule(_localctx, 14, RULE_progressMeasureDeclaration);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(202);
+			setState(111);
 			match(PHRASE_PROGRESS);
-			setState(203);
+			setState(112);
 			match(GROUP_LEFT_CURLY);
-			setState(209);
+			setState(118);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXPR_LITERAL_TRUE) | (1L << EXPR_LITERAL_FALSE) | (1L << EXPR_LITERAL_DEADLOCK) | (1L << UNARY_OP_INCREMENT) | (1L << UNARY_OP_DECREMENT) | (1L << COMMON_TOK_PLUS) | (1L << COMMON_TOK_MINUS) | (1L << COMMON_TOK_EXCLAMATION_MARK) | (1L << GROUP_LEFT_PAREN) | (1L << PHRASE_NOT))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (PHRASE_FOR_ALL - 67)) | (1L << (PHRASE_EXISTS - 67)) | (1L << (IDENTIFIER_NAME - 67)) | (1L << (NATURAL_NUMBER - 67)))) != 0)) {
 				{
 				{
-				setState(204);
+				setState(113);
 				expression(0);
-				setState(205);
+				setState(114);
 				match(SEP_SEMICOLON);
 				}
 				}
-				setState(211);
+				setState(120);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(212);
+			setState(121);
 			match(GROUP_RIGHT_CURLY);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class SelectionContext extends ParserRuleContext {
-		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
-		public TerminalNode COMMON_TOK_COLON() { return getToken(UtaLanguageParser.COMMON_TOK_COLON, 0); }
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public SelectionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_selection; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSelection(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSelection(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSelection(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final SelectionContext selection() throws RecognitionException {
-		SelectionContext _localctx = new SelectionContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_selection);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(214);
-			match(IDENTIFIER_NAME);
-			setState(215);
-			match(COMMON_TOK_COLON);
-			setState(216);
-			type();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1496,27 +717,31 @@ public class UtaLanguageParser extends Parser {
 
 	public final DeclarationSequenceContext declarationSequence() throws RecognitionException {
 		DeclarationSequenceContext _localctx = new DeclarationSequenceContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_declarationSequence);
+		enterRule(_localctx, 16, RULE_declarationSequence);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(221);
+			setState(124); 
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
+			_alt = 1;
+			do {
+				switch (_alt) {
+				case 1:
 					{
 					{
-					setState(218);
+					setState(123);
 					declaration();
 					}
-					} 
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
-				setState(223);
+				setState(126); 
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
-			}
+				_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
+			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -1563,8 +788,8 @@ public class UtaLanguageParser extends Parser {
 	public static class ChannelPriorityDeclarationContext extends DeclarationContext {
 		public TerminalNode TYPE_CHANNEL() { return getToken(UtaLanguageParser.TYPE_CHANNEL, 0); }
 		public TerminalNode PHRASE_PRIORITY() { return getToken(UtaLanguageParser.PHRASE_PRIORITY, 0); }
-		public ChannelPrioritySpecExpressionContext channelPrioritySpecExpression() {
-			return getRuleContext(ChannelPrioritySpecExpressionContext.class,0);
+		public ChannelPrioritySequenceContext channelPrioritySequence() {
+			return getRuleContext(ChannelPrioritySequenceContext.class,0);
 		}
 		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
 		public ChannelPriorityDeclarationContext(DeclarationContext ctx) { copyFrom(ctx); }
@@ -1579,6 +804,42 @@ public class UtaLanguageParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitChannelPriorityDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class TemplateInstantiationContext extends DeclarationContext {
+		public List<TerminalNode> IDENTIFIER_NAME() { return getTokens(UtaLanguageParser.IDENTIFIER_NAME); }
+		public TerminalNode IDENTIFIER_NAME(int i) {
+			return getToken(UtaLanguageParser.IDENTIFIER_NAME, i);
+		}
+		public TerminalNode ASSG_OP() { return getToken(UtaLanguageParser.ASSG_OP, 0); }
+		public List<TerminalNode> GROUP_LEFT_PAREN() { return getTokens(UtaLanguageParser.GROUP_LEFT_PAREN); }
+		public TerminalNode GROUP_LEFT_PAREN(int i) {
+			return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, i);
+		}
+		public List<TerminalNode> GROUP_RIGHT_PAREN() { return getTokens(UtaLanguageParser.GROUP_RIGHT_PAREN); }
+		public TerminalNode GROUP_RIGHT_PAREN(int i) {
+			return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, i);
+		}
+		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
+		public ArgumentSequenceContext argumentSequence() {
+			return getRuleContext(ArgumentSequenceContext.class,0);
+		}
+		public ParameterSequenceContext parameterSequence() {
+			return getRuleContext(ParameterSequenceContext.class,0);
+		}
+		public TemplateInstantiationContext(DeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterTemplateInstantiation(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitTemplateInstantiation(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitTemplateInstantiation(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1617,11 +878,11 @@ public class UtaLanguageParser extends Parser {
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
-		public List<IdentifierNameVariantContext> identifierNameVariant() {
-			return getRuleContexts(IdentifierNameVariantContext.class);
+		public List<IdentifierDeclarationContext> identifierDeclaration() {
+			return getRuleContexts(IdentifierDeclarationContext.class);
 		}
-		public IdentifierNameVariantContext identifierNameVariant(int i) {
-			return getRuleContext(IdentifierNameVariantContext.class,i);
+		public IdentifierDeclarationContext identifierDeclaration(int i) {
+			return getRuleContext(IdentifierDeclarationContext.class,i);
 		}
 		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
 		public List<TerminalNode> SEP_ENUMERATION() { return getTokens(UtaLanguageParser.SEP_ENUMERATION); }
@@ -1646,36 +907,36 @@ public class UtaLanguageParser extends Parser {
 
 	public final DeclarationContext declaration() throws RecognitionException {
 		DeclarationContext _localctx = new DeclarationContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_declaration);
+		enterRule(_localctx, 18, RULE_declaration);
 		int _la;
 		try {
-			setState(253);
-			switch ( getInterpreter().adaptivePredict(_input,19,_ctx) ) {
+			setState(173);
+			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 			case 1:
 				_localctx = new VariableDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(224);
+				setState(128);
 				type();
-				setState(225);
+				setState(129);
 				variableInitialization();
-				setState(230);
+				setState(134);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==SEP_ENUMERATION) {
 					{
 					{
-					setState(226);
+					setState(130);
 					match(SEP_ENUMERATION);
-					setState(227);
+					setState(131);
 					variableInitialization();
 					}
 					}
-					setState(232);
+					setState(136);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(233);
+				setState(137);
 				match(SEP_SEMICOLON);
 				}
 				break;
@@ -1683,29 +944,29 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypeDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(235);
+				setState(139);
 				match(PHRASE_TYPEDEF);
-				setState(236);
+				setState(140);
 				type();
-				setState(237);
-				identifierNameVariant();
-				setState(242);
+				setState(141);
+				identifierDeclaration();
+				setState(146);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==SEP_ENUMERATION) {
 					{
 					{
-					setState(238);
+					setState(142);
 					match(SEP_ENUMERATION);
-					setState(239);
-					identifierNameVariant();
+					setState(143);
+					identifierDeclaration();
 					}
 					}
-					setState(244);
+					setState(148);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(245);
+				setState(149);
 				match(SEP_SEMICOLON);
 				}
 				break;
@@ -1713,7 +974,7 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new FunctionDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(247);
+				setState(151);
 				declarationOfFunction();
 				}
 				break;
@@ -1721,13 +982,60 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new ChannelPriorityDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(248);
+				setState(152);
 				match(TYPE_CHANNEL);
-				setState(249);
+				setState(153);
 				match(PHRASE_PRIORITY);
-				setState(250);
-				channelPrioritySpecExpression();
-				setState(251);
+				setState(154);
+				channelPrioritySequence();
+				setState(155);
+				match(SEP_SEMICOLON);
+				}
+				break;
+			case 5:
+				_localctx = new TemplateInstantiationContext(_localctx);
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(157);
+				match(IDENTIFIER_NAME);
+				setState(163);
+				_la = _input.LA(1);
+				if (_la==GROUP_LEFT_PAREN) {
+					{
+					setState(158);
+					match(GROUP_LEFT_PAREN);
+					setState(160);
+					_la = _input.LA(1);
+					if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TYPE_INTEGER) | (1L << TYPE_CLOCK) | (1L << TYPE_CHANNEL) | (1L << TYPE_BOOLEAN) | (1L << TYPE_SCALAR) | (1L << TYPE_STRUCT) | (1L << TYPE_PREFIX_URGENT) | (1L << TYPE_PREFIX_BROADCAST) | (1L << TYPE_PREFIX_META) | (1L << TYPE_PREFIX_CONST))) != 0) || _la==IDENTIFIER_NAME) {
+						{
+						setState(159);
+						parameterSequence();
+						}
+					}
+
+					setState(162);
+					match(GROUP_RIGHT_PAREN);
+					}
+				}
+
+				setState(165);
+				match(ASSG_OP);
+				setState(166);
+				match(IDENTIFIER_NAME);
+				setState(167);
+				match(GROUP_LEFT_PAREN);
+				setState(169);
+				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXPR_LITERAL_TRUE) | (1L << EXPR_LITERAL_FALSE) | (1L << EXPR_LITERAL_DEADLOCK) | (1L << UNARY_OP_INCREMENT) | (1L << UNARY_OP_DECREMENT) | (1L << COMMON_TOK_PLUS) | (1L << COMMON_TOK_MINUS) | (1L << COMMON_TOK_EXCLAMATION_MARK) | (1L << GROUP_LEFT_PAREN) | (1L << PHRASE_NOT))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (PHRASE_FOR_ALL - 67)) | (1L << (PHRASE_EXISTS - 67)) | (1L << (IDENTIFIER_NAME - 67)) | (1L << (NATURAL_NUMBER - 67)))) != 0)) {
+					{
+					setState(168);
+					argumentSequence();
+					}
+				}
+
+				setState(171);
+				match(GROUP_RIGHT_PAREN);
+				setState(172);
 				match(SEP_SEMICOLON);
 				}
 				break;
@@ -1744,58 +1052,58 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ChannelPrioritySpecExpressionContext extends ParserRuleContext {
-		public List<ChannelRefListContext> channelRefList() {
-			return getRuleContexts(ChannelRefListContext.class);
+	public static class ChannelPrioritySequenceContext extends ParserRuleContext {
+		public List<ChannelPriorityGroupContext> channelPriorityGroup() {
+			return getRuleContexts(ChannelPriorityGroupContext.class);
 		}
-		public ChannelRefListContext channelRefList(int i) {
-			return getRuleContext(ChannelRefListContext.class,i);
+		public ChannelPriorityGroupContext channelPriorityGroup(int i) {
+			return getRuleContext(ChannelPriorityGroupContext.class,i);
 		}
 		public List<TerminalNode> COMMON_TOK_LESS_THAN() { return getTokens(UtaLanguageParser.COMMON_TOK_LESS_THAN); }
 		public TerminalNode COMMON_TOK_LESS_THAN(int i) {
 			return getToken(UtaLanguageParser.COMMON_TOK_LESS_THAN, i);
 		}
-		public ChannelPrioritySpecExpressionContext(ParserRuleContext parent, int invokingState) {
+		public ChannelPrioritySequenceContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_channelPrioritySpecExpression; }
+		@Override public int getRuleIndex() { return RULE_channelPrioritySequence; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterChannelPrioritySpecExpression(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterChannelPrioritySequence(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitChannelPrioritySpecExpression(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitChannelPrioritySequence(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitChannelPrioritySpecExpression(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitChannelPrioritySequence(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ChannelPrioritySpecExpressionContext channelPrioritySpecExpression() throws RecognitionException {
-		ChannelPrioritySpecExpressionContext _localctx = new ChannelPrioritySpecExpressionContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_channelPrioritySpecExpression);
+	public final ChannelPrioritySequenceContext channelPrioritySequence() throws RecognitionException {
+		ChannelPrioritySequenceContext _localctx = new ChannelPrioritySequenceContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_channelPrioritySequence);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(255);
-			channelRefList();
-			setState(258); 
+			setState(175);
+			channelPriorityGroup();
+			setState(178); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(256);
+				setState(176);
 				match(COMMON_TOK_LESS_THAN);
-				setState(257);
-				channelRefList();
+				setState(177);
+				channelPriorityGroup();
 				}
 				}
-				setState(260); 
+				setState(180); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==COMMON_TOK_LESS_THAN );
@@ -1812,58 +1120,58 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ChannelRefListContext extends ParserRuleContext {
-		public List<ChannelRefExpressionContext> channelRefExpression() {
-			return getRuleContexts(ChannelRefExpressionContext.class);
+	public static class ChannelPriorityGroupContext extends ParserRuleContext {
+		public List<ChannelReferenceContext> channelReference() {
+			return getRuleContexts(ChannelReferenceContext.class);
 		}
-		public ChannelRefExpressionContext channelRefExpression(int i) {
-			return getRuleContext(ChannelRefExpressionContext.class,i);
+		public ChannelReferenceContext channelReference(int i) {
+			return getRuleContext(ChannelReferenceContext.class,i);
 		}
 		public List<TerminalNode> SEP_ENUMERATION() { return getTokens(UtaLanguageParser.SEP_ENUMERATION); }
 		public TerminalNode SEP_ENUMERATION(int i) {
 			return getToken(UtaLanguageParser.SEP_ENUMERATION, i);
 		}
-		public ChannelRefListContext(ParserRuleContext parent, int invokingState) {
+		public ChannelPriorityGroupContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_channelRefList; }
+		@Override public int getRuleIndex() { return RULE_channelPriorityGroup; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterChannelRefList(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterChannelPriorityGroup(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitChannelRefList(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitChannelPriorityGroup(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitChannelRefList(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitChannelPriorityGroup(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ChannelRefListContext channelRefList() throws RecognitionException {
-		ChannelRefListContext _localctx = new ChannelRefListContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_channelRefList);
+	public final ChannelPriorityGroupContext channelPriorityGroup() throws RecognitionException {
+		ChannelPriorityGroupContext _localctx = new ChannelPriorityGroupContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_channelPriorityGroup);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(262);
-			channelRefExpression();
-			setState(267);
+			setState(182);
+			channelReference();
+			setState(187);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEP_ENUMERATION) {
 				{
 				{
-				setState(263);
+				setState(183);
 				match(SEP_ENUMERATION);
-				setState(264);
-				channelRefExpression();
+				setState(184);
+				channelReference();
 				}
 				}
-				setState(269);
+				setState(189);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1880,99 +1188,99 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ChannelRefExpressionContext extends ParserRuleContext {
-		public ChannelRefExpressionContext(ParserRuleContext parent, int invokingState) {
+	public static class ChannelReferenceContext extends ParserRuleContext {
+		public ChannelReferenceContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_channelRefExpression; }
+		@Override public int getRuleIndex() { return RULE_channelReference; }
 	 
-		public ChannelRefExpressionContext() { }
-		public void copyFrom(ChannelRefExpressionContext ctx) {
+		public ChannelReferenceContext() { }
+		public void copyFrom(ChannelReferenceContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class ChannelDefaultPriorityExprContext extends ChannelRefExpressionContext {
-		public TerminalNode PHRASE_DEFAULT() { return getToken(UtaLanguageParser.PHRASE_DEFAULT, 0); }
-		public ChannelDefaultPriorityExprContext(ChannelRefExpressionContext ctx) { copyFrom(ctx); }
+	public static class ChannelArrayLookupContext extends ChannelReferenceContext {
+		public ArrayVariableLookupContext arrayVariableLookup() {
+			return getRuleContext(ArrayVariableLookupContext.class,0);
+		}
+		public ChannelArrayLookupContext(ChannelReferenceContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterChannelDefaultPriorityExpr(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterChannelArrayLookup(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitChannelDefaultPriorityExpr(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitChannelArrayLookup(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitChannelDefaultPriorityExpr(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitChannelArrayLookup(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ChannelArrayLookupExrContext extends ChannelRefExpressionContext {
-		public ArrayIdentifierLookupContext arrayIdentifierLookup() {
-			return getRuleContext(ArrayIdentifierLookupContext.class,0);
-		}
-		public ChannelArrayLookupExrContext(ChannelRefExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterChannelArrayLookupExr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitChannelArrayLookupExr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitChannelArrayLookupExr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ChannelIdentifierNameExprContext extends ChannelRefExpressionContext {
+	public static class ChannelIdentifierRefrenceContext extends ChannelReferenceContext {
 		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
-		public ChannelIdentifierNameExprContext(ChannelRefExpressionContext ctx) { copyFrom(ctx); }
+		public ChannelIdentifierRefrenceContext(ChannelReferenceContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterChannelIdentifierNameExpr(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterChannelIdentifierRefrence(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitChannelIdentifierNameExpr(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitChannelIdentifierRefrence(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitChannelIdentifierNameExpr(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitChannelIdentifierRefrence(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DefaultChannelReferenceContext extends ChannelReferenceContext {
+		public TerminalNode PHRASE_DEFAULT() { return getToken(UtaLanguageParser.PHRASE_DEFAULT, 0); }
+		public DefaultChannelReferenceContext(ChannelReferenceContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterDefaultChannelReference(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitDefaultChannelReference(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitDefaultChannelReference(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ChannelRefExpressionContext channelRefExpression() throws RecognitionException {
-		ChannelRefExpressionContext _localctx = new ChannelRefExpressionContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_channelRefExpression);
+	public final ChannelReferenceContext channelReference() throws RecognitionException {
+		ChannelReferenceContext _localctx = new ChannelReferenceContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_channelReference);
 		try {
-			setState(273);
-			switch ( getInterpreter().adaptivePredict(_input,22,_ctx) ) {
+			setState(193);
+			switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
 			case 1:
-				_localctx = new ChannelDefaultPriorityExprContext(_localctx);
+				_localctx = new DefaultChannelReferenceContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(270);
+				setState(190);
 				match(PHRASE_DEFAULT);
 				}
 				break;
 			case 2:
-				_localctx = new ChannelIdentifierNameExprContext(_localctx);
+				_localctx = new ChannelArrayLookupContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(271);
-				match(IDENTIFIER_NAME);
+				setState(191);
+				arrayVariableLookup();
 				}
 				break;
 			case 3:
-				_localctx = new ChannelArrayLookupExrContext(_localctx);
+				_localctx = new ChannelIdentifierRefrenceContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(272);
-				arrayIdentifierLookup();
+				setState(192);
+				match(IDENTIFIER_NAME);
 				}
 				break;
 			}
@@ -1989,8 +1297,8 @@ public class UtaLanguageParser extends Parser {
 	}
 
 	public static class VariableInitializationContext extends ParserRuleContext {
-		public IdentifierNameVariantContext identifierNameVariant() {
-			return getRuleContext(IdentifierNameVariantContext.class,0);
+		public IdentifierDeclarationContext identifierDeclaration() {
+			return getRuleContext(IdentifierDeclarationContext.class,0);
 		}
 		public TerminalNode ASSG_OP() { return getToken(UtaLanguageParser.ASSG_OP, 0); }
 		public InitializerExpressionContext initializerExpression() {
@@ -2017,20 +1325,20 @@ public class UtaLanguageParser extends Parser {
 
 	public final VariableInitializationContext variableInitialization() throws RecognitionException {
 		VariableInitializationContext _localctx = new VariableInitializationContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_variableInitialization);
+		enterRule(_localctx, 26, RULE_variableInitialization);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(275);
-			identifierNameVariant();
-			setState(278);
+			setState(195);
+			identifierDeclaration();
+			setState(198);
 			_la = _input.LA(1);
 			if (_la==ASSG_OP) {
 				{
-				setState(276);
+				setState(196);
 				match(ASSG_OP);
-				setState(277);
+				setState(197);
 				initializerExpression();
 				}
 			}
@@ -2109,10 +1417,10 @@ public class UtaLanguageParser extends Parser {
 
 	public final InitializerExpressionContext initializerExpression() throws RecognitionException {
 		InitializerExpressionContext _localctx = new InitializerExpressionContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_initializerExpression);
+		enterRule(_localctx, 28, RULE_initializerExpression);
 		int _la;
 		try {
-			setState(292);
+			setState(212);
 			switch (_input.LA(1)) {
 			case EXPR_LITERAL_TRUE:
 			case EXPR_LITERAL_FALSE:
@@ -2131,7 +1439,7 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new FlatInitializerContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(280);
+				setState(200);
 				expression(0);
 				}
 				break;
@@ -2139,27 +1447,27 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new StructuredInitializerContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(281);
+				setState(201);
 				match(GROUP_LEFT_CURLY);
-				setState(282);
+				setState(202);
 				initializerExpression();
-				setState(287);
+				setState(207);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==SEP_ENUMERATION) {
 					{
 					{
-					setState(283);
+					setState(203);
 					match(SEP_ENUMERATION);
-					setState(284);
+					setState(204);
 					initializerExpression();
 					}
 					}
-					setState(289);
+					setState(209);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(290);
+				setState(210);
 				match(GROUP_RIGHT_CURLY);
 				}
 				break;
@@ -2189,67 +1497,67 @@ public class UtaLanguageParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class DeclarationOfVoidFunctionContext extends DeclarationOfFunctionContext {
-		public TerminalNode PHRASE_VOID() { return getToken(UtaLanguageParser.PHRASE_VOID, 0); }
-		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
-		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
-		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
-		public BlockOfStatementsContext blockOfStatements() {
-			return getRuleContext(BlockOfStatementsContext.class,0);
-		}
-		public ParameterListContext parameterList() {
-			return getRuleContext(ParameterListContext.class,0);
-		}
-		public DeclarationOfVoidFunctionContext(DeclarationOfFunctionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterDeclarationOfVoidFunction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitDeclarationOfVoidFunction(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitDeclarationOfVoidFunction(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class DeclarationOfValueFunctionContext extends DeclarationOfFunctionContext {
+	public static class ValueFunctionDeclarationContext extends DeclarationOfFunctionContext {
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
 		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
 		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
 		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
-		public BlockOfStatementsContext blockOfStatements() {
-			return getRuleContext(BlockOfStatementsContext.class,0);
+		public StatementBlockContext statementBlock() {
+			return getRuleContext(StatementBlockContext.class,0);
 		}
-		public ParameterListContext parameterList() {
-			return getRuleContext(ParameterListContext.class,0);
+		public ParameterSequenceContext parameterSequence() {
+			return getRuleContext(ParameterSequenceContext.class,0);
 		}
-		public DeclarationOfValueFunctionContext(DeclarationOfFunctionContext ctx) { copyFrom(ctx); }
+		public ValueFunctionDeclarationContext(DeclarationOfFunctionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterDeclarationOfValueFunction(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterValueFunctionDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitDeclarationOfValueFunction(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitValueFunctionDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitDeclarationOfValueFunction(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitValueFunctionDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VoidFunctionDeclarationContext extends DeclarationOfFunctionContext {
+		public TerminalNode PHRASE_VOID() { return getToken(UtaLanguageParser.PHRASE_VOID, 0); }
+		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
+		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
+		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
+		public StatementBlockContext statementBlock() {
+			return getRuleContext(StatementBlockContext.class,0);
+		}
+		public ParameterSequenceContext parameterSequence() {
+			return getRuleContext(ParameterSequenceContext.class,0);
+		}
+		public VoidFunctionDeclarationContext(DeclarationOfFunctionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterVoidFunctionDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitVoidFunctionDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitVoidFunctionDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
 	public final DeclarationOfFunctionContext declarationOfFunction() throws RecognitionException {
 		DeclarationOfFunctionContext _localctx = new DeclarationOfFunctionContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_declarationOfFunction);
+		enterRule(_localctx, 30, RULE_declarationOfFunction);
 		int _la;
 		try {
-			setState(311);
+			setState(231);
 			switch (_input.LA(1)) {
 			case TYPE_INTEGER:
 			case TYPE_CLOCK:
@@ -2262,53 +1570,53 @@ public class UtaLanguageParser extends Parser {
 			case TYPE_PREFIX_META:
 			case TYPE_PREFIX_CONST:
 			case IDENTIFIER_NAME:
-				_localctx = new DeclarationOfValueFunctionContext(_localctx);
+				_localctx = new ValueFunctionDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(294);
+				setState(214);
 				type();
-				setState(295);
+				setState(215);
 				match(IDENTIFIER_NAME);
-				setState(296);
+				setState(216);
 				match(GROUP_LEFT_PAREN);
-				setState(298);
+				setState(218);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TYPE_INTEGER) | (1L << TYPE_CLOCK) | (1L << TYPE_CHANNEL) | (1L << TYPE_BOOLEAN) | (1L << TYPE_SCALAR) | (1L << TYPE_STRUCT) | (1L << TYPE_PREFIX_URGENT) | (1L << TYPE_PREFIX_BROADCAST) | (1L << TYPE_PREFIX_META) | (1L << TYPE_PREFIX_CONST))) != 0) || _la==IDENTIFIER_NAME) {
 					{
-					setState(297);
-					parameterList();
+					setState(217);
+					parameterSequence();
 					}
 				}
 
-				setState(300);
+				setState(220);
 				match(GROUP_RIGHT_PAREN);
-				setState(301);
-				blockOfStatements();
+				setState(221);
+				statementBlock();
 				}
 				break;
 			case PHRASE_VOID:
-				_localctx = new DeclarationOfVoidFunctionContext(_localctx);
+				_localctx = new VoidFunctionDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(303);
+				setState(223);
 				match(PHRASE_VOID);
-				setState(304);
+				setState(224);
 				match(IDENTIFIER_NAME);
-				setState(305);
+				setState(225);
 				match(GROUP_LEFT_PAREN);
-				setState(307);
+				setState(227);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TYPE_INTEGER) | (1L << TYPE_CLOCK) | (1L << TYPE_CHANNEL) | (1L << TYPE_BOOLEAN) | (1L << TYPE_SCALAR) | (1L << TYPE_STRUCT) | (1L << TYPE_PREFIX_URGENT) | (1L << TYPE_PREFIX_BROADCAST) | (1L << TYPE_PREFIX_META) | (1L << TYPE_PREFIX_CONST))) != 0) || _la==IDENTIFIER_NAME) {
 					{
-					setState(306);
-					parameterList();
+					setState(226);
+					parameterSequence();
 					}
 				}
 
-				setState(309);
+				setState(229);
 				match(GROUP_RIGHT_PAREN);
-				setState(310);
-				blockOfStatements();
+				setState(230);
+				statementBlock();
 				}
 				break;
 			default:
@@ -2326,64 +1634,123 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class BlockOfStatementsContext extends ParserRuleContext {
+	public static class StatementBlockContext extends ParserRuleContext {
 		public TerminalNode GROUP_LEFT_CURLY() { return getToken(UtaLanguageParser.GROUP_LEFT_CURLY, 0); }
+		public TerminalNode GROUP_RIGHT_CURLY() { return getToken(UtaLanguageParser.GROUP_RIGHT_CURLY, 0); }
 		public DeclarationSequenceContext declarationSequence() {
 			return getRuleContext(DeclarationSequenceContext.class,0);
 		}
-		public TerminalNode GROUP_RIGHT_CURLY() { return getToken(UtaLanguageParser.GROUP_RIGHT_CURLY, 0); }
+		public StatementSequenceContext statementSequence() {
+			return getRuleContext(StatementSequenceContext.class,0);
+		}
+		public StatementBlockContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_statementBlock; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterStatementBlock(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitStatementBlock(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitStatementBlock(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final StatementBlockContext statementBlock() throws RecognitionException {
+		StatementBlockContext _localctx = new StatementBlockContext(_ctx, getState());
+		enterRule(_localctx, 32, RULE_statementBlock);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(233);
+			match(GROUP_LEFT_CURLY);
+			setState(235);
+			switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
+			case 1:
+				{
+				setState(234);
+				declarationSequence();
+				}
+				break;
+			}
+			setState(238);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXPR_LITERAL_TRUE) | (1L << EXPR_LITERAL_FALSE) | (1L << EXPR_LITERAL_DEADLOCK) | (1L << UNARY_OP_INCREMENT) | (1L << UNARY_OP_DECREMENT) | (1L << COMMON_TOK_PLUS) | (1L << COMMON_TOK_MINUS) | (1L << COMMON_TOK_EXCLAMATION_MARK) | (1L << GROUP_LEFT_CURLY) | (1L << GROUP_LEFT_PAREN) | (1L << SEP_SEMICOLON) | (1L << PHRASE_NOT))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (PHRASE_FOR_ALL - 67)) | (1L << (PHRASE_EXISTS - 67)) | (1L << (PHRASE_IF - 67)) | (1L << (PHRASE_FOR - 67)) | (1L << (PHRASE_WHILE - 67)) | (1L << (PHRASE_RETURN - 67)) | (1L << (PHRASE_DO - 67)) | (1L << (IDENTIFIER_NAME - 67)) | (1L << (NATURAL_NUMBER - 67)))) != 0)) {
+				{
+				setState(237);
+				statementSequence();
+				}
+			}
+
+			setState(240);
+			match(GROUP_RIGHT_CURLY);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class StatementSequenceContext extends ParserRuleContext {
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
 		}
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
-		public BlockOfStatementsContext(ParserRuleContext parent, int invokingState) {
+		public StatementSequenceContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_blockOfStatements; }
+		@Override public int getRuleIndex() { return RULE_statementSequence; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterBlockOfStatements(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterStatementSequence(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitBlockOfStatements(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitStatementSequence(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitBlockOfStatements(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitStatementSequence(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final BlockOfStatementsContext blockOfStatements() throws RecognitionException {
-		BlockOfStatementsContext _localctx = new BlockOfStatementsContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_blockOfStatements);
+	public final StatementSequenceContext statementSequence() throws RecognitionException {
+		StatementSequenceContext _localctx = new StatementSequenceContext(_ctx, getState());
+		enterRule(_localctx, 34, RULE_statementSequence);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(313);
-			match(GROUP_LEFT_CURLY);
-			setState(314);
-			declarationSequence();
-			setState(318);
+			setState(243); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXPR_LITERAL_TRUE) | (1L << EXPR_LITERAL_FALSE) | (1L << EXPR_LITERAL_DEADLOCK) | (1L << UNARY_OP_INCREMENT) | (1L << UNARY_OP_DECREMENT) | (1L << COMMON_TOK_PLUS) | (1L << COMMON_TOK_MINUS) | (1L << COMMON_TOK_EXCLAMATION_MARK) | (1L << GROUP_LEFT_CURLY) | (1L << GROUP_LEFT_PAREN) | (1L << SEP_SEMICOLON) | (1L << PHRASE_NOT))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (PHRASE_FOR_ALL - 67)) | (1L << (PHRASE_EXISTS - 67)) | (1L << (PHRASE_IF - 67)) | (1L << (PHRASE_FOR - 67)) | (1L << (PHRASE_WHILE - 67)) | (1L << (PHRASE_RETURN - 67)) | (1L << (PHRASE_DO - 67)) | (1L << (IDENTIFIER_NAME - 67)) | (1L << (NATURAL_NUMBER - 67)))) != 0)) {
+			do {
 				{
 				{
-				setState(315);
+				setState(242);
 				statement();
 				}
 				}
-				setState(320);
+				setState(245); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			}
-			setState(321);
-			match(GROUP_RIGHT_CURLY);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXPR_LITERAL_TRUE) | (1L << EXPR_LITERAL_FALSE) | (1L << EXPR_LITERAL_DEADLOCK) | (1L << UNARY_OP_INCREMENT) | (1L << UNARY_OP_DECREMENT) | (1L << COMMON_TOK_PLUS) | (1L << COMMON_TOK_MINUS) | (1L << COMMON_TOK_EXCLAMATION_MARK) | (1L << GROUP_LEFT_CURLY) | (1L << GROUP_LEFT_PAREN) | (1L << SEP_SEMICOLON) | (1L << PHRASE_NOT))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (PHRASE_FOR_ALL - 67)) | (1L << (PHRASE_EXISTS - 67)) | (1L << (PHRASE_IF - 67)) | (1L << (PHRASE_FOR - 67)) | (1L << (PHRASE_WHILE - 67)) | (1L << (PHRASE_RETURN - 67)) | (1L << (PHRASE_DO - 67)) | (1L << (IDENTIFIER_NAME - 67)) | (1L << (NATURAL_NUMBER - 67)))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -2429,79 +1796,113 @@ public class UtaLanguageParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class StatementEmptyContext extends StatementContext {
-		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
-		public StatementEmptyContext(StatementContext ctx) { copyFrom(ctx); }
+	public static class WhileLoopStatementContext extends StatementContext {
+		public TerminalNode PHRASE_WHILE() { return getToken(UtaLanguageParser.PHRASE_WHILE, 0); }
+		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
+		public StatementContext statement() {
+			return getRuleContext(StatementContext.class,0);
+		}
+		public WhileLoopStatementContext(StatementContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterStatementEmpty(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterWhileLoopStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitStatementEmpty(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitWhileLoopStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitStatementEmpty(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitWhileLoopStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class StatementExpressionContext extends StatementContext {
+	public static class ExpressionStatementContext extends StatementContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
-		public StatementExpressionContext(StatementContext ctx) { copyFrom(ctx); }
+		public ExpressionStatementContext(StatementContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterStatementExpression(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitStatementExpression(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitStatementExpression(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class StatementForLoopContext extends StatementContext {
+	public static class ConditionalStatementContext extends StatementContext {
+		public TerminalNode PHRASE_IF() { return getToken(UtaLanguageParser.PHRASE_IF, 0); }
+		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
+		public List<StatementContext> statement() {
+			return getRuleContexts(StatementContext.class);
+		}
+		public StatementContext statement(int i) {
+			return getRuleContext(StatementContext.class,i);
+		}
+		public TerminalNode PHRASE_ELSE() { return getToken(UtaLanguageParser.PHRASE_ELSE, 0); }
+		public ConditionalStatementContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterConditionalStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitConditionalStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitConditionalStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ForLoopStatementContext extends StatementContext {
 		public TerminalNode PHRASE_FOR() { return getToken(UtaLanguageParser.PHRASE_FOR, 0); }
 		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
-		public LoopInitializerContext loopInitializer() {
-			return getRuleContext(LoopInitializerContext.class,0);
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
 		public List<TerminalNode> SEP_SEMICOLON() { return getTokens(UtaLanguageParser.SEP_SEMICOLON); }
 		public TerminalNode SEP_SEMICOLON(int i) {
 			return getToken(UtaLanguageParser.SEP_SEMICOLON, i);
 		}
-		public LoopConditionContext loopCondition() {
-			return getRuleContext(LoopConditionContext.class,0);
-		}
-		public LoopUpdateContext loopUpdate() {
-			return getRuleContext(LoopUpdateContext.class,0);
-		}
 		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
-		public LoopBodyContext loopBody() {
-			return getRuleContext(LoopBodyContext.class,0);
+		public StatementContext statement() {
+			return getRuleContext(StatementContext.class,0);
 		}
-		public StatementForLoopContext(StatementContext ctx) { copyFrom(ctx); }
+		public ForLoopStatementContext(StatementContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterStatementForLoop(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterForLoopStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitStatementForLoop(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitForLoopStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitStatementForLoop(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitForLoopStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class StatementIterationContext extends StatementContext {
+	public static class IterationStatementContext extends StatementContext {
 		public TerminalNode PHRASE_FOR() { return getToken(UtaLanguageParser.PHRASE_FOR, 0); }
 		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
 		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
@@ -2510,246 +1911,209 @@ public class UtaLanguageParser extends Parser {
 			return getRuleContext(TypeContext.class,0);
 		}
 		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
-		public LoopBodyContext loopBody() {
-			return getRuleContext(LoopBodyContext.class,0);
+		public StatementContext statement() {
+			return getRuleContext(StatementContext.class,0);
 		}
-		public StatementIterationContext(StatementContext ctx) { copyFrom(ctx); }
+		public IterationStatementContext(StatementContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterStatementIteration(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterIterationStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitStatementIteration(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitIterationStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitStatementIteration(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitIterationStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class StatementConditionalContext extends StatementContext {
-		public TerminalNode PHRASE_IF() { return getToken(UtaLanguageParser.PHRASE_IF, 0); }
-		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
+	public static class EmptyStatementContext extends StatementContext {
+		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
+		public EmptyStatementContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterEmptyStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitEmptyStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitEmptyStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BlockStatementContext extends StatementContext {
+		public StatementBlockContext statementBlock() {
+			return getRuleContext(StatementBlockContext.class,0);
+		}
+		public BlockStatementContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterBlockStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitBlockStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitBlockStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DoWhileStatementContext extends StatementContext {
+		public TerminalNode PHRASE_DO() { return getToken(UtaLanguageParser.PHRASE_DO, 0); }
+		public StatementContext statement() {
+			return getRuleContext(StatementContext.class,0);
+		}
+		public TerminalNode PHRASE_WHILE() { return getToken(UtaLanguageParser.PHRASE_WHILE, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
-		public PrimaryStatementContext primaryStatement() {
-			return getRuleContext(PrimaryStatementContext.class,0);
-		}
-		public TerminalNode PHRASE_ELSE() { return getToken(UtaLanguageParser.PHRASE_ELSE, 0); }
-		public AlternativeStatementContext alternativeStatement() {
-			return getRuleContext(AlternativeStatementContext.class,0);
-		}
-		public StatementConditionalContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterStatementConditional(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitStatementConditional(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitStatementConditional(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class StatementDoWhileContext extends StatementContext {
-		public TerminalNode PHRASE_DO() { return getToken(UtaLanguageParser.PHRASE_DO, 0); }
-		public LoopBodyContext loopBody() {
-			return getRuleContext(LoopBodyContext.class,0);
-		}
-		public TerminalNode PHRASE_WHILE() { return getToken(UtaLanguageParser.PHRASE_WHILE, 0); }
-		public LoopConditionContext loopCondition() {
-			return getRuleContext(LoopConditionContext.class,0);
-		}
 		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
-		public StatementDoWhileContext(StatementContext ctx) { copyFrom(ctx); }
+		public DoWhileStatementContext(StatementContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterStatementDoWhile(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterDoWhileStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitStatementDoWhile(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitDoWhileStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitStatementDoWhile(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class StatementWhileLoopContext extends StatementContext {
-		public TerminalNode PHRASE_WHILE() { return getToken(UtaLanguageParser.PHRASE_WHILE, 0); }
-		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
-		public LoopConditionContext loopCondition() {
-			return getRuleContext(LoopConditionContext.class,0);
-		}
-		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
-		public LoopBodyContext loopBody() {
-			return getRuleContext(LoopBodyContext.class,0);
-		}
-		public StatementWhileLoopContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterStatementWhileLoop(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitStatementWhileLoop(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitStatementWhileLoop(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class StatementBlockContext extends StatementContext {
-		public BlockOfStatementsContext blockOfStatements() {
-			return getRuleContext(BlockOfStatementsContext.class,0);
-		}
-		public StatementBlockContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterStatementBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitStatementBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitStatementBlock(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitDoWhileStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
-		enterRule(_localctx, 58, RULE_statement);
+		enterRule(_localctx, 36, RULE_statement);
 		int _la;
 		try {
-			setState(372);
-			switch ( getInterpreter().adaptivePredict(_input,32,_ctx) ) {
+			setState(296);
+			switch ( getInterpreter().adaptivePredict(_input,29,_ctx) ) {
 			case 1:
-				_localctx = new StatementBlockContext(_localctx);
+				_localctx = new BlockStatementContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(323);
-				blockOfStatements();
+				setState(247);
+				statementBlock();
 				}
 				break;
 			case 2:
-				_localctx = new StatementExpressionContext(_localctx);
+				_localctx = new ExpressionStatementContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(324);
+				setState(248);
 				expression(0);
-				setState(325);
+				setState(249);
 				match(SEP_SEMICOLON);
 				}
 				break;
 			case 3:
-				_localctx = new StatementForLoopContext(_localctx);
+				_localctx = new ForLoopStatementContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(327);
+				setState(251);
 				match(PHRASE_FOR);
-				setState(328);
+				setState(252);
 				match(GROUP_LEFT_PAREN);
-				setState(329);
-				loopInitializer();
-				setState(330);
+				setState(253);
+				expression(0);
+				setState(254);
 				match(SEP_SEMICOLON);
-				setState(331);
-				loopCondition();
-				setState(332);
+				setState(255);
+				expression(0);
+				setState(256);
 				match(SEP_SEMICOLON);
-				setState(333);
-				loopUpdate();
-				setState(334);
+				setState(257);
+				expression(0);
+				setState(258);
 				match(GROUP_RIGHT_PAREN);
-				setState(335);
-				loopBody();
+				setState(259);
+				statement();
 				}
 				break;
 			case 4:
-				_localctx = new StatementIterationContext(_localctx);
+				_localctx = new IterationStatementContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(337);
+				setState(261);
 				match(PHRASE_FOR);
-				setState(338);
+				setState(262);
 				match(GROUP_LEFT_PAREN);
-				setState(339);
+				setState(263);
 				match(IDENTIFIER_NAME);
-				setState(340);
+				setState(264);
 				match(COMMON_TOK_COLON);
-				setState(341);
+				setState(265);
 				type();
-				setState(342);
+				setState(266);
 				match(GROUP_RIGHT_PAREN);
-				setState(343);
-				loopBody();
+				setState(267);
+				statement();
 				}
 				break;
 			case 5:
-				_localctx = new StatementWhileLoopContext(_localctx);
+				_localctx = new WhileLoopStatementContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(345);
+				setState(269);
 				match(PHRASE_WHILE);
-				setState(346);
+				setState(270);
 				match(GROUP_LEFT_PAREN);
-				setState(347);
-				loopCondition();
-				setState(348);
+				setState(271);
+				expression(0);
+				setState(272);
 				match(GROUP_RIGHT_PAREN);
-				setState(349);
-				loopBody();
+				setState(273);
+				statement();
 				}
 				break;
 			case 6:
-				_localctx = new StatementDoWhileContext(_localctx);
+				_localctx = new DoWhileStatementContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(351);
+				setState(275);
 				match(PHRASE_DO);
-				setState(352);
-				loopBody();
-				setState(353);
+				setState(276);
+				statement();
+				setState(277);
 				match(PHRASE_WHILE);
-				setState(354);
-				loopCondition();
-				setState(355);
+				setState(278);
+				expression(0);
+				setState(279);
 				match(SEP_SEMICOLON);
 				}
 				break;
 			case 7:
-				_localctx = new StatementConditionalContext(_localctx);
+				_localctx = new ConditionalStatementContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(357);
+				setState(281);
 				match(PHRASE_IF);
-				setState(358);
+				setState(282);
 				match(GROUP_LEFT_PAREN);
-				setState(359);
+				setState(283);
 				expression(0);
-				setState(360);
+				setState(284);
 				match(GROUP_RIGHT_PAREN);
-				setState(361);
-				primaryStatement();
-				setState(364);
-				switch ( getInterpreter().adaptivePredict(_input,30,_ctx) ) {
+				setState(285);
+				statement();
+				setState(288);
+				switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
 				case 1:
 					{
-					setState(362);
+					setState(286);
 					match(PHRASE_ELSE);
-					setState(363);
-					alternativeStatement();
+					setState(287);
+					statement();
 					}
 					break;
 				}
@@ -2759,26 +2123,26 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new StatementReturnContext(_localctx);
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(366);
+				setState(290);
 				match(PHRASE_RETURN);
-				setState(368);
+				setState(292);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXPR_LITERAL_TRUE) | (1L << EXPR_LITERAL_FALSE) | (1L << EXPR_LITERAL_DEADLOCK) | (1L << UNARY_OP_INCREMENT) | (1L << UNARY_OP_DECREMENT) | (1L << COMMON_TOK_PLUS) | (1L << COMMON_TOK_MINUS) | (1L << COMMON_TOK_EXCLAMATION_MARK) | (1L << GROUP_LEFT_PAREN) | (1L << PHRASE_NOT))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (PHRASE_FOR_ALL - 67)) | (1L << (PHRASE_EXISTS - 67)) | (1L << (IDENTIFIER_NAME - 67)) | (1L << (NATURAL_NUMBER - 67)))) != 0)) {
 					{
-					setState(367);
+					setState(291);
 					expression(0);
 					}
 				}
 
-				setState(370);
+				setState(294);
 				match(SEP_SEMICOLON);
 				}
 				break;
 			case 9:
-				_localctx = new StatementEmptyContext(_localctx);
+				_localctx = new EmptyStatementContext(_localctx);
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(371);
+				setState(295);
 				match(SEP_SEMICOLON);
 				}
 				break;
@@ -2795,257 +2159,61 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class PrimaryStatementContext extends ParserRuleContext {
-		public StatementContext statement() {
-			return getRuleContext(StatementContext.class,0);
+	public static class ExpressionSequenceContext extends ParserRuleContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public PrimaryStatementContext(ParserRuleContext parent, int invokingState) {
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public List<TerminalNode> SEP_ENUMERATION() { return getTokens(UtaLanguageParser.SEP_ENUMERATION); }
+		public TerminalNode SEP_ENUMERATION(int i) {
+			return getToken(UtaLanguageParser.SEP_ENUMERATION, i);
+		}
+		public ExpressionSequenceContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_primaryStatement; }
+		@Override public int getRuleIndex() { return RULE_expressionSequence; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterPrimaryStatement(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionSequence(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitPrimaryStatement(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionSequence(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitPrimaryStatement(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionSequence(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final PrimaryStatementContext primaryStatement() throws RecognitionException {
-		PrimaryStatementContext _localctx = new PrimaryStatementContext(_ctx, getState());
-		enterRule(_localctx, 60, RULE_primaryStatement);
+	public final ExpressionSequenceContext expressionSequence() throws RecognitionException {
+		ExpressionSequenceContext _localctx = new ExpressionSequenceContext(_ctx, getState());
+		enterRule(_localctx, 38, RULE_expressionSequence);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(374);
-			statement();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AlternativeStatementContext extends ParserRuleContext {
-		public StatementContext statement() {
-			return getRuleContext(StatementContext.class,0);
-		}
-		public AlternativeStatementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_alternativeStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterAlternativeStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitAlternativeStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitAlternativeStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final AlternativeStatementContext alternativeStatement() throws RecognitionException {
-		AlternativeStatementContext _localctx = new AlternativeStatementContext(_ctx, getState());
-		enterRule(_localctx, 62, RULE_alternativeStatement);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(376);
-			statement();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class LoopInitializerContext extends ParserRuleContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public LoopInitializerContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_loopInitializer; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterLoopInitializer(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitLoopInitializer(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitLoopInitializer(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final LoopInitializerContext loopInitializer() throws RecognitionException {
-		LoopInitializerContext _localctx = new LoopInitializerContext(_ctx, getState());
-		enterRule(_localctx, 64, RULE_loopInitializer);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(378);
+			setState(298);
 			expression(0);
+			setState(303);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==SEP_ENUMERATION) {
+				{
+				{
+				setState(299);
+				match(SEP_ENUMERATION);
+				setState(300);
+				expression(0);
+				}
+				}
+				setState(305);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
 			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class LoopConditionContext extends ParserRuleContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public LoopConditionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_loopCondition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterLoopCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitLoopCondition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitLoopCondition(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final LoopConditionContext loopCondition() throws RecognitionException {
-		LoopConditionContext _localctx = new LoopConditionContext(_ctx, getState());
-		enterRule(_localctx, 66, RULE_loopCondition);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(380);
-			expression(0);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class LoopUpdateContext extends ParserRuleContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public LoopUpdateContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_loopUpdate; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterLoopUpdate(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitLoopUpdate(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitLoopUpdate(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final LoopUpdateContext loopUpdate() throws RecognitionException {
-		LoopUpdateContext _localctx = new LoopUpdateContext(_ctx, getState());
-		enterRule(_localctx, 68, RULE_loopUpdate);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(382);
-			expression(0);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class LoopBodyContext extends ParserRuleContext {
-		public StatementContext statement() {
-			return getRuleContext(StatementContext.class,0);
-		}
-		public LoopBodyContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_loopBody; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterLoopBody(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitLoopBody(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitLoopBody(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final LoopBodyContext loopBody() throws RecognitionException {
-		LoopBodyContext _localctx = new LoopBodyContext(_ctx, getState());
-		enterRule(_localctx, 70, RULE_loopBody);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(384);
-			statement();
 			}
 		}
 		catch (RecognitionException re) {
@@ -3070,34 +2238,229 @@ public class UtaLanguageParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class ExpressionExistentialQuantificationContext extends ExpressionContext {
-		public TerminalNode PHRASE_EXISTS() { return getToken(UtaLanguageParser.PHRASE_EXISTS, 0); }
-		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
-		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
-		public TerminalNode COMMON_TOK_COLON() { return getToken(UtaLanguageParser.COMMON_TOK_COLON, 0); }
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
+	public static class BitwiseXorExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
-		public ExpressionExistentialQuantificationContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public TerminalNode BINARY_OP_BITWISE_XOR() { return getToken(UtaLanguageParser.BINARY_OP_BITWISE_XOR, 0); }
+		public BitwiseXorExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionExistentialQuantification(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterBitwiseXorExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionExistentialQuantification(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitBitwiseXorExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionExistentialQuantification(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitBitwiseXorExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionUniversalQuantificationContext extends ExpressionContext {
+	public static class LeftShiftExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode BINARY_OP_LEFT_SHIFT() { return getToken(UtaLanguageParser.BINARY_OP_LEFT_SHIFT, 0); }
+		public LeftShiftExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterLeftShiftExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitLeftShiftExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitLeftShiftExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DisjunctionExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode BINARY_OP_DISJUNCTION() { return getToken(UtaLanguageParser.BINARY_OP_DISJUNCTION, 0); }
+		public DisjunctionExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterDisjunctionExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitDisjunctionExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitDisjunctionExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class GreaterThanExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode BINARY_OP_GREATER_THAN() { return getToken(UtaLanguageParser.BINARY_OP_GREATER_THAN, 0); }
+		public GreaterThanExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterGreaterThanExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitGreaterThanExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitGreaterThanExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class AdditiveIdentityExpressionContext extends ExpressionContext {
+		public TerminalNode COMMON_TOK_PLUS() { return getToken(UtaLanguageParser.COMMON_TOK_PLUS, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public AdditiveIdentityExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterAdditiveIdentityExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitAdditiveIdentityExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitAdditiveIdentityExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class AdditiveInverseExpressionContext extends ExpressionContext {
+		public TerminalNode COMMON_TOK_MINUS() { return getToken(UtaLanguageParser.COMMON_TOK_MINUS, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public AdditiveInverseExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterAdditiveInverseExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitAdditiveInverseExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitAdditiveInverseExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class FieldAccessExpressionContext extends ExpressionContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode BINARY_OP_ACCESS_FIELD() { return getToken(UtaLanguageParser.BINARY_OP_ACCESS_FIELD, 0); }
+		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
+		public FieldAccessExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterFieldAccessExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitFieldAccessExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitFieldAccessExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ModuloAssignmentExprContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode ASSG_OP_MODULO() { return getToken(UtaLanguageParser.ASSG_OP_MODULO, 0); }
+		public ModuloAssignmentExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterModuloAssignmentExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitModuloAssignmentExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitModuloAssignmentExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class EqualityExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode BINARY_OP_EQUAL() { return getToken(UtaLanguageParser.BINARY_OP_EQUAL, 0); }
+		public EqualityExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterEqualityExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitEqualityExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitEqualityExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BitwiseAndAssignmentExprContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode ASSG_OP_BITWISE_AND() { return getToken(UtaLanguageParser.ASSG_OP_BITWISE_AND, 0); }
+		public BitwiseAndAssignmentExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterBitwiseAndAssignmentExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitBitwiseAndAssignmentExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitBitwiseAndAssignmentExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class UniversalQuantificationExpressionContext extends ExpressionContext {
 		public TerminalNode PHRASE_FOR_ALL() { return getToken(UtaLanguageParser.PHRASE_FOR_ALL, 0); }
 		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
 		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
@@ -3109,22 +2472,199 @@ public class UtaLanguageParser extends Parser {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public ExpressionUniversalQuantificationContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public UniversalQuantificationExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionUniversalQuantification(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterUniversalQuantificationExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionUniversalQuantification(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitUniversalQuantificationExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionUniversalQuantification(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitUniversalQuantificationExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionBinaryOpMultiplicationContext extends ExpressionContext {
+	public static class NaturalNumberLiteralContext extends ExpressionContext {
+		public TerminalNode NATURAL_NUMBER() { return getToken(UtaLanguageParser.NATURAL_NUMBER, 0); }
+		public NaturalNumberLiteralContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterNaturalNumberLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitNaturalNumberLiteral(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitNaturalNumberLiteral(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExpressionGroupContext extends ExpressionContext {
+		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
+		public ExpressionGroupContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionGroup(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionGroup(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionGroup(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class RightShiftExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode BINARY_OP_RIGHT_SHIFT() { return getToken(UtaLanguageParser.BINARY_OP_RIGHT_SHIFT, 0); }
+		public RightShiftExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterRightShiftExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitRightShiftExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitRightShiftExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BitwiseOrAssignmentExprContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode ASSG_OP_BITWISE_OR() { return getToken(UtaLanguageParser.ASSG_OP_BITWISE_OR, 0); }
+		public BitwiseOrAssignmentExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterBitwiseOrAssignmentExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitBitwiseOrAssignmentExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitBitwiseOrAssignmentExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class GreaterThanOrEqualExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode BINARY_OP_GREATER_THAN_OR_EQUAL() { return getToken(UtaLanguageParser.BINARY_OP_GREATER_THAN_OR_EQUAL, 0); }
+		public GreaterThanOrEqualExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterGreaterThanOrEqualExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitGreaterThanOrEqualExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitGreaterThanOrEqualExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DivisionAssignmentExprContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode ASSG_OP_DIVISION() { return getToken(UtaLanguageParser.ASSG_OP_DIVISION, 0); }
+		public DivisionAssignmentExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterDivisionAssignmentExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitDivisionAssignmentExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitDivisionAssignmentExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class SuffixDecrementExpressionContext extends ExpressionContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode UNARY_OP_DECREMENT() { return getToken(UtaLanguageParser.UNARY_OP_DECREMENT, 0); }
+		public SuffixDecrementExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSuffixDecrementExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSuffixDecrementExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSuffixDecrementExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExistentialQuantificationExpressionContext extends ExpressionContext {
+		public TerminalNode PHRASE_EXISTS() { return getToken(UtaLanguageParser.PHRASE_EXISTS, 0); }
+		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
+		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
+		public TerminalNode COMMON_TOK_COLON() { return getToken(UtaLanguageParser.COMMON_TOK_COLON, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public ExistentialQuantificationExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExistentialQuantificationExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExistentialQuantificationExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExistentialQuantificationExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MultiplicationExpressionContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -3132,68 +2672,68 @@ public class UtaLanguageParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode BINARY_OP_MULTIPLICATION() { return getToken(UtaLanguageParser.BINARY_OP_MULTIPLICATION, 0); }
-		public ExpressionBinaryOpMultiplicationContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public MultiplicationExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpMultiplication(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterMultiplicationExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpMultiplication(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitMultiplicationExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpMultiplication(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitMultiplicationExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionAssignOpBitwiseAndContext extends ExpressionContext {
+	public static class ModuloExpressionContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode ASSG_OP_BITWISE_AND() { return getToken(UtaLanguageParser.ASSG_OP_BITWISE_AND, 0); }
-		public ExpressionAssignOpBitwiseAndContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public TerminalNode BINARY_OP_MODULO() { return getToken(UtaLanguageParser.BINARY_OP_MODULO, 0); }
+		public ModuloExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOpBitwiseAnd(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterModuloExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOpBitwiseAnd(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitModuloExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOpBitwiseAnd(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitModuloExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionBinaryOpGreaterThanContext extends ExpressionContext {
+	public static class ConjunctionExpressionContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode BINARY_OP_GREATER_THAN() { return getToken(UtaLanguageParser.BINARY_OP_GREATER_THAN, 0); }
-		public ExpressionBinaryOpGreaterThanContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public TerminalNode BINARY_OP_CONJUNCTION() { return getToken(UtaLanguageParser.BINARY_OP_CONJUNCTION, 0); }
+		public ConjunctionExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpGreaterThan(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterConjunctionExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpGreaterThan(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitConjunctionExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpGreaterThan(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitConjunctionExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionAssignOpMultiplicationContext extends ExpressionContext {
+	public static class MultiplicationAssignmentExprContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -3201,126 +2741,22 @@ public class UtaLanguageParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode ASSG_OP_MULTIPLICATION() { return getToken(UtaLanguageParser.ASSG_OP_MULTIPLICATION, 0); }
-		public ExpressionAssignOpMultiplicationContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public MultiplicationAssignmentExprContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOpMultiplication(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterMultiplicationAssignmentExpr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOpMultiplication(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitMultiplicationAssignmentExpr(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOpMultiplication(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitMultiplicationAssignmentExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionBinaryOpMaximumContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_MAX() { return getToken(UtaLanguageParser.BINARY_OP_MAX, 0); }
-		public ExpressionBinaryOpMaximumContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpMaximum(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpMaximum(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpMaximum(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionNaturalNumberContext extends ExpressionContext {
-		public TerminalNode NATURAL_NUMBER() { return getToken(UtaLanguageParser.NATURAL_NUMBER, 0); }
-		public ExpressionNaturalNumberContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionNaturalNumber(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionNaturalNumber(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionNaturalNumber(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionDecrementAndGetContext extends ExpressionContext {
-		public TerminalNode UNARY_OP_DECREMENT() { return getToken(UtaLanguageParser.UNARY_OP_DECREMENT, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public ExpressionDecrementAndGetContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionDecrementAndGet(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionDecrementAndGet(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionDecrementAndGet(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionCallContext extends ExpressionContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
-		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
-		public ArgumentListContext argumentList() {
-			return getRuleContext(ArgumentListContext.class,0);
-		}
-		public ExpressionCallContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionCall(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionCall(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionCall(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionUnaryOpAdditiveIdentityContext extends ExpressionContext {
-		public TerminalNode COMMON_TOK_PLUS() { return getToken(UtaLanguageParser.COMMON_TOK_PLUS, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public ExpressionUnaryOpAdditiveIdentityContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionUnaryOpAdditiveIdentity(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionUnaryOpAdditiveIdentity(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionUnaryOpAdditiveIdentity(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionTernaryContext extends ExpressionContext {
+	public static class TernaryExpressionContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -3329,715 +2765,22 @@ public class UtaLanguageParser extends Parser {
 		}
 		public TerminalNode COMMON_TOK_QUESTION_MARK() { return getToken(UtaLanguageParser.COMMON_TOK_QUESTION_MARK, 0); }
 		public TerminalNode COMMON_TOK_COLON() { return getToken(UtaLanguageParser.COMMON_TOK_COLON, 0); }
-		public ExpressionTernaryContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public TernaryExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionTernary(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterTernaryExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionTernary(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitTernaryExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionTernary(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitTernaryExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionBinaryOpEqualContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_EQUAL() { return getToken(UtaLanguageParser.BINARY_OP_EQUAL, 0); }
-		public ExpressionBinaryOpEqualContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpEqual(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpEqual(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpEqual(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionAssignOpModuloContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode ASSG_OP_MODULO() { return getToken(UtaLanguageParser.ASSG_OP_MODULO, 0); }
-		public ExpressionAssignOpModuloContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOpModulo(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOpModulo(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOpModulo(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionAssignOpBitwiseXORContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode ASSG_OP_BITWISE_XOR() { return getToken(UtaLanguageParser.ASSG_OP_BITWISE_XOR, 0); }
-		public ExpressionAssignOpBitwiseXORContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOpBitwiseXOR(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOpBitwiseXOR(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOpBitwiseXOR(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpLessThanOrEqualContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_LESS_THAN_OR_EQUAL_TO() { return getToken(UtaLanguageParser.BINARY_OP_LESS_THAN_OR_EQUAL_TO, 0); }
-		public ExpressionBinaryOpLessThanOrEqualContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpLessThanOrEqual(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpLessThanOrEqual(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpLessThanOrEqual(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpRightShiftContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_RIGHT_SHIFT() { return getToken(UtaLanguageParser.BINARY_OP_RIGHT_SHIFT, 0); }
-		public ExpressionBinaryOpRightShiftContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpRightShift(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpRightShift(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpRightShift(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpConjunctionPhraseContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode PHRASE_AND() { return getToken(UtaLanguageParser.PHRASE_AND, 0); }
-		public ExpressionBinaryOpConjunctionPhraseContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpConjunctionPhrase(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpConjunctionPhrase(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpConjunctionPhrase(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionUnaryOpNegatedPhraseContext extends ExpressionContext {
-		public TerminalNode PHRASE_NOT() { return getToken(UtaLanguageParser.PHRASE_NOT, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public ExpressionUnaryOpNegatedPhraseContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionUnaryOpNegatedPhrase(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionUnaryOpNegatedPhrase(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionUnaryOpNegatedPhrase(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpLessThanContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode COMMON_TOK_LESS_THAN() { return getToken(UtaLanguageParser.COMMON_TOK_LESS_THAN, 0); }
-		public ExpressionBinaryOpLessThanContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpLessThan(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpLessThan(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpLessThan(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionAssignOpSubtractionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode ASSG_OP_SUBTRACTION() { return getToken(UtaLanguageParser.ASSG_OP_SUBTRACTION, 0); }
-		public ExpressionAssignOpSubtractionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOpSubtraction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOpSubtraction(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOpSubtraction(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionIdentifierRefContext extends ExpressionContext {
-		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
-		public ExpressionIdentifierRefContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionIdentifierRef(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionIdentifierRef(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionIdentifierRef(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpLeftShiftContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_LEFT_SHIFT() { return getToken(UtaLanguageParser.BINARY_OP_LEFT_SHIFT, 0); }
-		public ExpressionBinaryOpLeftShiftContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpLeftShift(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpLeftShift(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpLeftShift(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpSubtractionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode COMMON_TOK_MINUS() { return getToken(UtaLanguageParser.COMMON_TOK_MINUS, 0); }
-		public ExpressionBinaryOpSubtractionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpSubtraction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpSubtraction(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpSubtraction(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionUnaryOpAdditiveInverseContext extends ExpressionContext {
-		public TerminalNode COMMON_TOK_MINUS() { return getToken(UtaLanguageParser.COMMON_TOK_MINUS, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public ExpressionUnaryOpAdditiveInverseContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionUnaryOpAdditiveInverse(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionUnaryOpAdditiveInverse(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionUnaryOpAdditiveInverse(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionTrueLiteralContext extends ExpressionContext {
-		public TerminalNode EXPR_LITERAL_TRUE() { return getToken(UtaLanguageParser.EXPR_LITERAL_TRUE, 0); }
-		public ExpressionTrueLiteralContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionTrueLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionTrueLiteral(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionTrueLiteral(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpDisjunctionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_DISJUNCTION() { return getToken(UtaLanguageParser.BINARY_OP_DISJUNCTION, 0); }
-		public ExpressionBinaryOpDisjunctionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpDisjunction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpDisjunction(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpDisjunction(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpBitwiseXORContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_BITWISE_XOR() { return getToken(UtaLanguageParser.BINARY_OP_BITWISE_XOR, 0); }
-		public ExpressionBinaryOpBitwiseXORContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpBitwiseXOR(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpBitwiseXOR(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpBitwiseXOR(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionFalseLiteralContext extends ExpressionContext {
-		public TerminalNode EXPR_LITERAL_FALSE() { return getToken(UtaLanguageParser.EXPR_LITERAL_FALSE, 0); }
-		public ExpressionFalseLiteralContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionFalseLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionFalseLiteral(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionFalseLiteral(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpBitwiseAndContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode COMMON_TOK_AMPERSAND() { return getToken(UtaLanguageParser.COMMON_TOK_AMPERSAND, 0); }
-		public ExpressionBinaryOpBitwiseAndContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpBitwiseAnd(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpBitwiseAnd(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpBitwiseAnd(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionGetAndIncrementContext extends ExpressionContext {
-		public TerminalNode UNARY_OP_INCREMENT() { return getToken(UtaLanguageParser.UNARY_OP_INCREMENT, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public ExpressionGetAndIncrementContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionGetAndIncrement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionGetAndIncrement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionGetAndIncrement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpMinimumContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_MIN() { return getToken(UtaLanguageParser.BINARY_OP_MIN, 0); }
-		public ExpressionBinaryOpMinimumContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpMinimum(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpMinimum(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpMinimum(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionFieldAccessContext extends ExpressionContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode BINARY_OP_ACCESS_FIELD() { return getToken(UtaLanguageParser.BINARY_OP_ACCESS_FIELD, 0); }
-		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
-		public ExpressionFieldAccessContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionFieldAccess(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionFieldAccess(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionFieldAccess(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpBitwiseOrContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_BITWISE_OR() { return getToken(UtaLanguageParser.BINARY_OP_BITWISE_OR, 0); }
-		public ExpressionBinaryOpBitwiseOrContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpBitwiseOr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpBitwiseOr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpBitwiseOr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionIncrementAndGetContext extends ExpressionContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode UNARY_OP_INCREMENT() { return getToken(UtaLanguageParser.UNARY_OP_INCREMENT, 0); }
-		public ExpressionIncrementAndGetContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionIncrementAndGet(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionIncrementAndGet(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionIncrementAndGet(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpAdditionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode COMMON_TOK_PLUS() { return getToken(UtaLanguageParser.COMMON_TOK_PLUS, 0); }
-		public ExpressionBinaryOpAdditionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpAddition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpAddition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpAddition(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionAssignOpRightShiftContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode ASSG_OP_RIGHT_SHIFT() { return getToken(UtaLanguageParser.ASSG_OP_RIGHT_SHIFT, 0); }
-		public ExpressionAssignOpRightShiftContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOpRightShift(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOpRightShift(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOpRightShift(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionUnaryOpNegatedContext extends ExpressionContext {
-		public TerminalNode COMMON_TOK_EXCLAMATION_MARK() { return getToken(UtaLanguageParser.COMMON_TOK_EXCLAMATION_MARK, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public ExpressionUnaryOpNegatedContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionUnaryOpNegated(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionUnaryOpNegated(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionUnaryOpNegated(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionDeadlockLiteralContext extends ExpressionContext {
-		public TerminalNode EXPR_LITERAL_DEADLOCK() { return getToken(UtaLanguageParser.EXPR_LITERAL_DEADLOCK, 0); }
-		public ExpressionDeadlockLiteralContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionDeadlockLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionDeadlockLiteral(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionDeadlockLiteral(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpDivisionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_DIVISION() { return getToken(UtaLanguageParser.BINARY_OP_DIVISION, 0); }
-		public ExpressionBinaryOpDivisionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpDivision(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpDivision(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpDivision(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionBinaryOpNotEqualContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_NOT_EQUAL() { return getToken(UtaLanguageParser.BINARY_OP_NOT_EQUAL, 0); }
-		public ExpressionBinaryOpNotEqualContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpNotEqual(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpNotEqual(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpNotEqual(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionAssignOpBitwiseOrContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode ASSG_OP_BITWISE_OR() { return getToken(UtaLanguageParser.ASSG_OP_BITWISE_OR, 0); }
-		public ExpressionAssignOpBitwiseOrContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOpBitwiseOr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOpBitwiseOr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOpBitwiseOr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionAssignOpDivisionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode ASSG_OP_DIVISION() { return getToken(UtaLanguageParser.ASSG_OP_DIVISION, 0); }
-		public ExpressionAssignOpDivisionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOpDivision(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOpDivision(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOpDivision(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionGroupedContext extends ExpressionContext {
-		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
-		public ExpressionGroupedContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionGrouped(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionGrouped(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionGrouped(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionArrayLookupContext extends ExpressionContext {
+	public static class ArrayLookupExpressionContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -4046,114 +2789,139 @@ public class UtaLanguageParser extends Parser {
 		}
 		public TerminalNode GROUP_LEFT_BRACKET() { return getToken(UtaLanguageParser.GROUP_LEFT_BRACKET, 0); }
 		public TerminalNode GROUP_RIGHT_BRACKET() { return getToken(UtaLanguageParser.GROUP_RIGHT_BRACKET, 0); }
-		public ExpressionArrayLookupContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public ArrayLookupExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionArrayLookup(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterArrayLookupExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionArrayLookup(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitArrayLookupExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionArrayLookup(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitArrayLookupExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionBinaryOpDisjunctionPhraseContext extends ExpressionContext {
+	public static class PrefixIncrementExpressionContext extends ExpressionContext {
+		public TerminalNode UNARY_OP_INCREMENT() { return getToken(UtaLanguageParser.UNARY_OP_INCREMENT, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public PrefixIncrementExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterPrefixIncrementExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitPrefixIncrementExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitPrefixIncrementExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LessThanOrEqualExpressionContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode PHRASE_OR() { return getToken(UtaLanguageParser.PHRASE_OR, 0); }
-		public ExpressionBinaryOpDisjunctionPhraseContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public TerminalNode BINARY_OP_LESS_THAN_OR_EQUAL_TO() { return getToken(UtaLanguageParser.BINARY_OP_LESS_THAN_OR_EQUAL_TO, 0); }
+		public LessThanOrEqualExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpDisjunctionPhrase(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterLessThanOrEqualExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpDisjunctionPhrase(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitLessThanOrEqualExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpDisjunctionPhrase(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitLessThanOrEqualExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionBinaryOpGreaterThanOrEqualContext extends ExpressionContext {
+	public static class FalseLiteralContext extends ExpressionContext {
+		public TerminalNode EXPR_LITERAL_FALSE() { return getToken(UtaLanguageParser.EXPR_LITERAL_FALSE, 0); }
+		public FalseLiteralContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterFalseLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitFalseLiteral(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitFalseLiteral(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class InequalityExpressionContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode BINARY_OP_GREATER_THAN_OR_EQUAL() { return getToken(UtaLanguageParser.BINARY_OP_GREATER_THAN_OR_EQUAL, 0); }
-		public ExpressionBinaryOpGreaterThanOrEqualContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public TerminalNode BINARY_OP_NOT_EQUAL() { return getToken(UtaLanguageParser.BINARY_OP_NOT_EQUAL, 0); }
+		public InequalityExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpGreaterThanOrEqual(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterInequalityExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpGreaterThanOrEqual(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitInequalityExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpGreaterThanOrEqual(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitInequalityExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionAssignOpLeftShiftContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode ASSG_OP_LEFT_SHIFT() { return getToken(UtaLanguageParser.ASSG_OP_LEFT_SHIFT, 0); }
-		public ExpressionAssignOpLeftShiftContext(ExpressionContext ctx) { copyFrom(ctx); }
+	public static class DeadlockLiteralContext extends ExpressionContext {
+		public TerminalNode EXPR_LITERAL_DEADLOCK() { return getToken(UtaLanguageParser.EXPR_LITERAL_DEADLOCK, 0); }
+		public DeadlockLiteralContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOpLeftShift(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterDeadlockLiteral(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOpLeftShift(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitDeadlockLiteral(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOpLeftShift(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitDeadlockLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionBinaryOpModuloContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode BINARY_OP_MODULO() { return getToken(UtaLanguageParser.BINARY_OP_MODULO, 0); }
-		public ExpressionBinaryOpModuloContext(ExpressionContext ctx) { copyFrom(ctx); }
+	public static class TrueLiteralContext extends ExpressionContext {
+		public TerminalNode EXPR_LITERAL_TRUE() { return getToken(UtaLanguageParser.EXPR_LITERAL_TRUE, 0); }
+		public TrueLiteralContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpModulo(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterTrueLiteral(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpModulo(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitTrueLiteral(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpModulo(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitTrueLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionAssignOpContext extends ExpressionContext {
+	public static class AssignmentExpressionContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -4161,88 +2929,65 @@ public class UtaLanguageParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode ASSG_OP() { return getToken(UtaLanguageParser.ASSG_OP, 0); }
-		public ExpressionAssignOpContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public AssignmentExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOp(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterAssignmentExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOp(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitAssignmentExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOp(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitAssignmentExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionBinaryOpImplicationPhraseContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode PHRASE_IMPLY() { return getToken(UtaLanguageParser.PHRASE_IMPLY, 0); }
-		public ExpressionBinaryOpImplicationPhraseContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpImplicationPhrase(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpImplicationPhrase(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpImplicationPhrase(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExpressionGetAndDecrementContext extends ExpressionContext {
+	public static class SuffixIncrementExpressionContext extends ExpressionContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode UNARY_OP_DECREMENT() { return getToken(UtaLanguageParser.UNARY_OP_DECREMENT, 0); }
-		public ExpressionGetAndDecrementContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public TerminalNode UNARY_OP_INCREMENT() { return getToken(UtaLanguageParser.UNARY_OP_INCREMENT, 0); }
+		public SuffixIncrementExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionGetAndDecrement(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSuffixIncrementExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionGetAndDecrement(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSuffixIncrementExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionGetAndDecrement(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSuffixIncrementExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionBinaryOpConjunctionContext extends ExpressionContext {
+	public static class DivisionExpressionContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode BINARY_OP_CONJUNCTION() { return getToken(UtaLanguageParser.BINARY_OP_CONJUNCTION, 0); }
-		public ExpressionBinaryOpConjunctionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public TerminalNode BINARY_OP_DIVISION() { return getToken(UtaLanguageParser.BINARY_OP_DIVISION, 0); }
+		public DivisionExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionBinaryOpConjunction(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterDivisionExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionBinaryOpConjunction(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitDivisionExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionBinaryOpConjunction(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitDivisionExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionAssignOpAdditionContext extends ExpressionContext {
+	public static class AdditionAssignmentExprContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -4250,18 +2995,376 @@ public class UtaLanguageParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode ASSG_OP_ADDITION() { return getToken(UtaLanguageParser.ASSG_OP_ADDITION, 0); }
-		public ExpressionAssignOpAdditionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public AdditionAssignmentExprContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterExpressionAssignOpAddition(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterAdditionAssignmentExpr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitExpressionAssignOpAddition(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitAdditionAssignmentExpr(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitExpressionAssignOpAddition(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitAdditionAssignmentExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NegationExpressionContext extends ExpressionContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode COMMON_TOK_EXCLAMATION_MARK() { return getToken(UtaLanguageParser.COMMON_TOK_EXCLAMATION_MARK, 0); }
+		public TerminalNode PHRASE_NOT() { return getToken(UtaLanguageParser.PHRASE_NOT, 0); }
+		public NegationExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterNegationExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitNegationExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitNegationExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class CallExpressionContext extends ExpressionContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode GROUP_LEFT_PAREN() { return getToken(UtaLanguageParser.GROUP_LEFT_PAREN, 0); }
+		public TerminalNode GROUP_RIGHT_PAREN() { return getToken(UtaLanguageParser.GROUP_RIGHT_PAREN, 0); }
+		public ArgumentSequenceContext argumentSequence() {
+			return getRuleContext(ArgumentSequenceContext.class,0);
+		}
+		public CallExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterCallExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitCallExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitCallExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class PrefixDecrementExpressionContext extends ExpressionContext {
+		public TerminalNode UNARY_OP_DECREMENT() { return getToken(UtaLanguageParser.UNARY_OP_DECREMENT, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public PrefixDecrementExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterPrefixDecrementExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitPrefixDecrementExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitPrefixDecrementExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BitwiseOrExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode BINARY_OP_BITWISE_OR() { return getToken(UtaLanguageParser.BINARY_OP_BITWISE_OR, 0); }
+		public BitwiseOrExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterBitwiseOrExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitBitwiseOrExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitBitwiseOrExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class AdditionExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode COMMON_TOK_PLUS() { return getToken(UtaLanguageParser.COMMON_TOK_PLUS, 0); }
+		public AdditionExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterAdditionExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitAdditionExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitAdditionExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BitwiseXorAssignmentExprContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode ASSG_OP_BITWISE_XOR() { return getToken(UtaLanguageParser.ASSG_OP_BITWISE_XOR, 0); }
+		public BitwiseXorAssignmentExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterBitwiseXorAssignmentExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitBitwiseXorAssignmentExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitBitwiseXorAssignmentExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class SubtractionAssignmentExprContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode ASSG_OP_SUBTRACTION() { return getToken(UtaLanguageParser.ASSG_OP_SUBTRACTION, 0); }
+		public SubtractionAssignmentExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSubtractionAssignmentExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSubtractionAssignmentExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSubtractionAssignmentExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class RightShiftAssignmentExprContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode ASSG_OP_RIGHT_SHIFT() { return getToken(UtaLanguageParser.ASSG_OP_RIGHT_SHIFT, 0); }
+		public RightShiftAssignmentExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterRightShiftAssignmentExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitRightShiftAssignmentExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitRightShiftAssignmentExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MaximumExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode BINARY_OP_MAX() { return getToken(UtaLanguageParser.BINARY_OP_MAX, 0); }
+		public MaximumExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterMaximumExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitMaximumExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitMaximumExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IdentifierExpressionContext extends ExpressionContext {
+		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
+		public IdentifierExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterIdentifierExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitIdentifierExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitIdentifierExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class SubtractionExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode COMMON_TOK_MINUS() { return getToken(UtaLanguageParser.COMMON_TOK_MINUS, 0); }
+		public SubtractionExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterSubtractionExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitSubtractionExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitSubtractionExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BitwiseAndExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode COMMON_TOK_AMPERSAND() { return getToken(UtaLanguageParser.COMMON_TOK_AMPERSAND, 0); }
+		public BitwiseAndExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterBitwiseAndExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitBitwiseAndExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitBitwiseAndExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MinimumExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode BINARY_OP_MIN() { return getToken(UtaLanguageParser.BINARY_OP_MIN, 0); }
+		public MinimumExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterMinimumExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitMinimumExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitMinimumExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ImplicationExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode PHRASE_IMPLY() { return getToken(UtaLanguageParser.PHRASE_IMPLY, 0); }
+		public ImplicationExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterImplicationExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitImplicationExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitImplicationExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LeftShiftAssignmentExprContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode ASSG_OP_LEFT_SHIFT() { return getToken(UtaLanguageParser.ASSG_OP_LEFT_SHIFT, 0); }
+		public LeftShiftAssignmentExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterLeftShiftAssignmentExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitLeftShiftAssignmentExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitLeftShiftAssignmentExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LessThanExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode COMMON_TOK_LESS_THAN() { return getToken(UtaLanguageParser.COMMON_TOK_LESS_THAN, 0); }
+		public LessThanExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterLessThanExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitLessThanExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitLessThanExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4275,179 +3378,174 @@ public class UtaLanguageParser extends Parser {
 		int _parentState = getState();
 		ExpressionContext _localctx = new ExpressionContext(_ctx, _parentState);
 		ExpressionContext _prevctx = _localctx;
-		int _startState = 72;
-		enterRecursionRule(_localctx, 72, RULE_expression, _p);
+		int _startState = 40;
+		enterRecursionRule(_localctx, 40, RULE_expression, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(424);
+			setState(342);
 			switch (_input.LA(1)) {
 			case COMMON_TOK_EXCLAMATION_MARK:
+			case PHRASE_NOT:
 				{
-				_localctx = new ExpressionUnaryOpNegatedContext(_localctx);
+				_localctx = new NegationExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(387);
-				match(COMMON_TOK_EXCLAMATION_MARK);
-				setState(388);
-				expression(51);
+				setState(307);
+				_la = _input.LA(1);
+				if ( !(_la==COMMON_TOK_EXCLAMATION_MARK || _la==PHRASE_NOT) ) {
+				_errHandler.recoverInline(this);
+				} else {
+					consume();
+				}
+				setState(308);
+				expression(48);
 				}
 				break;
 			case UNARY_OP_INCREMENT:
 				{
-				_localctx = new ExpressionGetAndIncrementContext(_localctx);
+				_localctx = new PrefixIncrementExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(389);
+				setState(309);
 				match(UNARY_OP_INCREMENT);
-				setState(390);
-				expression(49);
+				setState(310);
+				expression(46);
 				}
 				break;
 			case UNARY_OP_DECREMENT:
 				{
-				_localctx = new ExpressionDecrementAndGetContext(_localctx);
+				_localctx = new PrefixDecrementExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(391);
+				setState(311);
 				match(UNARY_OP_DECREMENT);
-				setState(392);
-				expression(47);
+				setState(312);
+				expression(44);
 				}
 				break;
 			case COMMON_TOK_MINUS:
 				{
-				_localctx = new ExpressionUnaryOpAdditiveInverseContext(_localctx);
+				_localctx = new AdditiveInverseExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(393);
+				setState(313);
 				match(COMMON_TOK_MINUS);
-				setState(394);
-				expression(46);
+				setState(314);
+				expression(43);
 				}
 				break;
 			case COMMON_TOK_PLUS:
 				{
-				_localctx = new ExpressionUnaryOpAdditiveIdentityContext(_localctx);
+				_localctx = new AdditiveIdentityExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(395);
+				setState(315);
 				match(COMMON_TOK_PLUS);
-				setState(396);
-				expression(45);
-				}
-				break;
-			case PHRASE_NOT:
-				{
-				_localctx = new ExpressionUnaryOpNegatedPhraseContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(397);
-				match(PHRASE_NOT);
-				setState(398);
-				expression(12);
+				setState(316);
+				expression(42);
 				}
 				break;
 			case PHRASE_FOR_ALL:
 				{
-				_localctx = new ExpressionUniversalQuantificationContext(_localctx);
+				_localctx = new UniversalQuantificationExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(399);
+				setState(317);
 				match(PHRASE_FOR_ALL);
-				setState(400);
+				setState(318);
 				match(GROUP_LEFT_PAREN);
-				setState(401);
+				setState(319);
 				match(IDENTIFIER_NAME);
-				setState(402);
+				setState(320);
 				match(COMMON_TOK_COLON);
-				setState(403);
+				setState(321);
 				type();
-				setState(404);
+				setState(322);
 				match(GROUP_RIGHT_PAREN);
-				setState(405);
-				expression(8);
+				setState(323);
+				expression(19);
 				}
 				break;
 			case PHRASE_EXISTS:
 				{
-				_localctx = new ExpressionExistentialQuantificationContext(_localctx);
+				_localctx = new ExistentialQuantificationExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(407);
+				setState(325);
 				match(PHRASE_EXISTS);
-				setState(408);
+				setState(326);
 				match(GROUP_LEFT_PAREN);
-				setState(409);
+				setState(327);
 				match(IDENTIFIER_NAME);
-				setState(410);
+				setState(328);
 				match(COMMON_TOK_COLON);
-				setState(411);
+				setState(329);
 				type();
-				setState(412);
+				setState(330);
 				match(GROUP_RIGHT_PAREN);
-				setState(413);
-				expression(7);
+				setState(331);
+				expression(18);
 				}
 				break;
 			case GROUP_LEFT_PAREN:
 				{
-				_localctx = new ExpressionGroupedContext(_localctx);
+				_localctx = new ExpressionGroupContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(415);
+				setState(333);
 				match(GROUP_LEFT_PAREN);
-				setState(416);
+				setState(334);
 				expression(0);
-				setState(417);
+				setState(335);
 				match(GROUP_RIGHT_PAREN);
 				}
 				break;
 			case EXPR_LITERAL_DEADLOCK:
 				{
-				_localctx = new ExpressionDeadlockLiteralContext(_localctx);
+				_localctx = new DeadlockLiteralContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(419);
+				setState(337);
 				match(EXPR_LITERAL_DEADLOCK);
 				}
 				break;
 			case EXPR_LITERAL_TRUE:
 				{
-				_localctx = new ExpressionTrueLiteralContext(_localctx);
+				_localctx = new TrueLiteralContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(420);
+				setState(338);
 				match(EXPR_LITERAL_TRUE);
 				}
 				break;
 			case EXPR_LITERAL_FALSE:
 				{
-				_localctx = new ExpressionFalseLiteralContext(_localctx);
+				_localctx = new FalseLiteralContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(421);
+				setState(339);
 				match(EXPR_LITERAL_FALSE);
 				}
 				break;
 			case NATURAL_NUMBER:
 				{
-				_localctx = new ExpressionNaturalNumberContext(_localctx);
+				_localctx = new NaturalNumberLiteralContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(422);
+				setState(340);
 				match(NATURAL_NUMBER);
 				}
 				break;
 			case IDENTIFIER_NAME:
 				{
-				_localctx = new ExpressionIdentifierRefContext(_localctx);
+				_localctx = new IdentifierExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(423);
+				setState(341);
 				match(IDENTIFIER_NAME);
 				}
 				break;
@@ -4455,513 +3553,489 @@ public class UtaLanguageParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(554);
+			setState(466);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,36,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,34,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(552);
-					switch ( getInterpreter().adaptivePredict(_input,35,_ctx) ) {
+					setState(464);
+					switch ( getInterpreter().adaptivePredict(_input,33,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ExpressionBinaryOpMultiplicationContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new MultiplicationExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(426);
-						if (!(precpred(_ctx, 44))) throw new FailedPredicateException(this, "precpred(_ctx, 44)");
-						setState(427);
+						setState(344);
+						if (!(precpred(_ctx, 41))) throw new FailedPredicateException(this, "precpred(_ctx, 41)");
+						setState(345);
 						match(BINARY_OP_MULTIPLICATION);
-						setState(428);
-						expression(45);
+						setState(346);
+						expression(42);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new ExpressionBinaryOpDivisionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new DivisionExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(429);
-						if (!(precpred(_ctx, 43))) throw new FailedPredicateException(this, "precpred(_ctx, 43)");
-						setState(430);
+						setState(347);
+						if (!(precpred(_ctx, 40))) throw new FailedPredicateException(this, "precpred(_ctx, 40)");
+						setState(348);
 						match(BINARY_OP_DIVISION);
-						setState(431);
-						expression(44);
+						setState(349);
+						expression(41);
 						}
 						break;
 					case 3:
 						{
-						_localctx = new ExpressionBinaryOpModuloContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new ModuloExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(432);
-						if (!(precpred(_ctx, 42))) throw new FailedPredicateException(this, "precpred(_ctx, 42)");
-						setState(433);
+						setState(350);
+						if (!(precpred(_ctx, 39))) throw new FailedPredicateException(this, "precpred(_ctx, 39)");
+						setState(351);
 						match(BINARY_OP_MODULO);
-						setState(434);
-						expression(43);
+						setState(352);
+						expression(40);
 						}
 						break;
 					case 4:
 						{
-						_localctx = new ExpressionBinaryOpSubtractionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new SubtractionExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(435);
-						if (!(precpred(_ctx, 41))) throw new FailedPredicateException(this, "precpred(_ctx, 41)");
-						setState(436);
+						setState(353);
+						if (!(precpred(_ctx, 38))) throw new FailedPredicateException(this, "precpred(_ctx, 38)");
+						setState(354);
 						match(COMMON_TOK_MINUS);
-						setState(437);
-						expression(42);
+						setState(355);
+						expression(39);
 						}
 						break;
 					case 5:
 						{
-						_localctx = new ExpressionBinaryOpAdditionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new AdditionExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(438);
-						if (!(precpred(_ctx, 40))) throw new FailedPredicateException(this, "precpred(_ctx, 40)");
-						setState(439);
+						setState(356);
+						if (!(precpred(_ctx, 37))) throw new FailedPredicateException(this, "precpred(_ctx, 37)");
+						setState(357);
 						match(COMMON_TOK_PLUS);
-						setState(440);
-						expression(41);
+						setState(358);
+						expression(38);
 						}
 						break;
 					case 6:
 						{
-						_localctx = new ExpressionBinaryOpLeftShiftContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new LeftShiftExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(441);
-						if (!(precpred(_ctx, 39))) throw new FailedPredicateException(this, "precpred(_ctx, 39)");
-						setState(442);
+						setState(359);
+						if (!(precpred(_ctx, 36))) throw new FailedPredicateException(this, "precpred(_ctx, 36)");
+						setState(360);
 						match(BINARY_OP_LEFT_SHIFT);
-						setState(443);
-						expression(40);
+						setState(361);
+						expression(37);
 						}
 						break;
 					case 7:
 						{
-						_localctx = new ExpressionBinaryOpRightShiftContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new RightShiftExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(444);
-						if (!(precpred(_ctx, 38))) throw new FailedPredicateException(this, "precpred(_ctx, 38)");
-						setState(445);
+						setState(362);
+						if (!(precpred(_ctx, 35))) throw new FailedPredicateException(this, "precpred(_ctx, 35)");
+						setState(363);
 						match(BINARY_OP_RIGHT_SHIFT);
-						setState(446);
-						expression(39);
+						setState(364);
+						expression(36);
 						}
 						break;
 					case 8:
 						{
-						_localctx = new ExpressionBinaryOpMaximumContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new MaximumExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(447);
-						if (!(precpred(_ctx, 37))) throw new FailedPredicateException(this, "precpred(_ctx, 37)");
-						setState(448);
+						setState(365);
+						if (!(precpred(_ctx, 34))) throw new FailedPredicateException(this, "precpred(_ctx, 34)");
+						setState(366);
 						match(BINARY_OP_MAX);
-						setState(449);
-						expression(38);
+						setState(367);
+						expression(35);
 						}
 						break;
 					case 9:
 						{
-						_localctx = new ExpressionBinaryOpMinimumContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new MinimumExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(450);
-						if (!(precpred(_ctx, 36))) throw new FailedPredicateException(this, "precpred(_ctx, 36)");
-						setState(451);
+						setState(368);
+						if (!(precpred(_ctx, 33))) throw new FailedPredicateException(this, "precpred(_ctx, 33)");
+						setState(369);
 						match(BINARY_OP_MIN);
-						setState(452);
-						expression(37);
+						setState(370);
+						expression(34);
 						}
 						break;
 					case 10:
 						{
-						_localctx = new ExpressionBinaryOpLessThanContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new LessThanExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(453);
-						if (!(precpred(_ctx, 35))) throw new FailedPredicateException(this, "precpred(_ctx, 35)");
-						setState(454);
+						setState(371);
+						if (!(precpred(_ctx, 32))) throw new FailedPredicateException(this, "precpred(_ctx, 32)");
+						setState(372);
 						match(COMMON_TOK_LESS_THAN);
-						setState(455);
-						expression(36);
+						setState(373);
+						expression(33);
 						}
 						break;
 					case 11:
 						{
-						_localctx = new ExpressionBinaryOpLessThanOrEqualContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new LessThanOrEqualExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(456);
-						if (!(precpred(_ctx, 34))) throw new FailedPredicateException(this, "precpred(_ctx, 34)");
-						setState(457);
+						setState(374);
+						if (!(precpred(_ctx, 31))) throw new FailedPredicateException(this, "precpred(_ctx, 31)");
+						setState(375);
 						match(BINARY_OP_LESS_THAN_OR_EQUAL_TO);
-						setState(458);
-						expression(35);
+						setState(376);
+						expression(32);
 						}
 						break;
 					case 12:
 						{
-						_localctx = new ExpressionBinaryOpGreaterThanContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new GreaterThanExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(459);
-						if (!(precpred(_ctx, 33))) throw new FailedPredicateException(this, "precpred(_ctx, 33)");
-						setState(460);
+						setState(377);
+						if (!(precpred(_ctx, 30))) throw new FailedPredicateException(this, "precpred(_ctx, 30)");
+						setState(378);
 						match(BINARY_OP_GREATER_THAN);
-						setState(461);
-						expression(34);
+						setState(379);
+						expression(31);
 						}
 						break;
 					case 13:
 						{
-						_localctx = new ExpressionBinaryOpGreaterThanOrEqualContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new GreaterThanOrEqualExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(462);
-						if (!(precpred(_ctx, 32))) throw new FailedPredicateException(this, "precpred(_ctx, 32)");
-						setState(463);
+						setState(380);
+						if (!(precpred(_ctx, 29))) throw new FailedPredicateException(this, "precpred(_ctx, 29)");
+						setState(381);
 						match(BINARY_OP_GREATER_THAN_OR_EQUAL);
-						setState(464);
-						expression(33);
+						setState(382);
+						expression(30);
 						}
 						break;
 					case 14:
 						{
-						_localctx = new ExpressionBinaryOpEqualContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new EqualityExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(465);
-						if (!(precpred(_ctx, 31))) throw new FailedPredicateException(this, "precpred(_ctx, 31)");
-						setState(466);
+						setState(383);
+						if (!(precpred(_ctx, 28))) throw new FailedPredicateException(this, "precpred(_ctx, 28)");
+						setState(384);
 						match(BINARY_OP_EQUAL);
-						setState(467);
-						expression(32);
+						setState(385);
+						expression(29);
 						}
 						break;
 					case 15:
 						{
-						_localctx = new ExpressionBinaryOpNotEqualContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new InequalityExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(468);
-						if (!(precpred(_ctx, 30))) throw new FailedPredicateException(this, "precpred(_ctx, 30)");
-						setState(469);
+						setState(386);
+						if (!(precpred(_ctx, 27))) throw new FailedPredicateException(this, "precpred(_ctx, 27)");
+						setState(387);
 						match(BINARY_OP_NOT_EQUAL);
-						setState(470);
-						expression(31);
+						setState(388);
+						expression(28);
 						}
 						break;
 					case 16:
 						{
-						_localctx = new ExpressionBinaryOpBitwiseAndContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new BitwiseAndExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(471);
-						if (!(precpred(_ctx, 29))) throw new FailedPredicateException(this, "precpred(_ctx, 29)");
-						setState(472);
+						setState(389);
+						if (!(precpred(_ctx, 26))) throw new FailedPredicateException(this, "precpred(_ctx, 26)");
+						setState(390);
 						match(COMMON_TOK_AMPERSAND);
-						setState(473);
-						expression(30);
+						setState(391);
+						expression(27);
 						}
 						break;
 					case 17:
 						{
-						_localctx = new ExpressionBinaryOpBitwiseXORContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new BitwiseXorExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(474);
-						if (!(precpred(_ctx, 28))) throw new FailedPredicateException(this, "precpred(_ctx, 28)");
-						setState(475);
+						setState(392);
+						if (!(precpred(_ctx, 25))) throw new FailedPredicateException(this, "precpred(_ctx, 25)");
+						setState(393);
 						match(BINARY_OP_BITWISE_XOR);
-						setState(476);
-						expression(29);
+						setState(394);
+						expression(26);
 						}
 						break;
 					case 18:
 						{
-						_localctx = new ExpressionBinaryOpBitwiseOrContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new BitwiseOrExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(477);
-						if (!(precpred(_ctx, 27))) throw new FailedPredicateException(this, "precpred(_ctx, 27)");
-						setState(478);
+						setState(395);
+						if (!(precpred(_ctx, 24))) throw new FailedPredicateException(this, "precpred(_ctx, 24)");
+						setState(396);
 						match(BINARY_OP_BITWISE_OR);
-						setState(479);
-						expression(28);
+						setState(397);
+						expression(25);
 						}
 						break;
 					case 19:
 						{
-						_localctx = new ExpressionBinaryOpConjunctionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new ConjunctionExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(480);
-						if (!(precpred(_ctx, 26))) throw new FailedPredicateException(this, "precpred(_ctx, 26)");
-						setState(481);
+						setState(398);
+						if (!(precpred(_ctx, 23))) throw new FailedPredicateException(this, "precpred(_ctx, 23)");
+						setState(399);
 						match(BINARY_OP_CONJUNCTION);
-						setState(482);
-						expression(27);
+						setState(400);
+						expression(24);
 						}
 						break;
 					case 20:
 						{
-						_localctx = new ExpressionBinaryOpDisjunctionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new DisjunctionExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(483);
-						if (!(precpred(_ctx, 25))) throw new FailedPredicateException(this, "precpred(_ctx, 25)");
-						setState(484);
+						setState(401);
+						if (!(precpred(_ctx, 22))) throw new FailedPredicateException(this, "precpred(_ctx, 22)");
+						setState(402);
 						match(BINARY_OP_DISJUNCTION);
-						setState(485);
-						expression(26);
+						setState(403);
+						expression(23);
 						}
 						break;
 					case 21:
 						{
-						_localctx = new ExpressionTernaryContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new TernaryExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(486);
-						if (!(precpred(_ctx, 24))) throw new FailedPredicateException(this, "precpred(_ctx, 24)");
-						setState(487);
+						setState(404);
+						if (!(precpred(_ctx, 21))) throw new FailedPredicateException(this, "precpred(_ctx, 21)");
+						setState(405);
 						match(COMMON_TOK_QUESTION_MARK);
-						setState(488);
+						setState(406);
 						expression(0);
-						setState(489);
+						setState(407);
 						match(COMMON_TOK_COLON);
-						setState(490);
-						expression(24);
+						setState(408);
+						expression(21);
 						}
 						break;
 					case 22:
 						{
-						_localctx = new ExpressionAssignOpContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new ImplicationExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(492);
-						if (!(precpred(_ctx, 23))) throw new FailedPredicateException(this, "precpred(_ctx, 23)");
-						setState(493);
-						match(ASSG_OP);
-						setState(494);
-						expression(23);
+						setState(410);
+						if (!(precpred(_ctx, 20))) throw new FailedPredicateException(this, "precpred(_ctx, 20)");
+						setState(411);
+						match(PHRASE_IMPLY);
+						setState(412);
+						expression(21);
 						}
 						break;
 					case 23:
 						{
-						_localctx = new ExpressionAssignOpAdditionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new AssignmentExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(495);
-						if (!(precpred(_ctx, 22))) throw new FailedPredicateException(this, "precpred(_ctx, 22)");
-						setState(496);
-						match(ASSG_OP_ADDITION);
-						setState(497);
-						expression(22);
+						setState(413);
+						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
+						setState(414);
+						match(ASSG_OP);
+						setState(415);
+						expression(16);
 						}
 						break;
 					case 24:
 						{
-						_localctx = new ExpressionAssignOpSubtractionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new MultiplicationAssignmentExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(498);
-						if (!(precpred(_ctx, 21))) throw new FailedPredicateException(this, "precpred(_ctx, 21)");
-						setState(499);
-						match(ASSG_OP_SUBTRACTION);
-						setState(500);
-						expression(21);
+						setState(416);
+						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
+						setState(417);
+						match(ASSG_OP_MULTIPLICATION);
+						setState(418);
+						expression(16);
 						}
 						break;
 					case 25:
 						{
-						_localctx = new ExpressionAssignOpMultiplicationContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new DivisionAssignmentExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(501);
-						if (!(precpred(_ctx, 20))) throw new FailedPredicateException(this, "precpred(_ctx, 20)");
-						setState(502);
-						match(ASSG_OP_MULTIPLICATION);
-						setState(503);
-						expression(20);
+						setState(419);
+						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
+						setState(420);
+						match(ASSG_OP_DIVISION);
+						setState(421);
+						expression(15);
 						}
 						break;
 					case 26:
 						{
-						_localctx = new ExpressionAssignOpDivisionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new ModuloAssignmentExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(504);
-						if (!(precpred(_ctx, 19))) throw new FailedPredicateException(this, "precpred(_ctx, 19)");
-						setState(505);
-						match(ASSG_OP_DIVISION);
-						setState(506);
-						expression(19);
+						setState(422);
+						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
+						setState(423);
+						match(ASSG_OP_MODULO);
+						setState(424);
+						expression(14);
 						}
 						break;
 					case 27:
 						{
-						_localctx = new ExpressionAssignOpModuloContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new SubtractionAssignmentExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(507);
-						if (!(precpred(_ctx, 18))) throw new FailedPredicateException(this, "precpred(_ctx, 18)");
-						setState(508);
-						match(ASSG_OP_MODULO);
-						setState(509);
-						expression(18);
+						setState(425);
+						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
+						setState(426);
+						match(ASSG_OP_SUBTRACTION);
+						setState(427);
+						expression(13);
 						}
 						break;
 					case 28:
 						{
-						_localctx = new ExpressionAssignOpBitwiseAndContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new AdditionAssignmentExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(510);
-						if (!(precpred(_ctx, 17))) throw new FailedPredicateException(this, "precpred(_ctx, 17)");
-						setState(511);
-						match(ASSG_OP_BITWISE_AND);
-						setState(512);
-						expression(17);
+						setState(428);
+						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
+						setState(429);
+						match(ASSG_OP_ADDITION);
+						setState(430);
+						expression(12);
 						}
 						break;
 					case 29:
 						{
-						_localctx = new ExpressionAssignOpBitwiseOrContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new LeftShiftAssignmentExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(513);
-						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
-						setState(514);
-						match(ASSG_OP_BITWISE_OR);
-						setState(515);
-						expression(16);
+						setState(431);
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						setState(432);
+						match(ASSG_OP_LEFT_SHIFT);
+						setState(433);
+						expression(11);
 						}
 						break;
 					case 30:
 						{
-						_localctx = new ExpressionAssignOpLeftShiftContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new RightShiftAssignmentExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(516);
-						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
-						setState(517);
-						match(ASSG_OP_LEFT_SHIFT);
-						setState(518);
-						expression(15);
+						setState(434);
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						setState(435);
+						match(ASSG_OP_RIGHT_SHIFT);
+						setState(436);
+						expression(10);
 						}
 						break;
 					case 31:
 						{
-						_localctx = new ExpressionAssignOpRightShiftContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new BitwiseAndAssignmentExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(519);
-						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
-						setState(520);
-						match(ASSG_OP_RIGHT_SHIFT);
-						setState(521);
-						expression(14);
+						setState(437);
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						setState(438);
+						match(ASSG_OP_BITWISE_AND);
+						setState(439);
+						expression(9);
 						}
 						break;
 					case 32:
 						{
-						_localctx = new ExpressionAssignOpBitwiseXORContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new BitwiseXorAssignmentExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(522);
-						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(523);
+						setState(440);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(441);
 						match(ASSG_OP_BITWISE_XOR);
-						setState(524);
-						expression(13);
+						setState(442);
+						expression(8);
 						}
 						break;
 					case 33:
 						{
-						_localctx = new ExpressionBinaryOpDisjunctionPhraseContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new BitwiseOrAssignmentExprContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(525);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(526);
-						match(PHRASE_OR);
-						setState(527);
-						expression(12);
+						setState(443);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(444);
+						match(ASSG_OP_BITWISE_OR);
+						setState(445);
+						expression(7);
 						}
 						break;
 					case 34:
 						{
-						_localctx = new ExpressionBinaryOpImplicationPhraseContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new ArrayLookupExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(528);
-						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(529);
-						match(PHRASE_IMPLY);
-						setState(530);
-						expression(11);
+						setState(446);
+						if (!(precpred(_ctx, 50))) throw new FailedPredicateException(this, "precpred(_ctx, 50)");
+						setState(447);
+						match(GROUP_LEFT_BRACKET);
+						setState(448);
+						expression(0);
+						setState(449);
+						match(GROUP_RIGHT_BRACKET);
 						}
 						break;
 					case 35:
 						{
-						_localctx = new ExpressionBinaryOpConjunctionPhraseContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new FieldAccessExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(531);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(532);
-						match(PHRASE_AND);
-						setState(533);
-						expression(10);
+						setState(451);
+						if (!(precpred(_ctx, 49))) throw new FailedPredicateException(this, "precpred(_ctx, 49)");
+						setState(452);
+						match(BINARY_OP_ACCESS_FIELD);
+						setState(453);
+						match(IDENTIFIER_NAME);
 						}
 						break;
 					case 36:
 						{
-						_localctx = new ExpressionArrayLookupContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new SuffixIncrementExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(534);
-						if (!(precpred(_ctx, 53))) throw new FailedPredicateException(this, "precpred(_ctx, 53)");
-						setState(535);
-						match(GROUP_LEFT_BRACKET);
-						setState(536);
-						expression(0);
-						setState(537);
-						match(GROUP_RIGHT_BRACKET);
+						setState(454);
+						if (!(precpred(_ctx, 47))) throw new FailedPredicateException(this, "precpred(_ctx, 47)");
+						setState(455);
+						match(UNARY_OP_INCREMENT);
 						}
 						break;
 					case 37:
 						{
-						_localctx = new ExpressionFieldAccessContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new SuffixDecrementExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(539);
-						if (!(precpred(_ctx, 52))) throw new FailedPredicateException(this, "precpred(_ctx, 52)");
-						setState(540);
-						match(BINARY_OP_ACCESS_FIELD);
-						setState(541);
-						match(IDENTIFIER_NAME);
+						setState(456);
+						if (!(precpred(_ctx, 45))) throw new FailedPredicateException(this, "precpred(_ctx, 45)");
+						setState(457);
+						match(UNARY_OP_DECREMENT);
 						}
 						break;
 					case 38:
 						{
-						_localctx = new ExpressionIncrementAndGetContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new CallExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(542);
-						if (!(precpred(_ctx, 50))) throw new FailedPredicateException(this, "precpred(_ctx, 50)");
-						setState(543);
-						match(UNARY_OP_INCREMENT);
-						}
-						break;
-					case 39:
-						{
-						_localctx = new ExpressionGetAndDecrementContext(new ExpressionContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(544);
-						if (!(precpred(_ctx, 48))) throw new FailedPredicateException(this, "precpred(_ctx, 48)");
-						setState(545);
-						match(UNARY_OP_DECREMENT);
-						}
-						break;
-					case 40:
-						{
-						_localctx = new ExpressionCallContext(new ExpressionContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(546);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(547);
+						setState(458);
+						if (!(precpred(_ctx, 17))) throw new FailedPredicateException(this, "precpred(_ctx, 17)");
+						setState(459);
 						match(GROUP_LEFT_PAREN);
-						setState(549);
+						setState(461);
 						_la = _input.LA(1);
 						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXPR_LITERAL_TRUE) | (1L << EXPR_LITERAL_FALSE) | (1L << EXPR_LITERAL_DEADLOCK) | (1L << UNARY_OP_INCREMENT) | (1L << UNARY_OP_DECREMENT) | (1L << COMMON_TOK_PLUS) | (1L << COMMON_TOK_MINUS) | (1L << COMMON_TOK_EXCLAMATION_MARK) | (1L << GROUP_LEFT_PAREN) | (1L << PHRASE_NOT))) != 0) || ((((_la - 67)) & ~0x3f) == 0 && ((1L << (_la - 67)) & ((1L << (PHRASE_FOR_ALL - 67)) | (1L << (PHRASE_EXISTS - 67)) | (1L << (IDENTIFIER_NAME - 67)) | (1L << (NATURAL_NUMBER - 67)))) != 0)) {
 							{
-							setState(548);
-							argumentList();
+							setState(460);
+							argumentSequence();
 							}
 						}
 
-						setState(551);
+						setState(463);
 						match(GROUP_RIGHT_PAREN);
 						}
 						break;
 					}
 					} 
 				}
-				setState(556);
+				setState(468);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,36,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,34,_ctx);
 			}
 			}
 		}
@@ -4976,7 +4050,135 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ArgumentListContext extends ParserRuleContext {
+	public static class ParameterSequenceContext extends ParserRuleContext {
+		public List<ParameterContext> parameter() {
+			return getRuleContexts(ParameterContext.class);
+		}
+		public ParameterContext parameter(int i) {
+			return getRuleContext(ParameterContext.class,i);
+		}
+		public List<TerminalNode> SEP_ENUMERATION() { return getTokens(UtaLanguageParser.SEP_ENUMERATION); }
+		public TerminalNode SEP_ENUMERATION(int i) {
+			return getToken(UtaLanguageParser.SEP_ENUMERATION, i);
+		}
+		public ParameterSequenceContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_parameterSequence; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterParameterSequence(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitParameterSequence(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitParameterSequence(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ParameterSequenceContext parameterSequence() throws RecognitionException {
+		ParameterSequenceContext _localctx = new ParameterSequenceContext(_ctx, getState());
+		enterRule(_localctx, 42, RULE_parameterSequence);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(469);
+			parameter();
+			setState(474);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==SEP_ENUMERATION) {
+				{
+				{
+				setState(470);
+				match(SEP_ENUMERATION);
+				setState(471);
+				parameter();
+				}
+				}
+				setState(476);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ParameterContext extends ParserRuleContext {
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public IdentifierDeclarationContext identifierDeclaration() {
+			return getRuleContext(IdentifierDeclarationContext.class,0);
+		}
+		public TerminalNode COMMON_TOK_AMPERSAND() { return getToken(UtaLanguageParser.COMMON_TOK_AMPERSAND, 0); }
+		public ParameterContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_parameter; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterParameter(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitParameter(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitParameter(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ParameterContext parameter() throws RecognitionException {
+		ParameterContext _localctx = new ParameterContext(_ctx, getState());
+		enterRule(_localctx, 44, RULE_parameter);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(477);
+			type();
+			setState(479);
+			_la = _input.LA(1);
+			if (_la==COMMON_TOK_AMPERSAND) {
+				{
+				setState(478);
+				match(COMMON_TOK_AMPERSAND);
+				}
+			}
+
+			setState(481);
+			identifierDeclaration();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ArgumentSequenceContext extends ParserRuleContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -4987,47 +4189,47 @@ public class UtaLanguageParser extends Parser {
 		public TerminalNode SEP_ENUMERATION(int i) {
 			return getToken(UtaLanguageParser.SEP_ENUMERATION, i);
 		}
-		public ArgumentListContext(ParserRuleContext parent, int invokingState) {
+		public ArgumentSequenceContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_argumentList; }
+		@Override public int getRuleIndex() { return RULE_argumentSequence; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterArgumentList(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterArgumentSequence(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitArgumentList(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitArgumentSequence(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitArgumentList(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitArgumentSequence(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ArgumentListContext argumentList() throws RecognitionException {
-		ArgumentListContext _localctx = new ArgumentListContext(_ctx, getState());
-		enterRule(_localctx, 74, RULE_argumentList);
+	public final ArgumentSequenceContext argumentSequence() throws RecognitionException {
+		ArgumentSequenceContext _localctx = new ArgumentSequenceContext(_ctx, getState());
+		enterRule(_localctx, 46, RULE_argumentSequence);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(557);
+			setState(483);
 			expression(0);
-			setState(562);
+			setState(488);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEP_ENUMERATION) {
 				{
 				{
-				setState(558);
+				setState(484);
 				match(SEP_ENUMERATION);
-				setState(559);
+				setState(485);
 				expression(0);
 				}
 				}
-				setState(564);
+				setState(490);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -5072,21 +4274,21 @@ public class UtaLanguageParser extends Parser {
 
 	public final TypeContext type() throws RecognitionException {
 		TypeContext _localctx = new TypeContext(_ctx, getState());
-		enterRule(_localctx, 76, RULE_type);
+		enterRule(_localctx, 48, RULE_type);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(566);
+			setState(492);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TYPE_PREFIX_URGENT) | (1L << TYPE_PREFIX_BROADCAST) | (1L << TYPE_PREFIX_META) | (1L << TYPE_PREFIX_CONST))) != 0)) {
 				{
-				setState(565);
+				setState(491);
 				typePrefix();
 				}
 			}
 
-			setState(568);
+			setState(494);
 			typeIdentifier();
 			}
 		}
@@ -5273,16 +4475,16 @@ public class UtaLanguageParser extends Parser {
 
 	public final TypeIdentifierContext typeIdentifier() throws RecognitionException {
 		TypeIdentifierContext _localctx = new TypeIdentifierContext(_ctx, getState());
-		enterRule(_localctx, 78, RULE_typeIdentifier);
+		enterRule(_localctx, 50, RULE_typeIdentifier);
 		int _la;
 		try {
-			setState(596);
+			setState(522);
 			switch ( getInterpreter().adaptivePredict(_input,40,_ctx) ) {
 			case 1:
 				_localctx = new TypeIdIntegerContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(570);
+				setState(496);
 				match(TYPE_INTEGER);
 				}
 				break;
@@ -5290,7 +4492,7 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypeIdClockContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(571);
+				setState(497);
 				match(TYPE_CLOCK);
 				}
 				break;
@@ -5298,7 +4500,7 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypeIdChannelContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(572);
+				setState(498);
 				match(TYPE_CHANNEL);
 				}
 				break;
@@ -5306,7 +4508,7 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypeIdBooleanContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(573);
+				setState(499);
 				match(TYPE_BOOLEAN);
 				}
 				break;
@@ -5314,17 +4516,17 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypeIdIntegerBoundedContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(574);
+				setState(500);
 				match(TYPE_INTEGER);
-				setState(575);
+				setState(501);
 				match(GROUP_LEFT_BRACKET);
-				setState(576);
+				setState(502);
 				expression(0);
-				setState(577);
+				setState(503);
 				match(SEP_ENUMERATION);
-				setState(578);
+				setState(504);
 				expression(0);
-				setState(579);
+				setState(505);
 				match(GROUP_RIGHT_BRACKET);
 				}
 				break;
@@ -5332,13 +4534,13 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypeIdScalarContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(581);
+				setState(507);
 				match(TYPE_SCALAR);
-				setState(582);
+				setState(508);
 				match(GROUP_LEFT_BRACKET);
-				setState(583);
+				setState(509);
 				expression(0);
-				setState(584);
+				setState(510);
 				match(GROUP_RIGHT_BRACKET);
 				}
 				break;
@@ -5346,25 +4548,25 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypeIdStructContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(586);
+				setState(512);
 				match(TYPE_STRUCT);
-				setState(587);
+				setState(513);
 				match(GROUP_LEFT_CURLY);
-				setState(589); 
+				setState(515); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(588);
+					setState(514);
 					fieldDeclaration();
 					}
 					}
-					setState(591); 
+					setState(517); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TYPE_INTEGER) | (1L << TYPE_CLOCK) | (1L << TYPE_CHANNEL) | (1L << TYPE_BOOLEAN) | (1L << TYPE_SCALAR) | (1L << TYPE_STRUCT) | (1L << TYPE_PREFIX_URGENT) | (1L << TYPE_PREFIX_BROADCAST) | (1L << TYPE_PREFIX_META) | (1L << TYPE_PREFIX_CONST))) != 0) || _la==IDENTIFIER_NAME );
-				setState(593);
+				setState(519);
 				match(GROUP_RIGHT_CURLY);
 				}
 				break;
@@ -5372,7 +4574,7 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypeIdIdentifierNameContext(_localctx);
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(595);
+				setState(521);
 				match(IDENTIFIER_NAME);
 				}
 				break;
@@ -5389,7 +4591,7 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ArrayIdentifierLookupContext extends ParserRuleContext {
+	public static class ArrayVariableLookupContext extends ParserRuleContext {
 		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
 		public List<TerminalNode> GROUP_LEFT_BRACKET() { return getTokens(UtaLanguageParser.GROUP_LEFT_BRACKET); }
 		public TerminalNode GROUP_LEFT_BRACKET(int i) {
@@ -5405,49 +4607,49 @@ public class UtaLanguageParser extends Parser {
 		public TerminalNode GROUP_RIGHT_BRACKET(int i) {
 			return getToken(UtaLanguageParser.GROUP_RIGHT_BRACKET, i);
 		}
-		public ArrayIdentifierLookupContext(ParserRuleContext parent, int invokingState) {
+		public ArrayVariableLookupContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_arrayIdentifierLookup; }
+		@Override public int getRuleIndex() { return RULE_arrayVariableLookup; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterArrayIdentifierLookup(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterArrayVariableLookup(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitArrayIdentifierLookup(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitArrayVariableLookup(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitArrayIdentifierLookup(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitArrayVariableLookup(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ArrayIdentifierLookupContext arrayIdentifierLookup() throws RecognitionException {
-		ArrayIdentifierLookupContext _localctx = new ArrayIdentifierLookupContext(_ctx, getState());
-		enterRule(_localctx, 80, RULE_arrayIdentifierLookup);
+	public final ArrayVariableLookupContext arrayVariableLookup() throws RecognitionException {
+		ArrayVariableLookupContext _localctx = new ArrayVariableLookupContext(_ctx, getState());
+		enterRule(_localctx, 52, RULE_arrayVariableLookup);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(598);
+			setState(524);
 			match(IDENTIFIER_NAME);
-			setState(603); 
+			setState(529); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(599);
+				setState(525);
 				match(GROUP_LEFT_BRACKET);
-				setState(600);
+				setState(526);
 				expression(0);
-				setState(601);
+				setState(527);
 				match(GROUP_RIGHT_BRACKET);
 				}
 				}
-				setState(605); 
+				setState(531); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==GROUP_LEFT_BRACKET );
@@ -5468,11 +4670,11 @@ public class UtaLanguageParser extends Parser {
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
-		public List<IdentifierNameVariantContext> identifierNameVariant() {
-			return getRuleContexts(IdentifierNameVariantContext.class);
+		public List<IdentifierDeclarationContext> identifierDeclaration() {
+			return getRuleContexts(IdentifierDeclarationContext.class);
 		}
-		public IdentifierNameVariantContext identifierNameVariant(int i) {
-			return getRuleContext(IdentifierNameVariantContext.class,i);
+		public IdentifierDeclarationContext identifierDeclaration(int i) {
+			return getRuleContext(IdentifierDeclarationContext.class,i);
 		}
 		public TerminalNode SEP_SEMICOLON() { return getToken(UtaLanguageParser.SEP_SEMICOLON, 0); }
 		public List<TerminalNode> SEP_ENUMERATION() { return getTokens(UtaLanguageParser.SEP_ENUMERATION); }
@@ -5500,32 +4702,32 @@ public class UtaLanguageParser extends Parser {
 
 	public final FieldDeclarationContext fieldDeclaration() throws RecognitionException {
 		FieldDeclarationContext _localctx = new FieldDeclarationContext(_ctx, getState());
-		enterRule(_localctx, 82, RULE_fieldDeclaration);
+		enterRule(_localctx, 54, RULE_fieldDeclaration);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(607);
+			setState(533);
 			type();
-			setState(608);
-			identifierNameVariant();
-			setState(613);
+			setState(534);
+			identifierDeclaration();
+			setState(539);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SEP_ENUMERATION) {
 				{
 				{
-				setState(609);
+				setState(535);
 				match(SEP_ENUMERATION);
-				setState(610);
-				identifierNameVariant();
+				setState(536);
+				identifierDeclaration();
 				}
 				}
-				setState(615);
+				setState(541);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(616);
+			setState(542);
 			match(SEP_SEMICOLON);
 			}
 		}
@@ -5540,18 +4742,35 @@ public class UtaLanguageParser extends Parser {
 		return _localctx;
 	}
 
-	public static class IdentifierNameVariantContext extends ParserRuleContext {
-		public IdentifierNameVariantContext(ParserRuleContext parent, int invokingState) {
+	public static class IdentifierDeclarationContext extends ParserRuleContext {
+		public IdentifierDeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_identifierNameVariant; }
+		@Override public int getRuleIndex() { return RULE_identifierDeclaration; }
 	 
-		public IdentifierNameVariantContext() { }
-		public void copyFrom(IdentifierNameVariantContext ctx) {
+		public IdentifierDeclarationContext() { }
+		public void copyFrom(IdentifierDeclarationContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class ArrayIdentifierContext extends IdentifierNameVariantContext {
+	public static class BaseIdentifierDeclarationContext extends IdentifierDeclarationContext {
+		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
+		public BaseIdentifierDeclarationContext(IdentifierDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterBaseIdentifierDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitBaseIdentifierDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitBaseIdentifierDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ArrayIdentifierDeclarationContext extends IdentifierDeclarationContext {
 		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
 		public List<ArraySizeModifierContext> arraySizeModifier() {
 			return getRuleContexts(ArraySizeModifierContext.class);
@@ -5559,73 +4778,56 @@ public class UtaLanguageParser extends Parser {
 		public ArraySizeModifierContext arraySizeModifier(int i) {
 			return getRuleContext(ArraySizeModifierContext.class,i);
 		}
-		public ArrayIdentifierContext(IdentifierNameVariantContext ctx) { copyFrom(ctx); }
+		public ArrayIdentifierDeclarationContext(IdentifierDeclarationContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterArrayIdentifier(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterArrayIdentifierDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitArrayIdentifier(this);
+			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitArrayIdentifierDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitArrayIdentifier(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class BaseIdentifierContext extends IdentifierNameVariantContext {
-		public TerminalNode IDENTIFIER_NAME() { return getToken(UtaLanguageParser.IDENTIFIER_NAME, 0); }
-		public BaseIdentifierContext(IdentifierNameVariantContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).enterBaseIdentifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof UtaLanguageListener ) ((UtaLanguageListener)listener).exitBaseIdentifier(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitBaseIdentifier(this);
+			if ( visitor instanceof UtaLanguageVisitor ) return ((UtaLanguageVisitor<? extends T>)visitor).visitArrayIdentifierDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final IdentifierNameVariantContext identifierNameVariant() throws RecognitionException {
-		IdentifierNameVariantContext _localctx = new IdentifierNameVariantContext(_ctx, getState());
-		enterRule(_localctx, 84, RULE_identifierNameVariant);
+	public final IdentifierDeclarationContext identifierDeclaration() throws RecognitionException {
+		IdentifierDeclarationContext _localctx = new IdentifierDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 56, RULE_identifierDeclaration);
 		int _la;
 		try {
-			setState(625);
+			setState(551);
 			switch ( getInterpreter().adaptivePredict(_input,44,_ctx) ) {
 			case 1:
-				_localctx = new ArrayIdentifierContext(_localctx);
+				_localctx = new ArrayIdentifierDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(618);
+				setState(544);
 				match(IDENTIFIER_NAME);
-				setState(620); 
+				setState(546); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(619);
+					setState(545);
 					arraySizeModifier();
 					}
 					}
-					setState(622); 
+					setState(548); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==GROUP_LEFT_BRACKET );
 				}
 				break;
 			case 2:
-				_localctx = new BaseIdentifierContext(_localctx);
+				_localctx = new BaseIdentifierDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(624);
+				setState(550);
 				match(IDENTIFIER_NAME);
 				}
 				break;
@@ -5698,19 +4900,19 @@ public class UtaLanguageParser extends Parser {
 
 	public final ArraySizeModifierContext arraySizeModifier() throws RecognitionException {
 		ArraySizeModifierContext _localctx = new ArraySizeModifierContext(_ctx, getState());
-		enterRule(_localctx, 86, RULE_arraySizeModifier);
+		enterRule(_localctx, 58, RULE_arraySizeModifier);
 		try {
-			setState(635);
+			setState(561);
 			switch ( getInterpreter().adaptivePredict(_input,45,_ctx) ) {
 			case 1:
 				_localctx = new ArraySizeFromExpressionContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(627);
+				setState(553);
 				match(GROUP_LEFT_BRACKET);
-				setState(628);
+				setState(554);
 				expression(0);
-				setState(629);
+				setState(555);
 				match(GROUP_RIGHT_BRACKET);
 				}
 				break;
@@ -5718,11 +4920,11 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new ArraySizeFromTypeContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(631);
+				setState(557);
 				match(GROUP_LEFT_BRACKET);
-				setState(632);
+				setState(558);
 				type();
-				setState(633);
+				setState(559);
 				match(GROUP_RIGHT_BRACKET);
 				}
 				break;
@@ -5821,15 +5023,15 @@ public class UtaLanguageParser extends Parser {
 
 	public final TypePrefixContext typePrefix() throws RecognitionException {
 		TypePrefixContext _localctx = new TypePrefixContext(_ctx, getState());
-		enterRule(_localctx, 88, RULE_typePrefix);
+		enterRule(_localctx, 60, RULE_typePrefix);
 		try {
-			setState(641);
+			setState(567);
 			switch (_input.LA(1)) {
 			case TYPE_PREFIX_URGENT:
 				_localctx = new TypePrefixUrgentContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(637);
+				setState(563);
 				match(TYPE_PREFIX_URGENT);
 				}
 				break;
@@ -5837,7 +5039,7 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypePrefixBroadcastContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(638);
+				setState(564);
 				match(TYPE_PREFIX_BROADCAST);
 				}
 				break;
@@ -5845,7 +5047,7 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypePrefixMetaContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(639);
+				setState(565);
 				match(TYPE_PREFIX_META);
 				}
 				break;
@@ -5853,7 +5055,7 @@ public class UtaLanguageParser extends Parser {
 				_localctx = new TypePrefixConstantContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(640);
+				setState(566);
 				match(TYPE_PREFIX_CONST);
 				}
 				break;
@@ -5874,7 +5076,7 @@ public class UtaLanguageParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 36:
+		case 20:
 			return expression_sempred((ExpressionContext)_localctx, predIndex);
 		}
 		return true;
@@ -5882,326 +5084,307 @@ public class UtaLanguageParser extends Parser {
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 44);
-		case 1:
-			return precpred(_ctx, 43);
-		case 2:
-			return precpred(_ctx, 42);
-		case 3:
 			return precpred(_ctx, 41);
-		case 4:
+		case 1:
 			return precpred(_ctx, 40);
-		case 5:
+		case 2:
 			return precpred(_ctx, 39);
-		case 6:
+		case 3:
 			return precpred(_ctx, 38);
-		case 7:
+		case 4:
 			return precpred(_ctx, 37);
-		case 8:
+		case 5:
 			return precpred(_ctx, 36);
-		case 9:
+		case 6:
 			return precpred(_ctx, 35);
-		case 10:
+		case 7:
 			return precpred(_ctx, 34);
-		case 11:
+		case 8:
 			return precpred(_ctx, 33);
-		case 12:
+		case 9:
 			return precpred(_ctx, 32);
-		case 13:
+		case 10:
 			return precpred(_ctx, 31);
-		case 14:
+		case 11:
 			return precpred(_ctx, 30);
-		case 15:
+		case 12:
 			return precpred(_ctx, 29);
-		case 16:
+		case 13:
 			return precpred(_ctx, 28);
-		case 17:
+		case 14:
 			return precpred(_ctx, 27);
-		case 18:
+		case 15:
 			return precpred(_ctx, 26);
-		case 19:
+		case 16:
 			return precpred(_ctx, 25);
-		case 20:
+		case 17:
 			return precpred(_ctx, 24);
-		case 21:
+		case 18:
 			return precpred(_ctx, 23);
-		case 22:
+		case 19:
 			return precpred(_ctx, 22);
-		case 23:
+		case 20:
 			return precpred(_ctx, 21);
-		case 24:
+		case 21:
 			return precpred(_ctx, 20);
-		case 25:
-			return precpred(_ctx, 19);
-		case 26:
-			return precpred(_ctx, 18);
-		case 27:
-			return precpred(_ctx, 17);
-		case 28:
+		case 22:
 			return precpred(_ctx, 16);
-		case 29:
+		case 23:
 			return precpred(_ctx, 15);
-		case 30:
+		case 24:
 			return precpred(_ctx, 14);
-		case 31:
+		case 25:
 			return precpred(_ctx, 13);
-		case 32:
+		case 26:
+			return precpred(_ctx, 12);
+		case 27:
 			return precpred(_ctx, 11);
-		case 33:
+		case 28:
 			return precpred(_ctx, 10);
-		case 34:
+		case 29:
 			return precpred(_ctx, 9);
-		case 35:
-			return precpred(_ctx, 53);
-		case 36:
-			return precpred(_ctx, 52);
-		case 37:
-			return precpred(_ctx, 50);
-		case 38:
-			return precpred(_ctx, 48);
-		case 39:
+		case 30:
+			return precpred(_ctx, 8);
+		case 31:
+			return precpred(_ctx, 7);
+		case 32:
 			return precpred(_ctx, 6);
+		case 33:
+			return precpred(_ctx, 50);
+		case 34:
+			return precpred(_ctx, 49);
+		case 35:
+			return precpred(_ctx, 47);
+		case 36:
+			return precpred(_ctx, 45);
+		case 37:
+			return precpred(_ctx, 17);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3S\u0286\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3S\u023c\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
-		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t \4!"+
-		"\t!\4\"\t\"\4#\t#\4$\t$\4%\t%\4&\t&\4\'\t\'\4(\t(\4)\t)\4*\t*\4+\t+\4"+
-		",\t,\4-\t-\4.\t.\3\2\5\2^\n\2\3\3\3\3\3\3\7\3c\n\3\f\3\16\3f\13\3\3\4"+
-		"\3\4\3\4\3\5\3\5\3\5\5\5n\n\5\3\6\3\6\3\6\7\6s\n\6\f\6\16\6v\13\6\3\7"+
-		"\3\7\3\b\3\b\3\b\3\b\3\b\3\b\5\b\u0080\n\b\3\t\3\t\3\t\7\t\u0085\n\t\f"+
-		"\t\16\t\u0088\13\t\3\n\3\n\3\13\3\13\3\f\3\f\5\f\u0090\n\f\3\f\5\f\u0093"+
-		"\n\f\3\r\7\r\u0096\n\r\f\r\16\r\u0099\13\r\3\16\3\16\5\16\u009d\n\16\3"+
-		"\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\5\17\u00a7\n\17\3\17\3\17\3\17"+
-		"\3\17\3\17\3\17\3\17\3\17\5\17\u00b1\n\17\3\17\3\17\5\17\u00b5\n\17\3"+
-		"\20\3\20\3\20\3\20\3\21\3\21\3\21\7\21\u00be\n\21\f\21\16\21\u00c1\13"+
-		"\21\3\22\3\22\3\22\7\22\u00c6\n\22\f\22\16\22\u00c9\13\22\3\23\3\23\3"+
-		"\24\3\24\3\24\3\24\3\24\7\24\u00d2\n\24\f\24\16\24\u00d5\13\24\3\24\3"+
-		"\24\3\25\3\25\3\25\3\25\3\26\7\26\u00de\n\26\f\26\16\26\u00e1\13\26\3"+
-		"\27\3\27\3\27\3\27\7\27\u00e7\n\27\f\27\16\27\u00ea\13\27\3\27\3\27\3"+
-		"\27\3\27\3\27\3\27\3\27\7\27\u00f3\n\27\f\27\16\27\u00f6\13\27\3\27\3"+
-		"\27\3\27\3\27\3\27\3\27\3\27\3\27\5\27\u0100\n\27\3\30\3\30\3\30\6\30"+
-		"\u0105\n\30\r\30\16\30\u0106\3\31\3\31\3\31\7\31\u010c\n\31\f\31\16\31"+
-		"\u010f\13\31\3\32\3\32\3\32\5\32\u0114\n\32\3\33\3\33\3\33\5\33\u0119"+
-		"\n\33\3\34\3\34\3\34\3\34\3\34\7\34\u0120\n\34\f\34\16\34\u0123\13\34"+
-		"\3\34\3\34\5\34\u0127\n\34\3\35\3\35\3\35\3\35\5\35\u012d\n\35\3\35\3"+
-		"\35\3\35\3\35\3\35\3\35\3\35\5\35\u0136\n\35\3\35\3\35\5\35\u013a\n\35"+
-		"\3\36\3\36\3\36\7\36\u013f\n\36\f\36\16\36\u0142\13\36\3\36\3\36\3\37"+
-		"\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37"+
-		"\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37"+
-		"\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\5\37\u016f"+
-		"\n\37\3\37\3\37\5\37\u0173\n\37\3\37\3\37\5\37\u0177\n\37\3 \3 \3!\3!"+
-		"\3\"\3\"\3#\3#\3$\3$\3%\3%\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3"+
-		"&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3"+
-		"&\5&\u01ab\n&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3"+
-		"&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3"+
-		"&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3"+
-		"&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3"+
-		"&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3"+
-		"&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\5&\u0228\n&\3&\7&\u022b\n&\f&\16"+
-		"&\u022e\13&\3\'\3\'\3\'\7\'\u0233\n\'\f\'\16\'\u0236\13\'\3(\5(\u0239"+
-		"\n(\3(\3(\3)\3)\3)\3)\3)\3)\3)\3)\3)\3)\3)\3)\3)\3)\3)\3)\3)\3)\3)\6)"+
-		"\u0250\n)\r)\16)\u0251\3)\3)\3)\5)\u0257\n)\3*\3*\3*\3*\3*\6*\u025e\n"+
-		"*\r*\16*\u025f\3+\3+\3+\3+\7+\u0266\n+\f+\16+\u0269\13+\3+\3+\3,\3,\6"+
-		",\u026f\n,\r,\16,\u0270\3,\5,\u0274\n,\3-\3-\3-\3-\3-\3-\3-\3-\5-\u027e"+
-		"\n-\3.\3.\3.\3.\5.\u0284\n.\3.\2\3J/\2\4\6\b\n\f\16\20\22\24\26\30\32"+
-		"\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPRTVXZ\2\2\u02cb\2]\3\2\2\2\4_"+
-		"\3\2\2\2\6g\3\2\2\2\bm\3\2\2\2\no\3\2\2\2\fw\3\2\2\2\16\177\3\2\2\2\20"+
-		"\u0081\3\2\2\2\22\u0089\3\2\2\2\24\u008b\3\2\2\2\26\u008d\3\2\2\2\30\u0097"+
-		"\3\2\2\2\32\u009c\3\2\2\2\34\u00b4\3\2\2\2\36\u00b6\3\2\2\2 \u00ba\3\2"+
-		"\2\2\"\u00c2\3\2\2\2$\u00ca\3\2\2\2&\u00cc\3\2\2\2(\u00d8\3\2\2\2*\u00df"+
-		"\3\2\2\2,\u00ff\3\2\2\2.\u0101\3\2\2\2\60\u0108\3\2\2\2\62\u0113\3\2\2"+
-		"\2\64\u0115\3\2\2\2\66\u0126\3\2\2\28\u0139\3\2\2\2:\u013b\3\2\2\2<\u0176"+
-		"\3\2\2\2>\u0178\3\2\2\2@\u017a\3\2\2\2B\u017c\3\2\2\2D\u017e\3\2\2\2F"+
-		"\u0180\3\2\2\2H\u0182\3\2\2\2J\u01aa\3\2\2\2L\u022f\3\2\2\2N\u0238\3\2"+
-		"\2\2P\u0256\3\2\2\2R\u0258\3\2\2\2T\u0261\3\2\2\2V\u0273\3\2\2\2X\u027d"+
-		"\3\2\2\2Z\u0283\3\2\2\2\\^\5\4\3\2]\\\3\2\2\2]^\3\2\2\2^\3\3\2\2\2_d\5"+
-		"\6\4\2`a\7>\2\2ac\5\6\4\2b`\3\2\2\2cf\3\2\2\2db\3\2\2\2de\3\2\2\2e\5\3"+
-		"\2\2\2fd\3\2\2\2gh\5N(\2hi\5\b\5\2i\7\3\2\2\2jk\7\64\2\2kn\5V,\2ln\5V"+
-		",\2mj\3\2\2\2ml\3\2\2\2n\t\3\2\2\2ot\5J&\2pq\7>\2\2qs\5J&\2rp\3\2\2\2"+
-		"sv\3\2\2\2tr\3\2\2\2tu\3\2\2\2u\13\3\2\2\2vt\3\2\2\2wx\5*\26\2x\r\3\2"+
-		"\2\2yz\5J&\2z{\7\66\2\2{\u0080\3\2\2\2|}\5J&\2}~\7\67\2\2~\u0080\3\2\2"+
-		"\2\177y\3\2\2\2\177|\3\2\2\2\u0080\17\3\2\2\2\u0081\u0086\5(\25\2\u0082"+
-		"\u0083\7>\2\2\u0083\u0085\5(\25\2\u0084\u0082\3\2\2\2\u0085\u0088\3\2"+
-		"\2\2\u0086\u0084\3\2\2\2\u0086\u0087\3\2\2\2\u0087\21\3\2\2\2\u0088\u0086"+
-		"\3\2\2\2\u0089\u008a\5J&\2\u008a\23\3\2\2\2\u008b\u008c\5J&\2\u008c\25"+
-		"\3\2\2\2\u008d\u008f\5\30\r\2\u008e\u0090\5\36\20\2\u008f\u008e\3\2\2"+
-		"\2\u008f\u0090\3\2\2\2\u0090\u0092\3\2\2\2\u0091\u0093\5&\24\2\u0092\u0091"+
-		"\3\2\2\2\u0092\u0093\3\2\2\2\u0093\27\3\2\2\2\u0094\u0096\5\32\16\2\u0095"+
-		"\u0094\3\2\2\2\u0096\u0099\3\2\2\2\u0097\u0095\3\2\2\2\u0097\u0098\3\2"+
-		"\2\2\u0098\31\3\2\2\2\u0099\u0097\3\2\2\2\u009a\u009d\5\34\17\2\u009b"+
-		"\u009d\5,\27\2\u009c\u009a\3\2\2\2\u009c\u009b\3\2\2\2\u009d\33\3\2\2"+
-		"\2\u009e\u009f\7R\2\2\u009f\u00a0\7<\2\2\u00a0\u00a1\5\4\3\2\u00a1\u00a2"+
-		"\7=\2\2\u00a2\u00a3\7\23\2\2\u00a3\u00a4\7R\2\2\u00a4\u00a6\7<\2\2\u00a5"+
-		"\u00a7\5L\'\2\u00a6\u00a5\3\2\2\2\u00a6\u00a7\3\2\2\2\u00a7\u00a8\3\2"+
-		"\2\2\u00a8\u00a9\7=\2\2\u00a9\u00aa\7?\2\2\u00aa\u00b5\3\2\2\2\u00ab\u00ac"+
-		"\7R\2\2\u00ac\u00ad\7\23\2\2\u00ad\u00ae\7R\2\2\u00ae\u00b0\7<\2\2\u00af"+
-		"\u00b1\5L\'\2\u00b0\u00af\3\2\2\2\u00b0\u00b1\3\2\2\2\u00b1\u00b2\3\2"+
-		"\2\2\u00b2\u00b3\7=\2\2\u00b3\u00b5\7?\2\2\u00b4\u009e\3\2\2\2\u00b4\u00ab"+
-		"\3\2\2\2\u00b5\35\3\2\2\2\u00b6\u00b7\7P\2\2\u00b7\u00b8\5 \21\2\u00b8"+
-		"\u00b9\7?\2\2\u00b9\37\3\2\2\2\u00ba\u00bf\5\"\22\2\u00bb\u00bc\7\65\2"+
-		"\2\u00bc\u00be\5\"\22\2\u00bd\u00bb\3\2\2\2\u00be\u00c1\3\2\2\2\u00bf"+
-		"\u00bd\3\2\2\2\u00bf\u00c0\3\2\2\2\u00c0!\3\2\2\2\u00c1\u00bf\3\2\2\2"+
-		"\u00c2\u00c7\5$\23\2\u00c3\u00c4\7>\2\2\u00c4\u00c6\5$\23\2\u00c5\u00c3"+
-		"\3\2\2\2\u00c6\u00c9\3\2\2\2\u00c7\u00c5\3\2\2\2\u00c7\u00c8\3\2\2\2\u00c8"+
-		"#\3\2\2\2\u00c9\u00c7\3\2\2\2\u00ca\u00cb\7R\2\2\u00cb%\3\2\2\2\u00cc"+
-		"\u00cd\7Q\2\2\u00cd\u00d3\78\2\2\u00ce\u00cf\5J&\2\u00cf\u00d0\7?\2\2"+
-		"\u00d0\u00d2\3\2\2\2\u00d1\u00ce\3\2\2\2\u00d2\u00d5\3\2\2\2\u00d3\u00d1"+
-		"\3\2\2\2\u00d3\u00d4\3\2\2\2\u00d4\u00d6\3\2\2\2\u00d5\u00d3\3\2\2\2\u00d6"+
-		"\u00d7\79\2\2\u00d7\'\3\2\2\2\u00d8\u00d9\7R\2\2\u00d9\u00da\7\61\2\2"+
-		"\u00da\u00db\5N(\2\u00db)\3\2\2\2\u00dc\u00de\5,\27\2\u00dd\u00dc\3\2"+
-		"\2\2\u00de\u00e1\3\2\2\2\u00df\u00dd\3\2\2\2\u00df\u00e0\3\2\2\2\u00e0"+
-		"+\3\2\2\2\u00e1\u00df\3\2\2\2\u00e2\u00e3\5N(\2\u00e3\u00e8\5\64\33\2"+
-		"\u00e4\u00e5\7>\2\2\u00e5\u00e7\5\64\33\2\u00e6\u00e4\3\2\2\2\u00e7\u00ea"+
-		"\3\2\2\2\u00e8\u00e6\3\2\2\2\u00e8\u00e9\3\2\2\2\u00e9\u00eb\3\2\2\2\u00ea"+
-		"\u00e8\3\2\2\2\u00eb\u00ec\7?\2\2\u00ec\u0100\3\2\2\2\u00ed\u00ee\7G\2"+
-		"\2\u00ee\u00ef\5N(\2\u00ef\u00f4\5V,\2\u00f0\u00f1\7>\2\2\u00f1\u00f3"+
-		"\5V,\2\u00f2\u00f0\3\2\2\2\u00f3\u00f6\3\2\2\2\u00f4\u00f2\3\2\2\2\u00f4"+
-		"\u00f5\3\2\2\2\u00f5\u00f7\3\2\2\2\u00f6\u00f4\3\2\2\2\u00f7\u00f8\7?"+
-		"\2\2\u00f8\u0100\3\2\2\2\u00f9\u0100\58\35\2\u00fa\u00fb\7\b\2\2\u00fb"+
-		"\u00fc\7N\2\2\u00fc\u00fd\5.\30\2\u00fd\u00fe\7?\2\2\u00fe\u0100\3\2\2"+
-		"\2\u00ff\u00e2\3\2\2\2\u00ff\u00ed\3\2\2\2\u00ff\u00f9\3\2\2\2\u00ff\u00fa"+
-		"\3\2\2\2\u0100-\3\2\2\2\u0101\u0104\5\60\31\2\u0102\u0103\7\65\2\2\u0103"+
-		"\u0105\5\60\31\2\u0104\u0102\3\2\2\2\u0105\u0106\3\2\2\2\u0106\u0104\3"+
-		"\2\2\2\u0106\u0107\3\2\2\2\u0107/\3\2\2\2\u0108\u010d\5\62\32\2\u0109"+
-		"\u010a\7>\2\2\u010a\u010c\5\62\32\2\u010b\u0109\3\2\2\2\u010c\u010f\3"+
-		"\2\2\2\u010d\u010b\3\2\2\2\u010d\u010e\3\2\2\2\u010e\61\3\2\2\2\u010f"+
-		"\u010d\3\2\2\2\u0110\u0114\7O\2\2\u0111\u0114\7R\2\2\u0112\u0114\5R*\2"+
-		"\u0113\u0110\3\2\2\2\u0113\u0111\3\2\2\2\u0113\u0112\3\2\2\2\u0114\63"+
-		"\3\2\2\2\u0115\u0118\5V,\2\u0116\u0117\7\23\2\2\u0117\u0119\5\66\34\2"+
-		"\u0118\u0116\3\2\2\2\u0118\u0119\3\2\2\2\u0119\65\3\2\2\2\u011a\u0127"+
-		"\5J&\2\u011b\u011c\78\2\2\u011c\u0121\5\66\34\2\u011d\u011e\7>\2\2\u011e"+
-		"\u0120\5\66\34\2\u011f\u011d\3\2\2\2\u0120\u0123\3\2\2\2\u0121\u011f\3"+
-		"\2\2\2\u0121\u0122\3\2\2\2\u0122\u0124\3\2\2\2\u0123\u0121\3\2\2\2\u0124"+
-		"\u0125\79\2\2\u0125\u0127\3\2\2\2\u0126\u011a\3\2\2\2\u0126\u011b\3\2"+
-		"\2\2\u0127\67\3\2\2\2\u0128\u0129\5N(\2\u0129\u012a\7R\2\2\u012a\u012c"+
-		"\7<\2\2\u012b\u012d\5\4\3\2\u012c\u012b\3\2\2\2\u012c\u012d\3\2\2\2\u012d"+
-		"\u012e\3\2\2\2\u012e\u012f\7=\2\2\u012f\u0130\5:\36\2\u0130\u013a\3\2"+
-		"\2\2\u0131\u0132\7@\2\2\u0132\u0133\7R\2\2\u0133\u0135\7<\2\2\u0134\u0136"+
-		"\5\4\3\2\u0135\u0134\3\2\2\2\u0135\u0136\3\2\2\2\u0136\u0137\3\2\2\2\u0137"+
-		"\u0138\7=\2\2\u0138\u013a\5:\36\2\u0139\u0128\3\2\2\2\u0139\u0131\3\2"+
-		"\2\2\u013a9\3\2\2\2\u013b\u013c\78\2\2\u013c\u0140\5*\26\2\u013d\u013f"+
-		"\5<\37\2\u013e\u013d\3\2\2\2\u013f\u0142\3\2\2\2\u0140\u013e\3\2\2\2\u0140"+
-		"\u0141\3\2\2\2\u0141\u0143\3\2\2\2\u0142\u0140\3\2\2\2\u0143\u0144\79"+
-		"\2\2\u0144;\3\2\2\2\u0145\u0177\5:\36\2\u0146\u0147\5J&\2\u0147\u0148"+
-		"\7?\2\2\u0148\u0177\3\2\2\2\u0149\u014a\7J\2\2\u014a\u014b\7<\2\2\u014b"+
-		"\u014c\5B\"\2\u014c\u014d\7?\2\2\u014d\u014e\5D#\2\u014e\u014f\7?\2\2"+
-		"\u014f\u0150\5F$\2\u0150\u0151\7=\2\2\u0151\u0152\5H%\2\u0152\u0177\3"+
-		"\2\2\2\u0153\u0154\7J\2\2\u0154\u0155\7<\2\2\u0155\u0156\7R\2\2\u0156"+
-		"\u0157\7\61\2\2\u0157\u0158\5N(\2\u0158\u0159\7=\2\2\u0159\u015a\5H%\2"+
-		"\u015a\u0177\3\2\2\2\u015b\u015c\7K\2\2\u015c\u015d\7<\2\2\u015d\u015e"+
-		"\5D#\2\u015e\u015f\7=\2\2\u015f\u0160\5H%\2\u0160\u0177\3\2\2\2\u0161"+
-		"\u0162\7M\2\2\u0162\u0163\5H%\2\u0163\u0164\7K\2\2\u0164\u0165\5D#\2\u0165"+
-		"\u0166\7?\2\2\u0166\u0177\3\2\2\2\u0167\u0168\7H\2\2\u0168\u0169\7<\2"+
-		"\2\u0169\u016a\5J&\2\u016a\u016b\7=\2\2\u016b\u016e\5> \2\u016c\u016d"+
-		"\7I\2\2\u016d\u016f\5@!\2\u016e\u016c\3\2\2\2\u016e\u016f\3\2\2\2\u016f"+
-		"\u0177\3\2\2\2\u0170\u0172\7L\2\2\u0171\u0173\5J&\2\u0172\u0171\3\2\2"+
-		"\2\u0172\u0173\3\2\2\2\u0173\u0174\3\2\2\2\u0174\u0177\7?\2\2\u0175\u0177"+
-		"\7?\2\2\u0176\u0145\3\2\2\2\u0176\u0146\3\2\2\2\u0176\u0149\3\2\2\2\u0176"+
-		"\u0153\3\2\2\2\u0176\u015b\3\2\2\2\u0176\u0161\3\2\2\2\u0176\u0167\3\2"+
-		"\2\2\u0176\u0170\3\2\2\2\u0176\u0175\3\2\2\2\u0177=\3\2\2\2\u0178\u0179"+
-		"\5<\37\2\u0179?\3\2\2\2\u017a\u017b\5<\37\2\u017bA\3\2\2\2\u017c\u017d"+
-		"\5J&\2\u017dC\3\2\2\2\u017e\u017f\5J&\2\u017fE\3\2\2\2\u0180\u0181\5J"+
-		"&\2\u0181G\3\2\2\2\u0182\u0183\5<\37\2\u0183I\3\2\2\2\u0184\u0185\b&\1"+
-		"\2\u0185\u0186\7\66\2\2\u0186\u01ab\5J&\65\u0187\u0188\7/\2\2\u0188\u01ab"+
-		"\5J&\63\u0189\u018a\7\60\2\2\u018a\u01ab\5J&\61\u018b\u018c\7\63\2\2\u018c"+
-		"\u01ab\5J&\60\u018d\u018e\7\62\2\2\u018e\u01ab\5J&/\u018f\u0190\7A\2\2"+
-		"\u0190\u01ab\5J&\16\u0191\u0192\7E\2\2\u0192\u0193\7<\2\2\u0193\u0194"+
-		"\7R\2\2\u0194\u0195\7\61\2\2\u0195\u0196\5N(\2\u0196\u0197\7=\2\2\u0197"+
-		"\u0198\5J&\n\u0198\u01ab\3\2\2\2\u0199\u019a\7F\2\2\u019a\u019b\7<\2\2"+
-		"\u019b\u019c\7R\2\2\u019c\u019d\7\61\2\2\u019d\u019e\5N(\2\u019e\u019f"+
-		"\7=\2\2\u019f\u01a0\5J&\t\u01a0\u01ab\3\2\2\2\u01a1\u01a2\7<\2\2\u01a2"+
-		"\u01a3\5J&\2\u01a3\u01a4\7=\2\2\u01a4\u01ab\3\2\2\2\u01a5\u01ab\7\22\2"+
-		"\2\u01a6\u01ab\7\20\2\2\u01a7\u01ab\7\21\2\2\u01a8\u01ab\7S\2\2\u01a9"+
-		"\u01ab\7R\2\2\u01aa\u0184\3\2\2\2\u01aa\u0187\3\2\2\2\u01aa\u0189\3\2"+
-		"\2\2\u01aa\u018b\3\2\2\2\u01aa\u018d\3\2\2\2\u01aa\u018f\3\2\2\2\u01aa"+
-		"\u0191\3\2\2\2\u01aa\u0199\3\2\2\2\u01aa\u01a1\3\2\2\2\u01aa\u01a5\3\2"+
-		"\2\2\u01aa\u01a6\3\2\2\2\u01aa\u01a7\3\2\2\2\u01aa\u01a8\3\2\2\2\u01aa"+
-		"\u01a9\3\2\2\2\u01ab\u022c\3\2\2\2\u01ac\u01ad\f.\2\2\u01ad\u01ae\7\'"+
-		"\2\2\u01ae\u022b\5J&/\u01af\u01b0\f-\2\2\u01b0\u01b1\7(\2\2\u01b1\u022b"+
-		"\5J&.\u01b2\u01b3\f,\2\2\u01b3\u01b4\7)\2\2\u01b4\u022b\5J&-\u01b5\u01b6"+
-		"\f+\2\2\u01b6\u01b7\7\63\2\2\u01b7\u022b\5J&,\u01b8\u01b9\f*\2\2\u01b9"+
-		"\u01ba\7\62\2\2\u01ba\u022b\5J&+\u01bb\u01bc\f)\2\2\u01bc\u01bd\7\"\2"+
-		"\2\u01bd\u022b\5J&*\u01be\u01bf\f(\2\2\u01bf\u01c0\7#\2\2\u01c0\u022b"+
-		"\5J&)\u01c1\u01c2\f\'\2\2\u01c2\u01c3\7+\2\2\u01c3\u022b\5J&(\u01c4\u01c5"+
-		"\f&\2\2\u01c5\u01c6\7,\2\2\u01c6\u022b\5J&\'\u01c7\u01c8\f%\2\2\u01c8"+
-		"\u01c9\7\65\2\2\u01c9\u022b\5J&&\u01ca\u01cb\f$\2\2\u01cb\u01cc\7\36\2"+
-		"\2\u01cc\u022b\5J&%\u01cd\u01ce\f#\2\2\u01ce\u01cf\7-\2\2\u01cf\u022b"+
-		"\5J&$\u01d0\u01d1\f\"\2\2\u01d1\u01d2\7\37\2\2\u01d2\u022b\5J&#\u01d3"+
-		"\u01d4\f!\2\2\u01d4\u01d5\7 \2\2\u01d5\u022b\5J&\"\u01d6\u01d7\f \2\2"+
-		"\u01d7\u01d8\7!\2\2\u01d8\u022b\5J&!\u01d9\u01da\f\37\2\2\u01da\u01db"+
-		"\7\64\2\2\u01db\u022b\5J& \u01dc\u01dd\f\36\2\2\u01dd\u01de\7*\2\2\u01de"+
-		"\u022b\5J&\37\u01df\u01e0\f\35\2\2\u01e0\u01e1\7&\2\2\u01e1\u022b\5J&"+
-		"\36\u01e2\u01e3\f\34\2\2\u01e3\u01e4\7$\2\2\u01e4\u022b\5J&\35\u01e5\u01e6"+
-		"\f\33\2\2\u01e6\u01e7\7%\2\2\u01e7\u022b\5J&\34\u01e8\u01e9\f\32\2\2\u01e9"+
-		"\u01ea\7\67\2\2\u01ea\u01eb\5J&\2\u01eb\u01ec\7\61\2\2\u01ec\u01ed\5J"+
-		"&\32\u01ed\u022b\3\2\2\2\u01ee\u01ef\f\31\2\2\u01ef\u01f0\7\23\2\2\u01f0"+
-		"\u022b\5J&\31\u01f1\u01f2\f\30\2\2\u01f2\u01f3\7\25\2\2\u01f3\u022b\5"+
-		"J&\30\u01f4\u01f5\f\27\2\2\u01f5\u01f6\7\24\2\2\u01f6\u022b\5J&\27\u01f7"+
-		"\u01f8\f\26\2\2\u01f8\u01f9\7\26\2\2\u01f9\u022b\5J&\26\u01fa\u01fb\f"+
-		"\25\2\2\u01fb\u01fc\7\27\2\2\u01fc\u022b\5J&\25\u01fd\u01fe\f\24\2\2\u01fe"+
-		"\u01ff\7\30\2\2\u01ff\u022b\5J&\24\u0200\u0201\f\23\2\2\u0201\u0202\7"+
-		"\32\2\2\u0202\u022b\5J&\23\u0203\u0204\f\22\2\2\u0204\u0205\7\31\2\2\u0205"+
-		"\u022b\5J&\22\u0206\u0207\f\21\2\2\u0207\u0208\7\34\2\2\u0208\u022b\5"+
-		"J&\21\u0209\u020a\f\20\2\2\u020a\u020b\7\35\2\2\u020b\u022b\5J&\20\u020c"+
-		"\u020d\f\17\2\2\u020d\u020e\7\33\2\2\u020e\u022b\5J&\17\u020f\u0210\f"+
-		"\r\2\2\u0210\u0211\7B\2\2\u0211\u022b\5J&\16\u0212\u0213\f\f\2\2\u0213"+
-		"\u0214\7D\2\2\u0214\u022b\5J&\r\u0215\u0216\f\13\2\2\u0216\u0217\7C\2"+
-		"\2\u0217\u022b\5J&\f\u0218\u0219\f\67\2\2\u0219\u021a\7:\2\2\u021a\u021b"+
-		"\5J&\2\u021b\u021c\7;\2\2\u021c\u022b\3\2\2\2\u021d\u021e\f\66\2\2\u021e"+
-		"\u021f\7.\2\2\u021f\u022b\7R\2\2\u0220\u0221\f\64\2\2\u0221\u022b\7/\2"+
-		"\2\u0222\u0223\f\62\2\2\u0223\u022b\7\60\2\2\u0224\u0225\f\b\2\2\u0225"+
-		"\u0227\7<\2\2\u0226\u0228\5L\'\2\u0227\u0226\3\2\2\2\u0227\u0228\3\2\2"+
-		"\2\u0228\u0229\3\2\2\2\u0229\u022b\7=\2\2\u022a\u01ac\3\2\2\2\u022a\u01af"+
-		"\3\2\2\2\u022a\u01b2\3\2\2\2\u022a\u01b5\3\2\2\2\u022a\u01b8\3\2\2\2\u022a"+
-		"\u01bb\3\2\2\2\u022a\u01be\3\2\2\2\u022a\u01c1\3\2\2\2\u022a\u01c4\3\2"+
-		"\2\2\u022a\u01c7\3\2\2\2\u022a\u01ca\3\2\2\2\u022a\u01cd\3\2\2\2\u022a"+
-		"\u01d0\3\2\2\2\u022a\u01d3\3\2\2\2\u022a\u01d6\3\2\2\2\u022a\u01d9\3\2"+
-		"\2\2\u022a\u01dc\3\2\2\2\u022a\u01df\3\2\2\2\u022a\u01e2\3\2\2\2\u022a"+
-		"\u01e5\3\2\2\2\u022a\u01e8\3\2\2\2\u022a\u01ee\3\2\2\2\u022a\u01f1\3\2"+
-		"\2\2\u022a\u01f4\3\2\2\2\u022a\u01f7\3\2\2\2\u022a\u01fa\3\2\2\2\u022a"+
-		"\u01fd\3\2\2\2\u022a\u0200\3\2\2\2\u022a\u0203\3\2\2\2\u022a\u0206\3\2"+
-		"\2\2\u022a\u0209\3\2\2\2\u022a\u020c\3\2\2\2\u022a\u020f\3\2\2\2\u022a"+
-		"\u0212\3\2\2\2\u022a\u0215\3\2\2\2\u022a\u0218\3\2\2\2\u022a\u021d\3\2"+
-		"\2\2\u022a\u0220\3\2\2\2\u022a\u0222\3\2\2\2\u022a\u0224\3\2\2\2\u022b"+
-		"\u022e\3\2\2\2\u022c\u022a\3\2\2\2\u022c\u022d\3\2\2\2\u022dK\3\2\2\2"+
-		"\u022e\u022c\3\2\2\2\u022f\u0234\5J&\2\u0230\u0231\7>\2\2\u0231\u0233"+
-		"\5J&\2\u0232\u0230\3\2\2\2\u0233\u0236\3\2\2\2\u0234\u0232\3\2\2\2\u0234"+
-		"\u0235\3\2\2\2\u0235M\3\2\2\2\u0236\u0234\3\2\2\2\u0237\u0239\5Z.\2\u0238"+
-		"\u0237\3\2\2\2\u0238\u0239\3\2\2\2\u0239\u023a\3\2\2\2\u023a\u023b\5P"+
-		")\2\u023bO\3\2\2\2\u023c\u0257\7\6\2\2\u023d\u0257\7\7\2\2\u023e\u0257"+
-		"\7\b\2\2\u023f\u0257\7\t\2\2\u0240\u0241\7\6\2\2\u0241\u0242\7:\2\2\u0242"+
-		"\u0243\5J&\2\u0243\u0244\7>\2\2\u0244\u0245\5J&\2\u0245\u0246\7;\2\2\u0246"+
-		"\u0257\3\2\2\2\u0247\u0248\7\n\2\2\u0248\u0249\7:\2\2\u0249\u024a\5J&"+
-		"\2\u024a\u024b\7;\2\2\u024b\u0257\3\2\2\2\u024c\u024d\7\13\2\2\u024d\u024f"+
-		"\78\2\2\u024e\u0250\5T+\2\u024f\u024e\3\2\2\2\u0250\u0251\3\2\2\2\u0251"+
-		"\u024f\3\2\2\2\u0251\u0252\3\2\2\2\u0252\u0253\3\2\2\2\u0253\u0254\79"+
-		"\2\2\u0254\u0257\3\2\2\2\u0255\u0257\7R\2\2\u0256\u023c\3\2\2\2\u0256"+
-		"\u023d\3\2\2\2\u0256\u023e\3\2\2\2\u0256\u023f\3\2\2\2\u0256\u0240\3\2"+
-		"\2\2\u0256\u0247\3\2\2\2\u0256\u024c\3\2\2\2\u0256\u0255\3\2\2\2\u0257"+
-		"Q\3\2\2\2\u0258\u025d\7R\2\2\u0259\u025a\7:\2\2\u025a\u025b\5J&\2\u025b"+
-		"\u025c\7;\2\2\u025c\u025e\3\2\2\2\u025d\u0259\3\2\2\2\u025e\u025f\3\2"+
-		"\2\2\u025f\u025d\3\2\2\2\u025f\u0260\3\2\2\2\u0260S\3\2\2\2\u0261\u0262"+
-		"\5N(\2\u0262\u0267\5V,\2\u0263\u0264\7>\2\2\u0264\u0266\5V,\2\u0265\u0263"+
-		"\3\2\2\2\u0266\u0269\3\2\2\2\u0267\u0265\3\2\2\2\u0267\u0268\3\2\2\2\u0268"+
-		"\u026a\3\2\2\2\u0269\u0267\3\2\2\2\u026a\u026b\7?\2\2\u026bU\3\2\2\2\u026c"+
-		"\u026e\7R\2\2\u026d\u026f\5X-\2\u026e\u026d\3\2\2\2\u026f\u0270\3\2\2"+
-		"\2\u0270\u026e\3\2\2\2\u0270\u0271\3\2\2\2\u0271\u0274\3\2\2\2\u0272\u0274"+
-		"\7R\2\2\u0273\u026c\3\2\2\2\u0273\u0272\3\2\2\2\u0274W\3\2\2\2\u0275\u0276"+
-		"\7:\2\2\u0276\u0277\5J&\2\u0277\u0278\7;\2\2\u0278\u027e\3\2\2\2\u0279"+
-		"\u027a\7:\2\2\u027a\u027b\5N(\2\u027b\u027c\7;\2\2\u027c\u027e\3\2\2\2"+
-		"\u027d\u0275\3\2\2\2\u027d\u0279\3\2\2\2\u027eY\3\2\2\2\u027f\u0284\7"+
-		"\f\2\2\u0280\u0284\7\r\2\2\u0281\u0284\7\16\2\2\u0282\u0284\7\17\2\2\u0283"+
-		"\u027f\3\2\2\2\u0283\u0280\3\2\2\2\u0283\u0281\3\2\2\2\u0283\u0282\3\2"+
-		"\2\2\u0284[\3\2\2\2\61]dmt\177\u0086\u008f\u0092\u0097\u009c\u00a6\u00b0"+
-		"\u00b4\u00bf\u00c7\u00d3\u00df\u00e8\u00f4\u00ff\u0106\u010d\u0113\u0118"+
-		"\u0121\u0126\u012c\u0135\u0139\u0140\u016e\u0172\u0176\u01aa\u0227\u022a"+
-		"\u022c\u0234\u0238\u0251\u0256\u025f\u0267\u0270\u0273\u027d\u0283";
+		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t \3\2"+
+		"\3\2\3\2\3\2\3\2\3\2\5\2G\n\2\3\3\3\3\3\3\7\3L\n\3\f\3\16\3O\13\3\3\4"+
+		"\3\4\3\4\3\4\3\5\5\5V\n\5\3\5\5\5Y\n\5\3\5\5\5\\\n\5\3\6\3\6\3\6\3\6\3"+
+		"\7\3\7\3\7\7\7e\n\7\f\7\16\7h\13\7\3\b\3\b\3\b\7\bm\n\b\f\b\16\bp\13\b"+
+		"\3\t\3\t\3\t\3\t\3\t\7\tw\n\t\f\t\16\tz\13\t\3\t\3\t\3\n\6\n\177\n\n\r"+
+		"\n\16\n\u0080\3\13\3\13\3\13\3\13\7\13\u0087\n\13\f\13\16\13\u008a\13"+
+		"\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\7\13\u0093\n\13\f\13\16\13\u0096"+
+		"\13\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\5\13\u00a3"+
+		"\n\13\3\13\5\13\u00a6\n\13\3\13\3\13\3\13\3\13\5\13\u00ac\n\13\3\13\3"+
+		"\13\5\13\u00b0\n\13\3\f\3\f\3\f\6\f\u00b5\n\f\r\f\16\f\u00b6\3\r\3\r\3"+
+		"\r\7\r\u00bc\n\r\f\r\16\r\u00bf\13\r\3\16\3\16\3\16\5\16\u00c4\n\16\3"+
+		"\17\3\17\3\17\5\17\u00c9\n\17\3\20\3\20\3\20\3\20\3\20\7\20\u00d0\n\20"+
+		"\f\20\16\20\u00d3\13\20\3\20\3\20\5\20\u00d7\n\20\3\21\3\21\3\21\3\21"+
+		"\5\21\u00dd\n\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\5\21\u00e6\n\21\3"+
+		"\21\3\21\5\21\u00ea\n\21\3\22\3\22\5\22\u00ee\n\22\3\22\5\22\u00f1\n\22"+
+		"\3\22\3\22\3\23\6\23\u00f6\n\23\r\23\16\23\u00f7\3\24\3\24\3\24\3\24\3"+
+		"\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3"+
+		"\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3"+
+		"\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\5\24\u0123\n\24\3\24\3\24"+
+		"\5\24\u0127\n\24\3\24\3\24\5\24\u012b\n\24\3\25\3\25\3\25\7\25\u0130\n"+
+		"\25\f\25\16\25\u0133\13\25\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\5\26"+
+		"\u0159\n\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\5\26\u01d0\n\26\3\26\7\26\u01d3\n"+
+		"\26\f\26\16\26\u01d6\13\26\3\27\3\27\3\27\7\27\u01db\n\27\f\27\16\27\u01de"+
+		"\13\27\3\30\3\30\5\30\u01e2\n\30\3\30\3\30\3\31\3\31\3\31\7\31\u01e9\n"+
+		"\31\f\31\16\31\u01ec\13\31\3\32\5\32\u01ef\n\32\3\32\3\32\3\33\3\33\3"+
+		"\33\3\33\3\33\3\33\3\33\3\33\3\33\3\33\3\33\3\33\3\33\3\33\3\33\3\33\3"+
+		"\33\3\33\3\33\6\33\u0206\n\33\r\33\16\33\u0207\3\33\3\33\3\33\5\33\u020d"+
+		"\n\33\3\34\3\34\3\34\3\34\3\34\6\34\u0214\n\34\r\34\16\34\u0215\3\35\3"+
+		"\35\3\35\3\35\7\35\u021c\n\35\f\35\16\35\u021f\13\35\3\35\3\35\3\36\3"+
+		"\36\6\36\u0225\n\36\r\36\16\36\u0226\3\36\5\36\u022a\n\36\3\37\3\37\3"+
+		"\37\3\37\3\37\3\37\3\37\3\37\5\37\u0234\n\37\3 \3 \3 \3 \5 \u023a\n \3"+
+		" \2\3*!\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:"+
+		"<>\2\3\4\2\66\66AA\u028d\2F\3\2\2\2\4H\3\2\2\2\6P\3\2\2\2\bU\3\2\2\2\n"+
+		"]\3\2\2\2\fa\3\2\2\2\16i\3\2\2\2\20q\3\2\2\2\22~\3\2\2\2\24\u00af\3\2"+
+		"\2\2\26\u00b1\3\2\2\2\30\u00b8\3\2\2\2\32\u00c3\3\2\2\2\34\u00c5\3\2\2"+
+		"\2\36\u00d6\3\2\2\2 \u00e9\3\2\2\2\"\u00eb\3\2\2\2$\u00f5\3\2\2\2&\u012a"+
+		"\3\2\2\2(\u012c\3\2\2\2*\u0158\3\2\2\2,\u01d7\3\2\2\2.\u01df\3\2\2\2\60"+
+		"\u01e5\3\2\2\2\62\u01ee\3\2\2\2\64\u020c\3\2\2\2\66\u020e\3\2\2\28\u0217"+
+		"\3\2\2\2:\u0229\3\2\2\2<\u0233\3\2\2\2>\u0239\3\2\2\2@A\5*\26\2AB\7\66"+
+		"\2\2BG\3\2\2\2CD\5*\26\2DE\7\67\2\2EG\3\2\2\2F@\3\2\2\2FC\3\2\2\2G\3\3"+
+		"\2\2\2HM\5\6\4\2IJ\7>\2\2JL\5\6\4\2KI\3\2\2\2LO\3\2\2\2MK\3\2\2\2MN\3"+
+		"\2\2\2N\5\3\2\2\2OM\3\2\2\2PQ\7R\2\2QR\7\61\2\2RS\5\62\32\2S\7\3\2\2\2"+
+		"TV\5\22\n\2UT\3\2\2\2UV\3\2\2\2VX\3\2\2\2WY\5\n\6\2XW\3\2\2\2XY\3\2\2"+
+		"\2Y[\3\2\2\2Z\\\5\20\t\2[Z\3\2\2\2[\\\3\2\2\2\\\t\3\2\2\2]^\7P\2\2^_\5"+
+		"\f\7\2_`\7?\2\2`\13\3\2\2\2af\5\16\b\2bc\7\65\2\2ce\5\16\b\2db\3\2\2\2"+
+		"eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2g\r\3\2\2\2hf\3\2\2\2in\7R\2\2jk\7>\2\2"+
+		"km\7R\2\2lj\3\2\2\2mp\3\2\2\2nl\3\2\2\2no\3\2\2\2o\17\3\2\2\2pn\3\2\2"+
+		"\2qr\7Q\2\2rx\78\2\2st\5*\26\2tu\7?\2\2uw\3\2\2\2vs\3\2\2\2wz\3\2\2\2"+
+		"xv\3\2\2\2xy\3\2\2\2y{\3\2\2\2zx\3\2\2\2{|\79\2\2|\21\3\2\2\2}\177\5\24"+
+		"\13\2~}\3\2\2\2\177\u0080\3\2\2\2\u0080~\3\2\2\2\u0080\u0081\3\2\2\2\u0081"+
+		"\23\3\2\2\2\u0082\u0083\5\62\32\2\u0083\u0088\5\34\17\2\u0084\u0085\7"+
+		">\2\2\u0085\u0087\5\34\17\2\u0086\u0084\3\2\2\2\u0087\u008a\3\2\2\2\u0088"+
+		"\u0086\3\2\2\2\u0088\u0089\3\2\2\2\u0089\u008b\3\2\2\2\u008a\u0088\3\2"+
+		"\2\2\u008b\u008c\7?\2\2\u008c\u00b0\3\2\2\2\u008d\u008e\7G\2\2\u008e\u008f"+
+		"\5\62\32\2\u008f\u0094\5:\36\2\u0090\u0091\7>\2\2\u0091\u0093\5:\36\2"+
+		"\u0092\u0090\3\2\2\2\u0093\u0096\3\2\2\2\u0094\u0092\3\2\2\2\u0094\u0095"+
+		"\3\2\2\2\u0095\u0097\3\2\2\2\u0096\u0094\3\2\2\2\u0097\u0098\7?\2\2\u0098"+
+		"\u00b0\3\2\2\2\u0099\u00b0\5 \21\2\u009a\u009b\7\b\2\2\u009b\u009c\7N"+
+		"\2\2\u009c\u009d\5\26\f\2\u009d\u009e\7?\2\2\u009e\u00b0\3\2\2\2\u009f"+
+		"\u00a5\7R\2\2\u00a0\u00a2\7<\2\2\u00a1\u00a3\5,\27\2\u00a2\u00a1\3\2\2"+
+		"\2\u00a2\u00a3\3\2\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00a6\7=\2\2\u00a5\u00a0"+
+		"\3\2\2\2\u00a5\u00a6\3\2\2\2\u00a6\u00a7\3\2\2\2\u00a7\u00a8\7\23\2\2"+
+		"\u00a8\u00a9\7R\2\2\u00a9\u00ab\7<\2\2\u00aa\u00ac\5\60\31\2\u00ab\u00aa"+
+		"\3\2\2\2\u00ab\u00ac\3\2\2\2\u00ac\u00ad\3\2\2\2\u00ad\u00ae\7=\2\2\u00ae"+
+		"\u00b0\7?\2\2\u00af\u0082\3\2\2\2\u00af\u008d\3\2\2\2\u00af\u0099\3\2"+
+		"\2\2\u00af\u009a\3\2\2\2\u00af\u009f\3\2\2\2\u00b0\25\3\2\2\2\u00b1\u00b4"+
+		"\5\30\r\2\u00b2\u00b3\7\65\2\2\u00b3\u00b5\5\30\r\2\u00b4\u00b2\3\2\2"+
+		"\2\u00b5\u00b6\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b6\u00b7\3\2\2\2\u00b7\27"+
+		"\3\2\2\2\u00b8\u00bd\5\32\16\2\u00b9\u00ba\7>\2\2\u00ba\u00bc\5\32\16"+
+		"\2\u00bb\u00b9\3\2\2\2\u00bc\u00bf\3\2\2\2\u00bd\u00bb\3\2\2\2\u00bd\u00be"+
+		"\3\2\2\2\u00be\31\3\2\2\2\u00bf\u00bd\3\2\2\2\u00c0\u00c4\7O\2\2\u00c1"+
+		"\u00c4\5\66\34\2\u00c2\u00c4\7R\2\2\u00c3\u00c0\3\2\2\2\u00c3\u00c1\3"+
+		"\2\2\2\u00c3\u00c2\3\2\2\2\u00c4\33\3\2\2\2\u00c5\u00c8\5:\36\2\u00c6"+
+		"\u00c7\7\23\2\2\u00c7\u00c9\5\36\20\2\u00c8\u00c6\3\2\2\2\u00c8\u00c9"+
+		"\3\2\2\2\u00c9\35\3\2\2\2\u00ca\u00d7\5*\26\2\u00cb\u00cc\78\2\2\u00cc"+
+		"\u00d1\5\36\20\2\u00cd\u00ce\7>\2\2\u00ce\u00d0\5\36\20\2\u00cf\u00cd"+
+		"\3\2\2\2\u00d0\u00d3\3\2\2\2\u00d1\u00cf\3\2\2\2\u00d1\u00d2\3\2\2\2\u00d2"+
+		"\u00d4\3\2\2\2\u00d3\u00d1\3\2\2\2\u00d4\u00d5\79\2\2\u00d5\u00d7\3\2"+
+		"\2\2\u00d6\u00ca\3\2\2\2\u00d6\u00cb\3\2\2\2\u00d7\37\3\2\2\2\u00d8\u00d9"+
+		"\5\62\32\2\u00d9\u00da\7R\2\2\u00da\u00dc\7<\2\2\u00db\u00dd\5,\27\2\u00dc"+
+		"\u00db\3\2\2\2\u00dc\u00dd\3\2\2\2\u00dd\u00de\3\2\2\2\u00de\u00df\7="+
+		"\2\2\u00df\u00e0\5\"\22\2\u00e0\u00ea\3\2\2\2\u00e1\u00e2\7@\2\2\u00e2"+
+		"\u00e3\7R\2\2\u00e3\u00e5\7<\2\2\u00e4\u00e6\5,\27\2\u00e5\u00e4\3\2\2"+
+		"\2\u00e5\u00e6\3\2\2\2\u00e6\u00e7\3\2\2\2\u00e7\u00e8\7=\2\2\u00e8\u00ea"+
+		"\5\"\22\2\u00e9\u00d8\3\2\2\2\u00e9\u00e1\3\2\2\2\u00ea!\3\2\2\2\u00eb"+
+		"\u00ed\78\2\2\u00ec\u00ee\5\22\n\2\u00ed\u00ec\3\2\2\2\u00ed\u00ee\3\2"+
+		"\2\2\u00ee\u00f0\3\2\2\2\u00ef\u00f1\5$\23\2\u00f0\u00ef\3\2\2\2\u00f0"+
+		"\u00f1\3\2\2\2\u00f1\u00f2\3\2\2\2\u00f2\u00f3\79\2\2\u00f3#\3\2\2\2\u00f4"+
+		"\u00f6\5&\24\2\u00f5\u00f4\3\2\2\2\u00f6\u00f7\3\2\2\2\u00f7\u00f5\3\2"+
+		"\2\2\u00f7\u00f8\3\2\2\2\u00f8%\3\2\2\2\u00f9\u012b\5\"\22\2\u00fa\u00fb"+
+		"\5*\26\2\u00fb\u00fc\7?\2\2\u00fc\u012b\3\2\2\2\u00fd\u00fe\7J\2\2\u00fe"+
+		"\u00ff\7<\2\2\u00ff\u0100\5*\26\2\u0100\u0101\7?\2\2\u0101\u0102\5*\26"+
+		"\2\u0102\u0103\7?\2\2\u0103\u0104\5*\26\2\u0104\u0105\7=\2\2\u0105\u0106"+
+		"\5&\24\2\u0106\u012b\3\2\2\2\u0107\u0108\7J\2\2\u0108\u0109\7<\2\2\u0109"+
+		"\u010a\7R\2\2\u010a\u010b\7\61\2\2\u010b\u010c\5\62\32\2\u010c\u010d\7"+
+		"=\2\2\u010d\u010e\5&\24\2\u010e\u012b\3\2\2\2\u010f\u0110\7K\2\2\u0110"+
+		"\u0111\7<\2\2\u0111\u0112\5*\26\2\u0112\u0113\7=\2\2\u0113\u0114\5&\24"+
+		"\2\u0114\u012b\3\2\2\2\u0115\u0116\7M\2\2\u0116\u0117\5&\24\2\u0117\u0118"+
+		"\7K\2\2\u0118\u0119\5*\26\2\u0119\u011a\7?\2\2\u011a\u012b\3\2\2\2\u011b"+
+		"\u011c\7H\2\2\u011c\u011d\7<\2\2\u011d\u011e\5*\26\2\u011e\u011f\7=\2"+
+		"\2\u011f\u0122\5&\24\2\u0120\u0121\7I\2\2\u0121\u0123\5&\24\2\u0122\u0120"+
+		"\3\2\2\2\u0122\u0123\3\2\2\2\u0123\u012b\3\2\2\2\u0124\u0126\7L\2\2\u0125"+
+		"\u0127\5*\26\2\u0126\u0125\3\2\2\2\u0126\u0127\3\2\2\2\u0127\u0128\3\2"+
+		"\2\2\u0128\u012b\7?\2\2\u0129\u012b\7?\2\2\u012a\u00f9\3\2\2\2\u012a\u00fa"+
+		"\3\2\2\2\u012a\u00fd\3\2\2\2\u012a\u0107\3\2\2\2\u012a\u010f\3\2\2\2\u012a"+
+		"\u0115\3\2\2\2\u012a\u011b\3\2\2\2\u012a\u0124\3\2\2\2\u012a\u0129\3\2"+
+		"\2\2\u012b\'\3\2\2\2\u012c\u0131\5*\26\2\u012d\u012e\7>\2\2\u012e\u0130"+
+		"\5*\26\2\u012f\u012d\3\2\2\2\u0130\u0133\3\2\2\2\u0131\u012f\3\2\2\2\u0131"+
+		"\u0132\3\2\2\2\u0132)\3\2\2\2\u0133\u0131\3\2\2\2\u0134\u0135\b\26\1\2"+
+		"\u0135\u0136\t\2\2\2\u0136\u0159\5*\26\62\u0137\u0138\7/\2\2\u0138\u0159"+
+		"\5*\26\60\u0139\u013a\7\60\2\2\u013a\u0159\5*\26.\u013b\u013c\7\63\2\2"+
+		"\u013c\u0159\5*\26-\u013d\u013e\7\62\2\2\u013e\u0159\5*\26,\u013f\u0140"+
+		"\7E\2\2\u0140\u0141\7<\2\2\u0141\u0142\7R\2\2\u0142\u0143\7\61\2\2\u0143"+
+		"\u0144\5\62\32\2\u0144\u0145\7=\2\2\u0145\u0146\5*\26\25\u0146\u0159\3"+
+		"\2\2\2\u0147\u0148\7F\2\2\u0148\u0149\7<\2\2\u0149\u014a\7R\2\2\u014a"+
+		"\u014b\7\61\2\2\u014b\u014c\5\62\32\2\u014c\u014d\7=\2\2\u014d\u014e\5"+
+		"*\26\24\u014e\u0159\3\2\2\2\u014f\u0150\7<\2\2\u0150\u0151\5*\26\2\u0151"+
+		"\u0152\7=\2\2\u0152\u0159\3\2\2\2\u0153\u0159\7\22\2\2\u0154\u0159\7\20"+
+		"\2\2\u0155\u0159\7\21\2\2\u0156\u0159\7S\2\2\u0157\u0159\7R\2\2\u0158"+
+		"\u0134\3\2\2\2\u0158\u0137\3\2\2\2\u0158\u0139\3\2\2\2\u0158\u013b\3\2"+
+		"\2\2\u0158\u013d\3\2\2\2\u0158\u013f\3\2\2\2\u0158\u0147\3\2\2\2\u0158"+
+		"\u014f\3\2\2\2\u0158\u0153\3\2\2\2\u0158\u0154\3\2\2\2\u0158\u0155\3\2"+
+		"\2\2\u0158\u0156\3\2\2\2\u0158\u0157\3\2\2\2\u0159\u01d4\3\2\2\2\u015a"+
+		"\u015b\f+\2\2\u015b\u015c\7\'\2\2\u015c\u01d3\5*\26,\u015d\u015e\f*\2"+
+		"\2\u015e\u015f\7(\2\2\u015f\u01d3\5*\26+\u0160\u0161\f)\2\2\u0161\u0162"+
+		"\7)\2\2\u0162\u01d3\5*\26*\u0163\u0164\f(\2\2\u0164\u0165\7\63\2\2\u0165"+
+		"\u01d3\5*\26)\u0166\u0167\f\'\2\2\u0167\u0168\7\62\2\2\u0168\u01d3\5*"+
+		"\26(\u0169\u016a\f&\2\2\u016a\u016b\7\"\2\2\u016b\u01d3\5*\26\'\u016c"+
+		"\u016d\f%\2\2\u016d\u016e\7#\2\2\u016e\u01d3\5*\26&\u016f\u0170\f$\2\2"+
+		"\u0170\u0171\7+\2\2\u0171\u01d3\5*\26%\u0172\u0173\f#\2\2\u0173\u0174"+
+		"\7,\2\2\u0174\u01d3\5*\26$\u0175\u0176\f\"\2\2\u0176\u0177\7\65\2\2\u0177"+
+		"\u01d3\5*\26#\u0178\u0179\f!\2\2\u0179\u017a\7\36\2\2\u017a\u01d3\5*\26"+
+		"\"\u017b\u017c\f \2\2\u017c\u017d\7-\2\2\u017d\u01d3\5*\26!\u017e\u017f"+
+		"\f\37\2\2\u017f\u0180\7\37\2\2\u0180\u01d3\5*\26 \u0181\u0182\f\36\2\2"+
+		"\u0182\u0183\7 \2\2\u0183\u01d3\5*\26\37\u0184\u0185\f\35\2\2\u0185\u0186"+
+		"\7!\2\2\u0186\u01d3\5*\26\36\u0187\u0188\f\34\2\2\u0188\u0189\7\64\2\2"+
+		"\u0189\u01d3\5*\26\35\u018a\u018b\f\33\2\2\u018b\u018c\7*\2\2\u018c\u01d3"+
+		"\5*\26\34\u018d\u018e\f\32\2\2\u018e\u018f\7&\2\2\u018f\u01d3\5*\26\33"+
+		"\u0190\u0191\f\31\2\2\u0191\u0192\7$\2\2\u0192\u01d3\5*\26\32\u0193\u0194"+
+		"\f\30\2\2\u0194\u0195\7%\2\2\u0195\u01d3\5*\26\31\u0196\u0197\f\27\2\2"+
+		"\u0197\u0198\7\67\2\2\u0198\u0199\5*\26\2\u0199\u019a\7\61\2\2\u019a\u019b"+
+		"\5*\26\27\u019b\u01d3\3\2\2\2\u019c\u019d\f\26\2\2\u019d\u019e\7D\2\2"+
+		"\u019e\u01d3\5*\26\27\u019f\u01a0\f\22\2\2\u01a0\u01a1\7\23\2\2\u01a1"+
+		"\u01d3\5*\26\22\u01a2\u01a3\f\21\2\2\u01a3\u01a4\7\26\2\2\u01a4\u01d3"+
+		"\5*\26\22\u01a5\u01a6\f\20\2\2\u01a6\u01a7\7\27\2\2\u01a7\u01d3\5*\26"+
+		"\21\u01a8\u01a9\f\17\2\2\u01a9\u01aa\7\30\2\2\u01aa\u01d3\5*\26\20\u01ab"+
+		"\u01ac\f\16\2\2\u01ac\u01ad\7\24\2\2\u01ad\u01d3\5*\26\17\u01ae\u01af"+
+		"\f\r\2\2\u01af\u01b0\7\25\2\2\u01b0\u01d3\5*\26\16\u01b1\u01b2\f\f\2\2"+
+		"\u01b2\u01b3\7\34\2\2\u01b3\u01d3\5*\26\r\u01b4\u01b5\f\13\2\2\u01b5\u01b6"+
+		"\7\35\2\2\u01b6\u01d3\5*\26\f\u01b7\u01b8\f\n\2\2\u01b8\u01b9\7\32\2\2"+
+		"\u01b9\u01d3\5*\26\13\u01ba\u01bb\f\t\2\2\u01bb\u01bc\7\33\2\2\u01bc\u01d3"+
+		"\5*\26\n\u01bd\u01be\f\b\2\2\u01be\u01bf\7\31\2\2\u01bf\u01d3\5*\26\t"+
+		"\u01c0\u01c1\f\64\2\2\u01c1\u01c2\7:\2\2\u01c2\u01c3\5*\26\2\u01c3\u01c4"+
+		"\7;\2\2\u01c4\u01d3\3\2\2\2\u01c5\u01c6\f\63\2\2\u01c6\u01c7\7.\2\2\u01c7"+
+		"\u01d3\7R\2\2\u01c8\u01c9\f\61\2\2\u01c9\u01d3\7/\2\2\u01ca\u01cb\f/\2"+
+		"\2\u01cb\u01d3\7\60\2\2\u01cc\u01cd\f\23\2\2\u01cd\u01cf\7<\2\2\u01ce"+
+		"\u01d0\5\60\31\2\u01cf\u01ce\3\2\2\2\u01cf\u01d0\3\2\2\2\u01d0\u01d1\3"+
+		"\2\2\2\u01d1\u01d3\7=\2\2\u01d2\u015a\3\2\2\2\u01d2\u015d\3\2\2\2\u01d2"+
+		"\u0160\3\2\2\2\u01d2\u0163\3\2\2\2\u01d2\u0166\3\2\2\2\u01d2\u0169\3\2"+
+		"\2\2\u01d2\u016c\3\2\2\2\u01d2\u016f\3\2\2\2\u01d2\u0172\3\2\2\2\u01d2"+
+		"\u0175\3\2\2\2\u01d2\u0178\3\2\2\2\u01d2\u017b\3\2\2\2\u01d2\u017e\3\2"+
+		"\2\2\u01d2\u0181\3\2\2\2\u01d2\u0184\3\2\2\2\u01d2\u0187\3\2\2\2\u01d2"+
+		"\u018a\3\2\2\2\u01d2\u018d\3\2\2\2\u01d2\u0190\3\2\2\2\u01d2\u0193\3\2"+
+		"\2\2\u01d2\u0196\3\2\2\2\u01d2\u019c\3\2\2\2\u01d2\u019f\3\2\2\2\u01d2"+
+		"\u01a2\3\2\2\2\u01d2\u01a5\3\2\2\2\u01d2\u01a8\3\2\2\2\u01d2\u01ab\3\2"+
+		"\2\2\u01d2\u01ae\3\2\2\2\u01d2\u01b1\3\2\2\2\u01d2\u01b4\3\2\2\2\u01d2"+
+		"\u01b7\3\2\2\2\u01d2\u01ba\3\2\2\2\u01d2\u01bd\3\2\2\2\u01d2\u01c0\3\2"+
+		"\2\2\u01d2\u01c5\3\2\2\2\u01d2\u01c8\3\2\2\2\u01d2\u01ca\3\2\2\2\u01d2"+
+		"\u01cc\3\2\2\2\u01d3\u01d6\3\2\2\2\u01d4\u01d2\3\2\2\2\u01d4\u01d5\3\2"+
+		"\2\2\u01d5+\3\2\2\2\u01d6\u01d4\3\2\2\2\u01d7\u01dc\5.\30\2\u01d8\u01d9"+
+		"\7>\2\2\u01d9\u01db\5.\30\2\u01da\u01d8\3\2\2\2\u01db\u01de\3\2\2\2\u01dc"+
+		"\u01da\3\2\2\2\u01dc\u01dd\3\2\2\2\u01dd-\3\2\2\2\u01de\u01dc\3\2\2\2"+
+		"\u01df\u01e1\5\62\32\2\u01e0\u01e2\7\64\2\2\u01e1\u01e0\3\2\2\2\u01e1"+
+		"\u01e2\3\2\2\2\u01e2\u01e3\3\2\2\2\u01e3\u01e4\5:\36\2\u01e4/\3\2\2\2"+
+		"\u01e5\u01ea\5*\26\2\u01e6\u01e7\7>\2\2\u01e7\u01e9\5*\26\2\u01e8\u01e6"+
+		"\3\2\2\2\u01e9\u01ec\3\2\2\2\u01ea\u01e8\3\2\2\2\u01ea\u01eb\3\2\2\2\u01eb"+
+		"\61\3\2\2\2\u01ec\u01ea\3\2\2\2\u01ed\u01ef\5> \2\u01ee\u01ed\3\2\2\2"+
+		"\u01ee\u01ef\3\2\2\2\u01ef\u01f0\3\2\2\2\u01f0\u01f1\5\64\33\2\u01f1\63"+
+		"\3\2\2\2\u01f2\u020d\7\6\2\2\u01f3\u020d\7\7\2\2\u01f4\u020d\7\b\2\2\u01f5"+
+		"\u020d\7\t\2\2\u01f6\u01f7\7\6\2\2\u01f7\u01f8\7:\2\2\u01f8\u01f9\5*\26"+
+		"\2\u01f9\u01fa\7>\2\2\u01fa\u01fb\5*\26\2\u01fb\u01fc\7;\2\2\u01fc\u020d"+
+		"\3\2\2\2\u01fd\u01fe\7\n\2\2\u01fe\u01ff\7:\2\2\u01ff\u0200\5*\26\2\u0200"+
+		"\u0201\7;\2\2\u0201\u020d\3\2\2\2\u0202\u0203\7\13\2\2\u0203\u0205\78"+
+		"\2\2\u0204\u0206\58\35\2\u0205\u0204\3\2\2\2\u0206\u0207\3\2\2\2\u0207"+
+		"\u0205\3\2\2\2\u0207\u0208\3\2\2\2\u0208\u0209\3\2\2\2\u0209\u020a\79"+
+		"\2\2\u020a\u020d\3\2\2\2\u020b\u020d\7R\2\2\u020c\u01f2\3\2\2\2\u020c"+
+		"\u01f3\3\2\2\2\u020c\u01f4\3\2\2\2\u020c\u01f5\3\2\2\2\u020c\u01f6\3\2"+
+		"\2\2\u020c\u01fd\3\2\2\2\u020c\u0202\3\2\2\2\u020c\u020b\3\2\2\2\u020d"+
+		"\65\3\2\2\2\u020e\u0213\7R\2\2\u020f\u0210\7:\2\2\u0210\u0211\5*\26\2"+
+		"\u0211\u0212\7;\2\2\u0212\u0214\3\2\2\2\u0213\u020f\3\2\2\2\u0214\u0215"+
+		"\3\2\2\2\u0215\u0213\3\2\2\2\u0215\u0216\3\2\2\2\u0216\67\3\2\2\2\u0217"+
+		"\u0218\5\62\32\2\u0218\u021d\5:\36\2\u0219\u021a\7>\2\2\u021a\u021c\5"+
+		":\36\2\u021b\u0219\3\2\2\2\u021c\u021f\3\2\2\2\u021d\u021b\3\2\2\2\u021d"+
+		"\u021e\3\2\2\2\u021e\u0220\3\2\2\2\u021f\u021d\3\2\2\2\u0220\u0221\7?"+
+		"\2\2\u02219\3\2\2\2\u0222\u0224\7R\2\2\u0223\u0225\5<\37\2\u0224\u0223"+
+		"\3\2\2\2\u0225\u0226\3\2\2\2\u0226\u0224\3\2\2\2\u0226\u0227\3\2\2\2\u0227"+
+		"\u022a\3\2\2\2\u0228\u022a\7R\2\2\u0229\u0222\3\2\2\2\u0229\u0228\3\2"+
+		"\2\2\u022a;\3\2\2\2\u022b\u022c\7:\2\2\u022c\u022d\5*\26\2\u022d\u022e"+
+		"\7;\2\2\u022e\u0234\3\2\2\2\u022f\u0230\7:\2\2\u0230\u0231\5\62\32\2\u0231"+
+		"\u0232\7;\2\2\u0232\u0234\3\2\2\2\u0233\u022b\3\2\2\2\u0233\u022f\3\2"+
+		"\2\2\u0234=\3\2\2\2\u0235\u023a\7\f\2\2\u0236\u023a\7\r\2\2\u0237\u023a"+
+		"\7\16\2\2\u0238\u023a\7\17\2\2\u0239\u0235\3\2\2\2\u0239\u0236\3\2\2\2"+
+		"\u0239\u0237\3\2\2\2\u0239\u0238\3\2\2\2\u023a?\3\2\2\2\61FMUX[fnx\u0080"+
+		"\u0088\u0094\u00a2\u00a5\u00ab\u00af\u00b6\u00bd\u00c3\u00c8\u00d1\u00d6"+
+		"\u00dc\u00e5\u00e9\u00ed\u00f0\u00f7\u0122\u0126\u012a\u0131\u0158\u01cf"+
+		"\u01d2\u01d4\u01dc\u01e1\u01ea\u01ee\u0207\u020c\u0215\u021d\u0226\u0229"+
+		"\u0233\u0239";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

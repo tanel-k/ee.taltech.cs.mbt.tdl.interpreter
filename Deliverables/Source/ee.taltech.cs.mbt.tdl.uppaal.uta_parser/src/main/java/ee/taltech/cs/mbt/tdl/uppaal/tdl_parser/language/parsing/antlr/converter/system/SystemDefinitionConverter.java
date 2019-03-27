@@ -5,7 +5,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.SystemDefinition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
 
 public class SystemDefinitionConverter extends UtaLanguageBaseVisitor<SystemDefinition>
 	implements IParseTreeConverter<SystemDefinition, UtaSystemDefinitionContext>

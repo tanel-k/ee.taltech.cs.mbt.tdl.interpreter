@@ -7,9 +7,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ParameterContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ParameterListContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.identifier.AbsTypeId;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.parameter.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class ParameterListConverter extends UtaLanguageBaseVisitor<List<Paramete
 			parameterType.setReferenceType(paramData.isByReference());
 
 			ParameterDeclaration<AbsTypeId> parameterDeclaration = new ParameterDeclaration<>();
-			parameterDeclaration.setIdentifierName(paramData.getIdentifierName());
+			parameterDeclaration.setIdentifier(paramData.getIdentifier());
 			parameterDeclaration.setType(parameterType);
 			parameterDeclarations.add(parameterDeclaration);
 		}

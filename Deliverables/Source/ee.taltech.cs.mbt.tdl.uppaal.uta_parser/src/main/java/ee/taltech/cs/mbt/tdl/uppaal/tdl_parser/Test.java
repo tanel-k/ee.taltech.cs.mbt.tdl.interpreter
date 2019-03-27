@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.UtaParseException;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.generator.UtaGenerator;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.composite.UtaSystem;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
 import java.io.InputStream;
 

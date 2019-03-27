@@ -11,25 +11,25 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.AbsDeclarationStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.channel_priority.ChannelPriorityDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.channel_priority.ChannelRefList;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.channel_priority.channel_reference.AbsChannelRef;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.AbsFunctionDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.ValueFunctionDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.VoidFunctionDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.system.TemplateInstantiation;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.type.TypeDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.type.container.TypeDeclarationList;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.variable.VariableDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.variable.container.VariableDeclarationList;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.variable.initializer.AbsInitializer;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.generic.AbsExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.identifier.IdentifierName;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.grouping.StatementBlock;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.identifier.AbsTypeId;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.parameter.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.ChannelPrioritySequence;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.ChannelReferenceGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.channel_reference.AbsChannelReference;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.function.AbsFunctionDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.function.ValueFunctionDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.function.VoidFunctionDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TypeDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.type.container.TypeDeclarationList;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.container.VariableDeclarationList;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.AbsVariableInitializer;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.StatementBlock;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
@@ -72,10 +72,10 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 	}
 
 	private void injectTemplateInstNames(TemplateInstantiation templateInstantiation, List<TerminalNode> templateNames) {
-		IdentifierName newTemplateName = new IdentifierName();
+		Identifier newTemplateName = new Identifier();
 		newTemplateName.setName(templateNames.get(0).getText());
 
-		IdentifierName sourceTemplateName = new IdentifierName();
+		Identifier sourceTemplateName = new Identifier();
 		sourceTemplateName.setName(templateNames.get(1).getText());
 
 		templateInstantiation.setNewTemplateName(newTemplateName);
@@ -113,7 +113,7 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 			populateParameters(valueFunctionDeclaration, ctx.parameterList().parameter());
 		}
 
-		IdentifierName functionName = new IdentifierName();
+		Identifier functionName = new Identifier();
 		functionName.setName(ctx.IDENTIFIER_NAME().getText());
 
 		valueFunctionDeclaration.setReturnType(returnType);
@@ -138,7 +138,7 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 			populateParameters(valueFunctionDeclaration, ctx.parameterList().parameter());
 		}
 
-		IdentifierName functionName = new IdentifierName();
+		Identifier functionName = new Identifier();
 		functionName.setName(ctx.IDENTIFIER_NAME().getText());
 
 		valueFunctionDeclaration.setBody(functionBody);
@@ -159,7 +159,7 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 				.convert(parameterCtx.type());
 			parameterType.setReferenceType(parameterIdentifierData.isByReference());
 			parameterType.getArrayModifiers().addAll(parameterIdentifierData.getArrayModifiers());
-			parameterDeclaration.setIdentifierName(parameterIdentifierData.getIdentifierName());
+			parameterDeclaration.setIdentifier(parameterIdentifierData.getIdentifier());
 			parameterDeclaration.setType(parameterType);
 			functionDeclaration.getParameterDeclarations().add(parameterDeclaration);
 		}
@@ -175,10 +175,10 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 				.convert(varInitCtx.identifierNameVariant());
 			Type<AbsTypeId> typeCpy = type.clone();
 			typeCpy.getArrayModifiers().addAll(identifierData.getArrayModifiers());
-			VariableDeclaration<AbsTypeId, AbsInitializer> variableDeclaration = new VariableDeclaration<>();
+			VariableDeclaration<AbsTypeId, AbsVariableInitializer> variableDeclaration = new VariableDeclaration<>();
 			variableDeclaration.setType(typeCpy);
-			variableDeclaration.setIdentifierName(identifierData.getIdentifierName());
-			AbsInitializer initializer = varInitCtx.initializerExpression() != null
+			variableDeclaration.setIdentifier(identifierData.getIdentifier());
+			AbsVariableInitializer initializer = varInitCtx.initializerExpression() != null
 				? InitializerExpressionConverter.getInstance()
 					.convert(varInitCtx.initializerExpression())
 				: null;
@@ -204,7 +204,7 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 			Type<AbsTypeId> typeCpy = type.clone();
 			typeCpy.getArrayModifiers().addAll(identifierData.getArrayModifiers());
 			TypeDeclaration<AbsTypeId> typeDeclaration = new TypeDeclaration<>();
-			typeDeclaration.setIdentifierName(identifierData.getIdentifierName());
+			typeDeclaration.setIdentifier(identifierData.getIdentifier());
 			typeDeclaration.setType(typeCpy);
 			typeDeclarations.getDeclarations().add(typeDeclaration);
 		}
@@ -218,15 +218,15 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 	@Override
 	public AbsDeclarationStatement visitChannelPriorityDeclaration(ChannelPriorityDeclarationContext ctx) {
 		ChannelPrioritySpecExpressionContext prioritySpecCtx = ctx.channelPrioritySpecExpression();
-		ChannelPriorityDeclaration channelPriorityDeclaration = new ChannelPriorityDeclaration();
+		ChannelPrioritySequence channelPrioritySequence = new ChannelPrioritySequence();
 		for (ChannelRefListContext refsCtx : prioritySpecCtx.channelRefList()) {
-			ChannelRefList channelRefList = new ChannelRefList();
+			ChannelReferenceGroup channelRefList = new ChannelReferenceGroup();
 			for (ChannelRefExpressionContext channelRefCtx : refsCtx.channelRefExpression()) {
-				AbsChannelRef channelRef = ChannelRefExpressionConverter.getInstance().convert(channelRefCtx);
-				channelRefList.getChannelRefs().add(channelRef);
+				AbsChannelReference channelRef = ChannelRefExpressionConverter.getInstance().convert(channelRefCtx);
+				channelRefList.getChannelReferences().add(channelRef);
 			}
-			channelPriorityDeclaration.getPrioritySequence().add(channelRefList);
+			channelPrioritySequence.getPrioritySequence().add(channelRefList);
 		}
-		return channelPriorityDeclaration;
+		return channelPrioritySequence;
 	}
 }

@@ -6,9 +6,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.S
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemProcessRefContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemProcessRefListContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemProcessesListContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.identifier.IdentifierName;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.system_line.ProcessReferenceGroup;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.system_line.SystemLine;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.system_line.ProcessReferenceGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.system_line.SystemLine;
 
 public class SystemLineConverter extends UtaLanguageBaseVisitor<SystemLine>
 	implements IParseTreeConverter<SystemLine, SystemLineContext>
@@ -29,7 +29,7 @@ public class SystemLineConverter extends UtaLanguageBaseVisitor<SystemLine>
 		for (SystemProcessRefListContext refsCtx : systemProcessesCtx.systemProcessRefList()) {
 			ProcessReferenceGroup processReferenceGroup = new ProcessReferenceGroup();
 			for (SystemProcessRefContext processExpressionCtx : refsCtx.systemProcessRef()) {
-				IdentifierName processIdentifier = new IdentifierName();
+				Identifier processIdentifier = new Identifier();
 				processIdentifier.setName(processExpressionCtx.IDENTIFIER_NAME().getText());
 				processReferenceGroup.getProcessIdentifiers().add(processIdentifier);
 			}

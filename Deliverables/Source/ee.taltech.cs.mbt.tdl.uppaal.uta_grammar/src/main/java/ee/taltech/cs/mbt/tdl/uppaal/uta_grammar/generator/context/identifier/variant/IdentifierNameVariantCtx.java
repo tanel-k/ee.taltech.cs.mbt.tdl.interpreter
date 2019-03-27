@@ -23,9 +23,4 @@ public class IdentifierNameVariantCtx extends AbsCodeGenerationCtx {
 	public List<AbsArraySizeModCtx> getArraySizeModifiers() {
 		return arraySizeModifiers;
 	}
-
-	@Override
-	public <T> T accept(ICodeGenerationCtxVisitor<T> visitor) {
-		return visitor.visitIdentifierNameVariant(this);
-	}
 }

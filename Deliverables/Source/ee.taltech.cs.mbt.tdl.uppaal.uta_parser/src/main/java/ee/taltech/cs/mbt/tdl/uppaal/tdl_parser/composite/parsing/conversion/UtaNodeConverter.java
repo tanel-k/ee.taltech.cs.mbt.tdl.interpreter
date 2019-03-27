@@ -5,8 +5,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParse
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.SystemNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TemplateNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.UtaNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.composite.UtaSystem;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.templates.UtaTemplate;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.UtaTemplate;
 
 public class UtaNodeConverter {
 	public static UtaNodeConverter newInstance(TemplateNodeConverter templateParser, UtaLanguageParserFactory languageParserFactory) {

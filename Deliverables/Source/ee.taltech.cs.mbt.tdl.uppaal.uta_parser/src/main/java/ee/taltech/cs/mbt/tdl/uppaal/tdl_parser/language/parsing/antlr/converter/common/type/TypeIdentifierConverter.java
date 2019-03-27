@@ -6,10 +6,11 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.IdentifierVariantConverter.IdentifierData;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.identifier.IdentifierName;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.identifier.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.variable.FieldDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.struct.FieldDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.struct.StructTypeId;
 
 public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 	implements IParseTreeConverter<AbsTypeId, TypeIdentifierContext>
@@ -50,10 +51,10 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 	@Override
 	public AbsTypeId visitTypeIdIntegerBounded(TypeIdIntegerBoundedContext ctx) {
 		BoundedIntegerTypeId boundedIntegerTypeIdentifier = new BoundedIntegerTypeId();
-		boundedIntegerTypeIdentifier.setMaxBoundExpression(
+		boundedIntegerTypeIdentifier.setMaximumBound(
 			ExpressionConverter.getInstance().convert(ctx.expression(0))
 		);
-		boundedIntegerTypeIdentifier.setMinBoundExpression(
+		boundedIntegerTypeIdentifier.setMinimumBound(
 			ExpressionConverter.getInstance().convert(ctx.expression(1))
 		);
 		return boundedIntegerTypeIdentifier;
@@ -81,7 +82,7 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 				typeClone.getArrayModifiers().addAll(identifierData.getArrayModifiers());
 				FieldDeclaration<AbsTypeId> fieldDeclaration = new FieldDeclaration<>();
 				fieldDeclaration.setType(typeClone);
-				fieldDeclaration.setIdentifierName(identifierData.getIdentifierName());
+				fieldDeclaration.setIdentifier(identifierData.getIdentifier());
 			}
 		}
 
@@ -90,12 +91,12 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 
 	@Override
 	public AbsTypeId visitTypeIdIdentifierName(TypeIdIdentifierNameContext ctx) {
-		IdentifierName identifierName = new IdentifierName();
-		identifierName.setName(ctx.IDENTIFIER_NAME().getText());
+		Identifier identifier = new Identifier();
+		identifier.setName(ctx.IDENTIFIER_NAME().getText());
 
-		IdRefTypeId idRefTypeIdentifier = new IdRefTypeId();
-		idRefTypeIdentifier.setIdentifierName(identifierName);
+		CustomTypeId customTypeIdentifier = new CustomTypeId();
+		customTypeIdentifier.setIdentifier(identifier);
 
-		return idRefTypeIdentifier;
+		return customTypeIdentifier;
 	}
 }

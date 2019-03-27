@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structure.gui.Color;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.Color;
 
 public class UtaConversionUtils {
 	public static Color parseColor(String colorString) {

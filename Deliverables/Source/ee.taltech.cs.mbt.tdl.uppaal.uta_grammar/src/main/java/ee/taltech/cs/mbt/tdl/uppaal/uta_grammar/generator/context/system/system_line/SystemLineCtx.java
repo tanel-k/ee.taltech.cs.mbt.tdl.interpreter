@@ -12,9 +12,4 @@ public class SystemLineCtx extends AbsCodeGenerationCtx {
 	public List<ProcessRefGroupCtx> getProcessReferenceGroups() {
 		return processReferenceGroups;
 	}
-
-	@Override
-	public <T> T accept(ICodeGenerationCtxVisitor<T> visitor) {
-		return visitor.visitSystemLine(this);
-	}
 }

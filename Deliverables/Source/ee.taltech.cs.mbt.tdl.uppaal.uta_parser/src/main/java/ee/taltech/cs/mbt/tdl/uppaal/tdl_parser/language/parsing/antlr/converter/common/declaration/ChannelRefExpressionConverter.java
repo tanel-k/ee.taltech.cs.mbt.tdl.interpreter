@@ -4,16 +4,16 @@ import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.channel_priority.channel_reference.AbsChannelRef;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.channel_priority.channel_reference.ChannelArrayLookup;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.channel_priority.channel_reference.ChannelIdentifierRef;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.channel_priority.channel_reference.DefaultChannelPriorityRef;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.generic.AbsExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.identifier.ArrayIdentifierLookup;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.identifier.IdentifierName;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.channel_reference.AbsChannelReference;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.channel_reference.ChannelArrayLookup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.channel_reference.ChannelIdentifierRef;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.channel_reference.DefaultChannelPriorityRef;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.ArrayVariableLookup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 
-public class ChannelRefExpressionConverter extends UtaLanguageBaseVisitor<AbsChannelRef>
-		implements IParseTreeConverter<AbsChannelRef, ChannelRefExpressionContext>
+public class ChannelRefExpressionConverter extends UtaLanguageBaseVisitor<AbsChannelReference>
+		implements IParseTreeConverter<AbsChannelReference, ChannelRefExpressionContext>
 {
 	public static ChannelRefExpressionConverter getInstance() {
 		return INSTANCE;
@@ -24,41 +24,41 @@ public class ChannelRefExpressionConverter extends UtaLanguageBaseVisitor<AbsCha
 	private ChannelRefExpressionConverter() { }
 
 	@Override
-	public AbsChannelRef convert(ChannelRefExpressionContext rootContext) {
+	public AbsChannelReference convert(ChannelRefExpressionContext rootContext) {
 		return rootContext.accept(this);
 	}
 
 	@Override
-	public AbsChannelRef visitChannelDefaultPriorityExpr(ChannelDefaultPriorityExprContext ctx) {
+	public AbsChannelReference visitChannelDefaultPriorityExpr(ChannelDefaultPriorityExprContext ctx) {
 		return DefaultChannelPriorityRef.INSTANCE;
 	}
 
 	@Override
-	public AbsChannelRef visitChannelIdentifierNameExpr(ChannelIdentifierNameExprContext ctx) {
-		IdentifierName identifierName = new IdentifierName();
-		identifierName.setName(ctx.IDENTIFIER_NAME().getText());
+	public AbsChannelReference visitChannelIdentifierNameExpr(ChannelIdentifierNameExprContext ctx) {
+		Identifier identifier = new Identifier();
+		identifier.setName(ctx.IDENTIFIER_NAME().getText());
 		ChannelIdentifierRef channelIdentifierRef = new ChannelIdentifierRef();
-		channelIdentifierRef.setIdentifierName(identifierName);
+		channelIdentifierRef.setIdentifierName(identifier);
 		return channelIdentifierRef;
 	}
 
 	@Override
-	public AbsChannelRef visitChannelArrayLookupExr(ChannelArrayLookupExrContext ctx) {
+	public AbsChannelReference visitChannelArrayLookupExr(ChannelArrayLookupExrContext ctx) {
 		ArrayIdentifierLookupContext arrayAccessCtx = ctx.arrayIdentifierLookup();
 
-		IdentifierName identifierName = new IdentifierName();
-		identifierName.setName(arrayAccessCtx.IDENTIFIER_NAME().getText());
+		Identifier identifier = new Identifier();
+		identifier.setName(arrayAccessCtx.IDENTIFIER_NAME().getText());
 
-		ArrayIdentifierLookup arrayIdentifierLookup = new ArrayIdentifierLookup();
-		arrayIdentifierLookup.setIdentifierName(identifierName);
+		ArrayVariableLookup arrayVariableLookup = new ArrayVariableLookup();
+		arrayVariableLookup.setIdentifier(identifier);
 
 		for (ExpressionContext exprCtx : arrayAccessCtx.expression()) {
 			AbsExpression lookupExpression = ExpressionConverter.getInstance().convert(exprCtx);
-			arrayIdentifierLookup.getLookupExpressions().add(lookupExpression);
+			arrayVariableLookup.getLookupExpressions().add(lookupExpression);
 		}
 
 		ChannelArrayLookup channelArrayLookup = new ChannelArrayLookup();
-		channelArrayLookup.setArrayIdentifierLookup(arrayIdentifierLookup);
+		channelArrayLookup.setArrayIdentifierLookup(arrayVariableLookup);
 		return channelArrayLookup;
 	}
 }

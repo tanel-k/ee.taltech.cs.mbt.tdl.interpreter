@@ -12,9 +12,4 @@ public class ProcessRefGroupCtx extends AbsCodeGenerationCtx {
 	public List<ProcessRefCtx> getProcessReferences() {
 		return processReferences;
 	}
-
-	@Override
-	public <T> T accept(ICodeGenerationCtxVisitor<T> visitor) {
-		return visitor.visitProcessRefGroup(this);
-	}
 }

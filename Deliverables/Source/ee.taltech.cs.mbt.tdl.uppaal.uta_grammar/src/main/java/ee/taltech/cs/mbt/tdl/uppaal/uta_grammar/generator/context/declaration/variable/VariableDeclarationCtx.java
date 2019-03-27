@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.generator.context.declaration.variable;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.generator.context.declaration.AbsDeclarationCtx;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.generator.context.declaration.IDeclarationCtxVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.generator.context.type.TypeCtx;
 
 import java.util.LinkedList;
@@ -20,5 +21,10 @@ public class VariableDeclarationCtx extends AbsDeclarationCtx {
 
 	public List<VariableInitializationCtx> getVariableInitializations() {
 		return variableInitializations;
+	}
+
+	@Override
+	public <T> T accept(IDeclarationCtxVisitor<T> visitor) {
+		return visitor.visitVariableDeclaration(this);
 	}
 }

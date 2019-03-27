@@ -9,7 +9,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.UtaNodeMarshaller;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.UtaNodeMarshaller.UtaMarshallingException;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.UtaNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ValidationResult;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.composite.UtaSystem;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
 import java.io.InputStream;
 

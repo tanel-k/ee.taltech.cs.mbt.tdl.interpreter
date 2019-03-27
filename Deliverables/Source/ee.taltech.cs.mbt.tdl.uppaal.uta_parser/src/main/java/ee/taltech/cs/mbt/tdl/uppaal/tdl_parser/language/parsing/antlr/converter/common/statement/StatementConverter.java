@@ -6,18 +6,18 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.identifier.IdentifierName;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.AbsStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.conditional.ConditionalStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.grouping.StatementBlock;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.loop.DoWhileLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.loop.ForLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.loop.IterationLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.loop.WhileLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.misc.EmptyStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.misc.ExpressionStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.function.statement.misc.ReturnStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.identifier.AbsTypeId;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.AbsStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ConditionalStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.StatementBlock;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.DoWhileLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.ForLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.IterationLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.WhileLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.EmptyStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ExpressionStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ReturnStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
 
 public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 	implements IParseTreeConverter<AbsStatement, StatementContext>
@@ -62,7 +62,7 @@ public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 	@Override
 	public AbsStatement visitStatementConditional(StatementConditionalContext ctx) {
 		ConditionalStatement conditionalStatement = new ConditionalStatement();
-		conditionalStatement.setConditionExpression(
+		conditionalStatement.setCondition(
 			ExpressionConverter.getInstance()
 				.convert(ctx.expression())
 		);
@@ -80,10 +80,10 @@ public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 	@Override
 	public AbsStatement visitStatementDoWhile(StatementDoWhileContext ctx) {
 		DoWhileLoop doWhileLoop = new DoWhileLoop();
-		doWhileLoop.setLoopCondition(
+		doWhileLoop.setCondition(
 			ExpressionConverter.getInstance().convert(ctx.loopCondition().expression())
 		);
-		doWhileLoop.setBody(
+		doWhileLoop.setStatement(
 			ctx.loopBody().statement().accept(this)
 		);
 		return doWhileLoop;
@@ -96,7 +96,7 @@ public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 			ExpressionConverter.getInstance()
 				.convert(ctx.loopInitializer().expression())
 		);
-		forLoop.setLoopCondition(
+		forLoop.setCondition(
 			ExpressionConverter.getInstance()
 				.convert(ctx.loopCondition().expression())
 		);
@@ -104,7 +104,7 @@ public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 			ExpressionConverter.getInstance()
 				.convert(ctx.loopUpdate().expression())
 		);
-		forLoop.setBody(
+		forLoop.setStatement(
 			ctx.loopBody().statement().accept(this)
 		);
 		return forLoop;
@@ -113,10 +113,10 @@ public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 	@Override
 	public AbsStatement visitStatementWhileLoop(StatementWhileLoopContext ctx) {
 		WhileLoop whileLoop = new DoWhileLoop();
-		whileLoop.setLoopCondition(
+		whileLoop.setCondition(
 			ExpressionConverter.getInstance().convert(ctx.loopCondition().expression())
 		);
-		whileLoop.setBody(
+		whileLoop.setStatement(
 			ctx.loopBody().statement().accept(this)
 		);
 		return whileLoop;
@@ -137,10 +137,10 @@ public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 		iterationLoop.setIteratedType(
 			TypeConverter.getInstance().convert(ctx.type())
 		);
-		IdentifierName loopVar = new IdentifierName();
+		Identifier loopVar = new Identifier();
 		loopVar.setName(ctx.IDENTIFIER_NAME().getText());
 		iterationLoop.setLoopVariable(loopVar);
-		iterationLoop.setBody(
+		iterationLoop.setStatement(
 			ctx.loopBody().accept(this)
 		);
 		return iterationLoop;

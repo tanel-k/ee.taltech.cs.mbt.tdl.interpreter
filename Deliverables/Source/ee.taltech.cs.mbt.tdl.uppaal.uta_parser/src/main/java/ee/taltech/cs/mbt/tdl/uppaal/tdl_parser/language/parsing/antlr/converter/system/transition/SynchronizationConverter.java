@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.A
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ExpressionContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ReactiveSynchronizationContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.UtaTransitionSynchronizationContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.template.Synchronization;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Synchronization;
 
 public class SynchronizationConverter extends UtaLanguageBaseVisitor<Synchronization>
 	implements IParseTreeConverter<Synchronization, UtaTransitionSynchronizationContext>
@@ -41,7 +41,7 @@ public class SynchronizationConverter extends UtaLanguageBaseVisitor<Synchroniza
 
 	private Synchronization initSynchronization(ExpressionContext expressionCtx) {
 		Synchronization synchronization = new Synchronization();
-		synchronization.setVariableExpression(ExpressionConverter.getInstance().convert(expressionCtx));
+		synchronization.setExpression(ExpressionConverter.getInstance().convert(expressionCtx));
 		return synchronization;
 	}
 }

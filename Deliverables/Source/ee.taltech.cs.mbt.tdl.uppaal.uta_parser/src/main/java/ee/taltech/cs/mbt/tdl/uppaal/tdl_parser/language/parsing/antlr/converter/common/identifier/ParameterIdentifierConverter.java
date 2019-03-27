@@ -8,8 +8,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.B
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ByValueVariableContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.IdentifierNameVariantContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ParameterIdentifierContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.identifier.IdentifierName;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.array_modifier.AbsArrayModifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.AbsArrayModifier;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -28,7 +28,7 @@ public class ParameterIdentifierConverter
 
 	public static class ParameterIdentifierData {
 		private boolean byReference;
-		private IdentifierName identifierName;
+		private Identifier identifier;
 		private Collection<AbsArrayModifier> arrayModifiers = new LinkedList<>();
 
 		public boolean isByReference() {
@@ -39,12 +39,12 @@ public class ParameterIdentifierConverter
 			this.byReference = byReference;
 		}
 
-		public IdentifierName getIdentifierName() {
-			return identifierName;
+		public Identifier getIdentifier() {
+			return identifier;
 		}
 
-		public void setIdentifierName(IdentifierName identifierName) {
-			this.identifierName = identifierName;
+		public void setIdentifier(Identifier identifier) {
+			this.identifier = identifier;
 		}
 
 		public Collection<AbsArrayModifier> getArrayModifiers() {
@@ -77,7 +77,7 @@ public class ParameterIdentifierConverter
 		IdentifierNameVariantContext identifierNameVariantContext) {
 		IdentifierData identifierData = IdentifierVariantConverter.getInstance().convert(identifierNameVariantContext);
 		ParameterIdentifierData parameterIdentifierData = new ParameterIdentifierData();
-		parameterIdentifierData.setIdentifierName(identifierData.getIdentifierName());
+		parameterIdentifierData.setIdentifier(identifierData.getIdentifier());
 		parameterIdentifierData.getArrayModifiers().addAll(identifierData.getArrayModifiers());
 		return parameterIdentifierData;
 	}

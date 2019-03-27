@@ -13,9 +13,4 @@ public class ArraySizeFromTypeModCtx extends AbsArraySizeModCtx {
 	public void setSizeType(TypeCtx sizeType) {
 		this.sizeType = sizeType;
 	}
-
-	@Override
-	public <T> T accept(ICodeGenerationCtxVisitor<T> visitor) {
-		return visitor.visitArraySizeFromType(this);
-	}
 }

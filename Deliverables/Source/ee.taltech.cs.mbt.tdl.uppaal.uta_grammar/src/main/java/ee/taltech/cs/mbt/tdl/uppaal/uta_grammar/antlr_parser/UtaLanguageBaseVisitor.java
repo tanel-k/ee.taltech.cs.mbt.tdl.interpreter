@@ -18,55 +18,6 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUtaTemplateParameterList(UtaLanguageParser.UtaTemplateParameterListContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitParameterList(UtaLanguageParser.ParameterListContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitParameter(UtaLanguageParser.ParameterContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitByReferenceVariable(UtaLanguageParser.ByReferenceVariableContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitByValueVariable(UtaLanguageParser.ByValueVariableContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitUtaTransitionUpdateList(UtaLanguageParser.UtaTransitionUpdateListContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitUtaDeclarations(UtaLanguageParser.UtaDeclarationsContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitActiveSynchronization(UtaLanguageParser.ActiveSynchronizationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -81,56 +32,21 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUtaTransitionSelectionSequence(UtaLanguageParser.UtaTransitionSelectionSequenceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSelectionSequence(UtaLanguageParser.SelectionSequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUtaTransitionGuardExpression(UtaLanguageParser.UtaTransitionGuardExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSelection(UtaLanguageParser.SelectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUtaLocationInvariantExpression(UtaLanguageParser.UtaLocationInvariantExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitUtaSystemDefinition(UtaLanguageParser.UtaSystemDefinitionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitSystemDeclarationSequence(UtaLanguageParser.SystemDeclarationSequenceContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitSystemDeclarationStatement(UtaLanguageParser.SystemDeclarationStatementContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitPartialTemplateInstantiation(UtaLanguageParser.PartialTemplateInstantiationContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitFullTemplateInstantiation(UtaLanguageParser.FullTemplateInstantiationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSystemDefinition(UtaLanguageParser.SystemDefinitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -144,21 +60,14 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSystemProcessesList(UtaLanguageParser.SystemProcessesListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSystemProcessSequence(UtaLanguageParser.SystemProcessSequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSystemProcessRefList(UtaLanguageParser.SystemProcessRefListContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitSystemProcessRef(UtaLanguageParser.SystemProcessRefContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSystemProcessGroup(UtaLanguageParser.SystemProcessGroupContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -166,13 +75,6 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitProgressMeasureDeclaration(UtaLanguageParser.ProgressMeasureDeclarationContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitSelection(UtaLanguageParser.SelectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -214,35 +116,42 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitChannelPrioritySpecExpression(UtaLanguageParser.ChannelPrioritySpecExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTemplateInstantiation(UtaLanguageParser.TemplateInstantiationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitChannelRefList(UtaLanguageParser.ChannelRefListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitChannelPrioritySequence(UtaLanguageParser.ChannelPrioritySequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitChannelDefaultPriorityExpr(UtaLanguageParser.ChannelDefaultPriorityExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitChannelPriorityGroup(UtaLanguageParser.ChannelPriorityGroupContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitChannelIdentifierNameExpr(UtaLanguageParser.ChannelIdentifierNameExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDefaultChannelReference(UtaLanguageParser.DefaultChannelReferenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitChannelArrayLookupExr(UtaLanguageParser.ChannelArrayLookupExrContext ctx) { return visitChildren(ctx); }
+	@Override public T visitChannelArrayLookup(UtaLanguageParser.ChannelArrayLookupContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitChannelIdentifierRefrence(UtaLanguageParser.ChannelIdentifierRefrenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -270,21 +179,14 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDeclarationOfValueFunction(UtaLanguageParser.DeclarationOfValueFunctionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitValueFunctionDeclaration(UtaLanguageParser.ValueFunctionDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDeclarationOfVoidFunction(UtaLanguageParser.DeclarationOfVoidFunctionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitBlockOfStatements(UtaLanguageParser.BlockOfStatementsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVoidFunctionDeclaration(UtaLanguageParser.VoidFunctionDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -298,42 +200,56 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatementExpression(UtaLanguageParser.StatementExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStatementSequence(UtaLanguageParser.StatementSequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatementForLoop(UtaLanguageParser.StatementForLoopContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBlockStatement(UtaLanguageParser.BlockStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatementIteration(UtaLanguageParser.StatementIterationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpressionStatement(UtaLanguageParser.ExpressionStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatementWhileLoop(UtaLanguageParser.StatementWhileLoopContext ctx) { return visitChildren(ctx); }
+	@Override public T visitForLoopStatement(UtaLanguageParser.ForLoopStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatementDoWhile(UtaLanguageParser.StatementDoWhileContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIterationStatement(UtaLanguageParser.IterationStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatementConditional(UtaLanguageParser.StatementConditionalContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWhileLoopStatement(UtaLanguageParser.WhileLoopStatementContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDoWhileStatement(UtaLanguageParser.DoWhileStatementContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitConditionalStatement(UtaLanguageParser.ConditionalStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -347,434 +263,392 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatementEmpty(UtaLanguageParser.StatementEmptyContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEmptyStatement(UtaLanguageParser.EmptyStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPrimaryStatement(UtaLanguageParser.PrimaryStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpressionSequence(UtaLanguageParser.ExpressionSequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAlternativeStatement(UtaLanguageParser.AlternativeStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBitwiseXorExpression(UtaLanguageParser.BitwiseXorExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLoopInitializer(UtaLanguageParser.LoopInitializerContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLeftShiftExpression(UtaLanguageParser.LeftShiftExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLoopCondition(UtaLanguageParser.LoopConditionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDisjunctionExpression(UtaLanguageParser.DisjunctionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLoopUpdate(UtaLanguageParser.LoopUpdateContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGreaterThanExpression(UtaLanguageParser.GreaterThanExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLoopBody(UtaLanguageParser.LoopBodyContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAdditiveIdentityExpression(UtaLanguageParser.AdditiveIdentityExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionExistentialQuantification(UtaLanguageParser.ExpressionExistentialQuantificationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAdditiveInverseExpression(UtaLanguageParser.AdditiveInverseExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionUniversalQuantification(UtaLanguageParser.ExpressionUniversalQuantificationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFieldAccessExpression(UtaLanguageParser.FieldAccessExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpMultiplication(UtaLanguageParser.ExpressionBinaryOpMultiplicationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitModuloAssignmentExpr(UtaLanguageParser.ModuloAssignmentExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionAssignOpBitwiseAnd(UtaLanguageParser.ExpressionAssignOpBitwiseAndContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEqualityExpression(UtaLanguageParser.EqualityExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpGreaterThan(UtaLanguageParser.ExpressionBinaryOpGreaterThanContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBitwiseAndAssignmentExpr(UtaLanguageParser.BitwiseAndAssignmentExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionAssignOpMultiplication(UtaLanguageParser.ExpressionAssignOpMultiplicationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUniversalQuantificationExpression(UtaLanguageParser.UniversalQuantificationExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpMaximum(UtaLanguageParser.ExpressionBinaryOpMaximumContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNaturalNumberLiteral(UtaLanguageParser.NaturalNumberLiteralContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionNaturalNumber(UtaLanguageParser.ExpressionNaturalNumberContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpressionGroup(UtaLanguageParser.ExpressionGroupContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionDecrementAndGet(UtaLanguageParser.ExpressionDecrementAndGetContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRightShiftExpression(UtaLanguageParser.RightShiftExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionCall(UtaLanguageParser.ExpressionCallContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBitwiseOrAssignmentExpr(UtaLanguageParser.BitwiseOrAssignmentExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionUnaryOpAdditiveIdentity(UtaLanguageParser.ExpressionUnaryOpAdditiveIdentityContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGreaterThanOrEqualExpression(UtaLanguageParser.GreaterThanOrEqualExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionTernary(UtaLanguageParser.ExpressionTernaryContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDivisionAssignmentExpr(UtaLanguageParser.DivisionAssignmentExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpEqual(UtaLanguageParser.ExpressionBinaryOpEqualContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSuffixDecrementExpression(UtaLanguageParser.SuffixDecrementExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionAssignOpModulo(UtaLanguageParser.ExpressionAssignOpModuloContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExistentialQuantificationExpression(UtaLanguageParser.ExistentialQuantificationExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionAssignOpBitwiseXOR(UtaLanguageParser.ExpressionAssignOpBitwiseXORContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMultiplicationExpression(UtaLanguageParser.MultiplicationExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpLessThanOrEqual(UtaLanguageParser.ExpressionBinaryOpLessThanOrEqualContext ctx) { return visitChildren(ctx); }
+	@Override public T visitModuloExpression(UtaLanguageParser.ModuloExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpRightShift(UtaLanguageParser.ExpressionBinaryOpRightShiftContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConjunctionExpression(UtaLanguageParser.ConjunctionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpConjunctionPhrase(UtaLanguageParser.ExpressionBinaryOpConjunctionPhraseContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMultiplicationAssignmentExpr(UtaLanguageParser.MultiplicationAssignmentExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionUnaryOpNegatedPhrase(UtaLanguageParser.ExpressionUnaryOpNegatedPhraseContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTernaryExpression(UtaLanguageParser.TernaryExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpLessThan(UtaLanguageParser.ExpressionBinaryOpLessThanContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArrayLookupExpression(UtaLanguageParser.ArrayLookupExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionAssignOpSubtraction(UtaLanguageParser.ExpressionAssignOpSubtractionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPrefixIncrementExpression(UtaLanguageParser.PrefixIncrementExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionIdentifierRef(UtaLanguageParser.ExpressionIdentifierRefContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLessThanOrEqualExpression(UtaLanguageParser.LessThanOrEqualExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpLeftShift(UtaLanguageParser.ExpressionBinaryOpLeftShiftContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFalseLiteral(UtaLanguageParser.FalseLiteralContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpSubtraction(UtaLanguageParser.ExpressionBinaryOpSubtractionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInequalityExpression(UtaLanguageParser.InequalityExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionUnaryOpAdditiveInverse(UtaLanguageParser.ExpressionUnaryOpAdditiveInverseContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDeadlockLiteral(UtaLanguageParser.DeadlockLiteralContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionTrueLiteral(UtaLanguageParser.ExpressionTrueLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTrueLiteral(UtaLanguageParser.TrueLiteralContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpDisjunction(UtaLanguageParser.ExpressionBinaryOpDisjunctionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAssignmentExpression(UtaLanguageParser.AssignmentExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpBitwiseXOR(UtaLanguageParser.ExpressionBinaryOpBitwiseXORContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSuffixIncrementExpression(UtaLanguageParser.SuffixIncrementExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionFalseLiteral(UtaLanguageParser.ExpressionFalseLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDivisionExpression(UtaLanguageParser.DivisionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpBitwiseAnd(UtaLanguageParser.ExpressionBinaryOpBitwiseAndContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAdditionAssignmentExpr(UtaLanguageParser.AdditionAssignmentExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionGetAndIncrement(UtaLanguageParser.ExpressionGetAndIncrementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNegationExpression(UtaLanguageParser.NegationExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpMinimum(UtaLanguageParser.ExpressionBinaryOpMinimumContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCallExpression(UtaLanguageParser.CallExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionFieldAccess(UtaLanguageParser.ExpressionFieldAccessContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPrefixDecrementExpression(UtaLanguageParser.PrefixDecrementExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpBitwiseOr(UtaLanguageParser.ExpressionBinaryOpBitwiseOrContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBitwiseOrExpression(UtaLanguageParser.BitwiseOrExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionIncrementAndGet(UtaLanguageParser.ExpressionIncrementAndGetContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAdditionExpression(UtaLanguageParser.AdditionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpAddition(UtaLanguageParser.ExpressionBinaryOpAdditionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBitwiseXorAssignmentExpr(UtaLanguageParser.BitwiseXorAssignmentExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionAssignOpRightShift(UtaLanguageParser.ExpressionAssignOpRightShiftContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSubtractionAssignmentExpr(UtaLanguageParser.SubtractionAssignmentExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionUnaryOpNegated(UtaLanguageParser.ExpressionUnaryOpNegatedContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRightShiftAssignmentExpr(UtaLanguageParser.RightShiftAssignmentExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionDeadlockLiteral(UtaLanguageParser.ExpressionDeadlockLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMaximumExpression(UtaLanguageParser.MaximumExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpDivision(UtaLanguageParser.ExpressionBinaryOpDivisionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIdentifierExpression(UtaLanguageParser.IdentifierExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpNotEqual(UtaLanguageParser.ExpressionBinaryOpNotEqualContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSubtractionExpression(UtaLanguageParser.SubtractionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionAssignOpBitwiseOr(UtaLanguageParser.ExpressionAssignOpBitwiseOrContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBitwiseAndExpression(UtaLanguageParser.BitwiseAndExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionAssignOpDivision(UtaLanguageParser.ExpressionAssignOpDivisionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMinimumExpression(UtaLanguageParser.MinimumExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionGrouped(UtaLanguageParser.ExpressionGroupedContext ctx) { return visitChildren(ctx); }
+	@Override public T visitImplicationExpression(UtaLanguageParser.ImplicationExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionArrayLookup(UtaLanguageParser.ExpressionArrayLookupContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLeftShiftAssignmentExpr(UtaLanguageParser.LeftShiftAssignmentExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpDisjunctionPhrase(UtaLanguageParser.ExpressionBinaryOpDisjunctionPhraseContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLessThanExpression(UtaLanguageParser.LessThanExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpGreaterThanOrEqual(UtaLanguageParser.ExpressionBinaryOpGreaterThanOrEqualContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParameterSequence(UtaLanguageParser.ParameterSequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionAssignOpLeftShift(UtaLanguageParser.ExpressionAssignOpLeftShiftContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParameter(UtaLanguageParser.ParameterContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionBinaryOpModulo(UtaLanguageParser.ExpressionBinaryOpModuloContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitExpressionAssignOp(UtaLanguageParser.ExpressionAssignOpContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitExpressionBinaryOpImplicationPhrase(UtaLanguageParser.ExpressionBinaryOpImplicationPhraseContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitExpressionGetAndDecrement(UtaLanguageParser.ExpressionGetAndDecrementContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitExpressionBinaryOpConjunction(UtaLanguageParser.ExpressionBinaryOpConjunctionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitExpressionAssignOpAddition(UtaLanguageParser.ExpressionAssignOpAdditionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitArgumentList(UtaLanguageParser.ArgumentListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArgumentSequence(UtaLanguageParser.ArgumentSequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -844,7 +718,7 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArrayIdentifierLookup(UtaLanguageParser.ArrayIdentifierLookupContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArrayVariableLookup(UtaLanguageParser.ArrayVariableLookupContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -858,14 +732,14 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArrayIdentifier(UtaLanguageParser.ArrayIdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArrayIdentifierDeclaration(UtaLanguageParser.ArrayIdentifierDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBaseIdentifier(UtaLanguageParser.BaseIdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBaseIdentifierDeclaration(UtaLanguageParser.BaseIdentifierDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

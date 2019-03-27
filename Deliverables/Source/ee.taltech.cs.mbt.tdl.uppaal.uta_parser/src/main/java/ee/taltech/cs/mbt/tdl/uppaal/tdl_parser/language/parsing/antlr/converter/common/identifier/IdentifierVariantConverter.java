@@ -6,10 +6,10 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.identifier.IdentifierName;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.array_modifier.AbsArrayModifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.array_modifier.SizeExpressionArrayModifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.array_modifier.SizeTypeArrayModifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.AbsArrayModifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.SizeExpressionArrayModifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.SizeTypeArrayModifier;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -27,15 +27,15 @@ public class IdentifierVariantConverter extends UtaLanguageBaseVisitor<Identifie
 	private IdentifierVariantConverter() { }
 
 	public static class IdentifierData {
-		private IdentifierName identifierName;
+		private Identifier identifier;
 		private Collection<AbsArrayModifier> arrayModifiers = new LinkedList<>();
 
-		public IdentifierName getIdentifierName() {
-			return identifierName;
+		public Identifier getIdentifier() {
+			return identifier;
 		}
 
-		public void setIdentifierName(IdentifierName identifierName) {
-			this.identifierName = identifierName;
+		public void setIdentifier(Identifier identifier) {
+			this.identifier = identifier;
 		}
 
 		public Collection<AbsArrayModifier> getArrayModifiers() {
@@ -51,8 +51,8 @@ public class IdentifierVariantConverter extends UtaLanguageBaseVisitor<Identifie
 	@Override
 	public IdentifierData visitArrayIdentifier(ArrayIdentifierContext ctx) {
 		IdentifierData identifierData = new IdentifierData();
-		IdentifierName identifierName = new IdentifierName();
-		identifierName.setName(ctx.IDENTIFIER_NAME().getText());
+		Identifier identifier = new Identifier();
+		identifier.setName(ctx.IDENTIFIER_NAME().getText());
 		List<AbsArrayModifier> arrayModifiers = new LinkedList<>();
 		if (ctx.arraySizeModifier() != null) {
 			for (ArraySizeModifierContext arrayModCtx : ctx.arraySizeModifier()) {
@@ -73,7 +73,7 @@ public class IdentifierVariantConverter extends UtaLanguageBaseVisitor<Identifie
 			}
 		}
 
-		identifierData.setIdentifierName(identifierName);
+		identifierData.setIdentifier(identifier);
 		identifierData.getArrayModifiers().addAll(arrayModifiers);
 		return identifierData;
 	}
@@ -81,9 +81,9 @@ public class IdentifierVariantConverter extends UtaLanguageBaseVisitor<Identifie
 	@Override
 	public IdentifierData visitBaseIdentifier(BaseIdentifierContext ctx) {
 		IdentifierData identifierData = new IdentifierData();
-		IdentifierName identifierName = new IdentifierName();
-		identifierName.setName(ctx.getText());
-		identifierData.setIdentifierName(identifierName);
+		Identifier identifier = new Identifier();
+		identifier.setName(ctx.getText());
+		identifierData.setIdentifier(identifier);
 		return identifierData;
 	}
 }
