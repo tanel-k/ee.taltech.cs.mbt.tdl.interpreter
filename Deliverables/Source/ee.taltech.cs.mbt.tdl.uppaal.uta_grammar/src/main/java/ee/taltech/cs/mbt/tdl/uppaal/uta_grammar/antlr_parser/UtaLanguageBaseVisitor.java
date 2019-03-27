@@ -151,7 +151,7 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitChannelIdentifierRefrence(UtaLanguageParser.ChannelIdentifierRefrenceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitChannelIdentifierReference(UtaLanguageParser.ChannelIdentifierReferenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -347,13 +347,6 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUniversalQuantificationExpression(UtaLanguageParser.UniversalQuantificationExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitNaturalNumberLiteral(UtaLanguageParser.NaturalNumberLiteralContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -397,13 +390,6 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitSuffixDecrementExpression(UtaLanguageParser.SuffixDecrementExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitExistentialQuantificationExpression(UtaLanguageParser.ExistentialQuantificationExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -550,6 +536,13 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitQuantificationExpression(UtaLanguageParser.QuantificationExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitAdditionExpression(UtaLanguageParser.AdditionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -648,6 +641,13 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitReferenceModifier(UtaLanguageParser.ReferenceModifierContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitArgumentSequence(UtaLanguageParser.ArgumentSequenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -662,56 +662,56 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeIdInteger(UtaLanguageParser.TypeIdIntegerContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIntegerTypeId(UtaLanguageParser.IntegerTypeIdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeIdClock(UtaLanguageParser.TypeIdClockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitClockTypeId(UtaLanguageParser.ClockTypeIdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeIdChannel(UtaLanguageParser.TypeIdChannelContext ctx) { return visitChildren(ctx); }
+	@Override public T visitChannelTypeId(UtaLanguageParser.ChannelTypeIdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeIdBoolean(UtaLanguageParser.TypeIdBooleanContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBooleanTypeId(UtaLanguageParser.BooleanTypeIdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeIdIntegerBounded(UtaLanguageParser.TypeIdIntegerBoundedContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBoundedIntegerTypeId(UtaLanguageParser.BoundedIntegerTypeIdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeIdScalar(UtaLanguageParser.TypeIdScalarContext ctx) { return visitChildren(ctx); }
+	@Override public T visitScalarTypeId(UtaLanguageParser.ScalarTypeIdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeIdStruct(UtaLanguageParser.TypeIdStructContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStructTypeId(UtaLanguageParser.StructTypeIdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeIdIdentifierName(UtaLanguageParser.TypeIdIdentifierNameContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCustomTypeId(UtaLanguageParser.CustomTypeIdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -746,14 +746,14 @@ public class UtaLanguageBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArraySizeFromExpression(UtaLanguageParser.ArraySizeFromExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpressionArraySizeModifier(UtaLanguageParser.ExpressionArraySizeModifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArraySizeFromType(UtaLanguageParser.ArraySizeFromTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeArraySizeModifier(UtaLanguageParser.TypeArraySizeModifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

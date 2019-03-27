@@ -79,6 +79,10 @@
       <groupId>org.antlr</groupId>
       <artifactId>stringtemplate</artifactId>
     </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
+      <artifactId>uta_system_model</artifactId>
+    </dependency>
   </dependencies>
 
   <properties>
