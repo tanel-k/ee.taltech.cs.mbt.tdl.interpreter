@@ -6,9 +6,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisi
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.FlatInitializerContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.InitializerExpressionContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.StructuredInitializerContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.variable.initializer.AbsInitializer;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.variable.initializer.FlatInitializer;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.declaration.variable.initializer.StructuredInitializer;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.variable.initializer.AbsInitializer;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.variable.initializer.FlatInitializer;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.declaration.variable.initializer.StructuredInitializer;
 
 public class InitializerExpressionConverter extends UtaLanguageBaseVisitor<AbsInitializer>
 	implements IParseTreeConverter<AbsInitializer, InitializerExpressionContext>

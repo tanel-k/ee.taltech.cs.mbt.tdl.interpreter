@@ -4,35 +4,35 @@ import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.access.ArrayLookupExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.arithmetic.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.binary.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.hybrid.PostfixDecrementExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.hybrid.PostfixIncrementExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.hybrid.PrefixDecrementExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.hybrid.PrefixIncrementExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.literals.LiteralConsts;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.literals.NaturalNumberLiteral;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.inequality.GTEExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.inequality.GreaterThanExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.inequality.LTEExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.inequality.LessThanExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.phrasal.PhrasalDisjunctionExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.phrasal.PhrasalImplicationExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.phrasal.PhrasalNegation;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.quantification.EQuantificationType;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.logical.quantification.QuantificationExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.misc.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.categories.structural.GroupedExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AbsExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.AssignmentWrapper;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsBinaryExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsTernaryExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.expression.generic.internal.AbsUnaryExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.identifier.IdentifierName;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.AbsTypeIdentifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.access.ArrayLookupExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.arithmetic.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.binary.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.hybrid.PostfixDecrementExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.hybrid.PostfixIncrementExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.hybrid.PrefixDecrementExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.hybrid.PrefixIncrementExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.literals.LiteralConsts;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.literals.NaturalNumberLiteral;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.logical.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.logical.inequality.GTEExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.logical.inequality.GreaterThanExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.logical.inequality.LTEExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.logical.inequality.LessThanExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.logical.phrasal.PhrasalDisjunctionExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.logical.phrasal.PhrasalImplicationExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.logical.phrasal.PhrasalNegation;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.logical.quantification.EQuantificationType;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.logical.quantification.QuantificationExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.misc.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.categories.structural.GroupedExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.generic.AbsExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.generic.AssignmentWrapper;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.generic.internal.AbsBinaryExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.generic.internal.AbsTernaryExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.expression.generic.internal.AbsUnaryExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.identifier.IdentifierName;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.Type;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.identifier.AbsTypeId;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
@@ -90,11 +90,11 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression> i
 		IdentifierName iterationVarName = new IdentifierName();
 		iterationVarName.setName(ctx.IDENTIFIER_NAME().getText());
 
-		Type<AbsTypeIdentifier> iterationVarType = TypeConverter.getInstance().convert(ctx.type());
+		Type<AbsTypeId> iterationVarType = TypeConverter.getInstance().convert(ctx.type());
 
 		AbsExpression quantifiedExpression = ctx.expression().accept(this);
 
-		QuantificationExpression<AbsTypeIdentifier> quantificationExpression = new QuantificationExpression<>();
+		QuantificationExpression<AbsTypeId> quantificationExpression = new QuantificationExpression<>();
 		quantificationExpression.setQuantificationType(EQuantificationType.EXISTENTIAL);
 		quantificationExpression.setIterationVariableType(iterationVarType);
 		quantificationExpression.setIdentifierName(iterationVarName);
@@ -108,11 +108,11 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression> i
 		IdentifierName iterationVarName = new IdentifierName();
 		iterationVarName.setName(ctx.IDENTIFIER_NAME().getText());
 
-		Type<AbsTypeIdentifier> iterationVarType = TypeConverter.getInstance().convert(ctx.type());
+		Type<AbsTypeId> iterationVarType = TypeConverter.getInstance().convert(ctx.type());
 
 		AbsExpression quantifiedExpression = ctx.expression().accept(this);
 
-		QuantificationExpression<AbsTypeIdentifier> quantificationExpression = new QuantificationExpression<>();
+		QuantificationExpression<AbsTypeId> quantificationExpression = new QuantificationExpression<>();
 		quantificationExpression.setQuantificationType(EQuantificationType.UNIVERSAL);
 		quantificationExpression.setIterationVariableType(iterationVarType);
 		quantificationExpression.setIdentifierName(iterationVarName);

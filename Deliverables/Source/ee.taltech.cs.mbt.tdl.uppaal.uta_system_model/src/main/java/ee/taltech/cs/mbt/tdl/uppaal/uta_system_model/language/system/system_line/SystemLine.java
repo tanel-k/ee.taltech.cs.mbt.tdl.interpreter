@@ -2,15 +2,15 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.system.system_lin
 
 import java.util.*;
 
-public class SystemLine implements Iterable<ProcessRefs> {
-	private Set<ProcessRefs> processPrioritySequence = new LinkedHashSet<>();
+public class SystemLine implements Iterable<ProcessReferenceGroup> {
+	private Set<ProcessReferenceGroup> processPrioritySequence = new LinkedHashSet<>();
 
-	public Set<ProcessRefs> getProcessPrioritySequence() {
+	public Set<ProcessReferenceGroup> getProcessPrioritySequence() {
 		return processPrioritySequence;
 	}
 
 	@Override
-	public Iterator<ProcessRefs> iterator() {
+	public Iterator<ProcessReferenceGroup> iterator() {
 		return processPrioritySequence.iterator();
 	}
 }

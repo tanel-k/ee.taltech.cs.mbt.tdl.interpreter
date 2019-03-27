@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.ETypePrefix;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.ETypePrefix;
 
 public class TypePrefixConverter extends UtaLanguageBaseVisitor<ETypePrefix>
 	implements IParseTreeConverter<ETypePrefix, TypePrefixContext> {

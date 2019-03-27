@@ -7,9 +7,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ParameterContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ParameterListContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.type.type_identifier.AbsTypeIdentifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.base.variable_declaration.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.Type;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.type.identifier.AbsTypeId;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language.parameter.ParameterDeclaration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,14 +29,14 @@ public class ParameterListConverter extends UtaLanguageBaseVisitor<List<Paramete
 	public List<ParameterDeclaration> convert(ParameterListContext rootContext) {
 		List<ParameterDeclaration> parameterDeclarations = new LinkedList<>();
 		for (ParameterContext parameterCtx : rootContext.parameter()) {
-			Type<AbsTypeIdentifier> parameterType = TypeConverter.getInstance()
+			Type<AbsTypeId> parameterType = TypeConverter.getInstance()
 					.convert(parameterCtx.type());
 			ParameterIdentifierData paramData = ParameterIdentifierConverter.getInstance()
 					.convert(parameterCtx.parameterIdentifier());
 			parameterType.getArrayModifiers().addAll(paramData.getArrayModifiers());
 			parameterType.setReferenceType(paramData.isByReference());
 
-			ParameterDeclaration<AbsTypeIdentifier> parameterDeclaration = new ParameterDeclaration<>();
+			ParameterDeclaration<AbsTypeId> parameterDeclaration = new ParameterDeclaration<>();
 			parameterDeclaration.setIdentifierName(paramData.getIdentifierName());
 			parameterDeclaration.setType(parameterType);
 			parameterDeclarations.add(parameterDeclaration);

@@ -79,19 +79,6 @@
       <groupId>org.antlr</groupId>
       <artifactId>stringtemplate</artifactId>
     </dependency>
-    <!-- Internal -->
-    <!--
-      In order not to duplicate uta_system_model,
-      we need to include it as a dependency to support code generation.
-      Code generation is closely tied to the grammar of the language.
-      If we extract code generation from this artifact, we must keep
-      said artifact synchronized with the grammar stored here.
-     -->
-    <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-      <artifactId>uta_system_model</artifactId>
-    </dependency>
-    <!-- /Internal -->
   </dependencies>
 
   <properties>
