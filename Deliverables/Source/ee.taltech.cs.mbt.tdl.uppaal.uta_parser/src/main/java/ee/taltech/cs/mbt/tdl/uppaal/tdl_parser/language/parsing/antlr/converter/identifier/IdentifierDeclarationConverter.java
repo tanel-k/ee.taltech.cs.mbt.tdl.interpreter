@@ -1,11 +1,16 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier;
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.identifier;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.identifier.IdentifierVariantConverter.IdentifierData;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type.TypeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.expression.ExpressionConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.identifier.IdentifierDeclarationConverter.IdentifierData;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ArrayIdentifierDeclarationContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ArraySizeModifierContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.BaseIdentifierDeclarationContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ExpressionArraySizeModifierContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.IdentifierDeclarationContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.TypeArraySizeModifierContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.SizeExpressionArrayModifier;
@@ -15,16 +20,15 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IdentifierVariantConverter extends UtaLanguageBaseVisitor<IdentifierData>
-	implements IParseTreeConverter<IdentifierData, IdentifierNameVariantContext>
-{
-	public static IdentifierVariantConverter getInstance() {
+public class IdentifierDeclarationConverter extends UtaLanguageBaseVisitor<IdentifierData>
+		implements IParseTreeConverter<IdentifierData, IdentifierDeclarationContext> {
+	public static IdentifierDeclarationConverter getInstance() {
 		return INSTANCE;
 	}
 
-	private static final IdentifierVariantConverter INSTANCE = new IdentifierVariantConverter();
+	private static final IdentifierDeclarationConverter INSTANCE = new IdentifierDeclarationConverter();
 
-	private IdentifierVariantConverter() { }
+	private IdentifierDeclarationConverter() { }
 
 	public static class IdentifierData {
 		private Identifier identifier;
@@ -44,28 +48,28 @@ public class IdentifierVariantConverter extends UtaLanguageBaseVisitor<Identifie
 	}
 
 	@Override
-	public IdentifierData convert(IdentifierNameVariantContext rootContext) {
+	public IdentifierData convert(IdentifierDeclarationContext rootContext) {
 		return rootContext.accept(this);
 	}
 
 	@Override
-	public IdentifierData visitArrayIdentifier(ArrayIdentifierContext ctx) {
+	public IdentifierData visitArrayIdentifierDeclaration(ArrayIdentifierDeclarationContext ctx) {
 		IdentifierData identifierData = new IdentifierData();
 		Identifier identifier = new Identifier();
-		identifier.setName(ctx.IDENTIFIER_NAME().getText());
+		identifier.setText(ctx.IDENTIFIER_NAME().getText());
 		List<AbsArrayModifier> arrayModifiers = new LinkedList<>();
 		if (ctx.arraySizeModifier() != null) {
 			for (ArraySizeModifierContext arrayModCtx : ctx.arraySizeModifier()) {
-				if (arrayModCtx instanceof ArraySizeFromExpressionContext)
+				if (arrayModCtx instanceof ExpressionArraySizeModifierContext)
 				{
-					ArraySizeFromExpressionContext sizeCtx = (ArraySizeFromExpressionContext) arrayModCtx;
+					ExpressionArraySizeModifierContext sizeCtx = (ExpressionArraySizeModifierContext) arrayModCtx;
 					SizeExpressionArrayModifier arrayModifier = new SizeExpressionArrayModifier();
 					arrayModifier.setSizeSpecifier(ExpressionConverter.getInstance().convert(sizeCtx.expression()));
 					arrayModifiers.add(arrayModifier);
 				}
-				else if (arrayModCtx instanceof ArraySizeFromTypeContext)
+				else if (arrayModCtx instanceof TypeArraySizeModifierContext)
 				{
-					ArraySizeFromTypeContext sizeCtx = (ArraySizeFromTypeContext) arrayModCtx;
+					TypeArraySizeModifierContext sizeCtx = (TypeArraySizeModifierContext) arrayModCtx;
 					SizeTypeArrayModifier arrayModifier = new SizeTypeArrayModifier();
 					arrayModifier.setSizeSpecifier(TypeConverter.getInstance().convert(sizeCtx.type()));
 					arrayModifiers.add(arrayModifier);
@@ -79,10 +83,10 @@ public class IdentifierVariantConverter extends UtaLanguageBaseVisitor<Identifie
 	}
 
 	@Override
-	public IdentifierData visitBaseIdentifier(BaseIdentifierContext ctx) {
+	public IdentifierData visitBaseIdentifierDeclaration(BaseIdentifierDeclarationContext ctx) {
 		IdentifierData identifierData = new IdentifierData();
 		Identifier identifier = new Identifier();
-		identifier.setName(ctx.getText());
+		identifier.setText(ctx.getText());
 		identifierData.setIdentifier(identifier);
 		return identifierData;
 	}

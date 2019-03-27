@@ -1,0 +1,175 @@
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.statement;
+
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.declaration.DeclarationConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.expression.ExpressionConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.TypeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ConditionalStatementContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.DeclarationContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.DeclarationSequenceContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.DoWhileStatementContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.EmptyStatementContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ExpressionStatementContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ForLoopStatementContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.IterationStatementContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.StatementBlockContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.StatementContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.StatementReturnContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.StatementSequenceContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.WhileLoopStatementContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.AbsStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ConditionalStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.EmptyStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ExpressionStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ReturnStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.StatementBlock;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.DoWhileLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.ForLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.IterationLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.WhileLoop;
+
+public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
+	implements IParseTreeConverter<AbsStatement, StatementContext>
+{
+	public static StatementConverter getInstance() {
+		return INSTANCE;
+	}
+
+	private static final StatementConverter INSTANCE = new StatementConverter();
+
+	private StatementConverter() { }
+
+	@Override
+	public AbsStatement convert(StatementContext rootContext) {
+		return rootContext.accept(this);
+	}
+
+	@Override
+	public AbsStatement visitEmptyStatement(EmptyStatementContext ctx) {
+		return EmptyStatement.INSTANCE;
+	}
+
+	@Override
+	public AbsStatement visitStatementBlock(StatementBlockContext ctx) {
+		DeclarationSequenceContext declCtx = ctx.declarationSequence();
+		StatementSequenceContext stmtCtx = ctx.statementSequence();
+
+		StatementBlock statementBlock = new StatementBlock();
+
+		if (declCtx != null) {
+			for (DeclarationContext declarationContext : declCtx.declaration()) {
+				statementBlock.getDeclarations().add(
+						DeclarationConverter.getInstance().convert(declarationContext)
+				);
+			}
+		}
+
+		if (stmtCtx != null) {
+			for (StatementContext statementCtx : stmtCtx.statement()) {
+				statementBlock.getStatements().add(statementCtx.accept(this));
+			}
+		}
+
+		return statementBlock;
+	}
+
+	@Override
+	public AbsStatement visitConditionalStatement(ConditionalStatementContext ctx) {
+		ConditionalStatement conditionalStatement = new ConditionalStatement();
+		conditionalStatement.setCondition(
+			ExpressionConverter.getInstance()
+				.convert(ctx.expression())
+		);
+		conditionalStatement.setPrimaryStatement(
+			ctx.statement(0).accept(this)
+		);
+		if (ctx.statement(1) != null) {
+			conditionalStatement.setAlternativeStatement(
+				ctx.statement(1).accept(this)
+			);
+		}
+		return conditionalStatement;
+	}
+
+	@Override
+	public AbsStatement visitDoWhileStatement(DoWhileStatementContext ctx) {
+		DoWhileLoop doWhileLoop = new DoWhileLoop();
+		doWhileLoop.setCondition(
+			ExpressionConverter.getInstance().convert(ctx.expression())
+		);
+		doWhileLoop.setStatement(
+			ctx.statement().accept(this)
+		);
+		return doWhileLoop;
+	}
+
+	@Override
+	public AbsStatement visitForLoopStatement(ForLoopStatementContext ctx) {
+		ForLoop forLoop = new ForLoop();
+		forLoop.setInitializer(
+			ExpressionConverter.getInstance()
+				.convert(ctx.expression(0))
+		);
+		forLoop.setCondition(
+			ExpressionConverter.getInstance()
+				.convert(ctx.expression(1))
+		);
+		forLoop.setUpdate(
+			ExpressionConverter.getInstance()
+				.convert(ctx.expression(2))
+		);
+		forLoop.setStatement(
+			ctx.statement().accept(this)
+		);
+		return forLoop;
+	}
+
+	@Override
+	public AbsStatement visitWhileLoopStatement(WhileLoopStatementContext ctx) {
+		WhileLoop whileLoop = new DoWhileLoop();
+		whileLoop.setCondition(
+			ExpressionConverter.getInstance().convert(ctx.expression())
+		);
+		whileLoop.setStatement(
+			ctx.statement().accept(this)
+		);
+		return whileLoop;
+	}
+
+	@Override
+	public AbsStatement visitExpressionStatement(ExpressionStatementContext ctx) {
+		ExpressionStatement expressionStatement = new ExpressionStatement();
+		expressionStatement.setExpression(
+			ExpressionConverter.getInstance().convert(ctx.expression())
+		);
+		return expressionStatement;
+	}
+
+	@Override
+	public AbsStatement visitIterationStatement(IterationStatementContext ctx) {
+		IterationLoop iterationLoop = new IterationLoop();
+		iterationLoop.setIteratedType(
+			TypeConverter.getInstance().convert(ctx.type())
+		);
+		Identifier loopVar = new Identifier();
+		loopVar.setText(ctx.IDENTIFIER_NAME().getText());
+		iterationLoop.setLoopVariable(loopVar);
+		iterationLoop.setStatement(
+			ctx.statement().accept(this)
+		);
+		return iterationLoop;
+	}
+
+	@Override
+	public AbsStatement visitStatementReturn(StatementReturnContext ctx) {
+		ReturnStatement returnStatement = new ReturnStatement();
+		if (ctx.expression() != null) {
+			returnStatement.setExpression(
+				ExpressionConverter.getInstance().convert(ctx.expression())
+			);
+		}
+		return returnStatement;
+	}
+}

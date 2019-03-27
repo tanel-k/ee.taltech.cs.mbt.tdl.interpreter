@@ -7,7 +7,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDe
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents a template instantiation.<br/>
@@ -38,7 +37,7 @@ import java.util.Objects;
  */
 public class TemplateInstantiation extends AbsDeclarationStatement {
 	private Identifier newTemplateName;
-	private Identifier originalTemplateName;
+	private Identifier sourceTemplateName;
 	private List<ParameterDeclaration> parameters = new LinkedList<>();
 	private List<AbsExpression> arguments = new LinkedList<>();
 
@@ -50,12 +49,12 @@ public class TemplateInstantiation extends AbsDeclarationStatement {
 		this.newTemplateName = newTemplateName;
 	}
 
-	public Identifier getOriginalTemplateName() {
-		return originalTemplateName;
+	public Identifier getSourceTemplateName() {
+		return sourceTemplateName;
 	}
 
-	public void setOriginalTemplateName(Identifier originalTemplateName) {
-		this.originalTemplateName = originalTemplateName;
+	public void setSourceTemplateName(Identifier sourceTemplateName) {
+		this.sourceTemplateName = sourceTemplateName;
 	}
 
 	public List<AbsExpression> getArguments() {

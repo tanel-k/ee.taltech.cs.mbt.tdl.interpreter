@@ -36,15 +36,6 @@ public class Type<TypeIdentifier extends AbsTypeId> {
 
 	public Type() { }
 
-	public Type<TypeIdentifier> clone() {
-		Type<TypeIdentifier> type = new Type<>();
-		type.typePrefix = this.typePrefix;
-		type.typeIdentifier = this.typeIdentifier;
-		type.referenceType = this.referenceType;
-		type.arrayModifiers.addAll(this.arrayModifiers);
-		return type;
-	}
-
 	public boolean isReferenceType() {
 		return referenceType;
 	}

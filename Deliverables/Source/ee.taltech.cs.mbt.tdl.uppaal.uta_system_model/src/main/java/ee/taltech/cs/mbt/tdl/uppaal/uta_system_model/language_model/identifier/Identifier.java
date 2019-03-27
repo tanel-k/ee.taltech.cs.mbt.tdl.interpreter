@@ -11,13 +11,30 @@ import java.util.Objects;
  * </i>
  */
 public class Identifier {
-	private String name;
+	private String text;
 
-	public String getName() {
-		return name;
+	public String getText() {
+		return text;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setText(String name) {
+		this.text = name;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(text);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		if (!(obj instanceof Identifier))
+			return false;
+		Identifier other = (Identifier) obj;
+		return Objects.equals(other.text, this.text);
 	}
 }

@@ -13,6 +13,6 @@ public interface IParseTreeConverter<ResultType, RootContextType extends ParseTr
 		}
 	}
 
-	ResultType convert(RootContextType rootContext) throws ConversionException;
+	ResultType convert(RootContextType ctx) throws ConversionException;
 	default void reset() { }
 }

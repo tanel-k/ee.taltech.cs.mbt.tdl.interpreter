@@ -1,15 +1,18 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.system;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.declaration.DeclarationConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression.ExpressionConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.declaration.DeclarationSequenceConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.expression.ExpressionConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.DeclarationSequenceContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ExpressionContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ProgressMeasureDeclarationContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemDefinitionContext;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemLineContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
 
 public class SystemDefinitionConverter extends UtaLanguageBaseVisitor<SystemDefinition>
-	implements IParseTreeConverter<SystemDefinition, UtaSystemDefinitionContext>
-{
+	implements IParseTreeConverter<SystemDefinition, SystemDefinitionContext> {
 	public static SystemDefinitionConverter getInstance() {
 		return INSTANCE;
 	}
@@ -19,37 +22,33 @@ public class SystemDefinitionConverter extends UtaLanguageBaseVisitor<SystemDefi
 	private SystemDefinitionConverter() { }
 
 	@Override
-	public SystemDefinition convert(UtaSystemDefinitionContext rootContext) {
+	public SystemDefinition convert(SystemDefinitionContext rootContext) {
 		SystemDefinition systemDefinition = new SystemDefinition();
-		injectSystemDeclarations(systemDefinition, rootContext.systemDeclarationSequence());
+		injectSystemDeclarations(systemDefinition, rootContext.declarationSequence());
 		injectSystemLine(systemDefinition, rootContext.systemLine());
 		injectProgressMeasure(systemDefinition, rootContext.progressMeasureDeclaration());
 		return systemDefinition;
 	}
 
-	private void injectSystemDeclarations(SystemDefinition systemDefinition, SystemDeclarationSequenceContext declCtx) {
-		if (declCtx == null)
+	private void injectSystemDeclarations(SystemDefinition systemDefinition, DeclarationSequenceContext ctx) {
+		if (ctx == null)
 			return;
-		for (SystemDeclarationStatementContext stmtCtx : declCtx.systemDeclarationStatement()) {
-			DeclarationContext declarationCtx = stmtCtx.declaration();
-			systemDefinition.getDeclarations().add(
-				DeclarationConverter.getInstance().convert(declarationCtx)
-			);
-		}
+		systemDefinition.getDeclarations().addAll(DeclarationSequenceConverter.getInstance().convert(ctx));
 	}
 
-	private void injectSystemLine(SystemDefinition systemDefinition, SystemLineContext systemLineCtx) {
-		if (systemLineCtx == null)
+	private void injectSystemLine(SystemDefinition systemDefinition, SystemLineContext ctx) {
+		if (ctx == null)
 			return;
 		systemDefinition.setSystemLine(
-			SystemLineConverter.getInstance().convert(systemLineCtx)
+			SystemLineConverter.getInstance().convert(ctx)
 		);
 	}
 
-	private void injectProgressMeasure(SystemDefinition systemDefinition, ProgressMeasureDeclarationContext measureDeclCtx) {
-		if (measureDeclCtx == null)
+	private void injectProgressMeasure(SystemDefinition systemDefinition, ProgressMeasureDeclarationContext ctx) {
+		if (ctx == null)
 			return;
-		for (ExpressionContext exprCtx : measureDeclCtx.expression()) {
+
+		for (ExpressionContext exprCtx : ctx.expression()) {
 			systemDefinition.getProgressMeasureExpressions().add(
 				ExpressionConverter.getInstance().convert(exprCtx)
 			);

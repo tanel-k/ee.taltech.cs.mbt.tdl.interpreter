@@ -1,7 +1,7 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.expression;
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.expression;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.common.type.TypeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.ArrayLookupExpression;
@@ -108,7 +108,7 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression> i
 	@Override
 	public AbsExpression visitExpressionExistentialQuantification(ExpressionExistentialQuantificationContext ctx) {
 		Identifier iterationVarName = new Identifier();
-		iterationVarName.setName(ctx.IDENTIFIER_NAME().getText());
+		iterationVarName.setText(ctx.IDENTIFIER_NAME().getText());
 
 		Type<AbsTypeId> iterationVarType = TypeConverter.getInstance().convert(ctx.type());
 
@@ -126,7 +126,7 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression> i
 	@Override
 	public AbsExpression visitExpressionUniversalQuantification(ExpressionUniversalQuantificationContext ctx) {
 		Identifier iterationVarName = new Identifier();
-		iterationVarName.setName(ctx.IDENTIFIER_NAME().getText());
+		iterationVarName.setText(ctx.IDENTIFIER_NAME().getText());
 
 		Type<AbsTypeId> iterationVarType = TypeConverter.getInstance().convert(ctx.type());
 
@@ -413,7 +413,7 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression> i
 
 	private Identifier visitIdentifier(TerminalNode identifierTerminal) {
 		Identifier identifier = new Identifier();
-		identifier.setName(identifierTerminal.getText());
+		identifier.setText(identifierTerminal.getText());
 		return identifier;
 	}
 }
