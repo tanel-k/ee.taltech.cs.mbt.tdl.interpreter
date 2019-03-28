@@ -28,7 +28,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.g
  *   </tr>
  * </table>
  */
-public class BitwiseXorOrExpression extends AbsBinaryExprNode implements IHasAssignmentCounterpart {
+public class BitwiseXorExpression extends AbsBinaryExprNode implements IHasAssignmentCounterpart {
 	private boolean assignment;
 
 	@Override

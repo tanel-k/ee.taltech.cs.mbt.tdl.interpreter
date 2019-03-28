@@ -31,8 +31,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identif
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationStatement>
-	implements IParseTreeConverter<AbsDeclarationStatement, DeclarationContext>
-{
+		implements IParseTreeConverter<AbsDeclarationStatement, DeclarationContext> {
 	public static DeclarationConverter getInstance() {
 		return INSTANCE;
 	}
@@ -128,6 +127,7 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 	public AbsDeclarationStatement visitVariableDeclaration(VariableDeclarationContext ctx) { // FIXME!
 		VariableDeclarationList variableDeclarations = new VariableDeclarationList();
 
+		// Add a wrapper to the model?
 		for (VariableInitializationContext varInitCtx : ctx.variableInitialization()) {
 			IdentifierData identifierData = IdentifierDeclarationConverter.getInstance()
 				.convert(varInitCtx.identifierNameVariant());
@@ -155,6 +155,7 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 	public AbsDeclarationStatement visitTypeDeclaration(TypeDeclarationContext ctx) { // FIXME!
 		TypeDeclarationList typeDeclarations = new TypeDeclarationList();
 
+		// Add a wrapper to the model?
 		Type<AbsTypeId> type = TypeConverter.getInstance().convert(ctx.type());
 		for (IdentifierNameVariantContext identifierCtx : ctx.identifierNameVariant()) {
 			IdentifierData identifierData = IdentifierDeclarationConverter.getInstance()

@@ -313,6 +313,13 @@ public interface UtaLanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitModuloAssignmentExpr(UtaLanguageParser.ModuloAssignmentExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code PostfixIncrementExpression}
+	 * labeled alternative in {@link UtaLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPostfixIncrementExpression(UtaLanguageParser.PostfixIncrementExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code EqualityExpression}
 	 * labeled alternative in {@link UtaLanguageParser#expression}.
 	 * @param ctx the parse tree
@@ -333,6 +340,13 @@ public interface UtaLanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNaturalNumberLiteral(UtaLanguageParser.NaturalNumberLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PostfixDecrementExpression}
+	 * labeled alternative in {@link UtaLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPostfixDecrementExpression(UtaLanguageParser.PostfixDecrementExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExpressionGroup}
 	 * labeled alternative in {@link UtaLanguageParser#expression}.
@@ -368,13 +382,6 @@ public interface UtaLanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDivisionAssignmentExpr(UtaLanguageParser.DivisionAssignmentExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code SuffixDecrementExpression}
-	 * labeled alternative in {@link UtaLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSuffixDecrementExpression(UtaLanguageParser.SuffixDecrementExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MultiplicationExpression}
 	 * labeled alternative in {@link UtaLanguageParser#expression}.
@@ -466,13 +473,6 @@ public interface UtaLanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAssignmentExpression(UtaLanguageParser.AssignmentExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code SuffixIncrementExpression}
-	 * labeled alternative in {@link UtaLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSuffixIncrementExpression(UtaLanguageParser.SuffixIncrementExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code DivisionExpression}
 	 * labeled alternative in {@link UtaLanguageParser#expression}.

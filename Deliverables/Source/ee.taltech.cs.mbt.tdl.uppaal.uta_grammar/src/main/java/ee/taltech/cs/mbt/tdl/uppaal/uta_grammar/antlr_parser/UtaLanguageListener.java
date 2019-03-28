@@ -521,6 +521,18 @@ public interface UtaLanguageListener extends ParseTreeListener {
 	 */
 	void exitModuloAssignmentExpr(UtaLanguageParser.ModuloAssignmentExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code PostfixIncrementExpression}
+	 * labeled alternative in {@link UtaLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPostfixIncrementExpression(UtaLanguageParser.PostfixIncrementExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code PostfixIncrementExpression}
+	 * labeled alternative in {@link UtaLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPostfixIncrementExpression(UtaLanguageParser.PostfixIncrementExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code EqualityExpression}
 	 * labeled alternative in {@link UtaLanguageParser#expression}.
 	 * @param ctx the parse tree
@@ -556,6 +568,18 @@ public interface UtaLanguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNaturalNumberLiteral(UtaLanguageParser.NaturalNumberLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code PostfixDecrementExpression}
+	 * labeled alternative in {@link UtaLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPostfixDecrementExpression(UtaLanguageParser.PostfixDecrementExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code PostfixDecrementExpression}
+	 * labeled alternative in {@link UtaLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPostfixDecrementExpression(UtaLanguageParser.PostfixDecrementExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ExpressionGroup}
 	 * labeled alternative in {@link UtaLanguageParser#expression}.
@@ -616,18 +640,6 @@ public interface UtaLanguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDivisionAssignmentExpr(UtaLanguageParser.DivisionAssignmentExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code SuffixDecrementExpression}
-	 * labeled alternative in {@link UtaLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterSuffixDecrementExpression(UtaLanguageParser.SuffixDecrementExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code SuffixDecrementExpression}
-	 * labeled alternative in {@link UtaLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitSuffixDecrementExpression(UtaLanguageParser.SuffixDecrementExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code MultiplicationExpression}
 	 * labeled alternative in {@link UtaLanguageParser#expression}.
@@ -784,18 +796,6 @@ public interface UtaLanguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssignmentExpression(UtaLanguageParser.AssignmentExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code SuffixIncrementExpression}
-	 * labeled alternative in {@link UtaLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterSuffixIncrementExpression(UtaLanguageParser.SuffixIncrementExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code SuffixIncrementExpression}
-	 * labeled alternative in {@link UtaLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitSuffixIncrementExpression(UtaLanguageParser.SuffixIncrementExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code DivisionExpression}
 	 * labeled alternative in {@link UtaLanguageParser#expression}.

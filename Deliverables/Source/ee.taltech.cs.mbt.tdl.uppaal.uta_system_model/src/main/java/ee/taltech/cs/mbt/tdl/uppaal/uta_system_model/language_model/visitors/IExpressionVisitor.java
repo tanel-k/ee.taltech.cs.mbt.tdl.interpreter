@@ -15,7 +15,7 @@ public interface IExpressionVisitor<T> {
 	T visitAdditiveIdentityExpr(AdditiveIdentityExpression expr);
 	T visitSubtractionExpr(SubtractionExpression expr);
 	T visitBitwiseAndExpr(BitwiseAndExpression expr);
-	T visitBitwiseXorExpr(BitwiseXorOrExpression expr);
+	T visitBitwiseXorExpr(BitwiseXorExpression expr);
 	T visitBitwiseOrExpr(BitwiseOrExpression expr);
 	T visitLeftShiftExpr(LeftShiftExpression expr);
 	T visitRightShiftExpr(RightShiftExpression expr);

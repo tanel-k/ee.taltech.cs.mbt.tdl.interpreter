@@ -165,11 +165,11 @@ expression
     |<assoc=right> (COMMON_TOK_EXCLAMATION_MARK | PHRASE_NOT) expression
         # NegationExpression
     |<assoc=right> expression UNARY_OP_INCREMENT
-        # SuffixIncrementExpression
+        # PostfixIncrementExpression
     |<assoc=right> UNARY_OP_INCREMENT expression
         # PrefixIncrementExpression
     |<assoc=right> expression UNARY_OP_DECREMENT
-        # SuffixDecrementExpression
+        # PostfixDecrementExpression
     |<assoc=right> UNARY_OP_DECREMENT expression
         # PrefixDecrementExpression
     |<assoc=right> COMMON_TOK_MINUS expression
@@ -212,9 +212,9 @@ expression
         # BitwiseXorExpression
     |<assoc=left> expression BINARY_OP_BITWISE_OR expression
         # BitwiseOrExpression
-    |<assoc=left> expression BINARY_OP_CONJUNCTION expression
+    |<assoc=left> expression (BINARY_OP_CONJUNCTION | PHRASE_AND) expression
         # ConjunctionExpression
-    |<assoc=left> expression BINARY_OP_DISJUNCTION expression
+    |<assoc=left> expression (BINARY_OP_DISJUNCTION | PHRASE_OR)  expression
         # DisjunctionExpression
     |<assoc=right> expression COMMON_TOK_QUESTION_MARK expression COMMON_TOK_COLON expression
         # TernaryExpression
