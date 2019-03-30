@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.internal.AbsBinaryExprNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
 
@@ -31,5 +32,15 @@ public class ArrayLookupExpression extends AbsBinaryExprNode {
 	@Override
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitArrayLookupExpr(this);
+	}
+
+	@Override
+	protected AbsBinaryExprNode topLevelClone() {
+		return new ArrayLookupExpression();
+	}
+
+	@Override
+	public ArrayLookupExpression deepClone() {
+		return (ArrayLookupExpression) super.deepClone();
 	}
 }

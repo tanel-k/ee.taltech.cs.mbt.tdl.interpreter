@@ -39,4 +39,15 @@ public abstract class AbsTernaryExprNode extends AbsInternalExprNode {
 	public void setRightChild(AbsExpression expression) {
 		setChildExpression(POSITION_RIGHT, expression);
 	}
+
+	protected abstract AbsTernaryExprNode topLevelClone();
+
+	@Override
+	public AbsExpression deepClone() {
+		AbsTernaryExprNode clone = topLevelClone();
+		clone.setLeftChild(getLeftChild().deepClone());
+		clone.setMiddleChild(getMiddleChild().deepClone());
+		clone.setRightChild(getRightChild().deepClone());
+		return clone;
+	}
 }

@@ -22,6 +22,11 @@ public class BaseTypeIdentifiers {
 		private BooleanTypeId() { }
 
 		@Override
+		public BooleanTypeId deepClone() {
+			return this; // singleton
+		}
+
+		@Override
 		public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
 			return visitor.visitBooleanTypeIdentifier(this);
 		}
@@ -37,6 +42,11 @@ public class BaseTypeIdentifiers {
 	 */
 	public static class IntegerTypeId extends AbsTypeId {
 		private IntegerTypeId() { }
+
+		@Override
+		public IntegerTypeId deepClone() {
+			return this; // singleton
+		}
 
 		@Override
 		public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
@@ -55,6 +65,11 @@ public class BaseTypeIdentifiers {
 		private ChannelTypeId() { }
 
 		@Override
+		public ChannelTypeId deepClone() {
+			return this; // singleton
+		}
+
+		@Override
 		public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
 			return visitor.visitChannelTypeIdentifier(this);
 		}
@@ -69,6 +84,11 @@ public class BaseTypeIdentifiers {
 	 */
 	public static class ClockTypeId extends AbsTypeId {
 		private ClockTypeId() { }
+
+		@Override
+		public ClockTypeId deepClone() {
+			return this; // singleton
+		}
 
 		@Override
 		public <T> T accept(ITypeIdentifierVisitor<T> visitor) {

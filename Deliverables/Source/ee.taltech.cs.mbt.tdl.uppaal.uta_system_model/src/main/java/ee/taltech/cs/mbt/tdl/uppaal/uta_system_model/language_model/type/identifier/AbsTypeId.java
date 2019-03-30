@@ -18,5 +18,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ITy
  * </pre>
  */
 public abstract class AbsTypeId {
+	public abstract AbsTypeId deepClone();
 	public abstract <T> T accept(ITypeIdentifierVisitor<T> visitor);
 }

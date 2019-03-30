@@ -18,4 +18,14 @@ public class GroupedExpression extends AbsUnaryExprNode {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitGroupExpr(this);
 	}
+
+	@Override
+	protected GroupedExpression topLevelClone() {
+		return new GroupedExpression();
+	}
+
+	@Override
+	public GroupedExpression deepClone() {
+		return (GroupedExpression) super.deepClone();
+	}
 }

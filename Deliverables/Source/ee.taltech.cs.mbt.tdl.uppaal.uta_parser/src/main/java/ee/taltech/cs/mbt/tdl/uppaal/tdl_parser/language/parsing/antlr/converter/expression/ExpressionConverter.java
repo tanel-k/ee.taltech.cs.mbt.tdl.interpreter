@@ -11,7 +11,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.i
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
+
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
@@ -70,7 +70,7 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 		Identifier iterationVarName = new Identifier();
 		iterationVarName.setText(ctx.IDENTIFIER_NAME().getText());
 
-		Type<AbsTypeId> iterationVarType = TypeConverter.getInstance().convert(ctx.type());
+		Type iterationVarType = TypeConverter.getInstance().convert(ctx.type());
 		AbsExpression quantifiedExpression = ctx.expression().accept(this);
 		EQuantificationType quantType = ctx.PHRASE_EXISTS() != null
 				? EQuantificationType.EXISTENTIAL
@@ -109,7 +109,7 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 	public AbsExpression visitCallExpression(CallExpressionContext ctx) {
 		CallExpression callExpression = new CallExpression();
 		if (ctx.argumentSequence() != null) {
-			callExpression.getArgumentList().addAll(
+			callExpression.getArguments().addAll(
 				ArgumentSequenceConverter.getInstance().convert(ctx.argumentSequence())
 			);
 		}

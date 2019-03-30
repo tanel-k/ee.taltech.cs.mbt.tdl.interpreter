@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
 
 import java.math.BigInteger;
@@ -40,6 +41,11 @@ public class NaturalNumberLiteral extends AbsLiteralExpression {
 
 	public void setValue(BigInteger value) {
 		this.value = value;
+	}
+
+	@Override
+	public AbsExpression deepClone() {
+		return this; // singleton
 	}
 
 	@Override

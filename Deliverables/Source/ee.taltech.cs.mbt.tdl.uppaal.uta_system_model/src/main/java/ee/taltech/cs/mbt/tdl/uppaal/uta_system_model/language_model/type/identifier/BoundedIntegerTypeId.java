@@ -36,6 +36,14 @@ public class BoundedIntegerTypeId extends AbsTypeId {
 	}
 
 	@Override
+	public BoundedIntegerTypeId deepClone() {
+		BoundedIntegerTypeId clone = new BoundedIntegerTypeId();
+		clone.setMinimumBound(getMinimumBound().deepClone());
+		clone.setMaximumBound(getMaximumBound().deepClone());
+		return clone;
+	}
+
+	@Override
 	public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
 		return visitor.visitBoundedIntegerTypeIdentifier(this);
 	}

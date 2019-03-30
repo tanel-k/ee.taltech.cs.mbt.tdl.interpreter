@@ -45,4 +45,16 @@ public class LeftShiftExpression extends AbsBinaryExprNode implements IHasAssign
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitLeftShiftExpr(this);
 	}
+
+	@Override
+	protected LeftShiftExpression topLevelClone() {
+		LeftShiftExpression clone = new LeftShiftExpression();
+		clone.setAssignment(isAssignment());
+		return clone;
+	}
+
+	@Override
+	public LeftShiftExpression deepClone() {
+		return (LeftShiftExpression) super.deepClone();
+	}
 }

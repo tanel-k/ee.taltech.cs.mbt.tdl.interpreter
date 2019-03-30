@@ -21,4 +21,16 @@ public class ImplicationExpression extends AbsBinaryExprNode implements IHasPhra
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitImplicationExpr(this);
 	}
+
+	@Override
+	protected ImplicationExpression topLevelClone() {
+		ImplicationExpression clone = new ImplicationExpression();
+		clone.setPhrase(isPhrase());
+		return clone;
+	}
+
+	@Override
+	public ImplicationExpression deepClone() {
+		return (ImplicationExpression) super.deepClone();
+	}
 }

@@ -6,6 +6,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.identifier.IdentifierDeclarationConverter.IdentifierData;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.parameter.ParameterSequenceConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.statement.StatementSequenceConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.BaseTypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ChannelPriorityDeclarationContext;
@@ -28,20 +29,22 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.V
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.VariableInitializationContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.VoidFunctionDeclarationContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.DeclarationGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.FunctionDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TypeDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.ChannelPrioritySequence;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.ChannelReferenceGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.channel_reference.AbsChannelReference;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.type.TypeDeclarationGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclarationGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.AbsVariableInitializer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseSharingTypeMap;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.StatementBlock;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.util.Collection;
 
 public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationStatement>
 		implements IParseTreeConverter<AbsDeclarationStatement, DeclarationContext> {
@@ -137,56 +140,52 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 	}
 
 	@Override
-	public AbsDeclarationStatement visitVariableDeclaration(VariableDeclarationContext ctx) { // FIXME!
-		DeclarationGroup<VariableDeclaration> declarationGroup = new DeclarationGroup<>();
+	public AbsDeclarationStatement visitVariableDeclaration(VariableDeclarationContext ctx) {
+		VariableDeclarationGroup declarationGroup = new VariableDeclarationGroup();
+		BaseSharingTypeMap<Identifier> sharedTypeMap = declarationGroup.getBaseSharingTypeMap();
+
+		BaseType baseType = BaseTypeConverter.getInstance().convert(ctx.type());
+		sharedTypeMap.setBaseType(baseType);
 
 		for (VariableInitializationContext varInitCtx : ctx.variableInitialization()) {
 			IdentifierData identifierData = IdentifierDeclarationConverter.getInstance()
 				.convert(varInitCtx.identifierDeclaration());
+			Identifier identifier = identifierData.getIdentifier();
+			Collection<AbsArrayModifier> arrayModifiers = identifierData.getArrayModifiers();
 
-			Type<AbsTypeId> baseType = TypeConverter.getInstance().convert(ctx.type());
-			baseType.getArrayModifiers().addAll(identifierData.getArrayModifiers());
+			sharedTypeMap.getOrCreateConcreteType(identifier);
+			sharedTypeMap.getConcreteType(identifier).getArrayModifiers().addAll(arrayModifiers);
 
-			VariableDeclaration<AbsVariableInitializer> variableDeclaration = new VariableDeclaration<>();
-			variableDeclaration.setType(baseType);
-			variableDeclaration.setIdentifier(identifierData.getIdentifier());
 			AbsVariableInitializer initializer = varInitCtx.initializerExpression() != null
 				? InitializerExpressionConverter.getInstance()
 					.convert(varInitCtx.initializerExpression())
 				: null;
-			variableDeclaration.setInitializer(initializer);
 
-			declarationGroup.getDeclarations().add(variableDeclaration);
+			declarationGroup.getInitializerMap().put(identifier, initializer);
 		}
 
-		AbsDeclarationStatement result = declarationGroup;
-		if (declarationGroup.hasSingleDeclaration())
-			result = declarationGroup.getFirstDeclaration();
-
-		return result;
+		return declarationGroup.reduceToOnlyEntryIfApplicable();
 	}
 
 	@Override
 	public AbsDeclarationStatement visitTypeDeclaration(TypeDeclarationContext ctx) {
-		DeclarationGroup<TypeDeclaration> declarationGroup = new DeclarationGroup<>();
+		TypeDeclarationGroup typeDeclarationGroup = new TypeDeclarationGroup();
+		BaseSharingTypeMap<Identifier> sharedTypeMap = typeDeclarationGroup.getBaseSharingTypeMap();
+
+		BaseType baseType = BaseTypeConverter.getInstance().convert(ctx.type());
+		sharedTypeMap.setBaseType(baseType);
 
 		for (IdentifierDeclarationContext idDeclCtx : ctx.identifierDeclaration()) {
 			IdentifierData identifierData = IdentifierDeclarationConverter.getInstance()
-				.convert(idDeclCtx);
+					.convert(idDeclCtx);
+			Identifier identifier = identifierData.getIdentifier();
+			Collection<AbsArrayModifier> arrayModifiers = identifierData.getArrayModifiers();
 
-			Type<?> baseType = TypeConverter.getInstance().convert(ctx.type());
-			baseType.getArrayModifiers().addAll(identifierData.getArrayModifiers());
-
-			TypeDeclaration typeDeclaration = new TypeDeclaration();
-			typeDeclaration.setIdentifier(identifierData.getIdentifier());
-			typeDeclaration.setType(baseType);
-			declarationGroup.getDeclarations().add(typeDeclaration);
+			sharedTypeMap.getOrCreateConcreteType(identifier);
+			sharedTypeMap.getConcreteType(identifier).getArrayModifiers().addAll(arrayModifiers);
 		}
 
-		if (declarationGroup.hasSingleDeclaration())
-			return declarationGroup.getFirstDeclaration();
-
-		return declarationGroup;
+		return typeDeclarationGroup.reduceToOnlyEntryIfApplicable();
 	}
 
 	@Override

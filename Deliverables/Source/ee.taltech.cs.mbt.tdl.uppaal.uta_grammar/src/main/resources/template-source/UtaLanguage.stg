@@ -69,16 +69,22 @@ declarations(iterable) ::= <%
 %>
 
 declaration(ctx) ::= <%
-    <if(ctx.variable)>
+    <if(ctx.variableDeclaration)>
         <variableDeclaration(ctx)>
-    <elseif(ctx.type)>
+    <elseif(ctx.typeDeclaration)>
         <typeDeclaration(ctx)>
-    <elseif(ctx.function)>
+    <elseif(ctx.functionDeclaration)>
         <functionDeclaration(ctx)>
-    <elseif(ctx.channelPriority)>
+    <elseif(ctx.channelPriorityDeclaration)>
         <channelPriorityDeclaration(ctx)>
+    <elseif(ctx.templateInstantiation)>
+        <templateInstantiation(ctx)>
+    <elseif(ctx.declarationGroup)>
+        <ctx.declarations:declaration()>
     <endif>
 %>
+
+templateInstantiation(ctx) ::= <%TODO%>
 
 variableDeclaration(ctx) ::= <%
     <type(ctx.type)> <variableInitializations(ctx.variableInitializations)>;
@@ -89,20 +95,14 @@ typeDeclaration(ctx) ::= <%
 %>
 
 functionDeclaration(ctx) ::=
-<<<functionType(ctx.valueType)> <literal(ctx.identifierName)>(<parameters(ctx.parameters)>) {
-<if(ctx.declarations)>
-    <declarations(ctx.declarations)>
-<endif>
-    <ctx.statments:statement()>
-}
->>
+<<<functionType(ctx.valueType)> <ctx.identifierValue>(<parameters(ctx.parameters)>) <statement(ctx.body)>>
 
 parameters(iterable) ::= <%
     <iterable:parameter(); separator=", ">
 %>
 
 parameter(ctx) ::= <%
-    <type(ctx.type)> <if(ctx.byReference)>&<endif><identifierNameVariant(ctx.nameVariant)>
+    <type(ctx.type)> <if(ctx.type.referenceType)>&<endif><ctx.identifierValue><arrayModifiers(ctx.type.arrayModifiers)>
 %>
 
 functionType(valueType) ::= <%
@@ -120,21 +120,21 @@ channelPriorityDeclaration(ctx) ::= <%
 statement(ctx) ::= <%
     <if(ctx.block)>
         <blockStmt(ctx)>
-    <elseif(ctx.expression)>
+    <elseif(ctx.expressionStatement)>
         <expressionStmt(ctx)>
-    <elseif(ctx.forLoop)>
+    <elseif(ctx.forLoopStatement)>
         <forStmt(ctx)>
-    <elseif(ctx.iteration)>
+    <elseif(ctx.iterationStatement)>
         <iterationStmt(ctx)>
-    <elseif(ctx.whileLoop)>
+    <elseif(ctx.whileLoopStatement)>
         <whileStmt(ctx)>
-    <elseif(ctx.doWhileLoop)>
+    <elseif(ctx.doWhileLoopStatement)>
         <doWhileStmt(ctx)>
-    <elseif(ctx.conditional)>
+    <elseif(ctx.conditionalStatement)>
         <conditionalStmt(ctx)>
-    <elseif(ctx.return)>
+    <elseif(ctx.returnStatement)>
         <returnStmt(ctx)>
-    <elseif(ctx.empty)>
+    <elseif(ctx.emptyStatement)>
         <emptyStmt(ctx)>
     <endif>
 %>
@@ -157,7 +157,7 @@ forStmt(ctx) ::=
 >>
 
 iterationStmt(ctx) ::=
-<<for (<literal(ctx.identifierName)> : <type(ctx.iteratedType)>)
+<<for (<ctx.identifierValue> : <type(ctx.iteratedType)>)
     <statement(ctx.statement)>
 >>
 
@@ -181,7 +181,6 @@ else
 <endif>
 >>
 
-
 returnStmt(ctx) ::= <%
     return<if(ctx.expression)> <expression(ctx.expression)><endif>;
 %>
@@ -194,7 +193,7 @@ expression(ctx) ::= <%
     <elseif(ctx.arrayLookup)>
         <expression(ctx.leftChild)>[<expression(ctx.rightChild)>]
     <elseif(ctx.fieldAccess)>
-        <expression(ctx.leftChild)>.<literal(ctx.identifierName)>
+        <expression(ctx.leftChild)>.<literal(ctx.identifierValue)>
     <elseif(ctx.negation)>
         <if(ctx.phrasal)>
             not <expression(ctx.child)>
@@ -267,9 +266,9 @@ expression(ctx) ::= <%
         <else>
             <expression(ctx.leftChild)> >> <expression(ctx.rightChild)>
         <endif>
-    <elseif(ctx.max)>
+    <elseif(ctx.maximum)>
         <expression(ctx.leftChild)> >? <expression(ctx.rightChild)>
-    <elseif(ctx.min)>
+    <elseif(ctx.minimum)>
         <expression(ctx.leftChild)> \<? <expression(ctx.rightChild)>
     <elseif(ctx.lessThan)>
         <expression(ctx.leftChild)> \< <expression(ctx.rightChild)>
@@ -304,29 +303,29 @@ expression(ctx) ::= <%
     <elseif(ctx.ternary)>
         <expression(ctx.leftChild)> ? <expression(ctx.middleChild)> : <expression(ctx.rightChild)>
     <elseif(ctx.existentialQuantification)>
-        exists (<literal(ctx.identifierName)> : <type(ctx.type)>) <expression(ctx.child)>
+        exists (<ctx.identifierValue> : <type(ctx.type)>) <expression(ctx.child)>
     <elseif(ctx.universalQuantification)>
-        forall (<literal(ctx.identifierName)> : <type(ctx.type)>) <expression(ctx.child)>
-    <elseif(ctx.assignment)>
+        forall (<ctx.identifierValue> : <type(ctx.type)>) <expression(ctx.child)>
+    <elseif(ctx.assignmentExpression)>
         <expression(ctx.leftChild)> = <expression(ctx.rightChild)>
     <elseif(ctx.call)>
         <expression(ctx.child)>(<arguments(ctx.arguments)>)
     <elseif(ctx.literal)>
         <literal(ctx.literal)>
+    <elseif(ctx.identifier)>
+        <ctx.identifierValue>
     <endif>
 %>
 
 literal(ctx) ::= <%
-    <if(ctx.deadlock)>
+    <if(ctx.deadlockLiteral)>
         deadlock
     <elseif(ctx.trueLiteral)>
         true
     <elseif(ctx.falseLiteral)>
         false
-    <elseif(ctx.number)>
-        <ctx.numberValue>
-    <elseif(ctx.identifierName)>
-        <ctx.nameString>
+    <elseif(ctx.naturalNumberLiteral)>
+        <ctx.naturalNumber>
     <endif>
 %>
 
@@ -375,7 +374,7 @@ typeIdentifier(ctx) ::= <%
         clock
     <elseif(ctx.channel)>
         chan
-    <elseif(ctx.bool)>
+    <elseif(ctx.boolean)>
         bool
     <elseif(ctx.boundedInteger)>
         int[<expression(ctx.minExpression)>,<expression(ctx.maxExpression)>]
@@ -383,8 +382,8 @@ typeIdentifier(ctx) ::= <%
         scalar { <expression(ctx.expression)> }
     <elseif(ctx.struct)>
         struct <fieldDeclarations(ctx.fieldDeclarations)>
-    <elseif(ctx.variableBasedType)>
-        <literal(ctx.identifierName)>
+    <elseif(ctx.customType)>
+        <ctx.identifierValue>
     <endif>
 %>
 
@@ -394,7 +393,7 @@ fieldDeclarations(iterable) ::= <<{
 >>
 
 fieldDeclaration(ctx) ::= <<
-    <type(ctx.type)> <ctx.identifierNameVariants:identifierNameVariant()>;
+    <type(ctx.type)> <ctx.identifierValue><ctx.arraySizeModifiers:arraySizeModifier()>;
 >>
 
 channelPriorityExpression(ctx) ::= <%
@@ -408,8 +407,8 @@ channelReferenceGroup(ctx) ::= <%
 channelReferenceExpression(ctx) ::= <%
     <if(ctx.defaultPriority)>
         default
-    <elseif(ctx.identifierName)>
-        <literal(ctx.identifierName)>
+    <elseif(ctx.identifierValue)>
+        <ctx.identifierName>
     <elseif(ctx.arrayLookup)>
         <ctx.arrayLookupExpressions:arrayLookupExpression()>
     <endif>
@@ -421,9 +420,9 @@ identifierNameVariants(iterable) ::= <%
 
 identifierNameVariant(ctx) ::= <%
     <if(ctx.arrayIdentifier)>
-        <literal(ctx.identifierName)><variantCtx.arraySizeModifiers:arraySizeModifier()>
+        <ctx.identifierValue><variantCtx.arraySizeModifiers:arraySizeModifier()>
     <elseif(ctx.baseIdentifier)>
-        <literal(ctx.identifierName)>
+        <ctx.identifierValue>
     <endif>
 %>
 

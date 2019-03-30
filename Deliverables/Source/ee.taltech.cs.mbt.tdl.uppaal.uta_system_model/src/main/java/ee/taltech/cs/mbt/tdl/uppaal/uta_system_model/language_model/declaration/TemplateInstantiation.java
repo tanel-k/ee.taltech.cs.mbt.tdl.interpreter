@@ -66,7 +66,7 @@ public class TemplateInstantiation extends AbsDeclarationStatement {
 	}
 
 	@Override
-	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
-		return declarationVisitor.visitTemplateInstantiation(this);
+	public <T> T accept(IDeclarationVisitor<T> visitor) {
+		return visitor.visitTemplateInstantiation(this);
 	}
 }

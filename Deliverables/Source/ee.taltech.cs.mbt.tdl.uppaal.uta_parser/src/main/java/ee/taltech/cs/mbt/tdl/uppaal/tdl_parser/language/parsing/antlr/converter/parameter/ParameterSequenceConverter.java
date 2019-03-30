@@ -29,9 +29,9 @@ public class ParameterSequenceConverter extends UtaLanguageBaseVisitor<List<Para
 		List<ParameterDeclaration> declarations = new LinkedList<>();
 
 		for (ParameterContext parameterCtx : ctx.parameter()) {
-			Type<?> parameterType = TypeConverter.getInstance().convert(parameterCtx.type());
+			Type parameterType = TypeConverter.getInstance().convert(parameterCtx.type());
 			if (parameterCtx.referenceModifier() != null)
-				parameterType.setReferenceType(true);
+				parameterType.setByReference(true);
 
 			IdentifierData identifierData = IdentifierDeclarationConverter.getInstance()
 				.convert(parameterCtx.identifierDeclaration());

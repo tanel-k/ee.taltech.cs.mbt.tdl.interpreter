@@ -41,24 +41,14 @@ public class ScalarTypeId extends AbsTypeId {
 	}
 
 	@Override
+	public ScalarTypeId deepClone() {
+		ScalarTypeId clone = new ScalarTypeId();
+		clone.setSizeExpression(getSizeExpression().deepClone());
+		return clone;
+	}
+
+	@Override
 	public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
 		return visitor.visitScalarTypeIdentifier(this);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getSizeExpression());
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof ScalarTypeId))
-			return false;
-		ScalarTypeId other = (ScalarTypeId) obj;
-		return Objects.equals(other.sizeExpression, this.sizeExpression);
 	}
 }

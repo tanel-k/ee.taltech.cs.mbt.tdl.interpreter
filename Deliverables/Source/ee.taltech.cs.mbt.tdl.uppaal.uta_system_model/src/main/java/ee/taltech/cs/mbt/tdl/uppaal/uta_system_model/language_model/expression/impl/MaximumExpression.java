@@ -32,4 +32,14 @@ public class MaximumExpression extends AbsBinaryExprNode {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitMaximumExpr(this);
 	}
+
+	@Override
+	protected MaximumExpression topLevelClone() {
+		return new MaximumExpression();
+	}
+
+	@Override
+	public MaximumExpression deepClone() {
+		return (MaximumExpression) super.deepClone();
+	}
 }

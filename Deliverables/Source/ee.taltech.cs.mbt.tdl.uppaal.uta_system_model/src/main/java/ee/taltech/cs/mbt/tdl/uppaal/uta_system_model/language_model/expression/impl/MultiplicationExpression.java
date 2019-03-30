@@ -45,4 +45,16 @@ public class MultiplicationExpression extends AbsBinaryExprNode implements IHasA
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitMultiplicationExpr(this);
 	}
+
+	@Override
+	protected MultiplicationExpression topLevelClone() {
+		MultiplicationExpression clone = new MultiplicationExpression();
+		clone.setAssignment(isAssignment());
+		return clone;
+	}
+
+	@Override
+	public MultiplicationExpression deepClone() {
+		return (MultiplicationExpression) super.deepClone();
+	}
 }

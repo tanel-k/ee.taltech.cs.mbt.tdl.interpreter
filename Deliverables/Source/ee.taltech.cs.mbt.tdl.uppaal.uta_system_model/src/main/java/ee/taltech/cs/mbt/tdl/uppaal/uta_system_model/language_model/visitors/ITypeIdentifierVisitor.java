@@ -7,12 +7,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identif
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BoundedIntegerTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.CustomTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.ScalarTypeId;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.struct.StructTypeId;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.StructTypeId;
 
 public interface ITypeIdentifierVisitor<T> {
 	T visitStructTypeIdentifier(StructTypeId id);
 	T visitScalarTypeIdentifier(ScalarTypeId id);
-	T visitIdRefTypeIdentifier(CustomTypeId id);
+	T visitCustomTypeIdentifier(CustomTypeId id);
 	T visitBoundedIntegerTypeIdentifier(BoundedIntegerTypeId id);
 	T visitBooleanTypeIdentifier(BooleanTypeId id);
 	T visitIntegerTypeIdentifier(IntegerTypeId id);

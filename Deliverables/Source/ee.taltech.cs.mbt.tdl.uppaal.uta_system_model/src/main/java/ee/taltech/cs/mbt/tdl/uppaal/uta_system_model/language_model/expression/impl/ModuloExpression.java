@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.IHasAssignmentCounterpart;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.internal.AbsBinaryExprNode;
@@ -44,5 +45,17 @@ public class ModuloExpression extends AbsBinaryExprNode implements IHasAssignmen
 	@Override
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitModuloExpr(this);
+	}
+
+	@Override
+	protected ModuloExpression topLevelClone() {
+		ModuloExpression clone = new ModuloExpression();
+		clone.setAssignment(isAssignment());
+		return clone;
+	}
+
+	@Override
+	public ModuloExpression deepClone() {
+		return (ModuloExpression) super.deepClone();
 	}
 }

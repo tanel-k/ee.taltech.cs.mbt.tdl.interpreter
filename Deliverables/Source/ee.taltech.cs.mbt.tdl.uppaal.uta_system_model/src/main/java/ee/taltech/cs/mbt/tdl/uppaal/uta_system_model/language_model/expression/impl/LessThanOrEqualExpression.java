@@ -32,4 +32,14 @@ public class LessThanOrEqualExpression extends AbsBinaryExprNode {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitLessThanOrEqualExpr(this);
 	}
+
+	@Override
+	protected LessThanOrEqualExpression topLevelClone() {
+		return new LessThanOrEqualExpression();
+	}
+
+	@Override
+	public LessThanOrEqualExpression deepClone() {
+		return (LessThanOrEqualExpression) super.deepClone();
+	}
 }

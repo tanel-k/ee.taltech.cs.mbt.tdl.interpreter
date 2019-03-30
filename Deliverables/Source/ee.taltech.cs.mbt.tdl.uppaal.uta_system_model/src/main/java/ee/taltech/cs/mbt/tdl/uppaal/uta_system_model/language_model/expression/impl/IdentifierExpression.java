@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsLeafExprNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
@@ -26,6 +27,13 @@ public class IdentifierExpression extends AbsLeafExprNode {
 
 	public void setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+	}
+
+	@Override
+	public IdentifierExpression deepClone() {
+		IdentifierExpression clone = new IdentifierExpression();
+		clone.setIdentifier(getIdentifier());
+		return clone;
 	}
 
 	@Override

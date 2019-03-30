@@ -27,7 +27,7 @@ public interface IExpressionVisitor<T> {
 	T visitAssignmentExpr(AssignmentExpression expr);
 	T visitCallExpr(CallExpression expr);
 	T visitIdentifierExpr(IdentifierExpression expr);
-	T visitConditionalExpr(TernaryExpression expr);
+	T visitTernaryExpr(TernaryExpression expr);
 	T visitNegationExpr(NegationExpression expr);
 	T visitEqualityExpr(EqualityExpression expr);
 	T visitDisjunctionExpr(DisjunctionExpression expr);

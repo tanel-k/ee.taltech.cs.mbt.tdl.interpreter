@@ -45,4 +45,16 @@ public class DivisionExpression extends AbsBinaryExprNode implements IHasAssignm
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitDivisionExpr(this);
 	}
+
+	@Override
+	protected DivisionExpression topLevelClone() {
+		DivisionExpression clone = new DivisionExpression();
+		clone.setAssignment(isAssignment());
+		return clone;
+	}
+
+	@Override
+	public DivisionExpression deepClone() {
+		return (DivisionExpression) super.deepClone();
+	}
 }

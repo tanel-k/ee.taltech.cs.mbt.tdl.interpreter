@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
 
@@ -26,41 +27,48 @@ import java.util.Objects;
  * ArrayDecl     ::= '[' Expression ']'
  *                |  '[' Type ']'
  * </pre>
- * @param <TypeIdentifier> @see {@link AbsTypeId}
  */
-public class Type<TypeIdentifier extends AbsTypeId> {
-	private ETypePrefix typePrefix = ETypePrefix.NONE;
-	private boolean referenceType = false;
-	private TypeIdentifier typeIdentifier;
+public class Type implements IDeepCloneable<Type> {
+	public static Type newInstance(BaseType baseType) {
+		Type type = new Type();
+		type.setBaseType(baseType);
+		return type;
+	}
+
+	private BaseType baseType;
+	private boolean byReference;
 	private List<AbsArrayModifier> arrayModifiers = new LinkedList<>();
 
 	public Type() { }
 
-	public boolean isReferenceType() {
-		return referenceType;
+	public BaseType getBaseType() {
+		return baseType;
 	}
 
-	public void setReferenceType(boolean referenceType) {
-		this.referenceType = referenceType;
+	public void setBaseType(BaseType baseType) {
+		this.baseType = baseType;
 	}
 
-	public ETypePrefix getTypePrefix() {
-		return typePrefix;
+	public boolean isByReference() {
+		return byReference;
 	}
 
-	public void setTypePrefix(ETypePrefix typePrefix) {
-		this.typePrefix = typePrefix;
-	}
-
-	public TypeIdentifier getTypeIdentifier() {
-		return typeIdentifier;
-	}
-
-	public void setTypeIdentifier(TypeIdentifier typeIdentifier) {
-		this.typeIdentifier = typeIdentifier;
+	public void setByReference(boolean byReference) {
+		this.byReference = byReference;
 	}
 
 	public List<AbsArrayModifier> getArrayModifiers() {
 		return arrayModifiers;
+	}
+
+	@Override
+	public Type deepClone() {
+		Type clone = new Type();
+		clone.setBaseType(getBaseType().deepClone());
+		clone.setByReference(isByReference());
+		getArrayModifiers().stream()
+				.map(AbsArrayModifier::deepClone)
+				.forEach(clone.getArrayModifiers()::add);
+		return clone;
 	}
 }

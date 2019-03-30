@@ -27,4 +27,14 @@ public class PostfixDecrementExpression extends AbsUnaryExprNode {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitPostfixDecrementExpr(this);
 	}
+
+	@Override
+	protected PostfixDecrementExpression topLevelClone() {
+		return new PostfixDecrementExpression();
+	}
+
+	@Override
+	public PostfixDecrementExpression deepClone() {
+		return (PostfixDecrementExpression) super.deepClone();
+	}
 }

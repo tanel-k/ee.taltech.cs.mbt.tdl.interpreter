@@ -7,6 +7,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDeclarationVisitor;
 
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,7 +22,7 @@ import java.util.Set;
 public class FunctionDeclaration extends AbsDeclarationStatement {
 	private Type valueType;
 	private Identifier name;
-	private Set<ParameterDeclaration> parameterDeclarations = new LinkedHashSet<>();
+	private List<ParameterDeclaration> parameterDeclarations = new LinkedList<>();
 	private StatementBlock body;
 
 	public Type getValueType() {
@@ -39,7 +41,7 @@ public class FunctionDeclaration extends AbsDeclarationStatement {
 		this.name = name;
 	}
 
-	public Set<ParameterDeclaration> getParameterDeclarations() {
+	public List<ParameterDeclaration> getParameterDeclarations() {
 		return parameterDeclarations;
 	}
 
@@ -52,7 +54,7 @@ public class FunctionDeclaration extends AbsDeclarationStatement {
 	}
 
 	@Override
-	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
-		return declarationVisitor.visitFunctionDeclaration(this);
+	public <T> T accept(IDeclarationVisitor<T> visitor) {
+		return visitor.visitFunctionDeclaration(this);
 	}
 }

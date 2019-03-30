@@ -45,4 +45,16 @@ public class RightShiftExpression extends AbsBinaryExprNode implements IHasAssig
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitRightShiftExpr(this);
 	}
+
+	@Override
+	protected RightShiftExpression topLevelClone() {
+		RightShiftExpression clone = new RightShiftExpression();
+		clone.setAssignment(isAssignment());
+		return clone;
+	}
+
+	@Override
+	public RightShiftExpression deepClone() {
+		return (RightShiftExpression) super.deepClone();
+	}
 }

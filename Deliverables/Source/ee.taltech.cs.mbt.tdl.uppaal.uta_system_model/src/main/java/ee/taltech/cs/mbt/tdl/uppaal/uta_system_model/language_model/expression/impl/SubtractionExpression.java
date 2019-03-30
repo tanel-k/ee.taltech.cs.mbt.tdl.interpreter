@@ -45,4 +45,16 @@ public class SubtractionExpression extends AbsBinaryExprNode implements IHasAssi
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitSubtractionExpr(this);
 	}
+
+	@Override
+	protected SubtractionExpression topLevelClone() {
+		SubtractionExpression clone = new SubtractionExpression();
+		clone.setAssignment(isAssignment());
+		return clone;
+	}
+
+	@Override
+	public SubtractionExpression deepClone() {
+		return (SubtractionExpression) super.deepClone();
+	}
 }

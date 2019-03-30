@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration;
+package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.type;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
@@ -14,7 +14,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDe
  * Note that the language allows type declarations to be grouped.<br/>
  * This class represents a single non-grouped type declaration.
  */
-public class TypeDeclaration extends AbsDeclarationStatement implements IGroupableDeclaration {
+public class TypeDeclaration extends AbsTypeDeclaration {
 	private Type type;
 	private Identifier identifier;
 
@@ -35,7 +35,7 @@ public class TypeDeclaration extends AbsDeclarationStatement implements IGroupab
 	}
 
 	@Override
-	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
-		return declarationVisitor.visitTypeDeclaration(this);
+	public <T> T accept(IDeclarationVisitor<T> visitor) {
+		return visitor.visitTypeDeclaration(this);
 	}
 }

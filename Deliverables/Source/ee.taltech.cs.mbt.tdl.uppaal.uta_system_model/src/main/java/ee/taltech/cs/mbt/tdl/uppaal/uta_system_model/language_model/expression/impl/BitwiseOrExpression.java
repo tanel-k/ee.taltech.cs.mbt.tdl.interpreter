@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.IHasAssignmentCounterpart;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.internal.AbsBinaryExprNode;
@@ -44,5 +45,17 @@ public class BitwiseOrExpression extends AbsBinaryExprNode implements IHasAssign
 	@Override
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitBitwiseOrExpr(this);
+	}
+
+	@Override
+	protected BitwiseOrExpression topLevelClone() {
+		BitwiseOrExpression clone = new BitwiseOrExpression();
+		clone.setAssignment(isAssignment());
+		return clone;
+	}
+
+	@Override
+	public BitwiseOrExpression deepClone() {
+		return (BitwiseOrExpression) super.deepClone();
 	}
 }

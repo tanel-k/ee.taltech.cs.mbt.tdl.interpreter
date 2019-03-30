@@ -4,8 +4,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IEx
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.internal.AbsUnaryExprNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 
-import java.util.Objects;
-
 /**
  * Represents an UPPAAL structured type field access.<br/>
  * Syntax:<br/>
@@ -45,5 +43,17 @@ public class FieldAccessExpression extends AbsUnaryExprNode {
 	 */
 	public void setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+	}
+
+	@Override
+	protected FieldAccessExpression topLevelClone() {
+		FieldAccessExpression clone = new FieldAccessExpression();
+		clone.setIdentifier(getIdentifier());
+		return clone;
+	}
+
+	@Override
+	public FieldAccessExpression deepClone() {
+		return (FieldAccessExpression) super.deepClone();
 	}
 }

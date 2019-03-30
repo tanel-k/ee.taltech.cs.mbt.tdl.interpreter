@@ -39,4 +39,6 @@ public abstract class AbsArrayModifier<SizeSpecifier> {
 		AbsArrayModifier other = (AbsArrayModifier) obj;
 		return Objects.equals(other.sizeSpecifier, this.sizeSpecifier);
 	}
+
+	public abstract AbsArrayModifier deepClone();
 }

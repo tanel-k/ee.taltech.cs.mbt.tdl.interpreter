@@ -6,7 +6,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.g
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents an UPPAAL structured type field access.<br/>
@@ -28,17 +27,29 @@ import java.util.Objects;
  * </table>
  */
 public class CallExpression extends AbsUnaryExprNode {
-	private List<AbsExpression> argumentList = new LinkedList<>();
+	private List<AbsExpression> arguments = new LinkedList<>();
 
 	/**
 	 * @return Arguments supplied in the call.
 	 */
-	public List<AbsExpression> getArgumentList() {
-		return argumentList;
+	public List<AbsExpression> getArguments() {
+		return arguments;
 	}
 
 	@Override
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitCallExpr(this);
+	}
+
+	@Override
+	protected CallExpression topLevelClone() {
+		CallExpression clone = new CallExpression();
+		clone.getArguments().stream().map(AbsExpression::deepClone).forEach(clone.getArguments()::add);
+		return clone;
+	}
+
+	@Override
+	public CallExpression deepClone() {
+		return (CallExpression) super.deepClone();
 	}
 }

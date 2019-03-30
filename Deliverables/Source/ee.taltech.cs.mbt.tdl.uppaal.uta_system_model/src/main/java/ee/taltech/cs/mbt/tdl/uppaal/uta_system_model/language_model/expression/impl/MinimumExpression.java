@@ -32,4 +32,14 @@ public class MinimumExpression extends AbsBinaryExprNode {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitMinimumExpr(this);
 	}
+
+	@Override
+	protected MinimumExpression topLevelClone() {
+		return new MinimumExpression();
+	}
+
+	@Override
+	public MinimumExpression deepClone() {
+		return (MinimumExpression) super.deepClone();
+	}
 }

@@ -6,6 +6,11 @@ public class TrueLiteral extends AbsLiteralExpression {
 	TrueLiteral() { }
 
 	@Override
+	public TrueLiteral deepClone() {
+		return this; // singleton
+	}
+
+	@Override
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitTrueLiteral(this);
 	}

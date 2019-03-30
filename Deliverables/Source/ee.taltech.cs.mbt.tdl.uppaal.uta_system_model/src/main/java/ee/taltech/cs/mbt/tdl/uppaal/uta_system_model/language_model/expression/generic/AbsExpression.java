@@ -84,5 +84,6 @@ public abstract class AbsExpression {
 		return Collections.unmodifiableList(childExpressions);
 	}
 
+	public abstract AbsExpression deepClone();
 	public abstract <T> T accept(IExpressionVisitor<T> visitor);
 }

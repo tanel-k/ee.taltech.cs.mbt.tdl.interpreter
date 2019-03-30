@@ -24,24 +24,14 @@ public class CustomTypeId extends AbsTypeId {
 	}
 
 	@Override
+	public CustomTypeId deepClone() {
+		CustomTypeId clone = new CustomTypeId();
+		clone.setIdentifier(getIdentifier());
+		return clone;
+	}
+
+	@Override
 	public <T> T accept(ITypeIdentifierVisitor<T> visitor) {
-		return visitor.visitIdRefTypeIdentifier(this);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getIdentifier());
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof CustomTypeId))
-			return false;
-		CustomTypeId other = (CustomTypeId) obj;
-		return Objects.equals(other.getIdentifier(), this.getIdentifier());
+		return visitor.visitCustomTypeIdentifier(this);
 	}
 }

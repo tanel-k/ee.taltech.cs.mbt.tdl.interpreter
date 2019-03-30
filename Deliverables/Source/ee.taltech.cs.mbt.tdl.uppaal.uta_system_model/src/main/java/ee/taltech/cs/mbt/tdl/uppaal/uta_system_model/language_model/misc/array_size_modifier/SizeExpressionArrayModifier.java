@@ -11,4 +11,11 @@ public class SizeExpressionArrayModifier extends AbsArrayModifier<AbsExpression>
 	public <T> T accept(IArrayModifierVisitor<T> visitor) {
 		return visitor.visitSizeExpressionModifier(this);
 	}
+
+	@Override
+	public SizeExpressionArrayModifier deepClone() {
+		SizeExpressionArrayModifier clone = new SizeExpressionArrayModifier();
+		clone.setSizeSpecifier(getSizeSpecifier().deepClone());
+		return clone;
+	}
 }

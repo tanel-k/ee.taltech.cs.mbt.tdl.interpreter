@@ -1,14 +1,13 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.struct;
+package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.field;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
-
-import java.util.Objects;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IFieldDeclarationVisitor;
 
 /**
  * Represents the declaration of a field in an UPPAAL struct.<br/>
  */
-public class FieldDeclaration {
+public class FieldDeclaration extends AbsFieldDeclaration {
 	private Type type;
 	private Identifier identifier;
 
@@ -29,20 +28,15 @@ public class FieldDeclaration {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(getType(), getIdentifier());
+	public FieldDeclaration deepClone() {
+		FieldDeclaration clone = new FieldDeclaration();
+		clone.setIdentifier(identifier);
+		clone.setType(type.deepClone());
+		return clone;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof FieldDeclaration))
-			return false;
-		FieldDeclaration other = (FieldDeclaration) obj;
-		return Objects.equals(other.type, this.type)
-			&& Objects.equals(other.identifier, this.identifier);
+	public <T> T accept(IFieldDeclarationVisitor<T> visitor) {
+		return visitor.visitFieldDeclaration(this);
 	}
 }

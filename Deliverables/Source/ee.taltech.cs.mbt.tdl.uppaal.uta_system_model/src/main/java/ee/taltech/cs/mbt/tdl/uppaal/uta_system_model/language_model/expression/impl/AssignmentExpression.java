@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.internal.AbsBinaryExprNode;
 
@@ -31,5 +32,15 @@ public class AssignmentExpression extends AbsBinaryExprNode {
 	@Override
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitAssignmentExpr(this);
+	}
+
+	@Override
+	protected AssignmentExpression topLevelClone() {
+		return new AssignmentExpression();
+	}
+
+	@Override
+	public AssignmentExpression deepClone() {
+		return (AssignmentExpression) super.deepClone();
 	}
 }

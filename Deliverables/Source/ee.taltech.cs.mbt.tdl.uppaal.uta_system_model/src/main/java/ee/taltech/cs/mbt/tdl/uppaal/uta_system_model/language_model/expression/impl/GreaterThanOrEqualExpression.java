@@ -32,4 +32,14 @@ public class GreaterThanOrEqualExpression extends AbsBinaryExprNode {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitGreaterThanOrEqualExpr(this);
 	}
+
+	@Override
+	protected GreaterThanOrEqualExpression topLevelClone() {
+		return new GreaterThanOrEqualExpression();
+	}
+
+	@Override
+	public GreaterThanOrEqualExpression deepClone() {
+		return (GreaterThanOrEqualExpression) super.deepClone();
+	}
 }

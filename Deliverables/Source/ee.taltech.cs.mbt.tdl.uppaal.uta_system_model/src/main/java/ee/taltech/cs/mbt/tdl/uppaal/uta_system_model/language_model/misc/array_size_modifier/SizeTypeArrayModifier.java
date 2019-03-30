@@ -12,4 +12,11 @@ public class SizeTypeArrayModifier extends AbsArrayModifier<Type> {
 	public <T> T accept(IArrayModifierVisitor<T> visitor) {
 		return visitor.visitSizeTypeModifier(this);
 	}
+
+	@Override
+	public SizeTypeArrayModifier deepClone() {
+		SizeTypeArrayModifier clone = new SizeTypeArrayModifier();
+		clone.setSizeSpecifier(getSizeSpecifier().deepClone());
+		return clone;
+	}
 }

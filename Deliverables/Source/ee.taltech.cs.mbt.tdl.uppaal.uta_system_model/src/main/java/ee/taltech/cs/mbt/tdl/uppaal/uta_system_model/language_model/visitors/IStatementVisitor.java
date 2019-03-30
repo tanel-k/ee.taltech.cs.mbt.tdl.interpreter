@@ -18,6 +18,6 @@ public interface IStatementVisitor<T> {
 	T visitBlockStatement(StatementBlock stmt);
 	T visitWhileStatement(WhileLoop stmt);
 	T visitDoWhileStatement(DoWhileLoop stmt);
-	T visitForStatement(ForLoop forLoop);
-	T visitForLoopStatement(IterationLoop stmt);
+	T visitForStatement(ForLoop stmt);
+	T visitIterationStatement(IterationLoop stmt);
 }

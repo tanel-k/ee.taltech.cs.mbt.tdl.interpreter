@@ -36,6 +36,6 @@ public class IterationLoop extends AbsLoopStatement {
 
 	@Override
 	public <T> T accept(IStatementVisitor<T> visitor) {
-		return visitor.visitForLoopStatement(this);
+		return visitor.visitIterationStatement(this);
 	}
 }

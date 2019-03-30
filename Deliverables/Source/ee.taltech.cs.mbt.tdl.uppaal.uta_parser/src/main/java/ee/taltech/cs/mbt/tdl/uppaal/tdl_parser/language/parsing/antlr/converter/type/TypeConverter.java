@@ -6,8 +6,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.T
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
 
-public class TypeConverter extends UtaLanguageBaseVisitor<Type<AbsTypeId>>
-		implements IParseTreeConverter<Type<AbsTypeId>, TypeContext> {
+public class TypeConverter extends UtaLanguageBaseVisitor<Type>
+		implements IParseTreeConverter<Type, TypeContext> {
 	public static TypeConverter getInstance() {
 		return INSTANCE;
 	}
@@ -17,15 +17,14 @@ public class TypeConverter extends UtaLanguageBaseVisitor<Type<AbsTypeId>>
 	private TypeConverter() { }
 
 	@Override
-	public Type<AbsTypeId> convert(TypeContext rootContext) {
+	public Type convert(TypeContext rootContext) {
 		return rootContext.accept(this);
 	}
 
 	@Override
-	public Type<AbsTypeId> visitType(TypeContext ctx) {
-		Type<AbsTypeId> type = new Type<>();
-		type.setTypePrefix(TypePrefixConverter.getInstance().convert(ctx.typePrefix()));
-		type.setTypeIdentifier(TypeIdentifierConverter.getInstance().convert(ctx.typeIdentifier()));
+	public Type visitType(TypeContext ctx) {
+		Type type = new Type();
+		type.setBaseType(BaseTypeConverter.getInstance().convert(ctx));
 		return type;
 	}
 }

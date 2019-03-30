@@ -32,4 +32,14 @@ public class EqualityExpression extends AbsBinaryExprNode {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitEqualityExpr(this);
 	}
+
+	@Override
+	protected EqualityExpression topLevelClone() {
+		return new EqualityExpression();
+	}
+
+	@Override
+	public EqualityExpression deepClone() {
+		return (EqualityExpression) super.deepClone();
+	}
 }

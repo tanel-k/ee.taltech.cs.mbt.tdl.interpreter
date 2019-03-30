@@ -27,4 +27,14 @@ public class PrefixIncrementExpression extends AbsUnaryExprNode {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitPrefixIncrementExpr(this);
 	}
+
+	@Override
+	protected PrefixIncrementExpression topLevelClone() {
+		return new PrefixIncrementExpression();
+	}
+
+	@Override
+	public PrefixIncrementExpression deepClone() {
+		return (PrefixIncrementExpression) super.deepClone();
+	}
 }

@@ -17,14 +17,19 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.S
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.StructTypeIdContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.TypeIdentifierContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BoundedIntegerTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.CustomTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.ScalarTypeId;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.struct.FieldDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.struct.StructTypeId;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.field.FieldDeclarationGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.StructTypeId;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseSharingTypeMap;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseSharingTypeMap.BaseSharingType;
+
+import java.util.Collection;
+import java.util.Collections;
 
 public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 		implements IParseTreeConverter<AbsTypeId, TypeIdentifierContext> {
@@ -87,17 +92,23 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 		StructTypeId structTypeIdentifier = new StructTypeId();
 
 		for (FieldDeclarationContext fieldDeclarationCtx : ctx.fieldDeclaration()) {
-			for (IdentifierDeclarationContext identifierDeclarationContext : fieldDeclarationCtx.identifierDeclaration()) {
-				Type<?> typeClone = TypeConverter.getInstance().convert(fieldDeclarationCtx.type());
-				IdentifierData identifierData = IdentifierDeclarationConverter
-					.getInstance()
-					.convert(identifierDeclarationContext);
-				typeClone.getArrayModifiers().addAll(identifierData.getArrayModifiers());
+			FieldDeclarationGroup multiDeclaration = new FieldDeclarationGroup();
+			BaseSharingTypeMap<Identifier> baseSharingTypeMap = multiDeclaration.getBaseSharingTypeMap();
+			baseSharingTypeMap.setBaseType(
+					BaseTypeConverter.getInstance().convert(fieldDeclarationCtx.type())
+			);
 
-				FieldDeclaration fieldDeclaration = new FieldDeclaration();
-				fieldDeclaration.setType(typeClone);
-				fieldDeclaration.setIdentifier(identifierData.getIdentifier());
+			for (IdentifierDeclarationContext identifierDeclarationContext : fieldDeclarationCtx.identifierDeclaration()) {
+				IdentifierData identifierData = IdentifierDeclarationConverter.getInstance()
+					.convert(identifierDeclarationContext);
+				Identifier identifier = identifierData.getIdentifier();
+				Collection<AbsArrayModifier> arrayModifiers = identifierData.getArrayModifiers();
+
+				baseSharingTypeMap.getOrCreateConcreteType(identifier);
+				baseSharingTypeMap.getConcreteType(identifierData.getIdentifier()).getArrayModifiers().addAll(arrayModifiers);
 			}
+
+			structTypeIdentifier.getFieldDeclarations().add(multiDeclaration.reduceToOnlyEntryIfApplicable());
 		}
 
 		return structTypeIdentifier;

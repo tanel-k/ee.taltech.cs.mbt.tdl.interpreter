@@ -1,7 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.IGroupableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.AbsVariableInitializer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
@@ -27,12 +26,11 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDe
  * </ul>
  * Note that the language allows variable declarations for a type to be grouped together.<br/>
  * This class represents a single non-grouped variable declaration.
- * @param <InitializerType> See {@link AbsVariableInitializer}
  */
-public class VariableDeclaration<InitializerType extends AbsVariableInitializer> extends AbsDeclarationStatement implements IGroupableDeclaration {
+public class VariableDeclaration extends AbsVariableDeclaration {
 	private Type type;
 	private Identifier identifier;
-	private InitializerType initializer;
+	private AbsVariableInitializer initializer;
 
 	public Type getType() {
 		return type;
@@ -50,16 +48,16 @@ public class VariableDeclaration<InitializerType extends AbsVariableInitializer>
 		this.identifier = identifier;
 	}
 
-	public InitializerType getInitializer() {
+	public AbsVariableInitializer getInitializer() {
 		return initializer;
 	}
 
-	public void setInitializer(InitializerType initializer) {
+	public void setInitializer(AbsVariableInitializer initializer) {
 		this.initializer = initializer;
 	}
 
 	@Override
-	public <T> T accept(IDeclarationVisitor<T> declarationVisitor) {
-		return declarationVisitor.visitVariableDeclaration(this);
+	public <T> T accept(IDeclarationVisitor<T> visitor) {
+		return visitor.visitVariableDeclaration(this);
 	}
 }

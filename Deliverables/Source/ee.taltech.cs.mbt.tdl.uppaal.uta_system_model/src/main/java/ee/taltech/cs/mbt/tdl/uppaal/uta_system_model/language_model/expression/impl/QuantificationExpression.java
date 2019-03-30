@@ -86,4 +86,18 @@ public class QuantificationExpression extends AbsUnaryExprNode {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitQuantificationExpr(this);
 	}
+
+	@Override
+	protected QuantificationExpression topLevelClone() {
+		QuantificationExpression clone = new QuantificationExpression();
+		clone.setQuantificationType(getQuantificationType());
+		clone.setIdentifierName(getIdentifierName());
+		clone.setIterationVariableType(getIterationVariableType().deepClone());
+		return clone;
+	}
+
+	@Override
+	public QuantificationExpression deepClone() {
+		return (QuantificationExpression) super.deepClone();
+	}
 }

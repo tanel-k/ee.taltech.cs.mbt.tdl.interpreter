@@ -45,4 +45,16 @@ public class BitwiseXorExpression extends AbsBinaryExprNode implements IHasAssig
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitBitwiseXorExpr(this);
 	}
+
+	@Override
+	protected BitwiseXorExpression topLevelClone() {
+		BitwiseXorExpression clone = new BitwiseXorExpression();
+		clone.setAssignment(isAssignment());
+		return clone;
+	}
+
+	@Override
+	public BitwiseXorExpression deepClone() {
+		return (BitwiseXorExpression) super.deepClone();
+	}
 }

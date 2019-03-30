@@ -32,4 +32,14 @@ public class InequalityExpression extends AbsBinaryExprNode {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitInequalityExpr(this);
 	}
+
+	@Override
+	protected InequalityExpression topLevelClone() {
+		return new InequalityExpression();
+	}
+
+	@Override
+	public InequalityExpression deepClone() {
+		return (InequalityExpression) super.deepClone();
+	}
 }

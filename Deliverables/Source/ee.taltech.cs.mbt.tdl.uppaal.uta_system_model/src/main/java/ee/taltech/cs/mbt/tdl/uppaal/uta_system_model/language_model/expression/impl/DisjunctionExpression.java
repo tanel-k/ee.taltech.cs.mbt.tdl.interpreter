@@ -45,4 +45,16 @@ public class DisjunctionExpression extends AbsBinaryExprNode implements IHasPhra
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitDisjunctionExpr(this);
 	}
+
+	@Override
+	protected DisjunctionExpression topLevelClone() {
+		DisjunctionExpression clone = new DisjunctionExpression();
+		clone.setPhrase(isPhrase());
+		return clone;
+	}
+
+	@Override
+	public DisjunctionExpression deepClone() {
+		return (DisjunctionExpression) super.deepClone();
+	}
 }
