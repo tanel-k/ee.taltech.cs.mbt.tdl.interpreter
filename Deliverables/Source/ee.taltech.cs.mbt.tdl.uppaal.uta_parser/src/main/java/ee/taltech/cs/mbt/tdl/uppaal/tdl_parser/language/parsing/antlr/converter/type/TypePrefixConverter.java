@@ -10,7 +10,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.T
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.ETypePrefix;
 
 public class TypePrefixConverter extends UtaLanguageBaseVisitor<ETypePrefix>
-	implements IParseTreeConverter<ETypePrefix, TypePrefixContext> {
+		implements IParseTreeConverter<ETypePrefix, TypePrefixContext> {
 	public static TypePrefixConverter getInstance() {
 		return INSTANCE;
 	}

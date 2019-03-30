@@ -10,8 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SelectionSequenceConverter extends UtaLanguageBaseVisitor<List<Selection>>
-	implements IParseTreeConverter<List<Selection>, SelectionSequenceContext>
-{
+		implements IParseTreeConverter<List<Selection>, SelectionSequenceContext> {
 	public static SelectionSequenceConverter getInstance() {
 		return INSTANCE;
 	}

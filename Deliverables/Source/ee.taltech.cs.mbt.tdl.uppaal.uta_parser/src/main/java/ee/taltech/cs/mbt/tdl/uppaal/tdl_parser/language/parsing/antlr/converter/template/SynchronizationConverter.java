@@ -10,8 +10,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.S
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Synchronization;
 
 public class SynchronizationConverter extends UtaLanguageBaseVisitor<Synchronization>
-	implements IParseTreeConverter<Synchronization, SynchronizationContext>
-{
+		implements IParseTreeConverter<Synchronization, SynchronizationContext> {
 	public static SynchronizationConverter getInstance() {
 		return INSTANCE;
 	}

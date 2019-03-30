@@ -2,6 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.declaration.DeclarationConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.declaration.DeclarationSequenceConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.expression.ExpressionConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
@@ -31,8 +32,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.lo
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.WhileLoop;
 
 public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
-	implements IParseTreeConverter<AbsStatement, StatementContext>
-{
+		implements IParseTreeConverter<AbsStatement, StatementContext> {
 	public static StatementConverter getInstance() {
 		return INSTANCE;
 	}
@@ -53,23 +53,21 @@ public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 
 	@Override
 	public AbsStatement visitStatementBlock(StatementBlockContext ctx) {
-		DeclarationSequenceContext declCtx = ctx.declarationSequence();
-		StatementSequenceContext stmtCtx = ctx.statementSequence();
+		DeclarationSequenceContext declarationSeqCtx = ctx.declarationSequence();
+		StatementSequenceContext stmtSeqCtx = ctx.statementSequence();
 
 		StatementBlock statementBlock = new StatementBlock();
 
-		if (declCtx != null) {
-			for (DeclarationContext declarationContext : declCtx.declaration()) {
-				statementBlock.getDeclarations().add(
-						DeclarationConverter.getInstance().convert(declarationContext)
-				);
-			}
+		if (declarationSeqCtx != null) {
+			statementBlock.getDeclarations().addAll(
+					DeclarationSequenceConverter.getInstance().convert(declarationSeqCtx)
+			);
 		}
 
-		if (stmtCtx != null) {
-			for (StatementContext statementCtx : stmtCtx.statement()) {
-				statementBlock.getStatements().add(statementCtx.accept(this));
-			}
+		if (stmtSeqCtx != null) {
+			statementBlock.getStatements().addAll(
+					StatementSequenceConverter.getInstance().convert(stmtSeqCtx)
+			);
 		}
 
 		return statementBlock;

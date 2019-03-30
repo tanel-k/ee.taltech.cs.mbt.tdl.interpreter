@@ -12,7 +12,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.S
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
 
 public class SystemDefinitionConverter extends UtaLanguageBaseVisitor<SystemDefinition>
-	implements IParseTreeConverter<SystemDefinition, SystemDefinitionContext> {
+		implements IParseTreeConverter<SystemDefinition, SystemDefinitionContext> {
 	public static SystemDefinitionConverter getInstance() {
 		return INSTANCE;
 	}

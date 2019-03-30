@@ -9,7 +9,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Sel
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 
 public class SelectionConverter extends UtaLanguageBaseVisitor<Selection>
-	implements IParseTreeConverter<Selection, SelectionContext> {
+		implements IParseTreeConverter<Selection, SelectionContext> {
 	public static SelectionConverter getInstance() {
 		return INSTANCE;
 	}

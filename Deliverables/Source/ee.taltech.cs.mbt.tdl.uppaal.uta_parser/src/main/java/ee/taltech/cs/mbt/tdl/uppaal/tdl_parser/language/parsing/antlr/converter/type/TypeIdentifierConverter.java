@@ -27,7 +27,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identif
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.struct.StructTypeId;
 
 public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
-	implements IParseTreeConverter<AbsTypeId, TypeIdentifierContext> {
+		implements IParseTreeConverter<AbsTypeId, TypeIdentifierContext> {
 	public static TypeIdentifierConverter getInstance() {
 		return INSTANCE;
 	}

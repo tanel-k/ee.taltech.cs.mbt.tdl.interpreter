@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.DeclarationGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.FunctionDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TypeDeclaration;
@@ -12,4 +13,5 @@ public interface IDeclarationVisitor<T> {
 	T visitChannelPriorityDeclaration(ChannelPrioritySequence decl);
 	T visitTemplateInstantiation(TemplateInstantiation decl);
 	T visitFunctionDeclaration(FunctionDeclaration decl);
+	T visitDeclarationGroup(DeclarationGroup absDeclarationStatements);
 }

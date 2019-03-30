@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class StatementSequenceConverter extends UtaLanguageBaseVisitor<List<AbsStatement>>
-	implements IParseTreeConverter<List<AbsStatement>, StatementSequenceContext> {
+		implements IParseTreeConverter<List<AbsStatement>, StatementSequenceContext> {
 	public static StatementSequenceConverter getInstance() {
 		return INSTANCE;
 	}

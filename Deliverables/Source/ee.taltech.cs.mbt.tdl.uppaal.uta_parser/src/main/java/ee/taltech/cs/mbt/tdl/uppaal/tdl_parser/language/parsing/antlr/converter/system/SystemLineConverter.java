@@ -11,7 +11,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.syste
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class SystemLineConverter extends UtaLanguageBaseVisitor<SystemLine>
-	implements IParseTreeConverter<SystemLine, SystemLineContext> {
+		implements IParseTreeConverter<SystemLine, SystemLineContext> {
 	public static SystemLineConverter getInstance() {
 		return INSTANCE;
 	}

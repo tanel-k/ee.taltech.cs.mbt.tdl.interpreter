@@ -1,13 +1,11 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.IGroupableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.AbsVariableInitializer;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDeclarationVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
-
-import java.util.Objects;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDeclarationVisitor;
 
 /**
  * Represents a variable declaration.<br/>
@@ -27,22 +25,20 @@ import java.util.Objects;
  *   <li><i>const int a = 1;</i></li>
  *   <li><i>int a[2][3] = { { 1, 2, 3 }, { 4, 5, 6} };</i></li>
  * </ul>
- * @param <TypeIdentifier> See {@link AbsTypeId}
+ * Note that the language allows variable declarations for a type to be grouped together.<br/>
+ * This class represents a single non-grouped variable declaration.
  * @param <InitializerType> See {@link AbsVariableInitializer}
  */
-public class VariableDeclaration<
-		TypeIdentifier extends AbsTypeId, InitializerType extends AbsVariableInitializer
-	> extends AbsDeclarationStatement
-{
-	private Type<TypeIdentifier> type;
+public class VariableDeclaration<InitializerType extends AbsVariableInitializer> extends AbsDeclarationStatement implements IGroupableDeclaration {
+	private Type type;
 	private Identifier identifier;
 	private InitializerType initializer;
 
-	public Type<TypeIdentifier> getType() {
+	public Type getType() {
 		return type;
 	}
 
-	public void setType(Type<TypeIdentifier> type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 

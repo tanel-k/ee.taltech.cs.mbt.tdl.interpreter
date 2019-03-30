@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
 
 public class TypeConverter extends UtaLanguageBaseVisitor<Type<AbsTypeId>>
-	implements IParseTreeConverter<Type<AbsTypeId>, TypeContext> {
+		implements IParseTreeConverter<Type<AbsTypeId>, TypeContext> {
 	public static TypeConverter getInstance() {
 		return INSTANCE;
 	}

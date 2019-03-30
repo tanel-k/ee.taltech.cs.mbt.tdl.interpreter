@@ -15,8 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ParameterSequenceConverter extends UtaLanguageBaseVisitor<List<ParameterDeclaration>>
-	implements IParseTreeConverter<List<ParameterDeclaration>, ParameterSequenceContext> {
-
+		implements IParseTreeConverter<List<ParameterDeclaration>, ParameterSequenceContext> {
 	public static ParameterSequenceConverter getInstance() {
 		return INSTANCE;
 	}

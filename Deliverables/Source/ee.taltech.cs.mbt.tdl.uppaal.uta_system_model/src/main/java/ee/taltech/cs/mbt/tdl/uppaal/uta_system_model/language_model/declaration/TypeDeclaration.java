@@ -4,8 +4,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.I
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDeclarationVisitor;
 
-import java.util.Objects;
-
 /**
  * Adapter from UPPAAL documentation:<br/>
  * The <i>typedef</i> keyword is used to name types.<br/>
@@ -13,8 +11,10 @@ import java.util.Objects;
  * <pre>
  * TypeDecl     ::= 'typedef' Type ID ArrayDecl* (',' ID ArrayDecl*)* ';'
  * </pre>
+ * Note that the language allows type declarations to be grouped.<br/>
+ * This class represents a single non-grouped type declaration.
  */
-public class TypeDeclaration extends AbsDeclarationStatement {
+public class TypeDeclaration extends AbsDeclarationStatement implements IGroupableDeclaration {
 	private Type type;
 	private Identifier identifier;
 

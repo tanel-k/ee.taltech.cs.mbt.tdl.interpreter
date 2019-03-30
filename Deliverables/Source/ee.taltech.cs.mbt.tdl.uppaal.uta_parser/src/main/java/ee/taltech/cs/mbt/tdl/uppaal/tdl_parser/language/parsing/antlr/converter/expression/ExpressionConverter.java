@@ -264,64 +264,64 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 		return visitUnaryNode(new PostfixDecrementExpression(), ctx.expression());
 	}
 
-	private <R extends AbsExpression & IHasAssignmentCounterpart> R assignmentCounterpart(R expr) {
+	private <R extends AbsExpression & IHasAssignmentCounterpart> R toAssignment(R expr) {
 		expr.setAssignment(true);
 		return expr;
 	}
 
 	@Override
 	public AbsExpression visitAdditionAssignmentExpr(AdditionAssignmentExprContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new AdditionExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new AdditionExpression(), ctx.expression()));
 	}
 
 	@Override
 	public AbsExpression visitBitwiseXorAssignmentExpr(BitwiseXorAssignmentExprContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new BitwiseXorExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new BitwiseXorExpression(), ctx.expression()));
 	}
 
 	@Override
 	public AbsExpression visitDivisionAssignmentExpr(DivisionAssignmentExprContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new DivisionExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new DivisionExpression(), ctx.expression()));
 	}
 
 	@Override
 	public AbsExpression visitAdditionExpression(AdditionExpressionContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new AdditionExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new AdditionExpression(), ctx.expression()));
 	}
 
 	@Override
 	public AbsExpression visitRightShiftAssignmentExpr(RightShiftAssignmentExprContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new RightShiftExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new RightShiftExpression(), ctx.expression()));
 	}
 
 	@Override
 	public AbsExpression visitSubtractionAssignmentExpr(SubtractionAssignmentExprContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new SubtractionExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new SubtractionExpression(), ctx.expression()));
 	}
 
 	@Override
 	public AbsExpression visitBitwiseAndAssignmentExpr(BitwiseAndAssignmentExprContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new BitwiseAndExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new BitwiseAndExpression(), ctx.expression()));
 	}
 
 	@Override
 	public AbsExpression visitMultiplicationAssignmentExpr(MultiplicationAssignmentExprContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new MultiplicationExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new MultiplicationExpression(), ctx.expression()));
 	}
 
 	@Override
 	public AbsExpression visitModuloAssignmentExpr(ModuloAssignmentExprContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new ModuloExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new ModuloExpression(), ctx.expression()));
 	}
 
 	@Override
 	public AbsExpression visitBitwiseOrAssignmentExpr(BitwiseOrAssignmentExprContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new BitwiseOrExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new BitwiseOrExpression(), ctx.expression()));
 	}
 
 	@Override
 	public AbsExpression visitLeftShiftAssignmentExpr(LeftShiftAssignmentExprContext ctx) {
-		return assignmentCounterpart(visitBinaryNode(new MultiplicationExpression(), ctx.expression()));
+		return toAssignment(visitBinaryNode(new MultiplicationExpression(), ctx.expression()));
 	}
 
 	@Override
