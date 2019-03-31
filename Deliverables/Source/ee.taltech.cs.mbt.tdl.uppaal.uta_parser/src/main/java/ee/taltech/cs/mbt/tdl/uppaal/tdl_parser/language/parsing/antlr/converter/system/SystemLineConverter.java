@@ -28,8 +28,7 @@ public class SystemLineConverter extends UtaLanguageBaseVisitor<SystemLine>
 		for (SystemProcessGroupContext processGroup : processSeqCtx.systemProcessGroup()) {
 			ProcessReferenceGroup processReferenceGroup = new ProcessReferenceGroup();
 			for (TerminalNode processName : processGroup.IDENTIFIER_NAME()) {
-				Identifier processIdentifier = new Identifier();
-				processIdentifier.setText(processName.getText());
+				Identifier processIdentifier = Identifier.of(processName.getText());
 				processReferenceGroup.getProcessIdentifiers().add(processIdentifier);
 			}
 			systemLine.getProcessPrioritySequence().add(processReferenceGroup);

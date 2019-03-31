@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IStatementVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 
@@ -16,7 +17,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
  */
 public class IterationLoop extends AbsLoopStatement {
 	private Identifier loopVariable;
-	private Type iteratedType;
+	private BaseType iteratedType;
 
 	public Identifier getLoopVariable() {
 		return loopVariable;
@@ -26,11 +27,11 @@ public class IterationLoop extends AbsLoopStatement {
 		this.loopVariable = loopVariable;
 	}
 
-	public Type getIteratedType() {
+	public BaseType getIteratedType() {
 		return iteratedType;
 	}
 
-	public void setIteratedType(Type iteratedType) {
+	public void setIteratedType(BaseType iteratedType) {
 		this.iteratedType = iteratedType;
 	}
 

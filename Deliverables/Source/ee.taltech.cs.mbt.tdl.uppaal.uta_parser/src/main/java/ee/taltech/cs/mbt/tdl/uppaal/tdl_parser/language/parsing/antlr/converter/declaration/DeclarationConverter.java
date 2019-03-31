@@ -7,7 +7,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.parameter.ParameterSequenceConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.statement.StatementSequenceConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.BaseTypeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.TypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ChannelPriorityDeclarationContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ChannelPriorityGroupContext;
@@ -38,8 +37,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclarationGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.AbsVariableInitializer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseSharingTypeMap;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.AbsArrayModifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.StatementBlock;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -65,11 +64,8 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 	public AbsDeclarationStatement visitTemplateInstantiation(TemplateInstantiationContext ctx) {
 		TemplateInstantiation templateInstantiation = new TemplateInstantiation();
 
-		Identifier newName = new Identifier();
-		newName.setText(ctx.IDENTIFIER_NAME(0).getText());
-
-		Identifier sourceName = new Identifier();
-		sourceName.setText(ctx.IDENTIFIER_NAME(1).getText());
+		Identifier newName = Identifier.of(ctx.IDENTIFIER_NAME(0).getText());
+		Identifier sourceName = Identifier.of(ctx.IDENTIFIER_NAME(1).getText());
 
 		templateInstantiation.setNewTemplateName(newName);
 		templateInstantiation.setSourceTemplateName(sourceName);
@@ -114,11 +110,10 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 		FunctionDeclaration function = new FunctionDeclaration();
 
 		if (typeCtx != null) {
-			function.setValueType(TypeConverter.getInstance().convert(typeCtx));
+			function.setValueType(BaseTypeConverter.getInstance().convert(typeCtx));
 		}
 
-		Identifier functionName = new Identifier();
-		functionName.setText(nameCtx.getText());
+		Identifier functionName = Identifier.of(nameCtx.getText());
 		function.setName(functionName);
 
 		StatementBlock functionBody = new StatementBlock();
@@ -131,7 +126,7 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 		}
 
 		if (paramCtx != null) {
-			function.getParameterDeclarations().addAll(
+			function.getParameters().addAll(
 					ParameterSequenceConverter.getInstance().convert(paramCtx)
 			);
 		}
@@ -142,7 +137,7 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 	@Override
 	public AbsDeclarationStatement visitVariableDeclaration(VariableDeclarationContext ctx) {
 		VariableDeclarationGroup declarationGroup = new VariableDeclarationGroup();
-		BaseSharingTypeMap<Identifier> sharedTypeMap = declarationGroup.getBaseSharingTypeMap();
+		BaseTypeExtensionMap sharedTypeMap = declarationGroup.getBaseTypeExtensionMap();
 
 		BaseType baseType = BaseTypeConverter.getInstance().convert(ctx.type());
 		sharedTypeMap.setBaseType(baseType);
@@ -153,8 +148,8 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 			Identifier identifier = identifierData.getIdentifier();
 			Collection<AbsArrayModifier> arrayModifiers = identifierData.getArrayModifiers();
 
-			sharedTypeMap.getOrCreateConcreteType(identifier);
-			sharedTypeMap.getConcreteType(identifier).getArrayModifiers().addAll(arrayModifiers);
+			sharedTypeMap.getOrCreateType(identifier);
+			sharedTypeMap.getType(identifier).getArrayModifiers().addAll(arrayModifiers);
 
 			AbsVariableInitializer initializer = varInitCtx.initializerExpression() != null
 				? InitializerExpressionConverter.getInstance()
@@ -170,7 +165,7 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 	@Override
 	public AbsDeclarationStatement visitTypeDeclaration(TypeDeclarationContext ctx) {
 		TypeDeclarationGroup typeDeclarationGroup = new TypeDeclarationGroup();
-		BaseSharingTypeMap<Identifier> sharedTypeMap = typeDeclarationGroup.getBaseSharingTypeMap();
+		BaseTypeExtensionMap sharedTypeMap = typeDeclarationGroup.getBaseTypeExtensionMap();
 
 		BaseType baseType = BaseTypeConverter.getInstance().convert(ctx.type());
 		sharedTypeMap.setBaseType(baseType);
@@ -181,8 +176,8 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 			Identifier identifier = identifierData.getIdentifier();
 			Collection<AbsArrayModifier> arrayModifiers = identifierData.getArrayModifiers();
 
-			sharedTypeMap.getOrCreateConcreteType(identifier);
-			sharedTypeMap.getConcreteType(identifier).getArrayModifiers().addAll(arrayModifiers);
+			sharedTypeMap.getOrCreateType(identifier);
+			sharedTypeMap.getType(identifier).getArrayModifiers().addAll(arrayModifiers);
 		}
 
 		return typeDeclarationGroup.reduceToOnlyEntryIfApplicable();

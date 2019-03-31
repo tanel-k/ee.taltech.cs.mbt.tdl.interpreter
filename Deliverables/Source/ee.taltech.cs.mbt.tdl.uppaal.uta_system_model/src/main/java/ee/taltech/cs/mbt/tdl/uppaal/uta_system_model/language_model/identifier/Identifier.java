@@ -11,19 +11,24 @@ import java.util.Objects;
  * </i>
  */
 public class Identifier {
-	private String text;
-
-	public String getText() {
-		return text;
+	public static Identifier of(String identifierString) {
+		return new Identifier(identifierString);
 	}
 
-	public void setText(String name) {
-		this.text = name;
+	private Identifier(String identifierString) {
+		this.identifierString = identifierString;
+	}
+
+	private String identifierString;
+
+	@Override
+	public String toString() {
+		return identifierString;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(text);
+		return Objects.hash(identifierString);
 	}
 
 	@Override
@@ -35,6 +40,6 @@ public class Identifier {
 		if (!(obj instanceof Identifier))
 			return false;
 		Identifier other = (Identifier) obj;
-		return Objects.equals(other.text, this.text);
+		return Objects.equals(other.identifierString, this.identifierString);
 	}
 }

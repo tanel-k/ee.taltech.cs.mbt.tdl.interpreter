@@ -5,7 +5,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParse
 
 public class UtaConverterFactory {
 	public static UtaNodeConverter newConverter(UtaLanguageParserFactory languageParserFactory) {
-		languageParserFactory.getErrorListeners().add(ErrorListenerFactory.silentListener());
 		TemplateNodeConverter templateParser = TemplateNodeConverter.newInstance(languageParserFactory);
 		return UtaNodeConverter.newInstance(templateParser, languageParserFactory);
 	}

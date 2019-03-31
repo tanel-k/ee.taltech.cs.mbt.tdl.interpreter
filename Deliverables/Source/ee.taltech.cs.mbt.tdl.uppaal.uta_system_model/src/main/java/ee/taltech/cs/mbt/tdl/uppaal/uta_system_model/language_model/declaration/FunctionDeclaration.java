@@ -3,13 +3,11 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.StatementBlock;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDeclarationVisitor;
 
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * UPPAAL supports declaring value and void functions.<br/>
@@ -20,16 +18,16 @@ import java.util.Set;
  * </pre>
  */
 public class FunctionDeclaration extends AbsDeclarationStatement {
-	private Type valueType;
+	private BaseType valueType;
 	private Identifier name;
-	private List<ParameterDeclaration> parameterDeclarations = new LinkedList<>();
-	private StatementBlock body;
+	private List<ParameterDeclaration> parameters = new LinkedList<>();
+	private StatementBlock statementBlock;
 
-	public Type getValueType() {
+	public BaseType getValueType() {
 		return valueType;
 	}
 
-	public void setValueType(Type valueType) {
+	public void setValueType(BaseType valueType) {
 		this.valueType = valueType;
 	}
 
@@ -41,16 +39,16 @@ public class FunctionDeclaration extends AbsDeclarationStatement {
 		this.name = name;
 	}
 
-	public List<ParameterDeclaration> getParameterDeclarations() {
-		return parameterDeclarations;
+	public List<ParameterDeclaration> getParameters() {
+		return parameters;
 	}
 
-	public StatementBlock getBody() {
-		return body;
+	public StatementBlock getStatementBlock() {
+		return statementBlock;
 	}
 
-	public void setBody(StatementBlock body) {
-		this.body = body;
+	public void setStatementBlock(StatementBlock statementBlock) {
+		this.statementBlock = statementBlock;
 	}
 
 	@Override

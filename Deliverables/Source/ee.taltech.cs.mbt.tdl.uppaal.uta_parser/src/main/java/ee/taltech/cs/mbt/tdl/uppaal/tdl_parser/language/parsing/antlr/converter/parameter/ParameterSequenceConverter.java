@@ -3,12 +3,13 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.identifier.IdentifierDeclarationConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.identifier.IdentifierDeclarationConverter.IdentifierData;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.TypeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.BaseTypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ParameterContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ParameterSequenceContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.AbsArrayModifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 
 import java.util.LinkedList;
@@ -29,9 +30,12 @@ public class ParameterSequenceConverter extends UtaLanguageBaseVisitor<List<Para
 		List<ParameterDeclaration> declarations = new LinkedList<>();
 
 		for (ParameterContext parameterCtx : ctx.parameter()) {
-			Type parameterType = TypeConverter.getInstance().convert(parameterCtx.type());
+			Type parameterType = new Type();
+			BaseType baseType = BaseTypeConverter.getInstance().convert(parameterCtx.type());
+
+			parameterType.setBaseType(baseType);
 			if (parameterCtx.referenceModifier() != null)
-				parameterType.setByReference(true);
+				parameterType.setReferenceType(true);
 
 			IdentifierData identifierData = IdentifierDeclarationConverter.getInstance()
 				.convert(parameterCtx.identifierDeclaration());

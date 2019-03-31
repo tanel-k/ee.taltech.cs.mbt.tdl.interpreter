@@ -42,9 +42,7 @@ public class UtaParser {
 			if (validationResult.hasErrors())
 				throw UtaParseException.wrap(validationResult);
 			return getConverter().convert(ntaXml);
-		} catch (UtaMarshallingException ex) {
-			throw UtaParseException.wrap(ex);
-		} catch (UtaCodeException ex) {
+		} catch (UtaMarshallingException | UtaCodeException ex) {
 			throw UtaParseException.wrap(ex);
 		}
 	}

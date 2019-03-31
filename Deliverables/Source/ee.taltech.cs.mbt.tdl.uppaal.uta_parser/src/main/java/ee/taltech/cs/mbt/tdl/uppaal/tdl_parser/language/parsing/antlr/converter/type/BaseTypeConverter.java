@@ -6,11 +6,13 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.T
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 
 public class BaseTypeConverter extends UtaLanguageBaseVisitor<BaseType> implements IParseTreeConverter<BaseType, TypeContext> {
-	private static BaseTypeConverter instance;
-
 	public static BaseTypeConverter getInstance() {
-		return instance;
+		return INSTANCE;
 	}
+
+	private static final BaseTypeConverter INSTANCE = new BaseTypeConverter();
+
+	private BaseTypeConverter() { }
 
 	@Override
 	public BaseType convert(TypeContext ctx) {

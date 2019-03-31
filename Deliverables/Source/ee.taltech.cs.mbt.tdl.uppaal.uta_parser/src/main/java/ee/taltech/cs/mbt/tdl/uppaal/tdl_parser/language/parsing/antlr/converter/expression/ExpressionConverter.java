@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.expression;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.TypeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.BaseTypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.*;
@@ -10,6 +10,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.i
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.QuantificationExpression.EQuantificationType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -67,10 +68,9 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 
 	@Override
 	public AbsExpression visitQuantificationExpression(QuantificationExpressionContext ctx) {
-		Identifier iterationVarName = new Identifier();
-		iterationVarName.setText(ctx.IDENTIFIER_NAME().getText());
+		Identifier iterationVarName = Identifier.of(ctx.IDENTIFIER_NAME().getText());
 
-		Type iterationVarType = TypeConverter.getInstance().convert(ctx.type());
+		BaseType iterationVarType = BaseTypeConverter.getInstance().convert(ctx.type());
 		AbsExpression quantifiedExpression = ctx.expression().accept(this);
 		EQuantificationType quantType = ctx.PHRASE_EXISTS() != null
 				? EQuantificationType.EXISTENTIAL
@@ -190,7 +190,7 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 	@Override
 	public AbsExpression visitFieldAccessExpression(FieldAccessExpressionContext ctx) {
 		FieldAccessExpression fieldAccessExpression = new FieldAccessExpression();
-		fieldAccessExpression.setIdentifier(visitIdentifier(ctx.IDENTIFIER_NAME()));
+		fieldAccessExpression.setIdentifier(Identifier.of(ctx.IDENTIFIER_NAME().getText()));
 		return visitUnaryNode(fieldAccessExpression, ctx.expression());
 	}
 
@@ -326,9 +326,7 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 
 	@Override
 	public AbsExpression visitIdentifierExpression(IdentifierExpressionContext ctx) {
-		IdentifierExpression idExpression = new IdentifierExpression();
-		idExpression.setIdentifier(visitIdentifier(ctx.IDENTIFIER_NAME()));
-		return idExpression;
+		return IdentifierExpression.of(ctx.IDENTIFIER_NAME().toString());
 	}
 
 	@Override
@@ -349,11 +347,5 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 	@Override
 	public AbsExpression visitTrueLiteral(TrueLiteralContext ctx) {
 		return LiteralConsts.TRUE;
-	}
-
-	private Identifier visitIdentifier(TerminalNode identifierTerminal) {
-		Identifier identifier = new Identifier();
-		identifier.setText(identifierTerminal.getText());
-		return identifier;
 	}
 }

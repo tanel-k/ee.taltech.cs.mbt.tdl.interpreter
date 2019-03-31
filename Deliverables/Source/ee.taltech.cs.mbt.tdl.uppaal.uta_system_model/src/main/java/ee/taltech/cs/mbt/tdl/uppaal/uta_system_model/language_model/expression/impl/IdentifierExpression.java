@@ -16,7 +16,15 @@ import java.util.Objects;
  * </pre>
  */
 public class IdentifierExpression extends AbsLeafExprNode {
+	public static IdentifierExpression of(String identifier) {
+		return new IdentifierExpression(Identifier.of(identifier));
+	}
+
 	private Identifier identifier;
+
+	private IdentifierExpression(Identifier identifier) {
+		this.identifier = identifier;
+	}
 
 	/**
 	 * @return The referenced identifier.
@@ -31,9 +39,7 @@ public class IdentifierExpression extends AbsLeafExprNode {
 
 	@Override
 	public IdentifierExpression deepClone() {
-		IdentifierExpression clone = new IdentifierExpression();
-		clone.setIdentifier(getIdentifier());
-		return clone;
+		return this; // singleton
 	}
 
 	@Override

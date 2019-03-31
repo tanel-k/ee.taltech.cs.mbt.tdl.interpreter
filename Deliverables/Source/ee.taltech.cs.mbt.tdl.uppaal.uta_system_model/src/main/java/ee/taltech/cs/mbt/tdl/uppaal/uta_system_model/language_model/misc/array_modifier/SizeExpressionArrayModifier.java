@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier;
+package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IArrayModifierVisitor;

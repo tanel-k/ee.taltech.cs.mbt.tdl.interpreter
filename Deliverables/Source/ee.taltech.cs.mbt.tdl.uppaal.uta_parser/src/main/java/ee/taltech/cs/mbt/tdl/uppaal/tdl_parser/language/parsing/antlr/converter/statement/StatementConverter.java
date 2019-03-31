@@ -1,13 +1,11 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.statement;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.declaration.DeclarationConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.declaration.DeclarationSequenceConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.expression.ExpressionConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.TypeConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.antlr.converter.type.BaseTypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ConditionalStatementContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.DeclarationContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.DeclarationSequenceContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.DoWhileStatementContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.EmptyStatementContext;
@@ -30,6 +28,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.lo
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.ForLoop;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.IterationLoop;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.WhileLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 
 public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 		implements IParseTreeConverter<AbsStatement, StatementContext> {
@@ -147,13 +146,11 @@ public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 
 	@Override
 	public AbsStatement visitIterationStatement(IterationStatementContext ctx) {
+		BaseType baseType = BaseTypeConverter.getInstance().convert(ctx.type());
 		IterationLoop iterationLoop = new IterationLoop();
-		iterationLoop.setIteratedType(
-			TypeConverter.getInstance().convert(ctx.type())
-		);
-		Identifier loopVar = new Identifier();
-		loopVar.setText(ctx.IDENTIFIER_NAME().getText());
-		iterationLoop.setLoopVariable(loopVar);
+		iterationLoop.setIteratedType(baseType);
+		Identifier variableName = Identifier.of(ctx.IDENTIFIER_NAME().getText());
+		iterationLoop.setLoopVariable(variableName);
 		iterationLoop.setStatement(
 			ctx.statement().accept(this)
 		);

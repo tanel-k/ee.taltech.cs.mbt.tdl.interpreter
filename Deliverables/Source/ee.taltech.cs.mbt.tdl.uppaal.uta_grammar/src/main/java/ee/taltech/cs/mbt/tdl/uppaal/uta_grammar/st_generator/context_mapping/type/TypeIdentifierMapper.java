@@ -1,6 +1,8 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.generator.mapping;
+package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.type;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.generator.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.IContextMapper;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.expression.ExpressionMapper;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers.BooleanTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers.ChannelTypeId;
@@ -12,8 +14,10 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identif
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.StructTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ITypeIdentifierVisitor;
 
+import java.util.Collection;
+
 public class TypeIdentifierMapper implements IContextMapper<AbsTypeId>, ITypeIdentifierVisitor<ContextBuilder> {
-	public static IContextMapper<AbsTypeId> getInstance() {
+	public static TypeIdentifierMapper getInstance() {
 		return INSTANCE;
 	}
 
@@ -23,47 +27,53 @@ public class TypeIdentifierMapper implements IContextMapper<AbsTypeId>, ITypeIde
 
 	@Override
 	public ContextBuilder map(AbsTypeId typeId) {
+		ContextBuilder builder = typeId.accept(this);
 		return typeId.accept(this);
 	}
 
 	@Override
 	public ContextBuilder visitStructTypeIdentifier(StructTypeId id) {
+		Collection<ContextBuilder> fieldCtxs = FieldDeclarationMapper.getInstance().map(id.getFieldDeclarations());
 		return ContextBuilder.newBuilder("struct")
-				.put("fieldDeclarations", FieldDeclarationMapper.getInstance().mapCollection(id.getFieldDeclarations()));
+				.put("fieldDeclarations", fieldCtxs);
 	}
 
 	@Override
 	public ContextBuilder visitScalarTypeIdentifier(ScalarTypeId id) {
+		ContextBuilder sizeCtx = ExpressionMapper.getInstance()
+				.map(id.getSizeExpression());
 		return ContextBuilder.newBuilder("scalar")
-				.put("expression", ExpressionMapper.getInstance().map(id.getSizeExpression()));
+				.put("expression", sizeCtx);
 	}
 
 	@Override
 	public ContextBuilder visitCustomTypeIdentifier(CustomTypeId id) {
 		return ContextBuilder.newBuilder("customType")
-				.put("identifierValue", id.getIdentifier().getText());
+				.put("identifierValue", id.getIdentifier().toString());
 	}
 
 	@Override
 	public ContextBuilder visitBoundedIntegerTypeIdentifier(BoundedIntegerTypeId id) {
-		return ContextBuilder.newBuilder("boundedInteger")
-				.put("minExpression", ExpressionMapper.getInstance().map(id.getMinimumBound()))
-				.put("maxExpression", ExpressionMapper.getInstance().map(id.getMaximumBound()));
+		ContextBuilder minExprCtx = ExpressionMapper.getInstance().map(id.getMinimumBound());
+		ContextBuilder maxExprCtx = ExpressionMapper.getInstance().map(id.getMaximumBound());
+		return ContextBuilder.newBuilder("boundedInt")
+				.put("minExpression", minExprCtx)
+				.put("maxExpression", maxExprCtx);
 	}
 
 	@Override
 	public ContextBuilder visitBooleanTypeIdentifier(BooleanTypeId id) {
-		return ContextBuilder.newBuilder("boolean");
+		return ContextBuilder.newBuilder("bool");
 	}
 
 	@Override
 	public ContextBuilder visitIntegerTypeIdentifier(IntegerTypeId id) {
-		return ContextBuilder.newBuilder("integer");
+		return ContextBuilder.newBuilder("int");
 	}
 
 	@Override
 	public ContextBuilder visitChannelTypeIdentifier(ChannelTypeId id) {
-		return ContextBuilder.newBuilder("channel");
+		return ContextBuilder.newBuilder("chan");
 	}
 
 	@Override

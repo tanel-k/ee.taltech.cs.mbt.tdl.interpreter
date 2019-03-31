@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Set;
 
 public class SystemDefinition {
-	private Set<AbsDeclarationStatement> declarations = new LinkedHashSet<>();
+	private List<AbsDeclarationStatement> declarations = new LinkedList<>();
 	private SystemLine systemLine;
-	private List<AbsExpression> progressMeasureExpressions;
+	private List<AbsExpression> progressMeasureExpressions = new LinkedList<>();
 
-	public Set<AbsDeclarationStatement> getDeclarations() {
+	public List<AbsDeclarationStatement> getDeclarations() {
 		return declarations;
 	}
 

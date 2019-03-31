@@ -1,24 +1,23 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.type;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.IBaseTypeSharingGroup;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseSharingTypeMap;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseSharingTypeMap.BaseSharingType;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.ITypeExtensionGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap.BaseTypeExtension;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDeclarationVisitor;
 
-public class TypeDeclarationGroup extends AbsTypeDeclaration implements IBaseTypeSharingGroup<AbsTypeDeclaration, TypeDeclaration> {
-	private BaseSharingTypeMap<Identifier> baseSharingTypeMap = new BaseSharingTypeMap<>();
+public class TypeDeclarationGroup extends AbsTypeDeclaration implements ITypeExtensionGroup<AbsTypeDeclaration, TypeDeclaration> {
+	private BaseTypeExtensionMap baseTypeExtensionMap = new BaseTypeExtensionMap();
 
 	@Override
-	public BaseSharingTypeMap<Identifier> getBaseSharingTypeMap() {
-		return baseSharingTypeMap;
+	public BaseTypeExtensionMap getBaseTypeExtensionMap() {
+		return baseTypeExtensionMap;
 	}
 
 	@Override
-	public TypeDeclaration mapToIndependent(BaseSharingType<Identifier> extendedType) {
+	public TypeDeclaration mapToIndependent(BaseTypeExtension baseTypeExtension) {
 		TypeDeclaration typeDeclaration = new TypeDeclaration();
-		typeDeclaration.setIdentifier(extendedType.getKey());
-		typeDeclaration.setType(extendedType.toDetachedInstance());
+		typeDeclaration.setIdentifier(baseTypeExtension.getIdentifier());
+		typeDeclaration.setType(baseTypeExtension.toDetachedInstance());
 		return typeDeclaration;
 	}
 

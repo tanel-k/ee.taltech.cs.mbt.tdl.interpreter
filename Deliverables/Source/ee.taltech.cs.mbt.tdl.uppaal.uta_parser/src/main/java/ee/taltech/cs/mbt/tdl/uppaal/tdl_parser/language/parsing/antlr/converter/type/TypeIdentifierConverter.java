@@ -17,7 +17,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.S
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.StructTypeIdContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.TypeIdentifierContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_size_modifier.AbsArrayModifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BoundedIntegerTypeId;
@@ -25,11 +25,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identif
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.ScalarTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.field.FieldDeclarationGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.StructTypeId;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseSharingTypeMap;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseSharingTypeMap.BaseSharingType;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap;
 
 import java.util.Collection;
-import java.util.Collections;
 
 public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 		implements IParseTreeConverter<AbsTypeId, TypeIdentifierContext> {
@@ -93,8 +91,8 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 
 		for (FieldDeclarationContext fieldDeclarationCtx : ctx.fieldDeclaration()) {
 			FieldDeclarationGroup multiDeclaration = new FieldDeclarationGroup();
-			BaseSharingTypeMap<Identifier> baseSharingTypeMap = multiDeclaration.getBaseSharingTypeMap();
-			baseSharingTypeMap.setBaseType(
+			BaseTypeExtensionMap baseTypeExtensionMap = multiDeclaration.getBaseTypeExtensionMap();
+			baseTypeExtensionMap.setBaseType(
 					BaseTypeConverter.getInstance().convert(fieldDeclarationCtx.type())
 			);
 
@@ -104,8 +102,8 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 				Identifier identifier = identifierData.getIdentifier();
 				Collection<AbsArrayModifier> arrayModifiers = identifierData.getArrayModifiers();
 
-				baseSharingTypeMap.getOrCreateConcreteType(identifier);
-				baseSharingTypeMap.getConcreteType(identifierData.getIdentifier()).getArrayModifiers().addAll(arrayModifiers);
+				baseTypeExtensionMap.getOrCreateType(identifier);
+				baseTypeExtensionMap.getType(identifierData.getIdentifier()).getArrayModifiers().addAll(arrayModifiers);
 			}
 
 			structTypeIdentifier.getFieldDeclarations().add(multiDeclaration.reduceToOnlyEntryIfApplicable());
@@ -116,12 +114,9 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 
 	@Override
 	public AbsTypeId visitCustomTypeId(CustomTypeIdContext ctx) {
-		Identifier identifier = new Identifier();
-		identifier.setText(ctx.IDENTIFIER_NAME().getText());
-
+		Identifier identifier = Identifier.of(ctx.IDENTIFIER_NAME().getText());
 		CustomTypeId customTypeIdentifier = new CustomTypeId();
 		customTypeIdentifier.setIdentifier(identifier);
-
 		return customTypeIdentifier;
 	}
 }

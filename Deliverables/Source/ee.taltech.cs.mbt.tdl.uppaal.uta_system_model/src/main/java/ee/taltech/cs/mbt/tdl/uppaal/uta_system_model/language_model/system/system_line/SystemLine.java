@@ -3,9 +3,9 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.syst
 import java.util.*;
 
 public class SystemLine implements Iterable<ProcessReferenceGroup> {
-	private Set<ProcessReferenceGroup> processPrioritySequence = new LinkedHashSet<>();
+	private List<ProcessReferenceGroup> processPrioritySequence = new LinkedList<>();
 
-	public Set<ProcessReferenceGroup> getProcessPrioritySequence() {
+	public List<ProcessReferenceGroup> getProcessPrioritySequence() {
 		return processPrioritySequence;
 	}
 

@@ -2,6 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.internal.AbsUnaryExprNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
 
@@ -46,7 +47,7 @@ public class QuantificationExpression extends AbsUnaryExprNode {
 	}
 
 	private EQuantificationType quantificationType;
-	private Type iterationVariableType;
+	private BaseType iterationVariableType;
 	private Identifier variableName;
 
 	/**
@@ -74,11 +75,11 @@ public class QuantificationExpression extends AbsUnaryExprNode {
 	/**
 	 * @return The type (domain) we quantify over.
 	 */
-	public Type getIterationVariableType() {
+	public BaseType getIterationVariableType() {
 		return iterationVariableType;
 	}
 
-	public void setIterationVariableType(Type iterationVariableType) {
+	public void setIterationVariableType(BaseType iterationVariableType) {
 		this.iterationVariableType = iterationVariableType;
 	}
 

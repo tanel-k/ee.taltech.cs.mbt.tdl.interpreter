@@ -1,30 +1,29 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.field;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.IBaseTypeSharingGroup;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseSharingTypeMap;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseSharingTypeMap.BaseSharingType;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.ITypeExtensionGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap.BaseTypeExtension;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IFieldDeclarationVisitor;
 
-public class FieldDeclarationGroup extends AbsFieldDeclaration implements IBaseTypeSharingGroup<AbsFieldDeclaration, FieldDeclaration> {
-	private BaseSharingTypeMap<Identifier> baseSharingTypeMap = new BaseSharingTypeMap<>();
+public class FieldDeclarationGroup extends AbsFieldDeclaration implements ITypeExtensionGroup<AbsFieldDeclaration, FieldDeclaration> {
+	private BaseTypeExtensionMap baseTypeExtensionMap = new BaseTypeExtensionMap();
 
-	public BaseSharingTypeMap<Identifier> getBaseSharingTypeMap() {
-		return baseSharingTypeMap;
+	public BaseTypeExtensionMap getBaseTypeExtensionMap() {
+		return baseTypeExtensionMap;
 	}
 
 	@Override
-	public FieldDeclaration mapToIndependent(BaseSharingType<Identifier> sharingType) {
+	public FieldDeclaration mapToIndependent(BaseTypeExtension baseTypeExtension) {
 		FieldDeclaration fieldDeclaration = new FieldDeclaration();
-		fieldDeclaration.setType(sharingType.toDetachedInstance());
-		fieldDeclaration.setIdentifier(sharingType.getKey());
+		fieldDeclaration.setType(baseTypeExtension.toDetachedInstance());
+		fieldDeclaration.setIdentifier(baseTypeExtension.getIdentifier());
 		return fieldDeclaration;
 	}
 
 	@Override
 	public FieldDeclarationGroup deepClone() {
 		FieldDeclarationGroup clone = new FieldDeclarationGroup();
-		clone.baseSharingTypeMap = getBaseSharingTypeMap().deepClone();
+		clone.baseTypeExtensionMap = getBaseTypeExtensionMap().deepClone();
 		return clone;
 	}
 

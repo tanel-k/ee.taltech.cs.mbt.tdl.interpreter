@@ -2,37 +2,23 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.syst
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 public class ProcessReferenceGroup implements Iterable<Identifier> {
-	private Set<Identifier> processIdentifiers = new LinkedHashSet<>();
+	private List<Identifier> processIdentifiers = new LinkedList<>();
 
-	public Set<Identifier> getProcessIdentifiers() {
+	public List<Identifier> getProcessIdentifiers() {
 		return processIdentifiers;
 	}
 
 	@Override
 	public Iterator<Identifier> iterator() {
 		return processIdentifiers.iterator();
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getProcessIdentifiers());
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof ProcessReferenceGroup))
-			return false;
-		ProcessReferenceGroup other = (ProcessReferenceGroup) obj;
-		return Objects.equals(other.processIdentifiers, this.processIdentifiers);
 	}
 }

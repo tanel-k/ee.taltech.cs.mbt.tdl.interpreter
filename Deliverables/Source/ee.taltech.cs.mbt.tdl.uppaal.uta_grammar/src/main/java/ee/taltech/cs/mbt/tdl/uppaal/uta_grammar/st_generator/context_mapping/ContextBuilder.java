@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.generator;
+package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,10 +24,13 @@ public class ContextBuilder {
 	}
 
 	public ContextBuilder put(String key, ContextBuilder builder) {
-		return put(key, builder.getContextMap());
+		return put(key, builder == null ? null : builder.getContextMap());
 	}
 
 	public ContextBuilder put(String key, Collection<ContextBuilder> builders) {
+		if (builders == null)
+			return this;
+
 		return put(
 			key,
 			builders

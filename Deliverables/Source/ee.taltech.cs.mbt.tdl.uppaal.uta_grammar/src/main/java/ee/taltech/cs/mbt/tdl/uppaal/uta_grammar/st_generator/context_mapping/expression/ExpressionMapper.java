@@ -1,6 +1,8 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.generator.mapping;
+package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.expression;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.generator.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.IContextMapper;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.type.BaseTypeMapper;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.IHasAssignmentCounterpart;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.IHasPhraseCounterpart;
@@ -13,6 +15,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.i
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.NaturalNumberLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.TrueLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
+
+import java.util.Collection;
 
 public class ExpressionMapper implements IContextMapper<AbsExpression>, IExpressionVisitor<ContextBuilder> {
 	public static ExpressionMapper getInstance() {
@@ -243,21 +247,22 @@ public class ExpressionMapper implements IContextMapper<AbsExpression>, IExpress
 
 	@Override
 	public ContextBuilder visitCallExpr(CallExpression expr) {
+		Collection<ContextBuilder> argumentCtxs = this.map(expr.getArguments());
 		return visitUnaryNode("call", expr)
-				.put("arguments", ExpressionMapper.getInstance().mapCollection(expr.getArguments()));
+				.put("arguments", argumentCtxs);
 	}
 
 	@Override
 	public ContextBuilder visitIdentifierExpr(IdentifierExpression expr) {
 		return ContextBuilder.newBuilder()
 				.put("identifier", true)
-				.put("identifierValue", expr.getIdentifier().getText());
+				.put("identifierValue", expr.getIdentifier().toString());
 	}
 
 	@Override
 	public ContextBuilder visitFieldAccessExpr(FieldAccessExpression expr) {
 		return visitUnaryNode("fieldAccess", expr)
-				.put("identifierValue", expr.getIdentifier().getText());
+				.put("identifierValue", expr.getIdentifier().toString());
 	}
 
 	@Override
@@ -271,8 +276,9 @@ public class ExpressionMapper implements IContextMapper<AbsExpression>, IExpress
 			classifier = "universalQuantification";
 			break;
 		}
+		ContextBuilder baseTypeCtx = BaseTypeMapper.getInstance().map(expr.getIterationVariableType());
 		return visitUnaryNode(classifier, expr)
-				.put("type", TypeMapper.getInstance().map(expr.getIterationVariableType()))
-				.put("identifierValue", expr.getIdentifierName().getText());
+				.put("baseType", baseTypeCtx)
+				.put("identifierValue", expr.getIdentifierName().toString());
 	}
 }
