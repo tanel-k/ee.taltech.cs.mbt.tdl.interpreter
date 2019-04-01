@@ -1,29 +1,85 @@
 package ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.bridge;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.base.ErrorStrategyConfig;
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.base.ErrorStrategyConfig.InvalidExpressionException;
-import org.antlr.v4.runtime.*;
+import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.base.ErrorStrategyConfig.RecognitionExceptionWrapper;
+import org.antlr.v4.runtime.DefaultErrorStrategy;
+import org.antlr.v4.runtime.FailedPredicateException;
+import org.antlr.v4.runtime.InputMismatchException;
+import org.antlr.v4.runtime.NoViableAltException;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.misc.IntervalSet;
 
 public class ConfigurableAntlrErrorStrategy extends DefaultErrorStrategy {
 	private ErrorStrategyConfig strategyConfig;
 
-	@Override
-	protected void reportFailedPredicate(Parser recognizer, FailedPredicateException ex) {
+	private String getFailedPredicateMessage(Parser recognizer, FailedPredicateException ex) {
 		String ruleName = recognizer.getRuleNames()[
 				recognizer.getRuleContext().getRuleIndex()
 				];
-		String msg = strategyConfig.getFailedPredicateMessage(ruleName, ex);
-		recognizer.notifyErrorListeners(ex.getOffendingToken(), msg, ex);
+		return strategyConfig.getFailedPredicateMessage(ruleName, ex);
+	}
+
+	private String getMismatchMessage(Parser recognizer, InputMismatchException ex) {
+		return strategyConfig.getMismatchMessage(
+				getTokenErrorDisplay(ex.getOffendingToken()),
+				ex.getExpectedTokens().toString(recognizer.getVocabulary())
+		);
+	}
+
+	private String getMissingTokenMessage(Parser recognizer, Token currentToken) {
+		IntervalSet expecting = getExpectedTokens(recognizer);
+		return strategyConfig.getMissingTokenMessage(
+				expecting.toString(recognizer.getVocabulary()),
+				getTokenErrorDisplay(currentToken)
+		);
+	}
+
+	private String getNoViableAltMessage(Parser recognizer, NoViableAltException ex) {
+		TokenStream tokens = recognizer.getInputStream();
+		String input;
+		if (tokens != null) {
+			if (Token.EOF == ex.getStartToken().getType()) {
+				input = "<EOF>";
+			} else {
+				input = tokens.getText(ex.getStartToken(), ex.getOffendingToken());
+			}
+		} else {
+			input = "<unknown input>";
+		}
+		return strategyConfig.getNoViableAltMessage(escapeWSAndQuote(input));
+	}
+
+	private String getExtraneousTokenMessage(Parser recognizer, Token currentToken) {
+		String tokenName = getTokenErrorDisplay(currentToken);
+		IntervalSet expecting = getExpectedTokens(recognizer);
+		return strategyConfig.getExtraneousTokenMessage(tokenName, expecting.toString(recognizer.getVocabulary()));
+	}
+
+	private RecognitionExceptionWrapper wrapRecognitionException(Parser recognizer, RecognitionException ex) {
+		if (ex instanceof NoViableAltException) {
+			return new RecognitionExceptionWrapper(getNoViableAltMessage(recognizer, (NoViableAltException) ex), ex);
+		} else if (ex instanceof InputMismatchException) {
+			return new RecognitionExceptionWrapper(getMismatchMessage(recognizer, (InputMismatchException) ex), ex);
+		} else if (ex instanceof FailedPredicateException) {
+			return new RecognitionExceptionWrapper(getFailedPredicateMessage(recognizer, (FailedPredicateException) ex), ex);
+		} else {
+			return new RecognitionExceptionWrapper(
+				"Recognition failed at token " + getTokenErrorDisplay(ex.getOffendingToken()) + ": " + ex.getMessage(), ex
+			);
+		}
+	}
+
+	@Override
+	protected void reportFailedPredicate(Parser recognizer, FailedPredicateException ex) {
+		recognizer.notifyErrorListeners(ex.getOffendingToken(), getFailedPredicateMessage(recognizer, ex), ex);
 	}
 
 	@Override
 	protected void reportInputMismatch(Parser recognizer, InputMismatchException ex) {
-		String msg = strategyConfig.getMismatchMessage(
-				getTokenErrorDisplay(ex.getOffendingToken()),
-				ex.getExpectedTokens().toString(recognizer.getVocabulary())
-		);
-		recognizer.notifyErrorListeners(ex.getOffendingToken(), msg, ex);
+		recognizer.notifyErrorListeners(ex.getOffendingToken(), getMismatchMessage(recognizer, ex), ex);
 	}
 
 	@Override
@@ -32,31 +88,13 @@ public class ConfigurableAntlrErrorStrategy extends DefaultErrorStrategy {
 			return;
 		}
 		beginErrorCondition(recognizer);
-
-		Token t = recognizer.getCurrentToken();
-		IntervalSet expecting = getExpectedTokens(recognizer);
-		String msg = strategyConfig.getMissingTokenMessage(
-				expecting.toString(recognizer.getVocabulary()),
-				getTokenErrorDisplay(t)
-		);
-		recognizer.notifyErrorListeners(t, msg, null);
+		Token currentToken = recognizer.getCurrentToken();
+		recognizer.notifyErrorListeners(currentToken, getMissingTokenMessage(recognizer, currentToken), null);
 	}
 
 	@Override
-	protected void reportNoViableAlternative(Parser recognizer, NoViableAltException e) {
-		TokenStream tokens = recognizer.getInputStream();
-		String input;
-		if (tokens != null) {
-			if (Token.EOF == e.getStartToken().getType()) {
-				input = "<EOF>";
-			} else {
-				input = tokens.getText(e.getStartToken(), e.getOffendingToken());
-			}
-		} else {
-			input = "<unknown input>";
-		}
-		String msg = strategyConfig.getNoViableAltMessage(escapeWSAndQuote(input));
-		recognizer.notifyErrorListeners(e.getOffendingToken(), msg, e);
+	protected void reportNoViableAlternative(Parser recognizer, NoViableAltException ex) {
+		recognizer.notifyErrorListeners(ex.getOffendingToken(), getNoViableAltMessage(recognizer, ex), ex);
 	}
 
 	@Override
@@ -64,13 +102,11 @@ public class ConfigurableAntlrErrorStrategy extends DefaultErrorStrategy {
 		if (inErrorRecoveryMode(recognizer)) {
 			return;
 		}
+
 		beginErrorCondition(recognizer);
 
-		Token t = recognizer.getCurrentToken();
-		String tokenName = getTokenErrorDisplay(t);
-		IntervalSet expecting = getExpectedTokens(recognizer);
-		String msg = strategyConfig.getExtraneousTokenMessage(tokenName, expecting.toString(recognizer.getVocabulary()));
-		recognizer.notifyErrorListeners(t, msg, null);
+		Token currentToken = recognizer.getCurrentToken();
+		recognizer.notifyErrorListeners(currentToken, getExtraneousTokenMessage(recognizer, currentToken), null);
 	}
 
 	@Override
@@ -115,8 +151,11 @@ public class ConfigurableAntlrErrorStrategy extends DefaultErrorStrategy {
 
 	@Override
 	public void recover(Parser recognizer, RecognitionException ex) {
-		if (!strategyConfig.isRecoveryEnabled())
-			throw new InvalidExpressionException(ex);
+		if (!strategyConfig.isRecoveryEnabled()) {
+			reportError(recognizer, ex); // Will not be reported otherwise.
+			throw wrapRecognitionException(recognizer, ex);
+		}
+
 		super.recover(recognizer, ex);
 	}
 
@@ -124,13 +163,18 @@ public class ConfigurableAntlrErrorStrategy extends DefaultErrorStrategy {
 	public void sync(Parser recognizer) throws RecognitionException {
 		if (!strategyConfig.isRecoveryEnabled())
 			return;
+
 		super.sync(recognizer);
 	}
 
 	@Override
 	public Token recoverInline(Parser recognizer) throws RecognitionException {
-		if (!strategyConfig.getInlineErrorRecoveryConfig().isEnabled())
-			throw new InvalidExpressionException(new InputMismatchException(recognizer));
+		if (!strategyConfig.getInlineErrorRecoveryConfig().isEnabled()) {
+			InputMismatchException ex = new InputMismatchException(recognizer);
+			reportError(recognizer, ex); // Will not be reported otherwise.
+			throw wrapRecognitionException(recognizer, new InputMismatchException(recognizer));
+		}
+
 		return super.recoverInline(recognizer);
 	}
 }

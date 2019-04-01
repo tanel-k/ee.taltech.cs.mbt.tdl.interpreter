@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.ParseOperationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParserFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
@@ -19,49 +19,51 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TemplateNodeConverter {
-	public static TemplateNodeConverter newInstance(UtaLanguageParserFactory parserFactory) {
-		return new TemplateNodeConverter(parserFactory);
+	public static TemplateNodeConverter newInstance(UtaNodeConverter parentConverter) {
+		return new TemplateNodeConverter(parentConverter);
 	}
 
-	private UtaLanguageParserFactory languageParserFactory;
+	private UtaNodeConverter parentConverter;
 
-	private TemplateNodeConverter(UtaLanguageParserFactory languageParserFactory) {
-		this.languageParserFactory = languageParserFactory;
+	private TemplateNodeConverter(UtaNodeConverter parentConverter) {
+		this.parentConverter = parentConverter;
 	}
 
-	private void injectParameters(UtaTemplate template, TemplateNode templateXml) throws UtaCodeException {
+	private UtaNodeConverter getParentConverter() {
+		return parentConverter;
+	}
+
+	private ParseOperationQueue getParseQueue() {
+		return getParentConverter().getParseOperationQueue();
+	}
+
+	private UtaLanguageParserFactory getParserFactory() {
+		return getParentConverter().getParserFactory();
+	}
+
+	private void injectParameters(UtaTemplate template, TemplateNode templateXml) {
 		if (!templateXml.isSetParameter() || !templateXml.getParameter().isSetValue())
 			return;
 
-		String parameterString = templateXml.getParameter().getValue();
-		try {
-			template.setParameters(
-				getLanguageParserFactory().parameterListParser()
-					.parseInput(parameterString)
-			);
-		} catch (ParseException ex) {
-			throw new UtaCodeException("Failed to parse parameters.", ex)
-				.setEmbeddedCode(parameterString);
-		}
+		getParseQueue().enqueue(
+				templateXml.getParameter().getValue(),
+				getParserFactory().parameterListParser(),
+				template::setParameters
+		);
 	}
 
-	private void injectLocalDeclarations(UtaTemplate utaTemplate, TemplateNode templateXml) throws UtaCodeException {
+	private void injectLocalDeclarations(UtaTemplate utaTemplate, TemplateNode templateXml) {
 		if (!templateXml.isSetDeclaration() || !templateXml.getDeclaration().isSetValue())
 			return;
 
-		String declarations = templateXml.getDeclaration().getValue();
-		try {
-			utaTemplate.setLocalDeclarations(
-				getLanguageParserFactory().declarationsParser()
-					.parseInput(declarations)
-			);
-		} catch (ParseException ex) {
-			throw new UtaCodeException("Failed to parse local declarations.", ex)
-				.setEmbeddedCode(declarations);
-		}
+		getParseQueue().enqueue(
+				templateXml.getDeclaration().getValue(),
+				getParserFactory().declarationsParser(),
+				utaTemplate::setLocalDeclarations
+		);
 	}
 
-	private void injectLocationData(UtaLocation location, LocationNode locationXml) throws UtaCodeException {
+	private void injectLocationData(UtaLocation location, LocationNode locationXml) {
 		location.setId(locationXml.getId());
 		location.setCoordinates(new GuiCoordinates(locationXml.getX(), locationXml.getY()));
 
@@ -86,13 +88,14 @@ public class TemplateNodeConverter {
 		injectLocationLabels(location, locationXml);
 	}
 
-	private void injectLocationLabels(UtaLocation location, LocationNode locationXml) throws UtaCodeException {
+	private void injectLocationLabels(UtaLocation location, LocationNode locationXml) {
 		UtaLocationLabels labelContainer = new UtaLocationLabels();
 		for (LocationLabelNode locationLabelXml : locationXml.getLabels()) {
 			if (!locationLabelXml.isSetValue())
 				continue;
 
 			AbsUtaLabel<?> label = null;
+
 			switch (locationLabelXml.getKind()) {
 			case COMMENTS:
 				UtaCommentLabel commentLabel;
@@ -103,91 +106,91 @@ public class TemplateNodeConverter {
 			case INVARIANT:
 				UtaInvariantLabel invariantLabel;
 				label = (invariantLabel = new UtaInvariantLabel());
-				String invariantCondition = locationLabelXml.getValue();
-				try {
-					invariantLabel.setContent(
-						getLanguageParserFactory().invariantParser()
-							.parseInput(invariantCondition)
-					);
-				} catch (ParseException ex) {
-					throw new UtaCodeException("Failed to parse invariant condition.", ex)
-						.setEmbeddedCode(invariantCondition);
-				}
+
+				getParseQueue().enqueue(
+						locationLabelXml.getValue(),
+						getParserFactory().invariantParser(),
+						invariantLabel::setContent
+				);
+
 				labelContainer.setInvariantLabel(invariantLabel);
 				break;
 			default:
 				break;
 			}
+
 			label.setCoordinates(new GuiCoordinates(locationLabelXml.getX(), locationLabelXml.getY()));
 		}
-		location.setLabelContainer(labelContainer);
+
+		location.setLabels(labelContainer);
 	}
 
-	private void injectTransitionLabels(UtaTransition transition, TransitionNode transitionXml) throws UtaCodeException {
+	private void injectTransitionLabels(UtaTransition transition, TransitionNode transitionXml) {
 		UtaTransitionLabels labelContainer = new UtaTransitionLabels();
 		for (TransitionLabelNode transitionLabelXml : transitionXml.getLabels()) {
 			if (!transitionLabelXml.isSetValue())
 				continue;
+
 			AbsUtaLabel<?> label = null;
-			String errMsg = "";
-			String embeddedCode = "";
-			try {
-				switch (transitionLabelXml.getKind()) {
-					case COMMENTS:
-						UtaCommentLabel commentLabel;
-						label = (commentLabel = new UtaCommentLabel());
-						commentLabel.setContent(transitionLabelXml.getValue());
-						labelContainer.setCommentLabel(commentLabel);
-						break;
-					case GUARD:
-						UtaGuardLabel guardLabel;
-						label = (guardLabel = new UtaGuardLabel());
-						errMsg = "Failed to parse guard.";
-						embeddedCode = transitionLabelXml.getValue();
-						guardLabel.setContent(
-								getLanguageParserFactory().guardParser()
-										.parseInput(embeddedCode)
-						);
-						labelContainer.setGuardLabel(guardLabel);
-						break;
-					case SELECT:
-						UtaSelectLabel selectLabel;
-						label = (selectLabel = new UtaSelectLabel());
-						errMsg = "Failed to parse select.";
-						embeddedCode = transitionLabelXml.getValue();
-						selectLabel.setContent(
-							getLanguageParserFactory().selectionParser()
-								.parseInput(embeddedCode)
-						);
-						labelContainer.setSelectLabel(selectLabel);
-						break;
-					case ASSIGNMENT:
-						UtaAssignmentsLabel assignmentsLabel;
-						label = (assignmentsLabel = new UtaAssignmentsLabel());
-						embeddedCode = transitionLabelXml.getValue();
-						errMsg = "Failed to parse assignments.";
-						assignmentsLabel.setContent(
-							getLanguageParserFactory().assignmentsParser()
-								.parseInput(embeddedCode)
-						);
-						labelContainer.setAssignmentsLabel(assignmentsLabel);
-						break;
-					case SYNCHRONISATION:
-						UtaSynchronizationLabel synchronizationLabel;
-						label = (synchronizationLabel = new UtaSynchronizationLabel());
-						embeddedCode = transitionLabelXml.getValue();
-						errMsg = "Failed to parse synchronization.";
-						synchronizationLabel.setContent(
-							getLanguageParserFactory().synchronizationParser()
-								.parseInput(embeddedCode)
-						);
-						labelContainer.setSynchronizationLabel(synchronizationLabel);
-					default:
-						break;
-				}
-			} catch (ParseException ex) {
-				throw new UtaCodeException(errMsg, ex)
-					.setEmbeddedCode(embeddedCode);
+
+			switch (transitionLabelXml.getKind()) {
+			case COMMENTS:
+				UtaCommentLabel commentLabel;
+
+				label = (commentLabel = new UtaCommentLabel());
+				commentLabel.setContent(transitionLabelXml.getValue());
+				labelContainer.setCommentLabel(commentLabel);
+
+				break;
+			case GUARD:
+				UtaGuardLabel guardLabel;
+				label = (guardLabel = new UtaGuardLabel());
+
+				getParseQueue().enqueue(
+						transitionLabelXml.getValue(),
+						getParserFactory().guardParser(),
+						guardLabel::setContent
+				);
+
+				labelContainer.setGuardLabel(guardLabel);
+				break;
+			case SELECT:
+				UtaSelectionLabel selectLabel;
+				label = (selectLabel = new UtaSelectionLabel());
+
+				getParseQueue().enqueue(
+						transitionLabelXml.getValue(),
+						getParserFactory().selectionParser(),
+						selectLabel::setContent
+				);
+
+				labelContainer.setSelectLabel(selectLabel);
+				break;
+			case ASSIGNMENT:
+				UtaAssignmentsLabel assignmentsLabel;
+				label = (assignmentsLabel = new UtaAssignmentsLabel());
+
+				getParseQueue().enqueue(
+						transitionLabelXml.getValue(),
+						getParserFactory().assignmentsParser(),
+						assignmentsLabel::setContent
+				);
+
+				labelContainer.setAssignmentsLabel(assignmentsLabel);
+				break;
+			case SYNCHRONISATION:
+				UtaSynchronizationLabel synchronizationLabel;
+				label = (synchronizationLabel = new UtaSynchronizationLabel());
+
+				getParseQueue().enqueue(
+						transitionLabelXml.getValue(),
+						getParserFactory().synchronizationParser(),
+						synchronizationLabel::setContent
+				);
+
+				labelContainer.setSynchronizationLabel(synchronizationLabel);
+			default:
+				break;
 			}
 
 			label.setCoordinates(new GuiCoordinates(transitionLabelXml.getX(), transitionLabelXml.getY()));
@@ -204,13 +207,14 @@ public class TemplateNodeConverter {
 		}
 	}
 
-	private void injectTransitionData(UtaTransition transition, TransitionNode transitionXml) throws UtaCodeException {
+	private void injectTransitionData(UtaTransition transition, TransitionNode transitionXml) {
 		injectTransitionLabels(transition, transitionXml);
 		injectTransitionNails(transition, transitionXml);
+
 		transition.setColor(UtaConversionUtils.parseColor(transitionXml.getColor()));
 	}
 
-	private void injectLocations(UtaTemplate template, TemplateNode templateXml) throws UtaCodeException {
+	private void injectLocations(UtaTemplate template, TemplateNode templateXml) {
 		InitialLocationNode initLocXml = templateXml.getInit();
 		String initialLocationID = initLocXml.getRef();
 		Map<String, UtaLocation> locationMap = new HashMap<>();
@@ -220,6 +224,7 @@ public class TemplateNodeConverter {
 			UtaLocation location = new UtaLocation();
 			injectLocationData(location, locationXml);
 			locationMap.put(location.getId(), location);
+
 			if (initialLocationID.equals(location.getId())) {
 				initialLocation = location;
 			}
@@ -229,22 +234,22 @@ public class TemplateNodeConverter {
 		for (TransitionNode transitionXml : templateXml.getTransitions()) {
 			UtaTransition transition = new UtaTransition();
 			injectTransitionData(transition, transitionXml);
+
 			UtaLocation sourceLocation = locationMap.get(transitionXml.getSource().getRef());
 			UtaLocation targetLocation = locationMap.get(transitionXml.getTarget().getRef());
+
 			template.getLocationGraph().addEdge(sourceLocation, targetLocation, transition);
 		}
 	}
 
-	private UtaLanguageParserFactory getLanguageParserFactory() {
-		return languageParserFactory;
-	}
-
-	public UtaTemplate parse(TemplateNode templateXml) throws UtaCodeException {
+	public UtaTemplate parse(TemplateNode templateXml) {
 		UtaTemplate utaTemplate = new UtaTemplate();
 		utaTemplate.setName(templateXml.getName().getValue());
+
 		injectParameters(utaTemplate, templateXml);
 		injectLocalDeclarations(utaTemplate, templateXml);
 		injectLocations(utaTemplate, templateXml);
+
 		return utaTemplate;
 	}
 }

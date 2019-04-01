@@ -1,11 +1,28 @@
 package ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.base;
 
+import org.antlr.v4.runtime.RecognitionException;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class ErrorStrategyConfig {
-	public static class InvalidExpressionException extends RuntimeException {
-		public InvalidExpressionException() { super(); }
-		public InvalidExpressionException(Throwable t) { super(t); }
-		public InvalidExpressionException(String msg, Throwable t) { super(msg, t); }
-		public InvalidExpressionException(String msg) { super(msg); }
+	public static class RecognitionExceptionWrapper extends RuntimeException {
+		public RecognitionExceptionWrapper(String msg, RecognitionException cause) {
+			super(msg, cause);
+		}
+
+		@Override
+		public String toString() {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+
+			pw.println("Recognition failure: " + getMessage() + ".");
+			if (getCause() != null)
+				getCause().printStackTrace(pw);
+			pw.println();
+
+			return sw.toString();
+		}
 	}
 
 	public static class InlineErrorRecoveryConfig {

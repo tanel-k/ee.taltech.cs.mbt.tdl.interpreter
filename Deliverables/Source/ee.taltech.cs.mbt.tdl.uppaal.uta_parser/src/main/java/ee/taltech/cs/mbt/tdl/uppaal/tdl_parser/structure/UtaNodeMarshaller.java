@@ -19,12 +19,12 @@ public class UtaNodeMarshaller {
 	private static final String SAX_FEATURE_LOAD_DTD_GRAMMAR = "http://apache.org/xml/features/nonvalidating/load-dtd-grammar";
 	private static final String SAX_FEATURE_LOAD_EXTERNAL_DTD = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
 
-	public static class UtaMarshallingException extends Exception {
-		public UtaMarshallingException(String msg, Throwable t) {
+	public static class MarshallingException extends Exception {
+		public MarshallingException(String msg, Throwable t) {
 			super(msg, t);
 		}
 
-		public UtaMarshallingException(Throwable t) {
+		public MarshallingException(Throwable t) {
 			super(t);
 		}
 	}
@@ -37,32 +37,32 @@ public class UtaNodeMarshaller {
 		return new SAXSource(reader, new InputSource(in));
 	}
 
-	public static UtaNode unmarshal(InputStream in) throws UtaMarshallingException {
+	public static UtaNode unmarshal(InputStream in) throws MarshallingException {
 		try {
 			SAXSource saxSource = getSaxSource(in);
 			JAXBContext jaxbCtx = JAXBContext.newInstance(UtaNode.class);
 			Unmarshaller unmarshaller = jaxbCtx.createUnmarshaller();
 			return (UtaNode) unmarshaller.unmarshal(saxSource);
 		} catch (JAXBException ex) {
-			throw new UtaMarshallingException("Unmarshalling failed: JAXB exception.", ex);
+			throw new MarshallingException("Unmarshalling failed: JAXB exception.", ex);
 		} catch (SAXException ex) {
-			throw new UtaMarshallingException("Unmarshalling failed: SAX-related exception.", ex);
+			throw new MarshallingException("Unmarshalling failed: SAX-related exception.", ex);
 		} catch (ParserConfigurationException ex) {
-			throw new UtaMarshallingException("Unmarshalling failed: SAX configuration exception.", ex);
+			throw new MarshallingException("Unmarshalling failed: SAX configuration exception.", ex);
 		} catch (Throwable t) {
-			throw new UtaMarshallingException("Unmarshalling failed: unexpected exception.", t);
+			throw new MarshallingException("Unmarshalling failed: unexpected exception.", t);
 		}
 	}
 
-	public static void marshal(UtaNode utaNode, OutputStream out) throws UtaMarshallingException {
+	public static void marshal(UtaNode utaNode, OutputStream out) throws MarshallingException {
 		try {
 			JAXBContext jaxbCtx = JAXBContext.newInstance(UtaNode.class);
 			Marshaller marshaller = jaxbCtx.createMarshaller();
 			marshaller.marshal(utaNode, out);
 		} catch (JAXBException ex) {
-			throw new UtaMarshallingException("Marshalling failed: JAXB exception.", ex);
+			throw new MarshallingException("Marshalling failed: JAXB exception.", ex);
 		} catch (Throwable t) {
-			throw new UtaMarshallingException("Marshalling failed: unexpected exception", t);
+			throw new MarshallingException("Marshalling failed: unexpected exception", t);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.ParseOperationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParserFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.SystemNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TemplateNode;
@@ -9,51 +9,42 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.UtaTemplate;
 
 public class UtaNodeConverter {
-	public static UtaNodeConverter newInstance(TemplateNodeConverter templateParser, UtaLanguageParserFactory languageParserFactory) {
-		return new UtaNodeConverter(templateParser, languageParserFactory);
+	public static UtaNodeConverter newInstance(UtaLanguageParserFactory languageParserFactory) {
+		return new UtaNodeConverter(languageParserFactory);
 	}
 
+	private ParseOperationQueue parseOperationQueue = new ParseOperationQueue();
 	private TemplateNodeConverter templateNodeConverter;
 	private UtaLanguageParserFactory languageParserFactory;
 
-	private UtaNodeConverter(TemplateNodeConverter templateNodeConverter, UtaLanguageParserFactory languageParserFactory) {
-		this.templateNodeConverter = templateNodeConverter;
+	private UtaNodeConverter(UtaLanguageParserFactory languageParserFactory) {
+		this.templateNodeConverter = TemplateNodeConverter.newInstance(this);
 		this.languageParserFactory = languageParserFactory;
 	}
 
-	private void injectGlobalDeclarations(UtaSystem utaSystem, SystemNode ntaSystem) throws UtaCodeException {
+	private void injectGlobalDeclarations(UtaSystem utaSystem, SystemNode ntaSystem) {
 		if (!ntaSystem.isSetDeclaration() || !ntaSystem.getDeclaration().isSetValue())
 			return;
 
-		String globalDeclarations = ntaSystem.getDeclaration().getValue();
-		try {
-			utaSystem.setGlobalDeclarations(
-				getLanguageParserFactory().declarationsParser()
-					.parseInput(globalDeclarations)
-			);
-		} catch (ParseException ex) {
-			throw new UtaCodeException("Could not parse global declarations.", ex)
-				.setEmbeddedCode(globalDeclarations);
-		}
+		parseOperationQueue.enqueue(
+				ntaSystem.getDeclaration().getValue(),
+				getParserFactory().declarationsParser(),
+				utaSystem::setGlobalDeclarations
+		);
 	}
 
-	private void injectSystemDefinition(UtaSystem utaSystem, SystemNode ntaSystem) throws UtaCodeException {
+	private void injectSystemDefinition(UtaSystem utaSystem, SystemNode ntaSystem) {
 		if (!ntaSystem.isSetSystem() || !ntaSystem.getSystem().isSetValue())
 			return;
 
-		String systemDefinition = ntaSystem.getSystem().getValue();
-		try {
-			utaSystem.setSystemDefinition(
-				getLanguageParserFactory().systemDefinitionParser()
-					.parseInput(systemDefinition)
-			);
-		} catch (ParseException ex) {
-			throw new UtaCodeException("Could not parse system definition.", ex)
-				.setEmbeddedCode(systemDefinition);
-		}
+		parseOperationQueue.enqueue(
+				ntaSystem.getSystem().getValue(),
+				getParserFactory().systemDefinitionParser(),
+				utaSystem::setSystemDefinition
+		);
 	}
 
-	private void injectTemplates(UtaSystem utaSystem, SystemNode ntaSystem) throws UtaCodeException {
+	private void injectTemplates(UtaSystem utaSystem, SystemNode ntaSystem) {
 		if (!ntaSystem.isSetTemplates())
 			return;
 
@@ -67,11 +58,15 @@ public class UtaNodeConverter {
 		return templateNodeConverter;
 	}
 
-	private UtaLanguageParserFactory getLanguageParserFactory() {
+	public UtaLanguageParserFactory getParserFactory() {
 		return languageParserFactory;
 	}
 
-	public UtaSystem convert(UtaNode ntaXml) throws UtaCodeException {
+	public ParseOperationQueue getParseOperationQueue() {
+		return parseOperationQueue;
+	}
+
+	public UtaSystem convert(UtaNode ntaXml) {
 		UtaSystem system = new UtaSystem();
 
 		injectGlobalDeclarations(system, ntaXml);

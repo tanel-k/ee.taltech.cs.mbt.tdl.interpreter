@@ -6,7 +6,7 @@ public class UtaTransitionLabels {
 	private UtaCommentLabel commentLabel;
 	private UtaGuardLabel guardLabel;
 	private UtaAssignmentsLabel assignmentsLabel;
-	private UtaSelectLabel selectLabel;
+	private UtaSelectionLabel selectLabel;
 	private UtaSynchronizationLabel synchronizationLabel;
 
 	public UtaGuardLabel getGuardLabel() {
@@ -25,11 +25,11 @@ public class UtaTransitionLabels {
 		this.assignmentsLabel = assignmentsLabel;
 	}
 
-	public UtaSelectLabel getSelectLabel() {
+	public UtaSelectionLabel getSelectLabel() {
 		return selectLabel;
 	}
 
-	public void setSelectLabel(UtaSelectLabel selectLabel) {
+	public void setSelectLabel(UtaSelectionLabel selectLabel) {
 		this.selectLabel = selectLabel;
 	}
 

@@ -6,11 +6,11 @@ public class UtaConversionUtils {
 	public static Color parseColor(String colorString) {
 		if (colorString == null)
 			return null;
+
 		try {
 			return Color.of(colorString.replace("#", ""));
-		} catch (Throwable t) {
-			/* Ignored. */
-		}
+		} catch (Throwable t) {/* Ignored. */}
+
 		return null;
 	}
 }

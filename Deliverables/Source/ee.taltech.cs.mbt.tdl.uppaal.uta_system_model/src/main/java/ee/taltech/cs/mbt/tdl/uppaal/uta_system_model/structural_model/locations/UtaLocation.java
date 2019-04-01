@@ -37,7 +37,7 @@ public class UtaLocation implements IPositionable, IColorable {
 
 	private String id;
 	private LocationName name;
-	private UtaLocationLabels labelContainer;
+	private UtaLocationLabels labels;
 	private ELocationExitPolicy exitPolicy = ELocationExitPolicy.NORMAL;
 	private Color color;
 	private GuiCoordinates coordinates;
@@ -88,12 +88,12 @@ public class UtaLocation implements IPositionable, IColorable {
 		this.exitPolicy = exitPolicy;
 	}
 
-	public UtaLocationLabels getLabelContainer() {
-		return labelContainer;
+	public UtaLocationLabels getLabels() {
+		return labels;
 	}
 
-	public void setLabelContainer(UtaLocationLabels locationLabelContainer) {
-		this.labelContainer = locationLabelContainer;
+	public void setLabels(UtaLocationLabels locationLabelContainer) {
+		this.labels = locationLabelContainer;
 	}
 
 	@Override

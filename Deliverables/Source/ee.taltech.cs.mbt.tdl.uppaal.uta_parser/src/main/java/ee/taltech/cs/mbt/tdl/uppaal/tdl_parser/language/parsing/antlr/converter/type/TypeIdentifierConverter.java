@@ -68,10 +68,10 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 	public AbsTypeId visitBoundedIntegerTypeId(BoundedIntegerTypeIdContext ctx) {
 		BoundedIntegerTypeId boundedIntegerTypeIdentifier = new BoundedIntegerTypeId();
 		boundedIntegerTypeIdentifier.setMaximumBound(
-			ExpressionConverter.getInstance().convert(ctx.expression(0))
+			ExpressionConverter.getInstance().convert(ctx.expression(1))
 		);
 		boundedIntegerTypeIdentifier.setMinimumBound(
-			ExpressionConverter.getInstance().convert(ctx.expression(1))
+			ExpressionConverter.getInstance().convert(ctx.expression(0))
 		);
 		return boundedIntegerTypeIdentifier;
 	}
