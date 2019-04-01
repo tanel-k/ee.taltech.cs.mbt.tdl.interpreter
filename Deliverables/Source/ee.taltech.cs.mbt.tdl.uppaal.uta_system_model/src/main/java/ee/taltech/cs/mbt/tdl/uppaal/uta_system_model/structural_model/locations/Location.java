@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPosit
 
 import java.util.Objects;
 
-public class UtaLocation implements IPositionable, IColorable {
+public class Location implements IPositionable, IColorable {
 	public enum ELocationExitPolicy {
 		NORMAL, URGENT, COMMITTED
 	}
@@ -37,12 +37,12 @@ public class UtaLocation implements IPositionable, IColorable {
 
 	private String id;
 	private LocationName name;
-	private UtaLocationLabels labels;
+	private LocationLabels labels;
 	private ELocationExitPolicy exitPolicy = ELocationExitPolicy.NORMAL;
 	private Color color;
 	private GuiCoordinates coordinates;
 
-	public UtaLocation() { }
+	public Location() { }
 
 	public String getId() {
 		return id;
@@ -88,11 +88,11 @@ public class UtaLocation implements IPositionable, IColorable {
 		this.exitPolicy = exitPolicy;
 	}
 
-	public UtaLocationLabels getLabels() {
+	public LocationLabels getLabels() {
 		return labels;
 	}
 
-	public void setLabels(UtaLocationLabels locationLabelContainer) {
+	public void setLabels(LocationLabels locationLabelContainer) {
 		this.labels = locationLabelContainer;
 	}
 
@@ -107,9 +107,9 @@ public class UtaLocation implements IPositionable, IColorable {
 			return false;
 		if (obj == this)
 			return true;
-		if (!(obj instanceof UtaLocation))
+		if (!(obj instanceof Location))
 			return false;
-		UtaLocation other = (UtaLocation) obj;
+		Location other = (Location) obj;
 		return Objects.equals(other.id, this.id);
 	}
 }

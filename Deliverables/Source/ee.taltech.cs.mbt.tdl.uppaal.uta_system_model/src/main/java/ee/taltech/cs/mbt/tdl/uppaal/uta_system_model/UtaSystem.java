@@ -2,18 +2,18 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.UtaTemplate;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 
 import java.util.*;
 
 public class UtaSystem {
-	private Map<String, UtaTemplate> templateMap = new HashMap<>();
+	private Map<String, Template> templateMap = new HashMap<>();
 	private SystemDefinition systemDefinition;
 	private List<AbsDeclarationStatement> globalDeclarations;
 
 	public UtaSystem() {}
 
-	public Map<String, UtaTemplate> getTemplateMap() {
+	public Map<String, Template> getTemplateMap() {
 		return templateMap;
 	}
 

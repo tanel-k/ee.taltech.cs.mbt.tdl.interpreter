@@ -5,9 +5,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Sel
 import java.util.LinkedList;
 import java.util.List;
 
-public class UtaSelectionLabel extends AbsUtaLabel<List<Selection>> {
-	public static UtaSelectionLabel of(List<Selection> expressions) {
-		UtaSelectionLabel inst = new UtaSelectionLabel();
+public class SelectionLabel extends AbsUtaLabel<List<Selection>> {
+	public static SelectionLabel of(List<Selection> expressions) {
+		SelectionLabel inst = new SelectionLabel();
 		inst.setContent(expressions == null ? new LinkedList<>() : expressions);
 		return inst;
 	}

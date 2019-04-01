@@ -8,7 +8,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPosit
 import java.util.LinkedList;
 import java.util.List;
 
-public class UtaTransition implements IColorable {
+public class Transition implements IColorable {
 	public static class TransitionNail implements IPositionable, IColorable {
 		private Color color;
 		private GuiCoordinates coordinates;
@@ -36,15 +36,15 @@ public class UtaTransition implements IColorable {
 
 	private Color color;
 	private List<TransitionNail> nails = new LinkedList<>();
-	private UtaTransitionLabels labels;
+	private TransitionLabels labels;
 
-	public UtaTransition() { }
+	public Transition() { }
 
-	public UtaTransitionLabels getLabels() {
+	public TransitionLabels getLabels() {
 		return labels;
 	}
 
-	public void setLabels(UtaTransitionLabels labels) {
+	public void setLabels(TransitionLabels labels) {
 		this.labels = labels;
 	}
 

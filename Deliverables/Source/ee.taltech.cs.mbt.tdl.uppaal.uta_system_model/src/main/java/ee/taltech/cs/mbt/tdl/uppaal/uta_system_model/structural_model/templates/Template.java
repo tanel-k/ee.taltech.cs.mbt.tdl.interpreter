@@ -3,20 +3,20 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.supplementary.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.UtaLocation;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.UtaTransition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class UtaTemplate {
+public class Template {
 	private String name;
 	private List<ParameterDeclaration> parameters;
-	private UtaLocation initialLocation;
-	private DirectedMultigraph<UtaLocation, UtaTransition> locationGraph;
+	private Location initialLocation;
+	private DirectedMultigraph<Location, Transition> locationGraph;
 	private List<AbsDeclarationStatement> localDeclarations;
 
-	public UtaTemplate() { }
+	public Template() { }
 
 	public String getName() {
 		return name;
@@ -36,21 +36,21 @@ public class UtaTemplate {
 		this.parameters = parameters;
 	}
 
-	public UtaLocation getInitialLocation() {
+	public Location getInitialLocation() {
 		return initialLocation;
 	}
 
-	public void setInitialLocation(UtaLocation initialLocation) {
+	public void setInitialLocation(Location initialLocation) {
 		this.initialLocation = initialLocation;
 	}
 
-	public DirectedMultigraph<UtaLocation, UtaTransition> getLocationGraph() {
+	public DirectedMultigraph<Location, Transition> getLocationGraph() {
 		return locationGraph == null
 			? (locationGraph = new DirectedMultigraph<>())
 			: locationGraph;
 	}
 
-	public void setLocationGraph(DirectedMultigraph<UtaLocation, UtaTransition> locationGraph) {
+	public void setLocationGraph(DirectedMultigraph<Location, Transition> locationGraph) {
 		this.locationGraph = locationGraph;
 	}
 

@@ -6,7 +6,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.SystemNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TemplateNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.UtaNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.UtaTemplate;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 
 public class UtaNodeConverter {
 	public static UtaNodeConverter newInstance(UtaLanguageParserFactory languageParserFactory) {
@@ -49,7 +49,7 @@ public class UtaNodeConverter {
 			return;
 
 		for (TemplateNode xmlTemplate : ntaSystem.getTemplates()) {
-			UtaTemplate template = getTemplateNodeConverter().parse(xmlTemplate);
+			Template template = getTemplateNodeConverter().parse(xmlTemplate);
 			utaSystem.getTemplateMap().put(template.getName(), template);
 		}
 	}

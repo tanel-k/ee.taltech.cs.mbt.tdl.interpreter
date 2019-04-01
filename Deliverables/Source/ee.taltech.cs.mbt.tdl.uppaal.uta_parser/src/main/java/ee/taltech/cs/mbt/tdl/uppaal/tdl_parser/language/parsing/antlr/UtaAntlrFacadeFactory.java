@@ -40,7 +40,7 @@ public class UtaAntlrFacadeFactory {
 
 	private UtaAntlrFacadeFactory() { }
 
-	private <R, C extends ParseTree> AbsUtaAntlrParserFacade<R, C> configure(AbsUtaAntlrParserFacade<R, C> parserFacade) {
+	private <R, C extends ParseTree> AbsUtaAntlrFacade<R, C> configure(AbsUtaAntlrFacade<R, C> parserFacade) {
 		parserFacade.getErrorListeners().clear();
 		parserFacade.setErrorStrategyConfig(errorStrategyConfig);
 		parserFacade.getErrorListeners().addAll(errorListeners);
@@ -59,8 +59,8 @@ public class UtaAntlrFacadeFactory {
 		return errorListeners;
 	}
 
-	public AbsUtaAntlrParserFacade<AbsExpression, ExpressionContext> invariantFacade() {
-		return configure(new AbsUtaAntlrParserFacade<AbsExpression, ExpressionContext>() {
+	public AbsUtaAntlrFacade<AbsExpression, ExpressionContext> invariantFacade() {
+		return configure(new AbsUtaAntlrFacade<AbsExpression, ExpressionContext>() {
 			@Override
 			protected ExpressionContext getRootContext(UtaLanguageParser parser) {
 				return parser.expression();
@@ -73,8 +73,8 @@ public class UtaAntlrFacadeFactory {
 		});
 	}
 
-	public AbsUtaAntlrParserFacade<AbsExpression, ExpressionContext> guardFacade() {
-		return configure(new AbsUtaAntlrParserFacade<AbsExpression, ExpressionContext>() {
+	public AbsUtaAntlrFacade<AbsExpression, ExpressionContext> guardFacade() {
+		return configure(new AbsUtaAntlrFacade<AbsExpression, ExpressionContext>() {
 			@Override
 			protected ExpressionContext getRootContext(UtaLanguageParser parser) {
 				return parser.expression();
@@ -87,8 +87,8 @@ public class UtaAntlrFacadeFactory {
 		});
 	}
 
-	public AbsUtaAntlrParserFacade<SystemDefinition, SystemDefinitionContext> systemDefinitionFacade() {
-		return configure(new AbsUtaAntlrParserFacade<SystemDefinition, SystemDefinitionContext>() {
+	public AbsUtaAntlrFacade<SystemDefinition, SystemDefinitionContext> systemDefinitionFacade() {
+		return configure(new AbsUtaAntlrFacade<SystemDefinition, SystemDefinitionContext>() {
 			@Override
 			protected SystemDefinitionContext getRootContext(UtaLanguageParser parser) {
 				return parser.systemDefinition();
@@ -101,8 +101,8 @@ public class UtaAntlrFacadeFactory {
 		});
 	}
 
-	public AbsUtaAntlrParserFacade<List<AbsExpression>, ExpressionSequenceContext> updatesFacade() {
-		return configure(new AbsUtaAntlrParserFacade<List<AbsExpression>, ExpressionSequenceContext>() {
+	public AbsUtaAntlrFacade<List<AbsExpression>, ExpressionSequenceContext> updatesFacade() {
+		return configure(new AbsUtaAntlrFacade<List<AbsExpression>, ExpressionSequenceContext>() {
 			@Override
 			protected ExpressionSequenceContext getRootContext(UtaLanguageParser parser) {
 				return parser.expressionSequence();
@@ -115,8 +115,8 @@ public class UtaAntlrFacadeFactory {
 		});
 	}
 
-	public AbsUtaAntlrParserFacade<List<Selection>, SelectionSequenceContext> selectionFacade() {
-		return configure(new AbsUtaAntlrParserFacade<List<Selection>, SelectionSequenceContext>() {
+	public AbsUtaAntlrFacade<List<Selection>, SelectionSequenceContext> selectionFacade() {
+		return configure(new AbsUtaAntlrFacade<List<Selection>, SelectionSequenceContext>() {
 			@Override
 			protected SelectionSequenceContext getRootContext(UtaLanguageParser parser) {
 				return parser.selectionSequence();
@@ -129,8 +129,8 @@ public class UtaAntlrFacadeFactory {
 		});
 	}
 
-	public AbsUtaAntlrParserFacade<Synchronization, SynchronizationContext> synchronizationFacade() {
-		return configure(new AbsUtaAntlrParserFacade<Synchronization, SynchronizationContext>() {
+	public AbsUtaAntlrFacade<Synchronization, SynchronizationContext> synchronizationFacade() {
+		return configure(new AbsUtaAntlrFacade<Synchronization, SynchronizationContext>() {
 			@Override
 			protected SynchronizationContext getRootContext(UtaLanguageParser parser) {
 				return parser.synchronization();
@@ -143,8 +143,8 @@ public class UtaAntlrFacadeFactory {
 		});
 	}
 
-	public AbsUtaAntlrParserFacade<List<ParameterDeclaration>, ParameterSequenceContext> parametersFacade() {
-		return configure(new AbsUtaAntlrParserFacade<List<ParameterDeclaration>, ParameterSequenceContext>() {
+	public AbsUtaAntlrFacade<List<ParameterDeclaration>, ParameterSequenceContext> parametersFacade() {
+		return configure(new AbsUtaAntlrFacade<List<ParameterDeclaration>, ParameterSequenceContext>() {
 			@Override
 			protected ParameterSequenceContext getRootContext(UtaLanguageParser parser) {
 				return parser.parameterSequence();
@@ -157,8 +157,8 @@ public class UtaAntlrFacadeFactory {
 		});
 	}
 
-	public AbsUtaAntlrParserFacade<List<AbsDeclarationStatement>, DeclarationSequenceContext> declarationsFacade() {
-		return configure(new AbsUtaAntlrParserFacade<List<AbsDeclarationStatement>, DeclarationSequenceContext>() {
+	public AbsUtaAntlrFacade<List<AbsDeclarationStatement>, DeclarationSequenceContext> declarationsFacade() {
+		return configure(new AbsUtaAntlrFacade<List<AbsDeclarationStatement>, DeclarationSequenceContext>() {
 			@Override
 			protected DeclarationSequenceContext getRootContext(UtaLanguageParser parser) {
 				return parser.declarationSequence();

@@ -7,14 +7,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.supplementary.AbsConsumptionQueue
 import java.util.function.Consumer;
 
 public class ParseQueue extends AbsConsumptionQueue<String, Object, InvalidEmbeddedCodeException> {
-	public static class ParseMapping<T> implements IMapping<String, T, InvalidEmbeddedCodeException> {
+	public static class ParseConsumableProducer<T> implements IConsumableProducer<String, T, InvalidEmbeddedCodeException> {
 		@SuppressWarnings("unchecked")
-		private static <T> ParseMapping<Object> wrapGeneric(AbsAntlrParser<T> parser) {
-			return (ParseMapping<Object>) new ParseMapping<>(parser);
+		private static <T> ParseConsumableProducer<Object> downCastWrap(AbsAntlrParser<T> parser) {
+			return (ParseConsumableProducer<Object>) wrap(parser);
 		}
 
-		public static <T> ParseMapping<T> wrap(AbsAntlrParser<T> parser) {
-			return new ParseMapping<>(parser);
+		public static <T> ParseConsumableProducer<T> wrap(AbsAntlrParser<T> parser) {
+			return new ParseConsumableProducer<>(parser);
 		}
 
 		private final AbsAntlrParser<T> parser;
@@ -32,13 +32,13 @@ public class ParseQueue extends AbsConsumptionQueue<String, Object, InvalidEmbed
 			}
 		}
 
-		private ParseMapping(AbsAntlrParser<T> parser) {
+		private ParseConsumableProducer(AbsAntlrParser<T> parser) {
 			this.parser = parser;
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public <R> void enqueue(String input, AbsAntlrParser<R> parser, Consumer<R> consumer) {
-		super.enqueue(input, ParseMapping.wrapGeneric(parser), (Consumer<Object>) consumer);
+		super.enqueue(input, ParseConsumableProducer.downCastWrap(parser), (Consumer<Object>) consumer);
 	}
 }

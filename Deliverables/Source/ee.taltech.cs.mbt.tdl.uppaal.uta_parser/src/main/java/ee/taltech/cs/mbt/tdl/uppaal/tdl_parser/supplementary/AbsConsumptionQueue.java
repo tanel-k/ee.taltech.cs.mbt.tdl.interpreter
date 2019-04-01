@@ -5,16 +5,16 @@ import java.util.Queue;
 import java.util.function.Consumer;
 
 public abstract class AbsConsumptionQueue<I, O, E extends Exception> {
-	public interface IMapping<I, O, E extends Exception> {
+	public interface IConsumableProducer<I, O, E extends Exception> {
 		O map(I input) throws E;
 	}
 
 	public static class MappingOperation<I, O, E extends Exception> {
-		private final IMapping<I, O, E> mapping;
 		private final I input;
+		private final IConsumableProducer<I, O, E> mapping;
 		private final Consumer<O> consumer;
 
-		public MappingOperation(I input, IMapping<I, O, E> mapping, Consumer<O> consumer) {
+		public MappingOperation(I input, IConsumableProducer<I, O, E> mapping, Consumer<O> consumer) {
 			this.input = input;
 			this.mapping = mapping;
 			this.consumer = consumer;
@@ -33,7 +33,7 @@ public abstract class AbsConsumptionQueue<I, O, E extends Exception> {
 		operation.consumer.accept(output);
 	}
 
-	protected void enqueue(I input, IMapping<I, O, E> mapping, Consumer<O> consumer) {
+	protected void enqueue(I input, IConsumableProducer<I, O, E> mapping, Consumer<O> consumer) {
 		this.queue.add(new MappingOperation<>(input, mapping, consumer));
 	}
 

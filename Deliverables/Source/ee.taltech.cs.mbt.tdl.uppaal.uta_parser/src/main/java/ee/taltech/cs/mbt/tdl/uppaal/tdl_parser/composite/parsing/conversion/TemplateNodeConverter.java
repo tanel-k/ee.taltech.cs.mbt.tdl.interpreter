@@ -12,20 +12,20 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TransitionNailNode
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TransitionNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaAssignmentsLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaCommentLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaGuardLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaInvariantLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaSelectionLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaSynchronizationLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.UtaLocation;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.UtaLocation.ELocationExitPolicy;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.UtaLocation.LocationName;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.UtaLocationLabels;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.UtaTemplate;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.UtaTransition;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.UtaTransition.TransitionNail;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.UtaTransitionLabels;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AssignmentsLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.CommentLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.GuardLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.InvariantLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.SelectionLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.SynchronizationLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location.ELocationExitPolicy;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location.LocationName;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.LocationLabels;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition.TransitionNail;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +53,7 @@ public class TemplateNodeConverter {
 		return getParentConverter().getParserFactory();
 	}
 
-	private void injectParameters(UtaTemplate template, TemplateNode templateXml) {
+	private void injectParameters(Template template, TemplateNode templateXml) {
 		if (!templateXml.isSetParameter() || !templateXml.getParameter().isSetValue())
 			return;
 
@@ -64,26 +64,26 @@ public class TemplateNodeConverter {
 		);
 	}
 
-	private void injectLocalDeclarations(UtaTemplate utaTemplate, TemplateNode templateXml) {
+	private void injectLocalDeclarations(Template template, TemplateNode templateXml) {
 		if (!templateXml.isSetDeclaration() || !templateXml.getDeclaration().isSetValue())
 			return;
 
 		getParseQueue().enqueue(
 				templateXml.getDeclaration().getValue(),
 				getParserFactory().declarationsParser(),
-				utaTemplate::setLocalDeclarations
+				template::setLocalDeclarations
 		);
 	}
 
-	private void injectLocationData(UtaLocation location, LocationNode locationXml) {
+	private void injectLocationData(Location location, LocationNode locationXml) {
 		location.setId(locationXml.getId());
 		location.setCoordinates(new GuiCoordinates(locationXml.getX(), locationXml.getY()));
 
-		location.setColor(UtaConversionUtils.parseColor(locationXml.getColor()));
+		location.setColor(ConversionUtils.parseColor(locationXml.getColor()));
 
 		NameNode nameXml;
 		if (locationXml.isSetName() && (nameXml = locationXml.getName()).isSetX() && nameXml.isSetY()) {
-			LocationName locationName = new UtaLocation.LocationName();
+			LocationName locationName = new Location.LocationName();
 			locationName.setName(nameXml.getValue());
 			locationName.setCoordinates(new GuiCoordinates(nameXml.getX(), nameXml.getY()));
 			location.setName(locationName);
@@ -100,8 +100,8 @@ public class TemplateNodeConverter {
 		injectLocationLabels(location, locationXml);
 	}
 
-	private void injectLocationLabels(UtaLocation location, LocationNode locationXml) {
-		UtaLocationLabels labelContainer = new UtaLocationLabels();
+	private void injectLocationLabels(Location location, LocationNode locationXml) {
+		LocationLabels labelContainer = new LocationLabels();
 		for (LocationLabelNode locationLabelXml : locationXml.getLabels()) {
 			if (!locationLabelXml.isSetValue())
 				continue;
@@ -110,14 +110,14 @@ public class TemplateNodeConverter {
 
 			switch (locationLabelXml.getKind()) {
 			case COMMENTS:
-				UtaCommentLabel commentLabel;
-				label = (commentLabel = new UtaCommentLabel());
+				CommentLabel commentLabel;
+				label = (commentLabel = new CommentLabel());
 				commentLabel.setContent(locationLabelXml.getValue());
 				labelContainer.setCommentLabel(commentLabel);
 				break;
 			case INVARIANT:
-				UtaInvariantLabel invariantLabel;
-				label = (invariantLabel = new UtaInvariantLabel());
+				InvariantLabel invariantLabel;
+				label = (invariantLabel = new InvariantLabel());
 
 				getParseQueue().enqueue(
 						locationLabelXml.getValue(),
@@ -137,8 +137,8 @@ public class TemplateNodeConverter {
 		location.setLabels(labelContainer);
 	}
 
-	private void injectTransitionLabels(UtaTransition transition, TransitionNode transitionXml) {
-		UtaTransitionLabels labelContainer = new UtaTransitionLabels();
+	private void injectTransitionLabels(Transition transition, TransitionNode transitionXml) {
+		TransitionLabels labelContainer = new TransitionLabels();
 		for (TransitionLabelNode transitionLabelXml : transitionXml.getLabels()) {
 			if (!transitionLabelXml.isSetValue())
 				continue;
@@ -147,16 +147,16 @@ public class TemplateNodeConverter {
 
 			switch (transitionLabelXml.getKind()) {
 			case COMMENTS:
-				UtaCommentLabel commentLabel;
+				CommentLabel commentLabel;
 
-				label = (commentLabel = new UtaCommentLabel());
+				label = (commentLabel = new CommentLabel());
 				commentLabel.setContent(transitionLabelXml.getValue());
 				labelContainer.setCommentLabel(commentLabel);
 
 				break;
 			case GUARD:
-				UtaGuardLabel guardLabel;
-				label = (guardLabel = new UtaGuardLabel());
+				GuardLabel guardLabel;
+				label = (guardLabel = new GuardLabel());
 
 				getParseQueue().enqueue(
 						transitionLabelXml.getValue(),
@@ -167,8 +167,8 @@ public class TemplateNodeConverter {
 				labelContainer.setGuardLabel(guardLabel);
 				break;
 			case SELECT:
-				UtaSelectionLabel selectLabel;
-				label = (selectLabel = new UtaSelectionLabel());
+				SelectionLabel selectLabel;
+				label = (selectLabel = new SelectionLabel());
 
 				getParseQueue().enqueue(
 						transitionLabelXml.getValue(),
@@ -179,8 +179,8 @@ public class TemplateNodeConverter {
 				labelContainer.setSelectLabel(selectLabel);
 				break;
 			case ASSIGNMENT:
-				UtaAssignmentsLabel assignmentsLabel;
-				label = (assignmentsLabel = new UtaAssignmentsLabel());
+				AssignmentsLabel assignmentsLabel;
+				label = (assignmentsLabel = new AssignmentsLabel());
 
 				getParseQueue().enqueue(
 						transitionLabelXml.getValue(),
@@ -191,8 +191,8 @@ public class TemplateNodeConverter {
 				labelContainer.setAssignmentsLabel(assignmentsLabel);
 				break;
 			case SYNCHRONISATION:
-				UtaSynchronizationLabel synchronizationLabel;
-				label = (synchronizationLabel = new UtaSynchronizationLabel());
+				SynchronizationLabel synchronizationLabel;
+				label = (synchronizationLabel = new SynchronizationLabel());
 
 				getParseQueue().enqueue(
 						transitionLabelXml.getValue(),
@@ -211,7 +211,7 @@ public class TemplateNodeConverter {
 		transition.setLabels(labelContainer);
 	}
 
-	private void injectTransitionNails(UtaTransition transition, TransitionNode transitionXml) {
+	private void injectTransitionNails(Transition transition, TransitionNode transitionXml) {
 		for (TransitionNailNode nailXml : transitionXml.getNails()) {
 			TransitionNail nail = new TransitionNail();
 			nail.setCoordinates(new GuiCoordinates(nailXml.getX(), nailXml.getY()));
@@ -219,21 +219,21 @@ public class TemplateNodeConverter {
 		}
 	}
 
-	private void injectTransitionData(UtaTransition transition, TransitionNode transitionXml) {
+	private void injectTransitionData(Transition transition, TransitionNode transitionXml) {
 		injectTransitionLabels(transition, transitionXml);
 		injectTransitionNails(transition, transitionXml);
 
-		transition.setColor(UtaConversionUtils.parseColor(transitionXml.getColor()));
+		transition.setColor(ConversionUtils.parseColor(transitionXml.getColor()));
 	}
 
-	private void injectLocations(UtaTemplate template, TemplateNode templateXml) {
+	private void injectLocations(Template template, TemplateNode templateXml) {
 		InitialLocationNode initLocXml = templateXml.getInit();
 		String initialLocationID = initLocXml.getRef();
-		Map<String, UtaLocation> locationMap = new HashMap<>();
-		UtaLocation initialLocation = null;
+		Map<String, Location> locationMap = new HashMap<>();
+		Location initialLocation = null;
 
 		for (LocationNode locationXml : templateXml.getLocations()) {
-			UtaLocation location = new UtaLocation();
+			Location location = new Location();
 			injectLocationData(location, locationXml);
 			locationMap.put(location.getId(), location);
 
@@ -244,24 +244,24 @@ public class TemplateNodeConverter {
 
 		template.setInitialLocation(initialLocation);
 		for (TransitionNode transitionXml : templateXml.getTransitions()) {
-			UtaTransition transition = new UtaTransition();
+			Transition transition = new Transition();
 			injectTransitionData(transition, transitionXml);
 
-			UtaLocation sourceLocation = locationMap.get(transitionXml.getSource().getRef());
-			UtaLocation targetLocation = locationMap.get(transitionXml.getTarget().getRef());
+			Location sourceLocation = locationMap.get(transitionXml.getSource().getRef());
+			Location targetLocation = locationMap.get(transitionXml.getTarget().getRef());
 
 			template.getLocationGraph().addEdge(sourceLocation, targetLocation, transition);
 		}
 	}
 
-	public UtaTemplate parse(TemplateNode templateXml) {
-		UtaTemplate utaTemplate = new UtaTemplate();
-		utaTemplate.setName(templateXml.getName().getValue());
+	public Template parse(TemplateNode templateXml) {
+		Template template = new Template();
+		template.setName(templateXml.getName().getValue());
 
-		injectParameters(utaTemplate, templateXml);
-		injectLocalDeclarations(utaTemplate, templateXml);
-		injectLocations(utaTemplate, templateXml);
+		injectParameters(template, templateXml);
+		injectLocalDeclarations(template, templateXml);
+		injectLocations(template, templateXml);
 
-		return utaTemplate;
+		return template;
 	}
 }
