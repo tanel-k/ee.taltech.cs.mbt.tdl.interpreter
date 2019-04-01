@@ -1,13 +1,25 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion;
 
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.ParseOperationQueue;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.ParseQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParserFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.*;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.InitialLocationNode;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.LocationLabelNode;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.LocationNode;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.NameNode;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TemplateNode;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TransitionLabelNode;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TransitionNailNode;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TransitionNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.UtaLocation.ELocationExitPolicy;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaAssignmentsLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaCommentLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaGuardLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaInvariantLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaSelectionLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.UtaSynchronizationLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.UtaLocation;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.UtaLocation.ELocationExitPolicy;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.UtaLocation.LocationName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.UtaLocationLabels;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.UtaTemplate;
@@ -33,8 +45,8 @@ public class TemplateNodeConverter {
 		return parentConverter;
 	}
 
-	private ParseOperationQueue getParseQueue() {
-		return getParentConverter().getParseOperationQueue();
+	private ParseQueue getParseQueue() {
+		return getParentConverter().getParseQueue();
 	}
 
 	private UtaLanguageParserFactory getParserFactory() {

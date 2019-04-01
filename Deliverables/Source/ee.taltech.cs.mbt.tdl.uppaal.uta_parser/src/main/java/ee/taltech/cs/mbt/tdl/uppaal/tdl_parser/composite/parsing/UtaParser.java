@@ -51,7 +51,7 @@ public class UtaParser {
 		UtaSystem system = converter.convert(utaNode);
 
 		// Run enqueued embedded code parse operations
-		converter.getParseOperationQueue().executeAll();
+		converter.getParseQueue().executeAll();
 
 		return system;
 	}
