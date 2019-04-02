@@ -1,17 +1,17 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.context;
 
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TransitionLabelNode;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.AbsValidationCtx;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ContextValidationResult;
+import ee.taltech.cs.mbt.tdl.common_utils.validation.AbsHierarchyValidationCtx;
+import ee.taltech.cs.mbt.tdl.common_utils.validation.ContextValidationResult;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 
-public class TransitionLabelNodeValidationCtx extends AbsValidationCtx<TransitionLabelNode, TransitionNodeValidationCtx> {
+public class TransitionLabelNodeValidationCtx extends AbsHierarchyValidationCtx<TransitionLabelNode, TransitionNodeValidationCtx> {
 	private Collection<Object> getLabelKinds() {
 		return getParentContext().getCollectionMap()
-			.computeIfAbsent(qualifyKey("labelKinds"), k -> new HashSet<>());
+				.computeIfAbsent(qualifyKey("labelKinds"), k -> new HashSet<>());
 	}
 
 	TransitionLabelNodeValidationCtx(TransitionLabelNode contextObject, TransitionNodeValidationCtx parentCtx) {
@@ -25,18 +25,18 @@ public class TransitionLabelNodeValidationCtx extends AbsValidationCtx<Transitio
 			return;
 
 		boolean missingKind = results.addErrorMessageIf(
-			() -> !label.isSetKind(),
-			() -> "missing kind"
+				() -> !label.isSetKind(),
+				() -> "missing kind"
 		);
 		results.addErrorMessageIf(
-			() -> !label.isSetX() || !label.isSetKind(),
-			() -> "missing coordinates"
+				() -> !label.isSetX() || !label.isSetKind(),
+				() -> "missing coordinates"
 		);
 
 		if (!missingKind) {
-			results.addErrorMessageIf(
-				() -> getLabelKinds().contains(label.getKind()),
-				() -> "non-unique kind"
+				results.addErrorMessageIf(
+					() -> getLabelKinds().contains(label.getKind()),
+					() -> "non-unique kind"
 			);
 			getLabelKinds().add(label.getKind());
 		}
@@ -52,7 +52,7 @@ public class TransitionLabelNodeValidationCtx extends AbsValidationCtx<Transitio
 	}
 
 	@Override
-	public Collection<AbsValidationCtx> orderedChildContexts() {
+	public Collection<AbsHierarchyValidationCtx> orderedChildContexts() {
 		return Collections.emptyList();
 	}
 }

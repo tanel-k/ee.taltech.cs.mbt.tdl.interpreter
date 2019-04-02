@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.supplementary.DirectedMultigraph;
+import ee.taltech.cs.mbt.tdl.common_utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
@@ -28,8 +28,8 @@ public class Template {
 
 	public List<ParameterDeclaration> getParameters() {
 		return parameters == null
-			? (parameters = new LinkedList<>())
-			: parameters;
+				? (parameters = new LinkedList<>())
+				: parameters;
 	}
 
 	public void setParameters(List<ParameterDeclaration> parameters) {
@@ -46,8 +46,8 @@ public class Template {
 
 	public DirectedMultigraph<Location, Transition> getLocationGraph() {
 		return locationGraph == null
-			? (locationGraph = new DirectedMultigraph<>())
-			: locationGraph;
+				? (locationGraph = new DirectedMultigraph<>())
+				: locationGraph;
 	}
 
 	public void setLocationGraph(DirectedMultigraph<Location, Transition> locationGraph) {
@@ -56,8 +56,8 @@ public class Template {
 
 	public List<AbsDeclarationStatement> getLocalDeclarations() {
 		return localDeclarations == null
-			? (localDeclarations = new LinkedList<>())
-			: localDeclarations;
+				? (localDeclarations = new LinkedList<>())
+				: localDeclarations;
 	}
 
 	public void setLocalDeclarations(List<AbsDeclarationStatement> localDeclarations) {

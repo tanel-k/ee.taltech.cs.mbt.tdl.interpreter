@@ -16,7 +16,8 @@ public class ParameterMapper implements IContextMapper<ParameterDeclaration> {
 
 	@Override
 	public ContextBuilder map(ParameterDeclaration inst) {
-		return TypeMapper.getInstance().map(inst.getType())
+		return ContextBuilder.newBuilder()
+				.put("type", TypeMapper.getInstance().map(inst.getType()))
 				.put("name", inst.getIdentifier().toString());
 	}
 }

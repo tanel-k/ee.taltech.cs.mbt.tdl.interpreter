@@ -9,17 +9,18 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 
 public class UtaNodeConverter {
-	public static UtaNodeConverter newInstance(UtaLanguageParserFactory languageParserFactory) {
-		return new UtaNodeConverter(languageParserFactory);
+	public static UtaNodeConverter newInstance(UtaLanguageParserFactory languageParserFactory, ParseQueue parseQueue) {
+		return new UtaNodeConverter(languageParserFactory, parseQueue);
 	}
 
 	private TemplateNodeConverter templateNodeConverter;
 	private UtaLanguageParserFactory languageParserFactory;
-	private ParseQueue parseQueue = new ParseQueue();
+	private ParseQueue parseQueue;
 
-	private UtaNodeConverter(UtaLanguageParserFactory languageParserFactory) {
+	private UtaNodeConverter(UtaLanguageParserFactory languageParserFactory, ParseQueue parseQueue) {
 		this.templateNodeConverter = TemplateNodeConverter.newInstance(this);
 		this.languageParserFactory = languageParserFactory;
+		this.parseQueue = parseQueue;
 	}
 
 	private void injectGlobalDeclarations(UtaSystem utaSystem, SystemNode ntaSystem) {

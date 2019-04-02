@@ -4,8 +4,8 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-  <artifactId>uta_system_model</artifactId>
+  <groupId>ee.taltech.cs.mbt.tdl</groupId>
+  <artifactId>common_utils</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -25,19 +25,14 @@
     </plugins>
   </build>
 
-  <dependencies>
-    <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl</groupId>
-      <artifactId>common_utils</artifactId>
-    </dependency>
-  </dependencies>
+  <dependencies/>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>Uppaal System Object Model</name>
-  <description>Contains objects for representing Uppaal systems.</description>
+  <name>Common Utils</name>
+  <description>Contains utilities for the TDL interpreter project.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
     <name>TalTech</name>

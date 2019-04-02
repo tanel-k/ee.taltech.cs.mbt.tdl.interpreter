@@ -2,18 +2,18 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.con
 
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.LocationNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TransitionNode;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.AbsValidationCtx;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ContextValidationResult;
+import ee.taltech.cs.mbt.tdl.common_utils.validation.AbsHierarchyValidationCtx;
+import ee.taltech.cs.mbt.tdl.common_utils.validation.ContextValidationResult;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TransitionNodeValidationCtx extends AbsValidationCtx<TransitionNode, TemplateNodeValidationCtx> {
+public class TransitionNodeValidationCtx extends AbsHierarchyValidationCtx<TransitionNode, TemplateNodeValidationCtx> {
 	private Collection<Object> getLocationIds() {
 		return getParentContext().getCollectionMap()
-			.computeIfAbsent(qualifyKey("locationIds"), k -> new HashSet<>());
+				.computeIfAbsent(qualifyKey("locationIds"), k -> new HashSet<>());
 	}
 
 	TransitionNodeValidationCtx(TransitionNode contextObject, TemplateNodeValidationCtx parentCtx) {
@@ -25,9 +25,9 @@ public class TransitionNodeValidationCtx extends AbsValidationCtx<TransitionNode
 		Collection<Object> locationIds = getLocationIds();
 		if (locationIds.isEmpty()) {
 			getParentContext().getContextObject().getLocations().stream()
-				.filter(LocationNode::isSetId)
-				.map(LocationNode::getId)
-				.forEach(locationIds::add);
+					.filter(LocationNode::isSetId)
+					.map(LocationNode::getId)
+					.forEach(locationIds::add);
 		}
 	}
 
@@ -36,27 +36,27 @@ public class TransitionNodeValidationCtx extends AbsValidationCtx<TransitionNode
 		TransitionNode transition = getContextObject();
 
 		boolean missingSource = results.addErrorMessageIf(
-			() -> !transition.isSetSource() || !transition.getSource().isSetRef(),
-			() -> "missing source reference"
+				() -> !transition.isSetSource() || !transition.getSource().isSetRef(),
+				() -> "missing source reference"
 		);
 		boolean missingTarget = results.addErrorMessageIf(
-			() -> !transition.isSetTarget() || !transition.getTarget().isSetRef(),
-			() -> "missing target reference"
+				() -> !transition.isSetTarget() || !transition.getTarget().isSetRef(),
+				() -> "missing target reference"
 		);
 
 		if (!missingSource) {
 			String sourceRef = transition.getSource().getRef();
 			results.addErrorMessageIf(
-				() -> !getLocationIds().contains(sourceRef),
-				() -> "refers to non-existent source location"
+					() -> !getLocationIds().contains(sourceRef),
+					() -> "refers to non-existent source location"
 			);
 		}
 
 		if (!missingTarget) {
 			String targetRef = transition.getTarget().getRef();
 			results.addErrorMessageIf(
-				() -> !getLocationIds().contains(targetRef),
-				() -> "refers to non-existent target location"
+					() -> !getLocationIds().contains(targetRef),
+					() -> "refers to non-existent target location"
 			);
 		}
 	}
@@ -64,23 +64,23 @@ public class TransitionNodeValidationCtx extends AbsValidationCtx<TransitionNode
 	@Override
 	public String getName() {
 		String sourceName = getContextObject().isSetSource() && getContextObject().getSource().isSetRef()
-			? getContextObject().getSource().getRef()
-			: "unspecified";
+				? getContextObject().getSource().getRef()
+				: "unspecified";
 		String targetName = getContextObject().isSetTarget() && getContextObject().getTarget().isSetRef()
-			? getContextObject().getSource().getRef()
-			: "unspecified";
+				? getContextObject().getSource().getRef()
+				: "unspecified";
 		return "transition (" + sourceName + " -> " + targetName + ")";
 	}
 
 	@Override
-	public Collection<AbsValidationCtx> orderedChildContexts() {
-		List<AbsValidationCtx> children = new LinkedList<>();
+	public Collection<AbsHierarchyValidationCtx> orderedChildContexts() {
+		List<AbsHierarchyValidationCtx> children = new LinkedList<>();
 		getContextObject().getLabels().stream()
-			.map(label -> new TransitionLabelNodeValidationCtx(label, this))
-			.forEach(children::add);
+				.map(label -> new TransitionLabelNodeValidationCtx(label, this))
+				.forEach(children::add);
 		getContextObject().getNails().stream()
-			.map(nail -> new NailNodeValidationCtx(nail, this))
-			.forEach(children::add);
+				.map(nail -> new NailNodeValidationCtx(nail, this))
+				.forEach(children::add);
 		return children;
 	}
 }

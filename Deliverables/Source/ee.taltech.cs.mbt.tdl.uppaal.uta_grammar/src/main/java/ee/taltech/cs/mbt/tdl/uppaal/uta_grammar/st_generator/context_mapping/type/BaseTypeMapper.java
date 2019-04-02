@@ -37,7 +37,7 @@ public class BaseTypeMapper implements IContextMapper<BaseType> {
 		return ContextBuilder.newBuilder()
 				.put("prefix", prefixKey.isEmpty()
 						? null
-						: ContextBuilder.newBuilder("prefixKey"))
+						: ContextBuilder.newBuilder(prefixKey))
 				.put("typeId", typeIdCtx);
 	}
 }

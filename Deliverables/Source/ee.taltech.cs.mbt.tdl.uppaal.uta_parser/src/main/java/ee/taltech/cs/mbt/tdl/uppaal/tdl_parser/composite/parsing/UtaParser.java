@@ -2,14 +2,15 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing;
 
 import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.ErrorStrategyConfigFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion.UtaNodeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.InvalidEmbeddedCodeException;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.InvalidSystemStructureException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.ParseQueue;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.UtaNodeValidator;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParserFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.UtaNodeMarshaller;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.UtaNodeMarshaller.MarshallingException;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.UtaNode;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation.ValidationResult;
+import ee.taltech.cs.mbt.tdl.common_utils.validation.ValidationResult;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
 import java.io.InputStream;
@@ -46,24 +47,26 @@ public class UtaParser {
 			throw new InvalidSystemStructureException("UTA system contains structural errors.", validationResult);
 	}
 
-	private UtaSystem convert(UtaNode utaNode) throws InvalidEmbeddedCodeException {
-		UtaNodeConverter converter = UtaNodeConverter.newInstance(parserFactory);
-		UtaSystem system = converter.convert(utaNode);
-
-		// Run enqueued embedded code parse operations
-		converter.getParseQueue().executeAll();
-
-		return system;
+	private UtaSystem convert(UtaNode utaNode, ParseQueue parseQueue) {
+		UtaNodeConverter converter = UtaNodeConverter.newInstance(parserFactory, parseQueue);
+		return converter.convert(utaNode);
 	}
 
-	public UtaSystem parse(InputStream in) throws MarshallingException, InvalidSystemStructureException, InvalidEmbeddedCodeException {
+	public UtaSystem parse(InputStream in) throws MarshallingException, InvalidSystemStructureException, EmbeddedCodeSyntaxException {
 		// XML -> JAXB representation of system
 		UtaNode utaNode = unmarshal(in);
 
 		// Ensure consistency of JAXB representation
 		validateStructure(utaNode);
 
-		// JAXB representation -> system model
-		return convert(utaNode);
+		ParseQueue parseQueue = new ParseQueue();
+
+		// JAXB representation -> system model (enqueue parse operations)
+		UtaSystem utaSystem = convert(utaNode, parseQueue);
+
+		// Run enqueued embedded code parse operations
+		parseQueue.executeRemaining();
+
+		return utaSystem;
 	}
 }

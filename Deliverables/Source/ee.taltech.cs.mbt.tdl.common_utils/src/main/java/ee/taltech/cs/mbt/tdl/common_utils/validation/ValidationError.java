@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation;
+package ee.taltech.cs.mbt.tdl.common_utils.validation;
 
 public class ValidationError {
 	private String errorMessage;

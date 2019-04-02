@@ -30,7 +30,7 @@ public abstract class AbsSTGenerator<T> {
 			stWrapper.setRootContext(getContextMapper().map(inst));
 			return stWrapper.render();
 		} catch (MissingSTException | InvalidSTFormatException ex) {
-			throw new RuntimeException(ex.getMessage(), ex);
+			throw new RuntimeException(ex.getMessage(), ex); // Not recoverable
 		} catch (STRenderingException e) {
 			throw new CodeGenerationException("Code generation failed. Template exception.", e);
 		} catch (Throwable t) {
@@ -48,7 +48,7 @@ public abstract class AbsSTGenerator<T> {
 			stWrapper.setRootIterable(ctxBuilders);
 			return stWrapper.render();
 		} catch (MissingSTException | InvalidSTFormatException ex) {
-			throw new RuntimeException(ex.getMessage(), ex);
+			throw new RuntimeException(ex.getMessage(), ex); // Not recoverable
 		} catch (STRenderingException e) {
 			throw new CodeGenerationException("Code generation failed. Template exception.", e);
 		} catch (Throwable t) {

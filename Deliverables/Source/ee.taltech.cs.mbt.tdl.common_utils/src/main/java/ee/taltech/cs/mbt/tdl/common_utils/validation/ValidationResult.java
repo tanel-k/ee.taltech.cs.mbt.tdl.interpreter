@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation;
+package ee.taltech.cs.mbt.tdl.common_utils.validation;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class ValidationResult<RootCtxT extends AbsValidationCtx> implements Iterable<ValidationError> {
+public class ValidationResult<RootCtxT extends AbsHierarchyValidationCtx> implements Iterable<ValidationError> {
 	private RootCtxT rootCtx;
-	private Map<AbsValidationCtx, ContextValidationResult> contextsWithErrors = new HashMap<>();
+	private Map<AbsHierarchyValidationCtx, ContextValidationResult> contextsWithErrors = new HashMap<>();
 
 	public ValidationResult(RootCtxT rootCtx) {
 		this.rootCtx = rootCtx;
@@ -22,7 +22,7 @@ public class ValidationResult<RootCtxT extends AbsValidationCtx> implements Iter
 		return !contextsWithErrors.isEmpty();
 	}
 
-	public Map<AbsValidationCtx, ContextValidationResult> getContextsWithErrors() {
+	public Map<AbsHierarchyValidationCtx, ContextValidationResult> getContextsWithErrors() {
 		return contextsWithErrors;
 	}
 

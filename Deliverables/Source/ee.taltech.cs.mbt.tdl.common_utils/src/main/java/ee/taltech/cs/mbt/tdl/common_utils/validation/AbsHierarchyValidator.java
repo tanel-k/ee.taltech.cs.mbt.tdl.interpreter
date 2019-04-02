@@ -1,13 +1,13 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation;
+package ee.taltech.cs.mbt.tdl.common_utils.validation;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-public abstract class AbsValidator<ValidationContext extends AbsValidationCtx> {
+public abstract class AbsHierarchyValidator<ValidationContext extends AbsHierarchyValidationCtx> {
 	private boolean failFast = true;
 	private ValidationContext rootContext;
 
-	public AbsValidator(ValidationContext rootContext) {
+	public AbsHierarchyValidator(ValidationContext rootContext) {
 		this.rootContext = rootContext;
 	}
 
@@ -19,7 +19,7 @@ public abstract class AbsValidator<ValidationContext extends AbsValidationCtx> {
 		return failFast;
 	}
 
-	public AbsValidator<ValidationContext> setFailFast(boolean failFast) {
+	public AbsHierarchyValidator<ValidationContext> setFailFast(boolean failFast) {
 		this.failFast = failFast;
 		return this;
 	}
@@ -27,10 +27,10 @@ public abstract class AbsValidator<ValidationContext extends AbsValidationCtx> {
 	@SuppressWarnings("unchecked")
 	public ValidationResult<ValidationContext> validate() {
 		ValidationResult<ValidationContext> result = new ValidationResult<>(getRootContext());
-		Queue<AbsValidationCtx> ctxQueue = new LinkedList<>();
+		Queue<AbsHierarchyValidationCtx> ctxQueue = new LinkedList<>();
 		ctxQueue.add(getRootContext());
 		while (!ctxQueue.isEmpty()) {
-			AbsValidationCtx ctx = ctxQueue.poll();
+			AbsHierarchyValidationCtx ctx = ctxQueue.poll();
 			ContextValidationResult ctxResult = ctx.validate();
 			if (ctxResult.hasErrors()) {
 				result.getContextsWithErrors().put(ctx, ctxResult);

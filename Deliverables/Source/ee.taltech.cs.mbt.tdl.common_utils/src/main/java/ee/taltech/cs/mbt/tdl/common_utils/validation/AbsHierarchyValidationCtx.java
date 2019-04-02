@@ -1,20 +1,20 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation;
+package ee.taltech.cs.mbt.tdl.common_utils.validation;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbsValidationCtx<CtxObjectT, ParentCtxT extends AbsValidationCtx> {
+public abstract class AbsHierarchyValidationCtx<CtxObjectT, ParentCtxT extends AbsHierarchyValidationCtx> {
 	private ParentCtxT parentCtx;
 	private CtxObjectT contextObject;
 	private Map<String, Object> objectMap = new HashMap<>();
 	private Map<String, Collection<Object>> collectionMap = new HashMap<>();
 
-	public AbsValidationCtx(CtxObjectT contextObject) {
+	public AbsHierarchyValidationCtx(CtxObjectT contextObject) {
 		this(contextObject, null);
 	}
 
-	public AbsValidationCtx(CtxObjectT contextObject, ParentCtxT parentCtx) {
+	public AbsHierarchyValidationCtx(CtxObjectT contextObject, ParentCtxT parentCtx) {
 		this.contextObject = contextObject;
 		this.parentCtx = parentCtx;
 	}
@@ -47,7 +47,7 @@ public abstract class AbsValidationCtx<CtxObjectT, ParentCtxT extends AbsValidat
 	}
 
 	public abstract String getName();
-	public abstract Collection<AbsValidationCtx> orderedChildContexts();
+	public abstract Collection<AbsHierarchyValidationCtx> orderedChildContexts();
 
 	public ContextValidationResult validate() {
 		prepareForValidation();

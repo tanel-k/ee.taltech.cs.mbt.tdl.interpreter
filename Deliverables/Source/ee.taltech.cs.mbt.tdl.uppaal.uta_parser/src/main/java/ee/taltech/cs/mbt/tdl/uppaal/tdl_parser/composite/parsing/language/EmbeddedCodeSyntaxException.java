@@ -4,25 +4,23 @@ import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.base.ErrorListen
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class InvalidEmbeddedCodeException extends Exception {
+public class EmbeddedCodeSyntaxException extends Exception {
 	private List<SyntaxError> syntaxErrors = new LinkedList<>();
 	private String offendingCodeSnippet;
 
-	public InvalidEmbeddedCodeException(String offendingCodeSnippet, Throwable cause) {
+	public EmbeddedCodeSyntaxException(String offendingCodeSnippet, Throwable cause) {
 		this(offendingCodeSnippet, Collections.emptyList(), cause);
 	}
 
-	public InvalidEmbeddedCodeException(String offendingCodeSnippet, List<SyntaxError> syntaxErrors) {
+	public EmbeddedCodeSyntaxException(String offendingCodeSnippet, List<SyntaxError> syntaxErrors) {
 		this(offendingCodeSnippet, syntaxErrors, null);
 	}
 
-	public InvalidEmbeddedCodeException(String offendingCodeSnippet, List<SyntaxError> syntaxErrors, Throwable cause) {
+	public EmbeddedCodeSyntaxException(String offendingCodeSnippet, List<SyntaxError> syntaxErrors, Throwable cause) {
 		super(cause);
 		this.offendingCodeSnippet = offendingCodeSnippet;
 		this.syntaxErrors.addAll(syntaxErrors);

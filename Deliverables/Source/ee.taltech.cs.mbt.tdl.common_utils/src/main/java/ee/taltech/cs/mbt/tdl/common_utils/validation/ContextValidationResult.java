@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.validation;
+package ee.taltech.cs.mbt.tdl.common_utils.validation;
 
 import java.util.*;
 import java.util.function.BooleanSupplier;
@@ -6,10 +6,10 @@ import java.util.function.Supplier;
 
 public class ContextValidationResult implements Iterable<ValidationError> {
 	private String fullyQualifiedContextName;
-	private AbsValidationCtx sourceCtx;
+	private AbsHierarchyValidationCtx sourceCtx;
 	private List<ValidationError> errors = new LinkedList<>();
 
-	public ContextValidationResult(AbsValidationCtx sourceCtx) {
+	public ContextValidationResult(AbsHierarchyValidationCtx sourceCtx) {
 		this.sourceCtx = sourceCtx;
 	}
 
@@ -19,7 +19,7 @@ public class ContextValidationResult implements Iterable<ValidationError> {
 
 	protected String constructFullyQualifiedName() {
 		StringBuilder sb = new StringBuilder(capitalize(getSourceCtx().getName()));
-		AbsValidationCtx ctx = getSourceCtx().getParentContext();
+		AbsHierarchyValidationCtx ctx = getSourceCtx().getParentContext();
 		while (ctx != null) {
 			sb.append(" in ").append(ctx.getName());
 			ctx = ctx.getParentContext();
@@ -37,7 +37,7 @@ public class ContextValidationResult implements Iterable<ValidationError> {
 			: fullyQualifiedContextName;
 	}
 
-	public AbsValidationCtx getSourceCtx() {
+	public AbsHierarchyValidationCtx getSourceCtx() {
 		return sourceCtx;
 	}
 

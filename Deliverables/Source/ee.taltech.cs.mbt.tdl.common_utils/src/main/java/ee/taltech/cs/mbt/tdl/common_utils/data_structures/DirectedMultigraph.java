@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.supplementary;
+package ee.taltech.cs.mbt.tdl.common_utils.data_structures;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -91,6 +91,10 @@ public class DirectedMultigraph<V, E> {
 		connectedEdges.addAll(egressEdges);
 		connectedEdges.addAll(ingressEdges);
 		return connectedEdges;
+	}
+
+	public boolean isEmpty() {
+		return getVertices().isEmpty();
 	}
 
 	public boolean hasVertex(V vertex) {

@@ -1,16 +1,18 @@
-package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.context;
+package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.serialization.validation.context;
 
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.LocationNode;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TemplateNode;
+import ee.taltech.cs.mbt.tdl.common_utils.strings.StringUtils;
 import ee.taltech.cs.mbt.tdl.common_utils.validation.AbsHierarchyValidationCtx;
 import ee.taltech.cs.mbt.tdl.common_utils.validation.ContextValidationResult;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.LocationNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TemplateNodeValidationCtx extends AbsHierarchyValidationCtx<TemplateNode, UtaNodeValidationCtx> {
+public class TemplateValidationCtx extends AbsHierarchyValidationCtx<Template, UtaSystemValidationCtx> {
 	private Collection<Object> getLocalLocIds() {
 		return getCollectionMap()
 				.computeIfAbsent(qualifyKey("locationIds"), k -> new HashSet<>());
@@ -21,39 +23,38 @@ public class TemplateNodeValidationCtx extends AbsHierarchyValidationCtx<Templat
 				.computeIfAbsent(qualifyKey("templateNames"), k -> new HashSet<>());
 	}
 
-	TemplateNodeValidationCtx(TemplateNode contextObject, UtaNodeValidationCtx parentCtx) {
+	@Override
+	protected void prepareForValidation() {
+		Collection<Object> locationIds = getLocalLocIds();
+		getContextObject().getLocationGraph().getVertices().stream()
+				.map(Location::getId)
+				.forEach(locationIds::add);
+	}
+
+	TemplateValidationCtx(Template contextObject, UtaSystemValidationCtx parentCtx) {
 		super(contextObject, parentCtx);
 	}
 
 	@Override
-	protected void prepareForValidation() {
-		Collection<Object> locationIds = getLocalLocIds();
-		getContextObject().getLocations().stream()
-				.filter(LocationNode::isSetId)
-				.map(LocationNode::getId)
-				.forEach(locationIds::add);
-	}
-
-	@Override
 	protected void performValidation(ContextValidationResult result) {
-		TemplateNode template = getContextObject();
+		Template template = getContextObject();
 
 		boolean missingName = result.addErrorMessageIf(
-				() -> !template.isSetName() || !template.getName().isSetValue(),
+				() -> StringUtils.isEmpty(template.getName()),
 				() -> "missing name"
 		);
 		result.addErrorMessageIf(
-				() -> !template.isSetLocations(),
+				() -> template.getLocationGraph().isEmpty(),
 				() -> "no locations"
 		);
 		boolean missingInitialLocation = result.addErrorMessageIf(
-				() -> !template.isSetInit() || !template.getInit().isSetRef(),
+				() -> template.getInitialLocation() == null,
 				() -> "missing initial location"
 		);
 
 		if (!missingName) {
 			result.addErrorMessageIf(
-					() -> getTemplateNames().contains(template.getName().getValue()),
+					() -> getTemplateNames().contains(template.getName()),
 					() -> "non-unique name"
 			);
 			getTemplateNames().add(template.getName());
@@ -61,7 +62,7 @@ public class TemplateNodeValidationCtx extends AbsHierarchyValidationCtx<Templat
 
 		if (!missingInitialLocation) {
 			result.addErrorMessageIf(
-					() -> !getLocalLocIds().contains(template.getInit().getRef()),
+					() -> !getLocalLocIds().contains(template.getInitialLocation().getId()),
 					() -> "non-existent initial location"
 			);
 		}
@@ -69,21 +70,19 @@ public class TemplateNodeValidationCtx extends AbsHierarchyValidationCtx<Templat
 
 	@Override
 	public String getName() {
-		return "template (" + (
-				getContextObject().isSetName() && getContextObject().getName().isSetValue()
-						? getContextObject().getName().getValue()
-						: "unnamed"
-			) + ")";
+		return "template ("
+					+ StringUtils.defaultString(getContextObject().getName(), "unnamed")
+				+ ")";
 	}
 
 	@Override
 	public Collection<AbsHierarchyValidationCtx> orderedChildContexts() {
 		List<AbsHierarchyValidationCtx> children = new LinkedList<>();
-		getContextObject().getLocations().stream()
-				.map(location -> new LocationNodeValidationCtx(location, this))
+		getContextObject().getLocationGraph().getEdges().stream()
+				.map(t -> new TransitionValidationCtx(t, this))
 				.forEach(children::add);
-		getContextObject().getTransitions().stream()
-				.map(transition -> new TransitionNodeValidationCtx(transition, this))
+		getContextObject().getLocationGraph().getVertices().stream()
+				.map(l -> new LocationValidationCtx(l, this))
 				.forEach(children::add);
 		return children;
 	}

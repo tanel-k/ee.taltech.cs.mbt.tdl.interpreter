@@ -250,6 +250,9 @@ public class TemplateNodeConverter {
 			Location sourceLocation = locationMap.get(transitionXml.getSource().getRef());
 			Location targetLocation = locationMap.get(transitionXml.getTarget().getRef());
 
+			transition.setSource(sourceLocation);
+			transition.setTarget(targetLocation);
+
 			template.getLocationGraph().addEdge(sourceLocation, targetLocation, transition);
 		}
 	}

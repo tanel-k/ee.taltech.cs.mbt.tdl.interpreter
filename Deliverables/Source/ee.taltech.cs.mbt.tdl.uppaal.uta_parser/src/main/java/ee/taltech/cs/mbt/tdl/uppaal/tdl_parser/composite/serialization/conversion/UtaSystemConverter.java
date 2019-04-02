@@ -2,25 +2,27 @@ package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.serialization.conversi
 
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.serialization.language.GenerationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.GlobalDeclarationsNode;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.ImportsNode;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.SystemNode;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.SystemDefinitionNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.UtaNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.UtaGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
 public class UtaSystemConverter {
-	public static UtaSystemConverter getInstance(UtaGeneratorFactory generatorFactory) {
-		return new UtaSystemConverter(generatorFactory);
+	public static UtaSystemConverter getInstance(UtaGeneratorFactory generatorFactory, GenerationQueue generationQueue) {
+		return new UtaSystemConverter(generatorFactory, generationQueue);
 	}
 
-	private UtaSystemConverter(UtaGeneratorFactory generatorFactory) {
-		this.generatorFactory = generatorFactory;
-	}
-
+	private TemplateConverter templateConverter;
 	private UtaGeneratorFactory generatorFactory;
-	private GenerationQueue generationQueue = new GenerationQueue();
+	private GenerationQueue generationQueue;
 
-	private UtaGeneratorFactory getGeneratorFactory() {
+	private UtaSystemConverter(UtaGeneratorFactory generatorFactory, GenerationQueue generationQueue) {
+		this.generatorFactory = generatorFactory;
+		this.generationQueue = generationQueue;
+		this.templateConverter = TemplateConverter.getInstance(this);
+	}
+
+	public UtaGeneratorFactory getGeneratorFactory() {
 		return generatorFactory;
 	}
 
@@ -28,30 +30,46 @@ public class UtaSystemConverter {
 		return generationQueue;
 	}
 
-	public UtaNode convert(UtaSystem system) { // FIXME
-		UtaNode utaNode = new UtaNode();
+	private void injectSystemDefinition(UtaSystem system, UtaNode utaNode) {
+		if (system.getSystemDefinition() == null)
+			return;
 
-		system.getSystemDefinition();
+		SystemDefinitionNode systemDefinitionNode = new SystemDefinitionNode();
+		getGenerationQueue().enqueue(
+				system.getSystemDefinition(),
+				getGeneratorFactory().systemDefinitionGenerator(),
+				systemDefinitionNode::setValue
+		);
+		utaNode.setSystem(systemDefinitionNode);
+	}
 
-		if (!system.getGlobalDeclarations().isEmpty())
-			getGenerationQueue().enqueue(
-					system.getGlobalDeclarations(),
-					getGeneratorFactory().declarationGenerator(),
-					s -> {
-						GlobalDeclarationsNode node = new GlobalDeclarationsNode();
-						node.setValue(s);
-						utaNode.setDeclaration(node);
-					}
-			);
-
-		if (!system.getTemplateMap().isEmpty()) {
-			system.getTemplateMap();
-		}
-
-		
+	private void injectGlobalDeclarations(UtaSystem system, UtaNode utaNode) {
+		if (system.getGlobalDeclarations().isEmpty())
+			return;
 
 		GlobalDeclarationsNode globalDeclarationsNode = new GlobalDeclarationsNode();
-		SystemNode systemNode = new SystemNode();
+		getGenerationQueue().enqueue(
+				system.getGlobalDeclarations(),
+				getGeneratorFactory().declarationGenerator(),
+				globalDeclarationsNode::setValue
+		);
+		utaNode.setDeclaration(globalDeclarationsNode);
+	}
+
+	private void injectTemplates(UtaSystem system, UtaNode utaNode) {
+		if (system.getTemplateMap().isEmpty())
+			return;
+		system.getTemplateMap().values().stream()
+				.map(templateConverter::convert)
+				.forEach(utaNode.getTemplates()::add);
+	}
+
+	public UtaNode convert(UtaSystem system) {
+		UtaNode utaNode = new UtaNode();
+
+		injectSystemDefinition(system, utaNode);
+		injectGlobalDeclarations(system, utaNode);
+		injectTemplates(system, utaNode);
 
 		return utaNode;
 	}

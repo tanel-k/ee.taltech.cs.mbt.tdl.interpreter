@@ -25,6 +25,11 @@
 
       <!-- Internal -->
       <dependency>
+        <groupId>ee.taltech.cs.mbt.tdl</groupId>
+        <artifactId>common_utils</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.generic</groupId>
         <artifactId>antlr_facade</artifactId>
         <version>${project.version}</version>
