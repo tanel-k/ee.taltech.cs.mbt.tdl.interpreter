@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jxb:bindings
+    version="2.0"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    jxb:extensionBindingPrefixes="xjc"
+>
+  <jxb:globalBindings
+      collectionType="java.util.LinkedList"
+      generateIsSetMethod="true">
+    <xjc:simple/>
+  </jxb:globalBindings>
+  <jxb:bindings schemaLocation="UppaalNTA.xsd">
+    <jxb:bindings node="//xs:element[@name='nta']">
+      <jxb:class name="UtaNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="//xs:complexType[@name='NtaSystemType']">
+      <jxb:class name="SystemNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="//xs:complexType[@name='ImportsType']">
+      <jxb:class name="ImportsNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="//xs:complexType[@name='GlobalDeclarationsType']">
+      <jxb:class name="GlobalDeclarationsNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="//xs:complexType[@name='InstantiationType']">
+      <jxb:class name="InstantiationNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="//xs:complexType[@name='SystemDefinitionType']">
+      <jxb:class name="SystemDefinitionNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="//xs:complexType[@name='LocalDeclarationsType']">
+      <jxb:class name="LocalDeclarationsNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='InitType']">
+      <jxb:class name="InitialLocationNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='IdRefType']">
+      <jxb:class name="IdReferenceNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='TemplateType']">
+      <jxb:class name="TemplateNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='ParametersType']">
+      <jxb:class name="ParametersNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='NameType']">
+      <jxb:class name="NameNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='LocationType']">
+      <jxb:class name="LocationNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='TransitionType']">
+      <jxb:class name="TransitionNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='MarkerType']">
+      <jxb:class name="MarkerNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='TransitionLabelType']">
+      <jxb:class name="TransitionLabelNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='LocationLabelType']">
+      <jxb:class name="LocationLabelNode"/>
+    </jxb:bindings>
+    <jxb:bindings node="//xs:simpleType[@name='LocationLabelKind']">
+      <jxb:typesafeEnumClass name="ELocationLabelKindAttr"/>
+    </jxb:bindings>
+    <jxb:bindings node="//xs:simpleType[@name='TransitionLabelKind']">
+      <jxb:typesafeEnumClass name="EAttrTransitionLabelKindAttr"/>
+    </jxb:bindings>
+    <jxb:bindings node="/xs:schema/xs:complexType[@name='NailType']">
+      <jxb:class name="TransitionNailNode"/>
+    </jxb:bindings>
+  </jxb:bindings>
+</jxb:bindings>
