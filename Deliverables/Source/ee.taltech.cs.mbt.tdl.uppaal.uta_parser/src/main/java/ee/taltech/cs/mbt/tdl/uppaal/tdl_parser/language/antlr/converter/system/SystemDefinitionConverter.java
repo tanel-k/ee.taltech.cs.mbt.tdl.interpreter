@@ -33,12 +33,14 @@ public class SystemDefinitionConverter extends UtaLanguageBaseVisitor<SystemDefi
 	private void injectSystemDeclarations(SystemDefinition systemDefinition, DeclarationSequenceContext ctx) {
 		if (ctx == null)
 			return;
+
 		systemDefinition.getDeclarations().addAll(DeclarationSequenceConverter.getInstance().convert(ctx));
 	}
 
 	private void injectSystemLine(SystemDefinition systemDefinition, SystemLineContext ctx) {
 		if (ctx == null)
 			return;
+
 		systemDefinition.setSystemLine(
 			SystemLineConverter.getInstance().convert(ctx)
 		);

@@ -63,7 +63,7 @@ public class TypeIdentifierMapper implements IContextMapper<AbsTypeId>, ITypeIde
 
 	@Override
 	public ContextBuilder visitBooleanTypeIdentifier(BooleanTypeId id) {
-		return ContextBuilder.newBuilder("bool");
+		return ContextBuilder.newBuilder("boolean");
 	}
 
 	@Override

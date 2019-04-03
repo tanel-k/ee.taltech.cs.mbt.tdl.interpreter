@@ -111,7 +111,7 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 		CallExpression callExpression = new CallExpression();
 		if (ctx.argumentSequence() != null) {
 			callExpression.getArguments().addAll(
-				ArgumentSequenceConverter.getInstance().convert(ctx.argumentSequence())
+					ArgumentSequenceConverter.getInstance().convert(ctx.argumentSequence())
 			);
 		}
 		return visitUnaryNode(callExpression, ctx.expression());

@@ -49,8 +49,8 @@ public class UtaLanguageParserFactory {
 			@Override
 			public AbsAntlrParserFacade<AbsExpression, ?, ?> getFacade() {
 				return facade == null
-					? facade = facadeFactory.guardFacade()
-					: facade;
+						? facade = facadeFactory.guardFacade()
+						: facade;
 			}
 		};
 	}

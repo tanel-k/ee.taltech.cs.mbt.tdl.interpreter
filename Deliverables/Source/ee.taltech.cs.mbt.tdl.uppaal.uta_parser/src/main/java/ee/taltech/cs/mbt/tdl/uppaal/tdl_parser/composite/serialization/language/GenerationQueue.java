@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 public class GenerationQueue extends OperationQueue<GenerationOperation<?>, SyntaxRepresentationException> {
 	@FunctionalInterface
 	private interface ThrowingGenerator<O, E extends Exception> {
-		public O execute() throws E;
+		O execute() throws E;
 	}
 
 	public static class GenerationOperation<T> implements IOperation<SyntaxRepresentationException> {
@@ -49,10 +49,14 @@ public class GenerationQueue extends OperationQueue<GenerationOperation<?>, Synt
 	}
 
 	public <T> void enqueue(T input, AbsSTGenerator<T> generator, Consumer<String> consumer) {
+		if (input == null)
+			return;
 		enqueue(new GenerationOperation<>(input, generator, consumer));
 	}
 
 	public <T> void enqueue(Collection<T> inputs, AbsSTGenerator<T> generator, Consumer<String> consumer) {
+		if (inputs == null)
+			return;
 		enqueue(new GenerationOperation<>(inputs, generator, consumer));
 	}
 }

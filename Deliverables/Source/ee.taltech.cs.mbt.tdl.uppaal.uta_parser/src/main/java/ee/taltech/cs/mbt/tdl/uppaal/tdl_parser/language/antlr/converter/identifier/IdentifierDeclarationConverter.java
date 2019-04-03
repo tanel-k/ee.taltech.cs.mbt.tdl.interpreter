@@ -60,14 +60,12 @@ public class IdentifierDeclarationConverter extends UtaLanguageBaseVisitor<Ident
 		List<AbsArrayModifier> arrayModifiers = new LinkedList<>();
 		if (ctx.arraySizeModifier() != null) {
 			for (ArraySizeModifierContext arrayModCtx : ctx.arraySizeModifier()) {
-				if (arrayModCtx instanceof ExpressionArraySizeModifierContext)
-				{
+				if (arrayModCtx instanceof ExpressionArraySizeModifierContext) {
 					ExpressionArraySizeModifierContext sizeCtx = (ExpressionArraySizeModifierContext) arrayModCtx;
 					SizeExpressionArrayModifier arrayModifier = new SizeExpressionArrayModifier();
 					arrayModifier.setSizeSpecifier(ExpressionConverter.getInstance().convert(sizeCtx.expression()));
 					arrayModifiers.add(arrayModifier);
-				}
-				else if (arrayModCtx instanceof TypeArraySizeModifierContext)
+				} else if (arrayModCtx instanceof TypeArraySizeModifierContext)
 				{
 					TypeArraySizeModifierContext sizeCtx = (TypeArraySizeModifierContext) arrayModCtx;
 					SizeTypeArrayModifier arrayModifier = new SizeTypeArrayModifier();

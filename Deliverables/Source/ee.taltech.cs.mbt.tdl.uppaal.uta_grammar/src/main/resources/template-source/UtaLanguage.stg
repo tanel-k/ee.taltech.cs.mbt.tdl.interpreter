@@ -74,7 +74,7 @@ templateInstantiation(ctx) ::= <%
 %>
 
 functionDeclaration(ctx) ::= <%
-    <functionType(ctx.valueType)> <ctx.name>(<parameters(ctx.parameters)>) <statement(ctx.statementBlock)>
+    <functionType(ctx.valueType)> <ctx.identifierValue>(<parameters(ctx.parameters)>) <statement(ctx.statementBlock)>
 %>
 
 variableDeclaration(ctx) ::= <%
@@ -385,7 +385,7 @@ typeId(ctx) ::= <%
     <if(ctx.struct)>
         struct <fieldDeclarations(ctx.fieldDeclarations)>
     <elseif(ctx.scalar)>
-        scalar {<expression(ctx.expression)>}
+        scalar [<expression(ctx.expression)>]
     <elseif(ctx.customType)>
         <ctx.identifierValue>
     <elseif(ctx.boundedInt)>

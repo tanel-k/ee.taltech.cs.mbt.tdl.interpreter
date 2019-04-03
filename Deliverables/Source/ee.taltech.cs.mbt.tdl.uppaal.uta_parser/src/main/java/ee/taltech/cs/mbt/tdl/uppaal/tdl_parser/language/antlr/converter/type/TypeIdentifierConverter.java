@@ -58,10 +58,10 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 	public AbsTypeId visitBoundedIntegerTypeId(BoundedIntegerTypeIdContext ctx) {
 		BoundedIntegerTypeId boundedIntegerTypeIdentifier = new BoundedIntegerTypeId();
 		boundedIntegerTypeIdentifier.setMaximumBound(
-			ExpressionConverter.getInstance().convert(ctx.expression(1))
+				ExpressionConverter.getInstance().convert(ctx.expression(1))
 		);
 		boundedIntegerTypeIdentifier.setMinimumBound(
-			ExpressionConverter.getInstance().convert(ctx.expression(0))
+				ExpressionConverter.getInstance().convert(ctx.expression(0))
 		);
 		return boundedIntegerTypeIdentifier;
 	}
@@ -70,7 +70,7 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 	public AbsTypeId visitScalarTypeId(ScalarTypeIdContext ctx) {
 		ScalarTypeId scalarTypeIdentifier = new ScalarTypeId();
 		scalarTypeIdentifier.setSizeExpression(
-			ExpressionConverter.getInstance().convert(ctx.expression())
+				ExpressionConverter.getInstance().convert(ctx.expression())
 		);
 		return scalarTypeIdentifier;
 	}
@@ -88,7 +88,7 @@ public class TypeIdentifierConverter extends UtaLanguageBaseVisitor<AbsTypeId>
 
 			for (IdentifierDeclarationContext identifierDeclarationContext : fieldDeclarationCtx.identifierDeclaration()) {
 				IdentifierData identifierData = IdentifierDeclarationConverter.getInstance()
-					.convert(identifierDeclarationContext);
+						.convert(identifierDeclarationContext);
 				Identifier identifier = identifierData.getIdentifier();
 				Collection<AbsArrayModifier> arrayModifiers = identifierData.getArrayModifiers();
 
