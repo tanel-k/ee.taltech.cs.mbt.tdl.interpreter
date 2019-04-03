@@ -6,7 +6,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDe
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Global declarations can contain at most one channel priority declaration.<br/>

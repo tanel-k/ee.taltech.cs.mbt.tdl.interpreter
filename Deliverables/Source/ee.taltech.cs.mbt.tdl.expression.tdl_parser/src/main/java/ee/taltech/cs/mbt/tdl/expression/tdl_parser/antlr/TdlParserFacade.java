@@ -1,12 +1,13 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr;
 
+import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageLexer;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.ExpressionContext;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.ExpressionTree;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr.converter.TdlParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade;
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.TokenStream;
 
 public class TdlParserFacade extends AbsAntlrParserFacade<ExpressionTree, TdlExpressionLanguageParser, ExpressionContext> {
 	@Override

@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite;
 
-import ee.taltech.cs.mbt.tdl.common_utils.validation.ValidationError;
-import ee.taltech.cs.mbt.tdl.common_utils.validation.ValidationResult;
+import ee.taltech.cs.mbt.tdl.commons.utils.validation.ValidationError;
+import ee.taltech.cs.mbt.tdl.commons.utils.validation.ValidationResult;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.validation.AbsHierarchyValidator;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.context.UtaNodeValidationCtx;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.*;
-import ee.taltech.cs.mbt.tdl.common_utils.validation.AbsHierarchyValidator;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.UtaNode;
 
 public class UtaNodeValidator extends AbsHierarchyValidator<UtaNodeValidationCtx> {
 	public static UtaNodeValidator newInstance(UtaNode nta) {

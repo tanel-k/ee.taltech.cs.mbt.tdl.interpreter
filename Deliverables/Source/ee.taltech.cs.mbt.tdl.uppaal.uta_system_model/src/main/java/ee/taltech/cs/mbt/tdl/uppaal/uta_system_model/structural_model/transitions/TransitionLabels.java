@@ -1,7 +1,12 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions;
 
-import ee.taltech.cs.mbt.tdl.common_utils.collections.CollectionUtils;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.*;
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AssignmentsLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.CommentLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.GuardLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.SelectionLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.SynchronizationLabel;
 
 import java.util.Collection;
 import java.util.LinkedList;

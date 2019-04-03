@@ -4,7 +4,10 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class UtaSystem {
 	private Map<String, Template> templateMap = new HashMap<>();

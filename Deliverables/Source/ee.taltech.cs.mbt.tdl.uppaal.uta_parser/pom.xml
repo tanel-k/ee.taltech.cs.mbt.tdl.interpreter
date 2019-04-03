@@ -71,15 +71,15 @@
   <dependencies>
     <!-- Internal -->
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl</groupId>
-      <artifactId>common_utils</artifactId>
+      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+      <artifactId>utils</artifactId>
     </dependency>
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
       <artifactId>uta_grammar</artifactId>
     </dependency>
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.generic</groupId>
+      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
       <artifactId>antlr_facade</artifactId>
     </dependency>
     <dependency>

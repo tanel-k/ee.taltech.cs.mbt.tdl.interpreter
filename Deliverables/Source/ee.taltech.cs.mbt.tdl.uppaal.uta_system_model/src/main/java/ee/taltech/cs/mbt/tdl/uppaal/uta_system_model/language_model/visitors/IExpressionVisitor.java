@@ -1,7 +1,10 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.*;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.DeadlockLiteral;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.FalseLiteral;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.NaturalNumberLiteral;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.TrueLiteral;
 
 public interface IExpressionVisitor<T> {
 	T visitArrayLookupExpr(ArrayLookupExpression expr);

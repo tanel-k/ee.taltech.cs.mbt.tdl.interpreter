@@ -36,7 +36,7 @@
       <artifactId>tdl_grammar</artifactId>
     </dependency>
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.generic</groupId>
+      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
       <artifactId>antlr_facade</artifactId>
     </dependency>
     <!-- /Internal -->

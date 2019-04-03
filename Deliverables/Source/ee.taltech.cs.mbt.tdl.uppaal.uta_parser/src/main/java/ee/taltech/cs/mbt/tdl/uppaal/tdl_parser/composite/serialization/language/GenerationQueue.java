@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.serialization.language;
 
-import ee.taltech.cs.mbt.tdl.common_utils.collections.operations.IOperation;
-import ee.taltech.cs.mbt.tdl.common_utils.collections.operations.OperationQueue;
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.operations.IOperation;
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.operations.OperationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.serialization.language.GenerationQueue.GenerationOperation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st.AbsSTGenerator;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st.CodeGenerationException;

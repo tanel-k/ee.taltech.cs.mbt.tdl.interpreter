@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.serialization.validation.context;
 
-import ee.taltech.cs.mbt.tdl.common_utils.strings.StringUtils;
-import ee.taltech.cs.mbt.tdl.common_utils.validation.AbsHierarchyValidationCtx;
-import ee.taltech.cs.mbt.tdl.common_utils.validation.ContextValidationResult;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
+import ee.taltech.cs.mbt.tdl.commons.utils.validation.AbsHierarchyValidationCtx;
+import ee.taltech.cs.mbt.tdl.commons.utils.validation.ContextValidationResult;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
 

@@ -10,7 +10,7 @@ systemDeclarations(iterable) ::= <%
 %>
 
 systemLine(ctx) ::= <%
-    system <ctx.processReferenceGroups:processReferenceGroup(); separator=" < ">
+    system <ctx.processReferenceGroups:processReferenceGroup(); separator=" < ">;
 %>
 
 progressMeasureDeclaration(iterable) ::= <<progress {
@@ -70,7 +70,7 @@ channelPriorityDeclaration(ctx) ::= <%
 %>
 
 templateInstantiation(ctx) ::= <%
-    <ctx.newTemplateName>(<parameters(ctx.parameters)>) = <ctx.sourceTemplateName>(<arguments(ctx.arguments)>)
+    <ctx.newTemplateName>(<parameters(ctx.parameters)>) = <ctx.sourceTemplateName>(<arguments(ctx.arguments)>);
 %>
 
 functionDeclaration(ctx) ::= <%
@@ -134,7 +134,7 @@ multiVariableDeclaration(ctx) ::= <%
 %>
 
 subVariableDeclaration(ctx) ::= <%
-    <ctx.identifierValue><ctx.arrayModifiers:arrayModifiers()>
+    <ctx.identifierValue><arrayModifiers(ctx.arrayModifiers)>
     <if(ctx.initializer)> = <variableInitializer(ctx.initializer)><endif>
 %>
 
@@ -155,7 +155,7 @@ multiTypeDeclaration(ctx) ::= <%
 %>
 
 subTypeDeclaration(ctx) ::= <%
-    <ctx.identifierValue><ctx.arrayModifiers:arrayModifiers()>
+    <ctx.identifierValue><arrayModifiers(ctx.arrayModifiers)>
 %>
 // END: Declaration utils
 // END: Declarations
@@ -184,10 +184,10 @@ statement(ctx) ::= <%
 %>
 
 blockStmt(ctx) ::= <<{
-<if(stmtCtx.declarations)>
+<if(ctx.declarations)>
     <declarations(ctx.declarations)>
 <endif>
-<if(stmtCtx.statements)>
+<if(ctx.statements)>
     <ctx.statements:statement()>
 <endif>
 }>>
@@ -416,7 +416,7 @@ fieldDeclaration(ctx) ::= <%
 %>
 
 singleDeclaration(ctx) ::= <%
-    <baseType(ctx.type.baseType)> <if(ctx.name.referenceType)>&<endif><ctx.name><ctx.type.arrayModifiers:arrayModifier()>;
+    <baseType(ctx.type.baseType)> <if(ctx.name.referenceType)>&<endif><ctx.name><arrayModifiers(ctx.type.arrayModifiers)>;
 %>
 
 multiDeclaration(ctx) ::= <%

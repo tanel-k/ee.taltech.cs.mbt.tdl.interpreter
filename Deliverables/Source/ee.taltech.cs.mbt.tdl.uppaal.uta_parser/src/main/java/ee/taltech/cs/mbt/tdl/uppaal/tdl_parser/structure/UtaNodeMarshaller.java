@@ -1,5 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure;
 
+import com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler;
+import com.sun.xml.internal.bind.marshaller.DumbEscapeHandler;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.UtaNode;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -22,10 +24,6 @@ public class UtaNodeMarshaller {
 	public static class MarshallingException extends Exception {
 		public MarshallingException(String msg, Throwable t) {
 			super(msg, t);
-		}
-
-		public MarshallingException(Throwable t) {
-			super(t);
 		}
 	}
 
@@ -58,6 +56,8 @@ public class UtaNodeMarshaller {
 		try {
 			JAXBContext jaxbCtx = JAXBContext.newInstance(UtaNode.class);
 			Marshaller marshaller = jaxbCtx.createMarshaller();
+			// Prevent escaping \r:
+			marshaller.setProperty(CharacterEscapeHandler.class.getName(), DumbEscapeHandler.theInstance);
 			marshaller.marshal(utaNode, out);
 		} catch (JAXBException ex) {
 			throw new MarshallingException("Marshalling failed: JAXB exception.", ex);

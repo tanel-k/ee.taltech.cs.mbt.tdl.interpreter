@@ -5,7 +5,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IEx
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents an expression in UPPAAL syntax.<br/>

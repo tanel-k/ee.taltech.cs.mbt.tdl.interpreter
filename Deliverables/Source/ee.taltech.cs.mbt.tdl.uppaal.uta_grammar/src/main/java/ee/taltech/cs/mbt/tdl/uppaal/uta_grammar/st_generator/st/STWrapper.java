@@ -50,7 +50,7 @@ public class STWrapper {
 			PrintWriter pw = new PrintWriter(sw);
 
 			if (wrapsOtherRenderingExceptions()) {
-				pw.println("Multiple StringTemplate rendering exceptions:");
+				pw.println("StringTemplate rendering exceptions:");
 				int i = 0;
 				for (STRenderingException wrappedEx : getWrappedExceptions()) {
 					pw.println("Exception #" + ++i);

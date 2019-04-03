@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations;
 
-import ee.taltech.cs.mbt.tdl.common_utils.collections.CollectionUtils;
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.CommentLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.InvariantLabel;

@@ -1,8 +1,5 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.serialization.language;
 
-import ee.taltech.cs.mbt.tdl.common_utils.objects.ObjectUtils;
-import ee.taltech.cs.mbt.tdl.common_utils.strings.StringUtils;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;

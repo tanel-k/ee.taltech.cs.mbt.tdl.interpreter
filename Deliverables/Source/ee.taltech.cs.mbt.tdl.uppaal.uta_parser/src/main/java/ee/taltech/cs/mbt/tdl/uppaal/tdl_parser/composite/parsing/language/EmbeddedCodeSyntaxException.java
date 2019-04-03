@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language;
 
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.configuration.base.ErrorListener.SyntaxError;
+import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListener.SyntaxError;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

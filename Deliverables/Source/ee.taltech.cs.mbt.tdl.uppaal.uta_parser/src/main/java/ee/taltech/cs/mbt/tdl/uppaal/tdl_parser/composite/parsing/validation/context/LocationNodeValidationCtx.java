@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.validation.context;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.validation.AbsHierarchyValidationCtx;
+import ee.taltech.cs.mbt.tdl.commons.utils.validation.ContextValidationResult;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.LocationNode;
-import ee.taltech.cs.mbt.tdl.common_utils.validation.AbsHierarchyValidationCtx;
-import ee.taltech.cs.mbt.tdl.common_utils.validation.ContextValidationResult;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,7 +31,7 @@ public class LocationNodeValidationCtx extends AbsHierarchyValidationCtx<Locatio
 				() -> "missing coordinates"
 		);
 		result.addErrorMessageIf(
-				() -> !location.isSetUrgent() && location.isSetCommitted(),
+				() -> location.isSetUrgent() && location.isSetCommitted(),
 				() -> "simultaneously urgent and committed"
 		);
 

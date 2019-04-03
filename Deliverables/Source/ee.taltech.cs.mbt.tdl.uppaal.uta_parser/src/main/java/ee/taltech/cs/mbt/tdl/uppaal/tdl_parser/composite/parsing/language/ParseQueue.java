@@ -1,9 +1,9 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language;
 
-import ee.taltech.cs.mbt.tdl.common_utils.collections.operations.IOperation;
-import ee.taltech.cs.mbt.tdl.common_utils.collections.operations.OperationQueue;
-import ee.taltech.cs.mbt.tdl.generic.antlr_facade.AbsAntlrParserFacade.ParseException;
-import ee.taltech.cs.mbt.tdl.generic.parser.AbsAntlrParser;
+import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
+import ee.taltech.cs.mbt.tdl.commons.parser.AbsAntlrParser;
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.operations.IOperation;
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.operations.OperationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.ParseQueue.ParseOperation;
 
 import java.util.function.Consumer;

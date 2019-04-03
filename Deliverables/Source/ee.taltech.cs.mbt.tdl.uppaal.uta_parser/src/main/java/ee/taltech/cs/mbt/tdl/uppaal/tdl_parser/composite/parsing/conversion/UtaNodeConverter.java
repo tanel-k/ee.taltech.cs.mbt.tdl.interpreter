@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion;
 
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.ParseQueue;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParserFactory;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.UtaLanguageParserFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.SystemNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.TemplateNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.UtaNode;

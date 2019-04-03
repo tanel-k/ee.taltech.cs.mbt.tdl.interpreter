@@ -3,8 +3,6 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identi
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ITypeIdentifierVisitor;
 
-import java.util.Objects;
-
 /**
  * Identifies the use of a named type.<br/>
  * Syntax fragment:<br/>

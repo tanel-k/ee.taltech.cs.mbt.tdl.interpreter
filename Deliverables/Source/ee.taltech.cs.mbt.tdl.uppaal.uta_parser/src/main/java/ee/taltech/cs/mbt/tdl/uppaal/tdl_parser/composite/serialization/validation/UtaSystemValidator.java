@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.serialization.validation;
 
-import ee.taltech.cs.mbt.tdl.common_utils.validation.AbsHierarchyValidator;
+import ee.taltech.cs.mbt.tdl.commons.utils.validation.AbsHierarchyValidator;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.serialization.validation.context.UtaSystemValidationCtx;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 

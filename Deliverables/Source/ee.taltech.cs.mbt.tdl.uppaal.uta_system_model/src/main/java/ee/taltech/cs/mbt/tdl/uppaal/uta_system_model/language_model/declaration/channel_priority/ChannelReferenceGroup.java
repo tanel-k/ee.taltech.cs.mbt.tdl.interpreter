@@ -5,7 +5,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents a list of references to channels which are to be treated

@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.conversion;
 
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.ParseQueue;
-import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.parsing.UtaLanguageParserFactory;
+import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.language.UtaLanguageParserFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.InitialLocationNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.LocationLabelNode;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.LocationNode;
@@ -24,7 +24,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.LocationLabels;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition.TransitionNail;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition.Nail;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
 import java.util.HashMap;
@@ -213,7 +213,7 @@ public class TemplateNodeConverter {
 
 	private void injectTransitionNails(Transition transition, TransitionNode transitionXml) {
 		for (TransitionNailNode nailXml : transitionXml.getNails()) {
-			TransitionNail nail = new TransitionNail();
+			Nail nail = new Nail();
 			nail.setCoordinates(new GuiCoordinates(nailXml.getX(), nailXml.getY()));
 			transition.getNails().add(nail);
 		}

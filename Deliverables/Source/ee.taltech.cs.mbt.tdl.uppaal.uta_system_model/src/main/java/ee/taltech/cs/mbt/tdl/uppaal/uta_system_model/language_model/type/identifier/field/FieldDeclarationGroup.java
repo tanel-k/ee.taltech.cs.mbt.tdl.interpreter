@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.field;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.ITypeExtensionGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap.BaseTypeExtension;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.ITypeExtensionGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IFieldDeclarationVisitor;
 
 public class FieldDeclarationGroup extends AbsFieldDeclaration implements ITypeExtensionGroup<AbsFieldDeclaration, FieldDeclaration> {

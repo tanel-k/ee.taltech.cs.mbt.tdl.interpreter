@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.type;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.ITypeExtensionGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap.BaseTypeExtension;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.ITypeExtensionGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDeclarationVisitor;
 
 public class TypeDeclarationGroup extends AbsTypeDeclaration implements ITypeExtensionGroup<AbsTypeDeclaration, TypeDeclaration> {

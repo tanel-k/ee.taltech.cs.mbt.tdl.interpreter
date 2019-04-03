@@ -32,6 +32,9 @@ public class ConversionUtils {
 	}
 
 	public static String serializeColor(Color color) {
-		return "#" + Integer.toString(color.getIntValue(), 16);
+		if (color == null)
+			return null;
+
+		return "#" + String.format("%06X", color.getIntValue());
 	}
 }

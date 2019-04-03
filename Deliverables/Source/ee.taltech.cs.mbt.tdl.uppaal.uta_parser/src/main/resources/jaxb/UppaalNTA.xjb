@@ -4,7 +4,7 @@
     xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
     jxb:extensionBindingPrefixes="xjc"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+>
   <jxb:globalBindings
       collectionType="java.util.LinkedList"
       generateIsSetMethod="true">

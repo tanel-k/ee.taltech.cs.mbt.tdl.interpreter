@@ -39,13 +39,13 @@ public class SystemDefinitionMapper implements IContextMapper<SystemDefinition> 
 				);
 			}
 		}
+		ContextBuilder systemLineCtx = referenceGroups.isEmpty()
+				? null
+				: ContextBuilder.newBuilder().put("processReferenceGroups", referenceGroups);
 
 		return ContextBuilder.newBuilder()
-				.put("processReferenceGroups", referenceGroups.isEmpty()
-						? null : referenceGroups)
-				.put("declarations", declCtxs.isEmpty()
-						? null : declCtxs)
-				.put("progressMeasures", progMeasureCtxs.isEmpty()
-						? null : progMeasureCtxs);
+				.put("systemLine", systemLineCtx)
+				.put("declarations", declCtxs.isEmpty() ? null : declCtxs)
+				.put("progressMeasures", progMeasureCtxs.isEmpty() ? null : progMeasureCtxs);
 	}
 }

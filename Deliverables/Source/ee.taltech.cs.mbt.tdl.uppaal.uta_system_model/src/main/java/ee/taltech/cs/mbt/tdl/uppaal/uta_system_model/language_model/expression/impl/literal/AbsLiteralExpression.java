@@ -2,8 +2,6 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsLeafExprNode;
 
-import java.util.Objects;
-
 /**
  * Represents expression leaf nodes that are literals.
  */

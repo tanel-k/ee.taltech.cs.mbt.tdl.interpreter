@@ -3,7 +3,6 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.l
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IStatementVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 
 /**
  * Represents an iteration loop over a type.<br/>

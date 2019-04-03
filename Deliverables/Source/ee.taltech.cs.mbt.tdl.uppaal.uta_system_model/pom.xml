@@ -27,8 +27,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl</groupId>
-      <artifactId>common_utils</artifactId>
+      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+      <artifactId>utils</artifactId>
     </dependency>
   </dependencies>
 
