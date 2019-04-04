@@ -160,14 +160,6 @@ public class ConfigurableAntlrErrorStrategy extends DefaultErrorStrategy {
 	}
 
 	@Override
-	public void sync(Parser recognizer) throws RecognitionException {
-		if (!strategyConfig.isRecoveryEnabled())
-			return;
-
-		super.sync(recognizer);
-	}
-
-	@Override
 	public Token recoverInline(Parser recognizer) throws RecognitionException {
 		if (!strategyConfig.getInlineErrorRecoveryConfig().isEnabled()) {
 			InputMismatchException ex = new InputMismatchException(recognizer);
@@ -176,5 +168,13 @@ public class ConfigurableAntlrErrorStrategy extends DefaultErrorStrategy {
 		}
 
 		return super.recoverInline(recognizer);
+	}
+
+	@Override
+	public void sync(Parser recognizer) throws RecognitionException {
+		if (!strategyConfig.isRecoveryEnabled())
+			return;
+
+		super.sync(recognizer);
 	}
 }

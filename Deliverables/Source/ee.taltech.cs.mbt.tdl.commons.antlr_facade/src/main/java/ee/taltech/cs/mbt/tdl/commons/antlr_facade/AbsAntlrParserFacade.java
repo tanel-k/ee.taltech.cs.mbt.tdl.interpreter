@@ -10,6 +10,7 @@ import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.bridge.Configura
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.bridge.DelegatingAntlrErrorListener;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter.ConversionException;
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectUtils;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -24,29 +25,46 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AbsAntlrParserFacade<OutputType, ParserType extends Parser, RootContextType extends ParseTree> {
 	public static class ParseException extends Exception {
-		public ParseException(Throwable t) { super(t); }
-		public ParseException(String msg, Throwable t) { super(msg, t); }
+		private Collection<SyntaxError> syntaxErrors = new LinkedList<>();
+
+		private ParseException(List<SyntaxError> syntaxErrors) {
+			this(syntaxErrors, null);
+		}
+
+		private ParseException(Collection<SyntaxError> syntaxErrors, Throwable t) {
+			super(t);
+			this.syntaxErrors.addAll(ObjectUtils.defaultObject(syntaxErrors, Collections.emptyList()));
+		}
+
+		public Collection<SyntaxError> getSyntaxErrors() {
+			return syntaxErrors;
+		}
 
 		@Override
 		public String toString() {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 
-			String msg = getMessage();
-			if (msg == null && getCause() != null)
-				msg = getCause().getMessage();
+			pw.println("Parsing failed.");
 
-			pw.println(msg);
+			if (!getSyntaxErrors().isEmpty()) {
+				pw.println("Syntax errors:");
+				for (SyntaxError syntaxError : getSyntaxErrors()) {
+					pw.println(syntaxError.getLine() + ":" + syntaxError.getCharPositionInLine() + " - " + syntaxError.getMessage());
+				}
+			}
+
 			if (getCause() != null) {
-				pw.println("Cause:" );
+				pw.println("Cause:");
 				getCause().printStackTrace(pw);
 			}
-			pw.println();
 
 			return sw.toString();
 		}
@@ -56,14 +74,16 @@ public abstract class AbsAntlrParserFacade<OutputType, ParserType extends Parser
 	private List<ErrorListener> errorListeners = new LinkedList<>();
 	private List<SyntaxError> syntaxErrors = new LinkedList<>();
 
-	private OutputType convertParseTree(RootContextType parseTree) throws ParseException {
-		try {
-			IParseTreeConverter<OutputType, RootContextType> converter = getConverter();
-			return converter.convert(parseTree);
-		} catch (ConversionException ex) {
-			throw new ParseException(ex.getMessage(), ex);
-		}
+	private OutputType convertParseTree(RootContextType parseTree) throws ConversionException {
+		IParseTreeConverter<OutputType, RootContextType> converter = getConverter();
+		return converter.convert(parseTree);
 	}
+
+	private List<SyntaxError> getSyntaxErrors() {
+		return syntaxErrors;
+	}
+
+	public AbsAntlrParserFacade() { }
 
 	protected abstract ParserType getParserInstance(TokenStream tokenStream);
 	protected abstract Lexer getLexerInstance(CharStream forInputStream);
@@ -105,8 +125,6 @@ public abstract class AbsAntlrParserFacade<OutputType, ParserType extends Parser
 		appendSyntaxErrorCollector(parser);
 	}
 
-	public AbsAntlrParserFacade() { }
-
 	public List<ErrorListener> getErrorListeners() {
 		return errorListeners;
 	}
@@ -123,22 +141,23 @@ public abstract class AbsAntlrParserFacade<OutputType, ParserType extends Parser
 		this.errorStrategyConfig = errorStrategyConfig;
 	}
 
-	public List<SyntaxError> getSyntaxErrors() {
-		return syntaxErrors;
-	}
-
 	public OutputType parse(InputStream in) throws IOException, ParseException {
 		try {
 			ParserType parser = getInputParser(in);
 			configureParser(parser);
+
 			RootContextType rootContext = getRootContext(parser);
+
+			if (!getSyntaxErrors().isEmpty())
+				throw new ParseException(getSyntaxErrors());
+
 			return convertParseTree(rootContext);
 		} catch (IOException | ParseException ex) {
 			throw ex;
 		} catch (RecognitionException | RecognitionExceptionWrapper ex) {
-			throw new ParseException(ex);
+			throw new ParseException(getSyntaxErrors(), ex);
 		} catch (Throwable t) {
-			throw new ParseException("Unexpected error.", t);
+			throw new RuntimeException("Unexpected error occurred during parsing.", t);
 		}
 	}
 }

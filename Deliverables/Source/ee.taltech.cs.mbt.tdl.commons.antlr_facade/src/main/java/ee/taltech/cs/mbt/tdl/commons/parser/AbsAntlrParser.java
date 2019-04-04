@@ -14,14 +14,6 @@ import java.util.List;
 public abstract class AbsAntlrParser<ResultType> {
 	public abstract AbsAntlrParserFacade<ResultType, ?, ?> getFacade();
 
-	public List<SyntaxError> getSyntaxErrors() {
-		return getFacade().getSyntaxErrors();
-	}
-
-	public boolean hasSyntaxErrors() {
-		return !getFacade().getSyntaxErrors().isEmpty();
-	}
-
 	public ResultType parseInput(String inputString) throws ParseException {
 		return parseInput(inputString, StandardCharsets.UTF_8);
 	}

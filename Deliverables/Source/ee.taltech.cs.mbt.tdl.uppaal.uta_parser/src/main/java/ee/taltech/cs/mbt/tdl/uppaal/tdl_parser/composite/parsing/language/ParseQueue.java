@@ -1,6 +1,5 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.parser.AbsAntlrParser;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.operations.IOperation;
@@ -12,7 +11,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language.ParseQ
 import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ParseQueue extends OperationQueue<ParseOperation<?>, EmbeddedCodeSyntaxException> {
@@ -32,11 +30,8 @@ public class ParseQueue extends OperationQueue<ParseOperation<?>, EmbeddedCodeSy
 			try {
 				T output = parser.parseInput(code);
 				resultConsumer.accept(output);
-				if (parser.hasSyntaxErrors()) {
-					throw new EmbeddedCodeSyntaxException(code, parser.getSyntaxErrors());
-				}
 			} catch (ParseException ex) {
-				throw new EmbeddedCodeSyntaxException(code, parser.getSyntaxErrors(), ex);
+				throw new EmbeddedCodeSyntaxException(code, ex);
 			}
 		}
 	}

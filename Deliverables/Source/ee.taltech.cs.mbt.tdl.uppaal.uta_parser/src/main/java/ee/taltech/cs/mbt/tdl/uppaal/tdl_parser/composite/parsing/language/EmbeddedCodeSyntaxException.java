@@ -1,33 +1,27 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.composite.parsing.language;
 
+import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListener.SyntaxError;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class EmbeddedCodeSyntaxException extends Exception {
-	private List<SyntaxError> syntaxErrors = new LinkedList<>();
+	private ParseException cause;
 	private String offendingCodeSnippet;
 
-	public EmbeddedCodeSyntaxException(String offendingCodeSnippet, Throwable cause) {
-		this(offendingCodeSnippet, Collections.emptyList(), cause);
-	}
-
-	public EmbeddedCodeSyntaxException(String offendingCodeSnippet, List<SyntaxError> syntaxErrors) {
-		this(offendingCodeSnippet, syntaxErrors, null);
-	}
-
-	public EmbeddedCodeSyntaxException(String offendingCodeSnippet, List<SyntaxError> syntaxErrors, Throwable cause) {
-		super(cause);
+	public EmbeddedCodeSyntaxException(String offendingCodeSnippet, ParseException ex) {
+		super(ex);
+		this.cause = ex;
 		this.offendingCodeSnippet = offendingCodeSnippet;
-		this.syntaxErrors.addAll(syntaxErrors);
 	}
 
-	public List<SyntaxError> getSyntaxErrors() {
-		return syntaxErrors;
+	public Collection<SyntaxError> getSyntaxErrors() {
+		return cause.getSyntaxErrors();
 	}
 
 	public String getOffendingCodeSnippet() {
@@ -50,9 +44,6 @@ public class EmbeddedCodeSyntaxException extends Exception {
 			for (SyntaxError syntaxError : getSyntaxErrors()) {
 				pw.println(syntaxError.getLine() + ":" + syntaxError.getCharPositionInLine() + " - " + syntaxError.getMessage());
 			}
-		} else if (getCause() != null) {
-			pw.println("Cause:");
-			getCause().printStackTrace(pw);
 		}
 
 		return sw.toString();

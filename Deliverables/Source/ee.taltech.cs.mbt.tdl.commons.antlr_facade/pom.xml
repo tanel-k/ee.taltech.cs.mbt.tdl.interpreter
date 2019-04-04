@@ -30,6 +30,14 @@
       <groupId>org.antlr</groupId>
       <artifactId>antlr4</artifactId>
     </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+      <artifactId>utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+      <artifactId>utils</artifactId>
+    </dependency>
   </dependencies>
 
   <properties>

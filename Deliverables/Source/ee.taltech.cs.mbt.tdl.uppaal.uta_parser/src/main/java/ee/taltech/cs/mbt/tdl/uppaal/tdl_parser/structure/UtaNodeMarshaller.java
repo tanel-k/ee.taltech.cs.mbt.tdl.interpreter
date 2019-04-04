@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure;
 
-import com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler;
-import com.sun.xml.internal.bind.marshaller.DumbEscapeHandler;
+import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
+import com.sun.xml.bind.marshaller.DumbEscapeHandler;
 import ee.taltech.cs.mbt.tdl.uppaal.tdl_parser.structure.jaxb.UtaNode;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
