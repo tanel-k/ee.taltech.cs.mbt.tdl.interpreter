@@ -1,4 +1,4 @@
-// Generated from TDLExpressionLanguage.g4 by ANTLR 4.5
+// Generated from TdlExpressionLanguage.g4 by ANTLR 4.5
 package ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

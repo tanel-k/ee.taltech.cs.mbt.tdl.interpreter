@@ -1,10 +1,13 @@
-// Generated from TDLExpressionLanguage.g4 by ANTLR 4.5
+// Generated from TdlExpressionLanguage.g4 by ANTLR 4.5
 package ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class TdlExpressionLanguageParser extends Parser {
@@ -106,15 +109,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public GroundTermExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterGroundTermExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterGroundTermExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitGroundTermExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitGroundTermExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitGroundTermExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitGroundTermExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -129,15 +132,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public LeadsToExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterLeadsToExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterLeadsToExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitLeadsToExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitLeadsToExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitLeadsToExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitLeadsToExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -152,15 +155,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public ImplicativeExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterImplicativeExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterImplicativeExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitImplicativeExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitImplicativeExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitImplicativeExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitImplicativeExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -173,15 +176,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public GroupedExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterGroupedExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterGroupedExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitGroupedExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitGroupedExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitGroupedExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitGroupedExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -196,15 +199,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public ConjunctiveExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterConjunctiveExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterConjunctiveExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitConjunctiveExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitConjunctiveExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitConjunctiveExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitConjunctiveExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -219,15 +222,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public EquivalenceExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterEquivalenceExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterEquivalenceExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitEquivalenceExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitEquivalenceExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitEquivalenceExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitEquivalenceExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -239,15 +242,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public NegatedExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterNegatedExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterNegatedExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitNegatedExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitNegatedExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitNegatedExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitNegatedExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -264,15 +267,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public ConditionalRepetitionExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterConditionalRepetitionExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterConditionalRepetitionExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitConditionalRepetitionExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitConditionalRepetitionExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitConditionalRepetitionExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitConditionalRepetitionExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -292,15 +295,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public TimeBoundedLeadsToExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterTimeBoundedLeadsToExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterTimeBoundedLeadsToExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitTimeBoundedLeadsToExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitTimeBoundedLeadsToExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitTimeBoundedLeadsToExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitTimeBoundedLeadsToExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -315,15 +318,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public DisjunctiveExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterDisjunctiveExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterDisjunctiveExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitDisjunctiveExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitDisjunctiveExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitDisjunctiveExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitDisjunctiveExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -530,15 +533,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public UniversalTrapsetExpressionContext(QuantifiedTrapsetExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterUniversalTrapsetExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterUniversalTrapsetExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitUniversalTrapsetExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitUniversalTrapsetExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitUniversalTrapsetExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitUniversalTrapsetExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -552,15 +555,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public ExistentialTrapsetExpressionContext(QuantifiedTrapsetExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterExistentialTrapsetExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterExistentialTrapsetExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitExistentialTrapsetExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitExistentialTrapsetExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitExistentialTrapsetExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitExistentialTrapsetExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -634,15 +637,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public RelativeTrapsetComplementExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterRelativeTrapsetComplementExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterRelativeTrapsetComplementExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitRelativeTrapsetComplementExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitRelativeTrapsetComplementExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitRelativeTrapsetComplementExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitRelativeTrapsetComplementExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -652,15 +655,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public AbsoluteTrapsetComplementExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterAbsoluteTrapsetComplementExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterAbsoluteTrapsetComplementExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitAbsoluteTrapsetComplementExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitAbsoluteTrapsetComplementExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitAbsoluteTrapsetComplementExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitAbsoluteTrapsetComplementExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -673,15 +676,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public LinkedTrapsetPairExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterLinkedTrapsetPairExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterLinkedTrapsetPairExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitLinkedTrapsetPairExpression(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitLinkedTrapsetPairExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitLinkedTrapsetPairExpression(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitLinkedTrapsetPairExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -756,15 +759,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public GreaterThanOrEqBoundContext(BoundOverNaturalsContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterGreaterThanOrEqBound(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterGreaterThanOrEqBound(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitGreaterThanOrEqBound(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitGreaterThanOrEqBound(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitGreaterThanOrEqBound(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitGreaterThanOrEqBound(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -774,15 +777,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public EqualityBoundContext(BoundOverNaturalsContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterEqualityBound(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterEqualityBound(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitEqualityBound(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitEqualityBound(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitEqualityBound(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitEqualityBound(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -792,15 +795,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public GreaterThanBoundContext(BoundOverNaturalsContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterGreaterThanBound(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterGreaterThanBound(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitGreaterThanBound(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitGreaterThanBound(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitGreaterThanBound(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitGreaterThanBound(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -810,15 +813,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public LessThanBoundContext(BoundOverNaturalsContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterLessThanBound(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterLessThanBound(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitLessThanBound(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitLessThanBound(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitLessThanBound(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitLessThanBound(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -828,15 +831,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		public LessThanOrEqBoundContext(BoundOverNaturalsContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).enterLessThanOrEqBound(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterLessThanOrEqBound(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener) ((TdlExpressionLanguageListener)listener).exitLessThanOrEqBound(this);
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitLessThanOrEqBound(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitLessThanOrEqBound(this);
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitLessThanOrEqBound(this);
 			else return visitor.visitChildren(this);
 		}
 	}

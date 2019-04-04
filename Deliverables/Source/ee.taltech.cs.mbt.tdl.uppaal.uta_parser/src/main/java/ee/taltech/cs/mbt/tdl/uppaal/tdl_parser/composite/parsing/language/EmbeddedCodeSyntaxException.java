@@ -6,9 +6,6 @@ import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListen
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 public class EmbeddedCodeSyntaxException extends Exception {
 	private ParseException cause;
