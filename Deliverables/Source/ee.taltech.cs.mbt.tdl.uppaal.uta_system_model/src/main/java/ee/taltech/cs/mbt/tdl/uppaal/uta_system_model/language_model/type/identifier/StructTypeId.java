@@ -27,10 +27,10 @@ public class StructTypeId extends AbsTypeId {
 	@Override
 	public StructTypeId deepClone() {
 		StructTypeId clone = new StructTypeId();
-		clone.getFieldDeclarations()
+		getFieldDeclarations()
 				.stream()
 				.map(AbsFieldDeclaration::deepClone)
-				.forEach(clone.getFieldDeclarations()::add);
+				.forEach(clone.fieldDeclarations::add);
 		return clone;
 	}
 

@@ -201,7 +201,7 @@ public class ExpressionMapper implements IContextMapper<AbsExpression>, IExpress
 
 	@Override
 	public ContextBuilder visitLessThanExpr(LessThanExpression expr) {
-		return visitBinaryNode("arrayLookup", expr);
+		return visitBinaryNode("lessThan", expr);
 	}
 
 	@Override

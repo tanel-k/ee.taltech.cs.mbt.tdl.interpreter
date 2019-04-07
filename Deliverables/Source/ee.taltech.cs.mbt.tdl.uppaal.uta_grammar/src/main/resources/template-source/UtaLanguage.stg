@@ -138,13 +138,10 @@ subVariableDeclaration(ctx) ::= <%
     <if(ctx.initializer)> = <variableInitializer(ctx.initializer)><endif>
 %>
 
-variableInitializer(ctx) ::= <%
-    <if(ctx.structuredInitializer)>
-        { <ctx.nestedInitializers:variableInitializer(); separator=", "> }
-    <elseif(ctx.flatInitializer)>
-        <expression(ctx.expression)>
-    <endif>
-%>
+variableInitializer(ctx) ::= <<<if(ctx.structuredInitializer)>{
+    <ctx.nestedInitializers:variableInitializer(); separator=",\n">
+}<elseif(ctx.flatInitializer)><expression(ctx.expression)><endif>
+>>
 
 singleTypeDeclaration(ctx) ::= <%
     typedef <baseType(ctx.type.baseType)> <ctx.identifierValue><arrayModifiers(ctx.type.arrayModifiers)>;
@@ -188,7 +185,7 @@ blockStmt(ctx) ::= <<{
     <declarations(ctx.declarations)>
 <endif>
 <if(ctx.statements)>
-    <ctx.statements:statement()>
+    <ctx.statements:statement(); separator="\n">
 <endif>
 }>>
 
@@ -225,7 +222,7 @@ expression(ctx) ::= <%
     <elseif(ctx.arrayLookup)>
         <expression(ctx.leftChild)>[<expression(ctx.rightChild)>]
     <elseif(ctx.fieldAccess)>
-        <expression(ctx.leftChild)>.<ctx.identifierValue>
+        <expression(ctx.child)>.<ctx.identifierValue>
     <elseif(ctx.negation)>
         <if(ctx.phrasal)>
             not <expression(ctx.child)>
@@ -416,7 +413,7 @@ fieldDeclaration(ctx) ::= <%
 %>
 
 singleDeclaration(ctx) ::= <%
-    <baseType(ctx.type.baseType)> <if(ctx.name.referenceType)>&<endif><ctx.name><arrayModifiers(ctx.type.arrayModifiers)>;
+    <baseType(ctx.type.baseType)> <if(ctx.type.referenceType)>&<endif><ctx.name><arrayModifiers(ctx.type.arrayModifiers)>;
 %>
 
 multiDeclaration(ctx) ::= <%
@@ -427,7 +424,7 @@ multiDeclaration(ctx) ::= <%
 
 // BEGIN: General utils
 expressions(iterable) ::= <%
-    <iterable:expression(); separator=", ">
+    <iterable:expression(); separator=",\n">
 %>
 
 arguments(iterable) ::= <%

@@ -26,7 +26,8 @@ public abstract class AbsSTGenerator<T> {
 		try {
 			ST st = stRegistry.getTemplate(getTemplateName());
 			STWrapper stWrapper = STWrapper.wrap(st);
-			stWrapper.setRootContext(getContextMapper().map(inst));
+			ContextBuilder ctxBuilder = getContextMapper().map(inst);
+			stWrapper.setRootContext(ctxBuilder);
 			return stWrapper.render();
 		} catch (MissingSTException | InvalidSTFormatException ex) {
 			throw new RuntimeException(ex.getMessage(), ex); // Not recoverable

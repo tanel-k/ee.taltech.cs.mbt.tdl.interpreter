@@ -27,6 +27,22 @@
 
   <dependencies>
     <!-- Internal -->
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+      <artifactId>utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
+      <artifactId>uta_system_model</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
+      <artifactId>tdl_model</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.scenario</groupId>
+      <artifactId>scenario_model</artifactId>
+    </dependency>
     <!-- /Internal -->
   </dependencies>
 

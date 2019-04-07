@@ -9,7 +9,6 @@ import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorStrate
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.bridge.ConfigurableAntlrErrorStrategy;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.bridge.DelegatingAntlrErrorListener;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter.ConversionException;
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectUtils;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
@@ -74,7 +73,7 @@ public abstract class AbsAntlrParserFacade<OutputType, ParserType extends Parser
 	private List<ErrorListener> errorListeners = new LinkedList<>();
 	private List<SyntaxError> syntaxErrors = new LinkedList<>();
 
-	private OutputType convertParseTree(RootContextType parseTree) throws ConversionException {
+	private OutputType convertParseTree(RootContextType parseTree) {
 		IParseTreeConverter<OutputType, RootContextType> converter = getConverter();
 		return converter.convert(parseTree);
 	}
