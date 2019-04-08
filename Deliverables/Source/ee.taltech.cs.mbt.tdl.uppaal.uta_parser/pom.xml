@@ -93,7 +93,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>Uppaal TA Parser Implementation</name>
+  <name>UTA Parser Implementation</name>
   <description>Provides a simplified interface to the Uppaal expression language parser/lexer implementation.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>

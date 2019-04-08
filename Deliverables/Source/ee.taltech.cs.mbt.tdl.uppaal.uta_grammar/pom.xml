@@ -89,7 +89,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>Uppaal TA Sublanguage (ANTLR) Grammar</name>
+  <name>UTA Sublanguage (ANTLR) Grammar</name>
   <description>Supports the generation of parsers for the Uppaal expression language.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
