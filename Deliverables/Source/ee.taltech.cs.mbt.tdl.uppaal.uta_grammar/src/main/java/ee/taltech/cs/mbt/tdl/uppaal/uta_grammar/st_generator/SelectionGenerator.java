@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator;
 
-import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextMapper;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.template.SelectionMapper;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.template.SelectionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.AbsSTGenerator;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Selection;
@@ -17,8 +17,8 @@ public class SelectionGenerator extends AbsSTGenerator<Selection> {
 	}
 
 	@Override
-	protected IContextMapper<Selection> getContextMapper() {
-		return SelectionMapper.getInstance();
+	protected IContextExtractor<Selection> getContextExtractor() {
+		return SelectionCtxExtractor.getInstance();
 	}
 
 	@Override

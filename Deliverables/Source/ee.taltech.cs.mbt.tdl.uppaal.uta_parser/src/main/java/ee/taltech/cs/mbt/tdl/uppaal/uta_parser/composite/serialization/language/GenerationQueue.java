@@ -4,7 +4,7 @@ import ee.taltech.cs.mbt.tdl.commons.utils.collections.operations.IOperation;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.operations.OperationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.GenerationQueue.GenerationOperation;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.AbsSTGenerator;
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.CodeGenerationException;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.GenerationException;
 
 import java.util.Collection;
 import java.util.function.Consumer;
@@ -23,7 +23,7 @@ public class GenerationQueue extends OperationQueue<GenerationOperation<?>, Synt
 			this.generator = () -> {
 				try {
 					return generator.generate(representation);
-				} catch (CodeGenerationException ex) {
+				} catch (GenerationException ex) {
 					throw new SyntaxRepresentationException(representation, ex);
 				}
 			};
@@ -34,7 +34,7 @@ public class GenerationQueue extends OperationQueue<GenerationOperation<?>, Synt
 			this.generator = () -> {
 				try {
 					return generator.generate(representations);
-				} catch (CodeGenerationException ex) {
+				} catch (GenerationException ex) {
 					throw new SyntaxRepresentationException(representations, ex);
 				}
 			};

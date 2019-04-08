@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator;
 
-import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextMapper;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.parameter.ParameterMapper;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.parameter.ParameterCtxExtractor;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.AbsSTGenerator;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
@@ -17,8 +17,8 @@ public class ParameterGenerator extends AbsSTGenerator<ParameterDeclaration> {
 	}
 
 	@Override
-	protected IContextMapper<ParameterDeclaration> getContextMapper() {
-		return ParameterMapper.getInstance();
+	protected IContextExtractor<ParameterDeclaration> getContextExtractor() {
+		return ParameterCtxExtractor.getInstance();
 	}
 
 	@Override

@@ -77,7 +77,7 @@
     </dependency>
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
-      <artifactId>st_utils</artifactId>
+      <artifactId>st_facade</artifactId>
     </dependency>
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
