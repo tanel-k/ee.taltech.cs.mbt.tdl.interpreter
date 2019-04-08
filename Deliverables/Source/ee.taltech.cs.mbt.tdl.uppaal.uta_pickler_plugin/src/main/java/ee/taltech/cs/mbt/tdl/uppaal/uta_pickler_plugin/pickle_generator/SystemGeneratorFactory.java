@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickling.st_generator;
+package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator;
 
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
 
@@ -9,6 +9,4 @@ public class SystemGeneratorFactory {
 	public static SystemGenerator systemGenerator() {
 		return new SystemGenerator(ST_REGISTRY);
 	}
-
-	private SystemGeneratorFactory() { }
 }
