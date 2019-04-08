@@ -2,6 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates
 
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
@@ -10,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Template {
-	private String name;
+	private Identifier name;
 	private List<ParameterDeclaration> parameters;
 	private Location initialLocation;
 	private DirectedMultigraph<Location, Transition> locationGraph;
@@ -18,11 +19,11 @@ public class Template {
 
 	public Template() { }
 
-	public String getName() {
+	public Identifier getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(Identifier name) {
 		this.name = name;
 	}
 

@@ -39,7 +39,7 @@ public class TemplateValidationCtx extends AbsHierarchyValidationCtx<Template, U
 		Template template = getContextObject();
 
 		boolean missingName = result.addErrorMessageIf(
-				() -> StringUtils.isEmpty(template.getName()),
+				() -> template.getName() == null || StringUtils.isEmpty(template.getName().toString()),
 				() -> "missing name"
 		);
 		result.addErrorMessageIf(
@@ -70,7 +70,7 @@ public class TemplateValidationCtx extends AbsHierarchyValidationCtx<Template, U
 	@Override
 	public String getName() {
 		return "template ("
-					+ StringUtils.defaultString(getContextObject().getName(), "unnamed")
+					+ StringUtils.defaultString(getContextObject().getName().toString(), "unnamed")
 				+ ")";
 	}
 

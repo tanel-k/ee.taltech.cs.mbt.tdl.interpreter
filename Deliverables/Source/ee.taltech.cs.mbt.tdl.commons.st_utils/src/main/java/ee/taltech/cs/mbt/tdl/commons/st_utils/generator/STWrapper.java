@@ -1,6 +1,6 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st;
+package ee.taltech.cs.mbt.tdl.commons.st_utils.generator;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import org.stringtemplate.v4.AutoIndentWriter;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STErrorListener;

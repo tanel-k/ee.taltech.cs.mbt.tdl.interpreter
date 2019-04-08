@@ -1,0 +1,75 @@
+systemFactory(packageName, ctx) ::= <<
+package <packageName>;
+
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.*;
+
+<imports:{importPath | import <importPath>}; separator="\n">
+
+public class <ctx.name>SystemFactory {
+    private <ctx.name>SystemFactory() { }
+
+    public static <ctx.name>SystemFactory new<ctx.name>SystemFactory() {
+        return new <ctx.name>SystemFactory();
+    }
+
+    public <ctx.name>SystemFactory() { }
+
+    <ctx.globalDeclarations:globalDeclarationGetter(); separator="\n">
+
+    <ctx.templates:templateGetter(); separator="\n">
+
+    public UtaSystem new<ctx.name>System() {
+        UtaSystem <ctx.name> = new UtaSystem();
+
+        // Add global declarations
+        <ctx.globalDeclarations:{ declCtx | <globalDeclarationConsumer(ctx.name, declCtx)>}; separator="\n">
+
+        // Add templates
+        <ctx.templates:{ templateCtx | <templateConsumer(ctx.name, templateCtx)>}; separator="\n">
+
+        SystemDefinition definition = new SystemDefinition();
+        // Set system declarations
+        // TODO
+
+        // Set system line
+        // TODO
+
+        // Set progress measures
+        // TODO
+
+        return <ctx.name>;
+    }
+}
+>>
+
+globalDeclarationGetter(ctx) ::= <<
+protected AbsDeclarationStatement new<ctx.name>GlobalDeclaration() {
+    <declarationBuilder(ctx)>
+}
+>>
+
+globalDeclarationConsumer(systemVar, ctx) ::= <<
+CollectionUtils.addIfNonNull(<systemVar>.getDeclarations(), new<ctx.name>GlobalDeclaration());
+>>
+
+templateGetter(ctx) ::= <<
+protected Template new<ctx.name>Template() {
+    // TODO
+    Template <ctx.name> = new Template();
+
+}
+>>
+
+templateConsumer(systemVar, ctx) ::= <<
+CollectionUtils.addIfNonNull(<systemVar>.getTemplates(), new<ctx.name>Template());
+>>
+
+declarationBuilder(ctx) ::= <<
+    // TODO
+>>
+
+expressionBuilder(ctx) ::= <<
+    // TODO
+>>
+

@@ -4,20 +4,34 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class UtaSystem {
-	private Map<String, Template> templateMap = new HashMap<>();
-	private SystemDefinition systemDefinition;
 	private List<AbsDeclarationStatement> globalDeclarations;
+	private List<Template> templates;
+	private SystemDefinition systemDefinition;
 
 	public UtaSystem() {}
 
-	public Map<String, Template> getTemplateMap() {
-		return templateMap;
+	public List<AbsDeclarationStatement> getGlobalDeclarations() {
+		return globalDeclarations == null
+				? (globalDeclarations = new LinkedList<>())
+				: globalDeclarations;
+	}
+
+	public void setGlobalDeclarations(List<AbsDeclarationStatement> globalDeclarations) {
+		this.globalDeclarations = globalDeclarations;
+	}
+
+	public List<Template> getTemplates() {
+		return templates == null
+				? (templates = new LinkedList<>())
+				: templates;
+	}
+
+	public void setTemplates(List<Template> templates) {
+		this.templates = templates;
 	}
 
 	public SystemDefinition getSystemDefinition() {
@@ -26,15 +40,5 @@ public class UtaSystem {
 
 	public void setSystemDefinition(SystemDefinition systemDefinition) {
 		this.systemDefinition = systemDefinition;
-	}
-
-	public List<AbsDeclarationStatement> getGlobalDeclarations() {
-		return (globalDeclarations == null)
-			? (globalDeclarations = new LinkedList<>())
-			: globalDeclarations;
-	}
-
-	public void setGlobalDeclarations(List<AbsDeclarationStatement> globalDeclarations) {
-		this.globalDeclarations = globalDeclarations;
 	}
 }

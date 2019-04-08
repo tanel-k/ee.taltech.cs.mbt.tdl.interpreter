@@ -18,7 +18,7 @@
       </dependency>
       <dependency>
         <groupId>org.antlr</groupId>
-        <artifactId>stringtemplate</artifactId>
+        <artifactId>ST4</artifactId>
         <version>${stringTemplate.version}</version>
       </dependency>
       <!-- /External -->
@@ -27,6 +27,11 @@
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
         <artifactId>utils</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+        <artifactId>st_utils</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -129,7 +134,7 @@
     <antlr.version>4.5</antlr.version>
     <mavenCompiler.version>3.3</mavenCompiler.version>
     <mavenCleaner.version>3.1.0</mavenCleaner.version>
-    <stringTemplate.version>4.0.2</stringTemplate.version>
+    <stringTemplate.version>4.0.8</stringTemplate.version>
     <jaxb2Plugin.version>2.3</jaxb2Plugin.version>
     <spotBugs.version>3.1.11</spotBugs.version>
   </properties>

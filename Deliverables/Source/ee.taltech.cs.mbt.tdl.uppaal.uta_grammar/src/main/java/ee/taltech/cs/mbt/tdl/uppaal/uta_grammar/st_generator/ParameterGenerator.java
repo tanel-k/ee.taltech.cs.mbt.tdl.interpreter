@@ -1,9 +1,9 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.IContextMapper;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextMapper;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.parameter.ParameterMapper;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st.AbsSTGenerator;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st.STRegistry;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.AbsSTGenerator;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
 
 import java.util.Optional;

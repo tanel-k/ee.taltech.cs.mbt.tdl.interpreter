@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.declaration;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.ContextBuilder;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.IContextMapper;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextMapper;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.expression.ExpressionMapper;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.channel_reference.AbsChannelReference;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.channel_priority.channel_reference.ChannelArrayLookup;

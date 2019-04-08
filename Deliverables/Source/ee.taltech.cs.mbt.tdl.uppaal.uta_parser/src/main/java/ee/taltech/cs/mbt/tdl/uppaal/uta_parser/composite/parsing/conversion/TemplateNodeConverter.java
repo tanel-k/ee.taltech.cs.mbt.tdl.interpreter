@@ -10,6 +10,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TemplateNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionLabelNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionNailNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AssignmentsLabel;
@@ -259,7 +260,7 @@ public class TemplateNodeConverter {
 
 	public Template parse(TemplateNode templateXml) {
 		Template template = new Template();
-		template.setName(templateXml.getName().getValue());
+		template.setName(Identifier.of(templateXml.getName().getValue()));
 
 		injectParameters(template, templateXml);
 		injectLocalDeclarations(template, templateXml);

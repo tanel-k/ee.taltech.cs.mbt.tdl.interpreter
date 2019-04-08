@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st;
+package ee.taltech.cs.mbt.tdl.commons.st_utils.generator;
 
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;

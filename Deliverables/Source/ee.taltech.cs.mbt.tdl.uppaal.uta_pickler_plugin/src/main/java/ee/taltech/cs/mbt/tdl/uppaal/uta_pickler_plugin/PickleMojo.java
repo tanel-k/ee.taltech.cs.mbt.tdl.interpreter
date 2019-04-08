@@ -8,6 +8,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
@@ -17,7 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Mojo(name = "pickle")
+@Mojo(name = "pickle", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class PickleMojo extends AbstractMojo {
 	@Parameter(alias = "package")
 	private String packageName;
@@ -43,6 +44,8 @@ public class PickleMojo extends AbstractMojo {
 			getLog().error("Source project has syntax errors in embedded code.", ex);
 		} catch (InvalidSystemStructureException ex) {
 			getLog().error("Source project has structural errors.", ex);
+		} catch (Throwable t) {
+			getLog().error("Unexpected error while parsing source project.", t);
 		}
 
 		if (sourceSystem == null)

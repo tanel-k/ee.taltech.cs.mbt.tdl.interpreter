@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping;
+package ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -3,8 +3,8 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.operations.IOperation;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.operations.OperationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.GenerationQueue.GenerationOperation;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st.AbsSTGenerator;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st.CodeGenerationException;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.AbsSTGenerator;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.CodeGenerationException;
 
 import java.util.Collection;
 import java.util.function.Consumer;

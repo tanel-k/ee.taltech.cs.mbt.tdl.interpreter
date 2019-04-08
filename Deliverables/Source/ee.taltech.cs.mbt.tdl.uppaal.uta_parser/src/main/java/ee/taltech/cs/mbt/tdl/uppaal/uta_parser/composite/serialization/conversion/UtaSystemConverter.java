@@ -57,9 +57,9 @@ public class UtaSystemConverter {
 	}
 
 	private void injectTemplates(UtaSystem system, UtaNode utaNode) {
-		if (system.getTemplateMap().isEmpty())
+		if (system.getTemplates().isEmpty())
 			return;
-		system.getTemplateMap().values().stream()
+		system.getTemplates().stream()
 				.map(templateConverter::convert)
 				.forEach(utaNode.getTemplates()::add);
 	}

@@ -51,7 +51,7 @@ public class UtaNodeConverter {
 
 		for (TemplateNode xmlTemplate : ntaSystem.getTemplates()) {
 			Template template = getTemplateNodeConverter().parse(xmlTemplate);
-			utaSystem.getTemplateMap().put(template.getName(), template);
+			utaSystem.getTemplates().add(template);
 		}
 	}
 

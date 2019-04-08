@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.expression;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.ContextBuilder;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.IContextMapper;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextMapper;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.type.BaseTypeMapper;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.IHasAssignmentCounterpart;

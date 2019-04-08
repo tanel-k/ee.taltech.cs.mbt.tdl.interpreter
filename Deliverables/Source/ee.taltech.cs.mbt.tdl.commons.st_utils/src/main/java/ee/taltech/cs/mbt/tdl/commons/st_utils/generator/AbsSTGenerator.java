@@ -1,10 +1,10 @@
-package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st;
+package ee.taltech.cs.mbt.tdl.commons.st_utils.generator;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.ContextBuilder;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.context_mapping.IContextMapper;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st.STRegistry.MissingSTException;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st.STWrapper.InvalidSTFormatException;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.st.STWrapper.STRenderingException;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextMapper;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry.MissingSTException;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STWrapper.InvalidSTFormatException;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STWrapper.STRenderingException;
 import org.stringtemplate.v4.ST;
 
 import java.util.Collection;

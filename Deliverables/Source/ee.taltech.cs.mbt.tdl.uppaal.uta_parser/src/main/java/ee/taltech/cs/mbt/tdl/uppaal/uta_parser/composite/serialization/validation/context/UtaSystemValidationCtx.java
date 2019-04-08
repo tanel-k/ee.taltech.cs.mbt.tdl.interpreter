@@ -23,7 +23,7 @@ public class UtaSystemValidationCtx extends AbsHierarchyRootValidationCtx<UtaSys
 
 	@Override
 	public Collection<AbsHierarchyValidationCtx> orderedChildContexts() {
-		return getContextObject().getTemplateMap().values()
+		return getContextObject().getTemplates()
 				.stream()
 				.map(t -> new TemplateValidationCtx(t, this))
 				.collect(Collectors.toList());
