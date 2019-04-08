@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.commons.st_utils.generator;
 
+import org.stringtemplate.v4.AttributeRenderer;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupFile;
@@ -29,6 +30,14 @@ public class STRegistry {
 		if (stGroup == null || stGroup.getTemplateNames().isEmpty())
 			throw new IllegalArgumentException("Expecting a non-empty STGroup instance.");
 		this.stGroup = stGroup;
+	}
+
+	public void registerRenderer(Class attrType, AttributeRenderer renderer) {
+		stGroup.registerRenderer(attrType, renderer);
+	}
+
+	public STGroup getStGroup() {
+		return stGroup;
 	}
 
 	public ST getTemplate(String name) throws MissingSTException {

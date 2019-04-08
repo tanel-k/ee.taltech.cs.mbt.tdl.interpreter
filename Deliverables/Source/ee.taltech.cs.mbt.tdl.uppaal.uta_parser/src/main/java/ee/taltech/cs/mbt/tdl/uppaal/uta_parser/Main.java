@@ -12,5 +12,11 @@ public class Main {
 	public static void main(String... args) throws MarshallingException, InvalidSystemStructureException, EmbeddedCodeSyntaxException, SyntaxRepresentationException {
 		UtaSystem system = UtaParser.newInstance().parse(Main.class.getResourceAsStream("/test.xml"));
 		UtaSerializer.newInstance().serialize(system, System.out);
+		{
+			Object test = new Object();
+		}
+		{
+			Object test = new Object();
+		}
 	}
 }

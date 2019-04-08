@@ -5,7 +5,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureE
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller.MarshallingException;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.PickleGeneratorFactory;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.SystemPickleGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -21,12 +21,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Mojo(name = "pickle", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
-public class PickleMojo extends AbstractMojo {
+public class SystemPicklerMojo extends AbstractMojo {
 	@Parameter(alias = "package", defaultValue = "pickles", readonly = true)
 	private String picklePackage;
 
 	@Parameter(alias ="class", defaultValue = "Pickle", readonly = true)
-	private String pickleClassName;
+	private String pickleName;
 
 	@Parameter(required = true, readonly = true)
 	private File sourceFile;
@@ -54,19 +54,20 @@ public class PickleMojo extends AbstractMojo {
 		}
 
 		getLog().info("Successfully parsed source project.");
-		getLog().info("Generating source code for pickle class.");
+		getLog().info("Generating source code for pickle factory.");
 
 		String pickleClass;
 		try {
-			pickleClass = PickleGeneratorFactory.systemGenerator(picklePackage, pickleClassName)
+			pickleClass = SystemPickleGeneratorFactory
+					.systemGenerator(picklePackage, pickleName)
 					.generate(sourceSystem);
 		} catch (GenerationException ex) {
 			throw new MojoExecutionException("Failed to generate pickle class.", ex);
 		}
 
-		getLog().info("Successfully generated source code for pickle class.");
+		getLog().info("Successfully generated source code for pickle factory.");
 
-		// TODO: Store in targetDir with name pickleClassName.
+		// TODO: Store in targetDir with name pickleName.
 		// TODO: Consider package picklePackage as well.
 	}
 }

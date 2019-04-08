@@ -7,26 +7,38 @@ import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.SystemExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
-public class PickleGenerator extends AbsSTGenerator<UtaSystem> {
+public class SystemPickleGenerator extends AbsSTGenerator<UtaSystem> {
+	private static final String TEMPLATE_NAME = "systemPickle";
+
 	private String picklePackage;
-	private String pickleClassName;
+	private String pickleName;
+	private SystemExtractor extractor = SystemExtractor.getInstance();
 
-	PickleGenerator(String picklePackage, String pickleClassName, STRegistry stRegistry) {
+	SystemPickleGenerator(String picklePackage, String pickleName, STRegistry stRegistry) {
 		super(stRegistry);
 		this.picklePackage = picklePackage;
-		this.pickleClassName = pickleClassName;
+		this.pickleName = pickleName;
+	}
+
+	protected Collection<String> getImportStrings(SystemExtractor extractor) {
+		Set<Class> classes = extractor.getRequiredClasses();
+		// FIXME: SORT ALPHABETICALLY
+		// FIXME: TO FULLY QUALIFIED CLASS NAMES
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	protected IContextExtractor<UtaSystem> getContextExtractor() {
-		return SystemExtractor.getInstance();
+		return extractor;
 	}
 
 	@Override
 	protected String getTemplateName() {
-		throw new UnsupportedOperationException();
+		return TEMPLATE_NAME;
 	}
 
 	@Override
@@ -37,7 +49,8 @@ public class PickleGenerator extends AbsSTGenerator<UtaSystem> {
 	@Override
 	protected ContextBuilder extractContext(UtaSystem inst) {
 		return super.extractContext(inst)
-				.put("picklePackage", picklePackage)
-				.put("pickleClassName", pickleClassName);
+				.put("package", picklePackage)
+				.put("name", pickleName)
+				.put("imports", getImportStrings(extractor));
 	}
 }
