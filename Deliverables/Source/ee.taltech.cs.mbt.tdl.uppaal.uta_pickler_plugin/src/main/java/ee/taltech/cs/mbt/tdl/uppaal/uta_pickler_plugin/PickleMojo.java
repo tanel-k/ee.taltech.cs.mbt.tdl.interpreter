@@ -1,9 +1,11 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin;
 
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.GenerationException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller.MarshallingException;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.PickleGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -20,8 +22,11 @@ import java.io.InputStream;
 
 @Mojo(name = "pickle", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class PickleMojo extends AbstractMojo {
-	@Parameter(alias = "package")
-	private String packageName;
+	@Parameter(alias = "package", defaultValue = "pickles", readonly = true)
+	private String picklePackage;
+
+	@Parameter(alias ="class", defaultValue = "Pickle", readonly = true)
+	private String pickleClassName;
 
 	@Parameter(required = true, readonly = true)
 	private File sourceFile;
@@ -31,26 +36,37 @@ public class PickleMojo extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		UtaSystem sourceSystem = null;
+		UtaSystem sourceSystem;
 		try (InputStream in = new FileInputStream(sourceFile)) {
 			sourceSystem = UtaParser.newInstance().parse(in);
 		} catch (FileNotFoundException ex) {
-			getLog().error("Source project missing.", ex);
+			throw new MojoExecutionException("Source project missing.", ex);
 		} catch (IOException ex) {
-			getLog().error("Exception occurred while reading source project.", ex);
+			throw new MojoExecutionException("Exception occurred while reading source project.", ex);
 		} catch (MarshallingException ex) {
-			getLog().error("Exception occurred while unmarshalling source project.", ex);
+			throw new MojoExecutionException("Exception occurred while unmarshalling source project.", ex);
 		} catch (EmbeddedCodeSyntaxException ex) {
-			getLog().error("Source project has syntax errors in embedded code.", ex);
+			throw new MojoExecutionException("Source project has syntax errors in embedded code.", ex);
 		} catch (InvalidSystemStructureException ex) {
-			getLog().error("Source project has structural errors.", ex);
+			throw new MojoExecutionException("Source project has structural errors.", ex);
 		} catch (Throwable t) {
-			getLog().error("Unexpected error while parsing source project.", t);
+			throw new MojoExecutionException("Unexpected error while parsing source project.", t);
 		}
 
-		if (sourceSystem == null)
-			return;
+		getLog().info("Successfully parsed source project.");
+		getLog().info("Generating source code for pickle class.");
 
-		getLog().info("Todo");
+		String pickleClass;
+		try {
+			pickleClass = PickleGeneratorFactory.systemGenerator(picklePackage, pickleClassName)
+					.generate(sourceSystem);
+		} catch (GenerationException ex) {
+			throw new MojoExecutionException("Failed to generate pickle class.", ex);
+		}
+
+		getLog().info("Successfully generated source code for pickle class.");
+
+		// TODO: Store in targetDir with name pickleClassName.
+		// TODO: Consider package picklePackage as well.
 	}
 }

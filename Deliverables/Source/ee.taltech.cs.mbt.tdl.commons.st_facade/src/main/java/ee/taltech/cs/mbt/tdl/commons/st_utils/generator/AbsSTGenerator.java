@@ -22,11 +22,19 @@ public abstract class AbsSTGenerator<T> {
 	protected abstract String getTemplateName();
 	protected abstract Optional<String> getIterableTemplateName();
 
+	protected ContextBuilder extractContext(T inst) {
+		return getContextExtractor().extract(inst);
+	}
+
+	protected Collection<ContextBuilder> extractContext(Collection<T> instances) {
+		return getContextExtractor().extract(instances);
+	}
+
 	public String generate(T inst) throws GenerationException {
 		try {
 			ST st = stRegistry.getTemplate(getTemplateName());
 			STFacade stFacade = STFacade.wrap(st);
-			ContextBuilder ctxBuilder = getContextExtractor().extract(inst);
+			ContextBuilder ctxBuilder = extractContext(inst);
 			stFacade.setRootContext(ctxBuilder);
 			return stFacade.render();
 		} catch (MissingSTException | InvalidSTFormatException ex) {
@@ -44,7 +52,7 @@ public abstract class AbsSTGenerator<T> {
 		try {
 			ST st = stRegistry.getTemplate(templateName);
 			STFacade stFacade = STFacade.wrap(st);
-			Collection<ContextBuilder> ctxBuilders = getContextExtractor().extract(instances);
+			Collection<ContextBuilder> ctxBuilders = extractContext(instances);
 			stFacade.setRootIterable(ctxBuilders);
 			return stFacade.render();
 		} catch (MissingSTException | InvalidSTFormatException ex) {

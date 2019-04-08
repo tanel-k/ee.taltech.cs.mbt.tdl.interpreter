@@ -41,7 +41,6 @@ public class ChannelReferenceCtxExtractor implements IPicklerContextExtractor<Ab
 		throw new UnsupportedOperationException();
 	}
 
-
 	@Override
 	public Set<Class> getRequiredClasses() {
 		return requiredClasses;
