@@ -24,4 +24,6 @@ public abstract class AbsUtaLabel<ContentType> implements IPositionable {
 	public void setContent(ContentType content) {
 		this.content = content;
 	}
+
+	public abstract <T> T accept(ILabelVisitor<T> visitor);
 }

@@ -2,11 +2,11 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitio
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AssignmentsLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.CommentLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.GuardLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.SelectionLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.SynchronizationLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.CommentLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.GuardLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SelectionLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
 
 import java.util.Collection;
 import java.util.LinkedList;

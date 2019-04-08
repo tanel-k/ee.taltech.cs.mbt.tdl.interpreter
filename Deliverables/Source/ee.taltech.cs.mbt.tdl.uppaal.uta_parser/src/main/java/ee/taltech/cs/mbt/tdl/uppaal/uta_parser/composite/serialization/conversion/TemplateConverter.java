@@ -3,17 +3,17 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.conversi
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.GenerationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.UtaGeneratorFactory;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AssignmentsLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.CommentLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.GuardLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.InvariantLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.SelectionLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.SynchronizationLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.CommentLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.GuardLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.InvariantLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SelectionLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition.Nail;
 
 import java.util.Objects;
 
@@ -132,10 +132,10 @@ public class TemplateConverter {
 		return labelNode;
 	}
 
-	private TransitionNailNode createTransitionNail(Nail nail) {
+	private TransitionNailNode createTransitionNail(GuiCoordinates nail) {
 		TransitionNailNode transitionNailNode = new TransitionNailNode();
-		transitionNailNode.setX(nail.getCoordinates().getX());
-		transitionNailNode.setY(nail.getCoordinates().getY());
+		transitionNailNode.setX(nail.getX());
+		transitionNailNode.setY(nail.getY());
 		return transitionNailNode;
 	}
 

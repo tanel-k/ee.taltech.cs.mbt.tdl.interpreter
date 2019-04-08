@@ -13,19 +13,18 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AssignmentsLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.CommentLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.GuardLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.InvariantLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.SelectionLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.SynchronizationLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.CommentLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.GuardLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.InvariantLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SelectionLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location.ELocationExitPolicy;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location.LocationName;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.LocationLabels;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition.Nail;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
 import java.util.HashMap;
@@ -78,7 +77,7 @@ public class TemplateNodeConverter {
 
 	private void injectLocationData(Location location, LocationNode locationXml) {
 		location.setId(locationXml.getId());
-		location.setCoordinates(new GuiCoordinates(locationXml.getX(), locationXml.getY()));
+		location.setCoordinates(GuiCoordinates.of(locationXml.getX(), locationXml.getY()));
 
 		location.setColor(ConversionUtils.parseColor(locationXml.getColor()));
 
@@ -86,7 +85,7 @@ public class TemplateNodeConverter {
 		if (locationXml.isSetName() && (nameXml = locationXml.getName()).isSetX() && nameXml.isSetY()) {
 			LocationName locationName = new Location.LocationName();
 			locationName.setName(nameXml.getValue());
-			locationName.setCoordinates(new GuiCoordinates(nameXml.getX(), nameXml.getY()));
+			locationName.setCoordinates(GuiCoordinates.of(nameXml.getX(), nameXml.getY()));
 			location.setName(locationName);
 		}
 
@@ -132,7 +131,7 @@ public class TemplateNodeConverter {
 				break;
 			}
 
-			label.setCoordinates(new GuiCoordinates(locationLabelXml.getX(), locationLabelXml.getY()));
+			label.setCoordinates(GuiCoordinates.of(locationLabelXml.getX(), locationLabelXml.getY()));
 		}
 
 		location.setLabels(labelContainer);
@@ -206,18 +205,16 @@ public class TemplateNodeConverter {
 				break;
 			}
 
-			label.setCoordinates(new GuiCoordinates(transitionLabelXml.getX(), transitionLabelXml.getY()));
+			label.setCoordinates(GuiCoordinates.of(transitionLabelXml.getX(), transitionLabelXml.getY()));
 		}
 
 		transition.setLabels(labelContainer);
 	}
 
 	private void injectTransitionNails(Transition transition, TransitionNode transitionXml) {
-		for (TransitionNailNode nailXml : transitionXml.getNails()) {
-			Nail nail = new Nail();
-			nail.setCoordinates(new GuiCoordinates(nailXml.getX(), nailXml.getY()));
-			transition.getNails().add(nail);
-		}
+		transitionXml.getNails().stream()
+				.map(n -> GuiCoordinates.of(n.getX(), n.getY()))
+				.forEach(transition.getNails()::add);
 	}
 
 	private void injectTransitionData(Transition transition, TransitionNode transitionXml) {

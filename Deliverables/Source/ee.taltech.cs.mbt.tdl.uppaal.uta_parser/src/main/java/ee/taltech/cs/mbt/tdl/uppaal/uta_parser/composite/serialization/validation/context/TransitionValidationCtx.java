@@ -79,9 +79,6 @@ public class TransitionValidationCtx extends AbsHierarchyValidationCtx<Transitio
 		getContextObject().getLabels().asCollection().stream()
 				.map(label -> new TransitionLabelValidationCtx(label, this))
 				.forEach(children::add);
-		getContextObject().getNails().stream()
-				.map(nail -> new NailValidationCtx(nail, this))
-				.forEach(children::add);
 		return children;
 	}
 }

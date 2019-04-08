@@ -24,7 +24,12 @@ public class ContextBuilder {
 	}
 
 	public ContextBuilder put(String key, ContextBuilder builder) {
-		return put(key, builder == null ? null : builder.getContextMap());
+		return put(
+				key,
+				builder == null
+						? null
+						: builder.getContextMap()
+		);
 	}
 
 	public ContextBuilder put(String key, Collection<ContextBuilder> builders) {
@@ -32,11 +37,10 @@ public class ContextBuilder {
 			return this;
 
 		return put(
-			key,
-			builders
-				.stream()
-				.map(ContextBuilder::getContextMap)
-				.collect(Collectors.toList())
+				key,
+				builders.stream()
+					.map(ContextBuilder::getContextMap)
+					.collect(Collectors.toList())
 		);
 	}
 

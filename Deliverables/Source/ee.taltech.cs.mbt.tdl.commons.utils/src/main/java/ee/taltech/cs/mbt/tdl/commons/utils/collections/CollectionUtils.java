@@ -1,7 +1,9 @@
 package ee.taltech.cs.mbt.tdl.commons.utils.collections;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class CollectionUtils {
@@ -15,5 +17,12 @@ public class CollectionUtils {
 			return true;
 		}
 		return false;
+	}
+
+	public static <T> Set<T> newSet(T... items) {
+		Set<T> set = new HashSet<>();
+		for (T item : items)
+			set.add(item);
+		return set;
 	}
 }

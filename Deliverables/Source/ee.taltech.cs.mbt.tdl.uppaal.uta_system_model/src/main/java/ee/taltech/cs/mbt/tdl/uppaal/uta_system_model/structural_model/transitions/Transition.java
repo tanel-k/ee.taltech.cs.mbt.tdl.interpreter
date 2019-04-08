@@ -10,26 +10,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Transition implements IColorable {
-	public static class Nail implements IPositionable {
-		private GuiCoordinates coordinates;
-
-		@Override
-		public GuiCoordinates getCoordinates() {
-			return coordinates;
-		}
-
-		@Override
-		public void setCoordinates(GuiCoordinates coordinates) {
-			this.coordinates = coordinates;
-		}
-	}
-
 	private Location source;
 	private Location target;
 
 	private Color color;
-	private List<Nail> nails = new LinkedList<>();
 	private TransitionLabels labels;
+	private List<GuiCoordinates> nails = new LinkedList<>();
 
 	public Transition() { }
 
@@ -57,7 +43,7 @@ public class Transition implements IColorable {
 		this.labels = labels;
 	}
 
-	public List<Nail> getNails() {
+	public List<GuiCoordinates> getNails() {
 		return nails;
 	}
 
