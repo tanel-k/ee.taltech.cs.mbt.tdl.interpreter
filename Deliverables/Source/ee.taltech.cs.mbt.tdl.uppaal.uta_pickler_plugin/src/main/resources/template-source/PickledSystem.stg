@@ -91,23 +91,23 @@ protected ParameterDeclaration new<ctx.name; format="cap">ParameterDeclaration()
 
 parameterDeclarationConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
-        <targetVar>.getParameters(),
-        new<ctx.name;format="cap">ParameterDeclaration()
+    <targetVar>.getParameters(),
+    new<ctx.name;format="cap">ParameterDeclaration()
 );
 >>
 
 templateConstructor(ctx) ::= <<
 protected Template new<ctx.name;format="cap">Template() {
     return <ctx.name;format="cap">TemplateFactory
-            .new<ctx.name;format="cap">TemplateFactory()
-            .new<ctx.name;format="cap">Template();
+        .new<ctx.name;format="cap">TemplateFactory()
+        .new<ctx.name;format="cap">Template();
 }
 >>
 
 templateConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
-        <targetVar>.getTemplates(),
-        new<ctx.name;format="cap">Template()
+    <targetVar>.getTemplates(),
+    new<ctx.name;format="cap">Template()
 );
 >>
 
@@ -120,7 +120,7 @@ protected Location new<ctx.id;format="cap">Location() {
 locationConsumer(tarvetVar, ctx) ::= <<
 Location location<ctx.id;format="cap"> = new<ctx.id;format="cap">Location();
 template<targetVar;format="cap">.getLocationGraph()
-        .addVertex(location<ctx.id;format="cap">);
+    .addVertex(location<ctx.id;format="cap">);
 <if(ctx.initial)>template<targetVar;format="cap">.setInitialLocation(location<ctx.id;format="cap">);<endif>
 >>
 
@@ -132,11 +132,11 @@ protected Transition new<ctx.uniqueId;format="cap">Transition(Location source, L
 
 transitionConsumer(targetVar, ctx) ::= <<
 Transition transition<ctx.uniqueId;format="cap"> = new<ctx.uniqueId;format="cap">Transition(
-        location<ctx.sourceId;format="cap">,
-        location<ctx.targetId;format="cap">
+    location<ctx.sourceId;format="cap">,
+    location<ctx.targetId;format="cap">
 );
 targetVar.getLocationGraph()
-        .addEdge(location<ctx.sourceId;format="cap">, location<ctx.targetId;format="cap">);
+    .addEdge(location<ctx.sourceId;format="cap">, location<ctx.targetId;format="cap">);
 >>
 
 declarationConstructor(ctx) ::= <<
@@ -147,8 +147,8 @@ protected AbsDeclarationStatement new<ctx.name>Declaration() {
 
 declarationConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
-        <targetVar>.getDeclarations(),
-        new<ctx.name; format="cap">Declaration()
+    <targetVar>.getDeclarations(),
+    new<ctx.name; format="cap">Declaration()
 );
 >>
 
@@ -166,8 +166,7 @@ SystemDefinition systemDefinition = newSystemDefinition();
 newSystemDefinition(ctx) ::= <<
 new SystemDefinition()
     <ctx.declarations:{declCtx|
-    .addDeclaration(<newDeclaration(declCtx)>)
-    }>
+    .addDeclaration(<newDeclaration(declCtx)>)}>
 <if(ctx.systemLine)>
     .setSystemLine(
         new SystemLine()
@@ -175,15 +174,12 @@ new SystemDefinition()
             .addGroup(
                 new ProcessReferenceGroup()
                     <grpCtx.identifiers:{idCtx|
-                    .addIdentifier(Identifier.of("<idCtx>"))
-                    }; separator="\n">
-            )
-        }; separator="\n">
+                    .addIdentifier(Identifier.of("<idCtx>"))}>
+            )}>
     )
 <endif>
     <ctx.progressMeasures:{exprCtx|
-    .addProgressMeasure(<newExpression(exprCtx)>)
-    }>
+    .addProgressMeasure(<newExpression(exprCtx)>)}>
 >>
 
 newLocation(ctx) ::= <<
@@ -192,11 +188,12 @@ new Location()
 <if(ctx.name)>
     .setName("<ctx.name>")
 <endif>
-    .setLabels(new LocationLabels()
+    .setLabels(
+        new LocationLabels()
 <if(ctx.labels.invariant)>
-        .setInvariant(<newInvariantLabel(ctx.labels.invariant)>)<endif>
+            .setInvariant(<newInvariantLabel(ctx.labels.invariant)>)<endif>
 <if(ctx.labels.comment)>
-        .setCommentLabel(<newCommentLabel(ctx.labels.comment)>)
+            .setCommentLabel(<newCommentLabel(ctx.labels.comment)>)
 <endif>
     )
 <if(ctx.colorValue)>
@@ -209,46 +206,81 @@ newTransition(ctx) ::= <<
 new Transition()
     .setSource(source)
     .setTarget(target)
-    <if(ctx.colorValue)>.setColor(Color.of(<ctx.colorValue>))<endif>
+<if(ctx.colorValue)>
+    .setColor(Color.of(<ctx.colorValue>))
+<endif>
     .setLabels(
         new TransitionLabels()
-            <if(ctx.labels.guard)>.setGuardLabel(<newGuardLabel(ctx.labels.guard)>)<endif>
-            <if(ctx.labels.comment)>.setCommentLabel(<newCommentLabel(ctx.labels.comment)>)<endif>
-            <if(ctx.labels.assignments)>.setAssignmentsLabel(<newAssignmentsLabel(ctx.labels.assignments)>)<endif>
-            <if(ctx.labels.select)>.setSelectLabel(<newSelectLabel(ctx.labels.select)>)<endif>
-            <if(ctx.labels.synchronization)>.setSynchronizationLabel(<newSynchronizationLabel(ctx.labels.synchronization)>)<endif>
+<if(ctx.labels.guard)>
+            .setGuardLabel(<newGuardLabel(ctx.labels.guard)>)
+<endif>
+<if(ctx.labels.comment)>
+            .setCommentLabel(<newCommentLabel(ctx.labels.comment)>)
+<endif>
+<if(ctx.labels.assignments)>
+            .setAssignmentsLabel(<newAssignmentsLabel(ctx.labels.assignments)>)
+<endif>
+<if(ctx.labels.selection)>
+            .setSelectLabel(<newSelectionLabel(ctx.labels.selection)>)
+<endif>
+<if(ctx.labels.synchronization)>
+            .setSynchronizationLabel(<newSynchronizationLabel(ctx.labels.synchronization)>)
+<endif>
     )
     <ctx.nails:{nailCtx|{
-    .addNail(GuiCoordinates.of(nailCtx.x, nailCtx.y))
-    };separator="\n">
->>
-
-newInvariantLabel(ctx) ::= <<
-
+    .addNail(GuiCoordinates.of(nailCtx.x, nailCtx.y))}>
 >>
 
 newCommentLabel(ctx) ::= <<
+new CommentLabel().setContent("<ctx.commentText>")
+>>
 
+newInvariantLabel(ctx) ::= <<
+new InvariantLabel().setContent(
+    <newExpression(ctx.expression)>
+)
 >>
 
 newGuardLabel(ctx) ::= <<
-
+new GuardLabel().setContent(
+    <newExpression(ctx.expression)>
+)
 >>
 
 newAssignmentsLabel(ctx) ::= <<
-
+new AssignmentsLabel().setContent(
+    CollectionUtils.collectionBuilder(new LinkedList\<AbsExpression\>())
+        <ctx.expressions:{exprCtx|
+        .add(
+            <newExpression(exprCtx)>)
+        }>
+        .build()
+)
 >>
 
-newSelectLabel(ctx) ::= <<
-
+newSelectionLabel(ctx) ::= <<
+new SelectionLabel().setContent(
+    CollectionUtils.collectionBuilder(new LinkedList\<Selection\>())
+        <ctx.expressions:{selCtx|
+        .add(
+            <newSelection(selCtx)>
+        )}>
+        .build()
+)
 >>
 
-newSelectLabel(ctx) ::= <<
-
+newSelection(ctx) ::= <<
+new Selection()
+    .setVariableName(Identifier.of("<ctx.variableName>"))
+    .setSelectType(<newBaseType(ctx.selectType)>)
 >>
 
 newSynchronizationLabel(ctx) ::= <<
-
+new SynchronizationLabel().setContent(
+    new Synchronization()
+        .setActiveSync(<if(ctx.synchronization.active)>true<else>false<endif>)
+        .setExpression(<newExpression(ctx.synchronization.expression)>)
+)
 >>
 
 newParameter(ctx) ::= <<
@@ -257,18 +289,17 @@ new ParameterDeclaration()
     .setType(<newType(ctx.type)>)
 >>
 
-// ctx.name
 newDeclaration(ctx) ::= <%
     <if(ctx.variableDeclaration)>
-        <variableDeclaration(ctx)>
+        <newVariableDeclaration(ctx)>
     <elseif(ctx.typeDeclaration)>
-        <typeDeclaration(ctx)>
+        <newTypeDeclaration(ctx)>
     <elseif(ctx.channelPriorityDeclaration)>
         <newChannelPriorityDeclaration(ctx)>
     <elseif(ctx.templateInstantiation)>
-        <templateInstantiation(ctx)>
+        <newTemplateInstantiation(ctx)>
     <elseif(ctx.functionDeclaration)>
-        <functionDeclaration(ctx)>
+        <newFunctionDeclaration(ctx)>
     <endif>
 %>
 
@@ -278,10 +309,8 @@ new ChannelPrioritySequence()
         .addGroup(
             new ChannelReferenceGroup()
                 <grpCtx.channelReferences:{refCtx|
-                .addReference(<newChannelReference(refCtx)>)
-                }; separator="\n">
-        )
-    }; separator="\n">
+                .addReference(<newChannelReference(refCtx)>)}>
+        )}>
 >>
 
 newChannelReference(ctx) ::= <<
@@ -295,46 +324,46 @@ new ChannelArrayLookup().setArrayVariableLookup(
     new ArrayVariableLookup()
         .setIdentifier(Identifier.of("<ctx.arrayName>"))
         <ctx.lookupExpressions:{exprCtx|
-        .addLookupExpression(<newExpression(exprCtx)>)
-        }>
+        .addLookupExpression(<newExpression(exprCtx)>)}>
 )
 <endif>
 >>
 
-templateInstantiation(ctx) ::= <<
-TemplateInstantiation templInst<ctx.newTemplateName;format="cap"> = new TemplateInstantiation();
-templInst<ctx.newTemplateName;format="cap"><ctx.UUID>.setNewTemplateName(Identifier.of("<ctx.newTemplateName>"));
-templInst<ctx.newTemplateName;format="cap"><ctx.UUID>.setSourceTemplateName(Identifier.of("<ctx.sourceTemplateName>"));
-
-// Set parameter declarations:
-<ctx.parameters:{ paramCtx | templateInstParameter(ctx, paramCtx)}; separator="\n">
-
-// Set arguments:
-<ctx.arguments:{ argCtx | templateInstArgument(ctx, argCtx)}; separator="\n">
-
-return templInst<ctx.newTemplateName;format="cap"><ctx.UUID>;
+newTemplateInstantiation(ctx) ::= <<
+new TemplateInstantiation()
+    .setNewTemplateName(Identifier.of("<ctx.newTemplateName>"))
+    .setSourceTemplateName(Identifier.of("<ctx.sourceTemplateName>"))
+    <ctx.parameters:{paramCtx|
+    .addParameter(
+        new ParameterDeclaration()
+            .setIdentifier(Identifier.of("<paramCtx.identifier>"))
+            .setType(<newType(paramCtx.type)>)
+    )}>
+    <ctx.arguments:{argCtx|
+    .addArgument(
+        <newExpression(argCtx)>
+    )}>
 >>
 
-templateInstParameter(parentCtx, ctx) ::= <<
-<parameter(ctx, "")>
-templInst<parentCtx.newTemplateName;format="cap"><ctx.UUID>.getParameters().add(...);
+newFunctionDeclaration(ctx) ::= <<
+new FunctionDeclaration()
+<if(ctx.valueType)>
+    .setValueType(<newBaseType(ctx.valueType)>)
+<endif>
+    .setName(Identifier.of("<ctx.name>"))
+    <ctx.parameters:{paramCtx|
+    .addParameter(
+        new ParameterDeclaration()
+            .setIdentifier(Identifier.of("<paramCtx.identifier>"))
+            .setType(<newType(paramCtx.type)>)
+    )
+    }>
+    .setStatementBlock(<newStatement(ctx.statementBlock)>)
 >>
 
-templateInstArgument(parentCtx, ctx) ::= <<
-<expression(ctx, "")>
-templInst<parentCtx.newTemplateName;format="cap"><ctx.UUID>.getArguments().add(expr);
->>
 
-expression(ctx, nameQualifier) ::= <<
-// TODO
->>
-
-
-functionDeclaration(ctx) ::= <%
-    <functionType(ctx.valueType)> <ctx.identifierValue>(<parameters(ctx.parameters)>) <statement(ctx.statementBlock)>
-%>
-
-variableDeclaration(ctx) ::= <%
+// UNDER CONSTRUCTION:
+newVariableDeclaration(ctx) ::= <%
     <if(ctx.singleVariableDeclaration)>
         <singleVariableDeclaration(ctx)>
     <elseif(ctx.multiVariableDeclaration)>
@@ -342,7 +371,7 @@ variableDeclaration(ctx) ::= <%
     <endif>
 %>
 
-typeDeclaration(ctx) ::= <%
+newTypeDeclaration(ctx) ::= <%
     <if(ctx.singleTypeDeclaration)>
         <singleTypeDeclaration(ctx)>
     <elseif(ctx.multiDeclaration)>
@@ -351,14 +380,6 @@ typeDeclaration(ctx) ::= <%
 %>
 
 // BEGIN: Declaration utils
-functionType(ctx) ::= <%
-    <if(ctx)>
-        <baseType(ctx)>
-    <else>
-        void
-    <endif>
-%>
-
 singleVariableDeclaration(ctx) ::= <%
     <baseType(ctx.type.baseType)> <if(ctx.type.referenceType)>&<endif><ctx.identifierValue><arrayModifiers(ctx.type.arrayModifiers)>
     <if(ctx.initializer)> = <variableInitializer(ctx.initializer)><endif>;
@@ -390,93 +411,30 @@ subTypeDeclaration(ctx) ::= <%
     <ctx.identifierValue><arrayModifiers(ctx.arrayModifiers)>
 %>
 
-
-// ...
-newExpression(ctx) ::= <<
-// TODO
-
-// ...
->>
-
-
-
-// FIXME
-// BEGIN: System definition
-systemDefinition(ctx) ::=<<
-<if(ctx.declarations)><systemDeclarations(ctx.declarations)><endif>
-<if(ctx.systemLine)><systemLine(ctx.systemLine)><endif>
-<if(ctx.progressMeasures)><progressMeasureDeclaration(ctx.progressMeasures)><endif>
->>
-
-systemDeclarations(iterable) ::= <%
-    <iterable:declaration(); separator="\n">
-%>
-
-systemLine(ctx) ::= <%
-    system <ctx.processReferenceGroups:processReferenceGroup(); separator=" < ">;
-%>
-
-progressMeasureDeclaration(iterable) ::= <<progress {
-    <iterable:progressExpression(); separator="\n">
-}>>
-
-// BEGIN: System definition utils
-processReferenceGroup(ctx) ::= <%
-    <ctx.processReferences:processRef(); separator=", ">
-%>
-
-processRef(identifierValue) ::= <%
-    <identifierValue>
-%>
-
-progressExpression(ctx) ::= <%
-    <expression(ctx)>;
-%>
-// END: System definition utils
-// END: System definition
-
-// BEGIN: Template
-selections(iterable) ::= <%
-    <iterable:selection(); separator=", ">
-%>
-
-selection(ctx) ::= <%
-    <ctx.variableName> : <baseType(ctx.baseType)>
-%>
-
-synchronization(ctx) ::= <%
-    <if(ctx.activeSync)>
-        <expression(ctx.expression)>!
-    <else>
-        <expression(ctx.expression)>?
-    <endif>
-%>
-// END: Template
-
 // BEGIN: Statements
-statement(ctx) ::= <%
+newStatement(ctx) ::= <%
     <if(ctx.blockStatement)>
-        <blockStmt(ctx)>
+        <newBlockStmt(ctx)>
     <elseif(ctx.forLoopStatement)>
-        <forStmt(ctx)>
+        <newForStmt(ctx)>
     <elseif(ctx.iterationStatement)>
-        <iterationStmt(ctx)>
+        <newIterationStmt(ctx)>
     <elseif(ctx.whileStatement)>
-        <whileStmt(ctx)>
+        <newWhileStmt(ctx)>
     <elseif(ctx.doWhileStatement)>
-        <doWhileStmt(ctx)>
+        <newDoWhileStmt(ctx)>
     <elseif(ctx.conditionalStatement)>
-        <conditionalStmt(ctx)>
+        <newConditionalStmt(ctx)>
     <elseif(ctx.expressionStatement)>
-        <expression(ctx.expression)>;
+        <newExpression(ctx.expression)>;
     <elseif(ctx.returnStatement)>
-        return<if(ctx.expression)> <expression(ctx.expression)><endif>;
+        new ReturnStatement()<if(ctx.expression)>.setExpression(<newExpression(ctx.expression)>)<endif>
     <elseif(ctx.emptyStatement)>
-        ;
+        EmptyStatement.getInstance()
     <endif>
 %>
 
-blockStmt(ctx) ::= <<{
+newBlockStmt(ctx) ::= <<{
 <if(ctx.declarations)>
     <declarations(ctx.declarations)>
 <endif>
@@ -485,24 +443,24 @@ blockStmt(ctx) ::= <<{
 <endif>
 }>>
 
-forStmt(ctx) ::= <<for (<expression(ctx.initializer)>; <expression(ctx.condition)>; <expression(ctx.update)>)
+newForStmt(ctx) ::= <<for (<expression(ctx.initializer)>; <expression(ctx.condition)>; <expression(ctx.update)>)
     <statment(ctx.statement)>
 >>
 
-iterationStmt(ctx) ::= <<for (<ctx.identifierValue> : <type(ctx.iteratedType)>)
+newIterationStmt(ctx) ::= <<for (<ctx.identifierValue> : <type(ctx.iteratedType)>)
     <statement(ctx.statement)>
 >>
 
-whileStmt(ctx) ::= <<while (<expression(ctx.condition)>)
+newWhileStmt(ctx) ::= <<while (<expression(ctx.condition)>)
     <statement(ctx.statement)>
 >>
 
-doWhileStmt(ctx) ::= <<do
+newDoWhileStmt(ctx) ::= <<do
     <statement(ctx.statement)>
 while (<expression(ctx.condition)>);
 >>
 
-conditionalStmt(ctx) ::= <<if (<expression(ctx.condition)>)
+newConditionalStmt(ctx) ::= <<if (<expression(ctx.condition)>)
     <statement(ctx.primary)>
 <if(ctx.alternative)>
 else
@@ -512,7 +470,7 @@ else
 // END: Statements
 
 // BEGIN: Expressions
-expression(ctx) ::= <%
+newExpression(ctx) ::= <%
     <if(ctx.group)>
         (<expression(ctx.child)>)
     <elseif(ctx.arrayLookup)>
@@ -658,7 +616,7 @@ literal(ctx) ::= <%
 // END: Expressions
 
 // BEGIN: Types
-baseType(ctx) ::= <%
+newBaseType(ctx) ::= <%
     <if(ctx.prefix)><typePrefix(ctx.prefix)> <endif><typeId(ctx.typeId)>
 %>
 
@@ -674,7 +632,7 @@ typePrefix(ctx) ::= <%
     <endif>
 %>
 
-typeId(ctx) ::= <%
+newTypeId(ctx) ::= <%
     <if(ctx.struct)>
         struct <fieldDeclarations(ctx.fieldDeclarations)>
     <elseif(ctx.scalar)>
@@ -700,7 +658,7 @@ fieldDeclarations(iterable) ::= <<{
 }
 >>
 
-fieldDeclaration(ctx) ::= <%
+newFieldDeclaration(ctx) ::= <%
     <if(ctx.singleDeclaration)>
         <singleDeclaration(ctx)>
     <elseif(ctx.multiDeclaration)>
@@ -719,21 +677,7 @@ multiDeclaration(ctx) ::= <%
 // END: Types
 
 // BEGIN: General utils
-expressions(iterable) ::= <%
-    <iterable:expression(); separator=",\n">
-%>
 
-arguments(iterable) ::= <%
-    <iterable:expression(); separator=", ">
-%>
-
-parameters(iterable) ::= <%
-    <iterable:parameter(); separator=", ">
-%>
-
-declarations(iterable) ::= <%
-    <iterable:declaration(); separator="\n">
-%>
 
 parameter(ctx) ::= <%
     <baseType(ctx.type.baseType)> <if(ctx.type.referenceType)>&<endif><ctx.name><arrayModifiers(ctx.type.arrayModifiers)>
