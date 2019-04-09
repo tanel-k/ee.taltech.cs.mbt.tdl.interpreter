@@ -140,7 +140,7 @@ targetVar.getLocationGraph()
 >>
 
 declarationConstructor(ctx) ::= <<
-protected AbsDeclarationStatement new<ctx.name>Declaration() {
+protected <declarationReturnType(ctx)> new<ctx.name>Declaration() {
     return <newDeclaration(ctx)>;
 }
 >>
@@ -152,6 +152,7 @@ CollectionUtils.addIfNonNull(
 );
 >>
 
+// TODO: This needs a builder too:
 systemDefinitionConstructor(ctx) ::= <<
 protected SystemDefinition newSystemDefinition() {
     return <newSystemDefinition(ctx)>;
@@ -311,6 +312,28 @@ newDeclaration(ctx) ::= <%
         <newTemplateInstantiation(ctx)>
     <elseif(ctx.functionDeclaration)>
         <newFunctionDeclaration(ctx)>
+    <endif>
+%>
+
+declarationReturnType(ctx) ::= <%
+    <if(ctx.variableDeclaration)>
+        <if(ctx.singleVariableDeclaration)>
+            VariableDeclaration
+        <elseif(ctx.multiVariableDeclaration)>
+            VariableDeclarationGroup
+        <endif>
+    <elseif(ctx.typeDeclaration)>
+        <if(ctx.singleTypeDeclaration)>
+            TypeDeclaration
+        <elseif(ctx.multiDeclaration)>
+            TypeDeclarationGroup
+        <endif>
+    <elseif(ctx.channelPriorityDeclaration)>
+        ChannelPrioritySequence
+    <elseif(ctx.templateInstantiation)>
+        TemplateInstantiation
+    <elseif(ctx.functionDeclaration)>
+        FunctionDeclaration
     <endif>
 %>
 
@@ -494,7 +517,7 @@ new StatementBlock()
 <ctx.statements:{stmtCtx|
     .addStatement(<newStatement(stmtCtx)>)
 }>
- endif>
+<endif>
 }>>
 
 newForStmt(ctx) ::= <<
@@ -789,13 +812,13 @@ BaseTypeIdentifiers.CLOCK
 
 newFieldDeclaration(ctx) ::= <%
     <if(ctx.singleFieldDeclaration)>
-        <newFieldDeclaration(ctx)>
+        <newSingleFieldDeclaration(ctx)>
     <elseif(ctx.groupOfFieldDeclarations)>
         <newFieldDeclarationGroup(ctx)>
     <endif>
 %>
 
-newFieldDeclaration(ctx) ::= <<
+newSingleFieldDeclaration(ctx) ::= <<
 new FieldDeclaration()
     .setType(<newType(ctx.type)>)
     .setIdentifier(Identifier.of("<ctx.identifier>"))
