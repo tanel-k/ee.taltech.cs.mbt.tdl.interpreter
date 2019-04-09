@@ -38,7 +38,9 @@ public class Transition implements IColorable {
 	}
 
 	public TransitionLabels getLabels() {
-		return labels;
+		return labels == null
+			? (labels = new TransitionLabels())
+			: labels;
 	}
 
 	public Transition setLabels(TransitionLabels labels) {

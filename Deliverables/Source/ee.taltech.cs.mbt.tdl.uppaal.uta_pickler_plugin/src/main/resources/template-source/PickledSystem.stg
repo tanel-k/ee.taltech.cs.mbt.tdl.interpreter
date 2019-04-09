@@ -113,7 +113,7 @@ public static class <ctx.name;format="cap">TemplateFactory {
 
     <ctx.locations:locationConstructor(); separator="\n">
 
-    <ctx.transitions:transitionConstructor(); separator="\n">
+    <ctx.transitions:{trCtx|transitionConstructor(trCtx, i); separator="\n">
 
     public Template new<ctx.name;format="cap">Template() {
         Template <ctx.name> = new Template();
@@ -132,7 +132,7 @@ public static class <ctx.name;format="cap">TemplateFactory {
         <ctx.locations:{locCtx|<locationConsumer(ctx.name, locCtx)>}; separator="\n">
 
         // Set transitions:
-        <ctx.transitions:{trCtx|<transitionConsumer(ctx.name, trCtx)>}; separator="\n">
+        <ctx.transitions:{trCtx|<transitionConsumer(ctx.name, trCtx, i)>}; separator="\n">
 
         return <ctx.name>;
     }
@@ -179,19 +179,22 @@ template<targetVar;format="cap">.getLocationGraph()
 <if(ctx.initial)>template<targetVar;format="cap">.setInitialLocation(location<ctx.id;format="cap">);<endif>
 >>
 
-transitionConstructor(ctx) ::= <<
-protected Transition new<ctx.uniqueId;format="cap">Transition(Location source, Location target) {
-    return <newTransition(ctx)>;
+transitionConstructor(ctx, qualifier) ::= <<
+protected Transition new<ctx.name;format="cap">Transition<qualifier>(Location source, Location target) {
+    return <newTransition(ctx, "source", "target")>;
 }
 >>
 
-transitionConsumer(targetVar, ctx) ::= <<
-Transition transition<ctx.uniqueId;format="cap"> = new<ctx.uniqueId;format="cap">Transition(
+transitionConsumer(targetVar, ctx, qualifier) ::= <<
+Transition transition<ctx.name;format="cap"><qualifier> = new<ctx.name;format="cap">Transition<qualifier>(
     location<ctx.sourceId;format="cap">,
     location<ctx.targetId;format="cap">
 );
-targetVar.getLocationGraph()
-    .addEdge(location<ctx.sourceId;format="cap">, location<ctx.targetId;format="cap">);
+targetVar.getLocationGraph().addEdge(
+    location<ctx.sourceId;format="cap">,
+    location<ctx.targetId;format="cap">,
+    transition<ctx.name;format="cap"><qualifier>
+);
 >>
 
 declarationConstructor(ctx) ::= <<
@@ -217,13 +220,13 @@ new Location()
     .setLabels(
         new LocationLabels()
 <if(ctx.labels.invariant)>
-            .setInvariant(<newInvariantLabel(ctx.labels.invariant)>)<endif>
+            .setInvariant((InvariantLabel) <newInvariantLabel(ctx.labels.invariant)>)<endif>
 <if(ctx.labels.comment)>
-            .setCommentLabel(<newCommentLabel(ctx.labels.comment)>)
+            .setCommentLabel((CommentLabel) <newCommentLabel(ctx.labels.comment)>)
 <endif>
     )
-<if(ctx.colorValue)>
-    .setColor(Color.of(<ctx.colorValue>))
+<if(ctx.color.value)>
+    .setColor(Color.of(<ctx.color.value>))
 <endif>
     .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
@@ -238,29 +241,33 @@ locationExitPolicty(ctx) ::= <%
     <endif>
 %>
 
-newTransition(ctx) ::= <<
+newTransition(ctx, sourceLocationVar, targetLocationVar) ::= <<
 new Transition()
-    .setSource(source)
-    .setTarget(target)
-<if(ctx.colorValue)>
-    .setColor(Color.of(<ctx.colorValue>))
+<if(sourceLocationVar)>
+    .setSource(<sourceLocationVar>)
+<endif>
+<if(targetLocationVar)>
+    .setTarget(<targetLocationVar>)
+<endif>
+<if(ctx.color.value)>
+    .setColor(Color.of(<ctx.color.value>))
 <endif>
     .setLabels(
         new TransitionLabels()
 <if(ctx.labels.guard)>
-            .setGuardLabel(<newGuardLabel(ctx.labels.guard)>)
+            .setGuardLabel((GuardLabel) <newGuardLabel(ctx.labels.guard)>)
 <endif>
 <if(ctx.labels.comment)>
-            .setCommentLabel(<newCommentLabel(ctx.labels.comment)>)
+            .setCommentLabel((CommentLabel) <newCommentLabel(ctx.labels.comment)>)
 <endif>
 <if(ctx.labels.assignments)>
-            .setAssignmentsLabel(<newAssignmentsLabel(ctx.labels.assignments)>)
+            .setAssignmentsLabel((AssignmentsLabel) <newAssignmentsLabel(ctx.labels.assignments)>)
 <endif>
 <if(ctx.labels.selection)>
-            .setSelectLabel(<newSelectionLabel(ctx.labels.selection)>)
+            .setSelectionLabel((SelectionLabel) <newSelectionLabel(ctx.labels.selection)>)
 <endif>
 <if(ctx.labels.synchronization)>
-            .setSynchronizationLabel(<newSynchronizationLabel(ctx.labels.synchronization)>)
+            .setSynchronizationLabel((SynchronizationLabel) <newSynchronizationLabel(ctx.labels.synchronization)>)
 <endif>
     )
     <ctx.nails:{nailCtx|{
@@ -269,40 +276,37 @@ new Transition()
 
 newCommentLabel(ctx) ::= <<
 new CommentLabel().setContent("<ctx.commentText>")
+    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
 >>
 
 newInvariantLabel(ctx) ::= <<
-new InvariantLabel().setContent(
-    <newExpression(ctx.expression)>
-)
+new InvariantLabel().setContent(<newExpression(ctx.expression)>)
+    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
 >>
 
 newGuardLabel(ctx) ::= <<
-new GuardLabel().setContent(
-    <newExpression(ctx.expression)>
-)
+new GuardLabel().setContent(<newExpression(ctx.expression)>)
+    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
 >>
 
 newAssignmentsLabel(ctx) ::= <<
-new AssignmentsLabel().setContent(
-    CollectionUtils.collectionBuilder(new LinkedList\<AbsExpression\>())
-        <ctx.expressions:{exprCtx|
-        .add(
-            <newExpression(exprCtx)>)
-        }>
-        .build()
-)
+new AssignmentsLabel().setContent(CollectionUtils.collectionBuilder(new LinkedList\<AbsExpression\>())
+    <ctx.expressions:{exprCtx|
+    .add(
+        <newExpression(exprCtx)>)
+    }>
+    .build())
+    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
 >>
 
 newSelectionLabel(ctx) ::= <<
-new SelectionLabel().setContent(
-    CollectionUtils.collectionBuilder(new LinkedList\<Selection\>())
-        <ctx.expressions:{selCtx|
-        .add(
-            <newSelection(selCtx)>
-        )}>
-        .build()
-)
+new SelectionLabel().setContent(CollectionUtils.collectionBuilder(new LinkedList\<Selection\>())
+    <ctx.selections:{selCtx|
+    .add(
+        <newSelection(selCtx)>
+    )}>
+    .build())
+    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
 >>
 
 newSelection(ctx) ::= <<
@@ -312,11 +316,10 @@ new Selection()
 >>
 
 newSynchronizationLabel(ctx) ::= <<
-new SynchronizationLabel().setContent(
-    new Synchronization()
-        .setActiveSync(<if(ctx.synchronization.active)>true<else>false<endif>)
-        .setExpression(<newExpression(ctx.synchronization.expression)>)
-)
+new SynchronizationLabel().setContent(new Synchronization()
+    .setActiveSync(<if(ctx.synchronization.active)>true<else>false<endif>)
+    .setExpression(<newExpression(ctx.synchronization.expression)>))
+    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
 >>
 
 newParameter(ctx) ::= <<

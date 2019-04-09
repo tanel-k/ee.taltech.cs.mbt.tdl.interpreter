@@ -2,9 +2,15 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extract
 
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.WordUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.gui.ColorCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.gui.GuiCoordinatesCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class TransitionCtxExtractor implements IPicklerContextExtractor<Transition> {
@@ -12,13 +18,34 @@ public class TransitionCtxExtractor implements IPicklerContextExtractor<Transiti
 		return new TransitionCtxExtractor();
 	}
 
-	private Set<Class> requiredClasses = CollectionUtils.newSet();
+	private Set<Class> requiredClasses = CollectionUtils.newSet(
+			Transition.class,
+			GuiCoordinates.class
+	);
 
 	private TransitionCtxExtractor() { }
 
 	@Override
 	public ContextBuilder extract(Transition transition) {
-		throw new UnsupportedOperationException();
+		String sourceId = transition.getSource().getId();
+		String targetId = transition.getTarget().getId();
+		String name = WordUtils.capitalize(sourceId) + "To" + WordUtils.capitalize(targetId);
+
+		ContextBuilder labels = TransitionLabelsCtxExtractor.getInstance()
+				.extract(transition.getLabels(), requiredClasses);
+		Collection<ContextBuilder> nailCtxs = GuiCoordinatesCtxExtractor.getInstance()
+				.extract(transition.getNails(), requiredClasses);
+		ContextBuilder colorCtx = transition.getColor() != null
+				? ColorCtxExtractor.getInstance().extract(transition.getColor())
+				: null;
+
+		return ContextBuilder.newBuilder()
+				.put("name", name)
+				.put("sourceId", sourceId)
+				.put("targetId", targetId)
+				.put("color", colorCtx)
+				.put("labels", labels)
+				.put("nails", nailCtxs);
 	}
 
 	@Override

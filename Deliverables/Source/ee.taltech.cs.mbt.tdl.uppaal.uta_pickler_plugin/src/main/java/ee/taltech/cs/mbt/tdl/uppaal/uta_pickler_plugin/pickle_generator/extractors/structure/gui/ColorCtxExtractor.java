@@ -12,14 +12,16 @@ public class ColorCtxExtractor implements IPicklerContextExtractor<Color> {
 		return new ColorCtxExtractor();
 	}
 
-	private Set<Class> requiredClasses = CollectionUtils.newSet();
+	private Set<Class> requiredClasses = CollectionUtils.newSet(
+			Color.class
+	);
 
 	private ColorCtxExtractor() { }
 
 	@Override
 	public ContextBuilder extract(Color color) {
 		return ContextBuilder.newBuilder()
-				.put("intValue", color.getIntValue());
+				.put("value", color.getIntValue());
 	}
 
 	@Override

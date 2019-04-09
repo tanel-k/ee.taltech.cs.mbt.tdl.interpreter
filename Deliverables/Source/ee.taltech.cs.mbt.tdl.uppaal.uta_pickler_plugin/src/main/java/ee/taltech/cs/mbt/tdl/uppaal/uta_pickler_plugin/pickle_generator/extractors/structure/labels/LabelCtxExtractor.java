@@ -3,6 +3,9 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extract
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.expression.ExpressionCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.template.SelectionCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.template.SynchronizationCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.gui.GuiCoordinatesCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.ILabelVisitor;
@@ -13,6 +16,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.imp
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SelectionLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?>>, ILabelVisitor<ContextBuilder> {
@@ -31,34 +35,72 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 
 	@Override
 	public ContextBuilder visitAssignments(AssignmentsLabel label) {
-		return ContextBuilder.newBuilder("assignmentsLabel");
+		requiredClasses.add(AssignmentsLabel.class);
+		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
+				.extract(label.getCoordinates(), requiredClasses);
+		Collection<ContextBuilder> expressionCtxs = ExpressionCtxExtractor.getInstance()
+				.extract(label.getContent(), requiredClasses);
+		return ContextBuilder.newBuilder()
+				.put("coordinates", coordinatesCtx)
+				.put("expressions", expressionCtxs);
 	}
 
 	@Override
 	public ContextBuilder visitComment(CommentLabel label) {
-		return ContextBuilder.newBuilder("commentLabel")
-				.put("guiCoordinates", GuiCoordinatesCtxExtractor.getInstance().extract(label.getCoordinates()))
+		requiredClasses.add(CommentLabel.class);
+		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
+				.extract(label.getCoordinates(), requiredClasses);
+		return ContextBuilder.newBuilder()
+				.put("coordinates", coordinatesCtx)
 				.put("text", label.getContent());
 	}
 
 	@Override
 	public ContextBuilder visitGuard(GuardLabel label) {
-		throw new UnsupportedOperationException();
+		requiredClasses.add(GuardLabel.class);
+		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
+				.extract(label.getCoordinates(), requiredClasses);
+		ContextBuilder exprCtx = ExpressionCtxExtractor.getInstance()
+				.extract(label.getContent(), requiredClasses);
+		return ContextBuilder.newBuilder()
+				.put("coordinates", coordinatesCtx)
+				.put("expression", exprCtx);
 	}
 
 	@Override
 	public ContextBuilder visitInvariant(InvariantLabel label) {
-		throw new UnsupportedOperationException();
+		requiredClasses.add(InvariantLabel.class);
+		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
+				.extract(label.getCoordinates(), requiredClasses);
+		ContextBuilder exprCtx = ExpressionCtxExtractor.getInstance()
+				.extract(label.getContent(), requiredClasses);
+		return ContextBuilder.newBuilder()
+				.put("coordinates", coordinatesCtx)
+				.put("expression", exprCtx);
 	}
 
 	@Override
 	public ContextBuilder visitSelection(SelectionLabel label) {
-		throw new UnsupportedOperationException();
+		requiredClasses.add(SelectionLabel.class);
+		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
+				.extract(label.getCoordinates(), requiredClasses);
+		Collection<ContextBuilder> selectionCtxs = SelectionCtxExtractor.getInstance()
+				.extract(label.getContent(), requiredClasses);
+		return ContextBuilder.newBuilder()
+				.put("coordinates", coordinatesCtx)
+				.put("selections", selectionCtxs);
 	}
 
 	@Override
 	public ContextBuilder visitSynchronization(SynchronizationLabel label) {
-		throw new UnsupportedOperationException();
+		requiredClasses.add(SynchronizationLabel.class);
+		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
+				.extract(label.getCoordinates(), requiredClasses);
+		ContextBuilder synchronizationCtx = SynchronizationCtxExtractor.getInstance()
+				.extract(label.getContent(), requiredClasses);
+		return ContextBuilder.newBuilder()
+				.put("coordinates", coordinatesCtx)
+				.put("synchronization", synchronizationCtx);
 	}
 
 	@Override

@@ -37,11 +37,11 @@ public class TransitionLabels {
 		return this;
 	}
 
-	public SelectionLabel getSelectLabel() {
+	public SelectionLabel getSelectionLabel() {
 		return selectLabel;
 	}
 
-	public TransitionLabels setSelectLabel(SelectionLabel selectLabel) {
+	public TransitionLabels setSelectionLabel(SelectionLabel selectLabel) {
 		this.selectLabel = selectLabel;
 		return this;
 	}

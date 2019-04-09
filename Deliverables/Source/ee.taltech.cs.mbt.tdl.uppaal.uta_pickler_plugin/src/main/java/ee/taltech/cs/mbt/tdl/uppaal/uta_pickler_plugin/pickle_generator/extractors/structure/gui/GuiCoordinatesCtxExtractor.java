@@ -12,7 +12,9 @@ public class GuiCoordinatesCtxExtractor implements IPicklerContextExtractor<GuiC
 		return new GuiCoordinatesCtxExtractor();
 	}
 
-	private Set<Class> requiredClasses = CollectionUtils.newSet();
+	private Set<Class> requiredClasses = CollectionUtils.newSet(
+			GuiCoordinates.class
+	);
 
 	private GuiCoordinatesCtxExtractor() { }
 
