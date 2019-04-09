@@ -3,6 +3,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extract
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.labels.LabelCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.LocationLabels;
 
 import java.util.Set;
@@ -12,13 +13,24 @@ public class LocationLabelsCtxExtractor implements IPicklerContextExtractor<Loca
 		return new LocationLabelsCtxExtractor();
 	}
 
-	private Set<Class> requiredClasses = CollectionUtils.newSet();
+	private Set<Class> requiredClasses = CollectionUtils.newSet(
+			LocationLabels.class
+	);
 
 	private LocationLabelsCtxExtractor() { }
 
 	@Override
 	public ContextBuilder extract(LocationLabels labels) {
-		throw new UnsupportedOperationException();
+		ContextBuilder commentCtx = labels.getCommentLabel() != null
+				? LabelCtxExtractor.getInstance().extract(labels.getCommentLabel(), requiredClasses)
+				: null;
+		ContextBuilder invariantCtx = labels.getInvariantLabel() != null
+				? LabelCtxExtractor.getInstance().extract(labels.getInvariantLabel(), requiredClasses)
+				: null;
+
+		return ContextBuilder.newBuilder()
+				.put("invariant", invariantCtx)
+				.put("comment", commentCtx);
 	}
 
 	@Override

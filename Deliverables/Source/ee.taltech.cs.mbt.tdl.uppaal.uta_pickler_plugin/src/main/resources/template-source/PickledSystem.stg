@@ -214,24 +214,29 @@ newLocation(ctx) ::= <<
 new Location()
     .setId("<ctx.id>")
 <if(ctx.name)>
-    .setName("<ctx.name>")
+    .setName(
+        new LocationName()
+            .setName("<ctx.name.value>")
+            .setCoordinates(GuiCoordinates.of(<ctx.name.coordinates.x>, <ctx.name.coordinates.y>))
+    )
 <endif>
-    .setExitPolicy(<locationExitPolicty(ctx.exitPolicy)>)
+    .setExitPolicy(<locationExitPolicy(ctx.exitPolicy)>)
     .setLabels(
         new LocationLabels()
 <if(ctx.labels.invariant)>
-            .setInvariant((InvariantLabel) <newInvariantLabel(ctx.labels.invariant)>)<endif>
+            .setInvariant((InvariantLabel) <newInvariantLabel(ctx.labels.invariant)>)
+<endif>
 <if(ctx.labels.comment)>
             .setCommentLabel((CommentLabel) <newCommentLabel(ctx.labels.comment)>)
 <endif>
     )
-<if(ctx.color.value)>
+<if(ctx.color)>
     .setColor(Color.of(<ctx.color.value>))
 <endif>
     .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
 
-locationExitPolicty(ctx) ::= <%
+locationExitPolicy(ctx) ::= <%
     <if(ctx.committed)>
         ELocationExitPolicy.COMMITTED
     <elseif(ctx.urgent)>
