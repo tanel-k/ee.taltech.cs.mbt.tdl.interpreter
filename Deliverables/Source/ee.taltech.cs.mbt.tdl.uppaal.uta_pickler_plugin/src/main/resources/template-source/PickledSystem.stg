@@ -450,8 +450,6 @@ new TypeDeclarationGroup()
     .setBaseType(<newBaseType(ctx.baseType)>)
 >>
 
-// UNDER CONSTRUCTION:
-// BEGIN: Statements
 newStatement(ctx) ::= <%
     <if(ctx.blockStatement)>
         <newBlockStmt(ctx)>
@@ -474,41 +472,58 @@ newStatement(ctx) ::= <%
     <endif>
 %>
 
-newBlockStmt(ctx) ::= <<{
+newBlockStmt(ctx) ::= <<
+new StatementBlock()
 <if(ctx.declarations)>
-    <declarations(ctx.declarations)>
+<ctx.declarations:{declCtx|
+    .addDeclaration(<newDeclaration(declCtx)>)
+}>
 <endif>
 <if(ctx.statements)>
-    <ctx.statements:statement(); separator="\n">
-<endif>
+<ctx.statements:{stmtCtx|
+    .addStatement(<newStatement(stmtCtx)>)
+}>
+ endif>
 }>>
 
-newForStmt(ctx) ::= <<for (<expression(ctx.initializer)>; <expression(ctx.condition)>; <expression(ctx.update)>)
-    <statment(ctx.statement)>
+newForStmt(ctx) ::= <<
+new ForLoop()
+    .setUpdate(<newExpression(ctx.update)>)
+    .setInitializer(<newExpression(ctx.initializer)>)
+    .setCondition(<newExpression(ctx.condition)>)
+    .setStatement(<newStatement(ctx.statement)>)
 >>
 
-newIterationStmt(ctx) ::= <<for (<ctx.identifierValue> : <type(ctx.iteratedType)>)
-    <statement(ctx.statement)>
+newIterationStmt(ctx) ::= <<
+new IterationLoop()
+    .setIteratedType(<newBaseType(ctx.iteratedType)>)
+    .setLoopVariable(Identifier.of("<ctx.identifier>"))
+    .setStatement(<newStatement(ctx.statement)>)
 >>
 
-newWhileStmt(ctx) ::= <<while (<expression(ctx.condition)>)
-    <statement(ctx.statement)>
+newWhileStmt(ctx) ::= <<
+new WhileLoop()
+    .setCondition(<newExpression(ctx.condition)>)
+    .setStatement(<newStatement(ctx.statement)>)
 >>
 
-newDoWhileStmt(ctx) ::= <<do
-    <statement(ctx.statement)>
-while (<expression(ctx.condition)>);
+newDoWhileStmt(ctx) ::= <<
+new DoWhileLoop()
+    .setCondition(<newExpression(ctx.condition)>)
+    .setStatement(<newStatement(ctx.statement)>)
 >>
 
-newConditionalStmt(ctx) ::= <<if (<expression(ctx.condition)>)
-    <statement(ctx.primary)>
+newConditionalStmt(ctx) ::= <<
+new ConditionalStatement()
+    .setCondition(<newExpression(ctx.condition)>)
+    .setPrimaryStatement(<newStatement(ctx.primary)>)
 <if(ctx.alternative)>
-else
-    <statement(ctx.alternative)>
+    .setAlternativeStatement(<newStatement(ctx.alternative)>)
 <endif>
 >>
 // END: Statements
 
+// UNDER CONSTRUCTION:
 // BEGIN: Expressions
 newExpression(ctx) ::= <%
     <if(ctx.group)>
@@ -640,20 +655,17 @@ newExpression(ctx) ::= <%
     <endif>
 %>
 
-// BEGIN: Expression utils
 literal(ctx) ::= <%
     <if(ctx.deadlockLiteral)>
-        deadlock
+        LiteralConsts.DEADLOCK
     <elseif(ctx.trueLiteral)>
-        true
+        LiteralConsts.TRUE
     <elseif(ctx.falseLiteral)>
-        false
+        LiteralConsts.FALSE
     <elseif(ctx.naturalNumberLiteral)>
-        <ctx.naturalNumber>
+        NaturalNumberLiteral.of("<ctx.naturalNumber>")
     <endif>
 %>
-// END: Expression utils
-// END: Expressions
 
 // BEGIN: Types
 newBaseType(ctx) ::= <%

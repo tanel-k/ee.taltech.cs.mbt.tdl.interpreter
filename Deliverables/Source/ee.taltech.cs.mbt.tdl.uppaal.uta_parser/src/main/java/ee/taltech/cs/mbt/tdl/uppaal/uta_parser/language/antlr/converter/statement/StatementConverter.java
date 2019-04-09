@@ -63,97 +63,60 @@ public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 
 	@Override
 	public AbsStatement visitConditionalStatement(ConditionalStatementContext ctx) {
-		ConditionalStatement conditionalStatement = new ConditionalStatement();
-		conditionalStatement.setCondition(
-			ExpressionConverter.getInstance()
-				.convert(ctx.expression())
-		);
-		conditionalStatement.setPrimaryStatement(
-			ctx.statement(0).accept(this)
-		);
-		if (ctx.statement(1) != null) {
-			conditionalStatement.setAlternativeStatement(
-				ctx.statement(1).accept(this)
-			);
-		}
-		return conditionalStatement;
+		return new ConditionalStatement()
+				.setCondition(ExpressionConverter.getInstance().convert(ctx.expression()))
+				.setPrimaryStatement(ctx.statement(0).accept(this))
+				.setAlternativeStatement(
+						ctx.statement(1) != null
+								? ctx.statement(1).accept(this)
+								: null
+				);
 	}
 
 	@Override
 	public AbsStatement visitDoWhileStatement(DoWhileStatementContext ctx) {
-		DoWhileLoop doWhileLoop = new DoWhileLoop();
-		doWhileLoop.setCondition(
-			ExpressionConverter.getInstance().convert(ctx.expression())
-		);
-		doWhileLoop.setStatement(
-			ctx.statement().accept(this)
-		);
-		return doWhileLoop;
+		return new DoWhileLoop()
+				.setCondition(ExpressionConverter.getInstance().convert(ctx.expression()))
+				.setStatement(ctx.statement().accept(this));
 	}
 
 	@Override
 	public AbsStatement visitForLoopStatement(ForLoopStatementContext ctx) {
-		ForLoop forLoop = new ForLoop();
-		forLoop.setInitializer(
-			ExpressionConverter.getInstance()
-				.convert(ctx.expression(0))
-		);
-		forLoop.setCondition(
-			ExpressionConverter.getInstance()
-				.convert(ctx.expression(1))
-		);
-		forLoop.setUpdate(
-			ExpressionConverter.getInstance()
-				.convert(ctx.expression(2))
-		);
-		forLoop.setStatement(
-			ctx.statement().accept(this)
-		);
-		return forLoop;
+		return new ForLoop()
+				.setUpdate(ExpressionConverter.getInstance().convert(ctx.expression(2)))
+				.setInitializer(ExpressionConverter.getInstance().convert(ctx.expression(0)))
+				.setCondition(ExpressionConverter.getInstance().convert(ctx.expression(1)))
+				.setStatement(ctx.statement().accept(this));
 	}
 
 	@Override
 	public AbsStatement visitWhileLoopStatement(WhileLoopStatementContext ctx) {
-		WhileLoop whileLoop = new DoWhileLoop();
-		whileLoop.setCondition(
-			ExpressionConverter.getInstance().convert(ctx.expression())
-		);
-		whileLoop.setStatement(
-			ctx.statement().accept(this)
-		);
-		return whileLoop;
+		return new WhileLoop()
+				.setCondition(ExpressionConverter.getInstance().convert(ctx.expression()))
+				.setStatement(ctx.statement().accept(this));
 	}
 
 	@Override
 	public AbsStatement visitExpressionStatement(ExpressionStatementContext ctx) {
-		ExpressionStatement expressionStatement = new ExpressionStatement();
-		expressionStatement.setExpression(
-			ExpressionConverter.getInstance().convert(ctx.expression())
-		);
-		return expressionStatement;
+		return new ExpressionStatement()
+				.setExpression(ExpressionConverter.getInstance().convert(ctx.expression()));
 	}
 
 	@Override
 	public AbsStatement visitIterationStatement(IterationStatementContext ctx) {
-		BaseType baseType = BaseTypeConverter.getInstance().convert(ctx.type());
-		IterationLoop iterationLoop = new IterationLoop();
-		iterationLoop.setIteratedType(baseType);
-		Identifier variableName = Identifier.of(ctx.IDENTIFIER_NAME().getText());
-		iterationLoop.setLoopVariable(variableName);
-		iterationLoop.setStatement(
-			ctx.statement().accept(this)
-		);
-		return iterationLoop;
+		return new IterationLoop()
+				.setIteratedType(BaseTypeConverter.getInstance().convert(ctx.type()))
+				.setLoopVariable(Identifier.of(ctx.IDENTIFIER_NAME().getText()))
+				.setStatement(ctx.statement().accept(this));
 	}
 
 	@Override
 	public AbsStatement visitStatementReturn(StatementReturnContext ctx) {
-		ReturnStatement returnStatement = new ReturnStatement();
-		if (ctx.expression() != null) {
-			returnStatement.setExpression(
-				ExpressionConverter.getInstance().convert(ctx.expression())
-			);
-		}
-		return returnStatement;
+		return new ReturnStatement()
+				.setExpression(
+						ctx.expression() != null
+						? ExpressionConverter.getInstance().convert(ctx.expression())
+						: null
+				);
 	}
 }
