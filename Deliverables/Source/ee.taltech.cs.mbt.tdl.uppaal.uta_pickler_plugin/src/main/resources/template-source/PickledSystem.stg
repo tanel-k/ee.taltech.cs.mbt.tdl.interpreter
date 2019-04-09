@@ -34,12 +34,10 @@ public class <ctx.name;format="cap">SystemFactory {
 
         // Set templates:
         <ctx.templates:{templateCtx|<templateConsumer(ctx.name, templateCtx)>}; separator="\n">
-
-        // Set system definition:
 <if(ctx.systemDefinition)>
+        // Set system definition:
         <systemDefinitionConsumer("system", ctx.name)>
 <endif>
-
         return <ctx.name>;
     }
 }
@@ -87,7 +85,7 @@ public static class <ctx.name;format="cap">TemplateFactory {
 
 parameterDeclarationConstructor(ctx) ::= <<
 protected ParameterDeclaration new<ctx.name; format="cap">ParameterDeclaration() {
-    <parameterBuilder(ctx)>
+    return <newParameter(ctx)>;
 }
 >>
 
@@ -115,7 +113,7 @@ CollectionUtils.addIfNonNull(
 
 locationConstructor(ctx) ::= <<
 protected Location new<ctx.id;format="cap">Location() {
-    <locationBuilder(ctx)>
+    return <newLocation(ctx)>;
 }
 >>
 
@@ -128,7 +126,7 @@ template<targetVar;format="cap">.getLocationGraph()
 
 transitionConstructor(ctx) ::= <<
 protected Transition new<ctx.uniqueId;format="cap">Transition(Location source, Location target) {
-    <transitionBuilder(ctx)>
+    return <newTransition(ctx)>;
 }
 >>
 
@@ -143,7 +141,7 @@ targetVar.getLocationGraph()
 
 declarationConstructor(ctx) ::= <<
 protected AbsDeclarationStatement new<ctx.name>Declaration() {
-    <declarationBuilder(ctx)>
+    return <newDeclaration(ctx)>;
 }
 >>
 
@@ -156,7 +154,7 @@ CollectionUtils.addIfNonNull(
 
 systemDefinitionConstructor(ctx) ::= <<
 protected SystemDefinition newSystemDefinition() {
-    <systemDefinitionBuilder(ctx)>
+    return <newSystemDefinition(ctx)>;
 }
 >>
 
@@ -165,59 +163,108 @@ SystemDefinition systemDefinition = newSystemDefinition();
 <targetVar>.setSystemDefinition(systemDefinition);
 >>
 
-// UNDER CONSTRUCTION:
-systemDefinitionBuilder(ctx) ::= <<
-SystemDefinition systemDefinition = new SystemDefinition();
-// TODO:
-<ctx.declarations>
-<ctx.systemLine>
-<ctx.progressMeasure>
-// ...
-return systemDefinition;
+newSystemDefinition(ctx) ::= <<
+new SystemDefinition()
+    <ctx.declarations:{declCtx|
+    .addDeclaration(<newDeclaration(declCtx)>)
+    }>
+<if(ctx.systemLine)>
+    .setSystemLine(
+        new SystemLine()
+        <ctx.systemLine.processReferenceGroups:{grpCtx|
+            .addGroup(
+                new ProcessReferenceGroup()
+                    <grpCtx.identifiers:{idCtx|
+                    .addIdentifier(Identifier.of("<idCtx>"))
+                    }; separator="\n">
+            )
+        }; separator="\n">
+    )
+<endif>
+    <ctx.progressMeasures:{exprCtx|
+    .addProgressMeasure(<newExpression(exprCtx)>)
+    }>
 >>
 
-locationBuilder(ctx) ::= <<
-Location location<ctx.id;format="cap"> = new Location();
-// TODO:
-<ctx.id>
-<ctx.name>
-<ctx.labels>
-<ctx.exitPolicy>
-<ctx.color>
-<ctx.guiCoordinates>
-// ...
-return location<ctx.id;format="cap">;
+newLocation(ctx) ::= <<
+new Location()
+    .setId("<ctx.id>")
+<if(ctx.name)>
+    .setName("<ctx.name>")
+<endif>
+    .setLabels(new LocationLabels()
+<if(ctx.labels.invariant)>
+        .setInvariant(<newInvariantLabel(ctx.labels.invariant)>)<endif>
+<if(ctx.labels.comment)>
+        .setCommentLabel(<newCommentLabel(ctx.labels.comment)>)
+<endif>
+    )
+<if(ctx.colorValue)>
+    .setColor(Color.of(<ctx.colorValue>))
+<endif>
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
 
-transitionBuilder(ctx) ::= <<
-Transition transition<ctx.uniqueId> = new Transition();
-transition<ctx.uniqueId;format="cap">.setSource(source);
-transition<ctx.uniqueId;format="cap">.setTarget(target);
-// TODO:
-<ctx.color>
-<ctx.labels>
-<ctx.nails>
-// ...
-return transition<ctx.uniqueId;format="cap">;
+newTransition(ctx) ::= <<
+new Transition()
+    .setSource(source)
+    .setTarget(target)
+    <if(ctx.colorValue)>.setColor(Color.of(<ctx.colorValue>))<endif>
+    .setLabels(
+        new TransitionLabels()
+            <if(ctx.labels.guard)>.setGuardLabel(<newGuardLabel(ctx.labels.guard)>)<endif>
+            <if(ctx.labels.comment)>.setCommentLabel(<newCommentLabel(ctx.labels.comment)>)<endif>
+            <if(ctx.labels.assignments)>.setAssignmentsLabel(<newAssignmentsLabel(ctx.labels.assignments)>)<endif>
+            <if(ctx.labels.select)>.setSelectLabel(<newSelectLabel(ctx.labels.select)>)<endif>
+            <if(ctx.labels.synchronization)>.setSynchronizationLabel(<newSynchronizationLabel(ctx.labels.synchronization)>)<endif>
+    )
+    <ctx.nails:{nailCtx|{
+    .addNail(GuiCoordinates.of(nailCtx.x, nailCtx.y))
+    };separator="\n">
+>>
+
+newInvariantLabel(ctx) ::= <<
+
+>>
+
+newCommentLabel(ctx) ::= <<
+
+>>
+
+newGuardLabel(ctx) ::= <<
+
+>>
+
+newAssignmentsLabel(ctx) ::= <<
+
+>>
+
+newSelectLabel(ctx) ::= <<
+
+>>
+
+newSelectLabel(ctx) ::= <<
+
+>>
+
+newSynchronizationLabel(ctx) ::= <<
+
+>>
+
+newParameter(ctx) ::= <<
+new ParameterDeclaration()
+    .setIdentifier(Identifier.of("<ctx.identifier>"))
+    .setType(<newType(ctx.type)>)
 >>
 
 // ctx.name
-parameterBuilder(ctx) ::= <<
-ParameterDeclaration param<ctx.name;format="cap"> = new ParameterDeclaration();
-// TODO:
-
-// ...
-return param<ctx.name;format="cap">;
->>
-
-// ctx.name
-declarationBuilder(ctx) ::= <%
+newDeclaration(ctx) ::= <%
     <if(ctx.variableDeclaration)>
         <variableDeclaration(ctx)>
     <elseif(ctx.typeDeclaration)>
         <typeDeclaration(ctx)>
     <elseif(ctx.channelPriorityDeclaration)>
-        <buildChannelPriority(ctx)>
+        <newChannelPriorityDeclaration(ctx)>
     <elseif(ctx.templateInstantiation)>
         <templateInstantiation(ctx)>
     <elseif(ctx.functionDeclaration)>
@@ -225,41 +272,33 @@ declarationBuilder(ctx) ::= <%
     <endif>
 %>
 
-buildChannelPriority(ctx) ::= <<
-ChannelPrioritySequence prioritySeqDecl<ctx.name;format="cap"> = new ChannelPrioritySequence()
-        <ctx.channelReferenceGroups:addChannelReferenceGroup(); separator="\n">
-;
-return prioritySeqDecl<ctx.name;format="cap">;
+newChannelPriorityDeclaration(ctx) ::= <<
+new ChannelPrioritySequence()
+    <ctx.channelReferenceGroups:{grpCtx |
+        .addGroup(
+            new ChannelReferenceGroup()
+                <grpCtx.channelReferences:{refCtx|
+                .addReference(<newChannelReference(refCtx)>)
+                }; separator="\n">
+        )
+    }; separator="\n">
 >>
 
-addChannelReferenceGroup(ctx) ::= <<
-.addGroup(
-        new ChannelPriorityGroup()
-                <ctx.channelReferences:addChannelReference(); separator="\n">
-)
->>
-
-addChannelReference(ctx) ::= <<
+newChannelReference(ctx) ::= <<
 <if(ctx.defaultPriority)>
-addChannelReference(DefaultChannelReference.INSTANCE)
+DefaultChannelReference.INSTANCE
 <elseif(ctx.channelIdentifier)>
-addChannelReference(ChannelIdentifierReference.of(Identifier.of("<ctx.identifier>")))
+new ChannelIdentifierReference()
+    .setIdentifier(Identifier.of("<ctx.identifier>"))
 <elseif(ctx.arrayLookup)>
-addChannelReference(ChannelArrayLookup.of(ArrayLookup.of(
-ArrayVariableLookup arrayVariableLookup<ctx.UUID> = new ArrayVariableLookup();
-variableLookup.setIdentifier(Identifier.of("<ctx.arrayName>"));
-variableLookup.setArrayVariableLookup(arrayVariableLookup);
-<ctx.arrayLookups:chanArrayLookup()>
-ChannelArrayLookup arrayLookup = new ChannelArrayLookup();
-group.getChannelReferences().add(arrayLookup);
+new ChannelArrayLookup().setArrayVariableLookup(
+    new ArrayVariableLookup()
+        .setIdentifier(Identifier.of("<ctx.arrayName>"))
+        <ctx.lookupExpressions:{exprCtx|
+        .addLookupExpression(<newExpression(exprCtx)>)
+        }>
+)
 <endif>
->>
-
-chanArrayLookup(ctx) ::= <<
-{
-    <expression(ctx, "")>
-    arrayVariableLookup.getLookupExpressions(expr);
-}
 >>
 
 templateInstantiation(ctx) ::= <<
@@ -353,7 +392,7 @@ subTypeDeclaration(ctx) ::= <%
 
 
 // ...
-expressionBuilder(ctx) ::= <<
+newExpression(ctx) ::= <<
 // TODO
 
 // ...
