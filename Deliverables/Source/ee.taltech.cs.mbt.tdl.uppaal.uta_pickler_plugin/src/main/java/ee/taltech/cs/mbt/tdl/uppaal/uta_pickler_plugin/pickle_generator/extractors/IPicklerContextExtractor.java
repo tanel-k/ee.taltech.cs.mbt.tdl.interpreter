@@ -23,7 +23,8 @@ public interface IPicklerContextExtractor<T> extends IContextExtractor<T> {
 
 	default Collection<ContextBuilder> extract(Collection<T> instances, Collection<ContextBuilder> to, Set<Class> requiredClasses) {
 		Collection<ContextBuilder> contexts = extract(instances, to);
-		requiredClasses.addAll(getRequiredClasses());
+		if (!contexts.isEmpty())
+			requiredClasses.addAll(getRequiredClasses());
 		return contexts;
 	}
 }
