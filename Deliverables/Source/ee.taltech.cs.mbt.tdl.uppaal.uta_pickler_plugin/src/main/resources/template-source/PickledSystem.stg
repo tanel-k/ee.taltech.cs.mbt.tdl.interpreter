@@ -369,14 +369,6 @@ newVariableDeclaration(ctx) ::= <%
     <endif>
 %>
 
-newTypeDeclaration(ctx) ::= <%
-    <if(ctx.singleTypeDeclaration)>
-        <singleTypeDeclaration(ctx)>
-    <elseif(ctx.multiDeclaration)>
-        <multiTypeDeclaration(ctx)>
-    <endif>
-%>
-
 newSingleVariableDeclaration(ctx) ::= <<
 new VariableDeclaration()
     .setType(<newType(ctx.type)>)
@@ -389,40 +381,76 @@ new VariableDeclaration()
 newMultiVariableDeclaration(ctx) ::= <<
 new VariableDeclarationGroup()
     .setBaseType(<newBaseType(ctx.baseType)>)
-    <ctx.subDeclarations:{declCtx|
-    .
-    }>
-    <baseType(ctx.baseType)> <ctx.subDeclarations:subVariableDeclaration(); separator=", ">;
+    <ctx.subDeclarations:{subCtx|
+    .putItem(
+        Identifier.of("<subCtx.identifier>"),
+        <if(subCtx.initializer)><newInitializer(subCtx.initializer)><else>null<endif>,
+        false,
+        <newArrayModifierList(subCtx.arrayModifiers)>
+    )}>
 >>
+
+newInitializer(ctx) ::= <%
+    <if(ctx.structuredInitializer)>
+        <newStructuredInitializer(ctx)>
+    <elseif(ctx.flatInitializer)>
+        <newFlatInitializer(ctx)>
+    <endif>
+%>
+
+newFlatInitializer(ctx) ::= <<
+new FlatVariableInitializer()
+    .setExpression(<newExpression(ctx.expression)>)
+>>
+
+newStructuredInitializer(ctx) ::= <<
+new StructuredVariableInitializer()
+<ctx.nestedInitializers:{initCtx|
+    .addInitializer(<newInitializer(initCtx)>)
+}>
+>>
+
+newArrayModifierList(iterable) ::= <<
+CollectionUtils.collectionBuilder(new LinkedList\<AbsArrayModifier\>)
+<iterable:{ctx|
+    .add(<newArrayModifier(ctx)>
+}>
+>>
+
+newArrayModifier(ctx) ::= <%
+    <if(ctx.sizeFromType)>
+        new SizeTypeArrayModifier().setSizeSpecifier(<newType(ctx.sizeType)>)
+    <elseif(ctx.sizeFromExpression)>
+        new SizeExpressionArrayModifier().setSizeSpecifier(<newExpression(ctx.sizeExpression)>)
+    <endif>
+%>
+
+newTypeDeclaration(ctx) ::= <%
+    <if(ctx.singleTypeDeclaration)>
+        <newSingleTypeDeclaration(ctx)>
+    <elseif(ctx.multiDeclaration)>
+        <newMultiTypeDeclaration(ctx)>
+    <endif>
+%>
+
+newSingleTypeDeclaration(ctx) ::= <<
+new TypeDeclaration()
+    .setType(<newType(ctx.type)>)
+    .setIdentifier(Identifier.of("<ctx.identifier>"))
+>>
+
+newMultiTypeDeclaration(ctx) ::= <<
+new TypeDeclarationGroup()
+<ctx.subDeclarations:{subCtx|
+    .putItem(
+        Identifier.of("<subCtx.identifier>"),
+        false,
+        <newArrayModifierList(subCtx.arrayModifiers)>
+)}>
+    .setBaseType(<newBaseType(ctx.baseType)>)
+>>
+
 // UNDER CONSTRUCTION:
-newInitializer(ctx) ::= <<
-// TODO
->>
-
-
-
-subVariableDeclaration(ctx) ::= <%
-    <ctx.identifierValue><arrayModifiers(ctx.arrayModifiers)>
-    <if(ctx.initializer)> = <variableInitializer(ctx.initializer)><endif>
-%>
-
-variableInitializer(ctx) ::= <%<if(ctx.structuredInitializer)>{
-    <ctx.nestedInitializers:variableInitializer(); separator=",\n">
-}<elseif(ctx.flatInitializer)><expression(ctx.expression)><endif>
-%>
-
-singleTypeDeclaration(ctx) ::= <%
-    typedef <baseType(ctx.type.baseType)> <ctx.identifierValue><arrayModifiers(ctx.type.arrayModifiers)>;
-%>
-
-multiTypeDeclaration(ctx) ::= <%
-    typedef <baseType(ctx.baseType)> <ctx.subDeclarations:subTypeDeclaration(); separator=", ">;
-%>
-
-subTypeDeclaration(ctx) ::= <%
-    <ctx.identifierValue><arrayModifiers(ctx.arrayModifiers)>
-%>
-
 // BEGIN: Statements
 newStatement(ctx) ::= <%
     <if(ctx.blockStatement)>
@@ -701,17 +729,5 @@ extendedTypes(iterable) ::= <%
 
 extendedType(ctx) ::= <%
     <if(ctx.referenceType)>&<endif><ctx.identifierValue><ctx.arraySizeModifiers:arraySizeModifier()>
-%>
-
-arrayModifiers(iterable) ::= <%
-    <iterable:arrayModifier()>
-%>
-
-arrayModifier(ctx) ::= <%
-    <if(ctx.sizeFromType)>
-        [<baseType(ctx.sizeType)>]
-    <elseif(ctx.sizeFromExpression)>
-        [<expression(ctx.sizeExpression)>]
-    <endif>
 %>
 // END: General utils
