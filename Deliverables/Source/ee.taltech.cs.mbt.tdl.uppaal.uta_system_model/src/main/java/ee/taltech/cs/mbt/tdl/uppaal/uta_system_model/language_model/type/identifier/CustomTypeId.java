@@ -11,6 +11,11 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ITy
  * </pre>
  */
 public class CustomTypeId extends AbsTypeId {
+	public static CustomTypeId of(Identifier identifier) {
+		return new CustomTypeId()
+				.setIdentifier(identifier);
+	}
+
 	private Identifier identifier;
 
 	public Identifier getIdentifier() {

@@ -730,10 +730,11 @@ literal(ctx) ::= <%
     <endif>
 %>
 
-// UNDER CONSTRUCTION:
-newBaseType(ctx) ::= <%
-    <if(ctx.prefix)><typePrefix(ctx.prefix)> <endif><typeId(ctx.typeId)>
-%>
+newBaseType(ctx) ::= <<
+new BaseType()
+    .setPrefix(<typePrefix(ctx.prefix)>)
+    .setTypeId(<newTypeId(ctx.typeId)>)
+>>
 
 typePrefix(ctx) ::= <%
     <if(ctx.urgent)>
@@ -744,34 +745,38 @@ typePrefix(ctx) ::= <%
         ETypePrefix.META
     <elseif(ctx.constant)>
         ETypePrefix.CONSTANT
+    <else>
+        ETypePrefix.NONE
     <endif>
 %>
 
-newTypeId(ctx) ::= <%
-    <if(ctx.struct)>
-        struct <fieldDeclarations(ctx.fieldDeclarations)>
-    <elseif(ctx.scalar)>
-        scalar [<expression(ctx.expression)>]
-    <elseif(ctx.customType)>
-        <ctx.identifierValue>
-    <elseif(ctx.boundedInt)>
-        int[<expression(ctx.minExpression)>, <expression(ctx.maxExpression)>]
-    <elseif(ctx.boolean)>
-        bool
-    <elseif(ctx.int)>
-        int
-    <elseif(ctx.chan)>
-        chan
-    <elseif(ctx.clock)>
-        clock
-    <endif>
-%>
-
-fieldDeclarations(iterable) ::= <<{
-    <iterable:fieldDeclaration(); separator="\n">
-}
+newTypeId(ctx) ::= <<
+<if(ctx.struct)>
+new StructTypeId()
+<ctx.fieldDeclarations:{declCtx|
+    .addFieldDeclaration(<newFieldDeclaration(declCtx)>)
+}>
+<elseif(ctx.scalar)>
+new ScalarTypeId().setSizeExpression(<newExpression(ctx.expression)>)
+<elseif(ctx.customType)>
+CustomTypeId.of(Identifier.of("<ctx.identifier>"))
+<elseif(ctx.boundedInt)>
+BoundedIntegerTypeId.of(
+    <newExpression(ctx.minExpression)>,
+    <newExpression(ctx.maxExpression)>
+)
+<elseif(ctx.boolean)>
+BaseTypeIdentifiers.BOOLEAN
+<elseif(ctx.int)>
+BaseTypeIdentifiers.INTEGER
+<elseif(ctx.chan)>
+BaseTypeIdentifiers.CHANNEL
+<elseif(ctx.clock)>
+BaseTypeIdentifiers.CLOCK
+<endif>
 >>
 
+// UNDER CONSTRUCTION:
 newFieldDeclaration(ctx) ::= <%
     <if(ctx.singleDeclaration)>
         <singleDeclaration(ctx)>

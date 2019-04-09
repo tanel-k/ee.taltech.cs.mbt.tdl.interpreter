@@ -17,6 +17,12 @@ import java.util.Objects;
  * </pre>
  */
 public class BoundedIntegerTypeId extends AbsTypeId {
+	public static BoundedIntegerTypeId of(AbsExpression minimumBound, AbsExpression maximumBound) {
+		return new BoundedIntegerTypeId()
+				.setMinimumBound(minimumBound)
+				.setMaximumBound(maximumBound);
+	}
+
 	private AbsExpression minimumBound;
 	private AbsExpression maximumBound;
 
