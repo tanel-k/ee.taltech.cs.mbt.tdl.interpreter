@@ -22,24 +22,27 @@ public class ConditionalStatement extends AbsStatement {
 		return condition;
 	}
 
-	public void setCondition(AbsExpression condition) {
+	public ConditionalStatement setCondition(AbsExpression condition) {
 		this.condition = condition;
+		return this;
 	}
 
 	public AbsStatement getPrimaryStatement() {
 		return primaryStatement;
 	}
 
-	public void setPrimaryStatement(AbsStatement primaryStatement) {
+	public ConditionalStatement setPrimaryStatement(AbsStatement primaryStatement) {
 		this.primaryStatement = primaryStatement;
+		return this;
 	}
 
 	public AbsStatement getAlternativeStatement() {
 		return alternativeStatement;
 	}
 
-	public void setAlternativeStatement(AbsStatement alternativeStatement) {
+	public ConditionalStatement setAlternativeStatement(AbsStatement alternativeStatement) {
 		this.alternativeStatement = alternativeStatement;
+		return this;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ITypeIdentifierVisitor;
 
@@ -23,16 +24,18 @@ public class BoundedIntegerTypeId extends AbsTypeId {
 		return minimumBound;
 	}
 
-	public void setMinimumBound(AbsExpression minimumBound) {
+	public BoundedIntegerTypeId setMinimumBound(AbsExpression minimumBound) {
 		this.minimumBound = minimumBound;
+		return this;
 	}
 
 	public AbsExpression getMaximumBound() {
 		return maximumBound;
 	}
 
-	public void setMaximumBound(AbsExpression maximumBound) {
+	public BoundedIntegerTypeId setMaximumBound(AbsExpression maximumBound) {
 		this.maximumBound = maximumBound;
+		return this;
 	}
 
 	@Override

@@ -18,16 +18,18 @@ public class ForLoop extends AbsConditionalLoopStatement{
 		return initializer;
 	}
 
-	public void setInitializer(AbsExpression initializer) {
+	public ForLoop setInitializer(AbsExpression initializer) {
 		this.initializer = initializer;
+		return this;
 	}
 
 	public AbsExpression getUpdate() {
 		return update;
 	}
 
-	public void setUpdate(AbsExpression update) {
+	public ForLoop setUpdate(AbsExpression update) {
 		this.update = update;
+		return this;
 	}
 
 	@Override

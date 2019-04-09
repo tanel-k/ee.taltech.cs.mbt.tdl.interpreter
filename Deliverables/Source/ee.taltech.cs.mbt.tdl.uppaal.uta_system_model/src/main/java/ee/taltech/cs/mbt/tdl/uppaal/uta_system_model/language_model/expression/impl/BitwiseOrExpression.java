@@ -37,8 +37,9 @@ public class BitwiseOrExpression extends AbsBinaryExprNode implements IHasAssign
 	}
 
 	@Override
-	public void setAssignment(boolean assignment) {
+	public BitwiseOrExpression setAssignment(boolean assignment) {
 		this.assignment = assignment;
+		return this;
 	}
 
 	@Override

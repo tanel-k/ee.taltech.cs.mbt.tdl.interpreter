@@ -11,16 +11,18 @@ public class BaseType implements IDeepCloneable<BaseType> {
 		return typeId;
 	}
 
-	public void setTypeId(AbsTypeId typeId) {
+	public BaseType setTypeId(AbsTypeId typeId) {
 		this.typeId = typeId;
+		return this;
 	}
 
 	public ETypePrefix getPrefix() {
 		return prefix;
 	}
 
-	public void setPrefix(ETypePrefix prefix) {
+	public BaseType setPrefix(ETypePrefix prefix) {
 		this.prefix = prefix;
+		return this;
 	}
 
 	@Override

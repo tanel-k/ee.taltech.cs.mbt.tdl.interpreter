@@ -3,7 +3,11 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IChannelReferenceVisitor;
 
 public class DefaultChannelReference extends AbsChannelReference {
-	public static final DefaultChannelReference INSTANCE = new DefaultChannelReference();
+	public static DefaultChannelReference getInstance() {
+		return INSTANCE;
+	}
+
+	private static final DefaultChannelReference INSTANCE = new DefaultChannelReference();
 
 	private DefaultChannelReference() { }
 

@@ -19,25 +19,26 @@ public abstract class AbsBinaryExprNode extends AbsInternalExprNode {
 		return getChildExpression(POSITION_LEFT);
 	}
 
-	public void setLeftChild(AbsExpression expression) {
+	public AbsBinaryExprNode setLeftChild(AbsExpression expression) {
 		setChildExpression(POSITION_LEFT, expression);
+		return this;
 	}
 
 	public AbsExpression getRightChild() {
 		return getChildExpression(POSITION_RIGHT);
 	}
 
-	public void setRightChild(AbsExpression expression) {
+	public AbsBinaryExprNode setRightChild(AbsExpression expression) {
 		setChildExpression(POSITION_RIGHT, expression);
+		return this;
 	}
 
 	protected abstract AbsBinaryExprNode topLevelClone();
 
 	@Override
 	public AbsExpression deepClone() {
-		AbsBinaryExprNode clone = topLevelClone();
-		clone.setLeftChild(getLeftChild().deepClone());
-		clone.setRightChild(getRightChild().deepClone());
-		return clone;
+		return topLevelClone()
+				.setLeftChild(getLeftChild().deepClone())
+				.setRightChild(getRightChild().deepClone());
 	}
 }

@@ -17,6 +17,11 @@ public class ChannelReferenceGroup implements Iterable<AbsChannelReference> {
 		return channelReferences;
 	}
 
+	public ChannelReferenceGroup addChannelReference(AbsChannelReference channelReference) {
+		getChannelReferences().add(channelReference);
+		return this;
+	}
+
 	@Override
 	public Iterator<AbsChannelReference> iterator() {
 		return channelReferences.iterator();

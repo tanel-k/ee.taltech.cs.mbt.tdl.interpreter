@@ -13,16 +13,18 @@ public abstract class AbsUtaLabel<ContentType> implements IPositionable {
 	}
 
 	@Override
-	public void setCoordinates(GuiCoordinates coordinates) {
+	public AbsUtaLabel<ContentType> setCoordinates(GuiCoordinates coordinates) {
 		this.coordinates = coordinates;
+		return this;
 	}
 
 	public ContentType getContent() {
 		return content;
 	}
 
-	public void setContent(ContentType content) {
+	public AbsUtaLabel<ContentType> setContent(ContentType content) {
 		this.content = content;
+		return this;
 	}
 
 	public abstract <T> T accept(ILabelVisitor<T> visitor);

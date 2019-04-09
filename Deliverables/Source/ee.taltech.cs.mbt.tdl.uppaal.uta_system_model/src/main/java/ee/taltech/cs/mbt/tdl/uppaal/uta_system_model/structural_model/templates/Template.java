@@ -23,8 +23,9 @@ public class Template {
 		return name;
 	}
 
-	public void setName(Identifier name) {
+	public Template setName(Identifier name) {
 		this.name = name;
+		return this;
 	}
 
 	public List<ParameterDeclaration> getParameters() {
@@ -33,16 +34,18 @@ public class Template {
 				: parameters;
 	}
 
-	public void setParameters(List<ParameterDeclaration> parameters) {
+	public Template setParameters(List<ParameterDeclaration> parameters) {
 		this.parameters = parameters;
+		return this;
 	}
 
 	public Location getInitialLocation() {
 		return initialLocation;
 	}
 
-	public void setInitialLocation(Location initialLocation) {
+	public Template setInitialLocation(Location initialLocation) {
 		this.initialLocation = initialLocation;
+		return this;
 	}
 
 	public DirectedMultigraph<Location, Transition> getLocationGraph() {
@@ -51,8 +54,9 @@ public class Template {
 				: locationGraph;
 	}
 
-	public void setLocationGraph(DirectedMultigraph<Location, Transition> locationGraph) {
+	public Template setLocationGraph(DirectedMultigraph<Location, Transition> locationGraph) {
 		this.locationGraph = locationGraph;
+		return this;
 	}
 
 	public List<AbsDeclarationStatement> getLocalDeclarations() {
@@ -61,7 +65,8 @@ public class Template {
 				: localDeclarations;
 	}
 
-	public void setLocalDeclarations(List<AbsDeclarationStatement> localDeclarations) {
+	public Template setLocalDeclarations(List<AbsDeclarationStatement> localDeclarations) {
 		this.localDeclarations = localDeclarations;
+		return this;
 	}
 }

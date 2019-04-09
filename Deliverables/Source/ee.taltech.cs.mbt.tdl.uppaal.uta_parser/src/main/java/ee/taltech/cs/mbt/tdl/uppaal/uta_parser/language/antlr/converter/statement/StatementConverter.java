@@ -36,7 +36,7 @@ public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 
 	@Override
 	public AbsStatement visitEmptyStatement(EmptyStatementContext ctx) {
-		return EmptyStatement.INSTANCE;
+		return EmptyStatement.getInstance();
 	}
 
 	@Override

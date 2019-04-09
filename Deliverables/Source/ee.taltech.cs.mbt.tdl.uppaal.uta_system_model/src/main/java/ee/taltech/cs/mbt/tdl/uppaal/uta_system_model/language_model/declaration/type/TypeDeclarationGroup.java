@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.type;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap.BaseTypeExtension;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.ITypeExtensionGroup;
@@ -19,10 +20,6 @@ public class TypeDeclarationGroup extends AbsTypeDeclaration implements ITypeExt
 		typeDeclaration.setIdentifier(baseTypeExtension.getIdentifier());
 		typeDeclaration.setType(baseTypeExtension.toDetachedInstance());
 		return typeDeclaration;
-	}
-
-	public AbsTypeDeclaration reduceToOnlyEntryIfApplicable() {
-		return getOnlyEntry().orElse(this);
 	}
 
 	@Override

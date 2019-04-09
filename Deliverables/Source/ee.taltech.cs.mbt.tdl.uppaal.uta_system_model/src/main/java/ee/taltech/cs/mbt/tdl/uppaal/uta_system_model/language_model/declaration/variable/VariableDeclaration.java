@@ -35,24 +35,27 @@ public class VariableDeclaration extends AbsVariableDeclaration {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public VariableDeclaration setType(Type type) {
 		this.type = type;
+		return this;
 	}
 
 	public Identifier getIdentifier() {
 		return identifier;
 	}
 
-	public void setIdentifier(Identifier identifier) {
+	public VariableDeclaration setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+		return this;
 	}
 
 	public AbsVariableInitializer getInitializer() {
 		return initializer;
 	}
 
-	public void setInitializer(AbsVariableInitializer initializer) {
+	public VariableDeclaration setInitializer(AbsVariableInitializer initializer) {
 		this.initializer = initializer;
+		return this;
 	}
 
 	@Override

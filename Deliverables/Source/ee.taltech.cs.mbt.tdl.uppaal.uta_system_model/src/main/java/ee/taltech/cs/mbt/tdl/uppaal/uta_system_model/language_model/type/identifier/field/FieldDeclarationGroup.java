@@ -27,10 +27,6 @@ public class FieldDeclarationGroup extends AbsFieldDeclaration implements ITypeE
 		return clone;
 	}
 
-	public AbsFieldDeclaration reduceToOnlyEntryIfApplicable() {
-		return getOnlyEntry().orElse(this);
-	}
-
 	@Override
 	public <T> T accept(IFieldDeclarationVisitor<T> visitor) {
 		return visitor.visitFieldDeclarationGroup(this);

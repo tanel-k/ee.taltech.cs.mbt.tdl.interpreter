@@ -20,8 +20,9 @@ public class Location implements IPositionable, IColorable {
 			return name;
 		}
 
-		public void setName(String name) {
+		public LocationName setName(String name) {
 			this.name = name;
+			return this;
 		}
 
 		@Override
@@ -30,8 +31,9 @@ public class Location implements IPositionable, IColorable {
 		}
 
 		@Override
-		public void setCoordinates(GuiCoordinates coordinates) {
+		public LocationName setCoordinates(GuiCoordinates coordinates) {
 			this.coordinates = coordinates;
+			return this;
 		}
 	}
 
@@ -48,16 +50,18 @@ public class Location implements IPositionable, IColorable {
 		return id;
 	}
 
-	public void setId(String id) {
+	public Location setId(String id) {
 		this.id = id;
+		return this;
 	}
 
 	public LocationName getName() {
 		return name;
 	}
 
-	public void setName(LocationName name) {
+	public Location setName(LocationName name) {
 		this.name = name;
+		return this;
 	}
 
 	@Override
@@ -66,8 +70,9 @@ public class Location implements IPositionable, IColorable {
 	}
 
 	@Override
-	public void setCoordinates(GuiCoordinates coordinates) {
+	public Location setCoordinates(GuiCoordinates coordinates) {
 		this.coordinates = coordinates;
+		return this;
 	}
 
 	@Override
@@ -76,24 +81,27 @@ public class Location implements IPositionable, IColorable {
 	}
 
 	@Override
-	public void setColor(Color color) {
+	public Location setColor(Color color) {
 		this.color = color;
+		return this;
 	}
 
 	public ELocationExitPolicy getExitPolicy() {
 		return exitPolicy;
 	}
 
-	public void setExitPolicy(ELocationExitPolicy exitPolicy) {
+	public Location setExitPolicy(ELocationExitPolicy exitPolicy) {
 		this.exitPolicy = exitPolicy;
+		return this;
 	}
 
 	public LocationLabels getLabels() {
 		return labels;
 	}
 
-	public void setLabels(LocationLabels locationLabelContainer) {
+	public Location setLabels(LocationLabels locationLabelContainer) {
 		this.labels = locationLabelContainer;
+		return this;
 	}
 
 	@Override

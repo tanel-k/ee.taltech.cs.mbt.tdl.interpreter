@@ -22,8 +22,9 @@ public class ExpressionStatement extends AbsStatement {
 		return expression;
 	}
 
-	public void setExpression(AbsExpression expression) {
+	public ExpressionStatement setExpression(AbsExpression expression) {
 		this.expression = expression;
+		return this;
 	}
 
 	@Override

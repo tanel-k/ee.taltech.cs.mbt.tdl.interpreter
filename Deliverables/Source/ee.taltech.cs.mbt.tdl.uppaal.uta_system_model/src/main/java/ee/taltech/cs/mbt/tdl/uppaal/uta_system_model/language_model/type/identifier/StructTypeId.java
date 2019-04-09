@@ -24,6 +24,11 @@ public class StructTypeId extends AbsTypeId {
 		return fieldDeclarations;
 	}
 
+	public StructTypeId addFieldDeclaration(AbsFieldDeclaration fieldDeclaration) {
+		getFieldDeclarations().add(fieldDeclaration);
+		return this;
+	}
+
 	@Override
 	public StructTypeId deepClone() {
 		StructTypeId clone = new StructTypeId();

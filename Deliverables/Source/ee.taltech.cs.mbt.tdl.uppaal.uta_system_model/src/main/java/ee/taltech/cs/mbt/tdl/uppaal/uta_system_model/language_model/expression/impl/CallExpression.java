@@ -36,6 +36,11 @@ public class CallExpression extends AbsUnaryExprNode {
 		return arguments;
 	}
 
+	public CallExpression addArgument(AbsExpression argument) {
+		getArguments().add(argument);
+		return this;
+	}
+
 	@Override
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visitCallExpr(this);

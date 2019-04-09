@@ -11,6 +11,11 @@ public class SystemLine implements Iterable<ProcessReferenceGroup> {
 		return processPrioritySequence;
 	}
 
+	public SystemLine addGroup(ProcessReferenceGroup group) {
+		getProcessPrioritySequence().add(group);
+		return this;
+	}
+
 	@Override
 	public Iterator<ProcessReferenceGroup> iterator() {
 		return processPrioritySequence.iterator();

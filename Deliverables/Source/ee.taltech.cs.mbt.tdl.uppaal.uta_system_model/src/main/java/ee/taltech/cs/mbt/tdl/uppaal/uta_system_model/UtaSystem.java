@@ -20,8 +20,9 @@ public class UtaSystem {
 				: globalDeclarations;
 	}
 
-	public void setGlobalDeclarations(List<AbsDeclarationStatement> globalDeclarations) {
+	public UtaSystem setGlobalDeclarations(List<AbsDeclarationStatement> globalDeclarations) {
 		this.globalDeclarations = globalDeclarations;
+		return this;
 	}
 
 	public List<Template> getTemplates() {
@@ -30,8 +31,9 @@ public class UtaSystem {
 				: templates;
 	}
 
-	public void setTemplates(List<Template> templates) {
+	public UtaSystem setTemplates(List<Template> templates) {
 		this.templates = templates;
+		return this;
 	}
 
 	public SystemDefinition getSystemDefinition() {

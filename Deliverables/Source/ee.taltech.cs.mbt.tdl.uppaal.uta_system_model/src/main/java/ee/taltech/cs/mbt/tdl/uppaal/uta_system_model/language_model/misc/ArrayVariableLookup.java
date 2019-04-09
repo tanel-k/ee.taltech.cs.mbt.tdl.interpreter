@@ -22,15 +22,27 @@ public class ArrayVariableLookup {
 	private Identifier identifier;
 	private List<AbsExpression> lookupExpressions = new LinkedList<>();
 
+	public ArrayVariableLookup of(Identifier identifier) {
+		ArrayVariableLookup arrayVariableLookup = new ArrayVariableLookup();
+		arrayVariableLookup.setIdentifier(identifier);
+		return arrayVariableLookup;
+	}
+
 	public Identifier getIdentifier() {
 		return identifier;
 	}
 
-	public void setIdentifier(Identifier identifier) {
+	public ArrayVariableLookup setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+		return this;
 	}
 
 	public List<AbsExpression> getLookupExpressions() {
 		return lookupExpressions;
+	}
+
+	public ArrayVariableLookup addLookupExpression(AbsExpression expr) {
+		getLookupExpressions().add(expr);
+		return this;
 	}
 }

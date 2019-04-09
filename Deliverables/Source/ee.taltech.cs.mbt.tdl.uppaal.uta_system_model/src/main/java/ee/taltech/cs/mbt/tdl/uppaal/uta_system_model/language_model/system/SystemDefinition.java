@@ -16,19 +16,26 @@ public class SystemDefinition {
 		return declarations;
 	}
 
+	public SystemDefinition addDeclaration(AbsDeclarationStatement declaration) {
+		getDeclarations().add(declaration);
+		return this;
+	}
+
 	public SystemLine getSystemLine() {
 		return systemLine;
 	}
 
-	public void setSystemLine(SystemLine systemLine) {
+	public SystemDefinition setSystemLine(SystemLine systemLine) {
 		this.systemLine = systemLine;
+		return this;
 	}
 
 	public List<AbsExpression> getProgressMeasureExpressions() {
 		return progressMeasureExpressions;
 	}
 
-	public void setProgressMeasureExpressions(List<AbsExpression> progressMeasureExpressions) {
-		this.progressMeasureExpressions = progressMeasureExpressions;
+	public SystemDefinition addProgressMeasure(AbsExpression expression) {
+		getProgressMeasureExpressions().add(expression);
+		return this;
 	}
 }

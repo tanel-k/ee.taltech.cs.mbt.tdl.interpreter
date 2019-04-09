@@ -10,8 +10,9 @@ public class ChannelArrayLookup extends AbsChannelReference {
 		return arrayVariableLookup;
 	}
 
-	public void setArrayVariableLookup(ArrayVariableLookup arrayVariableLookup) {
+	public ChannelArrayLookup setArrayVariableLookup(ArrayVariableLookup arrayVariableLookup) {
 		this.arrayVariableLookup = arrayVariableLookup;
+		return this;
 	}
 
 	@Override

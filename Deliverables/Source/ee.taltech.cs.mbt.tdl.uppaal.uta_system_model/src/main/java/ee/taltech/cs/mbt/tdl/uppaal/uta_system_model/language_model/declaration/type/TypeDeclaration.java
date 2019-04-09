@@ -22,16 +22,18 @@ public class TypeDeclaration extends AbsTypeDeclaration {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public TypeDeclaration setType(Type type) {
 		this.type = type;
+		return this;
 	}
 
 	public Identifier getIdentifier() {
 		return identifier;
 	}
 
-	public void setIdentifier(Identifier identifier) {
+	public TypeDeclaration setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+		return this;
 	}
 
 	@Override

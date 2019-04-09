@@ -34,8 +34,9 @@ public class ScalarTypeId extends AbsTypeId {
 		return this.sizeExpression;
 	}
 
-	public void setSizeExpression(AbsExpression sizeExpression) {
+	public ScalarTypeId setSizeExpression(AbsExpression sizeExpression) {
 		this.sizeExpression = sizeExpression;
+		return this;
 	}
 
 	@Override

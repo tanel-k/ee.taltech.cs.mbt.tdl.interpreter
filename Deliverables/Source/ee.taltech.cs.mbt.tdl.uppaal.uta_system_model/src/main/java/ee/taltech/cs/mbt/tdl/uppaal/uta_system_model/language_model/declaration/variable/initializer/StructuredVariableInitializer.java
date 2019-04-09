@@ -16,6 +16,11 @@ public class StructuredVariableInitializer extends AbsVariableInitializer {
 		return initializers;
 	}
 
+	public StructuredVariableInitializer addInitializer(AbsVariableInitializer initializer) {
+		getInitializers().add(initializer);
+		return this;
+	}
+
 	@Override
 	public <T> T accept(IInitializerVisitor<T> visitor) {
 		return visitor.visitStructuredInitializer(this);

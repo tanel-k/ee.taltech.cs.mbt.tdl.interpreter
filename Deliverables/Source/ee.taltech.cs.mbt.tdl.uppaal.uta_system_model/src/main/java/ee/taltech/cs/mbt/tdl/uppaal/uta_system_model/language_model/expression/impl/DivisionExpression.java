@@ -37,8 +37,9 @@ public class DivisionExpression extends AbsBinaryExprNode implements IHasAssignm
 	}
 
 	@Override
-	public void setAssignment(boolean assignment) {
+	public DivisionExpression setAssignment(boolean assignment) {
 		this.assignment = assignment;
+		return this;
 	}
 
 	@Override

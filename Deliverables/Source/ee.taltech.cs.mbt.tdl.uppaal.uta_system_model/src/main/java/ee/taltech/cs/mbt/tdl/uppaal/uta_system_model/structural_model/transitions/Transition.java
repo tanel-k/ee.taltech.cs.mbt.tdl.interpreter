@@ -23,28 +23,36 @@ public class Transition implements IColorable {
 		return source;
 	}
 
-	public void setSource(Location source) {
+	public Transition setSource(Location source) {
 		this.source = source;
+		return this;
 	}
 
 	public Location getTarget() {
 		return target;
 	}
 
-	public void setTarget(Location target) {
+	public Transition setTarget(Location target) {
 		this.target = target;
+		return this;
 	}
 
 	public TransitionLabels getLabels() {
 		return labels;
 	}
 
-	public void setLabels(TransitionLabels labels) {
+	public Transition setLabels(TransitionLabels labels) {
 		this.labels = labels;
+		return this;
 	}
 
 	public List<GuiCoordinates> getNails() {
 		return nails;
+	}
+
+	public Transition addNail(GuiCoordinates nail) {
+		getNails().add(nail);
+		return this;
 	}
 
 	@Override
@@ -53,7 +61,8 @@ public class Transition implements IColorable {
 	}
 
 	@Override
-	public void setColor(Color color) {
+	public Transition setColor(Color color) {
 		this.color = color;
+		return this;
 	}
 }

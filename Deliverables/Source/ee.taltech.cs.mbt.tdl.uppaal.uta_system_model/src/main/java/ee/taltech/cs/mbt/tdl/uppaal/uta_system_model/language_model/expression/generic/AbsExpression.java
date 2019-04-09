@@ -50,7 +50,7 @@ public abstract class AbsExpression {
 		this.childExpressions = new ArrayList<>(Collections.nCopies(this.childCount, null));
 	}
 
-	protected void setChildExpression(int position, AbsExpression childExpression) {
+	protected AbsExpression setChildExpression(int position, AbsExpression childExpression) {
 		if (position < 0 || position >= childCount)
 			throw new IllegalArgumentException(
 				"Child expression position " + position + " out of bounds."
@@ -63,6 +63,8 @@ public abstract class AbsExpression {
 
 		this.childExpressions.set(position, childExpression);
 		childExpression.setParentExpression(this);
+
+		return this;
 	}
 
 	protected AbsExpression getChildExpression(int position) {
@@ -75,8 +77,9 @@ public abstract class AbsExpression {
 		return parentExpression;
 	}
 
-	public void setParentExpression(AbsExpression parentExpression) {
+	public AbsExpression setParentExpression(AbsExpression parentExpression) {
 		this.parentExpression = parentExpression;
+		return this;
 	}
 
 	protected List<AbsExpression> getChildExpressions() {

@@ -37,8 +37,9 @@ public class SubtractionExpression extends AbsBinaryExprNode implements IHasAssi
 	}
 
 	@Override
-	public void setAssignment(boolean assignment) {
+	public SubtractionExpression setAssignment(boolean assignment) {
 		this.assignment = assignment;
+		return this;
 	}
 
 	@Override

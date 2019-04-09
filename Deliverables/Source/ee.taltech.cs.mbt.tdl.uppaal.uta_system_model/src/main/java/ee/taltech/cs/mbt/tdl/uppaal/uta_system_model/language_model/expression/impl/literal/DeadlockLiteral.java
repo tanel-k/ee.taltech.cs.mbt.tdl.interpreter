@@ -3,7 +3,13 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
 
 public class DeadlockLiteral extends AbsLiteralExpression {
-	DeadlockLiteral() { }
+	public static DeadlockLiteral getInstance() {
+		return INSTANCE;
+	}
+
+	private static final DeadlockLiteral INSTANCE = new DeadlockLiteral();
+
+	private DeadlockLiteral() { }
 
 	@Override
 	public DeadlockLiteral deepClone() {

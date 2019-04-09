@@ -43,20 +43,27 @@ public class Type implements IDeepCloneable<Type> {
 		return baseType;
 	}
 
-	public void setBaseType(BaseType baseType) {
+	public Type setBaseType(BaseType baseType) {
 		this.baseType = baseType;
+		return this;
 	}
 
 	public boolean isReferenceType() {
 		return referenceType;
 	}
 
-	public void setReferenceType(boolean referenceType) {
+	public Type setReferenceType(boolean referenceType) {
 		this.referenceType = referenceType;
+		return this;
 	}
 
 	public List<AbsArrayModifier> getArrayModifiers() {
 		return arrayModifiers;
+	}
+
+	public Type addArrayModifier(AbsArrayModifier arrayModifier) {
+		getArrayModifiers().add(arrayModifier);
+		return this;
 	}
 
 	@Override
@@ -66,7 +73,7 @@ public class Type implements IDeepCloneable<Type> {
 		clone.setReferenceType(isReferenceType());
 		getArrayModifiers().stream()
 				.map(AbsArrayModifier::deepClone)
-				.forEach(clone.getArrayModifiers()::add);
+				.forEach(clone::addArrayModifier);
 		return clone;
 	}
 }

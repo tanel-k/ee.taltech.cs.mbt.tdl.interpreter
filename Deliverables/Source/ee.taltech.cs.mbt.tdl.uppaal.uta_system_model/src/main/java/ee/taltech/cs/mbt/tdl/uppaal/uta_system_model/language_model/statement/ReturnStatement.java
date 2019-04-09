@@ -19,8 +19,9 @@ public class ReturnStatement extends AbsStatement {
 		return returnExpression;
 	}
 
-	public void setExpression(AbsExpression returnExpression) {
+	public ReturnStatement setExpression(AbsExpression returnExpression) {
 		this.returnExpression = returnExpression;
+		return this;
 	}
 
 	@Override

@@ -28,6 +28,11 @@ public class ChannelPrioritySequence extends AbsDeclarationStatement implements 
 		return prioritySequence;
 	}
 
+	public ChannelPrioritySequence addGroup(ChannelReferenceGroup group) {
+		getPrioritySequence().add(group);
+		return this;
+	}
+
 	@Override
 	public Iterator<ChannelReferenceGroup> iterator() {
 		return prioritySequence.iterator();

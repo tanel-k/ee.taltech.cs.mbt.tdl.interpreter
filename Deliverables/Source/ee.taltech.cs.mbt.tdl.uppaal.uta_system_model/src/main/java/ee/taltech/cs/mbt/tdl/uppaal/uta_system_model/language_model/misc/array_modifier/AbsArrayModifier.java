@@ -17,8 +17,9 @@ public abstract class AbsArrayModifier<SizeSpecifier> {
 		return sizeSpecifier;
 	}
 
-	public void setSizeSpecifier(SizeSpecifier sizeSpecifier) {
+	public AbsArrayModifier<SizeSpecifier> setSizeSpecifier(SizeSpecifier sizeSpecifier) {
 		this.sizeSpecifier = sizeSpecifier;
+		return this;
 	}
 
 	public abstract <T> T accept(IArrayModifierVisitor<T> visitor);

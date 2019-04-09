@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ITypeIdentifierVisitor;
 
 /**
@@ -17,7 +18,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ITy
  *                |  '[' Type ']'
  * </pre>
  */
-public abstract class AbsTypeId {
+public abstract class AbsTypeId implements IDeepCloneable<AbsTypeId> {
+	@Override
 	public abstract AbsTypeId deepClone();
 	public abstract <T> T accept(ITypeIdentifierVisitor<T> visitor);
 }

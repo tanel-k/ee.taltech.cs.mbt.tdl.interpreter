@@ -33,8 +33,9 @@ public class NegationExpression extends AbsUnaryExprNode implements IHasPhraseCo
 	}
 
 	@Override
-	public void setPhrase(boolean phrase) {
+	public NegationExpression setPhrase(boolean phrase) {
 		this.phrase = phrase;
+		return this;
 	}
 
 	@Override

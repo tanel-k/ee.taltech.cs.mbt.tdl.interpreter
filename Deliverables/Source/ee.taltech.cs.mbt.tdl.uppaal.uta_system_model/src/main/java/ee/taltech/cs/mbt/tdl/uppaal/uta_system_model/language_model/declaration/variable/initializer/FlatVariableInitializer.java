@@ -14,8 +14,9 @@ public class FlatVariableInitializer extends AbsVariableInitializer {
 		return expression;
 	}
 
-	public void setExpression(AbsExpression expression) {
+	public FlatVariableInitializer setExpression(AbsExpression expression) {
 		this.expression = expression;
+		return this;
 	}
 
 	@Override

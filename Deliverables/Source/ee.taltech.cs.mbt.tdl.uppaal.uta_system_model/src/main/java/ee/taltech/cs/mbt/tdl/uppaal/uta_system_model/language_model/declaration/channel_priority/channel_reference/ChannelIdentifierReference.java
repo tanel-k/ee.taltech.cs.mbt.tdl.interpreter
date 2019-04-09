@@ -10,8 +10,9 @@ public class ChannelIdentifierReference extends AbsChannelReference {
 		return identifier;
 	}
 
-	public void setIdentifier(Identifier identifier) {
+	public ChannelIdentifierReference setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+		return this;
 	}
 
 	@Override

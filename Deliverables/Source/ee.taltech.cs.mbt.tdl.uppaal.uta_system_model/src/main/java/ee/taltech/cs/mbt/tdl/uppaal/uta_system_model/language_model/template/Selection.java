@@ -11,15 +11,17 @@ public class Selection {
 		return variableName;
 	}
 
-	public void setVariableName(Identifier variableName) {
+	public Selection setVariableName(Identifier variableName) {
 		this.variableName = variableName;
+		return this;
 	}
 
 	public BaseType getSelectType() {
 		return selectType;
 	}
 
-	public void setSelectType(BaseType selectType) {
+	public Selection setSelectType(BaseType selectType) {
 		this.selectType = selectType;
+		return this;
 	}
 }

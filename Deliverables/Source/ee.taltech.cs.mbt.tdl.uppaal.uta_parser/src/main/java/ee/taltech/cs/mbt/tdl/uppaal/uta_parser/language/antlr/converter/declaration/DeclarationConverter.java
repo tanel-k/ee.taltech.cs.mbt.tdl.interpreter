@@ -44,13 +44,9 @@ public class DeclarationConverter extends UtaLanguageBaseVisitor<AbsDeclarationS
 
 	@Override
 	public AbsDeclarationStatement visitTemplateInstantiation(TemplateInstantiationContext ctx) {
-		TemplateInstantiation templateInstantiation = new TemplateInstantiation();
-
-		Identifier newName = Identifier.of(ctx.IDENTIFIER_NAME(0).getText());
-		Identifier sourceName = Identifier.of(ctx.IDENTIFIER_NAME(1).getText());
-
-		templateInstantiation.setNewTemplateName(newName);
-		templateInstantiation.setSourceTemplateName(sourceName);
+		TemplateInstantiation templateInstantiation = new TemplateInstantiation()
+				.setNewTemplateName(Identifier.of(ctx.IDENTIFIER_NAME(0).getText()))
+				.setSourceTemplateName(Identifier.of(ctx.IDENTIFIER_NAME(1).getText()));
 
 		if (ctx.argumentSequence() != null) {
 			templateInstantiation.getArguments().addAll(

@@ -27,7 +27,8 @@ public abstract class AbsLoopStatement extends AbsStatement {
 		return statement;
 	}
 
-	public void setStatement(AbsStatement statement) {
+	public AbsLoopStatement setStatement(AbsStatement statement) {
 		this.statement = statement;
+		return this;
 	}
 }

@@ -27,28 +27,36 @@ public class FunctionDeclaration extends AbsDeclarationStatement {
 		return valueType;
 	}
 
-	public void setValueType(BaseType valueType) {
+	public FunctionDeclaration setValueType(BaseType valueType) {
 		this.valueType = valueType;
+		return this;
 	}
 
 	public Identifier getName() {
 		return name;
 	}
 
-	public void setName(Identifier name) {
+	public FunctionDeclaration setName(Identifier name) {
 		this.name = name;
+		return this;
 	}
 
 	public List<ParameterDeclaration> getParameters() {
 		return parameters;
 	}
 
+	public FunctionDeclaration addParameter(ParameterDeclaration parameter) {
+		getParameters().add(parameter);
+		return this;
+	}
+
 	public StatementBlock getStatementBlock() {
 		return statementBlock;
 	}
 
-	public void setStatementBlock(StatementBlock statementBlock) {
+	public FunctionDeclaration setStatementBlock(StatementBlock statementBlock) {
 		this.statementBlock = statementBlock;
+		return this;
 	}
 
 	@Override

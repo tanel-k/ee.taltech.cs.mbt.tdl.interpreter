@@ -37,8 +37,9 @@ public class ModuloExpression extends AbsBinaryExprNode implements IHasAssignmen
 	}
 
 	@Override
-	public void setAssignment(boolean assignment) {
+	public ModuloExpression setAssignment(boolean assignment) {
 		this.assignment = assignment;
+		return this;
 	}
 
 	@Override

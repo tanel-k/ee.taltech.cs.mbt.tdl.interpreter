@@ -23,49 +23,54 @@ public class TransitionLabels {
 		return guardLabel;
 	}
 
-	public void setGuardLabel(GuardLabel guardLabel) {
+	public TransitionLabels setGuardLabel(GuardLabel guardLabel) {
 		this.guardLabel = guardLabel;
+		return this;
 	}
 
 	public AssignmentsLabel getAssignmentsLabel() {
 		return assignmentsLabel;
 	}
 
-	public void setAssignmentsLabel(AssignmentsLabel assignmentsLabel) {
+	public TransitionLabels setAssignmentsLabel(AssignmentsLabel assignmentsLabel) {
 		this.assignmentsLabel = assignmentsLabel;
+		return this;
 	}
 
 	public SelectionLabel getSelectLabel() {
 		return selectLabel;
 	}
 
-	public void setSelectLabel(SelectionLabel selectLabel) {
+	public TransitionLabels setSelectLabel(SelectionLabel selectLabel) {
 		this.selectLabel = selectLabel;
+		return this;
 	}
 
 	public SynchronizationLabel getSynchronizationLabel() {
 		return synchronizationLabel;
 	}
 
-	public void setSynchronizationLabel(SynchronizationLabel synchronizationLabel) {
+	public TransitionLabels setSynchronizationLabel(SynchronizationLabel synchronizationLabel) {
 		this.synchronizationLabel = synchronizationLabel;
+		return this;
 	}
 
 	public CommentLabel getCommentLabel() {
 		return commentLabel;
 	}
 
-	public void setCommentLabel(CommentLabel commentLabel) {
+	public TransitionLabels setCommentLabel(CommentLabel commentLabel) {
 		this.commentLabel = commentLabel;
+		return this;
 	}
 
 	public Collection<AbsUtaLabel<?>> asCollection() {
-		List<AbsUtaLabel<?>> labels = new LinkedList<>();
-		CollectionUtils.addIfNonNull(labels, commentLabel);
-		CollectionUtils.addIfNonNull(labels, guardLabel);
-		CollectionUtils.addIfNonNull(labels, assignmentsLabel);
-		CollectionUtils.addIfNonNull(labels, selectLabel);
-		CollectionUtils.addIfNonNull(labels, synchronizationLabel);
-		return labels;
+		return CollectionUtils.collectionBuilder(new LinkedList<AbsUtaLabel<?>>())
+				.addIfNonNull(commentLabel)
+				.addIfNonNull(guardLabel)
+				.addIfNonNull(assignmentsLabel)
+				.addIfNonNull(selectLabel)
+				.addIfNonNull(synchronizationLabel)
+				.build();
 	}
 }

@@ -13,8 +13,9 @@ public class ImplicationExpression extends AbsBinaryExprNode implements IHasPhra
 	}
 
 	@Override
-	public void setPhrase(boolean phrase) {
+	public ImplicationExpression setPhrase(boolean phrase) {
 		this.phrase = phrase;
+		return this;
 	}
 
 	@Override

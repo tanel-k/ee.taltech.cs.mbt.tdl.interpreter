@@ -18,16 +18,16 @@ public abstract class AbsUnaryExprNode extends AbsInternalExprNode {
 		return getChildExpression(POSITION);
 	}
 
-	public void setChild(AbsExpression operand) {
+	public AbsUnaryExprNode setChild(AbsExpression operand) {
 		setChildExpression(POSITION, operand);
+		return this;
 	}
 
 	protected abstract AbsUnaryExprNode topLevelClone();
 
 	@Override
 	public AbsUnaryExprNode deepClone() {
-		AbsUnaryExprNode clone = topLevelClone();
-		clone.setChild(getChild().deepClone());
-		return clone;
+		return topLevelClone()
+				.setChild(getChild().deepClone());
 	}
 }

@@ -13,6 +13,11 @@ public class ProcessReferenceGroup implements Iterable<Identifier> {
 		return processIdentifiers;
 	}
 
+	public ProcessReferenceGroup addIdentifier(Identifier identifier) {
+		getProcessIdentifiers().add(identifier);
+		return this;
+	}
+
 	@Override
 	public Iterator<Identifier> iterator() {
 		return processIdentifiers.iterator();

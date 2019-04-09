@@ -15,5 +15,5 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.
  */
 public interface IHasAssignmentCounterpart {
 	boolean isAssignment();
-	void setAssignment(boolean assignment);
+	IHasAssignmentCounterpart setAssignment(boolean assignment);
 }

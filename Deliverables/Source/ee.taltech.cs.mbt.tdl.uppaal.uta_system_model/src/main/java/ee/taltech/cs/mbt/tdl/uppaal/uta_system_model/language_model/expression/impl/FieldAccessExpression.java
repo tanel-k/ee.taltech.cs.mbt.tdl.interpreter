@@ -41,8 +41,9 @@ public class FieldAccessExpression extends AbsUnaryExprNode {
 	/**
 	 * @param identifier The identifier of the field that is being accessed.
 	 */
-	public void setIdentifier(Identifier identifier) {
+	public FieldAccessExpression setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+		return this;
 	}
 
 	@Override

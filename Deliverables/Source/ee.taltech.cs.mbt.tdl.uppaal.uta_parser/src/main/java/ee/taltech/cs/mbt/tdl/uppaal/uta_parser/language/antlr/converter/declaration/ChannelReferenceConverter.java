@@ -34,15 +34,13 @@ public class ChannelReferenceConverter extends UtaLanguageBaseVisitor<AbsChannel
 
 	@Override
 	public AbsChannelReference visitDefaultChannelReference(DefaultChannelReferenceContext ctx) {
-		return DefaultChannelReference.INSTANCE;
+		return DefaultChannelReference.getInstance();
 	}
 
 	@Override
 	public AbsChannelReference visitChannelIdentifierReference(ChannelIdentifierReferenceContext ctx) {
-		Identifier identifier = Identifier.of(ctx.IDENTIFIER_NAME().getText());
-		ChannelIdentifierReference reference = new ChannelIdentifierReference();
-		reference.setIdentifier(identifier);
-		return reference;
+		return new ChannelIdentifierReference()
+				.setIdentifier(Identifier.of(ctx.IDENTIFIER_NAME().getText()));
 	}
 
 	@Override
@@ -59,8 +57,7 @@ public class ChannelReferenceConverter extends UtaLanguageBaseVisitor<AbsChannel
 			arrayVariableLookup.getLookupExpressions().add(lookupExpression);
 		}
 
-		ChannelArrayLookup channelArrayLookup = new ChannelArrayLookup();
-		channelArrayLookup.setArrayVariableLookup(arrayVariableLookup);
-		return channelArrayLookup;
+		return new ChannelArrayLookup()
+				.setArrayVariableLookup(arrayVariableLookup);
 	}
 }

@@ -18,12 +18,22 @@ public class StatementBlock extends AbsStatement {
 	private List<AbsDeclarationStatement> declarations = new LinkedList<>();
 	private List<AbsStatement> statements = new LinkedList<>();
 
+	public List<AbsDeclarationStatement> getDeclarations() {
+		return declarations;
+	}
+
+	public StatementBlock addDeclaration(AbsDeclarationStatement declaration) {
+		getDeclarations().add(declaration);
+		return this;
+	}
+
 	public List<AbsStatement> getStatements() {
 		return statements;
 	}
 
-	public List<AbsDeclarationStatement> getDeclarations() {
-		return declarations;
+	public StatementBlock addStatement(AbsStatement statement) {
+		getStatements().add(statement);
+		return this;
 	}
 
 	@Override

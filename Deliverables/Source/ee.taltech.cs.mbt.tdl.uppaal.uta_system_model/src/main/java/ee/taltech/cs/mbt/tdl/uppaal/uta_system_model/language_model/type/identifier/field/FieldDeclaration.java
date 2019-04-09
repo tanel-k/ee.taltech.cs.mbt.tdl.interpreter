@@ -15,16 +15,18 @@ public class FieldDeclaration extends AbsFieldDeclaration {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public FieldDeclaration setType(Type type) {
 		this.type = type;
+		return this;
 	}
 
 	public Identifier getIdentifier() {
 		return identifier;
 	}
 
-	public void setIdentifier(Identifier identifier) {
+	public FieldDeclaration setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+		return this;
 	}
 
 	@Override

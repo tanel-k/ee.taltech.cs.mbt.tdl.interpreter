@@ -85,14 +85,12 @@ public static class <ctx.name;format="cap">TemplateFactory {
 }
 >>
 
-// ctx.name
 parameterDeclarationConstructor(ctx) ::= <<
 protected ParameterDeclaration new<ctx.name; format="cap">ParameterDeclaration() {
     <parameterBuilder(ctx)>
 }
 >>
 
-// ctx.name
 parameterDeclarationConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
         <targetVar>.getParameters(),
@@ -100,7 +98,6 @@ CollectionUtils.addIfNonNull(
 );
 >>
 
-// ctx.name
 templateConstructor(ctx) ::= <<
 protected Template new<ctx.name;format="cap">Template() {
     return <ctx.name;format="cap">TemplateFactory
@@ -109,7 +106,6 @@ protected Template new<ctx.name;format="cap">Template() {
 }
 >>
 
-// ctx.name
 templateConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
         <targetVar>.getTemplates(),
@@ -117,21 +113,19 @@ CollectionUtils.addIfNonNull(
 );
 >>
 
-// ctx.id
 locationConstructor(ctx) ::= <<
 protected Location new<ctx.id;format="cap">Location() {
     <locationBuilder(ctx)>
 }
 >>
 
-// ctx.id, ctx.initial
 locationConsumer(tarvetVar, ctx) ::= <<
 Location location<ctx.id;format="cap"> = new<ctx.id;format="cap">Location();
-template<targetVar;format="cap">.getLocationGraph().addVertex(location<ctx.id;format="cap">);
+template<targetVar;format="cap">.getLocationGraph()
+        .addVertex(location<ctx.id;format="cap">);
 <if(ctx.initial)>template<targetVar;format="cap">.setInitialLocation(location<ctx.id;format="cap">);<endif>
 >>
 
-// ctx.uniqueId
 transitionConstructor(ctx) ::= <<
 protected Transition new<ctx.uniqueId;format="cap">Transition(Location source, Location target) {
     <transitionBuilder(ctx)>
@@ -143,17 +137,16 @@ Transition transition<ctx.uniqueId;format="cap"> = new<ctx.uniqueId;format="cap"
         location<ctx.sourceId;format="cap">,
         location<ctx.targetId;format="cap">
 );
-targetVar.getLocationGraph().addEdge(location<ctx.sourceId;format="cap">, location<ctx.targetId;format="cap">);
+targetVar.getLocationGraph()
+        .addEdge(location<ctx.sourceId;format="cap">, location<ctx.targetId;format="cap">);
 >>
 
-// ctx.name
 declarationConstructor(ctx) ::= <<
 protected AbsDeclarationStatement new<ctx.name>Declaration() {
     <declarationBuilder(ctx)>
 }
 >>
 
-// ctx.name
 declarationConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
         <targetVar>.getDeclarations(),
@@ -172,6 +165,7 @@ SystemDefinition systemDefinition = newSystemDefinition();
 <targetVar>.setSystemDefinition(systemDefinition);
 >>
 
+// UNDER CONSTRUCTION:
 systemDefinitionBuilder(ctx) ::= <<
 SystemDefinition systemDefinition = new SystemDefinition();
 // TODO:
@@ -223,7 +217,7 @@ declarationBuilder(ctx) ::= <%
     <elseif(ctx.typeDeclaration)>
         <typeDeclaration(ctx)>
     <elseif(ctx.channelPriorityDeclaration)>
-        <channelPriorityDeclaration(ctx)>
+        <buildChannelPriority(ctx)>
     <elseif(ctx.templateInstantiation)>
         <templateInstantiation(ctx)>
     <elseif(ctx.functionDeclaration)>
@@ -231,41 +225,33 @@ declarationBuilder(ctx) ::= <%
     <endif>
 %>
 
-channelPriorityDeclaration(ctx) ::= <<
-ChannelPrioritySequence prioritySeqDecl<ctx.name;format="cap"> = new ChannelPrioritySequence();
-<ctx.channelReferenceGroups:{ grpCtx | <channelReferenceGroup(ctx, grpCtx)>}; separator="\n">
+buildChannelPriority(ctx) ::= <<
+ChannelPrioritySequence prioritySeqDecl<ctx.name;format="cap"> = new ChannelPrioritySequence()
+        <ctx.channelReferenceGroups:addChannelReferenceGroup(); separator="\n">
+;
 return prioritySeqDecl<ctx.name;format="cap">;
 >>
 
-channelReferenceGroup(parentCtx, ctx) ::= <<
-{
-    ChannelPriorityGroup group = new ChannelPriorityGroup();
-    <ctx.channelReferences:channelReference(); separator="\n">
-    prioritySeqDecl<parentCtx.name;format="cap">.getPrioritySequence().add(group);
-}
+addChannelReferenceGroup(ctx) ::= <<
+.addGroup(
+        new ChannelPriorityGroup()
+                <ctx.channelReferences:addChannelReference(); separator="\n">
+)
 >>
 
-channelReference(ctx) ::= <<
+addChannelReference(ctx) ::= <<
 <if(ctx.defaultPriority)>
-{
-    group.getChannelReferences().add(DefaultChannelReference.INSTANCE);
-}
+addChannelReference(DefaultChannelReference.INSTANCE)
 <elseif(ctx.channelIdentifier)>
-{
-    Identifier identifier = Identifier.of("<ctx.identifier>");
-    ChannelIdentifierReference identifierReference = new ChannelIdentifierReference();
-    identifierReference.setIdentifier(identifier);
-    group.getChannelReferences().add(identifierReference);
-}
+addChannelReference(ChannelIdentifierReference.of(Identifier.of("<ctx.identifier>")))
 <elseif(ctx.arrayLookup)>
-{
-    ArrayVariableLookup arrayVariableLookup = new ArrayVariableLookup();
-    variableLookup.setIdentifier(Identifier.of("<ctx.arrayName>"));
-    variableLookup.setArrayVariableLookup(arrayVariableLookup);
-    <ctx.arrayLookups:chanArrayLookup()>
-    ChannelArrayLookup arrayLookup = new ChannelArrayLookup();
-    group.getChannelReferences().add(arrayLookup);
-}
+addChannelReference(ChannelArrayLookup.of(ArrayLookup.of(
+ArrayVariableLookup arrayVariableLookup<ctx.UUID> = new ArrayVariableLookup();
+variableLookup.setIdentifier(Identifier.of("<ctx.arrayName>"));
+variableLookup.setArrayVariableLookup(arrayVariableLookup);
+<ctx.arrayLookups:chanArrayLookup()>
+ChannelArrayLookup arrayLookup = new ChannelArrayLookup();
+group.getChannelReferences().add(arrayLookup);
 <endif>
 >>
 
@@ -277,12 +263,9 @@ chanArrayLookup(ctx) ::= <<
 >>
 
 templateInstantiation(ctx) ::= <<
-Identifier newTemplateName = Identifier.of("<ctx.newTemplateName>");
-Identifier sourceTemplateName = Identifier.of("<ctx.sourceTemplateName>");
-
 TemplateInstantiation templInst<ctx.newTemplateName;format="cap"> = new TemplateInstantiation();
-templInst<ctx.newTemplateName;format="cap">.setNewTemplateName(newTemplateName);
-templInst<ctx.newTemplateName;format="cap">.setSourceTemplateName(newTemplateName);
+templInst<ctx.newTemplateName;format="cap"><ctx.UUID>.setNewTemplateName(Identifier.of("<ctx.newTemplateName>"));
+templInst<ctx.newTemplateName;format="cap"><ctx.UUID>.setSourceTemplateName(Identifier.of("<ctx.sourceTemplateName>"));
 
 // Set parameter declarations:
 <ctx.parameters:{ paramCtx | templateInstParameter(ctx, paramCtx)}; separator="\n">
@@ -290,22 +273,17 @@ templInst<ctx.newTemplateName;format="cap">.setSourceTemplateName(newTemplateNam
 // Set arguments:
 <ctx.arguments:{ argCtx | templateInstArgument(ctx, argCtx)}; separator="\n">
 
-return templInst<ctx.newTemplateName;format="cap">;
+return templInst<ctx.newTemplateName;format="cap"><ctx.UUID>;
 >>
 
 templateInstParameter(parentCtx, ctx) ::= <<
-{
-    // TODO
-    <parameter(ctx, "")>
-    templInst<parentCtx.newTemplateName;format="cap">.getParameters().add(...);
-}
+<parameter(ctx, "")>
+templInst<parentCtx.newTemplateName;format="cap"><ctx.UUID>.getParameters().add(...);
 >>
 
 templateInstArgument(parentCtx, ctx) ::= <<
-{
-    <expression(ctx, "")>
-    templInst<parentCtx.newTemplateName;format="cap">.getArguments().add(expr);
-}
+<expression(ctx, "")>
+templInst<parentCtx.newTemplateName;format="cap"><ctx.UUID>.getArguments().add(expr);
 >>
 
 expression(ctx, nameQualifier) ::= <<

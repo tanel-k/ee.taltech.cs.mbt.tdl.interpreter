@@ -14,15 +14,17 @@ public class ParameterDeclaration {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public ParameterDeclaration setType(Type type) {
 		this.type = type;
+		return this;
 	}
 
 	public Identifier getIdentifier() {
 		return identifier;
 	}
 
-	public void setIdentifier(Identifier identifier) {
+	public ParameterDeclaration setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+		return this;
 	}
 }

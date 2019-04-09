@@ -10,7 +10,11 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ISt
  * </pre>
  */
 public class EmptyStatement extends AbsStatement {
-	public static final EmptyStatement INSTANCE = new EmptyStatement();
+	public static EmptyStatement getInstance() {
+		return INSTANCE;
+	}
+
+	private static final EmptyStatement INSTANCE = new EmptyStatement();
 
 	private EmptyStatement() { }
 

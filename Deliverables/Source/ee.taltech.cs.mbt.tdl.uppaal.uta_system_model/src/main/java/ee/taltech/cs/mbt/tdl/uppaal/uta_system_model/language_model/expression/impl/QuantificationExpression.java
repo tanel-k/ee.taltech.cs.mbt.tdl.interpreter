@@ -54,8 +54,9 @@ public class QuantificationExpression extends AbsUnaryExprNode {
 		return quantificationType;
 	}
 
-	public void setQuantificationType(EQuantificationType quantificationType) {
+	public QuantificationExpression setQuantificationType(EQuantificationType quantificationType) {
 		this.quantificationType = quantificationType;
+		return this;
 	}
 
 	/**
@@ -65,8 +66,9 @@ public class QuantificationExpression extends AbsUnaryExprNode {
 		return variableName;
 	}
 
-	public void setIdentifierName(Identifier identifierName) {
+	public QuantificationExpression setIdentifierName(Identifier identifierName) {
 		this.variableName = identifierName;
+		return this;
 	}
 
 	/**
@@ -76,8 +78,9 @@ public class QuantificationExpression extends AbsUnaryExprNode {
 		return iterationVariableType;
 	}
 
-	public void setIterationVariableType(BaseType iterationVariableType) {
+	public QuantificationExpression setIterationVariableType(BaseType iterationVariableType) {
 		this.iterationVariableType = iterationVariableType;
+		return this;
 	}
 
 	@Override

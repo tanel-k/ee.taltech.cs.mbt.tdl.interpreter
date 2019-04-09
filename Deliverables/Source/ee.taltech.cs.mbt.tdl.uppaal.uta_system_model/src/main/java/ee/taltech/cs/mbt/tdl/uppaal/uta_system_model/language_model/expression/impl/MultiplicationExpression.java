@@ -37,8 +37,9 @@ public class MultiplicationExpression extends AbsBinaryExprNode implements IHasA
 	}
 
 	@Override
-	public void setAssignment(boolean assignment) {
+	public MultiplicationExpression setAssignment(boolean assignment) {
 		this.assignment = assignment;
+		return this;
 	}
 
 	@Override

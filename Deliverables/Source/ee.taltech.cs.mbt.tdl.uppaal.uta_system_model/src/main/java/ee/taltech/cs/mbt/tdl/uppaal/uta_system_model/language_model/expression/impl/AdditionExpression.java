@@ -37,8 +37,9 @@ public class AdditionExpression extends AbsBinaryExprNode implements IHasAssignm
 	}
 
 	@Override
-	public void setAssignment(boolean assignment) {
+	public AdditionExpression setAssignment(boolean assignment) {
 		this.assignment = assignment;
+		return this;
 	}
 
 	@Override

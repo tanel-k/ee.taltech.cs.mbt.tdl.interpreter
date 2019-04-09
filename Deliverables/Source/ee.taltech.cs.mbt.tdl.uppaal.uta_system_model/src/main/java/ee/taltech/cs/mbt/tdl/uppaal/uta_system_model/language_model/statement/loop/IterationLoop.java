@@ -22,16 +22,18 @@ public class IterationLoop extends AbsLoopStatement {
 		return loopVariable;
 	}
 
-	public void setLoopVariable(Identifier loopVariable) {
+	public IterationLoop setLoopVariable(Identifier loopVariable) {
 		this.loopVariable = loopVariable;
+		return this;
 	}
 
 	public BaseType getIteratedType() {
 		return iteratedType;
 	}
 
-	public void setIteratedType(BaseType iteratedType) {
+	public IterationLoop setIteratedType(BaseType iteratedType) {
 		this.iteratedType = iteratedType;
+		return this;
 	}
 
 	@Override

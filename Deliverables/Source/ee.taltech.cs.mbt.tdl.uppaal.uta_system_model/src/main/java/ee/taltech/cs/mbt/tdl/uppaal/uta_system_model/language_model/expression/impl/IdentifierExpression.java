@@ -30,8 +30,9 @@ public class IdentifierExpression extends AbsLeafExprNode {
 		return identifier;
 	}
 
-	public void setIdentifier(Identifier identifier) {
+	public IdentifierExpression setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+		return this;
 	}
 
 	@Override

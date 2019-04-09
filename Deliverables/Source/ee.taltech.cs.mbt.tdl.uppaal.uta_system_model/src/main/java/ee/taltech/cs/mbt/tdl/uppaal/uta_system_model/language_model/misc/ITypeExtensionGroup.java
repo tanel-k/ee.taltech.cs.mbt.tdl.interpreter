@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap.BaseTypeExtension;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
@@ -42,5 +43,14 @@ public interface ITypeExtensionGroup<ParentType, GroupedType extends ParentType>
 		return getBaseTypeExtensionMap().size() != 1
 				? Optional.empty()
 				: Optional.of(mapToIndependent(getBaseTypeExtensionMap().iterator().next()));
+	}
+
+	@SuppressWarnings("unchecked")
+	default ParentType reduceToOnlyEntryIfApplicable() {
+		return getOnlyEntry().orElse((ParentType) this);
+	}
+
+	default void remove(Identifier identifier) {
+		getBaseTypeExtensionMap().remove(identifier);
 	}
 }

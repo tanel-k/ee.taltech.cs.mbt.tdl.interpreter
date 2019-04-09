@@ -9,17 +9,17 @@ public class LiteralConsts {
 	/**
 	 * Literal 'deadlock' is reserved for the UPPAAL requirement specification language.
 	 */
-	public static final DeadlockLiteral DEADLOCK = new DeadlockLiteral();
+	public static final DeadlockLiteral DEADLOCK = DeadlockLiteral.getInstance();
 
 	/**
 	 * Boolean literal 'true'.
 	 */
-	public static final TrueLiteral TRUE = new TrueLiteral();
+	public static final TrueLiteral TRUE = TrueLiteral.getInstance();
 
 	/**
 	 * Boolean literal 'false'.
 	 */
-	public static final FalseLiteral FALSE = new FalseLiteral();
+	public static final FalseLiteral FALSE = FalseLiteral.getInstance();
 
 	/**
 	 * Natural number literal 1 (equivalent to the Boolean literal 'true').

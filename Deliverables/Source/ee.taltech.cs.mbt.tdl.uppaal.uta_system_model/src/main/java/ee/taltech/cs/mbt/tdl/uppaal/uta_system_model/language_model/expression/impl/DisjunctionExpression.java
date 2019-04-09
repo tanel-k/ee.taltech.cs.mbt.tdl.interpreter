@@ -37,8 +37,9 @@ public class DisjunctionExpression extends AbsBinaryExprNode implements IHasPhra
 	}
 
 	@Override
-	public void setPhrase(boolean phrase) {
+	public DisjunctionExpression setPhrase(boolean phrase) {
 		this.phrase = phrase;
+		return this;
 	}
 
 	@Override

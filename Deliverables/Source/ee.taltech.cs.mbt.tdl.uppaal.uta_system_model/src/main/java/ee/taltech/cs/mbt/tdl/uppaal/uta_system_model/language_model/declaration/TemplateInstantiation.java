@@ -45,24 +45,36 @@ public class TemplateInstantiation extends AbsDeclarationStatement {
 		return newTemplateName;
 	}
 
-	public void setNewTemplateName(Identifier newTemplateName) {
+	public TemplateInstantiation setNewTemplateName(Identifier newTemplateName) {
 		this.newTemplateName = newTemplateName;
+		return this;
 	}
 
 	public Identifier getSourceTemplateName() {
 		return sourceTemplateName;
 	}
 
-	public void setSourceTemplateName(Identifier sourceTemplateName) {
+	public TemplateInstantiation setSourceTemplateName(Identifier sourceTemplateName) {
 		this.sourceTemplateName = sourceTemplateName;
+		return this;
 	}
 
 	public List<AbsExpression> getArguments() {
 		return arguments;
 	}
 
+	public TemplateInstantiation addArgument(AbsExpression expression) {
+		getArguments().add(expression);
+		return this;
+	}
+
 	public List<ParameterDeclaration> getParameters() {
 		return parameters;
+	}
+
+	public TemplateInstantiation addParameter(ParameterDeclaration parameter) {
+		getParameters().add(parameter);
+		return this;
 	}
 
 	@Override

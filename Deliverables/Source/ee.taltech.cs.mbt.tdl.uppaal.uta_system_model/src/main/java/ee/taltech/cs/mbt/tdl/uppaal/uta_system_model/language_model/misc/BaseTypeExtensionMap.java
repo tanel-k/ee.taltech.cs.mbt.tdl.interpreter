@@ -75,7 +75,7 @@ public class BaseTypeExtensionMap implements Iterable<BaseTypeExtension>, IDeepC
 		 * See also: {@link #getBaseType()}.
 		 */
 		@Override
-		public void setBaseType(BaseType baseType) {
+		public BaseTypeExtension setBaseType(BaseType baseType) {
 			throw new UnsupportedOperationException(
 					"This field is controlled by the parent " + parentMap.getClass().getName() + " instance."
 			);
@@ -89,8 +89,9 @@ public class BaseTypeExtensionMap implements Iterable<BaseTypeExtension>, IDeepC
 		return baseType;
 	}
 
-	public void setBaseType(BaseType baseType) {
+	public BaseTypeExtensionMap setBaseType(BaseType baseType) {
 		this.baseType = baseType;
+		return this;
 	}
 
 	/**
@@ -145,7 +146,7 @@ public class BaseTypeExtensionMap implements Iterable<BaseTypeExtension>, IDeepC
 			typeClone.setReferenceType(t.isReferenceType());
 			t.getArrayModifiers().stream()
 					.map(AbsArrayModifier::deepClone)
-					.forEach(typeClone.getArrayModifiers()::add);
+					.forEach(typeClone::addArrayModifier);
 		});
 		return clone;
 	}

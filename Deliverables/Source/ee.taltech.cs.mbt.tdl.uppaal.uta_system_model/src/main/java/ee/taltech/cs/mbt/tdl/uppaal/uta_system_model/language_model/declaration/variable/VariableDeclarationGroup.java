@@ -32,10 +32,17 @@ public class VariableDeclarationGroup extends AbsVariableDeclaration implements 
 		return variableDeclaration;
 	}
 
-	public AbsVariableDeclaration reduceToOnlyEntryIfApplicable() {
-		return getOnlyEntry().orElse(this);
+	public VariableDeclarationGroup setInitializer(Identifier identifier, AbsVariableInitializer initializer) {
+		if (!getBaseTypeExtensionMap().contains(identifier))
+			getBaseTypeExtensionMap().getOrCreateType(identifier);
+		getInitializerMap().put(identifier, initializer);
+		return this;
 	}
 
+	public void remove(Identifier identifier) {
+		getBaseTypeExtensionMap().remove(identifier);
+		getInitializerMap().remove(identifier);
+	}
 
 	@Override
 	public <T> T accept(IDeclarationVisitor<T> visitor) {

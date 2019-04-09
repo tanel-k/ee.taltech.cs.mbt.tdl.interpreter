@@ -3,7 +3,13 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
 
 public class TrueLiteral extends AbsLiteralExpression {
-	TrueLiteral() { }
+	public static TrueLiteral getInstance() {
+		return INSTANCE;
+	}
+
+	private static final TrueLiteral INSTANCE = new TrueLiteral();
+
+	private TrueLiteral() { }
 
 	@Override
 	public TrueLiteral deepClone() {

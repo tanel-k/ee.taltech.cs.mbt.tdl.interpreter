@@ -37,8 +37,9 @@ public class LeftShiftExpression extends AbsBinaryExprNode implements IHasAssign
 	}
 
 	@Override
-	public void setAssignment(boolean assignment) {
+	public LeftShiftExpression setAssignment(boolean assignment) {
 		this.assignment = assignment;
+		return this;
 	}
 
 	@Override

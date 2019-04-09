@@ -17,8 +17,9 @@ public class CustomTypeId extends AbsTypeId {
 		return identifier;
 	}
 
-	public void setIdentifier(Identifier identifier) {
+	public CustomTypeId setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
+		return this;
 	}
 
 	@Override

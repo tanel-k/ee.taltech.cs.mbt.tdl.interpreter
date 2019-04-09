@@ -10,15 +10,17 @@ public class Synchronization {
 		return active;
 	}
 
-	public void setActiveSync(boolean active) {
+	public Synchronization setActiveSync(boolean active) {
 		this.active = active;
+		return this;
 	}
 
 	public AbsExpression getExpression() {
 		return expression;
 	}
 
-	public void setExpression(AbsExpression expression) {
+	public Synchronization setExpression(AbsExpression expression) {
 		this.expression = expression;
+		return this;
 	}
 }

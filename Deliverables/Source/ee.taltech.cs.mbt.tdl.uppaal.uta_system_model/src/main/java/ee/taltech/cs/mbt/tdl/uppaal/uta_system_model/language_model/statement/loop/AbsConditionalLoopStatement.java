@@ -13,7 +13,8 @@ public abstract class AbsConditionalLoopStatement extends AbsLoopStatement {
 		return condition;
 	}
 
-	public void setCondition(AbsExpression condition) {
+	public AbsConditionalLoopStatement setCondition(AbsExpression condition) {
 		this.condition = condition;
+		return this;
 	}
 }
