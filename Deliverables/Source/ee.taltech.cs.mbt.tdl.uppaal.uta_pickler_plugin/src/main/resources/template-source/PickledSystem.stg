@@ -361,13 +361,11 @@ new FunctionDeclaration()
     .setStatementBlock(<newStatement(ctx.statementBlock)>)
 >>
 
-
-// UNDER CONSTRUCTION:
 newVariableDeclaration(ctx) ::= <%
     <if(ctx.singleVariableDeclaration)>
-        <singleVariableDeclaration(ctx)>
+        <newSingleVariableDeclaration(ctx)>
     <elseif(ctx.multiVariableDeclaration)>
-        <multiVariableDeclaration(ctx)>
+        <newMultiVariableDeclaration(ctx)>
     <endif>
 %>
 
@@ -379,15 +377,29 @@ newTypeDeclaration(ctx) ::= <%
     <endif>
 %>
 
-// BEGIN: Declaration utils
-singleVariableDeclaration(ctx) ::= <%
-    <baseType(ctx.type.baseType)> <if(ctx.type.referenceType)>&<endif><ctx.identifierValue><arrayModifiers(ctx.type.arrayModifiers)>
-    <if(ctx.initializer)> = <variableInitializer(ctx.initializer)><endif>;
-%>
+newSingleVariableDeclaration(ctx) ::= <<
+new VariableDeclaration()
+    .setType(<newType(ctx.type)>)
+    .setIdentifier(Identifier.of("<ctx.identifier>"))
+<if(ctx.initializer)>
+    .setInitializer(<newInitializer(ctx.initializer)>)
+<endif>
+>>
 
-multiVariableDeclaration(ctx) ::= <%
+newMultiVariableDeclaration(ctx) ::= <<
+new VariableDeclarationGroup()
+    .setBaseType(<newBaseType(ctx.baseType)>)
+    <ctx.subDeclarations:{declCtx|
+    .
+    }>
     <baseType(ctx.baseType)> <ctx.subDeclarations:subVariableDeclaration(); separator=", ">;
-%>
+>>
+// UNDER CONSTRUCTION:
+newInitializer(ctx) ::= <<
+// TODO
+>>
+
+
 
 subVariableDeclaration(ctx) ::= <%
     <ctx.identifierValue><arrayModifiers(ctx.arrayModifiers)>

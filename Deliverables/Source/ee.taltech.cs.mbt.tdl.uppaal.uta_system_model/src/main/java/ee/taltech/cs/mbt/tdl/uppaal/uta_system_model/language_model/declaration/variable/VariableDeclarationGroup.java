@@ -5,10 +5,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.I
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap.BaseTypeExtension;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.ITypeExtensionGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDeclarationVisitor;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class VariableDeclarationGroup extends AbsVariableDeclaration implements ITypeExtensionGroup<AbsVariableDeclaration, VariableDeclaration> {
 	private BaseTypeExtensionMap baseTypeExtensionMap = new BaseTypeExtensionMap();
@@ -32,14 +36,18 @@ public class VariableDeclarationGroup extends AbsVariableDeclaration implements 
 		return variableDeclaration;
 	}
 
-	public VariableDeclarationGroup setInitializer(Identifier identifier, AbsVariableInitializer initializer) {
-		if (!getBaseTypeExtensionMap().contains(identifier))
-			getBaseTypeExtensionMap().getOrCreateType(identifier);
+	public VariableDeclarationGroup putItem(
+			Identifier identifier,
+			AbsVariableInitializer initializer,
+			boolean referenceType,
+			Collection<AbsArrayModifier> arrayModifiers
+	) {
+		putItem(identifier, referenceType, arrayModifiers);
 		getInitializerMap().put(identifier, initializer);
 		return this;
 	}
 
-	public void remove(Identifier identifier) {
+	public void removeItem(Identifier identifier) {
 		getBaseTypeExtensionMap().remove(identifier);
 		getInitializerMap().remove(identifier);
 	}

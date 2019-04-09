@@ -2,9 +2,13 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc;
 
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap.BaseTypeExtension;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ITypeIdentifierVisitor;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,7 +54,20 @@ public interface ITypeExtensionGroup<ParentType, GroupedType extends ParentType>
 		return getOnlyEntry().orElse((ParentType) this);
 	}
 
-	default void remove(Identifier identifier) {
+	default void removeItem(Identifier identifier) {
 		getBaseTypeExtensionMap().remove(identifier);
+	}
+
+	default ITypeExtensionGroup<ParentType, GroupedType> putItem(
+			Identifier identifier,
+			boolean referenceType,
+			Collection<AbsArrayModifier> arrayModifiers
+	) {
+		arrayModifiers = Optional.ofNullable(arrayModifiers).orElse(Collections.emptyList());
+		Type type = getBaseTypeExtensionMap().getOrCreateType(identifier);
+		type.getArrayModifiers().clear();
+		type.getArrayModifiers().addAll(arrayModifiers);
+		type.setReferenceType(referenceType);
+		return this;
 	}
 }
