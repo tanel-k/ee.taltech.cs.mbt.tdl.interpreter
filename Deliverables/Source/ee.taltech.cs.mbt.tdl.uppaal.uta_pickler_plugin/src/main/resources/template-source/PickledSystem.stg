@@ -6,25 +6,21 @@ import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 <ctx.imports:{importPath|import <importPath>}; separator=";\n">
 
 public class <ctx.name;format="cap">SystemFactory {
-<if(ctx.systemDefinition)>
-    <systemDefinitionFactory(ctx.systemDefinition)>
-<endif>
-
     <ctx.templates:templateFactory(); separator="\n\n">
-
-    protected <ctx.name;format="cap">SystemFactory() { }
-
-    public static <ctx.name;format="cap">SystemFactory new<ctx.name;format="cap">SystemFactory() {
+<if(ctx.systemDefinition)>
+    <systemDefinitionFactory(ctx.name, ctx.systemDefinition)>
+<endif>
+    public static <ctx.name;format="cap">SystemFactory getInstance() {
         return new <ctx.name;format="cap">SystemFactory();
     }
 
-    public <ctx.name;format="cap">SystemFactory() { }
+    protected <ctx.name;format="cap">SystemFactory() { }
 
     <ctx.declarations:declarationConstructor(); separator="\n">
 
     <ctx.templates:templateConstructor(); separator="\n">
 
-    <systemDefinitionConstructor(ctx.systemDefinition)>
+    <systemDefinitionConstructor(ctx.name, ctx.systemDefinition)>
 
     public UtaSystem new<ctx.name;format="cap">System() {
         UtaSystem <ctx.name> = new UtaSystem();
@@ -43,9 +39,69 @@ public class <ctx.name;format="cap">SystemFactory {
 }
 >>
 
+systemDefinitionFactory(systemName, ctx) ::= <<
+public static class <systemName;format="cap">SystemDefinitionFactory {
+    public static <systemName;format="cap">SystemDefinitionFactory getInstance() {
+        return new <systemName;format="cap">SystemDefinitionFactory();
+    }
+
+    protected <systemName;format="cap">SystemDefinitionFactory() { }
+
+    <ctx.declarations:declarationConstructor(); separator="\n">
+
+<if(ctx.systemLine)>
+    <ctx.systemLine.processReferenceGroups:{grpCtx|
+    <grpCtx.identifiers:{identifier|
+    protected static final Identifier ProcessReference<identifier;format="cap"> = Identifier.of("<identifier>");
+    }>}>
+
+    protected SystemLine newSystemLine() {
+        return new SystemLine()
+        <ctx.systemLine.processReferenceGroups:{grpCtx|
+            .addGroup(
+                new ProcessReferenceGroup()
+                    <grpCtx.identifiers:{identifier|
+                    .addIdentifier(Identifier.of("<identifier>"))}>
+            )}>;
+    }
+<endif>
+
+    public SystemDefinition newSystemDefinition() {
+        SystemDefinition systemDefinition = new SystemDefinition();
+
+        // Set local declarations:
+        <ctx.declarations:{declCtx|<declarationConsumer("systemDefinition", declCtx)>}; separator="\n">
+<if(ctx.systemLine)>
+        // Set system line:
+        systemDefinition.setSystemLine(newSystemLine());
+<endif>
+        // Set progress measures:
+        <ctx.progressMeasures:{exprCtx|
+        systemDefinition.addProgressMeasure(<newExpression(exprCtx)>);
+        }>
+
+        return systemDefinition;
+    }
+}
+>>
+
+systemDefinitionConstructor(systemName, ctx) ::= <<
+protected SystemDefinition newSystemDefinition() {
+    return <systemName;format="cap">SystemDefinitionFactory.getInstance()
+            .newSystemDefinition();
+}
+>>
+
+systemDefinitionConsumer(targetVar) ::= <<
+SystemDefinition systemDefinition = newSystemDefinition();
+if (systemDefinition != null) {
+    <targetVar>.setSystemDefinition(systemDefinition);
+}
+>>
+
 templateFactory(ctx) ::= <<
 public static class <ctx.name;format="cap">TemplateFactory {
-    public static <ctx.name;format="cap">TemplateFactory new<ctx.name;format="cap">TemplateFactory() {
+    public static <ctx.name;format="cap">TemplateFactory getInstance() {
         return new <ctx.name;format="cap">TemplateFactory();
     }
 
@@ -98,8 +154,7 @@ CollectionUtils.addIfNonNull(
 
 templateConstructor(ctx) ::= <<
 protected Template new<ctx.name;format="cap">Template() {
-    return <ctx.name;format="cap">TemplateFactory
-        .new<ctx.name;format="cap">TemplateFactory()
+    return <ctx.name;format="cap">TemplateFactory.getInstance()
         .new<ctx.name;format="cap">Template();
 }
 >>
@@ -150,37 +205,6 @@ CollectionUtils.addIfNonNull(
     <targetVar>.getDeclarations(),
     new<ctx.name; format="cap">Declaration()
 );
->>
-
-// TODO: This needs a builder too:
-systemDefinitionConstructor(ctx) ::= <<
-protected SystemDefinition newSystemDefinition() {
-    return <newSystemDefinition(ctx)>;
-}
->>
-
-systemDefinitionConsumer(targetVar) ::= <<
-SystemDefinition systemDefinition = newSystemDefinition();
-<targetVar>.setSystemDefinition(systemDefinition);
->>
-
-newSystemDefinition(ctx) ::= <<
-new SystemDefinition()
-    <ctx.declarations:{declCtx|
-    .addDeclaration(<newDeclaration(declCtx)>)}>
-<if(ctx.systemLine)>
-    .setSystemLine(
-        new SystemLine()
-        <ctx.systemLine.processReferenceGroups:{grpCtx|
-            .addGroup(
-                new ProcessReferenceGroup()
-                    <grpCtx.identifiers:{idCtx|
-                    .addIdentifier(Identifier.of("<idCtx>"))}>
-            )}>
-    )
-<endif>
-    <ctx.progressMeasures:{exprCtx|
-    .addProgressMeasure(<newExpression(exprCtx)>)}>
 >>
 
 newLocation(ctx) ::= <<
