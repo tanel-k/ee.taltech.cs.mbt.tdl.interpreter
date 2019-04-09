@@ -4,23 +4,26 @@ import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 public interface IPicklerContextExtractor<T> extends IContextExtractor<T> {
 	Set<Class> getRequiredClasses();
 
 	default ContextBuilder extract(T inst, Set<Class> requiredClasses) {
+		ContextBuilder context = extract(inst);
 		requiredClasses.addAll(getRequiredClasses());
-		return extract(inst);
+		return context;
 	}
 
 	default Collection<ContextBuilder> extract(Collection<T> instances, Set<Class> requiredClasses) {
-		requiredClasses.addAll(getRequiredClasses());
-		return extract(instances);
+		return extract(instances, new LinkedList<>(), requiredClasses);
 	}
 
 	default Collection<ContextBuilder> extract(Collection<T> instances, Collection<ContextBuilder> to, Set<Class> requiredClasses) {
+		Collection<ContextBuilder> contexts = extract(instances, to);
 		requiredClasses.addAll(getRequiredClasses());
-		return extract(instances, to);
+		return contexts;
 	}
 }
