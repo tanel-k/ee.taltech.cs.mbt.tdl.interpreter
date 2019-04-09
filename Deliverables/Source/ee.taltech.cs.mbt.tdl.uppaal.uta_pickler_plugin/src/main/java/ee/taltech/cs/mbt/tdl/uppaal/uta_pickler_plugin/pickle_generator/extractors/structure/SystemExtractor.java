@@ -32,7 +32,7 @@ public class SystemExtractor implements IPicklerContextExtractor<UtaSystem> {
 				? SystemDefinitionCtxExtractor.getInstance().extract(system.getSystemDefinition(), requiredClasses)
 				: null;
 		return ContextBuilder.newBuilder()
-				.put("globalDeclarations", declCtxs)
+				.put("declarations", declCtxs)
 				.put("templates", templateCtxs)
 				.put("systemDefinition", systemDefinitionCtx);
 	}
