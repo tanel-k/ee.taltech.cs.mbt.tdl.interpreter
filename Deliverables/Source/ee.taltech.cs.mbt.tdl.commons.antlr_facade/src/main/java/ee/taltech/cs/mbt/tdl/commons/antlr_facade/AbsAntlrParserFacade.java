@@ -119,7 +119,7 @@ public abstract class AbsAntlrParserFacade<OutputType, ParserType extends Parser
 
 		getErrorListeners().stream()
 				.map(DelegatingAntlrErrorListener::new)
-				.forEach(parser::addErrorListener);
+				.forEachOrdered(parser::addErrorListener);
 
 		appendSyntaxErrorCollector(parser);
 	}

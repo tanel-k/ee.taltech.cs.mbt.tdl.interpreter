@@ -27,7 +27,7 @@ public class TransitionNodeValidationCtx extends AbsHierarchyValidationCtx<Trans
 			getParentContext().getContextObject().getLocations().stream()
 					.filter(LocationNode::isSetId)
 					.map(LocationNode::getId)
-					.forEach(locationIds::add);
+					.forEachOrdered(locationIds::add);
 		}
 	}
 

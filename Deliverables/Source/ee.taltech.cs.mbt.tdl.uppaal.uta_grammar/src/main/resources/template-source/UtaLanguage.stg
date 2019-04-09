@@ -332,9 +332,9 @@ expression(ctx) ::= <%
     <elseif(ctx.ternary)>
         <expression(ctx.leftChild)> ? <expression(ctx.middleChild)> : <expression(ctx.rightChild)>
     <elseif(ctx.existentialQuantification)>
-        exists (<ctx.identifierValue> : <type(ctx.type)>) <expression(ctx.child)>
+        exists (<ctx.identifierValue> : <baseType(ctx.baseType)>) <expression(ctx.child)>
     <elseif(ctx.universalQuantification)>
-        forall (<ctx.identifierValue> : <type(ctx.type)>) <expression(ctx.child)>
+        forall (<ctx.identifierValue> : <baseType(ctx.baseType)>) <expression(ctx.child)>
     <elseif(ctx.assignmentExpression)>
         <expression(ctx.leftChild)> = <expression(ctx.rightChild)>
     <elseif(ctx.call)>

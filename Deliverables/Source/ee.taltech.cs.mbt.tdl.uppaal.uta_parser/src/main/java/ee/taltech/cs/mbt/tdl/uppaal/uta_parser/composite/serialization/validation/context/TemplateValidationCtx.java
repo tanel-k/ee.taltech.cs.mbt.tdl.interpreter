@@ -27,7 +27,7 @@ public class TemplateValidationCtx extends AbsHierarchyValidationCtx<Template, U
 		Collection<Object> locationIds = getLocalLocIds();
 		getContextObject().getLocationGraph().getVertices().stream()
 				.map(Location::getId)
-				.forEach(locationIds::add);
+				.forEachOrdered(locationIds::add);
 	}
 
 	TemplateValidationCtx(Template contextObject, UtaSystemValidationCtx parentCtx) {

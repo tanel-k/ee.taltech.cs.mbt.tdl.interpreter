@@ -188,6 +188,7 @@ new Location()
 <if(ctx.name)>
     .setName("<ctx.name>")
 <endif>
+    .setExitPolicy(<locationExitPolicty(ctx.exitPolicy)>)
     .setLabels(
         new LocationLabels()
 <if(ctx.labels.invariant)>
@@ -201,6 +202,16 @@ new Location()
 <endif>
     .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
+
+locationExitPolicty(ctx) ::= <%
+    <if(ctx.committed)>
+        ELocationExitPolicy.COMMITTED
+    <elseif(ctx.urgent)>
+        ELocationExitPolicy.URGENT
+    <else>
+        ELocationExitPolicy.NORMAL
+    <endif>
+%>
 
 newTransition(ctx) ::= <<
 new Transition()
@@ -521,139 +532,191 @@ new ConditionalStatement()
     .setAlternativeStatement(<newStatement(ctx.alternative)>)
 <endif>
 >>
-// END: Statements
 
-// UNDER CONSTRUCTION:
-// BEGIN: Expressions
-newExpression(ctx) ::= <%
-    <if(ctx.group)>
-        (<expression(ctx.child)>)
-    <elseif(ctx.arrayLookup)>
-        <expression(ctx.leftChild)>[<expression(ctx.rightChild)>]
-    <elseif(ctx.fieldAccess)>
-        <expression(ctx.child)>.<ctx.identifierValue>
-    <elseif(ctx.negation)>
-        <if(ctx.phrasal)>
-            not <expression(ctx.child)>
-        <else>
-            !<expression(ctx.child)>
-        <endif>
-    <elseif(ctx.conjunction)>
-        <if(ctx.phrasal)>
-            <expression(ctx.leftChild)> and <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> && <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.disjunction)>
-        <if(ctx.phrasal)>
-            <expression(ctx.leftChild)> or <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> || <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.prefixIncrement)>
-        ++<expression(ctx.child)>
-    <elseif(ctx.postfixIncrement)>
-        <expression(ctx.child)>++
-    <elseif(ctx.prefixDecrement)>
-        --<expression(ctx.child)>
-    <elseif(ctx.postfixDecrement)>
-        <expression(ctx.child)>--
-    <elseif(ctx.additiveInverse)>
-        -<expression(ctx.child)>
-    <elseif(ctx.additiveIdentity)>
-        +<expression(ctx.child)>
-    <elseif(ctx.multiplication)>
-        <if(ctx.assignment)>
-            <expression(ctx.leftChild)> *= <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> * <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.division)>
-        <if(ctx.assignment)>
-            <expression(ctx.leftChild)> /= <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> / <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.modulo)>
-        <if(ctx.assignment)>
-            <expression(ctx.leftChild)> %= <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> % <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.subtraction)>
-        <if(ctx.assignment)>
-            <expression(ctx.leftChild)> -= <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> - <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.addition)>
-        <if(ctx.assignment)>
-            <expression(ctx.leftChild)> += <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> + <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.leftShift)>
-        <if(ctx.assignment)>
-            <expression(ctx.leftChild)> \<\<= <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> \<\< <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.rightShift)>
-        <if(ctx.assignment)>
-            <expression(ctx.leftChild)> >>= <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> >> <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.maximum)>
-        <expression(ctx.leftChild)> >? <expression(ctx.rightChild)>
-    <elseif(ctx.minimum)>
-        <expression(ctx.leftChild)> \<? <expression(ctx.rightChild)>
-    <elseif(ctx.lessThan)>
-        <expression(ctx.leftChild)> \< <expression(ctx.rightChild)>
-    <elseif(ctx.lessThanOrEqual)>
-        <expression(ctx.leftChild)> \<= <expression(ctx.rightChild)>
-    <elseif(ctx.greaterThan)>
-        <expression(ctx.leftChild)> > <expression(ctx.rightChild)>
-    <elseif(ctx.greaterThanOrEqual)>
-        <expression(ctx.leftChild)> >= <expression(ctx.rightChild)>
-    <elseif(ctx.equality)>
-        <expression(ctx.leftChild)> == <expression(ctx.rightChild)>
-    <elseif(ctx.inequality)>
-        <expression(ctx.leftChild)> != <expression(ctx.rightChild)>
-    <elseif(ctx.bitwiseAnd)>
-        <if(ctx.assignment)>
-            <expression(ctx.leftChild)> &= <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> & <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.bitwiseXor)>
-        <if(ctx.assignment)>
-            <expression(ctx.leftChild)> ^= <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> ^ <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.bitwiseOr)>
-        <if(ctx.assignment)>
-            <expression(ctx.leftChild)> |= <expression(ctx.rightChild)>
-        <else>
-            <expression(ctx.leftChild)> | <expression(ctx.rightChild)>
-        <endif>
-    <elseif(ctx.ternary)>
-        <expression(ctx.leftChild)> ? <expression(ctx.middleChild)> : <expression(ctx.rightChild)>
-    <elseif(ctx.existentialQuantification)>
-        exists (<ctx.identifierValue> : <type(ctx.type)>) <expression(ctx.child)>
-    <elseif(ctx.universalQuantification)>
-        forall (<ctx.identifierValue> : <type(ctx.type)>) <expression(ctx.child)>
-    <elseif(ctx.assignmentExpression)>
-        <expression(ctx.leftChild)> = <expression(ctx.rightChild)>
-    <elseif(ctx.call)>
-        <expression(ctx.child)>(<arguments(ctx.arguments)>)
-    <elseif(ctx.literal)>
-        <literal(ctx)>
-    <elseif(ctx.identifier)>
-        <ctx.identifierValue>
-    <endif>
-%>
+newExpression(ctx) ::= <<
+<if(ctx.group)>
+new GroupedExpression().setChild(<newExpression(ctx.child)>)
+<elseif(ctx.arrayLookup)>
+new ArrayLookupExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.fieldAccess)>
+new FieldAccessExpression()
+    .setIdentifier(Identifier.of("<ctx.identifier>"))
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.negation)>
+new NegatationExpression()
+<if(ctx.phrase)>
+    .setPhrase(true)
+<endif>
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.conjunction)>
+new ConjunctionExpression()
+<if(ctx.phrase)>
+    .setPhrase(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.disjunction)>
+new DisjunctionExpression()
+<if(ctx.phrase)>
+    .setPhrase(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.prefixIncrement)>
+new PrefixIncrementExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.postfixIncrement)>
+new PostfixIncrementExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.prefixDecrement)>
+new PrefixDecrementExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.postfixDecrement)>
+new PostfixDecrementExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.additiveInverse)>
+new AdditiveInverseExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.additiveIdentity)>
+new AdditiveIdentityExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.multiplication)>
+new MultiplicationExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.division)>
+new DivisionExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.modulo)>
+new ModuloExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.subtraction)>
+new SubtractionExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.addition)>
+new AdditionExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.leftShift)>
+new LeftShiftExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.rightShift)>
+new RightShiftExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.maximum)>
+new MaximumExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.minimum)>
+new MinimumExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.lessThan)>
+new LessThanExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.lessThanOrEqual)>
+new LessThanOrEqualExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.greaterThan)>
+new GreaterThanExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.greaterThanOrEqual)>
+new GreaterThanOrEqualExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.equality)>
+new EqualityExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.inequality)>
+new InequalityExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.bitwiseAnd)>
+new BitwiseAndExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.bitwiseXor)>
+new BitwiseXorExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.bitwiseOr)>
+new BitwiseOrExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.ternary)>
+new TernaryExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setMiddleChild(<newExpression(ctx.middleChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.existentialQuantification)>
+new QuantificationExpression()
+    .setQuantificationType(EQuantificationType.EXISTENTIAL)
+    .setIterationVariableType(<newBaseType(ctx.baseType)>)
+    .setIdentifierName(Identifier.of("<ctx.identifier>"))
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.universalQuantification)>
+new QuantificationExpression()
+    .setQuantificationType(EQuantificationType.UNIVERSAL)
+    .setIterationVariableType(<newBaseType(ctx.baseType)>)
+    .setIdentifierName(Identifier.of("<ctx.identifier>"))
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.assignmentExpression)>
+new AssignmentExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.call)>
+new CallExpression()
+<ctx.arguments:{argCtx|
+    .addArgument(<newExpression(argCtx)>)
+}>
+    .setChild(<newExpression(ctx.child)>
+<elseif(ctx.literal)>
+<literal(ctx)>
+<elseif(ctx.identifier)>
+IdentifierExpression.of("<ctx.identifier>")
+<endif>
+>>
 
 literal(ctx) ::= <%
     <if(ctx.deadlockLiteral)>
@@ -667,20 +730,20 @@ literal(ctx) ::= <%
     <endif>
 %>
 
-// BEGIN: Types
+// UNDER CONSTRUCTION:
 newBaseType(ctx) ::= <%
     <if(ctx.prefix)><typePrefix(ctx.prefix)> <endif><typeId(ctx.typeId)>
 %>
 
 typePrefix(ctx) ::= <%
     <if(ctx.urgent)>
-        urgent
+        ETypePrefix.URGENT
     <elseif(ctx.broadcast)>
-        broadcast
+        ETypePrefix.BROADCAST
     <elseif(ctx.meta)>
-        meta
+        ETypePrefix.META
     <elseif(ctx.constant)>
-        const
+        ETypePrefix.CONSTANT
     <endif>
 %>
 
@@ -704,7 +767,6 @@ newTypeId(ctx) ::= <%
     <endif>
 %>
 
-// BEGIN: Type utils
 fieldDeclarations(iterable) ::= <<{
     <iterable:fieldDeclaration(); separator="\n">
 }
@@ -725,11 +787,6 @@ singleDeclaration(ctx) ::= <%
 multiDeclaration(ctx) ::= <%
     <baseType(ctx.baseType)> <extendedTypes(ctx.extendedTypes)>;
 %>
-// END: Type utils
-// END: Types
-
-// BEGIN: General utils
-
 
 parameter(ctx) ::= <%
     <baseType(ctx.type.baseType)> <if(ctx.type.referenceType)>&<endif><ctx.name><arrayModifiers(ctx.type.arrayModifiers)>
@@ -742,4 +799,3 @@ extendedTypes(iterable) ::= <%
 extendedType(ctx) ::= <%
     <if(ctx.referenceType)>&<endif><ctx.identifierValue><ctx.arraySizeModifiers:arraySizeModifier()>
 %>
-// END: General utils

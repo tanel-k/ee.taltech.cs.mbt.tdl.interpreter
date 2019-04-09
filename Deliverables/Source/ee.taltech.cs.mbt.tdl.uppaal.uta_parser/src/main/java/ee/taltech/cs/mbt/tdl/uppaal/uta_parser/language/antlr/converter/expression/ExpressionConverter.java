@@ -77,10 +77,10 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 				? EQuantificationType.EXISTENTIAL
 				: EQuantificationType.UNIVERSAL;
 
-		QuantificationExpression quantificationExpression = new QuantificationExpression();
-		quantificationExpression.setQuantificationType(quantType);
-		quantificationExpression.setIterationVariableType(iterationVarType);
-		quantificationExpression.setIdentifierName(iterationVarName);
+		QuantificationExpression quantificationExpression = new QuantificationExpression()
+				.setQuantificationType(quantType)
+				.setIterationVariableType(iterationVarType)
+				.setIdentifierName(iterationVarName);
 		quantificationExpression.setChild(quantifiedExpression);
 
 		return quantificationExpression;

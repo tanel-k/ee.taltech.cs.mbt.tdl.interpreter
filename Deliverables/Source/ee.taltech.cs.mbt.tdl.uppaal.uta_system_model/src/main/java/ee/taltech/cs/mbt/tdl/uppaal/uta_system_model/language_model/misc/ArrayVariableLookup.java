@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.ArrayLookupExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
@@ -18,7 +19,7 @@ import java.util.List;
  *         |  Lookup '[' Expression ']'
  * </pre>
  */
-public class ArrayVariableLookup {
+public class ArrayVariableLookup implements IDeepCloneable<ArrayVariableLookup> {
 	private Identifier identifier;
 	private List<AbsExpression> lookupExpressions = new LinkedList<>();
 
@@ -44,5 +45,15 @@ public class ArrayVariableLookup {
 	public ArrayVariableLookup addLookupExpression(AbsExpression expr) {
 		getLookupExpressions().add(expr);
 		return this;
+	}
+
+	@Override
+	public ArrayVariableLookup deepClone() {
+		ArrayVariableLookup clone = new ArrayVariableLookup();
+		clone.setIdentifier(getIdentifier().deepClone());
+		getLookupExpressions().stream()
+				.map(AbsExpression::deepClone)
+				.forEachOrdered(clone::addLookupExpression);
+		return clone;
 	}
 }

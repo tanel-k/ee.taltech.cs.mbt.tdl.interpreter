@@ -49,7 +49,9 @@ public class CallExpression extends AbsUnaryExprNode {
 	@Override
 	protected CallExpression topLevelClone() {
 		CallExpression clone = new CallExpression();
-		clone.getArguments().stream().map(AbsExpression::deepClone).forEach(clone.getArguments()::add);
+		clone.getArguments().stream()
+				.map(AbsExpression::deepClone)
+				.forEachOrdered(clone.getArguments()::add);
 		return clone;
 	}
 

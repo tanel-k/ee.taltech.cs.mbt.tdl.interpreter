@@ -73,7 +73,7 @@ public class Type implements IDeepCloneable<Type> {
 		clone.setReferenceType(isReferenceType());
 		getArrayModifiers().stream()
 				.map(AbsArrayModifier::deepClone)
-				.forEach(clone::addArrayModifier);
+				.forEachOrdered(clone::addArrayModifier);
 		return clone;
 	}
 }

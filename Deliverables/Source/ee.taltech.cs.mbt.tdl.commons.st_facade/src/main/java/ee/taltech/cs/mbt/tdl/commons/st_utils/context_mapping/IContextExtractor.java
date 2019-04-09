@@ -15,7 +15,7 @@ public interface IContextExtractor<T> {
 	default Collection<ContextBuilder> extract(Collection<T> instances, Collection<ContextBuilder> to) {
 		if (instances == null)
 			return to;
-		instances.stream().map(this::extract).forEach(to::add);
+		instances.stream().map(this::extract).forEachOrdered(to::add);
 		return to;
 	}
 

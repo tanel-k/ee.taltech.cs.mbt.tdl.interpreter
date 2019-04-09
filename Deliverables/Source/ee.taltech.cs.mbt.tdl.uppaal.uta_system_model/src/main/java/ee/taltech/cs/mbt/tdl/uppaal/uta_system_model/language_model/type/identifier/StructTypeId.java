@@ -35,7 +35,7 @@ public class StructTypeId extends AbsTypeId {
 		getFieldDeclarations()
 				.stream()
 				.map(AbsFieldDeclaration::deepClone)
-				.forEach(clone.fieldDeclarations::add);
+				.forEachOrdered(clone.fieldDeclarations::add);
 		return clone;
 	}
 

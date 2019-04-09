@@ -1,5 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.IDeepCloneable;
+
 import java.util.Objects;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Objects;
  * [a-zA-Z_]([a-zA-Z0-9_])*
  * </i>
  */
-public class Identifier {
+public class Identifier implements IDeepCloneable<Identifier> {
 	public static Identifier of(String identifierString) {
 		return new Identifier(identifierString);
 	}
@@ -20,6 +22,11 @@ public class Identifier {
 	}
 
 	private String identifierString;
+
+	@Override
+	public Identifier deepClone() {
+		return this;
+	}
 
 	@Override
 	public String toString() {

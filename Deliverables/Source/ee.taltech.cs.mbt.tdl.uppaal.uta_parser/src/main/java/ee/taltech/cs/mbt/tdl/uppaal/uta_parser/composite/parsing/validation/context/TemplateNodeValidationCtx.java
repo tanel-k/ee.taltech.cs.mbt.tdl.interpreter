@@ -31,7 +31,7 @@ public class TemplateNodeValidationCtx extends AbsHierarchyValidationCtx<Templat
 		getContextObject().getLocations().stream()
 				.filter(LocationNode::isSetId)
 				.map(LocationNode::getId)
-				.forEach(locationIds::add);
+				.forEachOrdered(locationIds::add);
 	}
 
 	@Override

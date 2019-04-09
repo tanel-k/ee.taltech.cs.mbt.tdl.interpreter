@@ -214,7 +214,7 @@ public class TemplateNodeConverter {
 	private void injectTransitionNails(Transition transition, TransitionNode transitionXml) {
 		transitionXml.getNails().stream()
 				.map(n -> GuiCoordinates.of(n.getX(), n.getY()))
-				.forEach(transition.getNails()::add);
+				.forEachOrdered(transition.getNails()::add);
 	}
 
 	private void injectTransitionData(Transition transition, TransitionNode transitionXml) {
