@@ -457,7 +457,7 @@ new TypeDeclarationGroup()
         Identifier.of("<subCtx.identifier>"),
         false,
         <newArrayModifierList(subCtx.arrayModifiers)>
-)}>
+    )}>
     .setBaseType(<newBaseType(ctx.baseType)>)
 >>
 
@@ -730,6 +730,17 @@ literal(ctx) ::= <%
     <endif>
 %>
 
+newType(ctx) ::= <<
+new Type()
+    .setBaseType(<newBaseType(ctx.baseType)>)
+<if(ctx.referenceType)>
+    .setReferenceType(true)
+<endif>
+<ctx.arrayModifiers:{modCtx|
+    .addArrayModifier(<newArrayModifier(modCtx)>
+}>
+>>
+
 newBaseType(ctx) ::= <<
 new BaseType()
     .setPrefix(<typePrefix(ctx.prefix)>)
@@ -776,31 +787,27 @@ BaseTypeIdentifiers.CLOCK
 <endif>
 >>
 
-// UNDER CONSTRUCTION:
 newFieldDeclaration(ctx) ::= <%
-    <if(ctx.singleDeclaration)>
-        <singleDeclaration(ctx)>
-    <elseif(ctx.multiDeclaration)>
-        <multiDeclaration(ctx)>
+    <if(ctx.singleFieldDeclaration)>
+        <newFieldDeclaration(ctx)>
+    <elseif(ctx.groupOfFieldDeclarations)>
+        <newFieldDeclarationGroup(ctx)>
     <endif>
 %>
 
-singleDeclaration(ctx) ::= <%
-    <baseType(ctx.type.baseType)> <if(ctx.type.referenceType)>&<endif><ctx.name><arrayModifiers(ctx.type.arrayModifiers)>;
-%>
+newFieldDeclaration(ctx) ::= <<
+new FieldDeclaration()
+    .setType(<newType(ctx.type)>)
+    .setIdentifier(Identifier.of("<ctx.identifier>"))
+>>
 
-multiDeclaration(ctx) ::= <%
-    <baseType(ctx.baseType)> <extendedTypes(ctx.extendedTypes)>;
-%>
-
-parameter(ctx) ::= <%
-    <baseType(ctx.type.baseType)> <if(ctx.type.referenceType)>&<endif><ctx.name><arrayModifiers(ctx.type.arrayModifiers)>
-%>
-
-extendedTypes(iterable) ::= <%
-    <iterable:extendedType(); separator=", ">
-%>
-
-extendedType(ctx) ::= <%
-    <if(ctx.referenceType)>&<endif><ctx.identifierValue><ctx.arraySizeModifiers:arraySizeModifier()>
-%>
+newFieldDeclarationGroup(ctx) ::= <<
+new FieldDeclarationGroup()
+    .setBaseType(<newBaseType(ctx.baseType)>)
+<ctx.subDeclarations:{subCtx|
+    .putItem(
+        Identifier.of("<subCtx.identifier>"),
+        false,
+        <newArrayModifierList(subCtx.arrayModifiers)>
+    )}>
+>>
