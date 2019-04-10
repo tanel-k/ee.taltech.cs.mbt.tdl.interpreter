@@ -27,6 +27,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class TemplateNodeConverter {
@@ -226,7 +227,7 @@ public class TemplateNodeConverter {
 	private void injectLocations(Template template, TemplateNode templateXml) {
 		InitialLocationNode initLocXml = templateXml.getInit();
 		String initialLocationID = initLocXml.getRef();
-		Map<String, Location> locationMap = new HashMap<>();
+		Map<String, Location> locationMap = new LinkedHashMap<>();
 		Location initialLocation = null;
 
 		for (LocationNode locationXml : templateXml.getLocations()) {
