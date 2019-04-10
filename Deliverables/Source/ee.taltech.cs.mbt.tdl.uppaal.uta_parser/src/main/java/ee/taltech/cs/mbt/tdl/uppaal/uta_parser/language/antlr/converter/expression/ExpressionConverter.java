@@ -30,7 +30,7 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 	private static final int BIN_EXPR_RIGHT_CHILD = 1;
 
 	private static final int TERN_EXPR_LEFT_CHILD = 0;
-	private static final int TERN_EXPR_MIDDLE_CHILD = 0;
+	private static final int TERN_EXPR_MIDDLE_CHILD = 1;
 	private static final int TERN_EXPR_RIGHT_CHILD = 2;
 
 	private <ExprType extends AbsBinaryExprNode> ExprType visitBinaryNode(
@@ -161,6 +161,11 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 	}
 
 	@Override
+	public AbsExpression visitAdditionExpression(AdditionExpressionContext ctx) {
+		return visitBinaryNode(new AdditionExpression(), ctx.expression());
+	}
+
+	@Override
 	public AbsExpression visitDisjunctionExpression(DisjunctionExpressionContext ctx) {
 		DisjunctionExpression disjunction = new DisjunctionExpression();
 		if (ctx.PHRASE_OR() != null)
@@ -286,11 +291,6 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 	@Override
 	public AbsExpression visitDivisionAssignmentExpr(DivisionAssignmentExprContext ctx) {
 		return toAssignment(visitBinaryNode(new DivisionExpression(), ctx.expression()));
-	}
-
-	@Override
-	public AbsExpression visitAdditionExpression(AdditionExpressionContext ctx) {
-		return toAssignment(visitBinaryNode(new AdditionExpression(), ctx.expression()));
 	}
 
 	@Override

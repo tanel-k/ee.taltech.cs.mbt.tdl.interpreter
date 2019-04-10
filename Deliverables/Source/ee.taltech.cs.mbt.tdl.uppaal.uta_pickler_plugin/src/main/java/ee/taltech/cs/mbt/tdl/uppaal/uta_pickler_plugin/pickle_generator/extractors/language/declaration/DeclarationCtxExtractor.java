@@ -3,7 +3,6 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extract
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
-import ee.taltech.cs.mbt.tdl.commons.utils.strings.WordUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.expression.ExpressionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.misc.BaseTypeExtensionCtxExtractor;
@@ -155,9 +154,9 @@ public class DeclarationCtxExtractor implements IPicklerContextExtractor<AbsDecl
 					.put("variableName", variableName)
 					.put("initializer", initCtx);
 			if (StringUtils.isEmpty(aggregatedName)) {
-				aggregatedName = WordUtils.capitalize(variableName);
+				aggregatedName = variableName;
 			} else {
-				aggregatedName = "And" + WordUtils.capitalize(variableName);
+				aggregatedName += "_and_" + variableName;
 			}
 			subDeclCtxs.add(subTypeCtx);
 		}
@@ -184,9 +183,9 @@ public class DeclarationCtxExtractor implements IPicklerContextExtractor<AbsDecl
 					.extract(subType, requiredClasses);
 			subDeclCtxs.add(subTypeCtx);
 			if (StringUtils.isEmpty(aggregatedName)) {
-				aggregatedName = WordUtils.capitalize(typeName);
+				aggregatedName = typeName;
 			} else {
-				aggregatedName = "And" + WordUtils.capitalize(typeName);
+				aggregatedName += "_and_" + typeName;
 			}
 		}
 

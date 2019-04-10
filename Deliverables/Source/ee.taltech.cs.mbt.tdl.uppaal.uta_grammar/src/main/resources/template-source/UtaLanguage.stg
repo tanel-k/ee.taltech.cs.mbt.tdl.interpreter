@@ -10,7 +10,7 @@ systemDeclarations(iterable) ::= <%
 %>
 
 systemLine(ctx) ::= <%
-    system <ctx.processReferenceGroups:processReferenceGroup(); separator=" < ">;
+    system <ctx.processReferenceGroups:processReferenceGroup(); separator="\n    < ">;
 %>
 
 progressMeasureDeclaration(iterable) ::= <<progress {
@@ -183,35 +183,31 @@ statement(ctx) ::= <%
 blockStmt(ctx) ::= <<{
 <if(ctx.declarations)>
     <declarations(ctx.declarations)>
-<endif>
-<if(ctx.statements)>
+<endif><if(ctx.statements)>
     <ctx.statements:statement(); separator="\n">
-<endif>
-}>>
+<endif>}>>
 
 forStmt(ctx) ::= <<for (<expression(ctx.initializer)>; <expression(ctx.condition)>; <expression(ctx.update)>)
-    <statment(ctx.statement)>
+<statement(ctx.statement)>
 >>
 
-iterationStmt(ctx) ::= <<for (<ctx.identifierValue> : <type(ctx.iteratedType)>)
-    <statement(ctx.statement)>
+iterationStmt(ctx) ::= <<for (<ctx.identifierValue> : <baseType(ctx.iteratedType)>)
+<statement(ctx.statement)>
 >>
 
 whileStmt(ctx) ::= <<while (<expression(ctx.condition)>)
-    <statement(ctx.statement)>
+<statement(ctx.statement)>
 >>
 
 doWhileStmt(ctx) ::= <<do
-    <statement(ctx.statement)>
+<statement(ctx.statement)>
 while (<expression(ctx.condition)>);
 >>
 
 conditionalStmt(ctx) ::= <<if (<expression(ctx.condition)>)
-    <statement(ctx.primary)>
-<if(ctx.alternative)>
+<statement(ctx.primary)><if(ctx.alternative)>
 else
-    <statement(ctx.alternative)>
-<endif>
+<statement(ctx.alternative)><endif>
 >>
 // END: Statements
 

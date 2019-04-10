@@ -6,7 +6,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.ILa
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 public class AssignmentsLabel extends AbsUtaLabel<Collection<AbsExpression>> {
 	public static AssignmentsLabel of(Collection<AbsExpression> expressions) {

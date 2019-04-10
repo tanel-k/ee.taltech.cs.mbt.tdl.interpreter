@@ -26,7 +26,7 @@ public abstract class AbsTernaryExprNode extends AbsInternalExprNode {
 	}
 
 	public AbsExpression getMiddleChild() {
-		return getChildExpression(POSITION_LEFT);
+		return getChildExpression(POSITION_MIDDLE);
 	}
 
 	public AbsTernaryExprNode setMiddleChild(AbsExpression expression) {

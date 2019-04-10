@@ -32,12 +32,12 @@ public class TypeIdentifierCtxExtractor implements IPicklerContextExtractor<AbsT
 
 	@Override
 	public ContextBuilder extract(AbsTypeId id) {
-		requiredClasses.add(id.getClass());
 		return id.accept(this);
 	}
 
 	@Override
 	public ContextBuilder visitStructTypeIdentifier(StructTypeId id) {
+		requiredClasses.add(id.getClass());
 		Collection<ContextBuilder> fieldDeclCtxs = FieldDeclarationCtxExtractor.getInstance()
 				.extract(id.getFieldDeclarations(), requiredClasses);
 		return ContextBuilder.newBuilder("struct")
@@ -46,6 +46,7 @@ public class TypeIdentifierCtxExtractor implements IPicklerContextExtractor<AbsT
 
 	@Override
 	public ContextBuilder visitScalarTypeIdentifier(ScalarTypeId id) {
+		requiredClasses.add(id.getClass());
 		ContextBuilder exprCtx = ExpressionCtxExtractor.getInstance()
 				.extract(id.getSizeExpression(), requiredClasses);
 		return ContextBuilder.newBuilder("scalar")
@@ -54,6 +55,7 @@ public class TypeIdentifierCtxExtractor implements IPicklerContextExtractor<AbsT
 
 	@Override
 	public ContextBuilder visitCustomTypeIdentifier(CustomTypeId id) {
+		CollectionUtils.addAll(requiredClasses, id.getClass(), Identifier.class);
 		requiredClasses.add(Identifier.class);
 		return ContextBuilder.newBuilder("customType")
 				.put("identifier", id.getIdentifier().toString());
@@ -61,6 +63,7 @@ public class TypeIdentifierCtxExtractor implements IPicklerContextExtractor<AbsT
 
 	@Override
 	public ContextBuilder visitBoundedIntegerTypeIdentifier(BoundedIntegerTypeId id) {
+		requiredClasses.add(BoundedIntegerTypeId.class);
 		ContextBuilder minExprCtx = ExpressionCtxExtractor.getInstance()
 				.extract(id.getMinimumBound(), requiredClasses);
 		ContextBuilder maxExprCtx = ExpressionCtxExtractor.getInstance()

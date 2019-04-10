@@ -3,7 +3,6 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin;
 import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.GenerationException;
-import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
@@ -12,7 +11,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.SystemPi
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -57,9 +55,10 @@ public class SystemPicklerMojo extends AbstractMojo {
 	private File outputDirectory;
 
 	@Override
-	public void execute() throws MojoExecutionException, MojoFailureException {
+	public void execute() throws MojoExecutionException {
 		UtaSystem sourceSystem;
 		try (InputStream in = new FileInputStream(sourceFile)) {
+			getLog().info("Parsing source project: " + sourceFile.getName());
 			sourceSystem = UtaParser.newInstance().parse(in);
 		} catch (FileNotFoundException ex) {
 			throw new MojoExecutionException("Source project missing.", ex);
@@ -96,13 +95,13 @@ public class SystemPicklerMojo extends AbstractMojo {
 			throw new MojoExecutionException("Failed to generate source code.", ex);
 		}
 
-		getLog().info("Successfully generated source code for " + pickleClassName + ".");
+		getLog().info("Source code generation successful.");
 
 		String formattedPickleClass = pickleClass;
 		try {
-			getLog().info("Attempting to format " + pickleClassName + " source code.");
+			getLog().info("Attempting to format source code.");
 			formattedPickleClass = new Formatter().formatSource(formattedPickleClass);
-			getLog().info("Successfully formatted source code for " + pickleClassName);
+			getLog().info("Successfully formatted source code.");
 		} catch (FormatterException ex) {
 			getLog().warn("Failed to format source code.", ex);
 		}

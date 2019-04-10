@@ -107,12 +107,14 @@ if (systemDefinition != null) {
 >>
 
 templateFactory(ctx) ::= <<
-public static class <ctx.name;format="cap">TemplateFactory {
-    public static <ctx.name;format="cap">TemplateFactory getInstance() {
-        return new <ctx.name;format="cap">TemplateFactory();
+public static class <ctx.name>TemplateFactory {
+    public static <ctx.name>TemplateFactory getInstance() {
+        return new <ctx.name>TemplateFactory();
     }
 
-    protected <ctx.name;format="cap">TemplateFactory() { }
+    public static final Identifier NAME = Identifier.of("<ctx.name>");
+
+    protected <ctx.name>TemplateFactory() { }
 
     <ctx.parameters:parameterDeclarationConstructor(); separator="\n">
 
@@ -120,9 +122,9 @@ public static class <ctx.name;format="cap">TemplateFactory {
 
     <ctx.locations:locationConstructor(); separator="\n">
 
-    <ctx.transitions:{trCtx|<transitionConstructor(trCtx, i)>}; separator="\n">
+    <ctx.transitions:{trCtx|<transitionConstructor(trCtx)>}; separator="\n">
 
-    public Template new<ctx.name;format="cap">Template() {
+    public Template newTemplate() {
         Template <ctx.name> = new Template();
 
         // Template name:
@@ -139,7 +141,7 @@ public static class <ctx.name;format="cap">TemplateFactory {
         <ctx.locations:{locCtx|<locationConsumer(ctx.name, locCtx)>}; separator="\n">
 
         // Set transitions:
-        <ctx.transitions:{trCtx|<transitionConsumer(ctx.name, trCtx, i)>}; separator="\n">
+        <ctx.transitions:{trCtx|<transitionConsumer(ctx.name, trCtx)>}; separator="\n">
 
         return <ctx.name>;
     }
@@ -147,7 +149,7 @@ public static class <ctx.name;format="cap">TemplateFactory {
 >>
 
 parameterDeclarationConstructor(ctx) ::= <<
-protected ParameterDeclaration new<ctx.name; format="cap">ParameterDeclaration() {
+protected ParameterDeclaration new_<ctx.name>_ParameterDeclaration() {
     return <newParameter(ctx)>;
 }
 >>
@@ -155,21 +157,21 @@ protected ParameterDeclaration new<ctx.name; format="cap">ParameterDeclaration()
 parameterDeclarationConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
     <targetVar>.getParameters(),
-    new<ctx.name;format="cap">ParameterDeclaration()
+    new_<ctx.name>_ParameterDeclaration()
 );
 >>
 
 templateConstructor(ctx) ::= <<
-protected Template new<ctx.name;format="cap">Template() {
-    return <ctx.name;format="cap">TemplateFactory.getInstance()
-        .new<ctx.name;format="cap">Template();
+protected Template new_<ctx.name>_Template() {
+    return <ctx.name>TemplateFactory.getInstance()
+        .newTemplate();
 }
 >>
 
 templateConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
     <targetVar>.getTemplates(),
-    new<ctx.name;format="cap">Template()
+    new_<ctx.name>_Template()
 );
 >>
 
@@ -186,26 +188,26 @@ Location location<ctx.id;format="cap"> = new<ctx.id;format="cap">Location();
 <if(ctx.initial)><targetVar;format="cap">.setInitialLocation(location<ctx.id;format="cap">);<endif>
 >>
 
-transitionConstructor(ctx, qualifier) ::= <<
-protected Transition new<ctx.name;format="cap">Transition_<qualifier>(Location source, Location target) {
+transitionConstructor(ctx) ::= <<
+protected Transition new<ctx.name;format="cap">Transition<if(ctx.qualifier)><ctx.qualifier><endif>(Location source, Location target) {
     return <newTransition(ctx, "source", "target")>;
 }
 >>
 
-transitionConsumer(targetVar, ctx, qualifier) ::= <<
-Transition transition<ctx.name;format="cap">_<qualifier> = new<ctx.name;format="cap">Transition_<qualifier>(
+transitionConsumer(targetVar, ctx) ::= <<
+Transition transition<ctx.name;format="cap"><if(ctx.qualifier)><ctx.qualifier><endif> = new<ctx.name;format="cap">Transition<if(ctx.qualifier)><ctx.qualifier><endif>(
     location<ctx.sourceId;format="cap">,
     location<ctx.targetId;format="cap">
 );
 <targetVar>.getLocationGraph().addEdge(
     location<ctx.sourceId;format="cap">,
     location<ctx.targetId;format="cap">,
-    transition<ctx.name;format="cap">_<qualifier>
+    transition<ctx.name;format="cap"><if(ctx.qualifier)><ctx.qualifier><endif>
 );
 >>
 
 declarationConstructor(ctx) ::= <<
-protected <declarationReturnType(ctx)> new<ctx.name;format="cap">Declaration() {
+protected <declarationReturnType(ctx)> new_<ctx.name>_Declaration() {
     return <newDeclaration(ctx)>;
 }
 >>
@@ -213,7 +215,7 @@ protected <declarationReturnType(ctx)> new<ctx.name;format="cap">Declaration() {
 declarationConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
     <targetVar>.getDeclarations(),
-    new<ctx.name; format="cap">Declaration()
+    new_<ctx.name>_Declaration()
 );
 >>
 
@@ -450,15 +452,16 @@ new VariableDeclaration()
 >>
 
 newMultiVariableDeclaration(ctx) ::= <<
-new VariableDeclarationGroup()
-    .setBaseType(<newBaseType(ctx.baseType)>)
-    <ctx.subDeclarations:{subCtx|
+(VariableDeclarationGroup) new VariableDeclarationGroup()
+<ctx.subDeclarations:{subCtx|
     .putItem(
         Identifier.of("<subCtx.variableName>"),
         <if(subCtx.initializer)><newInitializer(subCtx.initializer)><else>null<endif>,
         false,
         <newArrayModifierList(subCtx.arrayModifiers)>
-    )}>
+    )
+}>
+    .setBaseType(<newBaseType(ctx.baseType)>)
 >>
 
 newInitializer(ctx) ::= <<
@@ -482,8 +485,8 @@ new StructuredVariableInitializer()
 >>
 
 newArrayModifierList(iterable) ::= <<
-CollectionUtils.collectionBuilder(new LinkedList\<AbsArrayModifier>)
-    <iterable:{ctx|.add(<newArrayModifier(ctx)>};separator="\n">
+CollectionUtils.collectionBuilder(new LinkedList\<AbsArrayModifier>())
+    <iterable:{ctx|.add(<newArrayModifier(ctx)>)};separator="\n">
     .build()
 >>
 
@@ -512,14 +515,15 @@ new TypeDeclaration()
 >>
 
 newMultiTypeDeclaration(ctx) ::= <<
-new TypeDeclarationGroup()
+(TypeDeclarationGroup) new TypeDeclarationGroup()
+    .setBaseType(<newBaseType(ctx.baseType)>)
 <ctx.subDeclarations:{subCtx|
     .putItem(
         Identifier.of("<subCtx.identifier>"),
         false,
         <newArrayModifierList(subCtx.arrayModifiers)>
-    )}>
-    .setBaseType(<newBaseType(ctx.baseType)>)
+    )
+}>
 >>
 
 newStatement(ctx) ::= <<
@@ -568,7 +572,7 @@ new ForLoop()
 
 newIterationStmt(ctx) ::= <<
 new IterationLoop()
-    .setIteratedType(<newType(ctx.iteratedType)>)
+    .setIteratedType(<newBaseType(ctx.iteratedType)>)
     .setLoopVariable(Identifier.of("<ctx.loopVariableName>"))
     .setStatement(<newStatement(ctx.statement)>)
 >>
@@ -870,12 +874,13 @@ new FieldDeclaration()
 >>
 
 newFieldDeclarationGroup(ctx) ::= <<
-new FieldDeclarationGroup()
-    .setBaseType(<newBaseType(ctx.baseType)>)
+(FieldDeclarationGroup) new FieldDeclarationGroup()
 <ctx.subDeclarations:{subCtx|
     .putItem(
         Identifier.of("<subCtx.identifier>"),
         false,
         <newArrayModifierList(subCtx.arrayModifiers)>
-    )}>
+    )
+}>
+    .setBaseType(<newBaseType(ctx.baseType)>)
 >>

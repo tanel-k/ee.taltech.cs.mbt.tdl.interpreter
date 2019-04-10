@@ -4,16 +4,11 @@ import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.AbsSTGenerator;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry.MissingSTException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.SystemExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
-import org.stringtemplate.v4.ST;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SystemPickleGenerator extends AbsSTGenerator<UtaSystem> {

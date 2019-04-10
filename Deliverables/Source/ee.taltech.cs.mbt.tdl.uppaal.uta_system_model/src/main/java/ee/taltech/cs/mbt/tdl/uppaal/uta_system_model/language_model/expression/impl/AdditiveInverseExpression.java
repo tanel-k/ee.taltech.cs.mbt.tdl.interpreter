@@ -31,7 +31,7 @@ public class AdditiveInverseExpression extends AbsUnaryExprNode {
 
 	@Override
 	protected AbsUnaryExprNode topLevelClone() {
-		return new AdditiveIdentityExpression();
+		return new AdditiveInverseExpression();
 	}
 
 	@Override
