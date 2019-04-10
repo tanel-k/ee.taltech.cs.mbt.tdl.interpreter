@@ -44,12 +44,12 @@ public class UtaSystemConverter {
 	}
 
 	private void injectGlobalDeclarations(UtaSystem system, UtaNode utaNode) {
-		if (system.getGlobalDeclarations().isEmpty())
+		if (system.getDeclarations().isEmpty())
 			return;
 
 		GlobalDeclarationsNode globalDeclarationsNode = new GlobalDeclarationsNode();
 		getGenerationQueue().enqueue(
-				system.getGlobalDeclarations(),
+				system.getDeclarations(),
 				getGeneratorFactory().declarationGenerator(),
 				globalDeclarationsNode::setValue
 		);

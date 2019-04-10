@@ -30,7 +30,7 @@ public class UtaNodeConverter {
 		getParseQueue().enqueue(
 				ntaSystem.getDeclaration().getValue(),
 				getParserFactory().declarationsParser(),
-				utaSystem::setGlobalDeclarations
+				utaSystem::setDeclarations
 		);
 	}
 

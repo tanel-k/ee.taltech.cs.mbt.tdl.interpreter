@@ -23,10 +23,12 @@ public class ParameterCtxExtractor implements IPicklerContextExtractor<Parameter
 
 	@Override
 	public ContextBuilder extract(ParameterDeclaration decl) {
+		String paramName = decl.getIdentifier().toString();
 		ContextBuilder typeCtx = TypeCtxExtractor.getInstance()
 				.extract(decl.getType(), requiredClasses);
 		return ContextBuilder.newBuilder()
-				.put("identifier", decl.getIdentifier().toString())
+				.put("name", paramName)
+				.put("identifier", paramName)
 				.put("type", typeCtx);
 	}
 

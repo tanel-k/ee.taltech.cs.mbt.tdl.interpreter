@@ -24,8 +24,9 @@ public class LocationCtxExtractor implements IPicklerContextExtractor<Location> 
 
 	@Override
 	public ContextBuilder extract(Location location) {
-		ContextBuilder nameCtx = LocationNameCtxExtractor.getInstance()
-				.extract(location.getName(), requiredClasses);
+		ContextBuilder nameCtx = location.getName() != null
+				? LocationNameCtxExtractor.getInstance().extract(location.getName(), requiredClasses)
+				: null;
 		ContextBuilder colorCtx = location.getColor() != null
 				? ColorCtxExtractor.getInstance().extract(location.getColor(), requiredClasses)
 				: null;

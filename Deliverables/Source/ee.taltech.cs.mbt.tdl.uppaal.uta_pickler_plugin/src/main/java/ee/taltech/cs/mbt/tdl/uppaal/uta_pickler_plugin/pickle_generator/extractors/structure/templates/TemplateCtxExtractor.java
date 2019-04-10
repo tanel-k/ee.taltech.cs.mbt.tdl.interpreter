@@ -8,9 +8,11 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extracto
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.locations.LocationCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.transitions.TransitionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Set;
 
 public class TemplateCtxExtractor implements IPicklerContextExtractor<Template> {
@@ -30,9 +32,15 @@ public class TemplateCtxExtractor implements IPicklerContextExtractor<Template> 
 		Collection<ContextBuilder> parameterCtxs = ParameterCtxExtractor.getInstance()
 				.extract(template.getParameters(), requiredClasses);
 		Collection<ContextBuilder> declarationCtxs = DeclarationCtxExtractor.getInstance()
-				.extract(template.getLocalDeclarations(), requiredClasses);
-		Collection<ContextBuilder> locationCtxs = LocationCtxExtractor.getInstance()
-				.extract(template.getLocationGraph().getVertices(), requiredClasses);
+				.extract(template.getDeclarations(), requiredClasses);
+		Collection<ContextBuilder> locationCtxs = new LinkedList<>();
+		for (Location location : template.getLocationGraph().getVertices()) {
+			ContextBuilder locationCtx = LocationCtxExtractor.getInstance()
+					.extract(location, requiredClasses);
+			if (template.getInitialLocation().equals(location))
+				locationCtx.put("initial", true);
+			locationCtxs.add(locationCtx);
+		}
 		Collection<ContextBuilder> transitionCtxs = TransitionCtxExtractor.getInstance()
 				.extract(template.getLocationGraph().getEdges(), requiredClasses);
 		return ContextBuilder.newBuilder()

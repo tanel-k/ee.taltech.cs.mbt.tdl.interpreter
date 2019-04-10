@@ -6,7 +6,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extracto
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.labels.LabelCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
-import java.awt.*;
 import java.util.Set;
 
 public class TransitionLabelsCtxExtractor implements IPicklerContextExtractor<TransitionLabels> {

@@ -188,6 +188,7 @@ public class ExpressionCtxExtractor implements IPicklerContextExtractor<AbsExpre
 
 	@Override
 	public ContextBuilder visitIdentifierExpr(IdentifierExpression expr) {
+		requiredClasses.add(IdentifierExpression.class);
 		return ContextBuilder.newBuilder("identifierExpression")
 				.put("identifier", expr.getIdentifier().toString());
 	}

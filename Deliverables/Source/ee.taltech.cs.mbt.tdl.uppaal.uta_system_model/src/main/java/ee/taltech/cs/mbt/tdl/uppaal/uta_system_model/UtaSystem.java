@@ -14,13 +14,13 @@ public class UtaSystem {
 
 	public UtaSystem() {}
 
-	public List<AbsDeclarationStatement> getGlobalDeclarations() {
+	public List<AbsDeclarationStatement> getDeclarations() {
 		return globalDeclarations == null
 				? (globalDeclarations = new LinkedList<>())
 				: globalDeclarations;
 	}
 
-	public UtaSystem setGlobalDeclarations(List<AbsDeclarationStatement> globalDeclarations) {
+	public UtaSystem setDeclarations(List<AbsDeclarationStatement> globalDeclarations) {
 		this.globalDeclarations = globalDeclarations;
 		return this;
 	}

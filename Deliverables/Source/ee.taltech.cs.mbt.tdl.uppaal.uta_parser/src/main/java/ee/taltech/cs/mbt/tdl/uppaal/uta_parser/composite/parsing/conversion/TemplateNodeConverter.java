@@ -70,7 +70,7 @@ public class TemplateNodeConverter {
 		getParseQueue().enqueue(
 				templateXml.getDeclaration().getValue(),
 				getParserFactory().declarationsParser(),
-				template::setLocalDeclarations
+				template::setDeclarations
 		);
 	}
 

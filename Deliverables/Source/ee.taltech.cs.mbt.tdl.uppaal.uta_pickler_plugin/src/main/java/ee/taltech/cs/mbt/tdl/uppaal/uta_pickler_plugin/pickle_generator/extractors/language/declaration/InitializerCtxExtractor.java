@@ -31,7 +31,7 @@ public class InitializerCtxExtractor implements IPicklerContextExtractor<AbsVari
 	@Override
 	public ContextBuilder visitFlatInitializer(FlatVariableInitializer init) {
 		ContextBuilder exprCtx = ExpressionCtxExtractor.getInstance()
-				.extract(init.getExpression());
+				.extract(init.getExpression(), requiredClasses);
 		return ContextBuilder.newBuilder("flatInitializer")
 				.put("expression", exprCtx);
 	}

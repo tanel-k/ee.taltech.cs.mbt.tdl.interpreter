@@ -7,6 +7,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extracto
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.template.SelectionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.template.SynchronizationCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.gui.GuiCoordinatesCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.ILabelVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
@@ -35,7 +36,7 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 
 	@Override
 	public ContextBuilder visitAssignments(AssignmentsLabel label) {
-		requiredClasses.add(label.getClass());
+		CollectionUtils.addAll(requiredClasses, label.getClass(), AbsExpression.class);
 		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
 				.extract(label.getCoordinates(), requiredClasses);
 		Collection<ContextBuilder> expressionCtxs = ExpressionCtxExtractor.getInstance()
@@ -58,6 +59,7 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 	@Override
 	public ContextBuilder visitGuard(GuardLabel label) {
 		requiredClasses.add(label.getClass());
+
 		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
 				.extract(label.getCoordinates(), requiredClasses);
 		ContextBuilder exprCtx = ExpressionCtxExtractor.getInstance()

@@ -8,8 +8,11 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extracto
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class SystemPickleGenerator extends AbsSTGenerator<UtaSystem> {
 	private static final String TEMPLATE_NAME = "systemPickle";
@@ -25,10 +28,10 @@ public class SystemPickleGenerator extends AbsSTGenerator<UtaSystem> {
 	}
 
 	protected Collection<String> getImportStrings(SystemExtractor extractor) {
-		Set<Class> classes = extractor.getRequiredClasses();
-		// FIXME: SORT ALPHABETICALLY
-		// FIXME: TO FULLY QUALIFIED CLASS NAMES
-		throw new UnsupportedOperationException();
+		return extractor.getRequiredClasses().stream()
+			.map(Class::getCanonicalName)
+			.sorted()
+			.collect(Collectors.toList());
 	}
 
 	@Override

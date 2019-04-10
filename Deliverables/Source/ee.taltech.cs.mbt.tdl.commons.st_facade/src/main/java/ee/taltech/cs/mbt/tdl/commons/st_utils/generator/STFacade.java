@@ -26,14 +26,20 @@ public class STFacade {
 	}
 
 	public static class STRenderingException extends Exception {
+		private ST st;
 		private List<STRenderingException> wrappedExceptions = new LinkedList<>();
 
-		private STRenderingException(String msg, Throwable cause) {
+		private STRenderingException(ST st, String msg, Throwable cause) {
 			super(msg, cause);
+			this.st = st;
 		}
 
 		private STRenderingException(Collection<STRenderingException> wrappedExceptions) {
 			this.wrappedExceptions.addAll(wrappedExceptions);
+		}
+
+		public ST getSt() {
+			return st;
 		}
 
 		public boolean wrapsOtherRenderingExceptions() {
@@ -57,6 +63,7 @@ public class STFacade {
 					pw.println(wrappedEx.toString());
 				}
 			} else {
+				pw.println("Template: " + st.getName());
 				pw.println("Message: " + getMessage());
 				if (getCause() != null) {
 					pw.println("Cause:");
@@ -89,7 +96,7 @@ public class STFacade {
 
 		private STRenderingException mapMessage(STMessage stMessage) {
 			String msg = String.format(stMessage.error.message, stMessage.arg, stMessage.arg2, stMessage.arg3);
-			return new STRenderingException(msg, stMessage.cause);
+			return new STRenderingException(stMessage.self, msg, stMessage.cause);
 		}
 
 		private void recordException(STMessage stMessage) {

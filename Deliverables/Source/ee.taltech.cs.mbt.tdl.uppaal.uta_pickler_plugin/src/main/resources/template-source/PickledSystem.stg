@@ -3,7 +3,10 @@ package <ctx.package>;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 
-<ctx.imports:{importPath|import <importPath>}; separator=";\n">
+<ctx.imports:{importPath|import <importPath>;}; separator="\n">
+
+import java.util.LinkedList;
+
 
 public class <ctx.name;format="cap">SystemFactory {
     <ctx.templates:templateFactory(); separator="\n\n">
@@ -32,7 +35,7 @@ public class <ctx.name;format="cap">SystemFactory {
         <ctx.templates:{templateCtx|<templateConsumer(ctx.name, templateCtx)>}; separator="\n">
 <if(ctx.systemDefinition)>
         // Set system definition:
-        <systemDefinitionConsumer("system", ctx.name)>
+        <systemDefinitionConsumer(ctx.name)>
 <endif>
         return <ctx.name>;
     }
@@ -113,14 +116,14 @@ public static class <ctx.name;format="cap">TemplateFactory {
 
     <ctx.locations:locationConstructor(); separator="\n">
 
-    <ctx.transitions:{trCtx|transitionConstructor(trCtx, i); separator="\n">
+    <ctx.transitions:{trCtx|<transitionConstructor(trCtx, i)>}; separator="\n">
 
     public Template new<ctx.name;format="cap">Template() {
         Template <ctx.name> = new Template();
 
         // Template name:
         Identifier identifier = Identifier.of("<ctx.name>");
-        <ctx.name>.setIdentifier(identifier);
+        <ctx.name>.setName(identifier);
 
         // Set parameter declarations:
         <ctx.parameters:{paramCtx|<parameterDeclarationConsumer(ctx.name, paramCtx)>}; separator="\n">
@@ -172,33 +175,33 @@ protected Location new<ctx.id;format="cap">Location() {
 }
 >>
 
-locationConsumer(tarvetVar, ctx) ::= <<
+locationConsumer(targetVar, ctx) ::= <<
 Location location<ctx.id;format="cap"> = new<ctx.id;format="cap">Location();
-template<targetVar;format="cap">.getLocationGraph()
+<targetVar;format="cap">.getLocationGraph()
     .addVertex(location<ctx.id;format="cap">);
-<if(ctx.initial)>template<targetVar;format="cap">.setInitialLocation(location<ctx.id;format="cap">);<endif>
+<if(ctx.initial)><targetVar;format="cap">.setInitialLocation(location<ctx.id;format="cap">);<endif>
 >>
 
 transitionConstructor(ctx, qualifier) ::= <<
-protected Transition new<ctx.name;format="cap">Transition<qualifier>(Location source, Location target) {
+protected Transition new<ctx.name;format="cap">Transition_<qualifier>(Location source, Location target) {
     return <newTransition(ctx, "source", "target")>;
 }
 >>
 
 transitionConsumer(targetVar, ctx, qualifier) ::= <<
-Transition transition<ctx.name;format="cap"><qualifier> = new<ctx.name;format="cap">Transition<qualifier>(
+Transition transition<ctx.name;format="cap">_<qualifier> = new<ctx.name;format="cap">Transition_<qualifier>(
     location<ctx.sourceId;format="cap">,
     location<ctx.targetId;format="cap">
 );
-targetVar.getLocationGraph().addEdge(
+<targetVar>.getLocationGraph().addEdge(
     location<ctx.sourceId;format="cap">,
     location<ctx.targetId;format="cap">,
-    transition<ctx.name;format="cap"><qualifier>
+    transition<ctx.name;format="cap">_<qualifier>
 );
 >>
 
 declarationConstructor(ctx) ::= <<
-protected <declarationReturnType(ctx)> new<ctx.name>Declaration() {
+protected <declarationReturnType(ctx)> new<ctx.name;format="cap">Declaration() {
     return <newDeclaration(ctx)>;
 }
 >>
@@ -224,7 +227,7 @@ new Location()
     .setLabels(
         new LocationLabels()
 <if(ctx.labels.invariant)>
-            .setInvariant((InvariantLabel) <newInvariantLabel(ctx.labels.invariant)>)
+            .setInvariantLabel((InvariantLabel) <newInvariantLabel(ctx.labels.invariant)>)
 <endif>
 <if(ctx.labels.comment)>
             .setCommentLabel((CommentLabel) <newCommentLabel(ctx.labels.comment)>)
@@ -254,7 +257,7 @@ new Transition()
 <if(targetLocationVar)>
     .setTarget(<targetLocationVar>)
 <endif>
-<if(ctx.color.value)>
+<if(ctx.color)>
     .setColor(Color.of(<ctx.color.value>))
 <endif>
     .setLabels(
@@ -275,43 +278,41 @@ new Transition()
             .setSynchronizationLabel((SynchronizationLabel) <newSynchronizationLabel(ctx.labels.synchronization)>)
 <endif>
     )
-    <ctx.nails:{nailCtx|{
-    .addNail(GuiCoordinates.of(nailCtx.x, nailCtx.y))}>
+    <ctx.nails:{nailCtx|
+    .addNail(GuiCoordinates.of(<nailCtx.x>, <nailCtx.y>))}>
 >>
 
 newCommentLabel(ctx) ::= <<
 new CommentLabel().setContent("<ctx.commentText>")
-    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
 
 newInvariantLabel(ctx) ::= <<
 new InvariantLabel().setContent(<newExpression(ctx.expression)>)
-    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
 
 newGuardLabel(ctx) ::= <<
 new GuardLabel().setContent(<newExpression(ctx.expression)>)
-    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
 
 newAssignmentsLabel(ctx) ::= <<
-new AssignmentsLabel().setContent(CollectionUtils.collectionBuilder(new LinkedList\<AbsExpression\>())
-    <ctx.expressions:{exprCtx|
-    .add(
-        <newExpression(exprCtx)>)
-    }>
-    .build())
-    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
+new AssignmentsLabel().setContent(
+        CollectionUtils.collectionBuilder(new LinkedList\<AbsExpression>())
+            <ctx.expressions:{exprCtx| .add(<newExpression(exprCtx)>) };separator="\n">
+            .build()
+    )
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
 
 newSelectionLabel(ctx) ::= <<
-new SelectionLabel().setContent(CollectionUtils.collectionBuilder(new LinkedList\<Selection\>())
-    <ctx.selections:{selCtx|
-    .add(
-        <newSelection(selCtx)>
-    )}>
-    .build())
-    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
+new SelectionLabel().setContent(
+        CollectionUtils.collectionBuilder(new LinkedList\<Selection>())
+            <ctx.selections:{selCtx|.add(<newSelection(selCtx)>)};separator="\n">
+            .build()
+    )
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
 
 newSelection(ctx) ::= <<
@@ -324,7 +325,7 @@ newSynchronizationLabel(ctx) ::= <<
 new SynchronizationLabel().setContent(new Synchronization()
     .setActiveSync(<if(ctx.synchronization.active)>true<else>false<endif>)
     .setExpression(<newExpression(ctx.synchronization.expression)>))
-    .setCoordinates(GuiCoordinates.of(ctx.coordinates.x, ctx.coordinates.y))
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
 
 newParameter(ctx) ::= <<
@@ -333,19 +334,19 @@ new ParameterDeclaration()
     .setType(<newType(ctx.type)>)
 >>
 
-newDeclaration(ctx) ::= <%
-    <if(ctx.variableDeclaration)>
-        <newVariableDeclaration(ctx)>
-    <elseif(ctx.typeDeclaration)>
-        <newTypeDeclaration(ctx)>
-    <elseif(ctx.channelPriorityDeclaration)>
-        <newChannelPriorityDeclaration(ctx)>
-    <elseif(ctx.templateInstantiation)>
-        <newTemplateInstantiation(ctx)>
-    <elseif(ctx.functionDeclaration)>
-        <newFunctionDeclaration(ctx)>
-    <endif>
-%>
+newDeclaration(ctx) ::= <<
+<if(ctx.variableDeclaration)>
+<newVariableDeclaration(ctx)>
+<elseif(ctx.typeDeclaration)>
+<newTypeDeclaration(ctx)>
+<elseif(ctx.channelPriorityDeclaration)>
+<newChannelPriorityDeclaration(ctx)>
+<elseif(ctx.templateInstantiation)>
+<newTemplateInstantiation(ctx)>
+<elseif(ctx.functionDeclaration)>
+<newFunctionDeclaration(ctx)>
+<endif>
+>>
 
 declarationReturnType(ctx) ::= <%
     <if(ctx.variableDeclaration)>
@@ -424,21 +425,21 @@ new FunctionDeclaration()
             .setType(<newType(paramCtx.type)>)
     )
     }>
-    .setStatementBlock(<newStatement(ctx.statementBlock)>)
+    .setStatementBlock(<newBlockStmt(ctx.statementBlock)>)
 >>
 
-newVariableDeclaration(ctx) ::= <%
-    <if(ctx.singleVariableDeclaration)>
-        <newSingleVariableDeclaration(ctx)>
-    <elseif(ctx.multiVariableDeclaration)>
-        <newMultiVariableDeclaration(ctx)>
-    <endif>
-%>
+newVariableDeclaration(ctx) ::= <<
+<if(ctx.singleVariableDeclaration)>
+<newSingleVariableDeclaration(ctx)>
+<elseif(ctx.multiVariableDeclaration)>
+<newMultiVariableDeclaration(ctx)>
+<endif>
+>>
 
 newSingleVariableDeclaration(ctx) ::= <<
 new VariableDeclaration()
-    .setType(<newType(ctx.type)>)
     .setIdentifier(Identifier.of("<ctx.variableName>"))
+    .setType(<newType(ctx.type)>)
 <if(ctx.initializer)>
     .setInitializer(<newInitializer(ctx.initializer)>)
 <endif>
@@ -456,13 +457,13 @@ new VariableDeclarationGroup()
     )}>
 >>
 
-newInitializer(ctx) ::= <%
-    <if(ctx.structuredInitializer)>
-        <newStructuredInitializer(ctx)>
-    <elseif(ctx.flatInitializer)>
-        <newFlatInitializer(ctx)>
-    <endif>
-%>
+newInitializer(ctx) ::= <<
+<if(ctx.structuredInitializer)>
+<newStructuredInitializer(ctx)>
+<elseif(ctx.flatInitializer)>
+<newFlatInitializer(ctx)>
+<endif>
+>>
 
 newFlatInitializer(ctx) ::= <<
 new FlatVariableInitializer()
@@ -477,27 +478,28 @@ new StructuredVariableInitializer()
 >>
 
 newArrayModifierList(iterable) ::= <<
-CollectionUtils.collectionBuilder(new LinkedList\<AbsArrayModifier\>)
-<iterable:{ctx|
-    .add(<newArrayModifier(ctx)>
-}>
+CollectionUtils.collectionBuilder(new LinkedList\<AbsArrayModifier>)
+    <iterable:{ctx|.add(<newArrayModifier(ctx)>};separator="\n">
+    .build()
 >>
 
-newArrayModifier(ctx) ::= <%
-    <if(ctx.sizeFromType)>
-        new SizeTypeArrayModifier().setSizeSpecifier(<newBaseType(ctx.sizeType)>)
-    <elseif(ctx.sizeFromExpression)>
-        new SizeExpressionArrayModifier().setSizeSpecifier(<newExpression(ctx.sizeExpression)>)
-    <endif>
-%>
+newArrayModifier(ctx) ::= <<
+<if(ctx.sizeFromType)>
+new SizeTypeArrayModifier()
+    .setSizeSpecifier(<newBaseType(ctx.sizeType)>)
+<elseif(ctx.sizeFromExpression)>
+new SizeExpressionArrayModifier()
+    .setSizeSpecifier(<newExpression(ctx.sizeExpression)>)
+<endif>
+>>
 
-newTypeDeclaration(ctx) ::= <%
-    <if(ctx.singleTypeDeclaration)>
-        <newSingleTypeDeclaration(ctx)>
-    <elseif(ctx.multiTypeDeclaration)>
-        <newMultiTypeDeclaration(ctx)>
-    <endif>
-%>
+newTypeDeclaration(ctx) ::= <<
+<if(ctx.singleTypeDeclaration)>
+<newSingleTypeDeclaration(ctx)>
+<elseif(ctx.multiTypeDeclaration)>
+<newMultiTypeDeclaration(ctx)>
+<endif>
+>>
 
 newSingleTypeDeclaration(ctx) ::= <<
 new TypeDeclaration()
@@ -516,27 +518,27 @@ new TypeDeclarationGroup()
     .setBaseType(<newBaseType(ctx.baseType)>)
 >>
 
-newStatement(ctx) ::= <%
-    <if(ctx.blockStatement)>
-        <newBlockStmt(ctx)>
-    <elseif(ctx.forLoopStatement)>
-        <newForStmt(ctx)>
-    <elseif(ctx.iterationStatement)>
-        <newIterationStmt(ctx)>
-    <elseif(ctx.whileStatement)>
-        <newWhileStmt(ctx)>
-    <elseif(ctx.doWhileStatement)>
-        <newDoWhileStmt(ctx)>
-    <elseif(ctx.conditionalStatement)>
-        <newConditionalStmt(ctx)>
-    <elseif(ctx.expressionStatement)>
-        new ExpressionStatement().setExpression(<newExpression(ctx.expression)>)
-    <elseif(ctx.returnStatement)>
-        new ReturnStatement()<if(ctx.expression)>.setExpression(<newExpression(ctx.expression)>)<endif>
-    <elseif(ctx.emptyStatement)>
-        EmptyStatement.getInstance()
-    <endif>
-%>
+newStatement(ctx) ::= <<
+<if(ctx.blockStatement)>
+<newBlockStmt(ctx)>
+<elseif(ctx.forLoopStatement)>
+<newForStmt(ctx)>
+<elseif(ctx.iterationStatement)>
+<newIterationStmt(ctx)>
+<elseif(ctx.whileStatement)>
+<newWhileStmt(ctx)>
+<elseif(ctx.doWhileStatement)>
+<newDoWhileStmt(ctx)>
+<elseif(ctx.conditionalStatement)>
+<newConditionalStmt(ctx)>
+<elseif(ctx.expressionStatement)>
+new ExpressionStatement().setExpression(<newExpression(ctx.expression)>)
+<elseif(ctx.returnStatement)>
+new ReturnStatement()<if(ctx.expression)>.setExpression(<newExpression(ctx.expression)>)<endif>
+<elseif(ctx.emptyStatement)>
+EmptyStatement.getInstance()
+<endif>
+>>
 
 newBlockStmt(ctx) ::= <<
 new StatementBlock()
@@ -550,7 +552,7 @@ new StatementBlock()
     .addStatement(<newStatement(stmtCtx)>)
 }>
 <endif>
-}>>
+>>
 
 newForStmt(ctx) ::= <<
 new ForLoop()
@@ -600,7 +602,7 @@ new FieldAccessExpression()
     .setIdentifier(Identifier.of("<ctx.fieldIdentifier>"))
     .setChild(<newExpression(ctx.child)>)
 <elseif(ctx.negation)>
-new NegatationExpression()
+new NegationExpression()
 <if(ctx.phrase)>
     .setPhrase(true)
 <endif>
@@ -772,7 +774,7 @@ new CallExpression()
 <ctx.arguments:{argCtx|
     .addArgument(<newExpression(argCtx)>)
 }>
-    .setChild(<newExpression(ctx.child)>
+    .setChild(<newExpression(ctx.child)>)
 <elseif(ctx.literal)>
 <literal(ctx)>
 <elseif(ctx.identifierExpression)>
@@ -799,7 +801,7 @@ new Type()
     .setReferenceType(true)
 <endif>
 <ctx.arrayModifiers:{modCtx|
-    .addArrayModifier(<newArrayModifier(modCtx)>
+    .addArrayModifier(<newArrayModifier(modCtx)>)
 }>
 >>
 
@@ -849,13 +851,13 @@ BaseTypeIdentifiers.CLOCK
 <endif>
 >>
 
-newFieldDeclaration(ctx) ::= <%
-    <if(ctx.singleFieldDeclaration)>
-        <newSingleFieldDeclaration(ctx)>
-    <elseif(ctx.groupOfFieldDeclarations)>
-        <newFieldDeclarationGroup(ctx)>
-    <endif>
-%>
+newFieldDeclaration(ctx) ::= <<
+<if(ctx.singleFieldDeclaration)>
+<newSingleFieldDeclaration(ctx)>
+<elseif(ctx.groupOfFieldDeclarations)>
+<newFieldDeclarationGroup(ctx)>
+<endif>
+>>
 
 newSingleFieldDeclaration(ctx) ::= <<
 new FieldDeclaration()

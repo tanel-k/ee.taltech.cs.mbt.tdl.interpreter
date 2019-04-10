@@ -14,7 +14,9 @@ public class TypeCtxExtractor implements IPicklerContextExtractor<Type> {
 		return new TypeCtxExtractor();
 	}
 
-	private Set<Class> requiredClasses = CollectionUtils.newSet();
+	private Set<Class> requiredClasses = CollectionUtils.newSet(
+			Type.class
+	);
 
 	private TypeCtxExtractor() { }
 

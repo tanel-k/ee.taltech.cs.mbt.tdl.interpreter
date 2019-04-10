@@ -4,11 +4,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.g
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.ILabelVisitor;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AssignmentsLabel extends AbsUtaLabel<List<AbsExpression>> {
-	public static AssignmentsLabel of(List<AbsExpression> expressions) {
+public class AssignmentsLabel extends AbsUtaLabel<Collection<AbsExpression>> {
+	public static AssignmentsLabel of(Collection<AbsExpression> expressions) {
 		AssignmentsLabel inst = new AssignmentsLabel();
 		inst.setContent(expressions == null ? new LinkedList<>() : expressions);
 		return inst;

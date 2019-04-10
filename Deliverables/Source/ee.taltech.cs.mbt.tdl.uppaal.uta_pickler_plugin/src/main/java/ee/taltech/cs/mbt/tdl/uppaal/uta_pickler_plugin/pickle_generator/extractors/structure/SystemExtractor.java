@@ -25,7 +25,7 @@ public class SystemExtractor implements IPicklerContextExtractor<UtaSystem> {
 	@Override
 	public ContextBuilder extract(UtaSystem system) {
 		Collection<ContextBuilder> declCtxs = DeclarationCtxExtractor.getInstance()
-				.extract(system.getGlobalDeclarations(), requiredClasses);
+				.extract(system.getDeclarations(), requiredClasses);
 		Collection<ContextBuilder> templateCtxs = TemplateCtxExtractor.getInstance()
 				.extract(system.getTemplates(), requiredClasses);
 		ContextBuilder systemDefinitionCtx = system.getSystemDefinition() != null

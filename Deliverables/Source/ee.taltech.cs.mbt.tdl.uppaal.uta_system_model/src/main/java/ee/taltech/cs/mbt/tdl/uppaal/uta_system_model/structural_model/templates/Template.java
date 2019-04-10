@@ -59,13 +59,13 @@ public class Template {
 		return this;
 	}
 
-	public List<AbsDeclarationStatement> getLocalDeclarations() {
+	public List<AbsDeclarationStatement> getDeclarations() {
 		return localDeclarations == null
 				? (localDeclarations = new LinkedList<>())
 				: localDeclarations;
 	}
 
-	public Template setLocalDeclarations(List<AbsDeclarationStatement> localDeclarations) {
+	public Template setDeclarations(List<AbsDeclarationStatement> localDeclarations) {
 		this.localDeclarations = localDeclarations;
 		return this;
 	}

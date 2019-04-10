@@ -61,6 +61,13 @@ public class CollectionUtils {
 		return set;
 	}
 
+	public static <T> List<T> newList(T... items) {
+		List<T> list = new LinkedList<>();
+		for (T item : items)
+			list.add(item);
+		return list;
+	}
+
 	public static <T> void addAll(Collection<T> collection, T... items) {
 		collection.addAll(Arrays.asList(items));
 	}

@@ -181,12 +181,12 @@ public class TemplateConverter {
 	}
 
 	private void injectLocalDeclarations(TemplateNode templateNode, Template template) {
-		if (template.getLocalDeclarations().isEmpty())
+		if (template.getDeclarations().isEmpty())
 			return;
 
 		LocalDeclarationsNode localDeclarationsNode = new LocalDeclarationsNode();
 		getGenerationQueue().enqueue(
-				template.getLocalDeclarations(),
+				template.getDeclarations(),
 				getGeneratorFactory().declarationGenerator(),
 				localDeclarationsNode::setValue
 		);
