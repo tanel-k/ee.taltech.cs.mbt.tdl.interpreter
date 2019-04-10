@@ -10,6 +10,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extracto
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.parameter.ParameterCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.locations.LocationCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.transitions.TransitionCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
@@ -29,6 +31,8 @@ public class TemplateCtxExtractor implements IPicklerContextExtractor<Template> 
 
 	private Set<Class> requiredClasses = CollectionUtils.newSet(
 			Template.class,
+			TemplateInstantiation.class,
+			AbsExpression.class,
 			Identifier.class
 	);
 

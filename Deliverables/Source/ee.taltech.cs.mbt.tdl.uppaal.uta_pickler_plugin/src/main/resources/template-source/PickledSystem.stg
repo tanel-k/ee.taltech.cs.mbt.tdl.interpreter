@@ -10,6 +10,7 @@ import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 
 <ctx.imports:{importPath|import <importPath>;}; separator="\n">
 
+import java.util.Optional;
 import java.util.LinkedList;
 
 public class <systemFactoryClassName(ctx)> {
@@ -114,6 +115,8 @@ public static class <ctx.name>TemplateFactory {
 
     public static final Identifier NAME = Identifier.of("<ctx.name>");
 
+    <templateInstantiationConstructor(ctx)>
+
     protected <ctx.name>TemplateFactory() { }
 
     <ctx.parameters:parameterDeclarationConstructor(); separator="\n">
@@ -159,6 +162,30 @@ CollectionUtils.addIfNonNull(
     <targetVar>.getParameters(),
     new_<ctx.name>_ParameterDeclaration()
 );
+>>
+
+templateInstantiationConstructor(ctx) ::= <<
+public static TemplateInstantiation createInstantiation(Identifier newTemplateName,
+    <ctx.parameters:{paramCtx|Optional\<AbsExpression> opt_<paramCtx.identifier>Arg}; separator=", ">
+) {
+    TemplateInstantiation inst = new TemplateInstantiation()
+        .setNewTemplateName(newTemplateName)
+        .setSourceTemplateName(NAME);
+
+    // Set arguments/parameters:
+    <ctx.parameters:{paramCtx|
+    if (opt_<paramCtx.identifier>Arg.isPresent()) {
+        inst.addArgument(opt_<paramCtx.identifier>Arg.get());
+    \} else { // Either provide an arg expr or leave as parameter
+        inst.addParameter(
+            new ParameterDeclaration()
+                .setIdentifier(Identifier.of("<paramCtx.identifier>"))
+                .setType(<newType(paramCtx.type)>)
+        );
+    \}}>
+
+    return inst;
+}
 >>
 
 templateConstructor(ctx) ::= <<
