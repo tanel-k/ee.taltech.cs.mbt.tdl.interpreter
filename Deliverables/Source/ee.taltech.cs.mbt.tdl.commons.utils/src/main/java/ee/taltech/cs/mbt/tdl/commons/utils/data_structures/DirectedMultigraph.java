@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class DirectedMultigraph<V, E> {
 	private Set<V> vertices = new LinkedHashSet<>();
-	private Set<E> edges = new HashSet<>();
+	private Set<E> edges = new LinkedHashSet<>();
 
 	private Map<V, Set<E>> mapVertexEgressEdges = new LinkedHashMap<>();
 	private Map<V, Set<E>> mapVertexIngressEdges = new LinkedHashMap<>();
