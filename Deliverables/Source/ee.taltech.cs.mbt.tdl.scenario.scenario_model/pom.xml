@@ -27,14 +27,15 @@
         <artifactId>uta_pickler_plugin</artifactId>
         <executions>
           <execution>
-            <id>pickle-recognizers</id>
+            <id>pickle-stub-project</id>
             <goals>
               <goal>pickle</goal>
             </goals>
             <configuration>
-              <outputDirectory>src/main/java/ee/taltech/cs/mbt/tdl/scenario/scenario_model/recognizer</outputDirectory>
-              <sourceFile>src/main/resources/recognizers.uta.xml</sourceFile>
-              <packageName>ee.taltech.cs.mbt.tdl.scenario.scenario_model.recognizer</packageName>
+              <outputDirectory>src/main/java</outputDirectory>
+              <sourceFile>src/main/resources/UtaScenarioStubProject.xml</sourceFile>
+              <pickleName>ScenarioStub</pickleName>
+              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_model.recognizer</picklePackage>
             </configuration>
           </execution>
         </executions>
