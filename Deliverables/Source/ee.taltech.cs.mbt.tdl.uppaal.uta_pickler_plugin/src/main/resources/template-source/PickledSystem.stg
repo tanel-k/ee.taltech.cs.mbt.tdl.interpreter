@@ -167,14 +167,14 @@ CollectionUtils.addIfNonNull(
     new_<ctx.name>_ParameterDeclaration()
 );
 >>
-// TODO
+
 declaredName(ctx) ::= <%
     <if(ctx.variableDeclaration)>
         <if(ctx.singleVariableDeclaration)>
             public static final Identifier DECLARED_NAME_<ctx.variableName> = Identifier.of("<ctx.variableName>");
         <elseif(ctx.multiVariableDeclaration)>
             public static final Identifier <ctx.subDeclarations:{subCtx|
-                DECLARED_NAME_<ctx.variableName> = Identifier.of("<subCtx.variableName>")
+                DECLARED_NAME_<subCtx.variableName> = Identifier.of("<subCtx.variableName>")
             }; separator=", ">;
         <endif>
     <elseif(ctx.typeDeclaration)>
@@ -182,7 +182,7 @@ declaredName(ctx) ::= <%
             public static final Identifier DECLARED_NAME_<ctx.typeName> = Identifier.of("<ctx.typeName>");
         <elseif(ctx.multiTypeDeclaration)>
             public static final Identifier <ctx.subDeclarations:{subCtx|
-                DECLARED_NAME_<ctx.identifier> = Identifier.of("<subCtx.identifier>")
+                DECLARED_NAME_<subCtx.identifier> = Identifier.of("<subCtx.identifier>")
             }; separator=", ">;
         <endif>
     <elseif(ctx.templateInstantiation)>
