@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.leaf.AbsExpressionLeafNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.leaf.AbsExpressionLeafNode;
 
 import java.util.Objects;
 

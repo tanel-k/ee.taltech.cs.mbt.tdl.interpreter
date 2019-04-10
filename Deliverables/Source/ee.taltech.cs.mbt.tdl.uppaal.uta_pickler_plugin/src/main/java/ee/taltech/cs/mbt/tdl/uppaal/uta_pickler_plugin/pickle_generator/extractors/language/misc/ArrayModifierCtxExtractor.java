@@ -10,7 +10,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_m
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.SizeTypeArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IArrayModifierVisitor;
 
-import java.util.LinkedList;
 import java.util.Set;
 
 public class ArrayModifierCtxExtractor implements IPicklerContextExtractor<AbsArrayModifier>,

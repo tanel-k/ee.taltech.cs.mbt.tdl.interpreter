@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SystemPickleGenerator extends AbsSTGenerator<UtaSystem> {
-	private static final String TEMPLATE_NAME = "systemPickle";
+	private static final String TEMPLATE_NAME = "systemFactory";
 
 	private String picklePackage;
 	private String pickleName;
@@ -57,15 +57,5 @@ public class SystemPickleGenerator extends AbsSTGenerator<UtaSystem> {
 				.put("package", picklePackage)
 				.put("name", pickleName)
 				.put("imports", getImportStrings(extractor));
-	}
-
-	public String getPickleClassName() {
-		try {
-			ST st = getStRegistry().getTemplate("systemFactoryClassName");
-			st.add("ctx", ContextBuilder.newBuilder().put("name", pickleName).getContextMap());
-			return st.render();
-		} catch (Throwable t) {
-			throw new RuntimeException("Failed to retrieve system factory class name");
-		}
 	}
 }

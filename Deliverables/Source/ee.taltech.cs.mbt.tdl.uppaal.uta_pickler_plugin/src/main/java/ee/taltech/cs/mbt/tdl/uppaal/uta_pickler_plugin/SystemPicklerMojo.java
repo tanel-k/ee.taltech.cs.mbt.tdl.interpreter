@@ -110,16 +110,22 @@ public class SystemPicklerMojo extends AbstractMojo {
 		Path packagePath = packageToPath(picklePackage).resolve(Paths.get(pickleClassName + ".java"));
 		Path outputFilePath = outputDirectory.toPath().resolve(packagePath);
 		try {
-			getLog().info("Setting up file path " + outputFilePath.toString());
-			Files.createDirectories(outputFilePath.getParent());
-			outputFilePath = Files.createFile(outputFilePath);
+			if (Files.notExists(outputFilePath.getParent())) {
+				getLog().info("Setting up file directory " + outputFilePath.getParent().toString());
+				Files.createDirectories(outputFilePath.getParent());
+			}
+
+			if (Files.notExists(outputFilePath)) {
+				getLog().info("Setting up file " + outputFilePath.toString());
+				outputFilePath = Files.createFile(outputFilePath);
+			}
 		} catch (Throwable t) {
 			throw new MojoExecutionException("Failed to set up file path.", t);
 		}
 
 		try (FileOutputStream out = new FileOutputStream(outputFilePath.toFile())) {
 			getLog().info("Writing to " + outputFilePath.toString());
-			out.write(pickleClass.getBytes());
+			out.write(formattedPickleClass.getBytes());
 		} catch (Throwable t) {
 			throw new MojoExecutionException("Failed to write pickle class.", t);
 		}

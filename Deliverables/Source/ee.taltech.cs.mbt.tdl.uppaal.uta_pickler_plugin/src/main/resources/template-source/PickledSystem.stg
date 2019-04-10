@@ -1,4 +1,9 @@
-systemPickle(ctx) ::= <<
+systemFactoryClassName(ctx) ::= <%
+    <ctx.name;format="cap">SystemFactory
+%>
+
+
+systemFactory(ctx) ::= <<
 package <ctx.package>;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
@@ -6,10 +11,6 @@ import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 <ctx.imports:{importPath|import <importPath>;}; separator="\n">
 
 import java.util.LinkedList;
-
-systemFactoryClassName(ctx) := <%
-    <ctx.name;format="cap">SystemFactory
-%>
 
 public class <systemFactoryClassName(ctx)> {
     <ctx.templates:templateFactory(); separator="\n">
