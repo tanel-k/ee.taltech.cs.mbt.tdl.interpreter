@@ -19,8 +19,7 @@ public class TransitionCtxExtractor implements IPicklerContextExtractor<Transiti
 	}
 
 	private Set<Class> requiredClasses = CollectionUtils.newSet(
-			Transition.class,
-			GuiCoordinates.class
+			Transition.class
 	);
 
 	private TransitionCtxExtractor() { }

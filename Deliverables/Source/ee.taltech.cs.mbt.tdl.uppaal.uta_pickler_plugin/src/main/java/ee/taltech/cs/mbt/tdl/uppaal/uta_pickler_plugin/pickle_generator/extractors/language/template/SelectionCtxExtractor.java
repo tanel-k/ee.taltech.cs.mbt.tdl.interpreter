@@ -3,6 +3,8 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extract
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.type.BaseTypeCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Selection;
 
 import java.util.Set;
@@ -12,13 +14,20 @@ public class SelectionCtxExtractor implements IPicklerContextExtractor<Selection
 		return new SelectionCtxExtractor();
 	}
 
-	private Set<Class> requiredClasses = CollectionUtils.newSet();
+	private Set<Class> requiredClasses = CollectionUtils.newSet(
+			Selection.class,
+			Identifier.class
+	);
 
 	private SelectionCtxExtractor() { }
 
 	@Override
 	public ContextBuilder extract(Selection selection) {
-		throw new UnsupportedOperationException();
+		ContextBuilder selectTypeCtx = BaseTypeCtxExtractor.getInstance()
+				.extract(selection.getSelectType(), requiredClasses);
+		return ContextBuilder.newBuilder()
+				.put("selectType", selectTypeCtx)
+				.put("variableName", selection.getVariableName().toString());
 	}
 
 	@Override

@@ -71,6 +71,10 @@ public interface ITypeExtensionGroup<ParentType, GroupedType extends ParentType>
 		return this;
 	}
 
+	default BaseType getBaseType() {
+		return getBaseTypeExtensionMap().getBaseType();
+	}
+
 	default ITypeExtensionGroup<ParentType, GroupedType> setBaseType(BaseType baseType) {
 		getBaseTypeExtensionMap().setBaseType(baseType);
 		return this;

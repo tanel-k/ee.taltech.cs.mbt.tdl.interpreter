@@ -17,7 +17,7 @@ public class SystemExtractor implements IPicklerContextExtractor<UtaSystem> {
 	}
 
 	private Set<Class> requiredClasses = CollectionUtils.newSet(
-		UtaSystem.class
+			UtaSystem.class
 	);
 
 	private SystemExtractor() { }

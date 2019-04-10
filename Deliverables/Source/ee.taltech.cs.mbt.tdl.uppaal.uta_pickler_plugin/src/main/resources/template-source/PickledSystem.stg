@@ -485,7 +485,7 @@ CollectionUtils.collectionBuilder(new LinkedList\<AbsArrayModifier\>)
 
 newArrayModifier(ctx) ::= <%
     <if(ctx.sizeFromType)>
-        new SizeTypeArrayModifier().setSizeSpecifier(<newType(ctx.sizeType)>)
+        new SizeTypeArrayModifier().setSizeSpecifier(<newBaseType(ctx.sizeType)>)
     <elseif(ctx.sizeFromExpression)>
         new SizeExpressionArrayModifier().setSizeSpecifier(<newExpression(ctx.sizeExpression)>)
     <endif>

@@ -3,8 +3,10 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extract
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap.BaseTypeExtension;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class BaseTypeExtensionCtxExtractor implements IPicklerContextExtractor<BaseTypeExtension> {
@@ -12,13 +14,20 @@ public class BaseTypeExtensionCtxExtractor implements IPicklerContextExtractor<B
 		return new BaseTypeExtensionCtxExtractor();
 	}
 
-	private Set<Class> requiredClasses = CollectionUtils.newSet();
+	private Set<Class> requiredClasses = CollectionUtils.newSet(
+			Identifier.class
+	);
 
 	private BaseTypeExtensionCtxExtractor() { }
 
 	@Override
 	public ContextBuilder extract(BaseTypeExtension baseTypeExt) {
-		throw new UnsupportedOperationException();
+		Collection<ContextBuilder> arrayModCtxs = ArrayModifierCtxExtractor.getInstance()
+				.extract(baseTypeExt.getArrayModifiers(), requiredClasses);
+		return ContextBuilder.newBuilder()
+				.put("identifier", baseTypeExt.getIdentifier().toString())
+				.put("arrayModifiers", arrayModCtxs)
+				.put("referenceType", baseTypeExt.isReferenceType());
 	}
 
 	@Override

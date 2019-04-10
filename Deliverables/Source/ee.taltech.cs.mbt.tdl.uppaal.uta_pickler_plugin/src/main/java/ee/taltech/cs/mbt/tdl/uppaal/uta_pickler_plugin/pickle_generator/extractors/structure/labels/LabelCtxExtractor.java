@@ -35,7 +35,7 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 
 	@Override
 	public ContextBuilder visitAssignments(AssignmentsLabel label) {
-		requiredClasses.add(AssignmentsLabel.class);
+		requiredClasses.add(label.getClass());
 		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
 				.extract(label.getCoordinates(), requiredClasses);
 		Collection<ContextBuilder> expressionCtxs = ExpressionCtxExtractor.getInstance()
@@ -47,7 +47,7 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 
 	@Override
 	public ContextBuilder visitComment(CommentLabel label) {
-		requiredClasses.add(CommentLabel.class);
+		requiredClasses.add(label.getClass());
 		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
 				.extract(label.getCoordinates(), requiredClasses);
 		return ContextBuilder.newBuilder()
@@ -57,7 +57,7 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 
 	@Override
 	public ContextBuilder visitGuard(GuardLabel label) {
-		requiredClasses.add(GuardLabel.class);
+		requiredClasses.add(label.getClass());
 		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
 				.extract(label.getCoordinates(), requiredClasses);
 		ContextBuilder exprCtx = ExpressionCtxExtractor.getInstance()
@@ -69,7 +69,7 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 
 	@Override
 	public ContextBuilder visitInvariant(InvariantLabel label) {
-		requiredClasses.add(InvariantLabel.class);
+		requiredClasses.add(label.getClass());
 		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
 				.extract(label.getCoordinates(), requiredClasses);
 		ContextBuilder exprCtx = ExpressionCtxExtractor.getInstance()
@@ -81,7 +81,7 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 
 	@Override
 	public ContextBuilder visitSelection(SelectionLabel label) {
-		requiredClasses.add(SelectionLabel.class);
+		requiredClasses.add(label.getClass());
 		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
 				.extract(label.getCoordinates(), requiredClasses);
 		Collection<ContextBuilder> selectionCtxs = SelectionCtxExtractor.getInstance()
@@ -93,7 +93,7 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 
 	@Override
 	public ContextBuilder visitSynchronization(SynchronizationLabel label) {
-		requiredClasses.add(SynchronizationLabel.class);
+		requiredClasses.add(label.getClass());
 		ContextBuilder coordinatesCtx = GuiCoordinatesCtxExtractor.getInstance()
 				.extract(label.getCoordinates(), requiredClasses);
 		ContextBuilder synchronizationCtx = SynchronizationCtxExtractor.getInstance()
