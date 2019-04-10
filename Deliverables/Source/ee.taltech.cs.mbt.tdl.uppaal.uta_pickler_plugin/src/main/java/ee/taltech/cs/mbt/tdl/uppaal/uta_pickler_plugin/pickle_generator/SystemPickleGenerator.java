@@ -4,8 +4,10 @@ import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.AbsSTGenerator;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry.MissingSTException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.SystemExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
+import org.stringtemplate.v4.ST;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -55,5 +57,15 @@ public class SystemPickleGenerator extends AbsSTGenerator<UtaSystem> {
 				.put("package", picklePackage)
 				.put("name", pickleName)
 				.put("imports", getImportStrings(extractor));
+	}
+
+	public String getPickleClassName() {
+		try {
+			ST st = getStRegistry().getTemplate("systemFactoryClassName");
+			st.add("ctx", ContextBuilder.newBuilder().put("name", pickleName).getContextMap());
+			return st.render();
+		} catch (Throwable t) {
+			throw new RuntimeException("Failed to retrieve system factory class name");
+		}
 	}
 }

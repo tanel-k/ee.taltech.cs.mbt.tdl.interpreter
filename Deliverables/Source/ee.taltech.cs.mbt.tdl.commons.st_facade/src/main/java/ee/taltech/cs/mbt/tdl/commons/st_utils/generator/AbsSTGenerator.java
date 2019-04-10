@@ -18,9 +18,12 @@ public abstract class AbsSTGenerator<T> {
 	}
 
 	protected abstract IContextExtractor<T> getContextExtractor();
-
 	protected abstract String getTemplateName();
 	protected abstract Optional<String> getIterableTemplateName();
+
+	protected STRegistry getStRegistry() {
+		return stRegistry;
+	}
 
 	protected ContextBuilder extractContext(T inst) {
 		return getContextExtractor().extract(inst);

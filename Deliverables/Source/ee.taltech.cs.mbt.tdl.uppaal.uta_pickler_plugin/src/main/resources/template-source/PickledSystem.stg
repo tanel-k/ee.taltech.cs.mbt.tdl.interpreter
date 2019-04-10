@@ -7,17 +7,20 @@ import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 
 import java.util.LinkedList;
 
+systemFactoryClassName(ctx) := <%
+    <ctx.name;format="cap">SystemFactory
+%>
 
-public class <ctx.name;format="cap">SystemFactory {
-    <ctx.templates:templateFactory(); separator="\n\n">
+public class <systemFactoryClassName(ctx)> {
+    <ctx.templates:templateFactory(); separator="\n">
 <if(ctx.systemDefinition)>
     <systemDefinitionFactory(ctx.name, ctx.systemDefinition)>
 <endif>
-    public static <ctx.name;format="cap">SystemFactory getInstance() {
-        return new <ctx.name;format="cap">SystemFactory();
+    public static <systemFactoryClassName(ctx)> getInstance() {
+        return new <systemFactoryClassName(ctx)>();
     }
 
-    protected <ctx.name;format="cap">SystemFactory() { }
+    protected <systemFactoryClassName(ctx)>() { }
 
     <ctx.declarations:declarationConstructor(); separator="\n">
 

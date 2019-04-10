@@ -1,6 +1,9 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin;
 
+import com.google.googlejavaformat.java.Formatter;
+import com.google.googlejavaformat.java.FormatterException;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.GenerationException;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
@@ -17,15 +20,34 @@ import org.apache.maven.plugins.annotations.Parameter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Mojo(name = "pickle", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class SystemPicklerMojo extends AbstractMojo {
-	@Parameter(alias = "package", defaultValue = "pickles", readonly = true)
+	private static Path packageToPath(String packageString) {
+		Matcher m = Pattern.compile("^.*?\\.").matcher(packageString);
+		if (!m.find()) {
+			// Just a string:
+			return Paths.get(packageString);
+		}
+		String first = m.group();
+		first = first.substring(0, first.length() - 1); // Trim last "."
+		// Split the rest:
+		String[] rest = m.replaceFirst("").split("\\.");
+		return Paths.get(first, rest);
+	}
+
+	@Parameter(defaultValue = "pickles", readonly = true)
 	private String picklePackage;
 
-	@Parameter(alias ="class", defaultValue = "Pickle", readonly = true)
+	@Parameter(defaultValue = "Pickle", readonly = true)
 	private String pickleName;
 
 	@Parameter(required = true, readonly = true)
@@ -54,20 +76,52 @@ public class SystemPicklerMojo extends AbstractMojo {
 		}
 
 		getLog().info("Successfully parsed source project.");
-		getLog().info("Generating source code for pickle factory.");
+
+		String pickleClassName;
+		try {
+			getLog().info("Generating class name for pickle factory.");
+			pickleClassName = SystemPickleGeneratorFactory.factoryClassNameGenerator().generate(pickleName);
+			getLog().info("Pickle factory class name is " + pickleClassName + ".");
+		} catch (GenerationException ex) {
+			throw new MojoExecutionException("Failed to generate a class name for the pickle class.", ex);
+		}
 
 		String pickleClass;
 		try {
+			getLog().info("Generating source code for " + pickleClassName + ".");
 			pickleClass = SystemPickleGeneratorFactory
 					.systemGenerator(picklePackage, pickleName)
 					.generate(sourceSystem);
 		} catch (GenerationException ex) {
-			throw new MojoExecutionException("Failed to generate pickle class.", ex);
+			throw new MojoExecutionException("Failed to generate source code.", ex);
 		}
 
-		getLog().info("Successfully generated source code for pickle factory.");
+		getLog().info("Successfully generated source code for " + pickleClassName + ".");
 
-		// TODO: Store in targetDir with name pickleName.
-		// TODO: Consider package picklePackage as well.
+		String formattedPickleClass = pickleClass;
+		try {
+			getLog().info("Attempting to format " + pickleClassName + " source code.");
+			formattedPickleClass = new Formatter().formatSource(formattedPickleClass);
+			getLog().info("Successfully formatted source code for " + pickleClassName);
+		} catch (FormatterException ex) {
+			getLog().warn("Failed to format source code.", ex);
+		}
+
+		Path packagePath = packageToPath(picklePackage).resolve(Paths.get(pickleClassName + ".java"));
+		Path outputFilePath = outputDirectory.toPath().resolve(packagePath);
+		try {
+			getLog().info("Setting up file path " + outputFilePath.toString());
+			Files.createDirectories(outputFilePath.getParent());
+			outputFilePath = Files.createFile(outputFilePath);
+		} catch (Throwable t) {
+			throw new MojoExecutionException("Failed to set up file path.", t);
+		}
+
+		try (FileOutputStream out = new FileOutputStream(outputFilePath.toFile())) {
+			getLog().info("Writing to " + outputFilePath.toString());
+			out.write(pickleClass.getBytes());
+		} catch (Throwable t) {
+			throw new MojoExecutionException("Failed to write pickle class.", t);
+		}
 	}
 }
