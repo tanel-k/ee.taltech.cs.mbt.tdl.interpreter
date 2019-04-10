@@ -18,6 +18,6 @@ public class BaseTypeExtensionCtxExtractor implements IContextExtractor<BaseType
 		return ContextBuilder.newBuilder()
 				.put("identifierValue", inst.getIdentifier().toString())
 				.put("referenceType", inst.isReferenceType())
-				.put("arraySizeModifiers", ArrayModifierCtxExtractor.getInstance().extract(inst.getArrayModifiers()));
+				.put("arrayModifiers", ArrayModifierCtxExtractor.getInstance().extract(inst.getArrayModifiers()));
 	}
 }

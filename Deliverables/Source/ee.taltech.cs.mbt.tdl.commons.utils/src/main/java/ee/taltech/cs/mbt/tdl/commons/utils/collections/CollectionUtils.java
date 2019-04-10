@@ -1,8 +1,10 @@
 package ee.taltech.cs.mbt.tdl.commons.utils.collections;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -57,6 +59,10 @@ public class CollectionUtils {
 		for (T item : items)
 			set.add(item);
 		return set;
+	}
+
+	public static <T> void addAll(Collection<T> collection, T... items) {
+		collection.addAll(Arrays.asList(items));
 	}
 
 	public static <T> CollectionBuilder<T> collectionBuilder() {

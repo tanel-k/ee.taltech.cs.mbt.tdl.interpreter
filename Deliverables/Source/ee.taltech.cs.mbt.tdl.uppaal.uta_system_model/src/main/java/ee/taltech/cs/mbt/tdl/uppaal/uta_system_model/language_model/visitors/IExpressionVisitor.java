@@ -12,7 +12,7 @@ public interface IExpressionVisitor<T> {
 	T visitDivisionExpr(DivisionExpression expr);
 	T visitMaximumExpr(MaximumExpression expr);
 	T visitMinimumExpr(MinimumExpression expr);
-	T visitModuloExpr(ModuloExpression modulo);
+	T visitModuloExpr(ModuloExpression expr);
 	T visitMultiplicationExpr(MultiplicationExpression expr);
 	T visitAdditiveInverseExpr(AdditiveInverseExpression expr);
 	T visitAdditiveIdentityExpr(AdditiveIdentityExpression expr);

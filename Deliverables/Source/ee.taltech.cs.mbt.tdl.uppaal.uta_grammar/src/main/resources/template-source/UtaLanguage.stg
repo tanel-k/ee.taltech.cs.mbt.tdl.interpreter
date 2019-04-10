@@ -229,6 +229,8 @@ expression(ctx) ::= <%
         <else>
             !<expression(ctx.child)>
         <endif>
+    <elseif(ctx.implication)>
+        <expression(ctx.leftChild)> imply <expression(ctx.rightChild)>
     <elseif(ctx.conjunction)>
         <if(ctx.phrasal)>
             <expression(ctx.leftChild)> and <expression(ctx.rightChild)>
@@ -448,7 +450,7 @@ extendedTypes(iterable) ::= <%
 %>
 
 extendedType(ctx) ::= <%
-    <if(ctx.referenceType)>&<endif><ctx.identifierValue><ctx.arraySizeModifiers:arraySizeModifier()>
+    <if(ctx.referenceType)>&<endif><ctx.identifierValue><ctx.arrayModifiers:arrayModifier()>
 %>
 
 arrayModifiers(iterable) ::= <%

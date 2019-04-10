@@ -3,7 +3,10 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extract
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.expression.ExpressionCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.AbsTypeId;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers.BooleanTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers.ChannelTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers.ClockTypeId;
@@ -14,6 +17,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identif
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.StructTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ITypeIdentifierVisitor;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class TypeIdentifierCtxExtractor implements IPicklerContextExtractor<AbsTypeId>,
@@ -28,47 +32,66 @@ public class TypeIdentifierCtxExtractor implements IPicklerContextExtractor<AbsT
 
 	@Override
 	public ContextBuilder extract(AbsTypeId id) {
+		requiredClasses.add(id.getClass());
 		return id.accept(this);
 	}
 
 	@Override
 	public ContextBuilder visitStructTypeIdentifier(StructTypeId id) {
-		throw new UnsupportedOperationException();
+		Collection<ContextBuilder> fieldDeclCtxs = FieldDeclarationCtxExtractor.getInstance()
+				.extract(id.getFieldDeclarations(), requiredClasses);
+		return ContextBuilder.newBuilder("struct")
+				.put("fieldDeclarations", fieldDeclCtxs);
 	}
 
 	@Override
 	public ContextBuilder visitScalarTypeIdentifier(ScalarTypeId id) {
-		throw new UnsupportedOperationException();
+		ContextBuilder exprCtx = ExpressionCtxExtractor.getInstance()
+				.extract(id.getSizeExpression(), requiredClasses);
+		return ContextBuilder.newBuilder("scalar")
+				.put("expression", exprCtx);
 	}
 
 	@Override
 	public ContextBuilder visitCustomTypeIdentifier(CustomTypeId id) {
-		throw new UnsupportedOperationException();
+		requiredClasses.add(Identifier.class);
+		return ContextBuilder.newBuilder("customType")
+				.put("identifier", id.getIdentifier().toString());
 	}
 
 	@Override
 	public ContextBuilder visitBoundedIntegerTypeIdentifier(BoundedIntegerTypeId id) {
-		throw new UnsupportedOperationException();
+		ContextBuilder minExprCtx = ExpressionCtxExtractor.getInstance()
+				.extract(id.getMinimumBound(), requiredClasses);
+		ContextBuilder maxExprCtx = ExpressionCtxExtractor.getInstance()
+				.extract(id.getMaximumBound(), requiredClasses);
+		return ContextBuilder.newBuilder("boundedInt")
+				.put("minExpression", minExprCtx)
+				.put("maxExpression", maxExprCtx);
 	}
 
 	@Override
 	public ContextBuilder visitBooleanTypeIdentifier(BooleanTypeId id) {
-		throw new UnsupportedOperationException();
+		requiredClasses.add(BaseTypeIdentifiers.class);
+		return ContextBuilder.newBuilder("bool");
 	}
 
 	@Override
 	public ContextBuilder visitIntegerTypeIdentifier(IntegerTypeId id) {
-		throw new UnsupportedOperationException();
+		requiredClasses.add(BaseTypeIdentifiers.class);
+		return ContextBuilder.newBuilder("int");
 	}
 
 	@Override
 	public ContextBuilder visitChannelTypeIdentifier(ChannelTypeId id) {
-		throw new UnsupportedOperationException();
+		requiredClasses.add(BaseTypeIdentifiers.class);
+		return ContextBuilder.newBuilder("chan");
 	}
 
 	@Override
 	public ContextBuilder visitClockTypeIdentifier(ClockTypeId id) {
-		throw new UnsupportedOperationException();
+		requiredClasses.add(BaseTypeIdentifiers.class);
+		return ContextBuilder.newBuilder("clock");
 	}
 
 	@Override

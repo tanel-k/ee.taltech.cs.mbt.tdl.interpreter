@@ -257,7 +257,10 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 
 	@Override
 	public AbsExpression visitImplicationExpression(ImplicationExpressionContext ctx) {
-		return visitBinaryNode(new ImplicationExpression(), ctx.expression());
+		ImplicationExpression implication = new ImplicationExpression();
+		if (ctx.PHRASE_IMPLY() != null)
+			implication.setPhrase(true);
+		return visitBinaryNode(implication, ctx.expression());
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.declara
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.expression.ExpressionCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.misc.ArrayModifierCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.misc.BaseTypeExtensionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.parameter.ParameterCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.statement.StatementCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.type.BaseTypeCtxExtractor;
@@ -16,6 +18,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.type.TypeDeclarationGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclarationGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.AbsVariableInitializer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTypeExtensionMap.BaseTypeExtension;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDeclarationVisitor;
@@ -99,9 +102,12 @@ public class DeclarationCtxExtractor implements IContextExtractor<AbsDeclaration
 
 		List<ContextBuilder> subDeclCtxs = new LinkedList<>();
 		for (BaseTypeExtension subType : typeMap.getTypeExtensions()) {
-			ContextBuilder subTypeCtx = TypeCtxExtractor.getInstance().extract(subType)
-					.put("identifierValue", subType.getIdentifier().toString())
-					.put("initializer", decl.getInitializerMap().get(subType.getIdentifier()));
+			AbsVariableInitializer initializer = decl.getInitializerMap().get(subType.getIdentifier());
+			ContextBuilder initCtx = initializer != null
+					? InitializerCtxExtractor.getInstance().extract(initializer)
+					: null;
+			ContextBuilder subTypeCtx = BaseTypeExtensionCtxExtractor.getInstance().extract(subType)
+					.put("initializer", initCtx);
 			subDeclCtxs.add(subTypeCtx);
 		}
 
@@ -127,8 +133,7 @@ public class DeclarationCtxExtractor implements IContextExtractor<AbsDeclaration
 
 		List<ContextBuilder> subDeclCtxs = new LinkedList<>();
 		for (BaseTypeExtension subType : typeMap.getTypeExtensions()) {
-			ContextBuilder subTypeCtx = TypeCtxExtractor.getInstance().extract(subType)
-					.put("identifierValue", subType.getIdentifier());
+			ContextBuilder subTypeCtx = BaseTypeExtensionCtxExtractor.getInstance().extract(subType);
 			subDeclCtxs.add(subTypeCtx);
 		}
 

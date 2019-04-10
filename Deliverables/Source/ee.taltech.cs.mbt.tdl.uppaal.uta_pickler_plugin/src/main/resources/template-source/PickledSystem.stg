@@ -357,7 +357,7 @@ declarationReturnType(ctx) ::= <%
     <elseif(ctx.typeDeclaration)>
         <if(ctx.singleTypeDeclaration)>
             TypeDeclaration
-        <elseif(ctx.multiDeclaration)>
+        <elseif(ctx.multiTypeDeclaration)>
             TypeDeclarationGroup
         <endif>
     <elseif(ctx.channelPriorityDeclaration)>
@@ -416,7 +416,7 @@ new FunctionDeclaration()
 <if(ctx.valueType)>
     .setValueType(<newBaseType(ctx.valueType)>)
 <endif>
-    .setName(Identifier.of("<ctx.name>"))
+    .setName(Identifier.of("<ctx.functionName>"))
     <ctx.parameters:{paramCtx|
     .addParameter(
         new ParameterDeclaration()
@@ -438,7 +438,7 @@ newVariableDeclaration(ctx) ::= <%
 newSingleVariableDeclaration(ctx) ::= <<
 new VariableDeclaration()
     .setType(<newType(ctx.type)>)
-    .setIdentifier(Identifier.of("<ctx.identifier>"))
+    .setIdentifier(Identifier.of("<ctx.variableName>"))
 <if(ctx.initializer)>
     .setInitializer(<newInitializer(ctx.initializer)>)
 <endif>
@@ -449,7 +449,7 @@ new VariableDeclarationGroup()
     .setBaseType(<newBaseType(ctx.baseType)>)
     <ctx.subDeclarations:{subCtx|
     .putItem(
-        Identifier.of("<subCtx.identifier>"),
+        Identifier.of("<subCtx.variableName>"),
         <if(subCtx.initializer)><newInitializer(subCtx.initializer)><else>null<endif>,
         false,
         <newArrayModifierList(subCtx.arrayModifiers)>
@@ -494,7 +494,7 @@ newArrayModifier(ctx) ::= <%
 newTypeDeclaration(ctx) ::= <%
     <if(ctx.singleTypeDeclaration)>
         <newSingleTypeDeclaration(ctx)>
-    <elseif(ctx.multiDeclaration)>
+    <elseif(ctx.multiTypeDeclaration)>
         <newMultiTypeDeclaration(ctx)>
     <endif>
 %>
@@ -502,7 +502,7 @@ newTypeDeclaration(ctx) ::= <%
 newSingleTypeDeclaration(ctx) ::= <<
 new TypeDeclaration()
     .setType(<newType(ctx.type)>)
-    .setIdentifier(Identifier.of("<ctx.identifier>"))
+    .setIdentifier(Identifier.of("<ctx.typeName>"))
 >>
 
 newMultiTypeDeclaration(ctx) ::= <<
@@ -530,7 +530,7 @@ newStatement(ctx) ::= <%
     <elseif(ctx.conditionalStatement)>
         <newConditionalStmt(ctx)>
     <elseif(ctx.expressionStatement)>
-        <newExpression(ctx.expression)>;
+        new ExpressionStatement().setExpression(<newExpression(ctx.expression)>)
     <elseif(ctx.returnStatement)>
         new ReturnStatement()<if(ctx.expression)>.setExpression(<newExpression(ctx.expression)>)<endif>
     <elseif(ctx.emptyStatement)>
@@ -562,8 +562,8 @@ new ForLoop()
 
 newIterationStmt(ctx) ::= <<
 new IterationLoop()
-    .setIteratedType(<newBaseType(ctx.iteratedType)>)
-    .setLoopVariable(Identifier.of("<ctx.identifier>"))
+    .setIteratedType(<newType(ctx.iteratedType)>)
+    .setLoopVariable(Identifier.of("<ctx.loopVariableName>"))
     .setStatement(<newStatement(ctx.statement)>)
 >>
 
@@ -597,7 +597,7 @@ new ArrayLookupExpression()
     .setRightChild(<newExpression(ctx.rightChild)>)
 <elseif(ctx.fieldAccess)>
 new FieldAccessExpression()
-    .setIdentifier(Identifier.of("<ctx.identifier>"))
+    .setIdentifier(Identifier.of("<ctx.fieldIdentifier>"))
     .setChild(<newExpression(ctx.child)>)
 <elseif(ctx.negation)>
 new NegatationExpression()
@@ -614,6 +614,13 @@ new ConjunctionExpression()
     .setRightChild(<newExpression(ctx.rightChild)>)
 <elseif(ctx.disjunction)>
 new DisjunctionExpression()
+<if(ctx.phrase)>
+    .setPhrase(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.implication)>
+new ImplicationExpression()
 <if(ctx.phrase)>
     .setPhrase(true)
 <endif>
@@ -748,13 +755,13 @@ new TernaryExpression()
 new QuantificationExpression()
     .setQuantificationType(EQuantificationType.EXISTENTIAL)
     .setIterationVariableType(<newBaseType(ctx.baseType)>)
-    .setIdentifierName(Identifier.of("<ctx.identifier>"))
+    .setIdentifierName(Identifier.of("<ctx.loopVarName>"))
     .setChild(<newExpression(ctx.child)>)
 <elseif(ctx.universalQuantification)>
 new QuantificationExpression()
     .setQuantificationType(EQuantificationType.UNIVERSAL)
     .setIterationVariableType(<newBaseType(ctx.baseType)>)
-    .setIdentifierName(Identifier.of("<ctx.identifier>"))
+    .setIdentifierName(Identifier.of("<ctx.loopVarName>"))
     .setChild(<newExpression(ctx.child)>)
 <elseif(ctx.assignmentExpression)>
 new AssignmentExpression()
@@ -768,7 +775,7 @@ new CallExpression()
     .setChild(<newExpression(ctx.child)>
 <elseif(ctx.literal)>
 <literal(ctx)>
-<elseif(ctx.identifier)>
+<elseif(ctx.identifierExpression)>
 IdentifierExpression.of("<ctx.identifier>")
 <endif>
 >>
@@ -831,7 +838,7 @@ BoundedIntegerTypeId.of(
     <newExpression(ctx.minExpression)>,
     <newExpression(ctx.maxExpression)>
 )
-<elseif(ctx.boolean)>
+<elseif(ctx.bool)>
 BaseTypeIdentifiers.BOOLEAN
 <elseif(ctx.int)>
 BaseTypeIdentifiers.INTEGER
