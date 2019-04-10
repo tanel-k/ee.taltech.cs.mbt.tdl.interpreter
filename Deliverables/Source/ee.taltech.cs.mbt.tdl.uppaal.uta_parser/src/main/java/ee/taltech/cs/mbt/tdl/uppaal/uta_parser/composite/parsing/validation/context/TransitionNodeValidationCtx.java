@@ -77,10 +77,10 @@ public class TransitionNodeValidationCtx extends AbsHierarchyValidationCtx<Trans
 		List<AbsHierarchyValidationCtx> children = new LinkedList<>();
 		getContextObject().getLabels().stream()
 				.map(label -> new TransitionLabelNodeValidationCtx(label, this))
-				.forEach(children::add);
+				.forEachOrdered(children::add);
 		getContextObject().getNails().stream()
 				.map(nail -> new NailNodeValidationCtx(nail, this))
-				.forEach(children::add);
+				.forEachOrdered(children::add);
 		return children;
 	}
 }

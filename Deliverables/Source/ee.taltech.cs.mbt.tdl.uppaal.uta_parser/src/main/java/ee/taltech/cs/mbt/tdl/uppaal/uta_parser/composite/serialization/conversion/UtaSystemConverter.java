@@ -61,7 +61,7 @@ public class UtaSystemConverter {
 			return;
 		system.getTemplates().stream()
 				.map(templateConverter::convert)
-				.forEach(utaNode.getTemplates()::add);
+				.forEachOrdered(utaNode.getTemplates()::add);
 	}
 
 	public UtaNode convert(UtaSystem system) {

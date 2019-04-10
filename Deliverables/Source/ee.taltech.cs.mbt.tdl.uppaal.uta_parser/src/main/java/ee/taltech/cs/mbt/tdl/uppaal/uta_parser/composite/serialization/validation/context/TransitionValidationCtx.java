@@ -28,7 +28,7 @@ public class TransitionValidationCtx extends AbsHierarchyValidationCtx<Transitio
 			getParentContext().getContextObject().getLocationGraph().getVertices().stream()
 					.map(Location::getId)
 					.filter(s -> !StringUtils.isEmpty(s))
-					.forEach(locationIds::add);
+					.forEachOrdered(locationIds::add);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class TransitionValidationCtx extends AbsHierarchyValidationCtx<Transitio
 		List<AbsHierarchyValidationCtx> children = new LinkedList<>();
 		getContextObject().getLabels().asCollection().stream()
 				.map(label -> new TransitionLabelValidationCtx(label, this))
-				.forEach(children::add);
+				.forEachOrdered(children::add);
 		return children;
 	}
 }

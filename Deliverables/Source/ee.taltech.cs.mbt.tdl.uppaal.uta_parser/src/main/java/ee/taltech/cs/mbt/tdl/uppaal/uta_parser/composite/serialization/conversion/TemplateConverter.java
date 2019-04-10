@@ -88,7 +88,7 @@ public class TemplateConverter {
 		location.getLabels().asCollection().stream()
 				.map(this::createLocationLabel)
 				.filter(Objects::nonNull)
-				.forEach(locationNode.getLabels()::add);
+				.forEachOrdered(locationNode.getLabels()::add);
 	}
 
 	private TransitionLabelNode createTransitionLabel(AbsUtaLabel<?> label) {
@@ -156,10 +156,10 @@ public class TemplateConverter {
 		transition.getLabels().asCollection().stream()
 				.map(this::createTransitionLabel)
 				.filter(Objects::nonNull)
-				.forEach(transitionNode.getLabels()::add);
+				.forEachOrdered(transitionNode.getLabels()::add);
 		transition.getNails().stream()
 				.map(this::createTransitionNail)
-				.forEach(transitionNode.getNails()::add);
+				.forEachOrdered(transitionNode.getNails()::add);
 	}
 
 	private void injectLocations(TemplateNode templateNode, Template template) {

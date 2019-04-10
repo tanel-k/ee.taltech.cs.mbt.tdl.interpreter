@@ -73,7 +73,7 @@ public class TemplateCtxExtractor implements IPicklerContextExtractor<Template> 
 				if (transitionCounts.computeIfAbsent(idPair, k -> 1) > 1)
 					ctx.put("qualifier", qualifier);
 				return null;
-		}).forEach(NoOpConsumer.INSTANCE);
+		}).forEachOrdered(NoOpConsumer.INSTANCE);
 
 		return ContextBuilder.newBuilder()
 				.put("name", template.getName())

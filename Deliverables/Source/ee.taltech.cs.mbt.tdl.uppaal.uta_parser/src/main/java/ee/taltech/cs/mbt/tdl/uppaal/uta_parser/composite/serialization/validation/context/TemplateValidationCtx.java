@@ -79,10 +79,10 @@ public class TemplateValidationCtx extends AbsHierarchyValidationCtx<Template, U
 		List<AbsHierarchyValidationCtx> children = new LinkedList<>();
 		getContextObject().getLocationGraph().getEdges().stream()
 				.map(t -> new TransitionValidationCtx(t, this))
-				.forEach(children::add);
+				.forEachOrdered(children::add);
 		getContextObject().getLocationGraph().getVertices().stream()
 				.map(l -> new LocationValidationCtx(l, this))
-				.forEach(children::add);
+				.forEachOrdered(children::add);
 		return children;
 	}
 }

@@ -57,7 +57,7 @@ public class BaseTypeExtensionMap implements Iterable<BaseTypeExtension>, IDeepC
 			type.setBaseType(getBaseType().deepClone());
 			getArrayModifiers().stream()
 					.map(AbsArrayModifier::deepClone)
-					.forEach(type.getArrayModifiers()::add);
+					.forEachOrdered(type.getArrayModifiers()::add);
 			return type;
 		}
 
@@ -141,12 +141,12 @@ public class BaseTypeExtensionMap implements Iterable<BaseTypeExtension>, IDeepC
 	public BaseTypeExtensionMap deepClone() {
 		BaseTypeExtensionMap clone = new BaseTypeExtensionMap();
 		clone.setBaseType(getBaseType().deepClone());
-		stream().forEach(t -> {
+		stream().forEachOrdered(t -> {
 			BaseTypeExtension typeClone = clone.getOrCreateType(t.getIdentifier());
 			typeClone.setReferenceType(t.isReferenceType());
 			t.getArrayModifiers().stream()
 					.map(AbsArrayModifier::deepClone)
-					.forEach(typeClone::addArrayModifier);
+					.forEachOrdered(typeClone::addArrayModifier);
 		});
 		return clone;
 	}
