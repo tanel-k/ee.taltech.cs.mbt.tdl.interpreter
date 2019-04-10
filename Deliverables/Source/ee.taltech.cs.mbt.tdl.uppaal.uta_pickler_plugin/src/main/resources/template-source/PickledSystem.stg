@@ -10,7 +10,6 @@ import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 
 <ctx.imports:{importPath|import <importPath>;}; separator="\n">
 
-import java.util.Optional;
 import java.util.LinkedList;
 
 public class <systemFactoryClassName(ctx)> {
@@ -22,6 +21,9 @@ public class <systemFactoryClassName(ctx)> {
         return new <systemFactoryClassName(ctx)>();
     }
 
+    <ctx.declarations:declaredName()>
+    <ctx.templates:{tplCtx|public static final Identifier DECLARED_NAME_<tplCtx.name> = Identifier.of("<tplCtx.name>");}; separator="\n">
+
     protected <systemFactoryClassName(ctx)>() { }
 
     <ctx.declarations:declarationConstructor(); separator="\n">
@@ -30,7 +32,7 @@ public class <systemFactoryClassName(ctx)> {
 
     <systemDefinitionConstructor(ctx.name, ctx.systemDefinition)>
 
-    public UtaSystem new<ctx.name;format="cap">System() {
+    public UtaSystem newSystem() {
         UtaSystem <ctx.name> = new UtaSystem();
 
         // Set global declarations:
@@ -115,6 +117,8 @@ public static class <ctx.name>TemplateFactory {
 
     public static final Identifier NAME = Identifier.of("<ctx.name>");
 
+    <ctx.declarations:declaredName()>
+
     <templateInstantiationConstructor(ctx)>
 
     protected <ctx.name>TemplateFactory() { }
@@ -163,10 +167,34 @@ CollectionUtils.addIfNonNull(
     new_<ctx.name>_ParameterDeclaration()
 );
 >>
+// TODO
+declaredName(ctx) ::= <%
+    <if(ctx.variableDeclaration)>
+        <if(ctx.singleVariableDeclaration)>
+            public static final Identifier DECLARED_NAME_<ctx.variableName> = Identifier.of("<ctx.variableName>");
+        <elseif(ctx.multiVariableDeclaration)>
+            public static final Identifier <ctx.subDeclarations:{subCtx|
+                DECLARED_NAME_<ctx.variableName> = Identifier.of("<subCtx.variableName>")
+            }; separator=", ">;
+        <endif>
+    <elseif(ctx.typeDeclaration)>
+        <if(ctx.singleTypeDeclaration)>
+            public static final Identifier DECLARED_NAME_<ctx.typeName> = Identifier.of("<ctx.typeName>");
+        <elseif(ctx.multiTypeDeclaration)>
+            public static final Identifier <ctx.subDeclarations:{subCtx|
+                DECLARED_NAME_<ctx.identifier> = Identifier.of("<subCtx.identifier>")
+            }; separator=", ">;
+        <endif>
+    <elseif(ctx.templateInstantiation)>
+        public static final Identifier DECLARED_NAME_<ctx.newTemplateName> = Identifier.of("<ctx.newTemplateName>");
+    <elseif(ctx.functionDeclaration)>
+        public static final Identifier DECLARED_NAME_<ctx.functionName> = Identifier.of("<ctx.functionName>");
+    <endif>
+%>
 
 templateInstantiationConstructor(ctx) ::= <<
 public static TemplateInstantiation createInstantiation(Identifier newTemplateName,
-    <ctx.parameters:{paramCtx|Optional\<AbsExpression> opt_<paramCtx.identifier>Arg}; separator=", ">
+    <ctx.parameters:{paramCtx|AbsExpression arg_<paramCtx.identifier>}; separator=", ">
 ) {
     TemplateInstantiation inst = new TemplateInstantiation()
         .setNewTemplateName(newTemplateName)
@@ -174,9 +202,9 @@ public static TemplateInstantiation createInstantiation(Identifier newTemplateNa
 
     // Set arguments/parameters:
     <ctx.parameters:{paramCtx|
-    if (opt_<paramCtx.identifier>Arg.isPresent()) {
-        inst.addArgument(opt_<paramCtx.identifier>Arg.get());
-    \} else { // Either provide an arg expr or leave as parameter
+    if (arg_<paramCtx.identifier> != null) {
+        inst.addArgument(arg_<paramCtx.identifier>);
+    \} else { // Either provide <paramCtx.identifier> argument or leave a parameter:
         inst.addParameter(
             new ParameterDeclaration()
                 .setIdentifier(Identifier.of("<paramCtx.identifier>"))
