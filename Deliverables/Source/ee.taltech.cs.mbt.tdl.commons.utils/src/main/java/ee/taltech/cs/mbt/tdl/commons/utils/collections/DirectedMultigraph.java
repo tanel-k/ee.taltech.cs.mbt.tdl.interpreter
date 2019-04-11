@@ -177,6 +177,18 @@ public class DirectedMultigraph<V, E> {
 		return true;
 	}
 
+	public V getSourceVertex(E edge) {
+		if (!hasEdge(edge))
+			return null;
+		return mapEdgeToSourceVertex.get(edge);
+	}
+
+	public V getTargetVertex(E edge) {
+		if (!hasEdge(edge))
+			return null;
+		return mapEdgeToTargetVertex.get(edge);
+	}
+
 	public void splitEdge(E edge, V middleVertex, E firstEdge, E secondEdge) {
 		if (!hasEdge(edge))
 			throw new IllegalArgumentException("Edge does not exist.");
