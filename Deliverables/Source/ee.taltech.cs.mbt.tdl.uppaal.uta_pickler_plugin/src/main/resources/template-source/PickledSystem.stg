@@ -156,7 +156,7 @@ public static class <ctx.name>TemplateFactory {
 >>
 
 parameterDeclarationConstructor(ctx) ::= <<
-protected ParameterDeclaration new_<ctx.name>_ParameterDeclaration() {
+protected ParameterDeclaration new_<ctx.name>ParameterDeclaration() {
     return <newParameter(ctx)>;
 }
 >>
@@ -164,7 +164,7 @@ protected ParameterDeclaration new_<ctx.name>_ParameterDeclaration() {
 parameterDeclarationConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
     <targetVar>.getParameters(),
-    new_<ctx.name>_ParameterDeclaration()
+    new_<ctx.name>ParameterDeclaration()
 );
 >>
 
@@ -217,7 +217,7 @@ public static TemplateInstantiation createInstantiation(Identifier newTemplateNa
 >>
 
 templateConstructor(ctx) ::= <<
-protected Template new_<ctx.name>_Template() {
+protected Template new_<ctx.name>Template() {
     return <ctx.name>TemplateFactory.getInstance()
         .newTemplate();
 }
@@ -226,7 +226,7 @@ protected Template new_<ctx.name>_Template() {
 templateConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
     <targetVar>.getTemplates(),
-    new_<ctx.name>_Template()
+    new_<ctx.name>Template()
 );
 >>
 
@@ -262,7 +262,7 @@ Transition transition<ctx.name;format="cap"><if(ctx.qualifier)><ctx.qualifier><e
 >>
 
 declarationConstructor(ctx) ::= <<
-protected <declarationReturnType(ctx)> new_<ctx.name>_Declaration() {
+protected <declarationReturnType(ctx)> new_<ctx.name>Declaration() {
     return <newDeclaration(ctx)>;
 }
 >>
@@ -270,7 +270,7 @@ protected <declarationReturnType(ctx)> new_<ctx.name>_Declaration() {
 declarationConsumer(targetVar, ctx) ::= <<
 CollectionUtils.addIfNonNull(
     <targetVar>.getDeclarations(),
-    new_<ctx.name>_Declaration()
+    new_<ctx.name>Declaration()
 );
 >>
 

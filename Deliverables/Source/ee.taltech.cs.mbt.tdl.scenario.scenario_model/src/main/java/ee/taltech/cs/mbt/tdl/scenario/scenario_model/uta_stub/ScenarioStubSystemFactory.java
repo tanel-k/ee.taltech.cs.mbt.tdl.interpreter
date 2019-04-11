@@ -129,7 +129,7 @@ public class ScenarioStubSystemFactory {
 
     protected TdlConjunctionRecognizerTemplateFactory() {}
 
-    protected ParameterDeclaration new_treeIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_treeIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("treeIndex"))
           .setType(
@@ -140,7 +140,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected ParameterDeclaration new_leftOpIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_leftOpIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("leftOpIndex"))
           .setType(
@@ -151,7 +151,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected ParameterDeclaration new_rightOpIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_rightOpIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("rightOpIndex"))
           .setType(
@@ -434,11 +434,11 @@ public class ScenarioStubSystemFactory {
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
-          TdlConjunctionRecognizer.getParameters(), new_treeIndex_ParameterDeclaration());
+          TdlConjunctionRecognizer.getParameters(), new_treeIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlConjunctionRecognizer.getParameters(), new_leftOpIndex_ParameterDeclaration());
+          TdlConjunctionRecognizer.getParameters(), new_leftOpIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlConjunctionRecognizer.getParameters(), new_rightOpIndex_ParameterDeclaration());
+          TdlConjunctionRecognizer.getParameters(), new_rightOpIndexParameterDeclaration());
 
       // Set local declarations:
 
@@ -563,7 +563,7 @@ public class ScenarioStubSystemFactory {
 
     protected TdlDisjunctionRecognizerTemplateFactory() {}
 
-    protected ParameterDeclaration new_treeIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_treeIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("treeIndex"))
           .setType(
@@ -574,7 +574,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected ParameterDeclaration new_leftOpIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_leftOpIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("leftOpIndex"))
           .setType(
@@ -585,7 +585,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected ParameterDeclaration new_rightOpIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_rightOpIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("rightOpIndex"))
           .setType(
@@ -811,11 +811,11 @@ public class ScenarioStubSystemFactory {
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
-          TdlDisjunctionRecognizer.getParameters(), new_treeIndex_ParameterDeclaration());
+          TdlDisjunctionRecognizer.getParameters(), new_treeIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlDisjunctionRecognizer.getParameters(), new_leftOpIndex_ParameterDeclaration());
+          TdlDisjunctionRecognizer.getParameters(), new_leftOpIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlDisjunctionRecognizer.getParameters(), new_rightOpIndex_ParameterDeclaration());
+          TdlDisjunctionRecognizer.getParameters(), new_rightOpIndexParameterDeclaration());
 
       // Set local declarations:
 
@@ -953,7 +953,7 @@ public class ScenarioStubSystemFactory {
 
     protected TdlQuantificationRecognizerTemplateFactory() {}
 
-    protected ParameterDeclaration new_universal_ParameterDeclaration() {
+    protected ParameterDeclaration new_universalParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("universal"))
           .setType(
@@ -964,7 +964,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(BaseTypeIdentifiers.BOOLEAN)));
     }
 
-    protected ParameterDeclaration new_negated_ParameterDeclaration() {
+    protected ParameterDeclaration new_negatedParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("negated"))
           .setType(
@@ -975,7 +975,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(BaseTypeIdentifiers.BOOLEAN)));
     }
 
-    protected ParameterDeclaration new_treeIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_treeIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("treeIndex"))
           .setType(
@@ -986,7 +986,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected ParameterDeclaration new_trapset_ParameterDeclaration() {
+    protected ParameterDeclaration new_trapsetParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("trapset"))
           .setType(
@@ -998,7 +998,7 @@ public class ScenarioStubSystemFactory {
                   .setReferenceType(true));
     }
 
-    protected VariableDeclaration new_negatedUniversalQuantification_Declaration() {
+    protected VariableDeclaration new_negatedUniversalQuantificationDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("negatedUniversalQuantification"))
           .setType(
@@ -1015,7 +1015,7 @@ public class ScenarioStubSystemFactory {
                           .setRightChild(IdentifierExpression.of("negated"))));
     }
 
-    protected VariableDeclaration new_negatedExistentialQuantification_Declaration() {
+    protected VariableDeclaration new_negatedExistentialQuantificationDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("negatedExistentialQuantification"))
           .setType(
@@ -1034,7 +1034,7 @@ public class ScenarioStubSystemFactory {
                           .setRightChild(IdentifierExpression.of("negated"))));
     }
 
-    protected VariableDeclaration new_universalQuantification_Declaration() {
+    protected VariableDeclaration new_universalQuantificationDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("universalQuantification"))
           .setType(
@@ -1053,7 +1053,7 @@ public class ScenarioStubSystemFactory {
                                   .setChild(IdentifierExpression.of("negated")))));
     }
 
-    protected VariableDeclaration new_existentialQuantification_Declaration() {
+    protected VariableDeclaration new_existentialQuantificationDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("existentialQuantification"))
           .setType(
@@ -1396,26 +1396,26 @@ public class ScenarioStubSystemFactory {
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
-          TdlQuantificationRecognizer.getParameters(), new_universal_ParameterDeclaration());
+          TdlQuantificationRecognizer.getParameters(), new_universalParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlQuantificationRecognizer.getParameters(), new_negated_ParameterDeclaration());
+          TdlQuantificationRecognizer.getParameters(), new_negatedParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlQuantificationRecognizer.getParameters(), new_treeIndex_ParameterDeclaration());
+          TdlQuantificationRecognizer.getParameters(), new_treeIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlQuantificationRecognizer.getParameters(), new_trapset_ParameterDeclaration());
+          TdlQuantificationRecognizer.getParameters(), new_trapsetParameterDeclaration());
 
       // Set local declarations:
       CollectionUtils.addIfNonNull(
           TdlQuantificationRecognizer.getDeclarations(),
-          new_negatedUniversalQuantification_Declaration());
+          new_negatedUniversalQuantificationDeclaration());
       CollectionUtils.addIfNonNull(
           TdlQuantificationRecognizer.getDeclarations(),
-          new_negatedExistentialQuantification_Declaration());
+          new_negatedExistentialQuantificationDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlQuantificationRecognizer.getDeclarations(), new_universalQuantification_Declaration());
+          TdlQuantificationRecognizer.getDeclarations(), new_universalQuantificationDeclaration());
       CollectionUtils.addIfNonNull(
           TdlQuantificationRecognizer.getDeclarations(),
-          new_existentialQuantification_Declaration());
+          new_existentialQuantificationDeclaration());
 
       // Set locations:
       Location locationId16 = newId16Location();
@@ -1521,7 +1521,7 @@ public class ScenarioStubSystemFactory {
 
     protected TdlLeadsToRecognizerTemplateFactory() {}
 
-    protected ParameterDeclaration new_treeIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_treeIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("treeIndex"))
           .setType(
@@ -1532,7 +1532,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected ParameterDeclaration new_leftOpIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_leftOpIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("leftOpIndex"))
           .setType(
@@ -1543,7 +1543,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected ParameterDeclaration new_rightOpIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_rightOpIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("rightOpIndex"))
           .setType(
@@ -1781,11 +1781,11 @@ public class ScenarioStubSystemFactory {
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
-          TdlLeadsToRecognizer.getParameters(), new_treeIndex_ParameterDeclaration());
+          TdlLeadsToRecognizer.getParameters(), new_treeIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlLeadsToRecognizer.getParameters(), new_leftOpIndex_ParameterDeclaration());
+          TdlLeadsToRecognizer.getParameters(), new_leftOpIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlLeadsToRecognizer.getParameters(), new_rightOpIndex_ParameterDeclaration());
+          TdlLeadsToRecognizer.getParameters(), new_rightOpIndexParameterDeclaration());
 
       // Set local declarations:
 
@@ -1939,7 +1939,7 @@ public class ScenarioStubSystemFactory {
 
     protected TdlBoundedLeadsToRecognizerTemplateFactory() {}
 
-    protected ParameterDeclaration new_boundType_ParameterDeclaration() {
+    protected ParameterDeclaration new_boundTypeParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("boundType"))
           .setType(
@@ -1950,7 +1950,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("BoundType")))));
     }
 
-    protected ParameterDeclaration new_boundValue_ParameterDeclaration() {
+    protected ParameterDeclaration new_boundValueParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("boundValue"))
           .setType(
@@ -1961,7 +1961,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("BoundValue")))));
     }
 
-    protected ParameterDeclaration new_treeIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_treeIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("treeIndex"))
           .setType(
@@ -1972,7 +1972,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected ParameterDeclaration new_leftOpIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_leftOpIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("leftOpIndex"))
           .setType(
@@ -1983,7 +1983,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected ParameterDeclaration new_rightOpIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_rightOpIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("rightOpIndex"))
           .setType(
@@ -1994,7 +1994,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected VariableDeclaration new_lessThanBound_Declaration() {
+    protected VariableDeclaration new_lessThanBoundDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("lessThanBound"))
           .setType(
@@ -2013,7 +2013,7 @@ public class ScenarioStubSystemFactory {
                                   .setRightChild(IdentifierExpression.of("BOUND_LT")))));
     }
 
-    protected VariableDeclaration new_lessThanOrEqBound_Declaration() {
+    protected VariableDeclaration new_lessThanOrEqBoundDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("lessThanOrEqBound"))
           .setType(
@@ -2032,7 +2032,7 @@ public class ScenarioStubSystemFactory {
                                   .setRightChild(IdentifierExpression.of("BOUND_LTE")))));
     }
 
-    protected VariableDeclaration new_greaterThanBound_Declaration() {
+    protected VariableDeclaration new_greaterThanBoundDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("greaterThanBound"))
           .setType(
@@ -2051,7 +2051,7 @@ public class ScenarioStubSystemFactory {
                                   .setRightChild(IdentifierExpression.of("BOUND_GT")))));
     }
 
-    protected VariableDeclaration new_greaterThanOrEqBound_Declaration() {
+    protected VariableDeclaration new_greaterThanOrEqBoundDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("greaterThanOrEqBound"))
           .setType(
@@ -2070,7 +2070,7 @@ public class ScenarioStubSystemFactory {
                                   .setRightChild(IdentifierExpression.of("BOUND_GTE")))));
     }
 
-    protected VariableDeclaration new_equalityBound_Declaration() {
+    protected VariableDeclaration new_equalityBoundDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("equalityBound"))
           .setType(
@@ -2089,7 +2089,7 @@ public class ScenarioStubSystemFactory {
                                   .setRightChild(IdentifierExpression.of("BOUND_EQ")))));
     }
 
-    protected VariableDeclaration new_localClock_Declaration() {
+    protected VariableDeclaration new_localClockDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("localClock"))
           .setType(
@@ -2588,29 +2588,29 @@ public class ScenarioStubSystemFactory {
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getParameters(), new_boundType_ParameterDeclaration());
+          TdlBoundedLeadsToRecognizer.getParameters(), new_boundTypeParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getParameters(), new_boundValue_ParameterDeclaration());
+          TdlBoundedLeadsToRecognizer.getParameters(), new_boundValueParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getParameters(), new_treeIndex_ParameterDeclaration());
+          TdlBoundedLeadsToRecognizer.getParameters(), new_treeIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getParameters(), new_leftOpIndex_ParameterDeclaration());
+          TdlBoundedLeadsToRecognizer.getParameters(), new_leftOpIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getParameters(), new_rightOpIndex_ParameterDeclaration());
+          TdlBoundedLeadsToRecognizer.getParameters(), new_rightOpIndexParameterDeclaration());
 
       // Set local declarations:
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getDeclarations(), new_lessThanBound_Declaration());
+          TdlBoundedLeadsToRecognizer.getDeclarations(), new_lessThanBoundDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getDeclarations(), new_lessThanOrEqBound_Declaration());
+          TdlBoundedLeadsToRecognizer.getDeclarations(), new_lessThanOrEqBoundDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getDeclarations(), new_greaterThanBound_Declaration());
+          TdlBoundedLeadsToRecognizer.getDeclarations(), new_greaterThanBoundDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getDeclarations(), new_greaterThanOrEqBound_Declaration());
+          TdlBoundedLeadsToRecognizer.getDeclarations(), new_greaterThanOrEqBoundDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getDeclarations(), new_equalityBound_Declaration());
+          TdlBoundedLeadsToRecognizer.getDeclarations(), new_equalityBoundDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedLeadsToRecognizer.getDeclarations(), new_localClock_Declaration());
+          TdlBoundedLeadsToRecognizer.getDeclarations(), new_localClockDeclaration());
 
       // Set locations:
       Location locationId27 = newId27Location();
@@ -2784,7 +2784,7 @@ public class ScenarioStubSystemFactory {
 
     protected TdlBoundedRepetitionRecognizerTemplateFactory() {}
 
-    protected ParameterDeclaration new_boundType_ParameterDeclaration() {
+    protected ParameterDeclaration new_boundTypeParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("boundType"))
           .setType(
@@ -2795,7 +2795,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("BoundType")))));
     }
 
-    protected ParameterDeclaration new_boundValue_ParameterDeclaration() {
+    protected ParameterDeclaration new_boundValueParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("boundValue"))
           .setType(
@@ -2806,7 +2806,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("BoundValue")))));
     }
 
-    protected ParameterDeclaration new_treeIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_treeIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("treeIndex"))
           .setType(
@@ -2817,7 +2817,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected ParameterDeclaration new_operandIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_operandIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("operandIndex"))
           .setType(
@@ -2828,7 +2828,7 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected VariableDeclaration new_lessThanBound_Declaration() {
+    protected VariableDeclaration new_lessThanBoundDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("lessThanBound"))
           .setType(
@@ -2847,7 +2847,7 @@ public class ScenarioStubSystemFactory {
                                   .setRightChild(IdentifierExpression.of("BOUND_LT")))));
     }
 
-    protected VariableDeclaration new_lessThanOrEqBound_Declaration() {
+    protected VariableDeclaration new_lessThanOrEqBoundDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("lessThanOrEqBound"))
           .setType(
@@ -2866,7 +2866,7 @@ public class ScenarioStubSystemFactory {
                                   .setRightChild(IdentifierExpression.of("BOUND_LTE")))));
     }
 
-    protected VariableDeclaration new_greaterThanBound_Declaration() {
+    protected VariableDeclaration new_greaterThanBoundDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("greaterThanBound"))
           .setType(
@@ -2885,7 +2885,7 @@ public class ScenarioStubSystemFactory {
                                   .setRightChild(IdentifierExpression.of("BOUND_GT")))));
     }
 
-    protected VariableDeclaration new_greaterThanOrEqBound_Declaration() {
+    protected VariableDeclaration new_greaterThanOrEqBoundDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("greaterThanOrEqBound"))
           .setType(
@@ -2904,7 +2904,7 @@ public class ScenarioStubSystemFactory {
                                   .setRightChild(IdentifierExpression.of("BOUND_GTE")))));
     }
 
-    protected VariableDeclaration new_equalityBound_Declaration() {
+    protected VariableDeclaration new_equalityBoundDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("equalityBound"))
           .setType(
@@ -2923,7 +2923,7 @@ public class ScenarioStubSystemFactory {
                                   .setRightChild(IdentifierExpression.of("BOUND_EQ")))));
     }
 
-    protected VariableDeclaration new_repetitions_Declaration() {
+    protected VariableDeclaration new_repetitionsDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("repetitions"))
           .setType(
@@ -3362,27 +3362,27 @@ public class ScenarioStubSystemFactory {
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
-          TdlBoundedRepetitionRecognizer.getParameters(), new_boundType_ParameterDeclaration());
+          TdlBoundedRepetitionRecognizer.getParameters(), new_boundTypeParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedRepetitionRecognizer.getParameters(), new_boundValue_ParameterDeclaration());
+          TdlBoundedRepetitionRecognizer.getParameters(), new_boundValueParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedRepetitionRecognizer.getParameters(), new_treeIndex_ParameterDeclaration());
+          TdlBoundedRepetitionRecognizer.getParameters(), new_treeIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedRepetitionRecognizer.getParameters(), new_operandIndex_ParameterDeclaration());
+          TdlBoundedRepetitionRecognizer.getParameters(), new_operandIndexParameterDeclaration());
 
       // Set local declarations:
       CollectionUtils.addIfNonNull(
-          TdlBoundedRepetitionRecognizer.getDeclarations(), new_lessThanBound_Declaration());
+          TdlBoundedRepetitionRecognizer.getDeclarations(), new_lessThanBoundDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedRepetitionRecognizer.getDeclarations(), new_lessThanOrEqBound_Declaration());
+          TdlBoundedRepetitionRecognizer.getDeclarations(), new_lessThanOrEqBoundDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedRepetitionRecognizer.getDeclarations(), new_greaterThanBound_Declaration());
+          TdlBoundedRepetitionRecognizer.getDeclarations(), new_greaterThanBoundDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedRepetitionRecognizer.getDeclarations(), new_greaterThanOrEqBound_Declaration());
+          TdlBoundedRepetitionRecognizer.getDeclarations(), new_greaterThanOrEqBoundDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedRepetitionRecognizer.getDeclarations(), new_equalityBound_Declaration());
+          TdlBoundedRepetitionRecognizer.getDeclarations(), new_equalityBoundDeclaration());
       CollectionUtils.addIfNonNull(
-          TdlBoundedRepetitionRecognizer.getDeclarations(), new_repetitions_Declaration());
+          TdlBoundedRepetitionRecognizer.getDeclarations(), new_repetitionsDeclaration());
 
       // Set locations:
       Location locationId35 = newId35Location();
@@ -3497,7 +3497,7 @@ public class ScenarioStubSystemFactory {
 
     protected TdlStopwatchTemplateFactory() {}
 
-    protected ParameterDeclaration new_rootIndex_ParameterDeclaration() {
+    protected ParameterDeclaration new_rootIndexParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("rootIndex"))
           .setType(
@@ -3509,7 +3509,7 @@ public class ScenarioStubSystemFactory {
                   .setReferenceType(true));
     }
 
-    protected VariableDeclaration new_timeoutClock_Declaration() {
+    protected VariableDeclaration new_timeoutClockDeclaration() {
       return new VariableDeclaration()
           .setIdentifier(Identifier.of("timeoutClock"))
           .setType(
@@ -3644,10 +3644,10 @@ public class ScenarioStubSystemFactory {
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
-          TdlStopwatch.getParameters(), new_rootIndex_ParameterDeclaration());
+          TdlStopwatch.getParameters(), new_rootIndexParameterDeclaration());
 
       // Set local declarations:
-      CollectionUtils.addIfNonNull(TdlStopwatch.getDeclarations(), new_timeoutClock_Declaration());
+      CollectionUtils.addIfNonNull(TdlStopwatch.getDeclarations(), new_timeoutClockDeclaration());
 
       // Set locations:
       Location locationId42 = newId42Location();
@@ -3682,7 +3682,7 @@ public class ScenarioStubSystemFactory {
 
     protected ScenarioStubSystemDefinitionFactory() {}
 
-    protected TemplateInstantiation new_TdlSW_Declaration() {
+    protected TemplateInstantiation new_TdlSWDeclaration() {
       return new TemplateInstantiation()
           .setNewTemplateName(Identifier.of("TdlSW"))
           .setSourceTemplateName(Identifier.of("TdlStopwatch"))
@@ -3700,7 +3700,7 @@ public class ScenarioStubSystemFactory {
       SystemDefinition systemDefinition = new SystemDefinition();
 
       // Set local declarations:
-      CollectionUtils.addIfNonNull(systemDefinition.getDeclarations(), new_TdlSW_Declaration());
+      CollectionUtils.addIfNonNull(systemDefinition.getDeclarations(), new_TdlSWDeclaration());
       // Set system line:
       systemDefinition.setSystemLine(newSystemLine());
       // Set progress measures:
@@ -3762,7 +3762,7 @@ public class ScenarioStubSystemFactory {
 
   protected ScenarioStubSystemFactory() {}
 
-  protected VariableDeclaration new_MAX_INT_Declaration() {
+  protected VariableDeclaration new_MAX_INTDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("MAX_INT"))
         .setType(
@@ -3775,7 +3775,7 @@ public class ScenarioStubSystemFactory {
             new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("32767")));
   }
 
-  protected VariableDeclaration new_TDL_TIMEOUT_Declaration() {
+  protected VariableDeclaration new_TDL_TIMEOUTDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("TDL_TIMEOUT"))
         .setType(
@@ -3788,7 +3788,7 @@ public class ScenarioStubSystemFactory {
             new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("10000")));
   }
 
-  protected VariableDeclaration new_TDL_TREE_NODE_COUNT_Declaration() {
+  protected VariableDeclaration new_TDL_TREE_NODE_COUNTDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("TDL_TREE_NODE_COUNT"))
         .setType(
@@ -3800,7 +3800,7 @@ public class ScenarioStubSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("1")));
   }
 
-  protected VariableDeclaration new_TRAPSET_COUNT_Declaration() {
+  protected VariableDeclaration new_TRAPSET_COUNTDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("TRAPSET_COUNT"))
         .setType(
@@ -3812,7 +3812,7 @@ public class ScenarioStubSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("1")));
   }
 
-  protected VariableDeclaration new_MAX_TRAPSET_SIZE_Declaration() {
+  protected VariableDeclaration new_MAX_TRAPSET_SIZEDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("MAX_TRAPSET_SIZE"))
         .setType(
@@ -3824,7 +3824,7 @@ public class ScenarioStubSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("1")));
   }
 
-  protected TypeDeclaration new_BoundType_Declaration() {
+  protected TypeDeclaration new_BoundTypeDeclaration() {
     return new TypeDeclaration()
         .setType(
             new Type()
@@ -3837,7 +3837,7 @@ public class ScenarioStubSystemFactory {
         .setIdentifier(Identifier.of("BoundType"));
   }
 
-  protected TypeDeclaration new_TrapsetIndex_Declaration() {
+  protected TypeDeclaration new_TrapsetIndexDeclaration() {
     return new TypeDeclaration()
         .setType(
             new Type()
@@ -3851,7 +3851,7 @@ public class ScenarioStubSystemFactory {
         .setIdentifier(Identifier.of("TrapsetIndex"));
   }
 
-  protected TypeDeclaration new_TrapsetFlags_Declaration() {
+  protected TypeDeclaration new_TrapsetFlagsDeclaration() {
     return new TypeDeclaration()
         .setType(
             new Type()
@@ -3874,7 +3874,7 @@ public class ScenarioStubSystemFactory {
         .setIdentifier(Identifier.of("TrapsetFlags"));
   }
 
-  protected TypeDeclaration new_TrapsetMask_Declaration() {
+  protected TypeDeclaration new_TrapsetMaskDeclaration() {
     return new TypeDeclaration()
         .setType(
             new Type()
@@ -3897,7 +3897,7 @@ public class ScenarioStubSystemFactory {
         .setIdentifier(Identifier.of("TrapsetMask"));
   }
 
-  protected TypeDeclaration new_BoundValue_Declaration() {
+  protected TypeDeclaration new_BoundValueDeclaration() {
     return new TypeDeclaration()
         .setType(
             new Type()
@@ -3910,7 +3910,7 @@ public class ScenarioStubSystemFactory {
         .setIdentifier(Identifier.of("BoundValue"));
   }
 
-  protected TypeDeclaration new_TdlTreeIndex_Declaration() {
+  protected TypeDeclaration new_TdlTreeIndexDeclaration() {
     return new TypeDeclaration()
         .setType(
             new Type()
@@ -3926,7 +3926,7 @@ public class ScenarioStubSystemFactory {
         .setIdentifier(Identifier.of("TdlTreeIndex"));
   }
 
-  protected TypeDeclaration new_Trapset_Declaration() {
+  protected TypeDeclaration new_TrapsetDeclaration() {
     return new TypeDeclaration()
         .setType(
             new Type()
@@ -3971,7 +3971,7 @@ public class ScenarioStubSystemFactory {
         .setIdentifier(Identifier.of("Trapset"));
   }
 
-  protected TypeDeclaration new_BitMask_Declaration() {
+  protected TypeDeclaration new_BitMaskDeclaration() {
     return new TypeDeclaration()
         .setType(
             new Type()
@@ -4001,7 +4001,7 @@ public class ScenarioStubSystemFactory {
         .setIdentifier(Identifier.of("BitMask"));
   }
 
-  protected VariableDeclaration new_BIT_MASKS_Declaration() {
+  protected VariableDeclaration new_BIT_MASKSDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("BIT_MASKS"))
         .setType(
@@ -4037,7 +4037,7 @@ public class ScenarioStubSystemFactory {
                                                             NaturalNumberLiteral.of("0"))))))));
   }
 
-  protected VariableDeclaration new_BOUND_EQ_Declaration() {
+  protected VariableDeclaration new_BOUND_EQDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("BOUND_EQ"))
         .setType(
@@ -4049,7 +4049,7 @@ public class ScenarioStubSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("1")));
   }
 
-  protected VariableDeclaration new_BOUND_GT_Declaration() {
+  protected VariableDeclaration new_BOUND_GTDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("BOUND_GT"))
         .setType(
@@ -4061,7 +4061,7 @@ public class ScenarioStubSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("2")));
   }
 
-  protected VariableDeclaration new_BOUND_GTE_Declaration() {
+  protected VariableDeclaration new_BOUND_GTEDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("BOUND_GTE"))
         .setType(
@@ -4073,7 +4073,7 @@ public class ScenarioStubSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("3")));
   }
 
-  protected VariableDeclaration new_BOUND_LT_Declaration() {
+  protected VariableDeclaration new_BOUND_LTDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("BOUND_LT"))
         .setType(
@@ -4085,7 +4085,7 @@ public class ScenarioStubSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("4")));
   }
 
-  protected VariableDeclaration new_BOUND_LTE_Declaration() {
+  protected VariableDeclaration new_BOUND_LTEDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("BOUND_LTE"))
         .setType(
@@ -4097,7 +4097,7 @@ public class ScenarioStubSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("5")));
   }
 
-  protected FunctionDeclaration new_initTrapset_Declaration() {
+  protected FunctionDeclaration new_initTrapsetDeclaration() {
     return new FunctionDeclaration()
         .setName(Identifier.of("initTrapset"))
         .addParameter(
@@ -4168,7 +4168,7 @@ public class ScenarioStubSystemFactory {
                                         .setRightChild(NaturalNumberLiteral.of("1"))))));
   }
 
-  protected FunctionDeclaration new_setTrapVisited_Declaration() {
+  protected FunctionDeclaration new_setTrapVisitedDeclaration() {
     return new FunctionDeclaration()
         .setName(Identifier.of("setTrapVisited"))
         .addParameter(
@@ -4261,7 +4261,7 @@ public class ScenarioStubSystemFactory {
                                                             NaturalNumberLiteral.of("0"))))))));
   }
 
-  protected FunctionDeclaration new_resetTrapset_Declaration() {
+  protected FunctionDeclaration new_resetTrapsetDeclaration() {
     return new FunctionDeclaration()
         .setName(Identifier.of("resetTrapset"))
         .addParameter(
@@ -4287,7 +4287,7 @@ public class ScenarioStubSystemFactory {
                                 .setRightChild(NaturalNumberLiteral.of("0")))));
   }
 
-  protected VariableDeclaration new_TdlDiagnostics_Declaration() {
+  protected VariableDeclaration new_TdlDiagnosticsDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("TdlDiagnostics"))
         .setType(
@@ -4301,7 +4301,7 @@ public class ScenarioStubSystemFactory {
                         .setSizeSpecifier(IdentifierExpression.of("TdlTreeIndex"))));
   }
 
-  protected VariableDeclaration new_TdlActivatorChannels_Declaration() {
+  protected VariableDeclaration new_TdlActivatorChannelsDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("TdlActivatorChannels"))
         .setType(
@@ -4315,7 +4315,7 @@ public class ScenarioStubSystemFactory {
                         .setSizeSpecifier(IdentifierExpression.of("TdlTreeIndex"))));
   }
 
-  protected VariableDeclaration new_TdlTerminatorChannels_Declaration() {
+  protected VariableDeclaration new_TdlTerminatorChannelsDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("TdlTerminatorChannels"))
         .setType(
@@ -4329,7 +4329,7 @@ public class ScenarioStubSystemFactory {
                         .setSizeSpecifier(IdentifierExpression.of("TdlTreeIndex"))));
   }
 
-  protected VariableDeclaration new_TrapsetActivatorChannels_Declaration() {
+  protected VariableDeclaration new_TrapsetActivatorChannelsDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("TrapsetActivatorChannels"))
         .setType(
@@ -4343,7 +4343,7 @@ public class ScenarioStubSystemFactory {
                         .setSizeSpecifier(IdentifierExpression.of("TrapsetIndex"))));
   }
 
-  protected VariableDeclaration new_TrapsetTerminatorChannels_Declaration() {
+  protected VariableDeclaration new_TrapsetTerminatorChannelsDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("TrapsetTerminatorChannels"))
         .setType(
@@ -4357,37 +4357,37 @@ public class ScenarioStubSystemFactory {
                         .setSizeSpecifier(IdentifierExpression.of("TrapsetIndex"))));
   }
 
-  protected FunctionDeclaration new_initTrapsets_Declaration() {
+  protected FunctionDeclaration new_initTrapsetsDeclaration() {
     return new FunctionDeclaration()
         .setName(Identifier.of("initTrapsets"))
         .setStatementBlock(new StatementBlock());
   }
 
-  protected Template new_TdlConjunctionRecognizer_Template() {
+  protected Template new_TdlConjunctionRecognizerTemplate() {
     return TdlConjunctionRecognizerTemplateFactory.getInstance().newTemplate();
   }
 
-  protected Template new_TdlDisjunctionRecognizer_Template() {
+  protected Template new_TdlDisjunctionRecognizerTemplate() {
     return TdlDisjunctionRecognizerTemplateFactory.getInstance().newTemplate();
   }
 
-  protected Template new_TdlQuantificationRecognizer_Template() {
+  protected Template new_TdlQuantificationRecognizerTemplate() {
     return TdlQuantificationRecognizerTemplateFactory.getInstance().newTemplate();
   }
 
-  protected Template new_TdlLeadsToRecognizer_Template() {
+  protected Template new_TdlLeadsToRecognizerTemplate() {
     return TdlLeadsToRecognizerTemplateFactory.getInstance().newTemplate();
   }
 
-  protected Template new_TdlBoundedLeadsToRecognizer_Template() {
+  protected Template new_TdlBoundedLeadsToRecognizerTemplate() {
     return TdlBoundedLeadsToRecognizerTemplateFactory.getInstance().newTemplate();
   }
 
-  protected Template new_TdlBoundedRepetitionRecognizer_Template() {
+  protected Template new_TdlBoundedRepetitionRecognizerTemplate() {
     return TdlBoundedRepetitionRecognizerTemplateFactory.getInstance().newTemplate();
   }
 
-  protected Template new_TdlStopwatch_Template() {
+  protected Template new_TdlStopwatchTemplate() {
     return TdlStopwatchTemplateFactory.getInstance().newTemplate();
   }
 
@@ -4399,54 +4399,53 @@ public class ScenarioStubSystemFactory {
     UtaSystem ScenarioStub = new UtaSystem();
 
     // Set global declarations:
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_MAX_INT_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TDL_TIMEOUT_Declaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_MAX_INTDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TDL_TIMEOUTDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioStub.getDeclarations(), new_TDL_TREE_NODE_COUNT_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TRAPSET_COUNT_Declaration());
+        ScenarioStub.getDeclarations(), new_TDL_TREE_NODE_COUNTDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TRAPSET_COUNTDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_MAX_TRAPSET_SIZEDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BoundTypeDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetIndexDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetFlagsDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetMaskDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BoundValueDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TdlTreeIndexDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BitMaskDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BIT_MASKSDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_EQDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_GTDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_GTEDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_LTDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_LTEDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_initTrapsetDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_setTrapVisitedDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_resetTrapsetDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TdlDiagnosticsDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioStub.getDeclarations(), new_MAX_TRAPSET_SIZE_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BoundType_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetIndex_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetFlags_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetMask_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BoundValue_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TdlTreeIndex_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_Trapset_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BitMask_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BIT_MASKS_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_EQ_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_GT_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_GTE_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_LT_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_LTE_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_initTrapset_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_setTrapVisited_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_resetTrapset_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TdlDiagnostics_Declaration());
+        ScenarioStub.getDeclarations(), new_TdlActivatorChannelsDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioStub.getDeclarations(), new_TdlActivatorChannels_Declaration());
+        ScenarioStub.getDeclarations(), new_TdlTerminatorChannelsDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioStub.getDeclarations(), new_TdlTerminatorChannels_Declaration());
+        ScenarioStub.getDeclarations(), new_TrapsetActivatorChannelsDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioStub.getDeclarations(), new_TrapsetActivatorChannels_Declaration());
-    CollectionUtils.addIfNonNull(
-        ScenarioStub.getDeclarations(), new_TrapsetTerminatorChannels_Declaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_initTrapsets_Declaration());
+        ScenarioStub.getDeclarations(), new_TrapsetTerminatorChannelsDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_initTrapsetsDeclaration());
 
     // Set templates:
     CollectionUtils.addIfNonNull(
-        ScenarioStub.getTemplates(), new_TdlConjunctionRecognizer_Template());
+        ScenarioStub.getTemplates(), new_TdlConjunctionRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioStub.getTemplates(), new_TdlDisjunctionRecognizer_Template());
+        ScenarioStub.getTemplates(), new_TdlDisjunctionRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioStub.getTemplates(), new_TdlQuantificationRecognizer_Template());
-    CollectionUtils.addIfNonNull(ScenarioStub.getTemplates(), new_TdlLeadsToRecognizer_Template());
+        ScenarioStub.getTemplates(), new_TdlQuantificationRecognizerTemplate());
+    CollectionUtils.addIfNonNull(ScenarioStub.getTemplates(), new_TdlLeadsToRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioStub.getTemplates(), new_TdlBoundedLeadsToRecognizer_Template());
+        ScenarioStub.getTemplates(), new_TdlBoundedLeadsToRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioStub.getTemplates(), new_TdlBoundedRepetitionRecognizer_Template());
-    CollectionUtils.addIfNonNull(ScenarioStub.getTemplates(), new_TdlStopwatch_Template());
+        ScenarioStub.getTemplates(), new_TdlBoundedRepetitionRecognizerTemplate());
+    CollectionUtils.addIfNonNull(ScenarioStub.getTemplates(), new_TdlStopwatchTemplate());
     // Set system definition:
     SystemDefinition systemDefinition = newSystemDefinition();
     if (systemDefinition != null) {
