@@ -44,35 +44,8 @@ typedef int[0, trapsetSize] index;
 
 void resetTrapset() {
     for (i : index) {
-       trapset[i] = 0;
+       trapset[i] = false;
     }
-}
-
-bool anyTrapsVisited() {
-    int i;
-    for (i = 0; i &lt; trapsetSize; i++) {
-       if (trapset[i])
-           return true;
-   }
-   return false;
-}
-
-bool noTrapsVisited() {
-    int i;
-    for (i = 0; i &lt; trapsetSize; i++) {
-       if (trapset[i])
-           return false;
-   }
-   return true;
-}
-
-bool anyTrapNotVisited() {
-    int i;
-    for (i = 0; i &lt; trapsetSize; i++) {
-       if (!trapset[i])
-           return true;
-   }
-   return false;
 }
 </declaration><location id="id40" x="-16" y="-8"><committed/></location><location id="id41" x="232" y="-8"><name x="216" y="-40">End</name><committed/></location><location id="id42" x="-552" y="-8"></location><location id="id43" x="-792" y="-8"><name x="-800" y="-40">Idle</name></location><init ref="id43"/><transition><source ref="id42"/><target ref="id40"/><label kind="guard" x="-480" y="8">negatedExistentialQuantification &amp;&amp; forall(i : index) !trapset[i]</label><label kind="synchronisation" x="-424" y="32">TrapsetActivatorChannels[trapsetIndex]?</label><nail x="-552" y="32"/><nail x="-16" y="32"/></transition><transition><source ref="id42"/><target ref="id40"/><label kind="guard" x="-488" y="-96">negatedUniversalQuantification &amp;&amp; exists(i : index) !trapset[i]</label><label kind="synchronisation" x="-424" y="-72">TrapsetActivatorChannels[trapsetIndex]?</label><nail x="-552" y="-72"/><nail x="-16" y="-72"/></transition><transition><source ref="id42"/><target ref="id40"/><label kind="guard" x="-456" y="-144">universalQuantification &amp;&amp; forall(i : index) trapset[i]</label><label kind="synchronisation" x="-424" y="-120">TrapsetActivatorChannels[trapsetIndex]?</label><nail x="-552" y="-120"/><nail x="-16" y="-120"/><nail x="-16" y="-80"/></transition><transition><source ref="id40"/><target ref="id41"/><label kind="synchronisation" x="0" y="0">TdlTerminatorChannels[treeIndex]!</label><label kind="assignment" x="0" y="-32">TdlDiagnostics[treeIndex] = true</label></transition><transition><source ref="id41"/><target ref="id43"/><label kind="assignment" x="-336" y="136">resetTrapset()</label><nail x="232" y="160"/><nail x="-792" y="160"/></transition><transition><source ref="id42"/><target ref="id40"/><label kind="guard" x="-456" y="72">existentialQuantification &amp;&amp; exists(i : index) trapset[i]</label><label kind="synchronisation" x="-424" y="96">TrapsetActivatorChannels[trapsetIndex]?</label><nail x="-552" y="96"/><nail x="-16" y="96"/></transition><transition><source ref="id43"/><target ref="id42"/><label kind="synchronisation" x="-776" y="0">TdlActivatorChannels[treeIndex]?</label></transition></template><system>TdlSW = TdlStopwatch(0);
 // Tool needs to add Template instantiations here.

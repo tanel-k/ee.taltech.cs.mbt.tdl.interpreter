@@ -31,11 +31,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.I
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.SizeExpressionArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ConditionalStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ExpressionStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ReturnStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.StatementBlock;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.ForLoop;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.IterationLoop;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.system_line.ProcessReferenceGroup;
@@ -3094,10 +3091,6 @@ public class ScenarioStubSystemFactory {
         Identifier.of("existentialQuantification");
     public static final Identifier DECLARED_NAME_index = Identifier.of("index");
     public static final Identifier DECLARED_NAME_resetTrapset = Identifier.of("resetTrapset");
-    public static final Identifier DECLARED_NAME_anyTrapsVisited = Identifier.of("anyTrapsVisited");
-    public static final Identifier DECLARED_NAME_noTrapsVisited = Identifier.of("noTrapsVisited");
-    public static final Identifier DECLARED_NAME_anyTrapNotVisited =
-        Identifier.of("anyTrapNotVisited");
 
     public static TemplateInstantiation createInstantiation(
         Identifier newTemplateName,
@@ -3385,140 +3378,7 @@ public class ScenarioStubSystemFactory {
                                                               IdentifierExpression.of("trapset"))
                                                           .setRightChild(
                                                               IdentifierExpression.of("i")))
-                                                  .setRightChild(NaturalNumberLiteral.of("0")))))));
-    }
-
-    protected FunctionDeclaration new_anyTrapsVisitedDeclaration() {
-      return new FunctionDeclaration()
-          .setValueType(
-              new BaseType().setPrefix(ETypePrefix.NONE).setTypeId(BaseTypeIdentifiers.BOOLEAN))
-          .setName(Identifier.of("anyTrapsVisited"))
-          .setStatementBlock(
-              new StatementBlock()
-                  .addDeclaration(
-                      new VariableDeclaration()
-                          .setIdentifier(Identifier.of("i"))
-                          .setType(
-                              new Type()
-                                  .setBaseType(
-                                      new BaseType()
-                                          .setPrefix(ETypePrefix.NONE)
-                                          .setTypeId(BaseTypeIdentifiers.INTEGER))))
-                  .addStatement(
-                      new ForLoop()
-                          .setUpdate(
-                              new PostfixIncrementExpression()
-                                  .setChild(IdentifierExpression.of("i")))
-                          .setInitializer(
-                              new AssignmentExpression()
-                                  .setLeftChild(IdentifierExpression.of("i"))
-                                  .setRightChild(NaturalNumberLiteral.of("0")))
-                          .setCondition(
-                              new LessThanExpression()
-                                  .setLeftChild(IdentifierExpression.of("i"))
-                                  .setRightChild(IdentifierExpression.of("trapsetSize")))
-                          .setStatement(
-                              new StatementBlock()
-                                  .addStatement(
-                                      new ConditionalStatement()
-                                          .setCondition(
-                                              new ArrayLookupExpression()
-                                                  .setLeftChild(IdentifierExpression.of("trapset"))
-                                                  .setRightChild(IdentifierExpression.of("i")))
-                                          .setPrimaryStatement(
-                                              new ReturnStatement()
-                                                  .setExpression(LiteralConsts.TRUE)))))
-                  .addStatement(new ReturnStatement().setExpression(LiteralConsts.FALSE)));
-    }
-
-    protected FunctionDeclaration new_noTrapsVisitedDeclaration() {
-      return new FunctionDeclaration()
-          .setValueType(
-              new BaseType().setPrefix(ETypePrefix.NONE).setTypeId(BaseTypeIdentifiers.BOOLEAN))
-          .setName(Identifier.of("noTrapsVisited"))
-          .setStatementBlock(
-              new StatementBlock()
-                  .addDeclaration(
-                      new VariableDeclaration()
-                          .setIdentifier(Identifier.of("i"))
-                          .setType(
-                              new Type()
-                                  .setBaseType(
-                                      new BaseType()
-                                          .setPrefix(ETypePrefix.NONE)
-                                          .setTypeId(BaseTypeIdentifiers.INTEGER))))
-                  .addStatement(
-                      new ForLoop()
-                          .setUpdate(
-                              new PostfixIncrementExpression()
-                                  .setChild(IdentifierExpression.of("i")))
-                          .setInitializer(
-                              new AssignmentExpression()
-                                  .setLeftChild(IdentifierExpression.of("i"))
-                                  .setRightChild(NaturalNumberLiteral.of("0")))
-                          .setCondition(
-                              new LessThanExpression()
-                                  .setLeftChild(IdentifierExpression.of("i"))
-                                  .setRightChild(IdentifierExpression.of("trapsetSize")))
-                          .setStatement(
-                              new StatementBlock()
-                                  .addStatement(
-                                      new ConditionalStatement()
-                                          .setCondition(
-                                              new ArrayLookupExpression()
-                                                  .setLeftChild(IdentifierExpression.of("trapset"))
-                                                  .setRightChild(IdentifierExpression.of("i")))
-                                          .setPrimaryStatement(
-                                              new ReturnStatement()
-                                                  .setExpression(LiteralConsts.FALSE)))))
-                  .addStatement(new ReturnStatement().setExpression(LiteralConsts.TRUE)));
-    }
-
-    protected FunctionDeclaration new_anyTrapNotVisitedDeclaration() {
-      return new FunctionDeclaration()
-          .setValueType(
-              new BaseType().setPrefix(ETypePrefix.NONE).setTypeId(BaseTypeIdentifiers.BOOLEAN))
-          .setName(Identifier.of("anyTrapNotVisited"))
-          .setStatementBlock(
-              new StatementBlock()
-                  .addDeclaration(
-                      new VariableDeclaration()
-                          .setIdentifier(Identifier.of("i"))
-                          .setType(
-                              new Type()
-                                  .setBaseType(
-                                      new BaseType()
-                                          .setPrefix(ETypePrefix.NONE)
-                                          .setTypeId(BaseTypeIdentifiers.INTEGER))))
-                  .addStatement(
-                      new ForLoop()
-                          .setUpdate(
-                              new PostfixIncrementExpression()
-                                  .setChild(IdentifierExpression.of("i")))
-                          .setInitializer(
-                              new AssignmentExpression()
-                                  .setLeftChild(IdentifierExpression.of("i"))
-                                  .setRightChild(NaturalNumberLiteral.of("0")))
-                          .setCondition(
-                              new LessThanExpression()
-                                  .setLeftChild(IdentifierExpression.of("i"))
-                                  .setRightChild(IdentifierExpression.of("trapsetSize")))
-                          .setStatement(
-                              new StatementBlock()
-                                  .addStatement(
-                                      new ConditionalStatement()
-                                          .setCondition(
-                                              new NegationExpression()
-                                                  .setChild(
-                                                      new ArrayLookupExpression()
-                                                          .setLeftChild(
-                                                              IdentifierExpression.of("trapset"))
-                                                          .setRightChild(
-                                                              IdentifierExpression.of("i"))))
-                                          .setPrimaryStatement(
-                                              new ReturnStatement()
-                                                  .setExpression(LiteralConsts.TRUE)))))
-                  .addStatement(new ReturnStatement().setExpression(LiteralConsts.FALSE)));
+                                                  .setRightChild(LiteralConsts.FALSE))))));
     }
 
     protected Location newId42Location() {
@@ -3868,12 +3728,6 @@ public class ScenarioStubSystemFactory {
           TdlQuantificationRecognizer.getDeclarations(), new_indexDeclaration());
       CollectionUtils.addIfNonNull(
           TdlQuantificationRecognizer.getDeclarations(), new_resetTrapsetDeclaration());
-      CollectionUtils.addIfNonNull(
-          TdlQuantificationRecognizer.getDeclarations(), new_anyTrapsVisitedDeclaration());
-      CollectionUtils.addIfNonNull(
-          TdlQuantificationRecognizer.getDeclarations(), new_noTrapsVisitedDeclaration());
-      CollectionUtils.addIfNonNull(
-          TdlQuantificationRecognizer.getDeclarations(), new_anyTrapNotVisitedDeclaration());
 
       // Set locations:
       Location locationId42 = newId42Location();
