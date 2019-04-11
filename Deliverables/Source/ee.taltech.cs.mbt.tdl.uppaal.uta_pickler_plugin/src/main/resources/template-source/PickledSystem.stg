@@ -344,36 +344,39 @@ new Transition()
 >>
 
 newCommentLabel(ctx) ::= <<
-new CommentLabel().setContent("<ctx.commentText>")
-    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+new CommentLabel().setContent("<ctx.text>")
 >>
 
 newInvariantLabel(ctx) ::= <<
-new InvariantLabel().setContent(<newExpression(ctx.expression)>)
+new InvariantLabel()
     .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+    .setContent(<newExpression(ctx.expression)>)
 >>
 
 newGuardLabel(ctx) ::= <<
-new GuardLabel().setContent(<newExpression(ctx.expression)>)
+new GuardLabel()
     .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+    .setContent(<newExpression(ctx.expression)>)
 >>
 
 newAssignmentsLabel(ctx) ::= <<
-new AssignmentsLabel().setContent(
+new AssignmentsLabel()
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+    .setContent(
         CollectionUtils.collectionBuilder(new LinkedList\<AbsExpression>())
             <ctx.expressions:{exprCtx| .add(<newExpression(exprCtx)>) };separator="\n">
             .build()
     )
-    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
 
 newSelectionLabel(ctx) ::= <<
-new SelectionLabel().setContent(
+new SelectionLabel()
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+    .setContent(
         CollectionUtils.collectionBuilder(new LinkedList\<Selection>())
             <ctx.selections:{selCtx|.add(<newSelection(selCtx)>)};separator="\n">
             .build()
     )
-    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
 >>
 
 newSelection(ctx) ::= <<
@@ -383,10 +386,13 @@ new Selection()
 >>
 
 newSynchronizationLabel(ctx) ::= <<
-new SynchronizationLabel().setContent(new Synchronization()
-    .setActiveSync(<if(ctx.synchronization.active)>true<else>false<endif>)
-    .setExpression(<newExpression(ctx.synchronization.expression)>))
+new SynchronizationLabel()
     .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+    .setContent(
+        new Synchronization()
+            .setActiveSync(<if(ctx.synchronization.active)>true<else>false<endif>)
+            .setExpression(<newExpression(ctx.synchronization.expression)>)
+    )
 >>
 
 newParameter(ctx) ::= <<

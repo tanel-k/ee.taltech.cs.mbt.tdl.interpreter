@@ -2,26 +2,22 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.validati
 
 import ee.taltech.cs.mbt.tdl.commons.utils.validation.AbsHierarchyValidationCtx;
 import ee.taltech.cs.mbt.tdl.commons.utils.validation.ContextValidationResult;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
 
 import java.util.Collection;
 import java.util.Collections;
 
 public abstract class AbsLabelValidationCtx<ParentCtxT extends AbsHierarchyValidationCtx<?, ?>> extends AbsHierarchyValidationCtx<AbsUtaLabel<?>, ParentCtxT> {
-	public AbsLabelValidationCtx(AbsUtaLabel<?> contextObject) {
-		super(contextObject);
-	}
-
-	public AbsLabelValidationCtx(AbsUtaLabel<?> contextObject, ParentCtxT parentCtx) {
+	AbsLabelValidationCtx(AbsUtaLabel<?> contextObject, ParentCtxT parentCtx) {
 		super(contextObject, parentCtx);
 	}
 
 	@Override
 	protected void performValidation(ContextValidationResult result) {
-		AbsUtaLabel<?> label = getContextObject();
-
+		AbsUtaLabel label = getContextObject();
 		result.addErrorMessageIf(
-				() -> label.getCoordinates() == null,
+				() -> (label instanceof IPositionable) && ((IPositionable) label).getCoordinates() == null,
 				() -> "missing coordinates"
 		);
 	}

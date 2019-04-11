@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.conversion;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.ParseQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.UtaLanguageParserFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.InitialLocationNode;
@@ -11,6 +12,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionLabelNod
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.CommentLabel;
@@ -26,7 +28,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -110,10 +111,12 @@ public class TemplateNodeConverter {
 
 			switch (locationLabelXml.getKind()) {
 			case COMMENTS:
-				CommentLabel commentLabel;
-				label = (commentLabel = new CommentLabel());
-				commentLabel.setContent(locationLabelXml.getValue());
-				labelContainer.setCommentLabel(commentLabel);
+				if (!StringUtils.isEmpty(locationLabelXml.getValue())) {
+					CommentLabel commentLabel;
+					label = (commentLabel = new CommentLabel());
+					commentLabel.setContent(locationLabelXml.getValue());
+					labelContainer.setCommentLabel(commentLabel);
+				}
 				break;
 			case INVARIANT:
 				InvariantLabel invariantLabel;
@@ -131,7 +134,9 @@ public class TemplateNodeConverter {
 				break;
 			}
 
-			label.setCoordinates(GuiCoordinates.of(locationLabelXml.getX(), locationLabelXml.getY()));
+			if (label != null && label instanceof IPositionable) {
+				((IPositionable) label).setCoordinates(GuiCoordinates.of(locationLabelXml.getX(), locationLabelXml.getY()));
+			}
 		}
 
 		location.setLabels(labelContainer);
@@ -147,12 +152,12 @@ public class TemplateNodeConverter {
 
 			switch (transitionLabelXml.getKind()) {
 			case COMMENTS:
-				CommentLabel commentLabel;
-
-				label = (commentLabel = new CommentLabel());
-				commentLabel.setContent(transitionLabelXml.getValue());
-				labelContainer.setCommentLabel(commentLabel);
-
+				if (!StringUtils.isEmpty(transitionLabelXml.getValue())) {
+					CommentLabel commentLabel;
+					label = (commentLabel = new CommentLabel());
+					commentLabel.setContent(transitionLabelXml.getValue());
+					labelContainer.setCommentLabel(commentLabel);
+				}
 				break;
 			case GUARD:
 				GuardLabel guardLabel;
@@ -205,7 +210,9 @@ public class TemplateNodeConverter {
 				break;
 			}
 
-			label.setCoordinates(GuiCoordinates.of(transitionLabelXml.getX(), transitionLabelXml.getY()));
+			if (label != null && label instanceof IPositionable) {
+				((IPositionable) label).setCoordinates(GuiCoordinates.of(transitionLabelXml.getX(), transitionLabelXml.getY()));
+			}
 		}
 
 		transition.setLabels(labelContainer);

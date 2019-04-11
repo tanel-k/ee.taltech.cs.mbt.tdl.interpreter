@@ -2,6 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.validation.con
 
 import ee.taltech.cs.mbt.tdl.commons.utils.validation.AbsHierarchyValidationCtx;
 import ee.taltech.cs.mbt.tdl.commons.utils.validation.ContextValidationResult;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.EAttrTransitionLabelKindAttr;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionLabelNode;
 
 import java.util.Collection;
@@ -28,13 +29,13 @@ public class TransitionLabelNodeValidationCtx extends AbsHierarchyValidationCtx<
 				() -> !label.isSetKind(),
 				() -> "missing kind"
 		);
-		results.addErrorMessageIf(
-				() -> !label.isSetX() || !label.isSetKind(),
-				() -> "missing coordinates"
-		);
 
 		if (!missingKind) {
-				results.addErrorMessageIf(
+			results.addErrorMessageIf(
+					() -> label.getKind() != EAttrTransitionLabelKindAttr.COMMENTS && !label.isSetX() || !label.isSetKind(),
+					() -> "missing coordinates"
+			);
+			results.addErrorMessageIf(
 					() -> getLabelKinds().contains(label.getKind()),
 					() -> "non-unique kind"
 			);

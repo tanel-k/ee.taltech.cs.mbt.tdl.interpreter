@@ -52,6 +52,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identif
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.field.FieldDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.CommentLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.GuardLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.InvariantLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
@@ -250,6 +251,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-2240, -1064))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -258,8 +260,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("leftOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-2240, -1064))));
+                                                  IdentifierExpression.of("leftOpIndex"))))));
     }
 
     protected Transition newId1ToId2Transition(Location source, Location target) {
@@ -271,6 +272,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-2512, -1144))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -279,8 +281,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("rightOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-2512, -1144))));
+                                                  IdentifierExpression.of("rightOpIndex"))))));
     }
 
     protected Transition newId6ToId1Transition(Location source, Location target) {
@@ -292,6 +293,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-2760, -1064))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -300,8 +302,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("leftOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-2760, -1064))));
+                                                  IdentifierExpression.of("leftOpIndex"))))));
     }
 
     protected Transition newId6ToId0Transition(Location source, Location target) {
@@ -313,6 +314,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-2504, -1024))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -321,8 +323,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("rightOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-2504, -1024))));
+                                                  IdentifierExpression.of("rightOpIndex"))))));
     }
 
     protected Transition newId3ToId6Transition(Location source, Location target) {
@@ -334,6 +335,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-2768, -992))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -342,8 +344,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("rightOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-2768, -992))));
+                                                  IdentifierExpression.of("rightOpIndex"))))));
     }
 
     protected Transition newId4ToId3Transition(Location source, Location target) {
@@ -355,6 +356,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-3008, -992))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -363,8 +365,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("leftOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-3008, -992))));
+                                                  IdentifierExpression.of("leftOpIndex"))))));
     }
 
     protected Transition newId2ToId5Transition(Location source, Location target) {
@@ -376,6 +377,7 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(-2232, -1136))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -387,11 +389,11 @@ public class ScenarioStubSystemFactory {
                                                       .setRightChild(
                                                           IdentifierExpression.of("treeIndex")))
                                               .setRightChild(LiteralConsts.TRUE))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(-2232, -1136)))
+                                      .build()))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-2232, -1104))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -399,8 +401,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-2232, -1104))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     protected Transition newId7ToId4Transition(Location source, Location target) {
@@ -412,6 +414,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-3248, -1024))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -419,8 +422,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-3248, -1024))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     public Template newTemplate() {
@@ -656,6 +659,7 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(-976, -624))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -667,11 +671,11 @@ public class ScenarioStubSystemFactory {
                                                       .setRightChild(
                                                           IdentifierExpression.of("treeIndex")))
                                               .setRightChild(LiteralConsts.TRUE))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(-976, -624)))
+                                      .build()))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-984, -592))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -679,8 +683,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-984, -592))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     protected Transition newId10ToId9Transition_Nr1(Location source, Location target) {
@@ -692,6 +696,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-1272, -624))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -700,8 +705,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("leftOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-1272, -624))))
+                                                  IdentifierExpression.of("leftOpIndex"))))))
           .addNail(GuiCoordinates.of(-1296, -600));
     }
 
@@ -714,6 +718,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-1272, -544))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -722,8 +727,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("rightOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-1272, -544))))
+                                                  IdentifierExpression.of("rightOpIndex"))))))
           .addNail(GuiCoordinates.of(-1000, -520));
     }
 
@@ -736,6 +740,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-1536, -512))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -744,8 +749,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("rightOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-1536, -512))));
+                                                  IdentifierExpression.of("rightOpIndex"))))));
     }
 
     protected Transition newId12ToId11Transition(Location source, Location target) {
@@ -757,6 +761,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-1784, -512))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -765,8 +770,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("leftOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-1784, -512))));
+                                                  IdentifierExpression.of("leftOpIndex"))))));
     }
 
     protected Transition newId13ToId12Transition(Location source, Location target) {
@@ -778,6 +782,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-2016, -544))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -785,8 +790,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-2016, -544))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     protected Transition newId8ToId13Transition(Location source, Location target) {
@@ -1113,6 +1118,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-488, 8))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(
@@ -1129,11 +1135,11 @@ public class ScenarioStubSystemFactory {
                                                                   IdentifierExpression.of(
                                                                       "trapset")))
                                                       .setRightChild(
-                                                          NaturalNumberLiteral.of("0")))))
-                              .setCoordinates(GuiCoordinates.of(-488, 8)))
+                                                          NaturalNumberLiteral.of("0"))))))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-488, 32))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1146,8 +1152,7 @@ public class ScenarioStubSystemFactory {
                                                   new FieldAccessExpression()
                                                       .setIdentifier(Identifier.of("index"))
                                                       .setChild(
-                                                          IdentifierExpression.of("trapset")))))
-                              .setCoordinates(GuiCoordinates.of(-488, 32))))
+                                                          IdentifierExpression.of("trapset")))))))
           .addNail(GuiCoordinates.of(-552, 32))
           .addNail(GuiCoordinates.of(-104, 32));
     }
@@ -1161,6 +1166,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-496, -96))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(
@@ -1181,11 +1187,11 @@ public class ScenarioStubSystemFactory {
                                                                   Identifier.of("fullMask"))
                                                               .setChild(
                                                                   IdentifierExpression.of(
-                                                                      "trapset"))))))
-                              .setCoordinates(GuiCoordinates.of(-496, -96)))
+                                                                      "trapset")))))))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-496, -72))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1198,8 +1204,7 @@ public class ScenarioStubSystemFactory {
                                                   new FieldAccessExpression()
                                                       .setIdentifier(Identifier.of("index"))
                                                       .setChild(
-                                                          IdentifierExpression.of("trapset")))))
-                              .setCoordinates(GuiCoordinates.of(-496, -72))))
+                                                          IdentifierExpression.of("trapset")))))))
           .addNail(GuiCoordinates.of(-552, -72))
           .addNail(GuiCoordinates.of(-104, -72));
     }
@@ -1213,6 +1218,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-496, -144))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(
@@ -1233,11 +1239,11 @@ public class ScenarioStubSystemFactory {
                                                                   Identifier.of("fullMask"))
                                                               .setChild(
                                                                   IdentifierExpression.of(
-                                                                      "trapset"))))))
-                              .setCoordinates(GuiCoordinates.of(-496, -144)))
+                                                                      "trapset")))))))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-496, -120))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1250,8 +1256,7 @@ public class ScenarioStubSystemFactory {
                                                   new FieldAccessExpression()
                                                       .setIdentifier(Identifier.of("index"))
                                                       .setChild(
-                                                          IdentifierExpression.of("trapset")))))
-                              .setCoordinates(GuiCoordinates.of(-496, -120))))
+                                                          IdentifierExpression.of("trapset")))))))
           .addNail(GuiCoordinates.of(-552, -120))
           .addNail(GuiCoordinates.of(-104, -120))
           .addNail(GuiCoordinates.of(-104, -80));
@@ -1266,6 +1271,7 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(-88, -32))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -1277,11 +1283,11 @@ public class ScenarioStubSystemFactory {
                                                       .setRightChild(
                                                           IdentifierExpression.of("treeIndex")))
                                               .setRightChild(LiteralConsts.TRUE))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(-88, -32)))
+                                      .build()))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-88, 0))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -1289,8 +1295,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-88, 0))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     protected Transition newId15ToId17Transition(Location source, Location target) {
@@ -1302,14 +1308,14 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(-408, 136))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
                                           new CallExpression()
                                               .addArgument(IdentifierExpression.of("trapset"))
                                               .setChild(IdentifierExpression.of("resetTrapset")))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(-408, 136))))
+                                      .build())))
           .addNail(GuiCoordinates.of(144, 160))
           .addNail(GuiCoordinates.of(-792, 160));
     }
@@ -1323,6 +1329,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-488, 72))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(
@@ -1338,11 +1345,11 @@ public class ScenarioStubSystemFactory {
                                                                   IdentifierExpression.of(
                                                                       "trapset")))
                                                       .setRightChild(
-                                                          NaturalNumberLiteral.of("0")))))
-                              .setCoordinates(GuiCoordinates.of(-488, 72)))
+                                                          NaturalNumberLiteral.of("0"))))))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-488, 96))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1355,8 +1362,7 @@ public class ScenarioStubSystemFactory {
                                                   new FieldAccessExpression()
                                                       .setIdentifier(Identifier.of("index"))
                                                       .setChild(
-                                                          IdentifierExpression.of("trapset")))))
-                              .setCoordinates(GuiCoordinates.of(-488, 96))))
+                                                          IdentifierExpression.of("trapset")))))))
           .addNail(GuiCoordinates.of(-552, 96))
           .addNail(GuiCoordinates.of(-104, 96));
     }
@@ -1370,6 +1376,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-776, 0))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1377,8 +1384,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-776, 0))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     public Template newTemplate() {
@@ -1633,6 +1640,7 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(64, -416))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -1644,11 +1652,11 @@ public class ScenarioStubSystemFactory {
                                                       .setRightChild(
                                                           IdentifierExpression.of("treeIndex")))
                                               .setRightChild(LiteralConsts.TRUE))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(64, -416)))
+                                      .build()))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(64, -440))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -1656,8 +1664,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(64, -440))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     protected Transition newId20ToId19Transition(Location source, Location target) {
@@ -1669,6 +1677,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-208, -408))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1677,8 +1686,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("rightOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-208, -408))));
+                                                  IdentifierExpression.of("rightOpIndex"))))));
     }
 
     protected Transition newId21ToId20Transition(Location source, Location target) {
@@ -1690,6 +1698,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-456, -408))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -1698,8 +1707,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("rightOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-456, -408))));
+                                                  IdentifierExpression.of("rightOpIndex"))))));
     }
 
     protected Transition newId22ToId21Transition(Location source, Location target) {
@@ -1711,6 +1719,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-712, -408))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1719,8 +1728,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("leftOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-712, -408))));
+                                                  IdentifierExpression.of("leftOpIndex"))))));
     }
 
     protected Transition newId23ToId22Transition(Location source, Location target) {
@@ -1732,6 +1740,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-944, -408))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -1740,8 +1749,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("leftOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-944, -408))));
+                                                  IdentifierExpression.of("leftOpIndex"))))));
     }
 
     protected Transition newId24ToId23Transition(Location source, Location target) {
@@ -1753,6 +1761,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-1184, -440))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1760,8 +1769,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-1184, -440))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     public Template newTemplate() {
@@ -2176,6 +2185,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-912, -232))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("equalityBound"))
@@ -2183,8 +2193,7 @@ public class ScenarioStubSystemFactory {
                                           new GreaterThanExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-912, -232))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -208))
           .addNail(GuiCoordinates.of(-1304, -208));
     }
@@ -2198,6 +2207,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-504, 0))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("equalityBound"))
@@ -2205,8 +2215,7 @@ public class ScenarioStubSystemFactory {
                                           new LessThanExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-504, 0))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, 24))
           .addNail(GuiCoordinates.of(-504, 24));
     }
@@ -2220,6 +2229,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-224, -232))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("equalityBound"))
@@ -2227,8 +2237,7 @@ public class ScenarioStubSystemFactory {
                                           new EqualityExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-224, -232))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -208))
           .addNail(GuiCoordinates.of(-96, -208));
     }
@@ -2242,6 +2251,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-568, -32))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanOrEqBound"))
@@ -2249,8 +2259,7 @@ public class ScenarioStubSystemFactory {
                                           new LessThanExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-568, -32))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -8))
           .addNail(GuiCoordinates.of(-504, -8));
     }
@@ -2264,6 +2273,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-224, -32))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanOrEqBound"))
@@ -2271,8 +2281,7 @@ public class ScenarioStubSystemFactory {
                                           new GreaterThanOrEqualExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-224, -32))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -8))
           .addNail(GuiCoordinates.of(-96, -8));
     }
@@ -2286,6 +2295,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-224, -168))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("lessThanBound"))
@@ -2293,8 +2303,7 @@ public class ScenarioStubSystemFactory {
                                           new LessThanExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-224, -168))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -144))
           .addNail(GuiCoordinates.of(-96, -144));
     }
@@ -2308,6 +2317,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-912, -168))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("lessThanBound"))
@@ -2315,8 +2325,7 @@ public class ScenarioStubSystemFactory {
                                           new GreaterThanOrEqualExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-912, -168))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -144))
           .addNail(GuiCoordinates.of(-1304, -144));
     }
@@ -2330,6 +2339,7 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(-80, -96))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -2341,11 +2351,11 @@ public class ScenarioStubSystemFactory {
                                                       .setRightChild(
                                                           IdentifierExpression.of("treeIndex")))
                                               .setRightChild(LiteralConsts.TRUE))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(-80, -96)))
+                                      .build()))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-80, -120))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -2353,8 +2363,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-80, -120))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     protected Transition newId27ToId26Transition_Nr4(Location source, Location target) {
@@ -2366,6 +2376,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-224, -200))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("lessThanOrEqBound"))
@@ -2373,8 +2384,7 @@ public class ScenarioStubSystemFactory {
                                           new LessThanOrEqualExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-224, -200))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -176))
           .addNail(GuiCoordinates.of(-96, -176));
     }
@@ -2388,6 +2398,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-912, -200))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("lessThanOrEqBound"))
@@ -2395,8 +2406,7 @@ public class ScenarioStubSystemFactory {
                                           new GreaterThanExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-912, -200))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -176))
           .addNail(GuiCoordinates.of(-1304, -176));
     }
@@ -2419,6 +2429,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-224, -64))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanBound"))
@@ -2426,8 +2437,7 @@ public class ScenarioStubSystemFactory {
                                           new GreaterThanExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-224, -64))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -40))
           .addNail(GuiCoordinates.of(-96, -40));
     }
@@ -2441,6 +2451,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-544, -64))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanBound"))
@@ -2448,8 +2459,7 @@ public class ScenarioStubSystemFactory {
                                           new LessThanOrEqualExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-544, -64))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -40))
           .addNail(GuiCoordinates.of(-504, -40));
     }
@@ -2463,6 +2473,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-488, -120))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -2471,8 +2482,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("rightOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-488, -120))));
+                                                  IdentifierExpression.of("rightOpIndex"))))));
     }
 
     protected Transition newId29ToId28Transition(Location source, Location target) {
@@ -2484,6 +2494,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-752, -120))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -2492,8 +2503,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("rightOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-752, -120))));
+                                                  IdentifierExpression.of("rightOpIndex"))))));
     }
 
     protected Transition newId30ToId29Transition(Location source, Location target) {
@@ -2505,17 +2515,18 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(-964, -96))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
                                           new AssignmentExpression()
                                               .setLeftChild(IdentifierExpression.of("localClock"))
                                               .setRightChild(NaturalNumberLiteral.of("0")))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(-964, -96)))
+                                      .build()))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-1024, -120))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -2524,8 +2535,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("leftOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-1024, -120))));
+                                                  IdentifierExpression.of("leftOpIndex"))))));
     }
 
     protected Transition newId31ToId30Transition(Location source, Location target) {
@@ -2537,6 +2547,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-1288, -120))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -2545,8 +2556,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("leftOpIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-1288, -120))));
+                                                  IdentifierExpression.of("leftOpIndex"))))));
     }
 
     protected Transition newId32ToId31Transition(Location source, Location target) {
@@ -2558,6 +2568,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-1528, -120))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -2565,8 +2576,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-1528, -120))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     public Template newTemplate() {
@@ -3002,6 +3013,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-744, 32))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("lessThanOrEqBound"))
@@ -3009,8 +3021,7 @@ public class ScenarioStubSystemFactory {
                                           new GreaterThanExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-744, 32))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-400, 56))
           .addNail(GuiCoordinates.of(-752, 56));
     }
@@ -3024,6 +3035,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-744, 0))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("lessThanBound"))
@@ -3031,8 +3043,7 @@ public class ScenarioStubSystemFactory {
                                           new GreaterThanOrEqualExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-744, 0))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-400, 24))
           .addNail(GuiCoordinates.of(-752, 24));
     }
@@ -3046,6 +3057,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-368, 32))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("lessThanOrEqBound"))
@@ -3053,8 +3065,7 @@ public class ScenarioStubSystemFactory {
                                           new LessThanOrEqualExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-368, 32))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-400, 56))
           .addNail(GuiCoordinates.of(-16, 56));
     }
@@ -3068,6 +3079,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-368, 0))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("lessThanBound"))
@@ -3075,8 +3087,7 @@ public class ScenarioStubSystemFactory {
                                           new LessThanExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-368, 0))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-400, 24))
           .addNail(GuiCoordinates.of(-16, 24));
     }
@@ -3090,6 +3101,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-368, -160))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanOrEqBound"))
@@ -3097,8 +3109,7 @@ public class ScenarioStubSystemFactory {
                                           new GreaterThanOrEqualExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-368, -160))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-400, -136))
           .addNail(GuiCoordinates.of(-16, -136));
     }
@@ -3112,6 +3123,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-368, -128))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanBound"))
@@ -3119,8 +3131,7 @@ public class ScenarioStubSystemFactory {
                                           new GreaterThanExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-368, -128))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-400, -104))
           .addNail(GuiCoordinates.of(-16, -104));
     }
@@ -3134,6 +3145,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-816, -160))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanOrEqBound"))
@@ -3141,8 +3153,7 @@ public class ScenarioStubSystemFactory {
                                           new LessThanExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-816, -160))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-400, -136))
           .addNail(GuiCoordinates.of(-944, -136));
     }
@@ -3156,6 +3167,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-816, -128))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanBound"))
@@ -3163,8 +3175,7 @@ public class ScenarioStubSystemFactory {
                                           new LessThanOrEqualExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-816, -128))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-400, -104))
           .addNail(GuiCoordinates.of(-944, -104));
     }
@@ -3178,6 +3189,7 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(0, -40))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -3189,11 +3201,11 @@ public class ScenarioStubSystemFactory {
                                                       .setRightChild(
                                                           IdentifierExpression.of("treeIndex")))
                                               .setRightChild(LiteralConsts.TRUE))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(0, -40)))
+                                      .build()))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(0, -64))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -3201,8 +3213,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(0, -64))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     protected Transition newId36ToId38Transition_Nr3(Location source, Location target) {
@@ -3214,6 +3226,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-816, -96))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("equalityBound"))
@@ -3221,8 +3234,7 @@ public class ScenarioStubSystemFactory {
                                           new LessThanExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-816, -96))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-400, -72))
           .addNail(GuiCoordinates.of(-944, -72));
     }
@@ -3236,14 +3248,14 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(-1056, 64))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
                                           new AssignmentExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(NaturalNumberLiteral.of("0")))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(-1056, 64))))
+                                      .build())))
           .addNail(GuiCoordinates.of(-1192, 88));
     }
 
@@ -3256,6 +3268,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-368, -96))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("equalityBound"))
@@ -3263,8 +3276,7 @@ public class ScenarioStubSystemFactory {
                                           new EqualityExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))
-                              .setCoordinates(GuiCoordinates.of(-368, -96))))
+                                                  IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-400, -72))
           .addNail(GuiCoordinates.of(-16, -72));
     }
@@ -3278,16 +3290,17 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(-584, -64))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
                                           new PostfixIncrementExpression()
                                               .setChild(IdentifierExpression.of("repetitions")))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(-584, -64)))
+                                      .build()))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-664, -40))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -3296,8 +3309,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("operandIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-664, -40))));
+                                                  IdentifierExpression.of("operandIndex"))))));
     }
 
     protected Transition newId38ToId37Transition(Location source, Location target) {
@@ -3309,6 +3321,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-928, -40))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -3317,8 +3330,7 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("operandIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-928, -40))));
+                                                  IdentifierExpression.of("operandIndex"))))));
     }
 
     protected Transition newId39ToId38Transition(Location source, Location target) {
@@ -3330,6 +3342,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-1176, -64))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -3337,8 +3350,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("treeIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-1176, -64))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
     }
 
     public Template newTemplate() {
@@ -3517,11 +3530,12 @@ public class ScenarioStubSystemFactory {
                   .setInvariantLabel(
                       (InvariantLabel)
                           new InvariantLabel()
+                              .setCoordinates(GuiCoordinates.of(-264, -64))
                               .setContent(
                                   new LessThanOrEqualExpression()
                                       .setLeftChild(IdentifierExpression.of("timeoutClock"))
-                                      .setRightChild(IdentifierExpression.of("TDL_TIMEOUT")))
-                              .setCoordinates(GuiCoordinates.of(-264, -64))))
+                                      .setRightChild(IdentifierExpression.of("TDL_TIMEOUT"))))
+                  .setCommentLabel((CommentLabel) new CommentLabel().setContent("test")))
           .setCoordinates(GuiCoordinates.of(-280, -56));
     }
 
@@ -3560,11 +3574,11 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-200, -8))
                               .setContent(
                                   new EqualityExpression()
                                       .setLeftChild(IdentifierExpression.of("timeoutClock"))
-                                      .setRightChild(IdentifierExpression.of("TDL_TIMEOUT")))
-                              .setCoordinates(GuiCoordinates.of(-200, -8))));
+                                      .setRightChild(IdentifierExpression.of("TDL_TIMEOUT")))));
     }
 
     protected Transition newId42ToId41Transition(Location source, Location target) {
@@ -3576,6 +3590,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-192, -120))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -3583,8 +3598,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("rootIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-192, -120))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("rootIndex"))))));
     }
 
     protected Transition newId43ToId42Transition(Location source, Location target) {
@@ -3593,9 +3608,12 @@ public class ScenarioStubSystemFactory {
           .setTarget(target)
           .setLabels(
               new TransitionLabels()
+                  .setCommentLabel(
+                      (CommentLabel) new CommentLabel().setContent("Placeholder text."))
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(-464, -56))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -3605,11 +3623,11 @@ public class ScenarioStubSystemFactory {
                                       .add(
                                           new CallExpression()
                                               .setChild(IdentifierExpression.of("initTrapsets")))
-                                      .build())
-                              .setCoordinates(GuiCoordinates.of(-464, -56)))
+                                      .build()))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-504, -80))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -3617,8 +3635,8 @@ public class ScenarioStubSystemFactory {
                                           new ArrayLookupExpression()
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlActivatorChannels"))
-                                              .setRightChild(IdentifierExpression.of("rootIndex"))))
-                              .setCoordinates(GuiCoordinates.of(-504, -80))));
+                                              .setRightChild(
+                                                  IdentifierExpression.of("rootIndex"))))));
     }
 
     public Template newTemplate() {

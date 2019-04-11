@@ -4,6 +4,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.UtaGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.CommentLabel;
@@ -55,8 +56,10 @@ public class TemplateConverter {
 		} else {
 			return null;
 		}
-		labelNode.setX(label.getCoordinates().getX());
-		labelNode.setY(label.getCoordinates().getY());
+		if (label instanceof IPositionable) {
+			labelNode.setX(((IPositionable) label).getCoordinates().getX());
+			labelNode.setY(((IPositionable) label).getCoordinates().getY());
+		}
 		return labelNode;
 	}
 
@@ -127,8 +130,10 @@ public class TemplateConverter {
 		} else {
 			return null;
 		}
-		labelNode.setX(label.getCoordinates().getX());
-		labelNode.setY(label.getCoordinates().getY());
+		if (label instanceof IPositionable) {
+			labelNode.setX(((IPositionable) label).getCoordinates().getX());
+			labelNode.setY(((IPositionable) label).getCoordinates().getY());
+		}
 		return labelNode;
 	}
 
