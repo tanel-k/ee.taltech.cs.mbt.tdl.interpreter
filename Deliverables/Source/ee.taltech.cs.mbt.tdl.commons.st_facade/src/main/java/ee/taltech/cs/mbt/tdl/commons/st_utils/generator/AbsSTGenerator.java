@@ -5,6 +5,7 @@ import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry.MissingSTException;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STFacade.InvalidSTFormatException;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STFacade.STRenderingException;
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import org.stringtemplate.v4.ST;
 
 import java.util.Collection;
@@ -12,6 +13,9 @@ import java.util.Optional;
 
 public abstract class AbsSTGenerator<T> {
 	private STRegistry stRegistry;
+	private ContextBuilder lastContext;
+	private AbsSTGenerator ctxProvidingGenerator;
+	private Collection<ContextBuilder> lastContextCollection;
 
 	protected AbsSTGenerator(STRegistry stRegistry) {
 		this.stRegistry = stRegistry;
@@ -26,18 +30,46 @@ public abstract class AbsSTGenerator<T> {
 	}
 
 	protected ContextBuilder extractContext(T inst) {
-		return getContextExtractor().extract(inst);
+		ContextBuilder providedCtx = ctxProvidingGenerator != null
+				? ctxProvidingGenerator.getLastContext()
+				: null;
+		return providedCtx != null
+				? providedCtx
+				: getContextExtractor().extract(inst);
 	}
 
 	protected Collection<ContextBuilder> extractContext(Collection<T> instances) {
-		return getContextExtractor().extract(instances);
+		Collection<ContextBuilder> providedCtxColl = ctxProvidingGenerator != null
+				? ctxProvidingGenerator.getLastContextCollection()
+				: null;
+		return providedCtxColl != null
+				? providedCtxColl
+				: getContextExtractor().extract(instances);
+	}
+
+	public ContextBuilder getLastContext() {
+		return lastContext;
+	}
+
+	public Collection<ContextBuilder> getLastContextCollection() {
+		return lastContextCollection;
+	}
+
+	public AbsSTGenerator getContextProvidingGenerator() {
+		return ctxProvidingGenerator;
+	}
+
+	public AbsSTGenerator<T> setContextProvidingGenerator(AbsSTGenerator ctxProvidingGenerator) {
+		this.ctxProvidingGenerator = ctxProvidingGenerator;
+		return this;
 	}
 
 	public String generate(T inst) throws GenerationException {
 		try {
 			ST st = stRegistry.getTemplate(getTemplateName());
 			STFacade stFacade = STFacade.wrap(st);
-			ContextBuilder ctxBuilder = extractContext(inst);
+			ContextBuilder ctxBuilder =
+					(lastContext = extractContext(inst));
 			stFacade.setRootContext(ctxBuilder);
 			return stFacade.render();
 		} catch (MissingSTException | InvalidSTFormatException ex) {
@@ -55,7 +87,8 @@ public abstract class AbsSTGenerator<T> {
 		try {
 			ST st = stRegistry.getTemplate(templateName);
 			STFacade stFacade = STFacade.wrap(st);
-			Collection<ContextBuilder> ctxBuilders = extractContext(instances);
+			Collection<ContextBuilder> ctxBuilders =
+					(lastContextCollection = extractContext(instances));
 			stFacade.setRootIterable(ctxBuilders);
 			return stFacade.render();
 		} catch (MissingSTException | InvalidSTFormatException ex) {

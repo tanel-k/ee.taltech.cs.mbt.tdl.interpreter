@@ -7,6 +7,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureE
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller.MarshallingException;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.SystemFactoryClassNameGenerator;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.SystemPickleGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import org.apache.maven.plugin.AbstractMojo;
@@ -79,7 +80,8 @@ public class SystemPicklerMojo extends AbstractMojo {
 		String pickleClassName;
 		try {
 			getLog().info("Generating class name for pickle factory.");
-			pickleClassName = SystemPickleGeneratorFactory.factoryClassNameGenerator().generate(pickleName);
+			pickleClassName = SystemPickleGeneratorFactory.factoryClassNameGenerator()
+					.generate(pickleName);
 			getLog().info("Pickle factory class name is " + pickleClassName + ".");
 		} catch (GenerationException ex) {
 			throw new MojoExecutionException("Failed to generate a class name for the pickle class.", ex);
@@ -88,8 +90,7 @@ public class SystemPicklerMojo extends AbstractMojo {
 		String pickleClass;
 		try {
 			getLog().info("Generating source code for " + pickleClassName + ".");
-			pickleClass = SystemPickleGeneratorFactory
-					.systemGenerator(picklePackage, pickleName)
+			pickleClass = SystemPickleGeneratorFactory.systemGenerator(picklePackage, pickleName)
 					.generate(sourceSystem);
 		} catch (GenerationException ex) {
 			throw new MojoExecutionException("Failed to generate source code.", ex);
