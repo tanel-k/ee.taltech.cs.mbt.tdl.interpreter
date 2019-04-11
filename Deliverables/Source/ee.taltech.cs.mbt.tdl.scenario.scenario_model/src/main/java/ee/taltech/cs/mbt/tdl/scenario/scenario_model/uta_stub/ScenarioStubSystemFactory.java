@@ -52,7 +52,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identif
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.field.FieldDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.CommentLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.GuardLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.InvariantLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
@@ -3534,8 +3533,7 @@ public class ScenarioStubSystemFactory {
                               .setContent(
                                   new LessThanOrEqualExpression()
                                       .setLeftChild(IdentifierExpression.of("timeoutClock"))
-                                      .setRightChild(IdentifierExpression.of("TDL_TIMEOUT"))))
-                  .setCommentLabel((CommentLabel) new CommentLabel().setContent("test")))
+                                      .setRightChild(IdentifierExpression.of("TDL_TIMEOUT")))))
           .setCoordinates(GuiCoordinates.of(-280, -56));
     }
 
@@ -3608,8 +3606,6 @@ public class ScenarioStubSystemFactory {
           .setTarget(target)
           .setLabels(
               new TransitionLabels()
-                  .setCommentLabel(
-                      (CommentLabel) new CommentLabel().setContent("Placeholder text."))
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
