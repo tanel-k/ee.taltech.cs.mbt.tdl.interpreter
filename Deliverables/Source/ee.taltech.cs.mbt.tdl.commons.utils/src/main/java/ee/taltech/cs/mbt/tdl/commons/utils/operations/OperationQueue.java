@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.commons.utils.collections.operations;
+package ee.taltech.cs.mbt.tdl.commons.utils.operations;
 
 import java.util.LinkedList;
 import java.util.Queue;

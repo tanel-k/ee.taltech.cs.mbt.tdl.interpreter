@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.commons.utils.data_structures;
+package ee.taltech.cs.mbt.tdl.commons.utils.collections;
 
 import java.util.Collection;
 import java.util.Collections;

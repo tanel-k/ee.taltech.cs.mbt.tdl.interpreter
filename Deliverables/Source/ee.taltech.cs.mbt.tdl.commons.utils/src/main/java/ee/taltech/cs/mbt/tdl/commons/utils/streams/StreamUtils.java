@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.commons.utils.collections.streams;
+package ee.taltech.cs.mbt.tdl.commons.utils.streams;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.functions.ITernaryFunction;
 
