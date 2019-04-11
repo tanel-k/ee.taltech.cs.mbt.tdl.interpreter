@@ -8,36 +8,33 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.type.TypeDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.FlatVariableInitializer;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.StructuredVariableInitializer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.AdditiveInverseExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.ArrayLookupExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.AssignmentExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.BitwiseAndExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.BitwiseOrExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.CallExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.ConjunctionExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.EqualityExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.FieldAccessExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.GreaterThanExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.GreaterThanOrEqualExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.GroupedExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.IdentifierExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.InequalityExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.LeftShiftExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.LessThanExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.LessThanOrEqualExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.NegationExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.PostfixIncrementExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.SubtractionExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.TernaryExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.LiteralConsts;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.NaturalNumberLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.SizeExpressionArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ConditionalStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ExpressionStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ReturnStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.StatementBlock;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.ForLoop;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.system_line.ProcessReferenceGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.system_line.SystemLine;
@@ -48,8 +45,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BoundedIntegerTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.CustomTypeId;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.StructTypeId;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.field.FieldDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.GuardLabel;
@@ -881,12 +876,20 @@ public class ScenarioStubSystemFactory {
         Identifier.of("universalQuantification");
     public static final Identifier DECLARED_NAME_existentialQuantification =
         Identifier.of("existentialQuantification");
+    public static final Identifier DECLARED_NAME_resetTrapset = Identifier.of("resetTrapset");
+    public static final Identifier DECLARED_NAME_allTrapsVisited = Identifier.of("allTrapsVisited");
+    public static final Identifier DECLARED_NAME_anyTrapsVisited = Identifier.of("anyTrapsVisited");
+    public static final Identifier DECLARED_NAME_noTrapsVisited = Identifier.of("noTrapsVisited");
+    public static final Identifier DECLARED_NAME_anyTrapNotVisited =
+        Identifier.of("anyTrapNotVisited");
 
     public static TemplateInstantiation createInstantiation(
         Identifier newTemplateName,
         AbsExpression arg_universal,
         AbsExpression arg_negated,
         AbsExpression arg_treeIndex,
+        AbsExpression arg_trapsetIndex,
+        AbsExpression arg_trapsetSize,
         AbsExpression arg_trapset) {
       TemplateInstantiation inst =
           new TemplateInstantiation()
@@ -933,6 +936,32 @@ public class ScenarioStubSystemFactory {
                                 .setPrefix(ETypePrefix.CONSTANT)
                                 .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
       }
+      if (arg_trapsetIndex != null) {
+        inst.addArgument(arg_trapsetIndex);
+      } else { // Either provide trapsetIndex argument or leave a parameter:
+        inst.addParameter(
+            new ParameterDeclaration()
+                .setIdentifier(Identifier.of("trapsetIndex"))
+                .setType(
+                    new Type()
+                        .setBaseType(
+                            new BaseType()
+                                .setPrefix(ETypePrefix.CONSTANT)
+                                .setTypeId(CustomTypeId.of(Identifier.of("TrapsetIndex"))))));
+      }
+      if (arg_trapsetSize != null) {
+        inst.addArgument(arg_trapsetSize);
+      } else { // Either provide trapsetSize argument or leave a parameter:
+        inst.addParameter(
+            new ParameterDeclaration()
+                .setIdentifier(Identifier.of("trapsetSize"))
+                .setType(
+                    new Type()
+                        .setBaseType(
+                            new BaseType()
+                                .setPrefix(ETypePrefix.CONSTANT)
+                                .setTypeId(BaseTypeIdentifiers.INTEGER))));
+      }
       if (arg_trapset != null) {
         inst.addArgument(arg_trapset);
       } else { // Either provide trapset argument or leave a parameter:
@@ -944,8 +973,11 @@ public class ScenarioStubSystemFactory {
                         .setBaseType(
                             new BaseType()
                                 .setPrefix(ETypePrefix.NONE)
-                                .setTypeId(CustomTypeId.of(Identifier.of("Trapset"))))
-                        .setReferenceType(true)));
+                                .setTypeId(BaseTypeIdentifiers.BOOLEAN))
+                        .setReferenceType(true)
+                        .addArrayModifier(
+                            new SizeExpressionArrayModifier()
+                                .setSizeSpecifier(IdentifierExpression.of("TDL_MAX_INT")))));
       }
 
       return inst;
@@ -986,6 +1018,28 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
+    protected ParameterDeclaration new_trapsetIndexParameterDeclaration() {
+      return new ParameterDeclaration()
+          .setIdentifier(Identifier.of("trapsetIndex"))
+          .setType(
+              new Type()
+                  .setBaseType(
+                      new BaseType()
+                          .setPrefix(ETypePrefix.CONSTANT)
+                          .setTypeId(CustomTypeId.of(Identifier.of("TrapsetIndex")))));
+    }
+
+    protected ParameterDeclaration new_trapsetSizeParameterDeclaration() {
+      return new ParameterDeclaration()
+          .setIdentifier(Identifier.of("trapsetSize"))
+          .setType(
+              new Type()
+                  .setBaseType(
+                      new BaseType()
+                          .setPrefix(ETypePrefix.CONSTANT)
+                          .setTypeId(BaseTypeIdentifiers.INTEGER)));
+    }
+
     protected ParameterDeclaration new_trapsetParameterDeclaration() {
       return new ParameterDeclaration()
           .setIdentifier(Identifier.of("trapset"))
@@ -994,8 +1048,11 @@ public class ScenarioStubSystemFactory {
                   .setBaseType(
                       new BaseType()
                           .setPrefix(ETypePrefix.NONE)
-                          .setTypeId(CustomTypeId.of(Identifier.of("Trapset"))))
-                  .setReferenceType(true));
+                          .setTypeId(BaseTypeIdentifiers.BOOLEAN))
+                  .setReferenceType(true)
+                  .addArrayModifier(
+                      new SizeExpressionArrayModifier()
+                          .setSizeSpecifier(IdentifierExpression.of("TDL_MAX_INT"))));
     }
 
     protected VariableDeclaration new_negatedUniversalQuantificationDeclaration() {
@@ -1074,6 +1131,228 @@ public class ScenarioStubSystemFactory {
                                   .setChild(IdentifierExpression.of("negated")))));
     }
 
+    protected FunctionDeclaration new_resetTrapsetDeclaration() {
+      return new FunctionDeclaration()
+          .setName(Identifier.of("resetTrapset"))
+          .setStatementBlock(
+              new StatementBlock()
+                  .addDeclaration(
+                      new VariableDeclaration()
+                          .setIdentifier(Identifier.of("i"))
+                          .setType(
+                              new Type()
+                                  .setBaseType(
+                                      new BaseType()
+                                          .setPrefix(ETypePrefix.NONE)
+                                          .setTypeId(BaseTypeIdentifiers.INTEGER))))
+                  .addStatement(
+                      new ForLoop()
+                          .setUpdate(
+                              new PostfixIncrementExpression()
+                                  .setChild(IdentifierExpression.of("i")))
+                          .setInitializer(
+                              new AssignmentExpression()
+                                  .setLeftChild(IdentifierExpression.of("i"))
+                                  .setRightChild(NaturalNumberLiteral.of("0")))
+                          .setCondition(
+                              new LessThanExpression()
+                                  .setLeftChild(IdentifierExpression.of("i"))
+                                  .setRightChild(IdentifierExpression.of("trapsetSize")))
+                          .setStatement(
+                              new StatementBlock()
+                                  .addStatement(
+                                      new ExpressionStatement()
+                                          .setExpression(
+                                              new AssignmentExpression()
+                                                  .setLeftChild(
+                                                      new ArrayLookupExpression()
+                                                          .setLeftChild(
+                                                              IdentifierExpression.of("trapset"))
+                                                          .setRightChild(
+                                                              IdentifierExpression.of("i")))
+                                                  .setRightChild(NaturalNumberLiteral.of("0")))))));
+    }
+
+    protected FunctionDeclaration new_allTrapsVisitedDeclaration() {
+      return new FunctionDeclaration()
+          .setValueType(
+              new BaseType().setPrefix(ETypePrefix.NONE).setTypeId(BaseTypeIdentifiers.BOOLEAN))
+          .setName(Identifier.of("allTrapsVisited"))
+          .setStatementBlock(
+              new StatementBlock()
+                  .addDeclaration(
+                      new VariableDeclaration()
+                          .setIdentifier(Identifier.of("i"))
+                          .setType(
+                              new Type()
+                                  .setBaseType(
+                                      new BaseType()
+                                          .setPrefix(ETypePrefix.NONE)
+                                          .setTypeId(BaseTypeIdentifiers.INTEGER))))
+                  .addStatement(
+                      new ForLoop()
+                          .setUpdate(
+                              new PostfixIncrementExpression()
+                                  .setChild(IdentifierExpression.of("i")))
+                          .setInitializer(
+                              new AssignmentExpression()
+                                  .setLeftChild(IdentifierExpression.of("i"))
+                                  .setRightChild(NaturalNumberLiteral.of("0")))
+                          .setCondition(
+                              new LessThanExpression()
+                                  .setLeftChild(IdentifierExpression.of("i"))
+                                  .setRightChild(IdentifierExpression.of("trapsetSize")))
+                          .setStatement(
+                              new StatementBlock()
+                                  .addStatement(
+                                      new ConditionalStatement()
+                                          .setCondition(
+                                              new NegationExpression()
+                                                  .setChild(
+                                                      new ArrayLookupExpression()
+                                                          .setLeftChild(
+                                                              IdentifierExpression.of("trapset"))
+                                                          .setRightChild(
+                                                              IdentifierExpression.of("i"))))
+                                          .setPrimaryStatement(
+                                              new ReturnStatement()
+                                                  .setExpression(LiteralConsts.FALSE)))))
+                  .addStatement(new ReturnStatement().setExpression(LiteralConsts.TRUE)));
+    }
+
+    protected FunctionDeclaration new_anyTrapsVisitedDeclaration() {
+      return new FunctionDeclaration()
+          .setValueType(
+              new BaseType().setPrefix(ETypePrefix.NONE).setTypeId(BaseTypeIdentifiers.BOOLEAN))
+          .setName(Identifier.of("anyTrapsVisited"))
+          .setStatementBlock(
+              new StatementBlock()
+                  .addDeclaration(
+                      new VariableDeclaration()
+                          .setIdentifier(Identifier.of("i"))
+                          .setType(
+                              new Type()
+                                  .setBaseType(
+                                      new BaseType()
+                                          .setPrefix(ETypePrefix.NONE)
+                                          .setTypeId(BaseTypeIdentifiers.INTEGER))))
+                  .addStatement(
+                      new ForLoop()
+                          .setUpdate(
+                              new PostfixIncrementExpression()
+                                  .setChild(IdentifierExpression.of("i")))
+                          .setInitializer(
+                              new AssignmentExpression()
+                                  .setLeftChild(IdentifierExpression.of("i"))
+                                  .setRightChild(NaturalNumberLiteral.of("0")))
+                          .setCondition(
+                              new LessThanExpression()
+                                  .setLeftChild(IdentifierExpression.of("i"))
+                                  .setRightChild(IdentifierExpression.of("trapsetSize")))
+                          .setStatement(
+                              new StatementBlock()
+                                  .addStatement(
+                                      new ConditionalStatement()
+                                          .setCondition(
+                                              new ArrayLookupExpression()
+                                                  .setLeftChild(IdentifierExpression.of("trapset"))
+                                                  .setRightChild(IdentifierExpression.of("i")))
+                                          .setPrimaryStatement(
+                                              new ReturnStatement()
+                                                  .setExpression(LiteralConsts.TRUE)))))
+                  .addStatement(new ReturnStatement().setExpression(LiteralConsts.FALSE)));
+    }
+
+    protected FunctionDeclaration new_noTrapsVisitedDeclaration() {
+      return new FunctionDeclaration()
+          .setValueType(
+              new BaseType().setPrefix(ETypePrefix.NONE).setTypeId(BaseTypeIdentifiers.BOOLEAN))
+          .setName(Identifier.of("noTrapsVisited"))
+          .setStatementBlock(
+              new StatementBlock()
+                  .addDeclaration(
+                      new VariableDeclaration()
+                          .setIdentifier(Identifier.of("i"))
+                          .setType(
+                              new Type()
+                                  .setBaseType(
+                                      new BaseType()
+                                          .setPrefix(ETypePrefix.NONE)
+                                          .setTypeId(BaseTypeIdentifiers.INTEGER))))
+                  .addStatement(
+                      new ForLoop()
+                          .setUpdate(
+                              new PostfixIncrementExpression()
+                                  .setChild(IdentifierExpression.of("i")))
+                          .setInitializer(
+                              new AssignmentExpression()
+                                  .setLeftChild(IdentifierExpression.of("i"))
+                                  .setRightChild(NaturalNumberLiteral.of("0")))
+                          .setCondition(
+                              new LessThanExpression()
+                                  .setLeftChild(IdentifierExpression.of("i"))
+                                  .setRightChild(IdentifierExpression.of("trapsetSize")))
+                          .setStatement(
+                              new StatementBlock()
+                                  .addStatement(
+                                      new ConditionalStatement()
+                                          .setCondition(
+                                              new ArrayLookupExpression()
+                                                  .setLeftChild(IdentifierExpression.of("trapset"))
+                                                  .setRightChild(IdentifierExpression.of("i")))
+                                          .setPrimaryStatement(
+                                              new ReturnStatement()
+                                                  .setExpression(LiteralConsts.FALSE)))))
+                  .addStatement(new ReturnStatement().setExpression(LiteralConsts.TRUE)));
+    }
+
+    protected FunctionDeclaration new_anyTrapNotVisitedDeclaration() {
+      return new FunctionDeclaration()
+          .setValueType(
+              new BaseType().setPrefix(ETypePrefix.NONE).setTypeId(BaseTypeIdentifiers.BOOLEAN))
+          .setName(Identifier.of("anyTrapNotVisited"))
+          .setStatementBlock(
+              new StatementBlock()
+                  .addDeclaration(
+                      new VariableDeclaration()
+                          .setIdentifier(Identifier.of("i"))
+                          .setType(
+                              new Type()
+                                  .setBaseType(
+                                      new BaseType()
+                                          .setPrefix(ETypePrefix.NONE)
+                                          .setTypeId(BaseTypeIdentifiers.INTEGER))))
+                  .addStatement(
+                      new ForLoop()
+                          .setUpdate(
+                              new PostfixIncrementExpression()
+                                  .setChild(IdentifierExpression.of("i")))
+                          .setInitializer(
+                              new AssignmentExpression()
+                                  .setLeftChild(IdentifierExpression.of("i"))
+                                  .setRightChild(NaturalNumberLiteral.of("0")))
+                          .setCondition(
+                              new LessThanExpression()
+                                  .setLeftChild(IdentifierExpression.of("i"))
+                                  .setRightChild(IdentifierExpression.of("trapsetSize")))
+                          .setStatement(
+                              new StatementBlock()
+                                  .addStatement(
+                                      new ConditionalStatement()
+                                          .setCondition(
+                                              new NegationExpression()
+                                                  .setChild(
+                                                      new ArrayLookupExpression()
+                                                          .setLeftChild(
+                                                              IdentifierExpression.of("trapset"))
+                                                          .setRightChild(
+                                                              IdentifierExpression.of("i"))))
+                                          .setPrimaryStatement(
+                                              new ReturnStatement()
+                                                  .setExpression(LiteralConsts.TRUE)))))
+                  .addStatement(new ReturnStatement().setExpression(LiteralConsts.FALSE)));
+    }
+
     protected Location newId16Location() {
       return new Location()
           .setId("id16")
@@ -1087,16 +1366,16 @@ public class ScenarioStubSystemFactory {
           .setId("id14")
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-104, -8));
+          .setCoordinates(GuiCoordinates.of(-16, -8));
     }
 
     protected Location newId15Location() {
       return new Location()
           .setId("id15")
-          .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(128, -40)))
+          .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(216, -40)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(144, -8));
+          .setCoordinates(GuiCoordinates.of(232, -8));
     }
 
     protected Location newId17Location() {
@@ -1117,28 +1396,20 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-488, 8))
+                              .setCoordinates(GuiCoordinates.of(-496, 8))
                               .setContent(
-                                  new ConjunctionExpression()
-                                      .setLeftChild(
-                                          IdentifierExpression.of(
-                                              "negatedExistentialQuantification"))
-                                      .setRightChild(
-                                          new GroupedExpression()
-                                              .setChild(
-                                                  new EqualityExpression()
-                                                      .setLeftChild(
-                                                          new FieldAccessExpression()
-                                                              .setIdentifier(Identifier.of("flags"))
-                                                              .setChild(
-                                                                  IdentifierExpression.of(
-                                                                      "trapset")))
-                                                      .setRightChild(
-                                                          NaturalNumberLiteral.of("0"))))))
+                                  new CallExpression()
+                                      .setChild(
+                                          new ConjunctionExpression()
+                                              .setLeftChild(
+                                                  IdentifierExpression.of(
+                                                      "negatedExistentialQuantification"))
+                                              .setRightChild(
+                                                  IdentifierExpression.of("anyTrapNotVisited")))))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-488, 32))
+                              .setCoordinates(GuiCoordinates.of(-432, 32))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1148,12 +1419,9 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of(
                                                       "TrapsetActivatorChannels"))
                                               .setRightChild(
-                                                  new FieldAccessExpression()
-                                                      .setIdentifier(Identifier.of("index"))
-                                                      .setChild(
-                                                          IdentifierExpression.of("trapset")))))))
+                                                  IdentifierExpression.of("trapsetIndex"))))))
           .addNail(GuiCoordinates.of(-552, 32))
-          .addNail(GuiCoordinates.of(-104, 32));
+          .addNail(GuiCoordinates.of(-16, 32));
     }
 
     protected Transition newId16ToId14Transition_Nr2(Location source, Location target) {
@@ -1167,30 +1435,18 @@ public class ScenarioStubSystemFactory {
                           new GuardLabel()
                               .setCoordinates(GuiCoordinates.of(-496, -96))
                               .setContent(
-                                  new ConjunctionExpression()
-                                      .setLeftChild(
-                                          IdentifierExpression.of("negatedUniversalQuantification"))
-                                      .setRightChild(
-                                          new GroupedExpression()
-                                              .setChild(
-                                                  new InequalityExpression()
-                                                      .setLeftChild(
-                                                          new FieldAccessExpression()
-                                                              .setIdentifier(Identifier.of("flags"))
-                                                              .setChild(
-                                                                  IdentifierExpression.of(
-                                                                      "trapset")))
-                                                      .setRightChild(
-                                                          new FieldAccessExpression()
-                                                              .setIdentifier(
-                                                                  Identifier.of("fullMask"))
-                                                              .setChild(
-                                                                  IdentifierExpression.of(
-                                                                      "trapset")))))))
+                                  new CallExpression()
+                                      .setChild(
+                                          new ConjunctionExpression()
+                                              .setLeftChild(
+                                                  IdentifierExpression.of(
+                                                      "negatedUniversalQuantification"))
+                                              .setRightChild(
+                                                  IdentifierExpression.of("noTrapsVisited")))))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-496, -72))
+                              .setCoordinates(GuiCoordinates.of(-448, -72))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1200,12 +1456,9 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of(
                                                       "TrapsetActivatorChannels"))
                                               .setRightChild(
-                                                  new FieldAccessExpression()
-                                                      .setIdentifier(Identifier.of("index"))
-                                                      .setChild(
-                                                          IdentifierExpression.of("trapset")))))))
+                                                  IdentifierExpression.of("trapsetIndex"))))))
           .addNail(GuiCoordinates.of(-552, -72))
-          .addNail(GuiCoordinates.of(-104, -72));
+          .addNail(GuiCoordinates.of(-16, -72));
     }
 
     protected Transition newId16ToId14Transition_Nr3(Location source, Location target) {
@@ -1217,32 +1470,20 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-496, -144))
+                              .setCoordinates(GuiCoordinates.of(-456, -144))
                               .setContent(
-                                  new ConjunctionExpression()
-                                      .setLeftChild(
-                                          IdentifierExpression.of("universalQuantification"))
-                                      .setRightChild(
-                                          new GroupedExpression()
-                                              .setChild(
-                                                  new EqualityExpression()
-                                                      .setLeftChild(
-                                                          new FieldAccessExpression()
-                                                              .setIdentifier(Identifier.of("flags"))
-                                                              .setChild(
-                                                                  IdentifierExpression.of(
-                                                                      "trapset")))
-                                                      .setRightChild(
-                                                          new FieldAccessExpression()
-                                                              .setIdentifier(
-                                                                  Identifier.of("fullMask"))
-                                                              .setChild(
-                                                                  IdentifierExpression.of(
-                                                                      "trapset")))))))
+                                  new CallExpression()
+                                      .setChild(
+                                          new ConjunctionExpression()
+                                              .setLeftChild(
+                                                  IdentifierExpression.of(
+                                                      "universalQuantification"))
+                                              .setRightChild(
+                                                  IdentifierExpression.of("allTrapsVisited")))))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-496, -120))
+                              .setCoordinates(GuiCoordinates.of(-448, -120))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1252,13 +1493,10 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of(
                                                       "TrapsetActivatorChannels"))
                                               .setRightChild(
-                                                  new FieldAccessExpression()
-                                                      .setIdentifier(Identifier.of("index"))
-                                                      .setChild(
-                                                          IdentifierExpression.of("trapset")))))))
+                                                  IdentifierExpression.of("trapsetIndex"))))))
           .addNail(GuiCoordinates.of(-552, -120))
-          .addNail(GuiCoordinates.of(-104, -120))
-          .addNail(GuiCoordinates.of(-104, -80));
+          .addNail(GuiCoordinates.of(-16, -120))
+          .addNail(GuiCoordinates.of(-16, -80));
     }
 
     protected Transition newId14ToId15Transition(Location source, Location target) {
@@ -1270,7 +1508,7 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
-                              .setCoordinates(GuiCoordinates.of(-88, -32))
+                              .setCoordinates(GuiCoordinates.of(0, -32))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -1286,7 +1524,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-88, 0))
+                              .setCoordinates(GuiCoordinates.of(0, 0))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -1307,15 +1545,14 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
-                              .setCoordinates(GuiCoordinates.of(-408, 136))
+                              .setCoordinates(GuiCoordinates.of(-392, 136))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
                                           new CallExpression()
-                                              .addArgument(IdentifierExpression.of("trapset"))
                                               .setChild(IdentifierExpression.of("resetTrapset")))
                                       .build())))
-          .addNail(GuiCoordinates.of(144, 160))
+          .addNail(GuiCoordinates.of(232, 160))
           .addNail(GuiCoordinates.of(-792, 160));
     }
 
@@ -1328,27 +1565,20 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-488, 72))
+                              .setCoordinates(GuiCoordinates.of(-456, 72))
                               .setContent(
-                                  new ConjunctionExpression()
-                                      .setLeftChild(
-                                          IdentifierExpression.of("existentialQuantification"))
-                                      .setRightChild(
-                                          new GroupedExpression()
-                                              .setChild(
-                                                  new GreaterThanExpression()
-                                                      .setLeftChild(
-                                                          new FieldAccessExpression()
-                                                              .setIdentifier(Identifier.of("flags"))
-                                                              .setChild(
-                                                                  IdentifierExpression.of(
-                                                                      "trapset")))
-                                                      .setRightChild(
-                                                          NaturalNumberLiteral.of("0"))))))
+                                  new CallExpression()
+                                      .setChild(
+                                          new ConjunctionExpression()
+                                              .setLeftChild(
+                                                  IdentifierExpression.of(
+                                                      "existentialQuantification"))
+                                              .setRightChild(
+                                                  IdentifierExpression.of("anyTrapsVisited")))))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-488, 96))
+                              .setCoordinates(GuiCoordinates.of(-432, 96))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1358,12 +1588,9 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of(
                                                       "TrapsetActivatorChannels"))
                                               .setRightChild(
-                                                  new FieldAccessExpression()
-                                                      .setIdentifier(Identifier.of("index"))
-                                                      .setChild(
-                                                          IdentifierExpression.of("trapset")))))))
+                                                  IdentifierExpression.of("trapsetIndex"))))))
           .addNail(GuiCoordinates.of(-552, 96))
-          .addNail(GuiCoordinates.of(-104, 96));
+          .addNail(GuiCoordinates.of(-16, 96));
     }
 
     protected Transition newId17ToId16Transition(Location source, Location target) {
@@ -1402,6 +1629,10 @@ public class ScenarioStubSystemFactory {
       CollectionUtils.addIfNonNull(
           TdlQuantificationRecognizer.getParameters(), new_treeIndexParameterDeclaration());
       CollectionUtils.addIfNonNull(
+          TdlQuantificationRecognizer.getParameters(), new_trapsetIndexParameterDeclaration());
+      CollectionUtils.addIfNonNull(
+          TdlQuantificationRecognizer.getParameters(), new_trapsetSizeParameterDeclaration());
+      CollectionUtils.addIfNonNull(
           TdlQuantificationRecognizer.getParameters(), new_trapsetParameterDeclaration());
 
       // Set local declarations:
@@ -1416,6 +1647,16 @@ public class ScenarioStubSystemFactory {
       CollectionUtils.addIfNonNull(
           TdlQuantificationRecognizer.getDeclarations(),
           new_existentialQuantificationDeclaration());
+      CollectionUtils.addIfNonNull(
+          TdlQuantificationRecognizer.getDeclarations(), new_resetTrapsetDeclaration());
+      CollectionUtils.addIfNonNull(
+          TdlQuantificationRecognizer.getDeclarations(), new_allTrapsVisitedDeclaration());
+      CollectionUtils.addIfNonNull(
+          TdlQuantificationRecognizer.getDeclarations(), new_anyTrapsVisitedDeclaration());
+      CollectionUtils.addIfNonNull(
+          TdlQuantificationRecognizer.getDeclarations(), new_noTrapsVisitedDeclaration());
+      CollectionUtils.addIfNonNull(
+          TdlQuantificationRecognizer.getDeclarations(), new_anyTrapNotVisitedDeclaration());
 
       // Set locations:
       Location locationId16 = newId16Location();
@@ -3616,9 +3857,6 @@ public class ScenarioStubSystemFactory {
                                           new AssignmentExpression()
                                               .setLeftChild(IdentifierExpression.of("timeoutClock"))
                                               .setRightChild(NaturalNumberLiteral.of("0")))
-                                      .add(
-                                          new CallExpression()
-                                              .setChild(IdentifierExpression.of("initTrapsets")))
                                       .build()))
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
@@ -3713,30 +3951,21 @@ public class ScenarioStubSystemFactory {
     return new ScenarioStubSystemFactory();
   }
 
-  public static final Identifier DECLARED_NAME_MAX_INT = Identifier.of("MAX_INT");
+  public static final Identifier DECLARED_NAME_TDL_MIN_INT = Identifier.of("TDL_MIN_INT");
+  public static final Identifier DECLARED_NAME_TDL_MAX_INT = Identifier.of("TDL_MAX_INT");
   public static final Identifier DECLARED_NAME_TDL_TIMEOUT = Identifier.of("TDL_TIMEOUT");
   public static final Identifier DECLARED_NAME_TDL_TREE_NODE_COUNT =
       Identifier.of("TDL_TREE_NODE_COUNT");
   public static final Identifier DECLARED_NAME_TRAPSET_COUNT = Identifier.of("TRAPSET_COUNT");
-  public static final Identifier DECLARED_NAME_MAX_TRAPSET_SIZE = Identifier.of("MAX_TRAPSET_SIZE");
-  public static final Identifier DECLARED_NAME_BoundType = Identifier.of("BoundType");
   public static final Identifier DECLARED_NAME_TrapsetIndex = Identifier.of("TrapsetIndex");
-  public static final Identifier DECLARED_NAME_TrapsetFlags = Identifier.of("TrapsetFlags");
-  public static final Identifier DECLARED_NAME_TrapsetMask = Identifier.of("TrapsetMask");
+  public static final Identifier DECLARED_NAME_BoundType = Identifier.of("BoundType");
   public static final Identifier DECLARED_NAME_BoundValue = Identifier.of("BoundValue");
   public static final Identifier DECLARED_NAME_TdlTreeIndex = Identifier.of("TdlTreeIndex");
-  public static final Identifier DECLARED_NAME_Trapset = Identifier.of("Trapset");
-  public static final Identifier DECLARED_NAME_BitMask = Identifier.of("BitMask");
-  public static final Identifier DECLARED_NAME_BIT_MASKS = Identifier.of("BIT_MASKS");
   public static final Identifier DECLARED_NAME_BOUND_EQ = Identifier.of("BOUND_EQ");
   public static final Identifier DECLARED_NAME_BOUND_GT = Identifier.of("BOUND_GT");
   public static final Identifier DECLARED_NAME_BOUND_GTE = Identifier.of("BOUND_GTE");
   public static final Identifier DECLARED_NAME_BOUND_LT = Identifier.of("BOUND_LT");
   public static final Identifier DECLARED_NAME_BOUND_LTE = Identifier.of("BOUND_LTE");
-  public static final Identifier DECLARED_NAME_initTrapset = Identifier.of("initTrapset");
-  public static final Identifier DECLARED_NAME_setTrapVisited = Identifier.of("setTrapVisited");
-  public static final Identifier DECLARED_NAME_resetTrapset = Identifier.of("resetTrapset");
-  public static final Identifier DECLARED_NAME_TdlDiagnostics = Identifier.of("TdlDiagnostics");
   public static final Identifier DECLARED_NAME_TdlActivatorChannels =
       Identifier.of("TdlActivatorChannels");
   public static final Identifier DECLARED_NAME_TdlTerminatorChannels =
@@ -3745,7 +3974,7 @@ public class ScenarioStubSystemFactory {
       Identifier.of("TrapsetActivatorChannels");
   public static final Identifier DECLARED_NAME_TrapsetTerminatorChannels =
       Identifier.of("TrapsetTerminatorChannels");
-  public static final Identifier DECLARED_NAME_initTrapsets = Identifier.of("initTrapsets");
+  public static final Identifier DECLARED_NAME_TdlDiagnostics = Identifier.of("TdlDiagnostics");
   public static final Identifier DECLARED_NAME_TdlConjunctionRecognizer =
       Identifier.of("TdlConjunctionRecognizer");
   public static final Identifier DECLARED_NAME_TdlDisjunctionRecognizer =
@@ -3762,9 +3991,24 @@ public class ScenarioStubSystemFactory {
 
   protected ScenarioStubSystemFactory() {}
 
-  protected VariableDeclaration new_MAX_INTDeclaration() {
+  protected VariableDeclaration new_TDL_MIN_INTDeclaration() {
     return new VariableDeclaration()
-        .setIdentifier(Identifier.of("MAX_INT"))
+        .setIdentifier(Identifier.of("TDL_MIN_INT"))
+        .setType(
+            new Type()
+                .setBaseType(
+                    new BaseType()
+                        .setPrefix(ETypePrefix.CONSTANT)
+                        .setTypeId(BaseTypeIdentifiers.INTEGER)))
+        .setInitializer(
+            new FlatVariableInitializer()
+                .setExpression(
+                    new AdditiveInverseExpression().setChild(NaturalNumberLiteral.of("32767"))));
+  }
+
+  protected VariableDeclaration new_TDL_MAX_INTDeclaration() {
+    return new VariableDeclaration()
+        .setIdentifier(Identifier.of("TDL_MAX_INT"))
         .setType(
             new Type()
                 .setBaseType(
@@ -3812,16 +4056,18 @@ public class ScenarioStubSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("1")));
   }
 
-  protected VariableDeclaration new_MAX_TRAPSET_SIZEDeclaration() {
-    return new VariableDeclaration()
-        .setIdentifier(Identifier.of("MAX_TRAPSET_SIZE"))
+  protected TypeDeclaration new_TrapsetIndexDeclaration() {
+    return new TypeDeclaration()
         .setType(
             new Type()
                 .setBaseType(
                     new BaseType()
-                        .setPrefix(ETypePrefix.CONSTANT)
-                        .setTypeId(BaseTypeIdentifiers.INTEGER)))
-        .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("1")));
+                        .setPrefix(ETypePrefix.NONE)
+                        .setTypeId(
+                            BoundedIntegerTypeId.of(
+                                NaturalNumberLiteral.of("0"),
+                                IdentifierExpression.of("TRAPSET_COUNT")))))
+        .setIdentifier(Identifier.of("TrapsetIndex"));
   }
 
   protected TypeDeclaration new_BoundTypeDeclaration() {
@@ -3837,66 +4083,6 @@ public class ScenarioStubSystemFactory {
         .setIdentifier(Identifier.of("BoundType"));
   }
 
-  protected TypeDeclaration new_TrapsetIndexDeclaration() {
-    return new TypeDeclaration()
-        .setType(
-            new Type()
-                .setBaseType(
-                    new BaseType()
-                        .setPrefix(ETypePrefix.NONE)
-                        .setTypeId(
-                            BoundedIntegerTypeId.of(
-                                NaturalNumberLiteral.of("0"),
-                                IdentifierExpression.of("TRAPSET_COUNT")))))
-        .setIdentifier(Identifier.of("TrapsetIndex"));
-  }
-
-  protected TypeDeclaration new_TrapsetFlagsDeclaration() {
-    return new TypeDeclaration()
-        .setType(
-            new Type()
-                .setBaseType(
-                    new BaseType()
-                        .setPrefix(ETypePrefix.NONE)
-                        .setTypeId(
-                            BoundedIntegerTypeId.of(
-                                NaturalNumberLiteral.of("0"),
-                                new SubtractionExpression()
-                                    .setLeftChild(
-                                        new GroupedExpression()
-                                            .setChild(
-                                                new LeftShiftExpression()
-                                                    .setLeftChild(NaturalNumberLiteral.of("1"))
-                                                    .setRightChild(
-                                                        IdentifierExpression.of(
-                                                            "MAX_TRAPSET_SIZE"))))
-                                    .setRightChild(NaturalNumberLiteral.of("1"))))))
-        .setIdentifier(Identifier.of("TrapsetFlags"));
-  }
-
-  protected TypeDeclaration new_TrapsetMaskDeclaration() {
-    return new TypeDeclaration()
-        .setType(
-            new Type()
-                .setBaseType(
-                    new BaseType()
-                        .setPrefix(ETypePrefix.NONE)
-                        .setTypeId(
-                            BoundedIntegerTypeId.of(
-                                NaturalNumberLiteral.of("0"),
-                                new SubtractionExpression()
-                                    .setLeftChild(
-                                        new GroupedExpression()
-                                            .setChild(
-                                                new LeftShiftExpression()
-                                                    .setLeftChild(NaturalNumberLiteral.of("1"))
-                                                    .setRightChild(
-                                                        IdentifierExpression.of(
-                                                            "MAX_TRAPSET_SIZE"))))
-                                    .setRightChild(NaturalNumberLiteral.of("1"))))))
-        .setIdentifier(Identifier.of("TrapsetMask"));
-  }
-
   protected TypeDeclaration new_BoundValueDeclaration() {
     return new TypeDeclaration()
         .setType(
@@ -3906,7 +4092,8 @@ public class ScenarioStubSystemFactory {
                         .setPrefix(ETypePrefix.NONE)
                         .setTypeId(
                             BoundedIntegerTypeId.of(
-                                NaturalNumberLiteral.of("0"), IdentifierExpression.of("MAX_INT")))))
+                                NaturalNumberLiteral.of("0"),
+                                IdentifierExpression.of("TDL_MAX_INT")))))
         .setIdentifier(Identifier.of("BoundValue"));
   }
 
@@ -3924,117 +4111,6 @@ public class ScenarioStubSystemFactory {
                                     .setLeftChild(IdentifierExpression.of("TDL_TREE_NODE_COUNT"))
                                     .setRightChild(NaturalNumberLiteral.of("1"))))))
         .setIdentifier(Identifier.of("TdlTreeIndex"));
-  }
-
-  protected TypeDeclaration new_TrapsetDeclaration() {
-    return new TypeDeclaration()
-        .setType(
-            new Type()
-                .setBaseType(
-                    new BaseType()
-                        .setPrefix(ETypePrefix.NONE)
-                        .setTypeId(
-                            new StructTypeId()
-                                .addFieldDeclaration(
-                                    new FieldDeclaration()
-                                        .setType(
-                                            new Type()
-                                                .setBaseType(
-                                                    new BaseType()
-                                                        .setPrefix(ETypePrefix.NONE)
-                                                        .setTypeId(
-                                                            CustomTypeId.of(
-                                                                Identifier.of("TrapsetFlags")))))
-                                        .setIdentifier(Identifier.of("flags")))
-                                .addFieldDeclaration(
-                                    new FieldDeclaration()
-                                        .setType(
-                                            new Type()
-                                                .setBaseType(
-                                                    new BaseType()
-                                                        .setPrefix(ETypePrefix.NONE)
-                                                        .setTypeId(
-                                                            CustomTypeId.of(
-                                                                Identifier.of("TrapsetMask")))))
-                                        .setIdentifier(Identifier.of("fullMask")))
-                                .addFieldDeclaration(
-                                    new FieldDeclaration()
-                                        .setType(
-                                            new Type()
-                                                .setBaseType(
-                                                    new BaseType()
-                                                        .setPrefix(ETypePrefix.NONE)
-                                                        .setTypeId(
-                                                            CustomTypeId.of(
-                                                                Identifier.of("TrapsetIndex")))))
-                                        .setIdentifier(Identifier.of("index"))))))
-        .setIdentifier(Identifier.of("Trapset"));
-  }
-
-  protected TypeDeclaration new_BitMaskDeclaration() {
-    return new TypeDeclaration()
-        .setType(
-            new Type()
-                .setBaseType(
-                    new BaseType()
-                        .setPrefix(ETypePrefix.NONE)
-                        .setTypeId(
-                            new StructTypeId()
-                                .addFieldDeclaration(
-                                    new FieldDeclaration()
-                                        .setType(
-                                            new Type()
-                                                .setBaseType(
-                                                    new BaseType()
-                                                        .setPrefix(ETypePrefix.NONE)
-                                                        .setTypeId(BaseTypeIdentifiers.INTEGER)))
-                                        .setIdentifier(Identifier.of("isolated")))
-                                .addFieldDeclaration(
-                                    new FieldDeclaration()
-                                        .setType(
-                                            new Type()
-                                                .setBaseType(
-                                                    new BaseType()
-                                                        .setPrefix(ETypePrefix.NONE)
-                                                        .setTypeId(BaseTypeIdentifiers.INTEGER)))
-                                        .setIdentifier(Identifier.of("unset"))))))
-        .setIdentifier(Identifier.of("BitMask"));
-  }
-
-  protected VariableDeclaration new_BIT_MASKSDeclaration() {
-    return new VariableDeclaration()
-        .setIdentifier(Identifier.of("BIT_MASKS"))
-        .setType(
-            new Type()
-                .setBaseType(
-                    new BaseType()
-                        .setPrefix(ETypePrefix.CONSTANT)
-                        .setTypeId(CustomTypeId.of(Identifier.of("BitMask"))))
-                .addArrayModifier(
-                    new SizeExpressionArrayModifier()
-                        .setSizeSpecifier(IdentifierExpression.of("MAX_TRAPSET_SIZE"))))
-        .setInitializer(
-            new StructuredVariableInitializer()
-                .addInitializer(
-                    new StructuredVariableInitializer()
-                        .addInitializer(
-                            new FlatVariableInitializer()
-                                .setExpression(
-                                    new LeftShiftExpression()
-                                        .setLeftChild(NaturalNumberLiteral.of("1"))
-                                        .setRightChild(NaturalNumberLiteral.of("0"))))
-                        .addInitializer(
-                            new FlatVariableInitializer()
-                                .setExpression(
-                                    new SubtractionExpression()
-                                        .setLeftChild(IdentifierExpression.of("MAX_INT"))
-                                        .setRightChild(
-                                            new GroupedExpression()
-                                                .setChild(
-                                                    new LeftShiftExpression()
-                                                        .setLeftChild(NaturalNumberLiteral.of("1"))
-                                                        .setRightChild(
-                                                            NaturalNumberLiteral.of("0"))))))));
   }
 
   protected VariableDeclaration new_BOUND_EQDeclaration() {
@@ -4097,210 +4173,6 @@ public class ScenarioStubSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("5")));
   }
 
-  protected FunctionDeclaration new_initTrapsetDeclaration() {
-    return new FunctionDeclaration()
-        .setName(Identifier.of("initTrapset"))
-        .addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("trapset"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.NONE)
-                                .setTypeId(CustomTypeId.of(Identifier.of("Trapset"))))
-                        .setReferenceType(true)))
-        .addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("index"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.NONE)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TrapsetIndex"))))))
-        .addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("size"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.NONE)
-                                .setTypeId(BaseTypeIdentifiers.INTEGER))))
-        .setStatementBlock(
-            new StatementBlock()
-                .addStatement(
-                    new ExpressionStatement()
-                        .setExpression(
-                            new AssignmentExpression()
-                                .setLeftChild(
-                                    new FieldAccessExpression()
-                                        .setIdentifier(Identifier.of("flags"))
-                                        .setChild(IdentifierExpression.of("trapset")))
-                                .setRightChild(NaturalNumberLiteral.of("0"))))
-                .addStatement(
-                    new ExpressionStatement()
-                        .setExpression(
-                            new AssignmentExpression()
-                                .setLeftChild(
-                                    new FieldAccessExpression()
-                                        .setIdentifier(Identifier.of("index"))
-                                        .setChild(IdentifierExpression.of("trapset")))
-                                .setRightChild(IdentifierExpression.of("index"))))
-                .addStatement(
-                    new ExpressionStatement()
-                        .setExpression(
-                            new AssignmentExpression()
-                                .setLeftChild(
-                                    new FieldAccessExpression()
-                                        .setIdentifier(Identifier.of("fullMask"))
-                                        .setChild(IdentifierExpression.of("trapset")))
-                                .setRightChild(
-                                    new SubtractionExpression()
-                                        .setLeftChild(
-                                            new GroupedExpression()
-                                                .setChild(
-                                                    new LeftShiftExpression()
-                                                        .setLeftChild(NaturalNumberLiteral.of("1"))
-                                                        .setRightChild(
-                                                            IdentifierExpression.of("size"))))
-                                        .setRightChild(NaturalNumberLiteral.of("1"))))));
-  }
-
-  protected FunctionDeclaration new_setTrapVisitedDeclaration() {
-    return new FunctionDeclaration()
-        .setName(Identifier.of("setTrapVisited"))
-        .addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("trapset"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.NONE)
-                                .setTypeId(CustomTypeId.of(Identifier.of("Trapset"))))
-                        .setReferenceType(true)))
-        .addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("trapIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.NONE)
-                                .setTypeId(BaseTypeIdentifiers.INTEGER))))
-        .addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("visited"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.NONE)
-                                .setTypeId(BaseTypeIdentifiers.BOOLEAN))))
-        .setStatementBlock(
-            new StatementBlock()
-                .addDeclaration(
-                    new VariableDeclaration()
-                        .setIdentifier(Identifier.of("mask"))
-                        .setType(
-                            new Type()
-                                .setBaseType(
-                                    new BaseType()
-                                        .setPrefix(ETypePrefix.NONE)
-                                        .setTypeId(CustomTypeId.of(Identifier.of("BitMask")))))
-                        .setInitializer(
-                            new FlatVariableInitializer()
-                                .setExpression(
-                                    new ArrayLookupExpression()
-                                        .setLeftChild(IdentifierExpression.of("BIT_MASKS"))
-                                        .setRightChild(IdentifierExpression.of("trapIndex")))))
-                .addStatement(
-                    new ExpressionStatement()
-                        .setExpression(
-                            new AssignmentExpression()
-                                .setLeftChild(
-                                    new FieldAccessExpression()
-                                        .setIdentifier(Identifier.of("flags"))
-                                        .setChild(IdentifierExpression.of("trapset")))
-                                .setRightChild(
-                                    new BitwiseOrExpression()
-                                        .setLeftChild(
-                                            new GroupedExpression()
-                                                .setChild(
-                                                    new BitwiseAndExpression()
-                                                        .setLeftChild(
-                                                            new FieldAccessExpression()
-                                                                .setIdentifier(
-                                                                    Identifier.of("flags"))
-                                                                .setChild(
-                                                                    IdentifierExpression.of(
-                                                                        "trapset")))
-                                                        .setRightChild(
-                                                            new FieldAccessExpression()
-                                                                .setIdentifier(
-                                                                    Identifier.of("unset"))
-                                                                .setChild(
-                                                                    IdentifierExpression.of(
-                                                                        "mask")))))
-                                        .setRightChild(
-                                            new GroupedExpression()
-                                                .setChild(
-                                                    new TernaryExpression()
-                                                        .setLeftChild(
-                                                            IdentifierExpression.of("visited"))
-                                                        .setMiddleChild(
-                                                            new FieldAccessExpression()
-                                                                .setIdentifier(
-                                                                    Identifier.of("isolated"))
-                                                                .setChild(
-                                                                    IdentifierExpression.of(
-                                                                        "mask")))
-                                                        .setRightChild(
-                                                            NaturalNumberLiteral.of("0"))))))));
-  }
-
-  protected FunctionDeclaration new_resetTrapsetDeclaration() {
-    return new FunctionDeclaration()
-        .setName(Identifier.of("resetTrapset"))
-        .addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("trapset"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.NONE)
-                                .setTypeId(CustomTypeId.of(Identifier.of("Trapset"))))
-                        .setReferenceType(true)))
-        .setStatementBlock(
-            new StatementBlock()
-                .addStatement(
-                    new ExpressionStatement()
-                        .setExpression(
-                            new AssignmentExpression()
-                                .setLeftChild(
-                                    new FieldAccessExpression()
-                                        .setIdentifier(Identifier.of("flags"))
-                                        .setChild(IdentifierExpression.of("trapset")))
-                                .setRightChild(NaturalNumberLiteral.of("0")))));
-  }
-
-  protected VariableDeclaration new_TdlDiagnosticsDeclaration() {
-    return new VariableDeclaration()
-        .setIdentifier(Identifier.of("TdlDiagnostics"))
-        .setType(
-            new Type()
-                .setBaseType(
-                    new BaseType()
-                        .setPrefix(ETypePrefix.NONE)
-                        .setTypeId(BaseTypeIdentifiers.BOOLEAN))
-                .addArrayModifier(
-                    new SizeExpressionArrayModifier()
-                        .setSizeSpecifier(IdentifierExpression.of("TdlTreeIndex"))));
-  }
-
   protected VariableDeclaration new_TdlActivatorChannelsDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("TdlActivatorChannels"))
@@ -4357,10 +4229,18 @@ public class ScenarioStubSystemFactory {
                         .setSizeSpecifier(IdentifierExpression.of("TrapsetIndex"))));
   }
 
-  protected FunctionDeclaration new_initTrapsetsDeclaration() {
-    return new FunctionDeclaration()
-        .setName(Identifier.of("initTrapsets"))
-        .setStatementBlock(new StatementBlock());
+  protected VariableDeclaration new_TdlDiagnosticsDeclaration() {
+    return new VariableDeclaration()
+        .setIdentifier(Identifier.of("TdlDiagnostics"))
+        .setType(
+            new Type()
+                .setBaseType(
+                    new BaseType()
+                        .setPrefix(ETypePrefix.NONE)
+                        .setTypeId(BaseTypeIdentifiers.BOOLEAN))
+                .addArrayModifier(
+                    new SizeExpressionArrayModifier()
+                        .setSizeSpecifier(IdentifierExpression.of("TdlTreeIndex"))));
   }
 
   protected Template new_TdlConjunctionRecognizerTemplate() {
@@ -4399,30 +4279,21 @@ public class ScenarioStubSystemFactory {
     UtaSystem ScenarioStub = new UtaSystem();
 
     // Set global declarations:
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_MAX_INTDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TDL_MIN_INTDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TDL_MAX_INTDeclaration());
     CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TDL_TIMEOUTDeclaration());
     CollectionUtils.addIfNonNull(
         ScenarioStub.getDeclarations(), new_TDL_TREE_NODE_COUNTDeclaration());
     CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TRAPSET_COUNTDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_MAX_TRAPSET_SIZEDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BoundTypeDeclaration());
     CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetIndexDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetFlagsDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetMaskDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BoundTypeDeclaration());
     CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BoundValueDeclaration());
     CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TdlTreeIndexDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TrapsetDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BitMaskDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BIT_MASKSDeclaration());
     CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_EQDeclaration());
     CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_GTDeclaration());
     CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_GTEDeclaration());
     CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_LTDeclaration());
     CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_BOUND_LTEDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_initTrapsetDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_setTrapVisitedDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_resetTrapsetDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TdlDiagnosticsDeclaration());
     CollectionUtils.addIfNonNull(
         ScenarioStub.getDeclarations(), new_TdlActivatorChannelsDeclaration());
     CollectionUtils.addIfNonNull(
@@ -4431,7 +4302,7 @@ public class ScenarioStubSystemFactory {
         ScenarioStub.getDeclarations(), new_TrapsetActivatorChannelsDeclaration());
     CollectionUtils.addIfNonNull(
         ScenarioStub.getDeclarations(), new_TrapsetTerminatorChannelsDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_initTrapsetsDeclaration());
+    CollectionUtils.addIfNonNull(ScenarioStub.getDeclarations(), new_TdlDiagnosticsDeclaration());
 
     // Set templates:
     CollectionUtils.addIfNonNull(
