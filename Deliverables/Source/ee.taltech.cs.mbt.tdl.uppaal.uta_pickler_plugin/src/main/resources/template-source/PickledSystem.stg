@@ -129,7 +129,7 @@ public static class <ctx.name>TemplateFactory {
 
     <ctx.locations:locationConstructor(); separator="\n">
 
-    <ctx.transitions:{trCtx|<transitionConstructor(trCtx)>}; separator="\n">
+    <ctx.transitions:transitionConstructor(); separator="\n">
 
     public Template newTemplate() {
         Template <ctx.name> = new Template();
