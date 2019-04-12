@@ -1,13 +1,11 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.AbsVariableDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
 
-public class TrapsetDeclaration {
-	public static TrapsetDeclaration of(TrapsetSymbolNode trapsetSymbol, AbsVariableDeclaration sourceDeclaration) {
-		return new TrapsetDeclaration(trapsetSymbol, sourceDeclaration);
+public class Trapset {
+	public static Trapset of(TrapsetSymbolNode trapsetSymbol, AbsVariableDeclaration sourceDeclaration) {
+		return new Trapset(trapsetSymbol, sourceDeclaration);
 	}
 
 	private TrapsetSymbolNode trapsetSymbol;
@@ -21,7 +19,7 @@ public class TrapsetDeclaration {
 		return sourceDeclaration;
 	}
 
-	private TrapsetDeclaration(TrapsetSymbolNode trapsetSymbol, AbsVariableDeclaration sourceDeclaration) {
+	private Trapset(TrapsetSymbolNode trapsetSymbol, AbsVariableDeclaration sourceDeclaration) {
 		this.trapsetSymbol = trapsetSymbol;
 		this.sourceDeclaration = sourceDeclaration;
 	}

@@ -11,9 +11,10 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visi
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.specification.ScenarioSpecification;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.TrapsetDeclaration;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.Trapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.TrapsetTransitionLabel;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.function.TrapsetLabelingFunction;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.uta_stub.ScenarioStubSystemFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
@@ -50,16 +51,73 @@ public class GeneratorStub {
 
 		List<AbsTrapsetOperatorNode> trapsetOperators = extractTrapsetOperators(expression);
 
-
-		System.out.println();
+		/*
+		 * Need to create DerivedTrapset objects:
+		 * API:
+		 *   coversNoEdges()
+		 *   coversAllEdges()
+		 * We can have a Map<AbsTrapsetOperatorNode, DerivedTrapset> derivedTrapsets;
+		 *
+		 * Then based on which quantifier is attached to the new trapset, we can determine if:
+		 * the quantifier is always FALSE;
+		 * the quantifier is always TRUE.
+		 * We define a map Map<AbsTrapsetQuantifierNode, Boolean> trapsetQuantifierReplacements;
+		 * Logic:
+		 * if (isUniversalQuantifier and derivedTrapset.coversNoEdges())
+		 *    trapsetQuantifierReplacements.put(quantifier, quantifier.isNegated());
+		 *
+		 * if (universalQuantifier and derivedTrapset.coversAllEdges())
+		 *    trapsetQuantifierReplacements.put(quantifier, !quantifier.isNegated());
+		 *
+		 * if (existentialQuantifier and derivedTrapset.coversNoEdges())
+		 *     trapsetQuantifierReplacements.put(quantifier, quantifier.isNegated());
+		 *
+		 * if (existentialQuantifier and derivedTrapset.coversAllEdges())
+		 *     trapsetQuantifierReplacements.put(quantifier, !quantifier.isNegated());
+		 *
+		 * We first normalize the TDL expression.
+		 * We can do this with a tree visitor.
+		 * visitConjunction(ConjunctionNode c) {
+		 *    AbsLogicalOperatorNode currNode = c;
+		 *    if (c.isNegated()) {
+		 *        DisjunctionNode d = new DisjunctionNode();
+		 *        d.setLeftChild(
+		 *            c.getLeftChild().setNegated(!c.getLeftChild().isNegated()
+		 *        );
+		 *        d.setRightChild(
+		 *            c.getLeftChild().setNegated(!c.getLeftChild().isNegated()
+		 *        );
+		 *        c.getParent().replaceChild(c, d);
+		 *        currNode = d;
+		 *    }
+		 *    visitChildren(currNode);
+		 * }
+		 *
+		 * Then we run a reduction based on the FALSE/TRUE literals in the normalized TDL expression.
+		 * We can use Map<AbsExpressionNode, Boolean> reductionMap;
+		 * Need to traverse expression tree bottom-up, replacing known functions as we go.
+		 * Reduction rules:
+		 * not(FALSE) = TRUE
+		 * not(TRUE) = FALSE
+		 * FALSE or x = x
+		 * FALSE and x = FALSE
+		 * TRUE or x = TRUE
+		 * TRUE and x = FALSE
+		 * (we will only need and/or rules as the expression is normalized)
+		 * 
+		 */
+		// ScenarioStubSystemFactory.DECLARED_NAME_TrapsetActivatorChannels.equals(null);
+		for (AbsTrapsetOperatorNode trapsetOperatorNode : trapsetOperators) {
+			trapsetOperatorNode.getOperandContainer().getListView();
+		}
 	}
 
 	private static TrapsetLabelingFunction extractLabelingFunction(UtaSystem sutModel, Set<TrapsetSymbolNode> trapsetSymbols) {
 		TrapsetLabelingFunction labelingFunction = new TrapsetLabelingFunction();
 
-		Map<TrapsetSymbolNode, TrapsetDeclaration> trapsetDeclarations = new LinkedHashMap<>();
+		Map<TrapsetSymbolNode, Trapset> trapsetDeclarations = new LinkedHashMap<>();
 		for (AbsDeclarationStatement declarationStatement : sutModel.getDeclarations()) {
-			TrapsetDeclaration newDecl;
+			Trapset newDecl;
 			if (declarationStatement instanceof VariableDeclaration) {
 				VariableDeclaration variableDeclaration = (VariableDeclaration) declarationStatement;
 				Type type = variableDeclaration.getType();
@@ -69,7 +127,7 @@ public class GeneratorStub {
 				TrapsetSymbolNode trapsetCandidate = TrapsetSymbolNode.of(variableDeclaration.getIdentifier().toString());
 				if (!trapsetSymbols.contains(trapsetCandidate))
 					continue;
-				trapsetDeclarations.put(trapsetCandidate, TrapsetDeclaration.of(trapsetCandidate, variableDeclaration));
+				trapsetDeclarations.put(trapsetCandidate, Trapset.of(trapsetCandidate, variableDeclaration));
 			} else if (declarationStatement instanceof VariableDeclarationGroup) {
 				VariableDeclarationGroup variableDeclarationGroup = (VariableDeclarationGroup) declarationStatement;
 				BaseType baseType = variableDeclarationGroup.getBaseType();
@@ -79,16 +137,16 @@ public class GeneratorStub {
 					TrapsetSymbolNode trapsetCandidate = TrapsetSymbolNode.of(ext.getIdentifier().toString());
 					if (!trapsetSymbols.contains(trapsetCandidate))
 						return;
-					trapsetDeclarations.put(trapsetCandidate, TrapsetDeclaration.of(trapsetCandidate, variableDeclarationGroup));
+					trapsetDeclarations.put(trapsetCandidate, Trapset.of(trapsetCandidate, variableDeclarationGroup));
 				});
 			}
 		}
 
-		for (TrapsetDeclaration trapset : trapsetDeclarations.values()) {
+		for (Trapset trapset : trapsetDeclarations.values()) {
 			labelingFunction.addMapping(trapset);
 		}
 
-		Map<TrapsetSymbolNode, TrapsetDeclaration> usageFlags = new HashMap<>();
+		Map<TrapsetSymbolNode, Trapset> usageFlags = new HashMap<>();
 		for (Template template : sutModel.getTemplates()) {
 			Set<Transition> edges = template.getLocationGraph().getEdges();
 			for (Transition transition : edges) {
