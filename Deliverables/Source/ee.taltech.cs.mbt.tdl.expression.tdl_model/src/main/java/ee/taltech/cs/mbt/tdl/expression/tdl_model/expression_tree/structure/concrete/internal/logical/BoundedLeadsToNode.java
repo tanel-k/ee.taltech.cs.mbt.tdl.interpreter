@@ -2,7 +2,8 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.con
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.Bound;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.IBounded;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 
 public class BoundedLeadsToNode extends LeadsToNode implements IBounded {
 	private Bound bound;
@@ -18,7 +19,12 @@ public class BoundedLeadsToNode extends LeadsToNode implements IBounded {
 	}
 
 	@Override
-	public <T> T accept(TdlExpressionVisitor<T> visitor) {
+	public <T> T accept(ITdlExpressionVisitor<T> visitor) {
+		return visitor.visitBoundedLeadsTo(this);
+	}
+
+	@Override
+	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
 		return visitor.visitBoundedLeadsTo(this);
 	}
 }

@@ -45,7 +45,7 @@ public class FieldDeclarationCtxExtractor implements IPicklerContextExtractor<Ab
 		ContextBuilder baseTypeCtx = BaseTypeCtxExtractor.getInstance()
 				.extract(decl.getBaseType(), requiredClasses);
 		Collection<ContextBuilder> subDeclCtxs = BaseTypeExtensionCtxExtractor.getInstance()
-				.extract(decl.getBaseTypeExtensionMap().getTypeExtensions(), requiredClasses);
+				.extract(decl.getBaseTypeExtensionMap().collectionView(), requiredClasses);
 		return ContextBuilder.newBuilder("groupOfFieldDeclarations")
 				.put("baseType", baseTypeCtx)
 				.put("subDeclarations", subDeclCtxs);

@@ -27,6 +27,16 @@
 
   <dependencies>
     <!-- Internal -->
+    <!-- DEBUG! -->
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
+      <artifactId>tdl_parser</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
+      <artifactId>uta_parser</artifactId>
+    </dependency>
+    <!-- /DEBUG! -->
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
       <artifactId>utils</artifactId>

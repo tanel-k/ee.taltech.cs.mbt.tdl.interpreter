@@ -70,7 +70,7 @@ NATURAL_NUMBER  : ZERO
 NUMERIC_ID      : ANY_DIGIT+ ;
 
 // Fragments (only meant to be used in token productions):
-fragment TRAPSET_PREFIX : [Tt][Rr] ;
+fragment TRAPSET_PREFIX : [Tt][Ss] ;
 fragment ZERO           : [0] ;
 fragment ANY_DIGIT      : [0-9] ;
 fragment NONZERO_DIGIT  : [1-9] ;

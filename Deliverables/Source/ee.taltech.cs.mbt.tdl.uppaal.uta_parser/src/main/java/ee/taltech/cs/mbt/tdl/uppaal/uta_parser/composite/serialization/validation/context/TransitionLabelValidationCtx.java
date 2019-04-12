@@ -12,7 +12,7 @@ public class TransitionLabelValidationCtx extends AbsLabelValidationCtx<Transiti
 	@Override
 	public String getName() {
 		return "transition label ("
-					+ getContextObject().getClass().getName()
+					+ getContextObject().getClass().getSimpleName()
 				+ ")";
 	}
 }

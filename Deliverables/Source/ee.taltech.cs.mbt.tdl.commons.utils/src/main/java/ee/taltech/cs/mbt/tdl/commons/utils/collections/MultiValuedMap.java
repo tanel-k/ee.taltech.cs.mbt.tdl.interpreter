@@ -12,7 +12,9 @@ import java.util.function.Function;
 public class MultiValuedMap<K, V, C extends Collection<V>> implements Map<K, C> {
 	private LinkedHashMap<K, C> nestedMap;
 
-	public MultiValuedMap() { }
+	public MultiValuedMap() {
+		nestedMap = new LinkedHashMap<>();
+	}
 
 	public MultiValuedMap(int initialCapacity) {
 		nestedMap = new LinkedHashMap<>(initialCapacity);

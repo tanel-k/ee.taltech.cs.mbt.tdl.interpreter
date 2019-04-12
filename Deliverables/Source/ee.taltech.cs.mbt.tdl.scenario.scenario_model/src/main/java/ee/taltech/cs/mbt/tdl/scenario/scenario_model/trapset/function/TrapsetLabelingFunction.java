@@ -1,12 +1,14 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.function;
 
-import com.sun.javafx.geom.Edge;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.MultiValuedMap;
+import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.BiTuple;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.TrapsetDeclaration;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.TrapsetTransitionLabel;
 
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -27,6 +29,11 @@ public class TrapsetLabelingFunction {
 
 		private TrapsetIdentityWrapper(TrapsetDeclaration trapsetDeclaration) {
 			this.wrappedDeclaration = trapsetDeclaration;
+		}
+
+		@Override
+		public String toString() {
+			return getClass().getSimpleName() + "{" + wrappedDeclaration + "}";
 		}
 
 		@Override
@@ -59,10 +66,17 @@ public class TrapsetLabelingFunction {
 
 		private TrapsetTransitionLabel wrappedTransition;
 
-		private MappingIdentityWrapper(TrapsetTransitionLabel wrappedTransition) {}
+		private MappingIdentityWrapper(TrapsetTransitionLabel wrappedTransition) {
+			this.wrappedTransition = wrappedTransition;
+		}
 
 		private TrapsetTransitionLabel getWrappedTransition() {
 			return wrappedTransition;
+		}
+
+		@Override
+		public String toString() {
+			return getClass().getSimpleName() + "{" + wrappedTransition + "}";
 		}
 
 		@Override
@@ -86,8 +100,38 @@ public class TrapsetLabelingFunction {
 		}
 	}
 
-	private MultiValuedMap<TrapsetIdentityWrapper, MappingIdentityWrapper, Set<MappingIdentityWrapper>> nestedMap
-			= new MultiValuedMap<>();
+	private Map<TrapsetDeclaration, TrapsetIdentityWrapper> trapsetIdentityCache = new HashMap<>();
+	private Map<TrapsetTransitionLabel, MappingIdentityWrapper> mappingIdentityCache = new HashMap<>();
+	private MultiValuedMap<
+		TrapsetIdentityWrapper, MappingIdentityWrapper, Set<MappingIdentityWrapper>
+	> nestedMap = new MultiValuedMap<>();
+
+	private TrapsetIdentityWrapper identityWrap(TrapsetDeclaration trapsetDeclaration) {
+		return trapsetIdentityCache.computeIfAbsent(trapsetDeclaration, TrapsetIdentityWrapper::wrap);
+	}
+
+	private MappingIdentityWrapper identityWrap(TrapsetTransitionLabel transitionLabel) {
+		return mappingIdentityCache.computeIfAbsent(transitionLabel, MappingIdentityWrapper::wrap);
+	}
+
+	public TrapsetLabelingFunction() { }
+
+	public List<BiTuple<TrapsetDeclaration, Set<TrapsetTransitionLabel>>> getMappings() {
+		return getMappingsAsStream().collect(Collectors.toList());
+	}
+
+	public Stream<BiTuple<TrapsetDeclaration, Set<TrapsetTransitionLabel>>> getMappingsAsStream() {
+		return nestedMap.keySet().stream()
+				.map(k -> BiTuple.of(k.wrappedDeclaration, getMappedLabels(k.wrappedDeclaration)));
+	}
+
+	public Stream<BiTuple<TrapsetDeclaration, Stream<TrapsetTransitionLabel>>> getMappingsAsStreamComposition() {
+		return nestedMap.entrySet().stream()
+				.map(e -> BiTuple.of(
+						e.getKey().wrappedDeclaration,
+						e.getValue().stream().map(MappingIdentityWrapper::getWrappedTransition))
+				);
+	}
 
 	public Set<TrapsetTransitionLabel> getMappedLabels(TrapsetDeclaration trapset) {
 		return getMappedLabelsAsStream(trapset)
@@ -95,28 +139,28 @@ public class TrapsetLabelingFunction {
 	}
 
 	public Stream<TrapsetTransitionLabel> getMappedLabelsAsStream(TrapsetDeclaration trapset) {
-		TrapsetIdentityWrapper wrappedTrapset = TrapsetIdentityWrapper.wrap(trapset);
-		return nestedMap.get(wrappedTrapset).stream()
+		return nestedMap.get(TrapsetIdentityWrapper.wrap(trapset)).stream()
 				.map(MappingIdentityWrapper::getWrappedTransition);
 	}
 
 	/**
 	 * @param trapset The trapset for which a mapping is to be added.
 	 * @param label Contains the transition the trapset is mapped to.
-	 * @return true if a mapping from <pre>trapsetSymbol</pre> to <pre>transition</pre> already exists.
+	 * @return true if a mapping from <pre>trapsetSymbol</pre> to <pre>transition</pre> did not previously exist.
 	 */
 	public boolean addMapping(TrapsetDeclaration trapset, TrapsetTransitionLabel label) {
-		TrapsetIdentityWrapper wrappedTrapset = TrapsetIdentityWrapper.wrap(trapset);
 		Set<MappingIdentityWrapper> labeledTransitions = nestedMap
-				.computeIfAbsent(wrappedTrapset, k -> new LinkedHashSet<>());
-		return labeledTransitions.add(
-				MappingIdentityWrapper.wrap(label)
-		);
+				.computeIfAbsent(identityWrap(trapset), k -> new LinkedHashSet<>());
+		return labeledTransitions.add(identityWrap(label));
+	}
+
+	public void addMapping(TrapsetDeclaration trapset) {
+		nestedMap.computeIfAbsent(identityWrap(trapset), k -> new LinkedHashSet<>());
 	}
 
 	public boolean hasMappings(TrapsetDeclaration trapset) {
-		TrapsetIdentityWrapper wrappedTrapset = TrapsetIdentityWrapper.wrap(trapset);
-		return nestedMap.containsKey(wrappedTrapset)
-				&& !nestedMap.get(wrappedTrapset).isEmpty();
+		TrapsetIdentityWrapper trapsetId = TrapsetIdentityWrapper.wrap(trapset);
+		return nestedMap.containsKey(trapsetId)
+				&& !nestedMap.get(trapsetId).isEmpty();
 	}
 }

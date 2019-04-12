@@ -3,6 +3,7 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.con
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.operands.OperandContainer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
 
 public abstract class AbsLogicalOperatorNode<
 			OperandType extends AbsExpressionNode,
@@ -21,4 +22,6 @@ public abstract class AbsLogicalOperatorNode<
 	public void setNegated(boolean negated) {
 		this.negated = negated;
 	}
+
+	public abstract <T> T accept(ILogicalOperatorVisitor<T> visitor);
 }

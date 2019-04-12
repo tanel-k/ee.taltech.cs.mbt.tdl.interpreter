@@ -20,4 +20,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDe
  */
 public abstract class AbsDeclarationStatement {
 	public abstract <T> T accept(IDeclarationVisitor<T> visitor);
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName();
+	}
 }

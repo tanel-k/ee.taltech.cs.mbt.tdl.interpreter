@@ -65,6 +65,11 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
+        <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
+        <artifactId>uta_pickler_plugin</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
         <artifactId>tdl_parser</artifactId>
         <version>${project.version}</version>
@@ -86,6 +91,7 @@
   <build>
     <pluginManagement>
       <plugins>
+        <!-- TODO: Remove -->
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
@@ -111,7 +117,6 @@
         <plugin>
           <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
           <artifactId>uta_pickler_plugin</artifactId>
-          <version>${project.version}</version>
         </plugin>
         <plugin>
           <groupId>org.antlr</groupId>

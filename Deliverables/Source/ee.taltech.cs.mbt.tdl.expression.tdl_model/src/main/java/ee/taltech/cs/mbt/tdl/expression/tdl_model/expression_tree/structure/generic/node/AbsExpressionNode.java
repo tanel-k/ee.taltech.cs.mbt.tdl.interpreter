@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 
 public abstract class AbsExpressionNode {
 	private AbsExpressionNode parentNode;
@@ -13,5 +13,5 @@ public abstract class AbsExpressionNode {
 		this.parentNode = parentNode;
 	}
 
-	public abstract <T> T accept(TdlExpressionVisitor<T> visitor);
+	public abstract <T> T accept(ITdlExpressionVisitor<T> visitor);
 }

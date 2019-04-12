@@ -142,7 +142,7 @@ public class DeclarationCtxExtractor implements IPicklerContextExtractor<AbsDecl
 
 		String aggregatedName = "";
 		List<ContextBuilder> subDeclCtxs = new LinkedList<>();
-		for (BaseTypeExtension subType : typeMap.getTypeExtensions()) {
+		for (BaseTypeExtension subType : typeMap.collectionView()) {
 			String variableName = subType.getIdentifier().toString();
 			AbsVariableInitializer initializer = decl.getInitializerMap()
 					.get(subType.getIdentifier());
@@ -177,7 +177,7 @@ public class DeclarationCtxExtractor implements IPicklerContextExtractor<AbsDecl
 
 		String aggregatedName = "";
 		List<ContextBuilder> subDeclCtxs = new LinkedList<>();
-		for (BaseTypeExtension subType : typeMap.getTypeExtensions()) {
+		for (BaseTypeExtension subType : typeMap.collectionView()) {
 			String typeName = subType.getIdentifier().toString();
 			ContextBuilder subTypeCtx = BaseTypeExtensionCtxExtractor.getInstance()
 					.extract(subType, requiredClasses);

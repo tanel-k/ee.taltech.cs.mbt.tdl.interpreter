@@ -9,7 +9,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLa
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.AbsoluteComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.LinkedPairNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.RelativeComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.generic.AbsTrapsetOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetOperatorNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -24,7 +24,7 @@ public class TrapsetExpressionConverter extends TdlExpressionLanguageBaseVisitor
 	private TrapsetExpressionConverter() { }
 
 	private TrapsetSymbolNode newTrapsetSymbol(TerminalNode node) {
-		return new TrapsetSymbolNode(node.getText());
+		return TrapsetSymbolNode.of(node.getText());
 	}
 
 	@Override

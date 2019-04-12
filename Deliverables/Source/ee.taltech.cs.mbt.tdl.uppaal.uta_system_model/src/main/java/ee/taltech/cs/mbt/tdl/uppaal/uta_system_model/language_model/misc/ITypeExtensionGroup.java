@@ -5,7 +5,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.BaseTyp
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ITypeIdentifierVisitor;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -34,7 +33,7 @@ public interface ITypeExtensionGroup<ParentType, GroupedType extends ParentType>
 	 * @return A list of {@link GroupedType} instances that are independent from this group instance.
 	 */
 	default List<GroupedType> independentInstances() {
-		return getBaseTypeExtensionMap().stream()
+		return getBaseTypeExtensionMap().streamView()
 				.map(this::mapToIndependent)
 				.collect(Collectors.toList());
 	}

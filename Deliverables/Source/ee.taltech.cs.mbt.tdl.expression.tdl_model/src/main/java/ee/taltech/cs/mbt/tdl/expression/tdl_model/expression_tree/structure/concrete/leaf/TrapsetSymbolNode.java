@@ -1,18 +1,36 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpressionVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.leaf.AbsExpressionLeafNode;
 
 import java.util.Objects;
 
 public class TrapsetSymbolNode extends AbsExpressionLeafNode<String> {
-	public TrapsetSymbolNode(String symbol) {
+	public static String normalizeTrapsetSymbol(String symbol) {
+		return symbol.toUpperCase();
+	}
+
+	public static TrapsetSymbolNode of(String symbol) {
+		return new TrapsetSymbolNode(normalizeTrapsetSymbol(symbol));
+	}
+
+	private TrapsetSymbolNode(String symbol) {
 		super(symbol);
 	}
 
 	@Override
-	public <T> T accept(TdlExpressionVisitor<T> visitor) {
+	public <T> T accept(ITdlExpressionVisitor<T> visitor) {
 		return visitor.visitTrapsetSymbol(this);
+	}
+
+	@Override
+	public String toString() {
+		return getSymbol();
+	}
+
+	@Override
+	public int hashCode() {
+		return getSymbol().hashCode();
 	}
 
 	@Override

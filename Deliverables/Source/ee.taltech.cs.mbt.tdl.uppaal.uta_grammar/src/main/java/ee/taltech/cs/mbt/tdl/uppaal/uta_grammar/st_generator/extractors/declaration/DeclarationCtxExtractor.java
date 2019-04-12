@@ -3,7 +3,6 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.declara
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.expression.ExpressionCtxExtractor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.misc.ArrayModifierCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.misc.BaseTypeExtensionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.parameter.ParameterCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.statement.StatementCtxExtractor;
@@ -101,7 +100,7 @@ public class DeclarationCtxExtractor implements IContextExtractor<AbsDeclaration
 		ContextBuilder baseTypeCtx = BaseTypeCtxExtractor.getInstance().extract(typeMap.getBaseType());
 
 		List<ContextBuilder> subDeclCtxs = new LinkedList<>();
-		for (BaseTypeExtension subType : typeMap.getTypeExtensions()) {
+		for (BaseTypeExtension subType : typeMap.collectionView()) {
 			AbsVariableInitializer initializer = decl.getInitializerMap().get(subType.getIdentifier());
 			ContextBuilder initCtx = initializer != null
 					? InitializerCtxExtractor.getInstance().extract(initializer)
@@ -132,7 +131,7 @@ public class DeclarationCtxExtractor implements IContextExtractor<AbsDeclaration
 		ContextBuilder baseTypeCtx = BaseTypeCtxExtractor.getInstance().extract(typeMap.getBaseType());
 
 		List<ContextBuilder> subDeclCtxs = new LinkedList<>();
-		for (BaseTypeExtension subType : typeMap.getTypeExtensions()) {
+		for (BaseTypeExtension subType : typeMap.collectionView()) {
 			ContextBuilder subTypeCtx = BaseTypeExtensionCtxExtractor.getInstance().extract(subType);
 			subDeclCtxs.add(subTypeCtx);
 		}

@@ -77,7 +77,7 @@ public class BaseTypeExtensionMap implements Iterable<BaseTypeExtension>, IDeepC
 		@Override
 		public BaseTypeExtension setBaseType(BaseType baseType) {
 			throw new UnsupportedOperationException(
-					"This field is controlled by the parent " + parentMap.getClass().getName() + " instance."
+					"This field is controlled by the parent " + parentMap.getClass().getSimpleName() + " instance."
 			);
 		}
 	}
@@ -124,24 +124,24 @@ public class BaseTypeExtensionMap implements Iterable<BaseTypeExtension>, IDeepC
 		nestedMap.remove(identifier);
 	}
 
-	public Collection<BaseTypeExtension> getTypeExtensions() {
+	public Collection<BaseTypeExtension> collectionView() {
 		return Collections.unmodifiableMap(nestedMap).values();
 	}
 
-	public Stream<BaseTypeExtension> stream() {
-		return getTypeExtensions().stream();
+	public Stream<BaseTypeExtension> streamView() {
+		return collectionView().stream();
 	}
 
 	@Override
 	public Iterator<BaseTypeExtension> iterator() {
-		return getTypeExtensions().iterator();
+		return collectionView().iterator();
 	}
 
 	@Override
 	public BaseTypeExtensionMap deepClone() {
 		BaseTypeExtensionMap clone = new BaseTypeExtensionMap();
 		clone.setBaseType(getBaseType().deepClone());
-		stream().forEachOrdered(t -> {
+		streamView().forEachOrdered(t -> {
 			BaseTypeExtension typeClone = clone.getOrCreateType(t.getIdentifier());
 			typeClone.setReferenceType(t.isReferenceType());
 			t.getArrayModifiers().stream()

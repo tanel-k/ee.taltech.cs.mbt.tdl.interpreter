@@ -12,7 +12,7 @@ public class LocationLabelValidationCtx extends AbsLabelValidationCtx<LocationVa
 	@Override
 	public String getName() {
 		return "location label ("
-					+ getContextObject().getClass().getName()
+					+ getContextObject().getClass().getSimpleName()
 				+ ")";
 	}
 }

@@ -37,7 +37,7 @@ public class FieldDeclarationCtxExtractor implements IContextExtractor<AbsFieldD
 	public ContextBuilder visitFieldDeclarationGroup(FieldDeclarationGroup decl) {
 		BaseTypeExtensionMap typeMap = decl.getBaseTypeExtensionMap();
 
-		Collection<ContextBuilder> typeCtxs = BaseTypeExtensionCtxExtractor.getInstance().extract(typeMap.getTypeExtensions());
+		Collection<ContextBuilder> typeCtxs = BaseTypeExtensionCtxExtractor.getInstance().extract(typeMap.collectionView());
 		ContextBuilder baseTypeCtxs = BaseTypeCtxExtractor.getInstance().extract(typeMap.getBaseType());
 
 		return ContextBuilder.newBuilder("multiDeclaration")

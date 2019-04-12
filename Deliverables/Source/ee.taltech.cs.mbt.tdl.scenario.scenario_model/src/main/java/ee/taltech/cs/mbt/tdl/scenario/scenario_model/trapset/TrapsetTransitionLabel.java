@@ -31,4 +31,12 @@ public class TrapsetTransitionLabel {
 		this.markedTransition = markedTransition;
 		this.originExpression = originExpression;
 	}
+
+	@Override
+	public String toString() {
+		String sourceId = markedTransition.getSource().getId();
+		String targetId = markedTransition.getTarget().getId();
+		String exprStr = originExpression.toString();
+		return getClass().getSimpleName() + "(" + sourceId + "->" + targetId + ";" + exprStr + ")";
+	}
 }

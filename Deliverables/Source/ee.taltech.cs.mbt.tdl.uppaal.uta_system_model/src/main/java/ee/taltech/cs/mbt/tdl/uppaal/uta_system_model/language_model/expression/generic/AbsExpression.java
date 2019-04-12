@@ -88,4 +88,14 @@ public abstract class AbsExpression {
 
 	public abstract AbsExpression deepClone();
 	public abstract <T> T accept(IExpressionVisitor<T> visitor);
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(getClass().getSimpleName())
+			.append("(");
+		for (AbsExpression child : getChildExpressions()) {
+			sb.append(child).append(",");
+		}
+		return sb.append(")").toString();
+	}
 }

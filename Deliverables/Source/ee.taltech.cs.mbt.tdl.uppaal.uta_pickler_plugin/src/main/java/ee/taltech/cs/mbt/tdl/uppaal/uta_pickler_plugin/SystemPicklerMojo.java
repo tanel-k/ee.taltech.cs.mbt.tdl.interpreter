@@ -72,8 +72,8 @@ public class SystemPicklerMojo extends AbstractMojo {
 		}
 	}
 
-	@Parameter(defaultValue = "false", readonly = true)
-	private Boolean readOnly;
+	@Parameter(defaultValue = "true", readonly = true)
+	private boolean writeProtect;
 
 	@Parameter(defaultValue = "pickles", readonly = true)
 	private String picklePackage;
@@ -166,7 +166,7 @@ public class SystemPicklerMojo extends AbstractMojo {
 			throw new MojoExecutionException("Failed to write pickle class file.", t);
 		}
 
-		if (readOnly) {
+		if (writeProtect) {
 			try {
 				setReadOnly(outputFilePath, true);
 			} catch (IOException ex) {
