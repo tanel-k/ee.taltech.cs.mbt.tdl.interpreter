@@ -65,34 +65,12 @@ public class ScenarioStubSystemFactory {
       return new TdlStopwatchTemplateFactory();
     }
 
-    public static final Identifier NAME = Identifier.of("TdlStopwatch");
+    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlStopwatch");
 
     public static final Identifier DECLARED_NAME_timeoutClock = Identifier.of("timeoutClock");
 
-    public static TemplateInstantiation createInstantiation(
-        Identifier newTemplateName, AbsExpression arg_rootIndex) {
-      TemplateInstantiation inst =
-          new TemplateInstantiation()
-              .setNewTemplateName(newTemplateName)
-              .setSourceTemplateName(NAME);
-
-      // Set arguments/parameters:
-      if (arg_rootIndex != null) {
-        inst.addArgument(arg_rootIndex);
-      } else { // Either provide rootIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("rootIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))
-                        .setReferenceType(true)));
-      }
-
-      return inst;
+    public Identifier getTemplateName() {
+      return TEMPLATE_NAME;
     }
 
     protected TdlStopwatchTemplateFactory() {}
@@ -123,6 +101,7 @@ public class ScenarioStubSystemFactory {
     protected Location newId2Location() {
       return new Location()
           .setId("id2")
+          .setName(new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-296, -96)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(
               new LocationLabels()
@@ -232,12 +211,25 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("rootIndex"))))));
     }
 
-    public Template newTemplate() {
-      Template TdlStopwatch = new Template();
+    public TemplateInstantiation createInstantiation(
+        Identifier newTemplateName, AbsExpression arg_rootIndex) {
+      TemplateInstantiation inst =
+          new TemplateInstantiation()
+              .setNewTemplateName(newTemplateName)
+              .setSourceTemplateName(getTemplateName());
 
-      // Template name:
-      Identifier identifier = Identifier.of("TdlStopwatch");
-      TdlStopwatch.setName(identifier);
+      // Set arguments/parameters:
+      if (arg_rootIndex != null) {
+        inst.addArgument(arg_rootIndex);
+      } else { // Either provide rootIndex argument or leave a parameter:
+        inst.addParameter(new_rootIndexParameterDeclaration());
+      }
+
+      return inst;
+    }
+
+    public Template newTemplate() {
+      Template TdlStopwatch = new Template().setName(getTemplateName());
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
@@ -277,7 +269,7 @@ public class ScenarioStubSystemFactory {
       return new TdlBoundedLeadsToRecognizerTemplateFactory();
     }
 
-    public static final Identifier NAME = Identifier.of("TdlBoundedLeadsToRecognizer");
+    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlBoundedLeadsToRecognizer");
 
     public static final Identifier DECLARED_NAME_lessThanBound = Identifier.of("lessThanBound");
     public static final Identifier DECLARED_NAME_lessThanOrEqBound =
@@ -289,86 +281,8 @@ public class ScenarioStubSystemFactory {
     public static final Identifier DECLARED_NAME_equalityBound = Identifier.of("equalityBound");
     public static final Identifier DECLARED_NAME_localClock = Identifier.of("localClock");
 
-    public static TemplateInstantiation createInstantiation(
-        Identifier newTemplateName,
-        AbsExpression arg_boundType,
-        AbsExpression arg_boundValue,
-        AbsExpression arg_treeIndex,
-        AbsExpression arg_leftOpIndex,
-        AbsExpression arg_rightOpIndex) {
-      TemplateInstantiation inst =
-          new TemplateInstantiation()
-              .setNewTemplateName(newTemplateName)
-              .setSourceTemplateName(NAME);
-
-      // Set arguments/parameters:
-      if (arg_boundType != null) {
-        inst.addArgument(arg_boundType);
-      } else { // Either provide boundType argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("boundType"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("BoundType"))))));
-      }
-      if (arg_boundValue != null) {
-        inst.addArgument(arg_boundValue);
-      } else { // Either provide boundValue argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("boundValue"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("BoundValue"))))));
-      }
-      if (arg_treeIndex != null) {
-        inst.addArgument(arg_treeIndex);
-      } else { // Either provide treeIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("treeIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-      if (arg_leftOpIndex != null) {
-        inst.addArgument(arg_leftOpIndex);
-      } else { // Either provide leftOpIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("leftOpIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-      if (arg_rightOpIndex != null) {
-        inst.addArgument(arg_rightOpIndex);
-      } else { // Either provide rightOpIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("rightOpIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-
-      return inst;
+    public Identifier getTemplateName() {
+      return TEMPLATE_NAME;
     }
 
     protected TdlBoundedLeadsToRecognizerTemplateFactory() {}
@@ -1013,12 +927,50 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    public Template newTemplate() {
-      Template TdlBoundedLeadsToRecognizer = new Template();
+    public TemplateInstantiation createInstantiation(
+        Identifier newTemplateName,
+        AbsExpression arg_boundType,
+        AbsExpression arg_boundValue,
+        AbsExpression arg_treeIndex,
+        AbsExpression arg_leftOpIndex,
+        AbsExpression arg_rightOpIndex) {
+      TemplateInstantiation inst =
+          new TemplateInstantiation()
+              .setNewTemplateName(newTemplateName)
+              .setSourceTemplateName(getTemplateName());
 
-      // Template name:
-      Identifier identifier = Identifier.of("TdlBoundedLeadsToRecognizer");
-      TdlBoundedLeadsToRecognizer.setName(identifier);
+      // Set arguments/parameters:
+      if (arg_boundType != null) {
+        inst.addArgument(arg_boundType);
+      } else { // Either provide boundType argument or leave a parameter:
+        inst.addParameter(new_boundTypeParameterDeclaration());
+      }
+      if (arg_boundValue != null) {
+        inst.addArgument(arg_boundValue);
+      } else { // Either provide boundValue argument or leave a parameter:
+        inst.addParameter(new_boundValueParameterDeclaration());
+      }
+      if (arg_treeIndex != null) {
+        inst.addArgument(arg_treeIndex);
+      } else { // Either provide treeIndex argument or leave a parameter:
+        inst.addParameter(new_treeIndexParameterDeclaration());
+      }
+      if (arg_leftOpIndex != null) {
+        inst.addArgument(arg_leftOpIndex);
+      } else { // Either provide leftOpIndex argument or leave a parameter:
+        inst.addParameter(new_leftOpIndexParameterDeclaration());
+      }
+      if (arg_rightOpIndex != null) {
+        inst.addArgument(arg_rightOpIndex);
+      } else { // Either provide rightOpIndex argument or leave a parameter:
+        inst.addParameter(new_rightOpIndexParameterDeclaration());
+      }
+
+      return inst;
+    }
+
+    public Template newTemplate() {
+      Template TdlBoundedLeadsToRecognizer = new Template().setName(getTemplateName());
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
@@ -1136,7 +1088,7 @@ public class ScenarioStubSystemFactory {
       return new TdlBoundedRepetitionRecognizerTemplateFactory();
     }
 
-    public static final Identifier NAME = Identifier.of("TdlBoundedRepetitionRecognizer");
+    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlBoundedRepetitionRecognizer");
 
     public static final Identifier DECLARED_NAME_lessThanBound = Identifier.of("lessThanBound");
     public static final Identifier DECLARED_NAME_lessThanOrEqBound =
@@ -1148,72 +1100,8 @@ public class ScenarioStubSystemFactory {
     public static final Identifier DECLARED_NAME_equalityBound = Identifier.of("equalityBound");
     public static final Identifier DECLARED_NAME_repetitions = Identifier.of("repetitions");
 
-    public static TemplateInstantiation createInstantiation(
-        Identifier newTemplateName,
-        AbsExpression arg_boundType,
-        AbsExpression arg_boundValue,
-        AbsExpression arg_treeIndex,
-        AbsExpression arg_operandIndex) {
-      TemplateInstantiation inst =
-          new TemplateInstantiation()
-              .setNewTemplateName(newTemplateName)
-              .setSourceTemplateName(NAME);
-
-      // Set arguments/parameters:
-      if (arg_boundType != null) {
-        inst.addArgument(arg_boundType);
-      } else { // Either provide boundType argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("boundType"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("BoundType"))))));
-      }
-      if (arg_boundValue != null) {
-        inst.addArgument(arg_boundValue);
-      } else { // Either provide boundValue argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("boundValue"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("BoundValue"))))));
-      }
-      if (arg_treeIndex != null) {
-        inst.addArgument(arg_treeIndex);
-      } else { // Either provide treeIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("treeIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-      if (arg_operandIndex != null) {
-        inst.addArgument(arg_operandIndex);
-      } else { // Either provide operandIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("operandIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-
-      return inst;
+    public Identifier getTemplateName() {
+      return TEMPLATE_NAME;
     }
 
     protected TdlBoundedRepetitionRecognizerTemplateFactory() {}
@@ -1787,12 +1675,44 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    public Template newTemplate() {
-      Template TdlBoundedRepetitionRecognizer = new Template();
+    public TemplateInstantiation createInstantiation(
+        Identifier newTemplateName,
+        AbsExpression arg_boundType,
+        AbsExpression arg_boundValue,
+        AbsExpression arg_treeIndex,
+        AbsExpression arg_operandIndex) {
+      TemplateInstantiation inst =
+          new TemplateInstantiation()
+              .setNewTemplateName(newTemplateName)
+              .setSourceTemplateName(getTemplateName());
 
-      // Template name:
-      Identifier identifier = Identifier.of("TdlBoundedRepetitionRecognizer");
-      TdlBoundedRepetitionRecognizer.setName(identifier);
+      // Set arguments/parameters:
+      if (arg_boundType != null) {
+        inst.addArgument(arg_boundType);
+      } else { // Either provide boundType argument or leave a parameter:
+        inst.addParameter(new_boundTypeParameterDeclaration());
+      }
+      if (arg_boundValue != null) {
+        inst.addArgument(arg_boundValue);
+      } else { // Either provide boundValue argument or leave a parameter:
+        inst.addParameter(new_boundValueParameterDeclaration());
+      }
+      if (arg_treeIndex != null) {
+        inst.addArgument(arg_treeIndex);
+      } else { // Either provide treeIndex argument or leave a parameter:
+        inst.addParameter(new_treeIndexParameterDeclaration());
+      }
+      if (arg_operandIndex != null) {
+        inst.addArgument(arg_operandIndex);
+      } else { // Either provide operandIndex argument or leave a parameter:
+        inst.addParameter(new_operandIndexParameterDeclaration());
+      }
+
+      return inst;
+    }
+
+    public Template newTemplate() {
+      Template TdlBoundedRepetitionRecognizer = new Template().setName(getTemplateName());
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
@@ -1899,60 +1819,10 @@ public class ScenarioStubSystemFactory {
       return new TdlConjunctionRecognizerTemplateFactory();
     }
 
-    public static final Identifier NAME = Identifier.of("TdlConjunctionRecognizer");
+    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlConjunctionRecognizer");
 
-    public static TemplateInstantiation createInstantiation(
-        Identifier newTemplateName,
-        AbsExpression arg_treeIndex,
-        AbsExpression arg_leftOpIndex,
-        AbsExpression arg_rightOpIndex) {
-      TemplateInstantiation inst =
-          new TemplateInstantiation()
-              .setNewTemplateName(newTemplateName)
-              .setSourceTemplateName(NAME);
-
-      // Set arguments/parameters:
-      if (arg_treeIndex != null) {
-        inst.addArgument(arg_treeIndex);
-      } else { // Either provide treeIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("treeIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-      if (arg_leftOpIndex != null) {
-        inst.addArgument(arg_leftOpIndex);
-      } else { // Either provide leftOpIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("leftOpIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-      if (arg_rightOpIndex != null) {
-        inst.addArgument(arg_rightOpIndex);
-      } else { // Either provide rightOpIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("rightOpIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-
-      return inst;
+    public Identifier getTemplateName() {
+      return TEMPLATE_NAME;
     }
 
     protected TdlConjunctionRecognizerTemplateFactory() {}
@@ -2253,12 +2123,38 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    public Template newTemplate() {
-      Template TdlConjunctionRecognizer = new Template();
+    public TemplateInstantiation createInstantiation(
+        Identifier newTemplateName,
+        AbsExpression arg_treeIndex,
+        AbsExpression arg_leftOpIndex,
+        AbsExpression arg_rightOpIndex) {
+      TemplateInstantiation inst =
+          new TemplateInstantiation()
+              .setNewTemplateName(newTemplateName)
+              .setSourceTemplateName(getTemplateName());
 
-      // Template name:
-      Identifier identifier = Identifier.of("TdlConjunctionRecognizer");
-      TdlConjunctionRecognizer.setName(identifier);
+      // Set arguments/parameters:
+      if (arg_treeIndex != null) {
+        inst.addArgument(arg_treeIndex);
+      } else { // Either provide treeIndex argument or leave a parameter:
+        inst.addParameter(new_treeIndexParameterDeclaration());
+      }
+      if (arg_leftOpIndex != null) {
+        inst.addArgument(arg_leftOpIndex);
+      } else { // Either provide leftOpIndex argument or leave a parameter:
+        inst.addParameter(new_leftOpIndexParameterDeclaration());
+      }
+      if (arg_rightOpIndex != null) {
+        inst.addArgument(arg_rightOpIndex);
+      } else { // Either provide rightOpIndex argument or leave a parameter:
+        inst.addParameter(new_rightOpIndexParameterDeclaration());
+      }
+
+      return inst;
+    }
+
+    public Template newTemplate() {
+      Template TdlConjunctionRecognizer = new Template().setName(getTemplateName());
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
@@ -2333,60 +2229,10 @@ public class ScenarioStubSystemFactory {
       return new TdlDisjunctionRecognizerTemplateFactory();
     }
 
-    public static final Identifier NAME = Identifier.of("TdlDisjunctionRecognizer");
+    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlDisjunctionRecognizer");
 
-    public static TemplateInstantiation createInstantiation(
-        Identifier newTemplateName,
-        AbsExpression arg_treeIndex,
-        AbsExpression arg_leftOpIndex,
-        AbsExpression arg_rightOpIndex) {
-      TemplateInstantiation inst =
-          new TemplateInstantiation()
-              .setNewTemplateName(newTemplateName)
-              .setSourceTemplateName(NAME);
-
-      // Set arguments/parameters:
-      if (arg_treeIndex != null) {
-        inst.addArgument(arg_treeIndex);
-      } else { // Either provide treeIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("treeIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-      if (arg_leftOpIndex != null) {
-        inst.addArgument(arg_leftOpIndex);
-      } else { // Either provide leftOpIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("leftOpIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-      if (arg_rightOpIndex != null) {
-        inst.addArgument(arg_rightOpIndex);
-      } else { // Either provide rightOpIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("rightOpIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-
-      return inst;
+    public Identifier getTemplateName() {
+      return TEMPLATE_NAME;
     }
 
     protected TdlDisjunctionRecognizerTemplateFactory() {}
@@ -2630,12 +2476,38 @@ public class ScenarioStubSystemFactory {
           .addNail(GuiCoordinates.of(-2032, -456));
     }
 
-    public Template newTemplate() {
-      Template TdlDisjunctionRecognizer = new Template();
+    public TemplateInstantiation createInstantiation(
+        Identifier newTemplateName,
+        AbsExpression arg_treeIndex,
+        AbsExpression arg_leftOpIndex,
+        AbsExpression arg_rightOpIndex) {
+      TemplateInstantiation inst =
+          new TemplateInstantiation()
+              .setNewTemplateName(newTemplateName)
+              .setSourceTemplateName(getTemplateName());
 
-      // Template name:
-      Identifier identifier = Identifier.of("TdlDisjunctionRecognizer");
-      TdlDisjunctionRecognizer.setName(identifier);
+      // Set arguments/parameters:
+      if (arg_treeIndex != null) {
+        inst.addArgument(arg_treeIndex);
+      } else { // Either provide treeIndex argument or leave a parameter:
+        inst.addParameter(new_treeIndexParameterDeclaration());
+      }
+      if (arg_leftOpIndex != null) {
+        inst.addArgument(arg_leftOpIndex);
+      } else { // Either provide leftOpIndex argument or leave a parameter:
+        inst.addParameter(new_leftOpIndexParameterDeclaration());
+      }
+      if (arg_rightOpIndex != null) {
+        inst.addArgument(arg_rightOpIndex);
+      } else { // Either provide rightOpIndex argument or leave a parameter:
+        inst.addParameter(new_rightOpIndexParameterDeclaration());
+      }
+
+      return inst;
+    }
+
+    public Template newTemplate() {
+      Template TdlDisjunctionRecognizer = new Template().setName(getTemplateName());
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
@@ -2699,60 +2571,10 @@ public class ScenarioStubSystemFactory {
       return new TdlLeadsToRecognizerTemplateFactory();
     }
 
-    public static final Identifier NAME = Identifier.of("TdlLeadsToRecognizer");
+    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlLeadsToRecognizer");
 
-    public static TemplateInstantiation createInstantiation(
-        Identifier newTemplateName,
-        AbsExpression arg_treeIndex,
-        AbsExpression arg_leftOpIndex,
-        AbsExpression arg_rightOpIndex) {
-      TemplateInstantiation inst =
-          new TemplateInstantiation()
-              .setNewTemplateName(newTemplateName)
-              .setSourceTemplateName(NAME);
-
-      // Set arguments/parameters:
-      if (arg_treeIndex != null) {
-        inst.addArgument(arg_treeIndex);
-      } else { // Either provide treeIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("treeIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-      if (arg_leftOpIndex != null) {
-        inst.addArgument(arg_leftOpIndex);
-      } else { // Either provide leftOpIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("leftOpIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-      if (arg_rightOpIndex != null) {
-        inst.addArgument(arg_rightOpIndex);
-      } else { // Either provide rightOpIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("rightOpIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-
-      return inst;
+    public Identifier getTemplateName() {
+      return TEMPLATE_NAME;
     }
 
     protected TdlLeadsToRecognizerTemplateFactory() {}
@@ -3008,12 +2830,38 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    public Template newTemplate() {
-      Template TdlLeadsToRecognizer = new Template();
+    public TemplateInstantiation createInstantiation(
+        Identifier newTemplateName,
+        AbsExpression arg_treeIndex,
+        AbsExpression arg_leftOpIndex,
+        AbsExpression arg_rightOpIndex) {
+      TemplateInstantiation inst =
+          new TemplateInstantiation()
+              .setNewTemplateName(newTemplateName)
+              .setSourceTemplateName(getTemplateName());
 
-      // Template name:
-      Identifier identifier = Identifier.of("TdlLeadsToRecognizer");
-      TdlLeadsToRecognizer.setName(identifier);
+      // Set arguments/parameters:
+      if (arg_treeIndex != null) {
+        inst.addArgument(arg_treeIndex);
+      } else { // Either provide treeIndex argument or leave a parameter:
+        inst.addParameter(new_treeIndexParameterDeclaration());
+      }
+      if (arg_leftOpIndex != null) {
+        inst.addArgument(arg_leftOpIndex);
+      } else { // Either provide leftOpIndex argument or leave a parameter:
+        inst.addParameter(new_leftOpIndexParameterDeclaration());
+      }
+      if (arg_rightOpIndex != null) {
+        inst.addArgument(arg_rightOpIndex);
+      } else { // Either provide rightOpIndex argument or leave a parameter:
+        inst.addParameter(new_rightOpIndexParameterDeclaration());
+      }
+
+      return inst;
+    }
+
+    public Template newTemplate() {
+      Template TdlLeadsToRecognizer = new Template().setName(getTemplateName());
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
@@ -3079,7 +2927,7 @@ public class ScenarioStubSystemFactory {
       return new TdlQuantificationRecognizerTemplateFactory();
     }
 
-    public static final Identifier NAME = Identifier.of("TdlQuantificationRecognizer");
+    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlQuantificationRecognizer");
 
     public static final Identifier DECLARED_NAME_negatedUniversalQuantification =
         Identifier.of("negatedUniversalQuantification");
@@ -3092,104 +2940,8 @@ public class ScenarioStubSystemFactory {
     public static final Identifier DECLARED_NAME_index = Identifier.of("index");
     public static final Identifier DECLARED_NAME_resetTrapset = Identifier.of("resetTrapset");
 
-    public static TemplateInstantiation createInstantiation(
-        Identifier newTemplateName,
-        AbsExpression arg_universal,
-        AbsExpression arg_negated,
-        AbsExpression arg_treeIndex,
-        AbsExpression arg_trapsetIndex,
-        AbsExpression arg_trapsetSize,
-        AbsExpression arg_trapset) {
-      TemplateInstantiation inst =
-          new TemplateInstantiation()
-              .setNewTemplateName(newTemplateName)
-              .setSourceTemplateName(NAME);
-
-      // Set arguments/parameters:
-      if (arg_universal != null) {
-        inst.addArgument(arg_universal);
-      } else { // Either provide universal argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("universal"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(BaseTypeIdentifiers.BOOLEAN))));
-      }
-      if (arg_negated != null) {
-        inst.addArgument(arg_negated);
-      } else { // Either provide negated argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("negated"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(BaseTypeIdentifiers.BOOLEAN))));
-      }
-      if (arg_treeIndex != null) {
-        inst.addArgument(arg_treeIndex);
-      } else { // Either provide treeIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("treeIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex"))))));
-      }
-      if (arg_trapsetIndex != null) {
-        inst.addArgument(arg_trapsetIndex);
-      } else { // Either provide trapsetIndex argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("trapsetIndex"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(CustomTypeId.of(Identifier.of("TrapsetIndex"))))));
-      }
-      if (arg_trapsetSize != null) {
-        inst.addArgument(arg_trapsetSize);
-      } else { // Either provide trapsetSize argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("trapsetSize"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.CONSTANT)
-                                .setTypeId(BaseTypeIdentifiers.INTEGER))));
-      }
-      if (arg_trapset != null) {
-        inst.addArgument(arg_trapset);
-      } else { // Either provide trapset argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("trapset"))
-                .setType(
-                    new Type()
-                        .setBaseType(
-                            new BaseType()
-                                .setPrefix(ETypePrefix.NONE)
-                                .setTypeId(BaseTypeIdentifiers.BOOLEAN))
-                        .setReferenceType(true)
-                        .addArrayModifier(
-                            new SizeExpressionArrayModifier()
-                                .setSizeSpecifier(NaturalNumberLiteral.of("0")))));
-      }
-
-      return inst;
+    public Identifier getTemplateName() {
+      return TEMPLATE_NAME;
     }
 
     protected TdlQuantificationRecognizerTemplateFactory() {}
@@ -3384,6 +3136,7 @@ public class ScenarioStubSystemFactory {
     protected Location newId42Location() {
       return new Location()
           .setId("id42")
+          .setName(new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-536, -24)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-552, -8));
@@ -3691,12 +3444,56 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    public Template newTemplate() {
-      Template TdlQuantificationRecognizer = new Template();
+    public TemplateInstantiation createInstantiation(
+        Identifier newTemplateName,
+        AbsExpression arg_universal,
+        AbsExpression arg_negated,
+        AbsExpression arg_treeIndex,
+        AbsExpression arg_trapsetIndex,
+        AbsExpression arg_trapsetSize,
+        AbsExpression arg_trapset) {
+      TemplateInstantiation inst =
+          new TemplateInstantiation()
+              .setNewTemplateName(newTemplateName)
+              .setSourceTemplateName(getTemplateName());
 
-      // Template name:
-      Identifier identifier = Identifier.of("TdlQuantificationRecognizer");
-      TdlQuantificationRecognizer.setName(identifier);
+      // Set arguments/parameters:
+      if (arg_universal != null) {
+        inst.addArgument(arg_universal);
+      } else { // Either provide universal argument or leave a parameter:
+        inst.addParameter(new_universalParameterDeclaration());
+      }
+      if (arg_negated != null) {
+        inst.addArgument(arg_negated);
+      } else { // Either provide negated argument or leave a parameter:
+        inst.addParameter(new_negatedParameterDeclaration());
+      }
+      if (arg_treeIndex != null) {
+        inst.addArgument(arg_treeIndex);
+      } else { // Either provide treeIndex argument or leave a parameter:
+        inst.addParameter(new_treeIndexParameterDeclaration());
+      }
+      if (arg_trapsetIndex != null) {
+        inst.addArgument(arg_trapsetIndex);
+      } else { // Either provide trapsetIndex argument or leave a parameter:
+        inst.addParameter(new_trapsetIndexParameterDeclaration());
+      }
+      if (arg_trapsetSize != null) {
+        inst.addArgument(arg_trapsetSize);
+      } else { // Either provide trapsetSize argument or leave a parameter:
+        inst.addParameter(new_trapsetSizeParameterDeclaration());
+      }
+      if (arg_trapset != null) {
+        inst.addArgument(arg_trapset);
+      } else { // Either provide trapset argument or leave a parameter:
+        inst.addParameter(new_trapsetParameterDeclaration());
+      }
+
+      return inst;
+    }
+
+    public Template newTemplate() {
+      Template TdlQuantificationRecognizer = new Template().setName(getTemplateName());
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(

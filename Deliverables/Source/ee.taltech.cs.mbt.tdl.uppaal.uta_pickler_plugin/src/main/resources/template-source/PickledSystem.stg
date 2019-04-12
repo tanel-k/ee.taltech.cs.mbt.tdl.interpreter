@@ -115,11 +115,13 @@ public static class <ctx.name>TemplateFactory {
         return new <ctx.name>TemplateFactory();
     }
 
-    public static final Identifier NAME = Identifier.of("<ctx.name>");
+    public static final Identifier TEMPLATE_NAME = Identifier.of("<ctx.name>");
 
     <ctx.declarations:declaredName()>
 
-    <templateInstantiationConstructor(ctx)>
+    public Identifier getTemplateName() {
+        return TEMPLATE_NAME;
+    }
 
     protected <ctx.name>TemplateFactory() { }
 
@@ -131,12 +133,11 @@ public static class <ctx.name>TemplateFactory {
 
     <ctx.transitions:transitionConstructor(); separator="\n">
 
-    public Template newTemplate() {
-        Template <ctx.name> = new Template();
+    <templateInstantiationConstructor(ctx)>
 
-        // Template name:
-        Identifier identifier = Identifier.of("<ctx.name>");
-        <ctx.name>.setName(identifier);
+    public Template newTemplate() {
+        Template <ctx.name> = new Template()
+            .setName(getTemplateName());
 
         // Set parameter declarations:
         <ctx.parameters:{paramCtx|<parameterDeclarationConsumer(ctx.name, paramCtx)>}; separator="\n">
@@ -193,23 +194,19 @@ declaredName(ctx) ::= <%
 %>
 
 templateInstantiationConstructor(ctx) ::= <<
-public static TemplateInstantiation createInstantiation(Identifier newTemplateName,
+public TemplateInstantiation createInstantiation(Identifier newTemplateName,
     <ctx.parameters:{paramCtx|AbsExpression arg_<paramCtx.identifier>}; separator=", ">
 ) {
     TemplateInstantiation inst = new TemplateInstantiation()
         .setNewTemplateName(newTemplateName)
-        .setSourceTemplateName(NAME);
+        .setSourceTemplateName(getTemplateName());
 
     // Set arguments/parameters:
     <ctx.parameters:{paramCtx|
     if (arg_<paramCtx.identifier> != null) {
         inst.addArgument(arg_<paramCtx.identifier>);
     \} else { // Either provide <paramCtx.identifier> argument or leave a parameter:
-        inst.addParameter(
-            new ParameterDeclaration()
-                .setIdentifier(Identifier.of("<paramCtx.identifier>"))
-                .setType(<newType(paramCtx.type)>)
-        );
+        inst.addParameter(new_<paramCtx.name>ParameterDeclaration());
     \}}>
 
     return inst;

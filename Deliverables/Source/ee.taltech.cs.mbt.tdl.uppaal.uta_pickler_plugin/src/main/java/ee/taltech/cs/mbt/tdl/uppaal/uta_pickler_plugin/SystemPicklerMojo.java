@@ -3,11 +3,11 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin;
 import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.GenerationException;
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller.MarshallingException;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.SystemFactoryClassNameGenerator;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.SystemPickleGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import org.apache.maven.plugin.AbstractMojo;
@@ -22,9 +22,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.DosFileAttributeView;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +46,25 @@ public class SystemPicklerMojo extends AbstractMojo {
 		String[] rest = m.replaceFirst("").split("\\.");
 		return Paths.get(first, rest);
 	}
+
+	private static void setReadOnly(Path filePath, boolean readOnly) throws IOException {
+		FileStore fileStore = Files.getFileStore(filePath);
+
+		if (fileStore.supportsFileAttributeView(DosFileAttributeView.class)) {
+			DosFileAttributeView dosView = Files.getFileAttributeView(filePath, DosFileAttributeView.class);
+			dosView.setReadOnly(readOnly);
+		} else if (fileStore.supportsFileAttributeView(PosixFileAttributeView.class)) {
+			PosixFileAttributeView posixView = Files.getFileAttributeView(filePath, PosixFileAttributeView.class);
+			posixView.setPermissions(CollectionUtils.newSet(
+					PosixFilePermission.OTHERS_READ,
+					PosixFilePermission.OTHERS_EXECUTE,
+					PosixFilePermission.OTHERS_WRITE
+			));
+		}
+	}
+
+	@Parameter(defaultValue = "false", readonly = true)
+	private Boolean readOnly;
 
 	@Parameter(defaultValue = "pickles", readonly = true)
 	private String picklePackage;
@@ -111,23 +134,35 @@ public class SystemPicklerMojo extends AbstractMojo {
 		Path outputFilePath = outputDirectory.toPath().resolve(packagePath);
 		try {
 			if (Files.notExists(outputFilePath.getParent())) {
-				getLog().info("Setting up file directory " + outputFilePath.getParent().toString());
+				getLog().info("Setting up file directory " + outputFilePath.getParent().getFileName());
 				Files.createDirectories(outputFilePath.getParent());
 			}
 
 			if (Files.notExists(outputFilePath)) {
-				getLog().info("Setting up file " + outputFilePath.toString());
+				getLog().info("Setting up file " + outputFilePath.getFileName());
 				outputFilePath = Files.createFile(outputFilePath);
+			} else if (!Files.isWritable(outputFilePath)) {
+				getLog().info("Removing read-only restriction from " + outputFilePath.getFileName() + ".");
+				setReadOnly(outputFilePath, false);
 			}
 		} catch (Throwable t) {
 			throw new MojoExecutionException("Failed to set up file path.", t);
 		}
 
-		try (FileOutputStream out = new FileOutputStream(outputFilePath.toFile())) {
+		File outputFile;
+		try (FileOutputStream out = new FileOutputStream(outputFile = outputFilePath.toFile())) {
 			getLog().info("Writing to " + outputFilePath.toString());
 			out.write(formattedPickleClass.getBytes());
 		} catch (Throwable t) {
-			throw new MojoExecutionException("Failed to write pickle class.", t);
+			throw new MojoExecutionException("Failed to write pickle class file.", t);
+		}
+
+		if (readOnly) {
+			try {
+				setReadOnly(outputFilePath, true);
+			} catch (IOException ex) {
+				getLog().warn("Failed to set read only permissions for pickle class file.", ex);
+			}
 		}
 	}
 }
