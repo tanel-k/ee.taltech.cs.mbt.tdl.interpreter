@@ -29,6 +29,8 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributeView;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
+import java.util.Collections;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +49,17 @@ public class SystemPicklerMojo extends AbstractMojo {
 		return Paths.get(first, rest);
 	}
 
+	private static final Set<PosixFilePermission> POSIX_READ_ONLY_PERMS = Collections.unmodifiableSet(CollectionUtils.newSet(
+			PosixFilePermission.OTHERS_READ,
+			PosixFilePermission.OTHERS_EXECUTE,
+			PosixFilePermission.OWNER_WRITE
+	));
+	private static final Set<PosixFilePermission> POSIX_WRITE_PERMS = Collections.unmodifiableSet(CollectionUtils.newSet(
+			PosixFilePermission.OTHERS_READ,
+			PosixFilePermission.OTHERS_EXECUTE,
+			PosixFilePermission.OTHERS_WRITE
+	));
+
 	private static void setReadOnly(Path filePath, boolean readOnly) throws IOException {
 		FileStore fileStore = Files.getFileStore(filePath);
 
@@ -55,11 +68,7 @@ public class SystemPicklerMojo extends AbstractMojo {
 			dosView.setReadOnly(readOnly);
 		} else if (fileStore.supportsFileAttributeView(PosixFileAttributeView.class)) {
 			PosixFileAttributeView posixView = Files.getFileAttributeView(filePath, PosixFileAttributeView.class);
-			posixView.setPermissions(CollectionUtils.newSet(
-					PosixFilePermission.OTHERS_READ,
-					PosixFilePermission.OTHERS_EXECUTE,
-					PosixFilePermission.OTHERS_WRITE
-			));
+			posixView.setPermissions(readOnly ? POSIX_READ_ONLY_PERMS : POSIX_WRITE_PERMS);
 		}
 	}
 
