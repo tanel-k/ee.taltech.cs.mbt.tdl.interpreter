@@ -4,6 +4,8 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,11 +17,12 @@ public class OperandContainer<OperandType extends AbsExpressionNode> {
 	public static final int ORDINAL_SECOND = 1;
 
 	public final int arity;
-	private Map<OperandType, Integer> operandOrdinals;
-	private List<OperandType> operands;
+	private ArrayList<OperandType> operands;
+	private LinkedHashMap<OperandType, Integer> operandOrdinals;
 
 	public OperandContainer(int arity) {
 		this.arity = arity;
+		this.operandOrdinals = new LinkedHashMap<>(arity);
 		this.operands = new ArrayList<>(Collections.nCopies(this.arity, null));
 	}
 
@@ -42,6 +45,7 @@ public class OperandContainer<OperandType extends AbsExpressionNode> {
 		if (ordinal < 0 || arity <= ordinal) {
 			throw new IllegalArgumentException("Ordinal out of bounds.");
 		}
+		this.operandOrdinals.remove(getOperand(ordinal));
 		this.operandOrdinals.put(operand, ordinal);
 		this.operands.set(ordinal, operand);
 		return this;

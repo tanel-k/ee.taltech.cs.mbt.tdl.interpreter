@@ -27,4 +27,14 @@ public class BoundedLeadsToNode extends LeadsToNode implements IBounded {
 	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
 		return visitor.visitBoundedLeadsTo(this);
 	}
+
+	@Override
+	public BoundedLeadsToNode deepClone() {
+		BoundedLeadsToNode clone = new BoundedLeadsToNode();
+		clone.setBound(getBound().deepClone());
+		clone.setNegated(isNegated());
+		clone.getOperandContainer().setLeftOperand(getOperandContainer().getLeftOperand().deepClone());
+		clone.getOperandContainer().setRightOperand(getOperandContainer().getRightOperand().deepClone());
+		return clone;
+	}
 }

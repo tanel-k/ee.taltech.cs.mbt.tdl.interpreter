@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier;
 
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetOperatorNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
@@ -19,5 +20,13 @@ public class ExistentialQuantificationNode extends AbsTrapsetQuantifierNode {
 	@Override
 	public <T> T accept(ITrapsetQuantifierVisitor<T> visitor) {
 		return visitor.visitExistential(this);
+	}
+
+	@Override
+	public ExistentialQuantificationNode deepClone() {
+		ExistentialQuantificationNode clone = new ExistentialQuantificationNode();
+		clone.setNegated(isNegated());
+		clone.getOperandContainer().setOperand(getOperandContainer().getOperand().deepClone());
+		return clone;
 	}
 }

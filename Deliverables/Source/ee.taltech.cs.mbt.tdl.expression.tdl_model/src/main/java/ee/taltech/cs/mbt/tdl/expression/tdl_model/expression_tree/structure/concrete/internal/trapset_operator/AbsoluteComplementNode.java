@@ -1,13 +1,13 @@
-package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset;
+package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_operator;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.operands.arity.UnaryOperandContainer;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetOperatorVisitor;
 
 public class AbsoluteComplementNode extends AbsTrapsetOperatorNode<
-			UnaryOperandContainer<TrapsetSymbolNode>
+			UnaryOperandContainer<TrapsetNode>
 		> {
 	public AbsoluteComplementNode() {
 		super(new UnaryOperandContainer<>());
@@ -21,5 +21,12 @@ public class AbsoluteComplementNode extends AbsTrapsetOperatorNode<
 	@Override
 	public <T> T accept(ITrapsetOperatorVisitor<T> visitor) {
 		return visitor.visitAbsoluteComplement(this);
+	}
+
+	@Override
+	public AbsoluteComplementNode deepClone() {
+		AbsoluteComplementNode clone = new AbsoluteComplementNode();
+		clone.getOperandContainer().setOperand(getOperandContainer().getOperand());
+		return clone;
 	}
 }

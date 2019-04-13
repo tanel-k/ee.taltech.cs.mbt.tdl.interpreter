@@ -36,4 +36,13 @@ public class BoundedRepetitionNode extends AbsLogicalOperatorNode<
 	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
 		return visitor.visitBoundedRepetition(this);
 	}
+
+	@Override
+	public BoundedRepetitionNode deepClone() {
+		BoundedRepetitionNode clone = new BoundedRepetitionNode();
+		clone.setBound(getBound().deepClone());
+		clone.setNegated(isNegated());
+		clone.getOperandContainer().setOperand(getOperandContainer().getOperand().deepClone());
+		return clone;
+	}
 }

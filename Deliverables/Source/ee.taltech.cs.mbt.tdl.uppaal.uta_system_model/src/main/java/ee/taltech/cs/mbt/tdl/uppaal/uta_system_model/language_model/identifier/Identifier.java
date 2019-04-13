@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.IDeepCloneable;
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 
 import java.util.Objects;
 

@@ -11,5 +11,13 @@ public abstract class AbsTrapsetQuantifierNode extends AbsLogicalOperatorNode<
 		super(new UnaryOperandContainer<>());
 	}
 
+	@Override
+	protected AbsTrapsetQuantifierNode setOperandContainer(UnaryOperandContainer<AbsTrapsetOperatorNode> operandContainer) {
+		return (AbsTrapsetQuantifierNode) super.setOperandContainer(operandContainer);
+	}
+
 	public abstract <T> T accept(ITrapsetQuantifierVisitor<T> visitor);
+
+	@Override
+	public abstract AbsTrapsetQuantifierNode deepClone();
 }

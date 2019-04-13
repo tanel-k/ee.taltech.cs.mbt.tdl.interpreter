@@ -22,4 +22,13 @@ public class ConjunctionNode extends AbsLogicalOperatorNode<
 	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
 		return visitor.visitConjunction(this);
 	}
+
+	@Override
+	public ConjunctionNode deepClone() {
+		ConjunctionNode clone = new ConjunctionNode();
+		clone.setNegated(isNegated());
+		clone.getOperandContainer().setLeftOperand(getOperandContainer().getLeftOperand().deepClone());
+		clone.getOperandContainer().setRightOperand(getOperandContainer().getRightOperand().deepClone());
+		return clone;
+	}
 }

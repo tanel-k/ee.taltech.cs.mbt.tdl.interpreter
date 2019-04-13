@@ -5,16 +5,16 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 
 import java.util.Objects;
 
-public class TrapsetSymbolNode extends AbsExpressionLeafNode<String> {
+public class TrapsetNode extends AbsExpressionLeafNode<String> {
 	public static String normalizeTrapsetSymbol(String symbol) {
 		return symbol.toUpperCase();
 	}
 
-	public static TrapsetSymbolNode of(String symbol) {
-		return new TrapsetSymbolNode(normalizeTrapsetSymbol(symbol));
+	public static TrapsetNode of(String symbol) {
+		return new TrapsetNode(normalizeTrapsetSymbol(symbol));
 	}
 
-	private TrapsetSymbolNode(String symbol) {
+	private TrapsetNode(String symbol) {
 		super(symbol);
 	}
 
@@ -24,13 +24,18 @@ public class TrapsetSymbolNode extends AbsExpressionLeafNode<String> {
 	}
 
 	@Override
+	public TrapsetNode deepClone() {
+		return this;
+	}
+
+	@Override
 	public String toString() {
-		return getSymbol();
+		return getRepresentation();
 	}
 
 	@Override
 	public int hashCode() {
-		return getSymbol().hashCode();
+		return getRepresentation().hashCode();
 	}
 
 	@Override
@@ -39,9 +44,9 @@ public class TrapsetSymbolNode extends AbsExpressionLeafNode<String> {
 			return false;
 		if (obj == this)
 			return true;
-		if (!(obj instanceof TrapsetSymbolNode))
+		if (!(obj instanceof TrapsetNode))
 			return false;
-		TrapsetSymbolNode other = (TrapsetSymbolNode) obj;
-		return Objects.equals(this.getSymbol(), other.getSymbol());
+		TrapsetNode other = (TrapsetNode) obj;
+		return Objects.equals(this.getRepresentation(), other.getRepresentation());
 	}
 }

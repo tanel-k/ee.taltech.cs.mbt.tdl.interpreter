@@ -1,8 +1,10 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
+
 import java.math.BigInteger;
 
-public class Bound {
+public class Bound implements IDeepCloneable<Bound> {
 	private EBoundType boundType;
 	private BigInteger boundValue;
 
@@ -20,5 +22,13 @@ public class Bound {
 
 	public void setBoundValue(BigInteger boundValue) {
 		this.boundValue = boundValue;
+	}
+
+	@Override
+	public Bound deepClone() {
+		Bound clone = new Bound();
+		clone.setBoundValue(getBoundValue());
+		clone.setBoundType(getBoundType());
+		return clone;
 	}
 }

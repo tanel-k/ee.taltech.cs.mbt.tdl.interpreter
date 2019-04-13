@@ -22,4 +22,12 @@ public class GroupNode extends AbsLogicalOperatorNode<
 	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
 		return visitor.visitGroup(this);
 	}
+
+	@Override
+	public GroupNode deepClone() {
+		GroupNode clone = new GroupNode();
+		clone.setNegated(isNegated());
+		clone.getOperandContainer().setOperand(getOperandContainer().getOperand().deepClone());
+		return clone;
+	}
 }

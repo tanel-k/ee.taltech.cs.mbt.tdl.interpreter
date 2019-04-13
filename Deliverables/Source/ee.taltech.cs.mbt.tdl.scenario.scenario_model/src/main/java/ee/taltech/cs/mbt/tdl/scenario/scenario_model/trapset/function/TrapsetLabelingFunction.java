@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.function;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.MultiValuedMap;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.BiTuple;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.Trapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.TrapsetTransitionLabel;
 
@@ -106,7 +106,7 @@ public class TrapsetLabelingFunction {
 
 	private Map<Trapset, TrapsetIdentityWrapper> trapsetIdentityCache = new HashMap<>();
 	private Map<TrapsetTransitionLabel, LabelIdentityWrapper> labelIdentityCache = new HashMap<>();
-	private Map<TrapsetSymbolNode, TrapsetIdentityWrapper> mapTrapsetSymbolToIdentity = new HashMap<>();
+	private Map<TrapsetNode, TrapsetIdentityWrapper> mapTrapsetSymbolToIdentity = new HashMap<>();
 	private MultiValuedMap<TrapsetIdentityWrapper, LabelIdentityWrapper, Set<LabelIdentityWrapper>> labelMap
 			= new MultiValuedMap<>();
 
@@ -157,7 +157,7 @@ public class TrapsetLabelingFunction {
 		return getLabeledTransitions(identityWrap(trapset));
 	}
 
-	public BiTuple<Trapset, Set<TrapsetTransitionLabel>> getMapping(TrapsetSymbolNode trapsetSymbol) {
+	public BiTuple<Trapset, Set<TrapsetTransitionLabel>> getMapping(TrapsetNode trapsetSymbol) {
 		if (!mapTrapsetSymbolToIdentity.containsKey(trapsetSymbol))
 			return null;
 		TrapsetIdentityWrapper trapsetId = mapTrapsetSymbolToIdentity.get(trapsetSymbol);
@@ -185,7 +185,7 @@ public class TrapsetLabelingFunction {
 				&& !labelMap.get(trapsetId).isEmpty();
 	}
 
-	public boolean hasMappings(TrapsetSymbolNode trapsetSymbol) {
+	public boolean hasMappings(TrapsetNode trapsetSymbol) {
 		if (!mapTrapsetSymbolToIdentity.containsKey(trapsetSymbol))
 			return false;
 		TrapsetIdentityWrapper trapsetId = mapTrapsetSymbolToIdentity.get(trapsetSymbol);

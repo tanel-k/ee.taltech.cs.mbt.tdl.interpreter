@@ -15,6 +15,11 @@ public abstract class AbsLogicalOperatorNode<
 		super(operandContainer);
 	}
 
+	@Override
+	protected AbsLogicalOperatorNode<OperandType, ContainerType> setOperandContainer(ContainerType operandContainer) {
+		return (AbsLogicalOperatorNode<OperandType, ContainerType>) super.setOperandContainer(operandContainer);
+	}
+
 	public boolean isNegated() {
 		return negated;
 	}
@@ -24,4 +29,7 @@ public abstract class AbsLogicalOperatorNode<
 	}
 
 	public abstract <T> T accept(ILogicalOperatorVisitor<T> visitor);
+
+	@Override
+	public abstract AbsLogicalOperatorNode<OperandType, ContainerType> deepClone();
 }

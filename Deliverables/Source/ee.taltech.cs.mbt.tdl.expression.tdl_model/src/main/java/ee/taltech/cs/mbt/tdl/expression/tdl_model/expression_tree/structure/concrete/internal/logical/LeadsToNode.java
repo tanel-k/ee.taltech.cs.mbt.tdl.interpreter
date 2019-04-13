@@ -22,4 +22,13 @@ public class LeadsToNode extends AbsLogicalOperatorNode<
 	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
 		return visitor.visitLeadsTo(this);
 	}
+
+	@Override
+	public LeadsToNode deepClone() {
+		LeadsToNode clone = new LeadsToNode();
+		clone.setNegated(isNegated());
+		clone.getOperandContainer().setLeftOperand(getOperandContainer().getLeftOperand().deepClone());
+		clone.getOperandContainer().setRightOperand(getOperandContainer().getRightOperand().deepClone());
+		return clone;
+	}
 }

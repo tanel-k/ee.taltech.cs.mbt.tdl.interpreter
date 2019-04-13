@@ -8,7 +8,7 @@ public abstract class AbsOperatorNode<
 		OperandContainerType extends OperandContainer<OperandType>
 		>
 		extends AbsExpressionNode {
-	private final OperandContainerType operandContainer;
+	private OperandContainerType operandContainer;
 
 	protected AbsOperatorNode(OperandContainerType operandContainer) {
 		this.operandContainer = operandContainer;
@@ -17,4 +17,12 @@ public abstract class AbsOperatorNode<
 	public OperandContainerType getOperandContainer() {
 		return operandContainer;
 	}
+
+	protected AbsOperatorNode<OperandType, OperandContainerType> setOperandContainer(OperandContainerType operandContainer) {
+		this.operandContainer = operandContainer;
+		return this;
+	}
+
+	@Override
+	public abstract AbsOperatorNode<OperandType, OperandContainerType> deepClone();
 }

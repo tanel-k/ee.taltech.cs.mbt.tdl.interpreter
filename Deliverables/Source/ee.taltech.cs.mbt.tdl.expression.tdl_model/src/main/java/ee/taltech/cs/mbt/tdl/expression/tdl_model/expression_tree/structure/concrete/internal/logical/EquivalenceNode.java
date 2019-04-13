@@ -22,4 +22,13 @@ public class EquivalenceNode extends AbsLogicalOperatorNode<
 	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
 		return visitor.visitEquivalence(this);
 	}
+
+	@Override
+	public EquivalenceNode deepClone() {
+		EquivalenceNode clone = new EquivalenceNode();
+		clone.setNegated(isNegated());
+		clone.getOperandContainer().setLeftOperand(getOperandContainer().getLeftOperand().deepClone());
+		clone.getOperandContainer().setRightOperand(getOperandContainer().getRightOperand().deepClone());
+		return clone;
+	}
 }

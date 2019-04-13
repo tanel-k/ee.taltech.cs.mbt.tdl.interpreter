@@ -6,11 +6,11 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLa
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.LinkedTrapsetPairExpressionContext;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.RelativeTrapsetComplementExpressionContext;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.TrapsetExpressionContext;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.AbsoluteComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.LinkedPairNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.RelativeComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_operator.AbsoluteComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_operator.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_operator.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class TrapsetExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsTrapsetOperatorNode>
@@ -23,8 +23,8 @@ public class TrapsetExpressionConverter extends TdlExpressionLanguageBaseVisitor
 
 	private TrapsetExpressionConverter() { }
 
-	private TrapsetSymbolNode newTrapsetSymbol(TerminalNode node) {
-		return TrapsetSymbolNode.of(node.getText());
+	private TrapsetNode newTrapsetSymbol(TerminalNode node) {
+		return TrapsetNode.of(node.getText());
 	}
 
 	@Override

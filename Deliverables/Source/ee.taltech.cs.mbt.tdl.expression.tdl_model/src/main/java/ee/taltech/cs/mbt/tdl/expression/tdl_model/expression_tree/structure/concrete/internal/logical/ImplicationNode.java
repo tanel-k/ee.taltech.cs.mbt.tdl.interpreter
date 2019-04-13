@@ -22,4 +22,13 @@ public class ImplicationNode extends AbsLogicalOperatorNode<
 	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
 		return visitor.visitImplication(this);
 	}
+
+	@Override
+	public ImplicationNode deepClone() {
+		ImplicationNode clone = new ImplicationNode();
+		clone.setNegated(isNegated());
+		clone.getOperandContainer().setLeftOperand(getOperandContainer().getLeftOperand().deepClone());
+		clone.getOperandContainer().setRightOperand(getOperandContainer().getRightOperand().deepClone());
+		return clone;
+	}
 }

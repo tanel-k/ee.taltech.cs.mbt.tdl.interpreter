@@ -2,11 +2,11 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_generator;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.AbsoluteComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.LinkedPairNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset.RelativeComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_operator.AbsoluteComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_operator.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_operator.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetSymbolNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
@@ -14,7 +14,6 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_model.specification.ScenarioSpeci
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.Trapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.TrapsetTransitionLabel;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.function.TrapsetLabelingFunction;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.uta_stub.ScenarioStubSystemFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
@@ -46,7 +45,7 @@ public class GeneratorStub {
 		TdlExpression expression = specification.getTdlExpression();
 		UtaSystem sutModel = specification.getSutModel();
 
-		Set<TrapsetSymbolNode> trapsetSymbols = extractTrapsetSymbols(expression);
+		Set<TrapsetNode> trapsetSymbols = extractTrapsetSymbols(expression);
 		TrapsetLabelingFunction labelingFunction = extractLabelingFunction(sutModel, trapsetSymbols);
 
 		List<AbsTrapsetOperatorNode> trapsetOperators = extractTrapsetOperators(expression);
@@ -75,7 +74,7 @@ public class GeneratorStub {
 		 * if (existentialQuantifier and derivedTrapset.coversAllEdges())
 		 *     trapsetQuantifierReplacements.put(quantifier, !quantifier.isNegated());
 		 *
-		 * We first normalize the TDL expression.
+		 * We first push all negations to the Quantifier level (atomic level basically).
 		 * We can do this with a tree visitor.
 		 * visitConjunction(ConjunctionNode c) {
 		 *    AbsLogicalOperatorNode currNode = c;
@@ -92,6 +91,8 @@ public class GeneratorStub {
 		 *    }
 		 *    visitChildren(currNode);
 		 * }
+		 * We also replace implications with disjunctions etc.
+		 * We will have difficulties replacing leads to (TODO: implement sub-tree copying).
 		 *
 		 * Then we run a reduction based on the FALSE/TRUE literals in the normalized TDL expression.
 		 * We can use Map<AbsExpressionNode, Boolean> reductionMap;
@@ -103,8 +104,8 @@ public class GeneratorStub {
 		 * FALSE and x = FALSE
 		 * TRUE or x = TRUE
 		 * TRUE and x = FALSE
-		 * (we will only need and/or rules as the expression is normalized)
-		 * 
+		 * (we only use and/or rules)
+		 *
 		 */
 		// ScenarioStubSystemFactory.DECLARED_NAME_TrapsetActivatorChannels.equals(null);
 		for (AbsTrapsetOperatorNode trapsetOperatorNode : trapsetOperators) {
@@ -112,10 +113,10 @@ public class GeneratorStub {
 		}
 	}
 
-	private static TrapsetLabelingFunction extractLabelingFunction(UtaSystem sutModel, Set<TrapsetSymbolNode> trapsetSymbols) {
+	private static TrapsetLabelingFunction extractLabelingFunction(UtaSystem sutModel, Set<TrapsetNode> trapsetSymbols) {
 		TrapsetLabelingFunction labelingFunction = new TrapsetLabelingFunction();
 
-		Map<TrapsetSymbolNode, Trapset> trapsetDeclarations = new LinkedHashMap<>();
+		Map<TrapsetNode, Trapset> trapsetDeclarations = new LinkedHashMap<>();
 		for (AbsDeclarationStatement declarationStatement : sutModel.getDeclarations()) {
 			Trapset newDecl;
 			if (declarationStatement instanceof VariableDeclaration) {
@@ -124,7 +125,7 @@ public class GeneratorStub {
 				BaseType baseType = type.getBaseType();
 				if (!BaseTypeIdentifiers.BOOLEAN.equals(baseType.getTypeId()))
 					continue;
-				TrapsetSymbolNode trapsetCandidate = TrapsetSymbolNode.of(variableDeclaration.getIdentifier().toString());
+				TrapsetNode trapsetCandidate = TrapsetNode.of(variableDeclaration.getIdentifier().toString());
 				if (!trapsetSymbols.contains(trapsetCandidate))
 					continue;
 				trapsetDeclarations.put(trapsetCandidate, Trapset.of(trapsetCandidate, variableDeclaration));
@@ -134,7 +135,7 @@ public class GeneratorStub {
 				if (!BaseTypeIdentifiers.BOOLEAN.equals(baseType.getTypeId()))
 					continue;
 				variableDeclarationGroup.getBaseTypeExtensionMap().streamView().forEachOrdered(ext -> {
-					TrapsetSymbolNode trapsetCandidate = TrapsetSymbolNode.of(ext.getIdentifier().toString());
+					TrapsetNode trapsetCandidate = TrapsetNode.of(ext.getIdentifier().toString());
 					if (!trapsetSymbols.contains(trapsetCandidate))
 						return;
 					trapsetDeclarations.put(trapsetCandidate, Trapset.of(trapsetCandidate, variableDeclarationGroup));
@@ -146,7 +147,7 @@ public class GeneratorStub {
 			labelingFunction.addMapping(trapset);
 		}
 
-		Map<TrapsetSymbolNode, Trapset> usageFlags = new HashMap<>();
+		Map<TrapsetNode, Trapset> usageFlags = new HashMap<>();
 		for (Template template : sutModel.getTemplates()) {
 			Set<Transition> edges = template.getLocationGraph().getEdges();
 			for (Transition transition : edges) {
@@ -161,7 +162,7 @@ public class GeneratorStub {
 							if (!(leftExpr instanceof IdentifierExpression))
 								continue;
 							IdentifierExpression idExpr = (IdentifierExpression) leftExpr;
-							TrapsetSymbolNode trapsetCandidate = TrapsetSymbolNode.of(idExpr.getIdentifier().toString());
+							TrapsetNode trapsetCandidate = TrapsetNode.of(idExpr.getIdentifier().toString());
 							if (!trapsetDeclarations.containsKey(trapsetCandidate))
 								continue;
 							boolean duplicated = labelingFunction.addMapping(
@@ -179,21 +180,21 @@ public class GeneratorStub {
 		return labelingFunction;
 	}
 
-	private static Set<TrapsetSymbolNode> extractTrapsetSymbols(TdlExpression expression) {
-		return expression.getRootNode().accept(new BaseTdlExpressionVisitor<Set<TrapsetSymbolNode>>() {
+	private static Set<TrapsetNode> extractTrapsetSymbols(TdlExpression expression) {
+		return expression.getRootNode().accept(new BaseTdlExpressionVisitor<Set<TrapsetNode>>() {
 			@Override
-			public Set<TrapsetSymbolNode> visitTrapsetSymbol(TrapsetSymbolNode node) {
+			public Set<TrapsetNode> visitTrapsetSymbol(TrapsetNode node) {
 				return CollectionUtils.newSet(node);
 			}
 
 			@Override
-			protected Set<TrapsetSymbolNode> mergeResults(Set<TrapsetSymbolNode> previousResult, Set<TrapsetSymbolNode> nextResult) {
+			protected Set<TrapsetNode> mergeResults(Set<TrapsetNode> previousResult, Set<TrapsetNode> nextResult) {
 				previousResult.addAll(nextResult);
 				return previousResult;
 			}
 
 			@Override
-			protected Set<TrapsetSymbolNode> defaultResult() {
+			protected Set<TrapsetNode> defaultResult() {
 				return new HashSet<>();
 			}
 		});
