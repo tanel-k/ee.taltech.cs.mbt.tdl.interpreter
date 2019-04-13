@@ -92,7 +92,20 @@ public class GeneratorStub {
 		 *    visitChildren(currNode);
 		 * }
 		 * We also replace implications with disjunctions etc.
-		 * We will have difficulties replacing leads to (TODO: implement sub-tree copying).
+		 * We will have difficulties replacing leads to:
+		 * not(a ~> b)      =? not(a) or (a ~> not(b))
+		 * 
+		 * not(#a(>n))      =? #a(<=n)
+		 * not(#a(<n))      =? #a(>=n)
+		 * not(#a(=n))      =? #a(<n) or #a(>n)
+		 * not(#a(>=n))     =? #a(<n)
+		 * not(#a(<=n))     =? #a(>n)
+		 *
+		 * not(a ~>(>n) b)  =? a ~>(<=n) b or not(a ~> b)
+		 * not(a ~>(<n) b)  =? a ~>(>=n) b or not(a ~> b)
+		 * not(a ~>(=n) b)  =? a ~>(<n) b or a ~>(>n) b or not(a ~> b)
+		 * not(a ~>(>=n) b) =? a ~>(<n) b or not(a ~> b)
+		 * not(a ~>(<=n) b) =? a ~>(>n) b or not(a ~> b)
 		 *
 		 * Then we run a reduction based on the FALSE/TRUE literals in the normalized TDL expression.
 		 * We can use Map<AbsExpressionNode, Boolean> reductionMap;
