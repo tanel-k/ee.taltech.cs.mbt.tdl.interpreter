@@ -8,7 +8,7 @@ public abstract class AbsTrapsetQuantifierNode extends AbsBooleanInternalNode<
 		UnaryChildContainer<AbsDerivedTrapsetNode>
 	> {
 	protected AbsTrapsetQuantifierNode() {
-		super(new UnaryChildContainer<>());
+		super(new UnaryChildContainer<>(), null);
 	}
 
 	@Override

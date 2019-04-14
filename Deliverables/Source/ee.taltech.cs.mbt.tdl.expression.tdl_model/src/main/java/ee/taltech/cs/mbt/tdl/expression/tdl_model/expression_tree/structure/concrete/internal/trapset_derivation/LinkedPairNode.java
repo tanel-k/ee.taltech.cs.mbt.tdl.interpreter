@@ -10,7 +10,7 @@ public class LinkedPairNode extends AbsDerivedTrapsetNode<
 		BinaryChildContainer<TrapsetNode>
 		> {
 	public LinkedPairNode() {
-		super(new BinaryChildContainer<>());
+		super(new BinaryChildContainer<>(), Boolean.FALSE);
 	}
 
 	@Override

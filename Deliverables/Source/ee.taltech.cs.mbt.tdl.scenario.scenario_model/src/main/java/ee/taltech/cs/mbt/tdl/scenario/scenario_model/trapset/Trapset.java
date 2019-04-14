@@ -80,6 +80,7 @@ public class Trapset implements Iterable<Transition> {
 
 	public boolean addTrap(Template parentTemplate, Transition transition, AssignmentExpression markerAssignment) {
 		boolean newTransition = this.markedTransitions.add(transition);
+		this.mapTransitionParent.put(transition, parentTemplate);
 		this.mapTransitionToMarkerAssignment.put(transition, markerAssignment);
 		this.mapTransitionToCondition.put(transition, markerAssignment.getRightChild());
 		return newTransition;

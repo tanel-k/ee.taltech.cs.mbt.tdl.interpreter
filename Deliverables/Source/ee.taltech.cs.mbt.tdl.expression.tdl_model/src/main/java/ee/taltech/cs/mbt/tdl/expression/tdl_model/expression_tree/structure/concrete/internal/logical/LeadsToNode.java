@@ -10,7 +10,7 @@ public class LeadsToNode extends AbsBooleanInternalNode<
 				BinaryChildContainer<AbsBooleanInternalNode>
 		> {
 	public LeadsToNode() {
-		super(new BinaryChildContainer<>());
+		super(new BinaryChildContainer<>(), false);
 	}
 
 	@Override

@@ -10,34 +10,41 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 public class CollectionUtils {
-	public static class CollectionBuilder<T> {
-		private Collection<T> collection;
+	public static class CollectionBuilder<T, C extends Collection<T>> {
+		private C collection;
 
-		public CollectionBuilder(Collection<T> collection) {
+		public CollectionBuilder(C collection) {
 			this.collection = collection;
 		}
 
-		public CollectionBuilder<T> addIf(T item, Predicate<T> condition) {
+		public CollectionBuilder<T, C> addIf(T item, Predicate<T> condition) {
 			if (condition.test((item)))
 				add(item);
 			return this;
 		}
 
-		public CollectionBuilder<T> addIfNonNull(T item) {
+		public CollectionBuilder<T, C> addIfNonNull(T item) {
 			return addIf(item, Objects::nonNull);
 		}
 
-		public CollectionBuilder<T> add(T item) {
+		public CollectionBuilder<T, C> add(T item) {
 			collection.add(item);
 			return this;
 		}
 
-		public CollectionBuilder<T> remove(T item) {
+		public CollectionBuilder<T, C> add(T... items) {
+			for (T item : items) {
+				collection.add(item);
+			}
+			return this;
+		}
+
+		public CollectionBuilder<T, C> remove(T item) {
 			collection.remove(item);
 			return this;
 		}
 
-		public Collection<T> build() {
+		public C build() {
 			return collection;
 		}
 	}
@@ -52,6 +59,10 @@ public class CollectionUtils {
 			return true;
 		}
 		return false;
+	}
+
+	public static <T> Set<T> newSet(Collection<T> from) {
+		return new HashSet<>(from);
 	}
 
 	public static <T> Set<T> newSet(T... items) {
@@ -72,11 +83,11 @@ public class CollectionUtils {
 		collection.addAll(Arrays.asList(items));
 	}
 
-	public static <T> CollectionBuilder<T> collectionBuilder() {
+	public static <T> CollectionBuilder<T, LinkedList<T>> collectionBuilder() {
 		return new CollectionBuilder<>(new LinkedList<>());
 	}
 
-	public static <T> CollectionBuilder<T> collectionBuilder(Collection<T> collection) {
+	public static <T, C extends Collection<T>> CollectionBuilder<T, C> collectionBuilder(C collection) {
 		return new CollectionBuilder<>(collection);
 	}
 }

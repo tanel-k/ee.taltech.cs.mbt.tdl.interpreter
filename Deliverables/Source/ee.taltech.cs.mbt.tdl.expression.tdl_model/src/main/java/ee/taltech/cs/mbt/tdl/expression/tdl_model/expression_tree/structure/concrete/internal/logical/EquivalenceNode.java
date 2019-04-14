@@ -10,7 +10,7 @@ public class EquivalenceNode extends AbsBooleanInternalNode<
 				BinaryChildContainer<AbsBooleanInternalNode>
 		> {
 	public EquivalenceNode() {
-		super(new BinaryChildContainer<>());
+		super(new BinaryChildContainer<>(), true);
 	}
 
 	@Override

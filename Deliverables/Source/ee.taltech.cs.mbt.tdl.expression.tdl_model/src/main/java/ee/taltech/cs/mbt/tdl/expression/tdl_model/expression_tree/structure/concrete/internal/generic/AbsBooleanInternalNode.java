@@ -13,8 +13,8 @@ public abstract class AbsBooleanInternalNode<
 		> extends AbsInternalNode<OperandType, ContainerType> {
 	private boolean negated;
 
-	protected AbsBooleanInternalNode(ContainerType operandContainer) {
-		super(operandContainer);
+	protected AbsBooleanInternalNode(ContainerType operandContainer, Boolean commutative) {
+		super(operandContainer, commutative);
 	}
 
 	@Override

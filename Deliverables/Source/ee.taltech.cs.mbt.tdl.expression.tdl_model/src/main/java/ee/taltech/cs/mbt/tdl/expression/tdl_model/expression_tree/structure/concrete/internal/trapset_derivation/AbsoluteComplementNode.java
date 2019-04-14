@@ -10,7 +10,7 @@ public class AbsoluteComplementNode extends AbsDerivedTrapsetNode<
 		UnaryChildContainer<TrapsetNode>
 		> {
 	public AbsoluteComplementNode() {
-		super(new UnaryChildContainer<>());
+		super(new UnaryChildContainer<>(), null);
 	}
 
 	@Override

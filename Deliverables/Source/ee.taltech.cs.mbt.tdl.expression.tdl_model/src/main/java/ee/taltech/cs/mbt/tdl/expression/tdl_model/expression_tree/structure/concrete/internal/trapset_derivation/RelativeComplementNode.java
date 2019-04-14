@@ -10,7 +10,7 @@ public class RelativeComplementNode extends AbsDerivedTrapsetNode<
 		BinaryChildContainer<TrapsetNode>
 		> {
 	public RelativeComplementNode() {
-		super(new BinaryChildContainer<>());
+		super(new BinaryChildContainer<>(), Boolean.FALSE);
 	}
 
 	@Override

@@ -1,18 +1,16 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class ChildContainer<OperandType extends AbsExpressionNode> {
-	public static final int ARITY_NONARY = 0;
+public class ChildContainer<ChildType extends AbsExpressionNode> {
 	public static final int ARITY_UNARY = 1;
 	public static final int ARITY_BINARY = 2;
 
@@ -21,23 +19,24 @@ public class ChildContainer<OperandType extends AbsExpressionNode> {
 
 	public final int arity;
 
+	private boolean childOrderRelevant;
 	private int subtreeHeight;
 	private int hashCode;
 	private boolean localCacheValid;
 
 	private AbsExpressionNode subtreeRoot;
-	private ArrayList<OperandType> operandList;
-	private LinkedHashMap<OperandType, Integer> ordinalCache;
+	private ArrayList<ChildType> childList;
 
 	protected void ensureLocalCacheValid() {
 		if (!isLocalCacheValid()) {
 			this.subtreeHeight = 1 + (
 					getStreamView()
+							.filter(Objects::nonNull)
 							.mapToInt(AbsExpressionNode::getHeight)
 							.max()
 							.orElse(0)
 			);
-			this.hashCode = Objects.hash(this.arity, this.operandList);
+			this.hashCode = Objects.hash(this.arity, this.childList);
 			setLocalCacheValid(true);
 		}
 	}
@@ -48,8 +47,16 @@ public class ChildContainer<OperandType extends AbsExpressionNode> {
 
 	public ChildContainer(int arity) {
 		this.arity = arity;
-		this.ordinalCache = new LinkedHashMap<>(arity);
-		this.operandList = new ArrayList<>(Collections.nCopies(this.arity, null));
+		this.childList = new ArrayList<>(Collections.nCopies(this.arity, null));
+	}
+
+	public boolean isChildOrderRelevant() {
+		return childOrderRelevant;
+	}
+
+	public ChildContainer<ChildType> setChildOrderRelevant(boolean childOrderRelevant) {
+		this.childOrderRelevant = childOrderRelevant;
+		return this;
 	}
 
 	protected boolean isLocalCacheValid() {
@@ -68,7 +75,7 @@ public class ChildContainer<OperandType extends AbsExpressionNode> {
 		return subtreeRoot;
 	}
 
-	protected ChildContainer<OperandType> setSubtreeRoot(AbsExpressionNode subtreeRoot) {
+	protected ChildContainer<ChildType> setSubtreeRoot(AbsExpressionNode subtreeRoot) {
 		this.subtreeRoot = subtreeRoot;
 		return this;
 	}
@@ -78,46 +85,42 @@ public class ChildContainer<OperandType extends AbsExpressionNode> {
 		return this.subtreeHeight;
 	}
 
-	public Set<OperandType> getSetView() {
-		return Collections.unmodifiableSet(this.ordinalCache.keySet());
+	public Set<ChildType> getSetView() {
+		return CollectionUtils.newSet(getListView());
 	}
 
-	public List<OperandType> getListView() {
-		return Collections.unmodifiableList(this.operandList);
+	public List<ChildType> getListView() {
+		return Collections.unmodifiableList(this.childList);
 	}
 
-	public Stream<OperandType> getStreamView() {
+	public Stream<ChildType> getStreamView() {
 		return getListView().stream();
 	}
 
-	public OperandType getChildNode(int ordinal) {
+	public ChildType getChildNode(int ordinal) {
 		if (ordinal < 0 || arity <= ordinal) {
 			throw new IllegalArgumentException("Ordinal out of bounds.");
 		}
-		return this.operandList.get(ordinal);
+		return this.childList.get(ordinal);
 	}
 
-	public ChildContainer<OperandType> setChildNode(int ordinal, OperandType operand) {
+	public ChildContainer<ChildType> setChildNode(int ordinal, ChildType operand) {
 		if (ordinal < 0 || arity <= ordinal) {
 			throw new IllegalArgumentException("Ordinal out of bounds.");
 		}
 		invalidateLocalCache();
-
-		OperandType prevChild = getChildNode(ordinal);
-		if (prevChild != null) {
-			this.ordinalCache.remove(getChildNode(ordinal));
-		}
-
-		this.ordinalCache.put(operand, ordinal);
-		this.operandList.set(ordinal, operand);
-
 		operand.setParentNode(getSubtreeRoot());
+		this.childList.set(ordinal, operand);
 		return this;
 	}
 
-	public ChildContainer<OperandType> replaceChildNode(OperandType operand, OperandType otherOperand) {
-		if (ordinalCache.containsKey(operand)) {
-			return setChildNode(ordinalCache.get(operand), otherOperand);
+	public ChildContainer<ChildType> replaceChildNode(ChildType prevChild, ChildType newChild) {
+		for (int i = 0; i < arity; i++) {
+			ChildType ch = getChildNode(i);
+			if (prevChild.hashCode() == ch.hashCode()) {
+				if (prevChild.equals(ch))
+					setChildNode(i, newChild);
+			}
 		}
 		return this;
 	}
@@ -137,8 +140,10 @@ public class ChildContainer<OperandType extends AbsExpressionNode> {
 		if (!(obj instanceof ChildContainer))
 			return false;
 		ChildContainer other = (ChildContainer) obj;
-		// Note that order should not matter.
 		return other.arity == this.arity
-				&& this.ordinalCache.keySet().equals(other.ordinalCache.keySet());
+				&& (childOrderRelevant
+						? this.childList.equals(other.childList)
+						: this.getSetView().equals(other.getSetView())
+				);
 	}
 }

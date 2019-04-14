@@ -10,7 +10,7 @@ public class GroupNode extends AbsBooleanInternalNode<
 		UnaryChildContainer<AbsBooleanInternalNode>
 		> {
 	public GroupNode() {
-		super(new UnaryChildContainer<>());
+		super(new UnaryChildContainer<>(), null);
 	}
 
 	@Override

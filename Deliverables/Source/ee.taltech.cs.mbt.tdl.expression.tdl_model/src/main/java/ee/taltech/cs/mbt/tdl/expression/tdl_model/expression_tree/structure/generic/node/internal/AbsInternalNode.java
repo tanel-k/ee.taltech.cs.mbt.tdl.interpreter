@@ -9,11 +9,14 @@ public abstract class AbsInternalNode<
 			ChildContainerType extends ChildContainer<ChildType>
 		>
 		extends AbsExpressionNode {
+	private Boolean commutative;
 	private ChildContainerType childContainer;
 
-	protected AbsInternalNode(ChildContainerType childContainer) {
+	protected AbsInternalNode(ChildContainerType childContainer, Boolean commutative) {
 		this.childContainer = childContainer;
+		this.commutative = commutative;
 		childContainer.setSubtreeRoot(this);
+		childContainer.setChildOrderRelevant(commutative != null && !commutative);
 	}
 
 	public ChildContainerType getChildContainer() {
@@ -23,6 +26,10 @@ public abstract class AbsInternalNode<
 	protected AbsInternalNode<ChildType, ChildContainerType> setChildContainer(ChildContainerType childContainer) {
 		this.childContainer = childContainer;
 		return this;
+	}
+
+	public Boolean isCommutative() {
+		return commutative;
 	}
 
 	@Override

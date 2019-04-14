@@ -2,8 +2,10 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_generator;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils.CollectionBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BoundedLeadsToNode;
@@ -19,17 +21,18 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.AbsoluteComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.LinkedPairNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.RelativeComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.ExistentialQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.logical.FalseNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.logical.TrueNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetQuantifierVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.specification.ScenarioSpecification;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.ETrapsetType;
@@ -58,8 +61,10 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 public class GeneratorStub {
@@ -76,10 +81,11 @@ public class GeneratorStub {
 		Map<TrapsetNode, Trapset> baseTrapsets = extractTrapsets(sutModel, trapsetSymbols);
 
 		List<AbsDerivedTrapsetNode> trapsetOperators = extractTrapsetOperators(expression);
-		Map<AbsDerivedTrapsetNode, Trapset> derivedTrapsets = extractDerivedTrapsets(sutModel, trapsetOperators, baseTrapsets);
+		Map<AbsDerivedTrapsetNode, Trapset> mapDerivedTrapsets = extractDerivedTrapsets(sutModel, trapsetOperators, baseTrapsets);
+
 		List<AbsTrapsetQuantifierNode> trapsetQuantifiers = extractTrapsetQuantifiers(expression);
 		for (AbsTrapsetQuantifierNode trapsetQuantifier : trapsetQuantifiers) {
-			Trapset derivedTrapset = derivedTrapsets.get(trapsetQuantifier.getChildContainer().getChild());
+			Trapset derivedTrapset = mapDerivedTrapsets.get(trapsetQuantifier.getChildContainer().getChild());
 
 			Boolean replacement = trapsetQuantifier.accept(new IDerivedTrapsetQuantifierVisitor<Boolean>() {
 				@Override
@@ -111,12 +117,13 @@ public class GeneratorStub {
 			}
 		}
 
-		List<BooleanValueWrapperNode> booleanLeaves = pushNegationsToGroundLevel(expression);
-		trimBooleanValues(booleanLeaves, expression);
+		Queue<BooleanValueWrapperNode> booleanLeaves = normalizeAndPushNegationToGroundLevel(expression);
+		reduceExpression(booleanLeaves, expression);
 
+		System.out.println(expression.getRootNode());
 		/*
 		 * TODO:
-		 * Create the result system.
+		 * Create the result system based on normalized and reduced expression.
 		 * int treeIndex;
 		 * int trapsetIndex;
 		 */
@@ -124,113 +131,189 @@ public class GeneratorStub {
 		// ScenarioStubSystemFactory.DECLARED_NAME_TrapsetActivatorChannels.equals(null);
 	}
 
-	private static void trimBooleanValues(List<BooleanValueWrapperNode> booleanLeaves, TdlExpression expression) {
-		// TODO
+	private static void reduceExpression(Queue<BooleanValueWrapperNode> leafQueue, TdlExpression expression) {
+		while (!leafQueue.isEmpty()) {
+			BooleanValueWrapperNode valueWrapper = leafQueue.poll();
+			AbsExpressionNode parent = valueWrapper.getParentNode();
+			if (parent == null) {
+				return;
+			}
+			AbsBooleanInternalNode parentBoolean = (AbsBooleanInternalNode) parent;
+			parentBoolean.accept(new IBooleanNodeVisitor<Void>() {
+				@Override
+				public Void visitBoundedLeadsTo(BoundedLeadsToNode node) {
+					return visitLeadsTo(node); // TODO (bounds change logic here?)
+				}
 
-		/*
-		 * List<AbsExpressionNode> leaves = extractLeafNodes(expression);
-		 * Then we run a reduction based on the FALSE/TRUE literals in the adjusted TDL expression.
-		 * We can use Map<AbsExpressionNode, Boolean> reductionMap;
-		 * Need to traverse expression tree bottom-up, replacing known patterns as we go.
-		 * Reduction rules:
-		 * not(FALSE) = TRUE
-		 * not(TRUE) = FALSE
-		 * FALSE or x = x
-		 * TRUE and x = x
-		 * FALSE and x = FALSE
-		 * TRUE or x = TRUE
-		 *
-		 * (we only use and/or rules)
-		 * visitDisjunction(DisjunctionNode d) {
-		 *   AbsExpressionNode left = d.getLeftChild()
-		 *   Boolean reductionResult = reductionMap.get(left);
-		 *   if (reductionResult != null) {
-		 *       if (reductionResult) {
-		 *           reductionMap.put(d, true);
-		 *       } else {
-		 *           d.getParent().replaceChild(d, d.getRightChild());
-		 *       }
-		 *       return d.getParent().accept(this); ?
-		 *   }
-		 *   AbsExpressionNode right = d.getRightChild();
-		 *   Boolean reductionResult = reductionMap.get(right);
-		 *   ...
-		 *   // Else stop traversing up the tree.
-		 * }
-		 */
+				@Override
+				public Void visitBoundedRepetition(BoundedRepetitionNode node) {
+					return null; // TODO (bounds change logic here?)
+				}
+
+				@Override
+				public Void visitLeadsTo(LeadsToNode node) {
+					boolean rightChild = node.getChildContainer().getRightChild() == valueWrapper;
+					if (valueWrapper.isTrue()) {
+						if (rightChild) { // p ~> true
+							BooleanValueWrapperNode replacement = BooleanValueWrapperNode.trueWrapper();
+							expression.replaceDescendant(node, replacement);
+							leafQueue.add(replacement);
+						} else { // true ~> p
+							expression.replaceDescendant(node, node.getChildContainer().getRightChild());
+						}
+					} else { // false ~> p / p ~> false
+						BooleanValueWrapperNode replacement = BooleanValueWrapperNode.falseWrapper();
+						expression.replaceDescendant(node, replacement);
+						leafQueue.add(replacement);
+					}
+
+					return null;
+				}
+
+				@Override
+				public Void visitConjunction(ConjunctionNode node) {
+					boolean rightChild = node.getChildContainer().getRightChild() == valueWrapper;
+					if (valueWrapper.isTrue()) { // true && x = x
+						if (rightChild) {
+							expression.replaceDescendant(node, node.getChildContainer().getLeftChild());
+						} else {
+							expression.replaceDescendant(node, node.getChildContainer().getRightChild());
+						}
+					} else { // false && x = false
+						BooleanValueWrapperNode replacement = BooleanValueWrapperNode.falseWrapper();
+						expression.replaceDescendant(node, replacement);
+						leafQueue.add(replacement);
+					}
+					return null;
+				}
+
+				@Override
+				public Void visitDisjunction(DisjunctionNode node) {
+					boolean rightChild = node.getChildContainer().getRightChild() == valueWrapper;
+					if (!valueWrapper.isTrue()) { // false or x = x
+						if (rightChild) {
+							expression.replaceDescendant(node, node.getChildContainer().getLeftChild());
+						} else {
+							expression.replaceDescendant(node, node.getChildContainer().getRightChild());
+						}
+					} else { // true or x = true
+						BooleanValueWrapperNode replacement = BooleanValueWrapperNode.falseWrapper();
+						expression.replaceDescendant(node, replacement);
+						leafQueue.add(replacement);
+					}
+					return null;
+				}
+
+				@Override
+				public Void visitEquivalence(EquivalenceNode node) {
+					return null; // FIXME: NOT POSSIBLE
+				}
+
+				@Override
+				public Void visitGroup(GroupNode node) {
+					return null; // FIXME: NOT POSSIBLE
+				}
+
+				@Override
+				public Void visitImplication(ImplicationNode node) {
+					return null; // FIXME: NOT POSSIBLE
+				}
+
+				@Override
+				public Void visitUniversalQuantification(UniversalQuantificationNode node) {
+					return null; // FIXME: NOT POSSIBLE
+				}
+
+				@Override
+				public Void visitExistentialQuantification(ExistentialQuantificationNode node) {
+					return null; // FIXME: NOT POSSIBLE
+				}
+
+				@Override
+				public Void visitValueWrapper(BooleanValueWrapperNode node) {
+					return null; // FIXME: NOT POSSIBLE
+				}
+			});
+		}
 	}
 
-	private static List<BooleanValueWrapperNode> pushNegationsToGroundLevel(TdlExpression expression) {
-		return expression.getRootNode().accept(new BaseBooleanNodeVisitor<List<BooleanValueWrapperNode>>() {
+	private static Queue<BooleanValueWrapperNode> normalizeAndPushNegationToGroundLevel(TdlExpression expression) {
+		CollectionBuilder<BooleanValueWrapperNode, LinkedList<BooleanValueWrapperNode>> queueBuilder = CollectionUtils
+				.collectionBuilder(new LinkedList<BooleanValueWrapperNode>());
+		expression.getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
 			@Override
-			public List<BooleanValueWrapperNode> visitValueWrapper(BooleanValueWrapperNode valueWrapper) {
-				return CollectionUtils.newList(valueWrapper);
+			public Void visitValueWrapper(BooleanValueWrapperNode valueWrapper) {
+				queueBuilder.add(valueWrapper);
+				return null;
 			}
 
 			@Override
-			public List<BooleanValueWrapperNode> visitGroup(GroupNode group) {
+			public Void visitGroup(GroupNode group) {
 				AbsBooleanInternalNode<?, ?> child = group.getChildContainer().getChild();
-				child.setNegated(child.isNegated() ^ group.isNegated());
-
 				expression.replaceDescendant(group, child);
+				child.setNegated(child.isNegated() ^ group.isNegated());
 				return child.accept(this);
 			}
 
 			@Override
-			public List<BooleanValueWrapperNode> visitConjunction(ConjunctionNode conjunction) {
+			public Void visitConjunction(ConjunctionNode conjunction) {
 				if (!conjunction.isNegated())
 					return visitChildren(conjunction);
 
+				DisjunctionNode disjunction = new DisjunctionNode();
+				expression.replaceDescendant(conjunction, disjunction);
+
 				AbsBooleanInternalNode leftChild = conjunction.getChildContainer().getLeftChild();
 				AbsBooleanInternalNode rightChild = conjunction.getChildContainer().getRightChild();
+
 				leftChild.setNegated(!leftChild.isNegated());
 				rightChild.setNegated(!rightChild.isNegated());
 
-				DisjunctionNode disjunction = new DisjunctionNode();
 				disjunction.getChildContainer()
 						.setLeftChild(leftChild)
 						.setRightChild(rightChild);
 
-				expression.replaceDescendant(conjunction, disjunction);
 				return visitChildren(disjunction);
 			}
 
 			@Override
-			public List<BooleanValueWrapperNode> visitDisjunction(DisjunctionNode disjunction) {
+			public Void visitDisjunction(DisjunctionNode disjunction) {
 				if (!disjunction.isNegated())
 					return visitChildren(disjunction);
+
+				ConjunctionNode conjunction = new ConjunctionNode();
+				expression.replaceDescendant(disjunction, conjunction);
 
 				AbsBooleanInternalNode leftChild = disjunction.getChildContainer().getLeftChild();
 				AbsBooleanInternalNode rightChild = disjunction.getChildContainer().getRightChild();
 				leftChild.setNegated(!leftChild.isNegated());
 				rightChild.setNegated(!rightChild.isNegated());
 
-				ConjunctionNode conjunction = new ConjunctionNode();
 				conjunction.getChildContainer()
 						.setLeftChild(leftChild)
 						.setRightChild(rightChild);
 
-				expression.replaceDescendant(disjunction, conjunction);
 				return visitChildren(conjunction);
 			}
 
 			@Override
-			public List<BooleanValueWrapperNode> visitImplication(ImplicationNode implication) {
+			public Void visitImplication(ImplicationNode implication) {
+				DisjunctionNode disjunction = new DisjunctionNode();
+				expression.replaceDescendant(implication, disjunction);
+
 				AbsBooleanInternalNode leftChild = implication.getChildContainer().getLeftChild();
 				AbsBooleanInternalNode rightChild = implication.getChildContainer().getRightChild();
 				leftChild.setNegated(!leftChild.isNegated());
 
-				DisjunctionNode disjunction = new DisjunctionNode();
 				disjunction.setNegated(implication.isNegated());
 				disjunction.getChildContainer().setLeftChild(leftChild);
 				disjunction.getChildContainer().setRightChild(rightChild);
 
-				expression.replaceDescendant(implication, disjunction);
 				return visitDisjunction(disjunction);
 			}
 
 			@Override
-			public List<BooleanValueWrapperNode> visitEquivalence(EquivalenceNode equivalence) {
+			public Void visitEquivalence(EquivalenceNode equivalence) {
 				ImplicationNode implyLTR = new ImplicationNode();
 				implyLTR.getChildContainer()
 						.setLeftChild(equivalence.getChildContainer().getLeftChild().deepClone())
@@ -252,21 +335,23 @@ public class GeneratorStub {
 			}
 
 			@Override
-			public List<BooleanValueWrapperNode> visitLeadsTo(LeadsToNode leadsTo) {
+			public Void visitLeadsTo(LeadsToNode leadsTo) {
 				if (!leadsTo.isNegated())
 					return visitChildren(leadsTo);
 				/*
 				 * not(a ~> b)      =? not(a) or (a ~> not(b))
 				 */
-				 AbsBooleanInternalNode<?, ?> leftChild = leadsTo.getChildContainer().getLeftChild();
-				 AbsBooleanInternalNode<?, ?> rightChild = leadsTo.getChildContainer().getRightChild();
+				DisjunctionNode disjunction = new DisjunctionNode();
+				expression.replaceDescendant(leadsTo, disjunction);
+
+				AbsBooleanInternalNode<?, ?> leftChild = leadsTo.getChildContainer().getLeftChild();
+				AbsBooleanInternalNode<?, ?> rightChild = leadsTo.getChildContainer().getRightChild();
 
 				AbsBooleanInternalNode<?, ?> leftChildClone = leftChild.deepClone();
 				leftChildClone.setNegated(!leftChild.isNegated());
 				rightChild.setNegated(!rightChild.isNegated());
 				leadsTo.setNegated(false);
 
-				DisjunctionNode disjunction = new DisjunctionNode();
 				disjunction.getChildContainer().setLeftChild(leftChildClone);
 				disjunction.getChildContainer().setRightChild(leadsTo);
 
@@ -274,7 +359,7 @@ public class GeneratorStub {
 			}
 
 			@Override
-			public List<BooleanValueWrapperNode> visitBoundedRepetition(BoundedRepetitionNode boundedRepetition) {
+			public Void visitBoundedRepetition(BoundedRepetitionNode boundedRepetition) {
 				if (!boundedRepetition.isNegated())
 					return visitChildren(boundedRepetition);
 				/*
@@ -285,29 +370,35 @@ public class GeneratorStub {
 				 * not(#a(=n))      =? #a(<n) or #a(>n)
 				 */
 				Bound bound = boundedRepetition.getBound();
-				boundedRepetition.setNegated(false);
 				switch (bound.getBoundType()) {
 				case GREATER_THAN:
 					bound.setBoundType(EBoundType.LESS_THAN_OR_EQUAL_TO);
+					boundedRepetition.setNegated(false);
 					return visitChildren(boundedRepetition);
 				case LESS_THAN:
 					bound.setBoundType(EBoundType.GREATER_THAN_OR_EQUAL_TO);
+					boundedRepetition.setNegated(false);
 					return visitChildren(boundedRepetition);
 				case GREATER_THAN_OR_EQUAL_TO:
 					bound.setBoundType(EBoundType.LESS_THAN);
+					boundedRepetition.setNegated(false);
 					return visitChildren(boundedRepetition);
 				case LESS_THAN_OR_EQUAL_TO:
 					bound.setBoundType(EBoundType.GREATER_THAN);
+					boundedRepetition.setNegated(false);
 					return visitChildren(boundedRepetition);
 				case EQUALS:
+					DisjunctionNode disjunction = new DisjunctionNode();
+					expression.replaceDescendant(boundedRepetition, disjunction);
+
 					bound.setBoundType(EBoundType.LESS_THAN);
+					boundedRepetition.setNegated(false);
 					BoundedRepetitionNode boundedRepetitionClone = boundedRepetition.deepClone();
 					boundedRepetitionClone.getBound().setBoundType(EBoundType.GREATER_THAN);
-					DisjunctionNode disjunction = new DisjunctionNode();
+
 					disjunction.getChildContainer().setLeftChild(boundedRepetition);
 					disjunction.getChildContainer().setRightChild(boundedRepetitionClone);
 
-					expression.replaceDescendant(boundedRepetition, disjunction);
 					return visitChildren(disjunction);
 				}
 
@@ -315,7 +406,7 @@ public class GeneratorStub {
 			}
 
 			@Override
-			public List<BooleanValueWrapperNode> visitBoundedLeadsTo(BoundedLeadsToNode boundedLeadsTo) {
+			public Void visitBoundedLeadsTo(BoundedLeadsToNode boundedLeadsTo) {
 				if (!boundedLeadsTo.isNegated())
 					return visitChildren(boundedLeadsTo);
 				/*
@@ -340,18 +431,23 @@ public class GeneratorStub {
 				Bound bound = boundedLeadsTo.getBound();
 				switch (bound.getBoundType()) {
 				case GREATER_THAN:
+					expression.replaceDescendant(boundedLeadsTo, disjunction);
 					bound.setBoundType(EBoundType.LESS_THAN_OR_EQUAL_TO);
 					break;
 				case LESS_THAN:
+					expression.replaceDescendant(boundedLeadsTo, disjunction);
 					bound.setBoundType(EBoundType.GREATER_THAN_OR_EQUAL_TO);
 					break;
 				case GREATER_THAN_OR_EQUAL_TO:
+					expression.replaceDescendant(boundedLeadsTo, disjunction);
 					bound.setBoundType(EBoundType.LESS_THAN);
 					break;
 				case LESS_THAN_OR_EQUAL_TO:
+					expression.replaceDescendant(boundedLeadsTo, disjunction);
 					bound.setBoundType(EBoundType.GREATER_THAN);
 					break;
 				case EQUALS:
+					expression.replaceDescendant(boundedLeadsTo, disjunction);
 					bound.setBoundType(EBoundType.GREATER_THAN);
 					BoundedLeadsToNode boundedLeadsToClone = boundedLeadsTo.deepClone();
 					boundedLeadsToClone.getBound().setBoundType(EBoundType.LESS_THAN);
@@ -363,23 +459,10 @@ public class GeneratorStub {
 					break;
 				}
 
-				expression.replaceDescendant(boundedLeadsTo, disjunction);
 				return visitDisjunction(disjunction);
 			}
-
-			@Override
-			protected List<BooleanValueWrapperNode> defaultResult() {
-				return CollectionUtils.newList();
-			}
-
-			@Override
-			protected List<BooleanValueWrapperNode> mergeResults(List<BooleanValueWrapperNode> previousResult, List<BooleanValueWrapperNode> nextResult) {
-				if (nextResult.isEmpty())
-					return previousResult;
-				previousResult.addAll(nextResult);
-				return previousResult;
-			}
 		});
+		return queueBuilder.build();
 	}
 
 	private static List<AbsTrapsetQuantifierNode> extractTrapsetQuantifiers(TdlExpression expression) {
@@ -616,7 +699,7 @@ public class GeneratorStub {
 	}
 
 	public static void main(String... args) throws ParseException, MarshallingException, InvalidSystemStructureException, EmbeddedCodeSyntaxException {
-		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("U(!TS3) & (E(!TS1) -> U(TS1; TS2))");
+		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("(U(!TS3) & (E(!TS1) -> U(TS1; TS2))) | (~E(!TS1))");
 		UtaSystem system = UtaParser.newInstance().parse(GeneratorStub.class.getResourceAsStream("/SampleSystem.xml"));
 		generate(ScenarioSpecification.of(system, expression));
 	}

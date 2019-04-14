@@ -10,7 +10,7 @@ public class ImplicationNode extends AbsBooleanInternalNode<
 				BinaryChildContainer<AbsBooleanInternalNode>
 		> {
 	public ImplicationNode() {
-		super(new BinaryChildContainer<>());
+		super(new BinaryChildContainer<>(), false);
 	}
 
 	@Override

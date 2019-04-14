@@ -7,8 +7,8 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visi
 
 public abstract class AbsDerivedTrapsetNode<ContainerType extends ChildContainer<TrapsetNode>>
 		extends AbsInternalNode<TrapsetNode, ContainerType> {
-	protected AbsDerivedTrapsetNode(ContainerType operandContainer) {
-		super(operandContainer);
+	protected AbsDerivedTrapsetNode(ContainerType operandContainer, Boolean commutative) {
+		super(operandContainer, commutative);
 	}
 	public abstract <T> T accept(IDerivedTrapsetVisitor<T> visitor);
 

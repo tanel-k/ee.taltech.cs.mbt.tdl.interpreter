@@ -9,6 +9,14 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visi
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 
 public class BooleanValueWrapperNode extends AbsBooleanInternalNode<AbsBooleanLeafNode, UnaryChildContainer<AbsBooleanLeafNode>> {
+	public static BooleanValueWrapperNode trueWrapper() {
+		return wrap(TrueNode.getInstance());
+	}
+
+	public static BooleanValueWrapperNode falseWrapper() {
+		return wrap(FalseNode.getInstance());
+	}
+
 	public static BooleanValueWrapperNode wrap(AbsBooleanLeafNode leafNode) {
 		BooleanValueWrapperNode inst = new BooleanValueWrapperNode();
 		inst.getChildContainer().setChild(leafNode);
@@ -16,7 +24,7 @@ public class BooleanValueWrapperNode extends AbsBooleanInternalNode<AbsBooleanLe
 	}
 
 	protected BooleanValueWrapperNode() {
-		super(new UnaryChildContainer<>());
+		super(new UnaryChildContainer<>(), null);
 	}
 
 	@Override

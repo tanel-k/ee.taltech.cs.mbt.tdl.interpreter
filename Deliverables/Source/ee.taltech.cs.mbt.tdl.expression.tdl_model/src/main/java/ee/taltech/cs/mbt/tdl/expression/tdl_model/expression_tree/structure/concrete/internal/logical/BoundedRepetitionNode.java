@@ -16,7 +16,7 @@ public class BoundedRepetitionNode extends AbsBooleanInternalNode<
 	private Bound bound;
 
 	public BoundedRepetitionNode() {
-		super(new UnaryChildContainer<>());
+		super(new UnaryChildContainer<>(), null);
 	}
 
 	@Override

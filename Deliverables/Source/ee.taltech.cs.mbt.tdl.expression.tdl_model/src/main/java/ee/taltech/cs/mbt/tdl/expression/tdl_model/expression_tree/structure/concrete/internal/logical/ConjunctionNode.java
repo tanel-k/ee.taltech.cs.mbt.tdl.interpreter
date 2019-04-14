@@ -10,7 +10,7 @@ public class ConjunctionNode extends AbsBooleanInternalNode<
 				BinaryChildContainer<AbsBooleanInternalNode>
 		> {
 	public ConjunctionNode() {
-		super(new BinaryChildContainer<>());
+		super(new BinaryChildContainer<>(), true);
 	}
 
 	@Override
