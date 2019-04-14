@@ -1,15 +1,17 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsLogicalOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.Bound;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.IBounded;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.UnaryChildContainer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.arity.UnaryChildContainer;
 
-public class BoundedRepetitionNode extends AbsLogicalOperatorNode<
-			AbsLogicalOperatorNode,
-		UnaryChildContainer<AbsLogicalOperatorNode>
+import java.util.Objects;
+
+public class BoundedRepetitionNode extends AbsBooleanInternalNode<
+		AbsBooleanInternalNode,
+		UnaryChildContainer<AbsBooleanInternalNode>
 		> implements IBounded {
 	private Bound bound;
 
@@ -33,7 +35,7 @@ public class BoundedRepetitionNode extends AbsLogicalOperatorNode<
 	}
 
 	@Override
-	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
+	public <T> T accept(IBooleanNodeVisitor<T> visitor) {
 		return visitor.visitBoundedRepetition(this);
 	}
 
@@ -42,7 +44,21 @@ public class BoundedRepetitionNode extends AbsLogicalOperatorNode<
 		BoundedRepetitionNode clone = new BoundedRepetitionNode();
 		clone.setBound(getBound().deepClone());
 		clone.setNegated(isNegated());
-		clone.getChildContainer().setOperand(getChildContainer().getOperand().deepClone());
+		clone.getChildContainer().setChild(getChildContainer().getChild().deepClone());
 		return clone;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), this.bound);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (super.equals(obj)) {
+			return this.getBound().equals(((BoundedRepetitionNode) obj).getBound());
+		}
+
+		return false;
 	}
 }

@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr.converter;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsLogicalOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr.converter.utils.ExpressionConverter;
 
 public class ExpressionTreeConverter implements IParseTreeConverter<TdlExpression, ExpressionContext> {
@@ -17,7 +17,7 @@ public class ExpressionTreeConverter implements IParseTreeConverter<TdlExpressio
 
 	@Override
 	public TdlExpression convert(ExpressionContext ctx) {
-		AbsLogicalOperatorNode rootNode = (AbsLogicalOperatorNode) ExpressionConverter.getInstance().convert(ctx);
+		AbsBooleanInternalNode rootNode = (AbsBooleanInternalNode) ExpressionConverter.getInstance().convert(ctx);
 		TdlExpression tdlExpression = new TdlExpression();
 		tdlExpression.setRootNode(rootNode);
 		return tdlExpression;

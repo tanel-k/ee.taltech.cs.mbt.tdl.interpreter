@@ -1,4 +1,6 @@
-package ee.taltech.cs.mbt.tdl.commons.utils.collections;
+package ee.taltech.cs.mbt.tdl.commons.utils.data_structures;
+
+import sun.security.provider.certpath.Vertex;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -103,6 +105,14 @@ public class DirectedMultigraph<V, E> {
 
 	public Set<V> getVertices() {
 		return Collections.unmodifiableSet(vertices);
+	}
+
+	public int vertexCount() {
+		return vertices.size();
+	}
+
+	public int edgeCount() {
+		return edges.size();
 	}
 
 	public int getDegree(V vertex) {

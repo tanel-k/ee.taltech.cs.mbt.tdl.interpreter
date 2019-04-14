@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetQuantifierVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 
 public class UniversalQuantificationNode extends AbsTrapsetQuantifierNode {
@@ -12,12 +12,12 @@ public class UniversalQuantificationNode extends AbsTrapsetQuantifierNode {
 	}
 
 	@Override
-	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
+	public <T> T accept(IBooleanNodeVisitor<T> visitor) {
 		return visitor.visitUniversalQuantification(this);
 	}
 
 	@Override
-	public <T> T accept(ITrapsetQuantifierVisitor<T> visitor) {
+	public <T> T accept(IDerivedTrapsetQuantifierVisitor<T> visitor) {
 		return visitor.visitUniversal(this);
 	}
 
@@ -25,7 +25,7 @@ public class UniversalQuantificationNode extends AbsTrapsetQuantifierNode {
 	public UniversalQuantificationNode deepClone() {
 		UniversalQuantificationNode clone = new UniversalQuantificationNode();
 		clone.setNegated(isNegated());
-		clone.getChildContainer().setOperand(getChildContainer().getOperand().deepClone());
+		clone.getChildContainer().setChild(getChildContainer().getChild().deepClone());
 		return clone;
 	}
 }

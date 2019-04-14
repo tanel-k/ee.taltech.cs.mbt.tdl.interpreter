@@ -1,11 +1,11 @@
-package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf;
+package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.leaf.AbsExpressionLeafNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.leaf.AbsLeafNode;
 
 import java.util.Objects;
 
-public class TrapsetNode extends AbsExpressionLeafNode<String> {
+public class TrapsetNode extends AbsLeafNode {
 	public static String normalizeTrapsetSymbol(String symbol) {
 		return symbol.toUpperCase();
 	}
@@ -14,13 +14,24 @@ public class TrapsetNode extends AbsExpressionLeafNode<String> {
 		return new TrapsetNode(normalizeTrapsetSymbol(symbol));
 	}
 
+	private String name;
+
 	private TrapsetNode(String symbol) {
-		super(symbol);
+		this.name = symbol;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public TrapsetNode setName(String name) {
+		this.name = name;
+		return this;
 	}
 
 	@Override
 	public <T> T accept(ITdlExpressionVisitor<T> visitor) {
-		return visitor.visitTrapsetSymbol(this);
+		return visitor.visitTrapset(this);
 	}
 
 	@Override
@@ -30,12 +41,12 @@ public class TrapsetNode extends AbsExpressionLeafNode<String> {
 
 	@Override
 	public String toString() {
-		return getRepresentation();
+		return getName();
 	}
 
 	@Override
 	public int hashCode() {
-		return getRepresentation().hashCode();
+		return getName().hashCode();
 	}
 
 	@Override
@@ -47,6 +58,6 @@ public class TrapsetNode extends AbsExpressionLeafNode<String> {
 		if (!(obj instanceof TrapsetNode))
 			return false;
 		TrapsetNode other = (TrapsetNode) obj;
-		return Objects.equals(this.getRepresentation(), other.getRepresentation());
+		return Objects.equals(this.name, other.name);
 	}
 }

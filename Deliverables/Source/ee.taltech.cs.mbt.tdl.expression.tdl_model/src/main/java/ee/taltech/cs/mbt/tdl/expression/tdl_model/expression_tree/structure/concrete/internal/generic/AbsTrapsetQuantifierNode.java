@@ -1,22 +1,22 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.UnaryChildContainer;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.arity.UnaryChildContainer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetQuantifierVisitor;
 
-public abstract class AbsTrapsetQuantifierNode extends AbsLogicalOperatorNode<
-		AbsTrapsetOperatorNode,
-		UnaryChildContainer<AbsTrapsetOperatorNode>
+public abstract class AbsTrapsetQuantifierNode extends AbsBooleanInternalNode<
+		AbsDerivedTrapsetNode,
+		UnaryChildContainer<AbsDerivedTrapsetNode>
 	> {
 	protected AbsTrapsetQuantifierNode() {
 		super(new UnaryChildContainer<>());
 	}
 
 	@Override
-	protected AbsTrapsetQuantifierNode setChildContainer(UnaryChildContainer<AbsTrapsetOperatorNode> childContainer) {
+	protected AbsTrapsetQuantifierNode setChildContainer(UnaryChildContainer<AbsDerivedTrapsetNode> childContainer) {
 		return (AbsTrapsetQuantifierNode) super.setChildContainer(childContainer);
 	}
 
-	public abstract <T> T accept(ITrapsetQuantifierVisitor<T> visitor);
+	public abstract <T> T accept(IDerivedTrapsetQuantifierVisitor<T> visitor);
 
 	@Override
 	public abstract AbsTrapsetQuantifierNode deepClone();

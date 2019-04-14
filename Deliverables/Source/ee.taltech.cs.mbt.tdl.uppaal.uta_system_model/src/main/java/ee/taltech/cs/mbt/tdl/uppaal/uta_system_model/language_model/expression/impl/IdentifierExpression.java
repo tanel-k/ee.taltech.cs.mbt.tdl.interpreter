@@ -13,6 +13,10 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IEx
  * </pre>
  */
 public class IdentifierExpression extends AbsLeafExprNode {
+	public static IdentifierExpression of(Identifier identifier) {
+		return new IdentifierExpression(identifier);
+	}
+
 	public static IdentifierExpression of(String identifier) {
 		return new IdentifierExpression(Identifier.of(identifier));
 	}

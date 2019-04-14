@@ -1,13 +1,13 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsLogicalOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.BinaryChildContainer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.arity.BinaryChildContainer;
 
-public class ConjunctionNode extends AbsLogicalOperatorNode<
-			AbsLogicalOperatorNode,
-		BinaryChildContainer<AbsLogicalOperatorNode>
+public class ConjunctionNode extends AbsBooleanInternalNode<
+		AbsBooleanInternalNode,
+				BinaryChildContainer<AbsBooleanInternalNode>
 		> {
 	public ConjunctionNode() {
 		super(new BinaryChildContainer<>());
@@ -19,7 +19,7 @@ public class ConjunctionNode extends AbsLogicalOperatorNode<
 	}
 
 	@Override
-	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
+	public <T> T accept(IBooleanNodeVisitor<T> visitor) {
 		return visitor.visitConjunction(this);
 	}
 
@@ -27,8 +27,8 @@ public class ConjunctionNode extends AbsLogicalOperatorNode<
 	public ConjunctionNode deepClone() {
 		ConjunctionNode clone = new ConjunctionNode();
 		clone.setNegated(isNegated());
-		clone.getChildContainer().setLeftOperand(getChildContainer().getLeftOperand().deepClone());
-		clone.getChildContainer().setRightOperand(getChildContainer().getRightOperand().deepClone());
+		clone.getChildContainer().setLeftChild(getChildContainer().getLeftChild().deepClone());
+		clone.getChildContainer().setRightChild(getChildContainer().getRightChild().deepClone());
 		return clone;
 	}
 }

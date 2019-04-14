@@ -2,8 +2,10 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.con
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.Bound;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.IBounded;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
+
+import java.util.Objects;
 
 public class BoundedLeadsToNode extends LeadsToNode implements IBounded {
 	private Bound bound;
@@ -24,7 +26,7 @@ public class BoundedLeadsToNode extends LeadsToNode implements IBounded {
 	}
 
 	@Override
-	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
+	public <T> T accept(IBooleanNodeVisitor<T> visitor) {
 		return visitor.visitBoundedLeadsTo(this);
 	}
 
@@ -33,8 +35,22 @@ public class BoundedLeadsToNode extends LeadsToNode implements IBounded {
 		BoundedLeadsToNode clone = new BoundedLeadsToNode();
 		clone.setBound(getBound().deepClone());
 		clone.setNegated(isNegated());
-		clone.getChildContainer().setLeftOperand(getChildContainer().getLeftOperand().deepClone());
-		clone.getChildContainer().setRightOperand(getChildContainer().getRightOperand().deepClone());
+		clone.getChildContainer().setLeftChild(getChildContainer().getLeftChild().deepClone());
+		clone.getChildContainer().setRightChild(getChildContainer().getRightChild().deepClone());
 		return clone;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), this.bound);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (super.equals(obj)) {
+			return this.getBound().equals(((BoundedLeadsToNode) obj).getBound());
+		}
+
+		return false;
 	}
 }

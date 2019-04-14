@@ -1,15 +1,15 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsLogicalOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.ExistentialQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.AbsInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.ChildContainer;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
 
-public class BaseLogicalOperatorVisitor<T> implements ILogicalOperatorVisitor<T> {
+public class BaseBooleanNodeVisitor<T> implements IBooleanNodeVisitor<T> {
 	protected T defaultResult() {
 		return null;
 	}
@@ -18,19 +18,19 @@ public class BaseLogicalOperatorVisitor<T> implements ILogicalOperatorVisitor<T>
 		return nextResult;
 	}
 
-	protected <C extends AbsLogicalOperatorNode,
-			O extends AbsLogicalOperatorNode<C, ? extends ChildContainer<C>>
+	protected <C extends AbsBooleanInternalNode,
+			O extends AbsBooleanInternalNode<C, ? extends ChildContainer<C>>
 			> T visitChildren(O expr) {
 		return visitChildren(defaultResult(), expr);
 	}
 
-	protected <C extends AbsLogicalOperatorNode,
-			O extends AbsOperatorNode<C, ? extends ChildContainer<C>>
+	protected <C extends AbsBooleanInternalNode,
+			O extends AbsInternalNode<C, ? extends ChildContainer<C>>
 			> T visitChildren(T previousResult, O expr) {
 		for (AbsExpressionNode childExpr : expr.getChildContainer().getListView()) {
 			previousResult = mergeResults(
 					previousResult,
-					((AbsLogicalOperatorNode<?, ?>) childExpr).accept(this)
+					((AbsBooleanInternalNode<?, ?>) childExpr).accept(this)
 			);
 		}
 		return previousResult;
@@ -83,6 +83,11 @@ public class BaseLogicalOperatorVisitor<T> implements ILogicalOperatorVisitor<T>
 
 	@Override
 	public T visitExistentialQuantification(ExistentialQuantificationNode operator) {
+		return defaultResult();
+	}
+
+	@Override
+	public T visitValueWrapper(BooleanValueWrapperNode node) {
 		return defaultResult();
 	}
 }

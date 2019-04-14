@@ -1,15 +1,27 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsLogicalOperatorNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 
 public class TdlExpression {
-	private AbsLogicalOperatorNode rootNode;
+	private AbsBooleanInternalNode<?, ?> rootNode;
 
-	public AbsLogicalOperatorNode getRootNode() {
+	public AbsBooleanInternalNode<?, ?> getRootNode() {
 		return rootNode;
 	}
 
-	public void setRootNode(AbsLogicalOperatorNode rootNode) {
+	public void setRootNode(AbsBooleanInternalNode<?, ?> rootNode) {
 		this.rootNode = rootNode;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void replaceDescendant(AbsBooleanInternalNode prevChild, AbsBooleanInternalNode newChild) {
+		if (prevChild.getParentNode() == null) {
+			if (prevChild == rootNode) {
+				setRootNode(newChild);
+			}
+		} else {
+			AbsBooleanInternalNode parent = (AbsBooleanInternalNode) prevChild.getParentNode();
+			parent.getChildContainer().replaceChildNode(prevChild, newChild);
+		}
 	}
 }

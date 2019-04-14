@@ -1,13 +1,13 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsLogicalOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.UnaryChildContainer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.arity.UnaryChildContainer;
 
-public class GroupNode extends AbsLogicalOperatorNode<
-			AbsLogicalOperatorNode,
-		UnaryChildContainer<AbsLogicalOperatorNode>
+public class GroupNode extends AbsBooleanInternalNode<
+		AbsBooleanInternalNode,
+		UnaryChildContainer<AbsBooleanInternalNode>
 		> {
 	public GroupNode() {
 		super(new UnaryChildContainer<>());
@@ -19,7 +19,7 @@ public class GroupNode extends AbsLogicalOperatorNode<
 	}
 
 	@Override
-	public <T> T accept(ILogicalOperatorVisitor<T> visitor) {
+	public <T> T accept(IBooleanNodeVisitor<T> visitor) {
 		return visitor.visitGroup(this);
 	}
 
@@ -27,7 +27,7 @@ public class GroupNode extends AbsLogicalOperatorNode<
 	public GroupNode deepClone() {
 		GroupNode clone = new GroupNode();
 		clone.setNegated(isNegated());
-		clone.getChildContainer().setOperand(getChildContainer().getOperand().deepClone());
+		clone.getChildContainer().setChild(getChildContainer().getChild().deepClone());
 		return clone;
 	}
 }

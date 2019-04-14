@@ -3,6 +3,7 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.con
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 public class Bound implements IDeepCloneable<Bound> {
 	private EBoundType boundType;
@@ -30,5 +31,23 @@ public class Bound implements IDeepCloneable<Bound> {
 		clone.setBoundValue(getBoundValue());
 		clone.setBoundType(getBoundType());
 		return clone;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(boundType, boundValue);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		if (!(obj instanceof Bound))
+			return false;
+		Bound other = (Bound) obj;
+		return other.boundType == this.boundType
+				&& Objects.equals(other.boundValue, this.boundValue);
 	}
 }

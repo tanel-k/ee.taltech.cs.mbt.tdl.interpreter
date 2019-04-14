@@ -4,34 +4,34 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 
 import java.util.Objects;
 
-public abstract class AbsOperatorNode<
-		OperandType extends AbsExpressionNode,
-		ChildContainerType extends ChildContainer<OperandType>
+public abstract class AbsInternalNode<
+			ChildType extends AbsExpressionNode,
+			ChildContainerType extends ChildContainer<ChildType>
 		>
 		extends AbsExpressionNode {
 	private ChildContainerType childContainer;
 
-	protected AbsOperatorNode(ChildContainerType childContainer) {
+	protected AbsInternalNode(ChildContainerType childContainer) {
 		this.childContainer = childContainer;
-		childContainer.setOwner(this);
+		childContainer.setSubtreeRoot(this);
 	}
 
 	public ChildContainerType getChildContainer() {
 		return childContainer;
 	}
 
-	protected AbsOperatorNode<OperandType, ChildContainerType> setChildContainer(ChildContainerType childContainer) {
+	protected AbsInternalNode<ChildType, ChildContainerType> setChildContainer(ChildContainerType childContainer) {
 		this.childContainer = childContainer;
 		return this;
 	}
 
 	@Override
 	public int getHeight() {
-		return getChildContainer().getHeight();
+		return getChildContainer().getSubtreeHeight();
 	}
 
 	@Override
-	public abstract AbsOperatorNode<OperandType, ChildContainerType> deepClone();
+	public abstract AbsInternalNode<ChildType, ChildContainerType> deepClone();
 
 	@Override
 	public int hashCode() {
@@ -44,9 +44,9 @@ public abstract class AbsOperatorNode<
 			return false;
 		if (obj == this)
 			return true;
-		if (!(obj instanceof AbsOperatorNode))
+		if (obj.getClass().isInstance(this.getClass()))
 			return false;
-		AbsOperatorNode other = (AbsOperatorNode) obj;
+		AbsInternalNode other = (AbsInternalNode) obj;
 		return Objects.equals(this.childContainer, other.childContainer);
 	}
 }

@@ -6,15 +6,15 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLa
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.LinkedTrapsetPairExpressionContext;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.RelativeTrapsetComplementExpressionContext;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.TrapsetExpressionContext;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_operator.AbsoluteComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_operator.LinkedPairNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_operator.RelativeComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.AbsoluteComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.RelativeComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-public class TrapsetExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsTrapsetOperatorNode>
-		implements IParseTreeConverter<AbsTrapsetOperatorNode, TrapsetExpressionContext> {
+public class TrapsetExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsDerivedTrapsetNode>
+		implements IParseTreeConverter<AbsDerivedTrapsetNode, TrapsetExpressionContext> {
 	public static TrapsetExpressionConverter getInstance() {
 		return INSTANCE;
 	}
@@ -28,37 +28,37 @@ public class TrapsetExpressionConverter extends TdlExpressionLanguageBaseVisitor
 	}
 
 	@Override
-	public AbsTrapsetOperatorNode convert(TrapsetExpressionContext ctx) {
+	public AbsDerivedTrapsetNode convert(TrapsetExpressionContext ctx) {
 		return ctx.accept(this);
 	}
 
 	@Override
-	public AbsTrapsetOperatorNode visitAbsoluteTrapsetComplementExpression(AbsoluteTrapsetComplementExpressionContext ctx) {
+	public AbsDerivedTrapsetNode visitAbsoluteTrapsetComplementExpression(AbsoluteTrapsetComplementExpressionContext ctx) {
 		AbsoluteComplementNode absoluteComplement = new AbsoluteComplementNode();
-		absoluteComplement.getChildContainer().setOperand(
+		absoluteComplement.getChildContainer().setChild(
 				newTrapsetSymbol(ctx.TRAPSET_ID())
 		);
 		return absoluteComplement;
 	}
 
 	@Override
-	public AbsTrapsetOperatorNode visitRelativeTrapsetComplementExpression(RelativeTrapsetComplementExpressionContext ctx) {
+	public AbsDerivedTrapsetNode visitRelativeTrapsetComplementExpression(RelativeTrapsetComplementExpressionContext ctx) {
 		RelativeComplementNode relativeComplement = new RelativeComplementNode();
 
 		relativeComplement.getChildContainer()
-				.setLeftOperand(newTrapsetSymbol(ctx.TRAPSET_ID(0)))
-				.setRightOperand(newTrapsetSymbol(ctx.TRAPSET_ID(1)));
+				.setLeftChild(newTrapsetSymbol(ctx.TRAPSET_ID(0)))
+				.setRightChild(newTrapsetSymbol(ctx.TRAPSET_ID(1)));
 
 		return relativeComplement;
 	}
 
 	@Override
-	public AbsTrapsetOperatorNode visitLinkedTrapsetPairExpression(LinkedTrapsetPairExpressionContext ctx) {
+	public AbsDerivedTrapsetNode visitLinkedTrapsetPairExpression(LinkedTrapsetPairExpressionContext ctx) {
 		LinkedPairNode linkedPair = new LinkedPairNode();
 
 		linkedPair.getChildContainer()
-				.setLeftOperand(newTrapsetSymbol(ctx.TRAPSET_ID(0)))
-				.setRightOperand(newTrapsetSymbol(ctx.TRAPSET_ID(1)));
+				.setLeftChild(newTrapsetSymbol(ctx.TRAPSET_ID(0)))
+				.setRightChild(newTrapsetSymbol(ctx.TRAPSET_ID(1)));
 
 		return linkedPair;
 	}
