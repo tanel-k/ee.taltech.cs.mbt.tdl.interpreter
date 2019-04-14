@@ -3,14 +3,14 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.con
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetOperatorNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.operands.arity.BinaryOperandContainer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.BinaryChildContainer;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetOperatorVisitor;
 
 public class RelativeComplementNode extends AbsTrapsetOperatorNode<
-			BinaryOperandContainer<TrapsetNode>
+		BinaryChildContainer<TrapsetNode>
 		> {
 	public RelativeComplementNode() {
-		super(new BinaryOperandContainer<>());
+		super(new BinaryChildContainer<>());
 	}
 
 	@Override
@@ -26,9 +26,9 @@ public class RelativeComplementNode extends AbsTrapsetOperatorNode<
 	@Override
 	public RelativeComplementNode deepClone() {
 		RelativeComplementNode clone = new RelativeComplementNode();
-		clone.getOperandContainer()
-				.setLeftOperand(getOperandContainer().getLeftOperand().deepClone())
-				.setRightOperand(getOperandContainer().getRightOperand().deepClone());
+		clone.getChildContainer()
+				.setLeftOperand(getChildContainer().getLeftOperand().deepClone())
+				.setRightOperand(getChildContainer().getRightOperand().deepClone());
 		return clone;
 	}
 }

@@ -35,7 +35,7 @@ public class TrapsetExpressionConverter extends TdlExpressionLanguageBaseVisitor
 	@Override
 	public AbsTrapsetOperatorNode visitAbsoluteTrapsetComplementExpression(AbsoluteTrapsetComplementExpressionContext ctx) {
 		AbsoluteComplementNode absoluteComplement = new AbsoluteComplementNode();
-		absoluteComplement.getOperandContainer().setOperand(
+		absoluteComplement.getChildContainer().setOperand(
 				newTrapsetSymbol(ctx.TRAPSET_ID())
 		);
 		return absoluteComplement;
@@ -45,7 +45,7 @@ public class TrapsetExpressionConverter extends TdlExpressionLanguageBaseVisitor
 	public AbsTrapsetOperatorNode visitRelativeTrapsetComplementExpression(RelativeTrapsetComplementExpressionContext ctx) {
 		RelativeComplementNode relativeComplement = new RelativeComplementNode();
 
-		relativeComplement.getOperandContainer()
+		relativeComplement.getChildContainer()
 				.setLeftOperand(newTrapsetSymbol(ctx.TRAPSET_ID(0)))
 				.setRightOperand(newTrapsetSymbol(ctx.TRAPSET_ID(1)));
 
@@ -56,7 +56,7 @@ public class TrapsetExpressionConverter extends TdlExpressionLanguageBaseVisitor
 	public AbsTrapsetOperatorNode visitLinkedTrapsetPairExpression(LinkedTrapsetPairExpressionContext ctx) {
 		LinkedPairNode linkedPair = new LinkedPairNode();
 
-		linkedPair.getOperandContainer()
+		linkedPair.getChildContainer()
 				.setLeftOperand(newTrapsetSymbol(ctx.TRAPSET_ID(0)))
 				.setRightOperand(newTrapsetSymbol(ctx.TRAPSET_ID(1)));
 

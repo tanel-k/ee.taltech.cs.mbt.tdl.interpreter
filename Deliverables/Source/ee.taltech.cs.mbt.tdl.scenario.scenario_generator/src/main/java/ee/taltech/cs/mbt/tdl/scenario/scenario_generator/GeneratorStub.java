@@ -44,6 +44,9 @@ public class GeneratorStub {
 	public static void generate(ScenarioSpecification specification) {
 		TdlExpression expression = specification.getTdlExpression();
 		UtaSystem sutModel = specification.getSutModel();
+		System.out.println(expression.getRootNode().getHeight());
+		System.out.println(expression.getRootNode().getDepth());
+		System.out.println(expression.getRootNode().hashCode());
 
 		Set<TrapsetNode> trapsetSymbols = extractTrapsetSymbols(expression);
 		TrapsetLabelingFunction labelingFunction = extractLabelingFunction(sutModel, trapsetSymbols);
@@ -75,7 +78,7 @@ public class GeneratorStub {
 		 *     trapsetQuantifierReplacements.put(quantifier, !quantifier.isNegated());
 		 *
 		 * We first push all negations to the Quantifier level (atomic level basically).
-		 * We can do this with a tree visitor.
+		 * We can do this with a tree visitor:
 		 * visitConjunction(ConjunctionNode c) {
 		 *    AbsLogicalOperatorNode currNode = c;
 		 *    if (c.isNegated()) {
@@ -94,22 +97,24 @@ public class GeneratorStub {
 		 * We also replace implications with disjunctions etc.
 		 * We will have difficulties replacing leads to:
 		 * not(a ~> b)      =? not(a) or (a ~> not(b))
-		 * 
+		 *
+		 * bounded repetition:
 		 * not(#a(>n))      =? #a(<=n)
 		 * not(#a(<n))      =? #a(>=n)
 		 * not(#a(=n))      =? #a(<n) or #a(>n)
 		 * not(#a(>=n))     =? #a(<n)
 		 * not(#a(<=n))     =? #a(>n)
 		 *
+		 * and bounded leads to:
 		 * not(a ~>(>n) b)  =? a ~>(<=n) b or not(a ~> b)
 		 * not(a ~>(<n) b)  =? a ~>(>=n) b or not(a ~> b)
-		 * not(a ~>(=n) b)  =? a ~>(<n) b or a ~>(>n) b or not(a ~> b)
+		 * not(a ~>(=n) b)  =? (a ~>(<n) b or a ~>(>n) b) or not(a ~> b)
 		 * not(a ~>(>=n) b) =? a ~>(<n) b or not(a ~> b)
 		 * not(a ~>(<=n) b) =? a ~>(>n) b or not(a ~> b)
 		 *
-		 * Then we run a reduction based on the FALSE/TRUE literals in the normalized TDL expression.
+		 * Then we run a reduction based on the FALSE/TRUE literals in the adjusted TDL expression.
 		 * We can use Map<AbsExpressionNode, Boolean> reductionMap;
-		 * Need to traverse expression tree bottom-up, replacing known functions as we go.
+		 * Need to traverse expression tree bottom-up, replacing known patterns as we go.
 		 * Reduction rules:
 		 * not(FALSE) = TRUE
 		 * not(TRUE) = FALSE
@@ -118,11 +123,31 @@ public class GeneratorStub {
 		 * TRUE or x = TRUE
 		 * TRUE and x = FALSE
 		 * (we only use and/or rules)
+		 * visitDisjunction(DisjunctionNode d) {
+		 *   AbsExpressionNode left = d.getLeftChild()
+		 *   if (reductionMap.containsKey(left)) {
+		 *       if (reductionMap.get(left) == Boolean.TRUE) {
+		 *           reductionMap.put(d, true);
+		 *       } else {
+		 *           d.getParent().replaceChild(d, d.getRightChild());
+		 *       }
+		 *       d.getParent().accept(this); ?
+		 *   }
+		 *   AbsExpressionNode right = d.getRightChild()
+		 *   if (reductionMap.containsKey(right)) {
+		 *      if (reductionMap.get(right) == Boolean.TRUE) {
+		 *          reductionMap.put(d, true);
+		 *      } else {
+		 *          d.getParent().replaceChild(d, d.getLeftChild());
+		 *      }
+		 *      d.getParent().accept(this); ?
+		 *   }
+		 * }
 		 *
 		 */
 		// ScenarioStubSystemFactory.DECLARED_NAME_TrapsetActivatorChannels.equals(null);
 		for (AbsTrapsetOperatorNode trapsetOperatorNode : trapsetOperators) {
-			trapsetOperatorNode.getOperandContainer().getListView();
+			trapsetOperatorNode.getChildContainer().getListView();
 		}
 	}
 

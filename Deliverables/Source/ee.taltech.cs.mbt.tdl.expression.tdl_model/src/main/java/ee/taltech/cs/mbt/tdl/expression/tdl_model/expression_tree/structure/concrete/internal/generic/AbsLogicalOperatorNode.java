@@ -2,12 +2,12 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.con
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.operands.OperandContainer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.ChildContainer;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
 
 public abstract class AbsLogicalOperatorNode<
 			OperandType extends AbsExpressionNode,
-			ContainerType extends OperandContainer<OperandType>
+			ContainerType extends ChildContainer<OperandType>
 		> extends AbsOperatorNode<OperandType, ContainerType> {
 	private boolean negated;
 
@@ -16,8 +16,8 @@ public abstract class AbsLogicalOperatorNode<
 	}
 
 	@Override
-	protected AbsLogicalOperatorNode<OperandType, ContainerType> setOperandContainer(ContainerType operandContainer) {
-		return (AbsLogicalOperatorNode<OperandType, ContainerType>) super.setOperandContainer(operandContainer);
+	protected AbsLogicalOperatorNode<OperandType, ContainerType> setChildContainer(ContainerType childContainer) {
+		return (AbsLogicalOperatorNode<OperandType, ContainerType>) super.setChildContainer(childContainer);
 	}
 
 	public boolean isNegated() {

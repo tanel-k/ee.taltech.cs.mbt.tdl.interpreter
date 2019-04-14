@@ -6,7 +6,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.AbsOperatorNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.operands.OperandContainer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.ChildContainer;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
 
 public class BaseLogicalOperatorVisitor<T> implements ILogicalOperatorVisitor<T> {
@@ -19,15 +19,15 @@ public class BaseLogicalOperatorVisitor<T> implements ILogicalOperatorVisitor<T>
 	}
 
 	protected <C extends AbsLogicalOperatorNode,
-			O extends AbsLogicalOperatorNode<C, ? extends OperandContainer<C>>
+			O extends AbsLogicalOperatorNode<C, ? extends ChildContainer<C>>
 			> T visitChildren(O expr) {
 		return visitChildren(defaultResult(), expr);
 	}
 
 	protected <C extends AbsLogicalOperatorNode,
-			O extends AbsOperatorNode<C, ? extends OperandContainer<C>>
+			O extends AbsOperatorNode<C, ? extends ChildContainer<C>>
 			> T visitChildren(T previousResult, O expr) {
-		for (AbsExpressionNode childExpr : expr.getOperandContainer().getListView()) {
+		for (AbsExpressionNode childExpr : expr.getChildContainer().getListView()) {
 			previousResult = mergeResults(
 					previousResult,
 					((AbsLogicalOperatorNode<?, ?>) childExpr).accept(this)

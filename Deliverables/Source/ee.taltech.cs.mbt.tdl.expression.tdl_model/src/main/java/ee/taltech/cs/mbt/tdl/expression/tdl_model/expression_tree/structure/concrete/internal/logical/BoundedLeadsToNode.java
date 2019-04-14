@@ -33,8 +33,8 @@ public class BoundedLeadsToNode extends LeadsToNode implements IBounded {
 		BoundedLeadsToNode clone = new BoundedLeadsToNode();
 		clone.setBound(getBound().deepClone());
 		clone.setNegated(isNegated());
-		clone.getOperandContainer().setLeftOperand(getOperandContainer().getLeftOperand().deepClone());
-		clone.getOperandContainer().setRightOperand(getOperandContainer().getRightOperand().deepClone());
+		clone.getChildContainer().setLeftOperand(getChildContainer().getLeftOperand().deepClone());
+		clone.getChildContainer().setRightOperand(getChildContainer().getRightOperand().deepClone());
 		return clone;
 	}
 }

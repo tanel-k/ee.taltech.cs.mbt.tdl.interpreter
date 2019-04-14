@@ -5,16 +5,16 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.IBounded;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ILogicalOperatorVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.operands.arity.UnaryOperandContainer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.UnaryChildContainer;
 
 public class BoundedRepetitionNode extends AbsLogicalOperatorNode<
 			AbsLogicalOperatorNode,
-			UnaryOperandContainer<AbsLogicalOperatorNode>
+		UnaryChildContainer<AbsLogicalOperatorNode>
 		> implements IBounded {
 	private Bound bound;
 
 	public BoundedRepetitionNode() {
-		super(new UnaryOperandContainer<>());
+		super(new UnaryChildContainer<>());
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class BoundedRepetitionNode extends AbsLogicalOperatorNode<
 		BoundedRepetitionNode clone = new BoundedRepetitionNode();
 		clone.setBound(getBound().deepClone());
 		clone.setNegated(isNegated());
-		clone.getOperandContainer().setOperand(getOperandContainer().getOperand().deepClone());
+		clone.getChildContainer().setOperand(getChildContainer().getOperand().deepClone());
 		return clone;
 	}
 }

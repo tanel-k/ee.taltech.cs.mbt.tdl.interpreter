@@ -27,10 +27,10 @@ public class ExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsExp
 	@Override
 	public AbsExpressionNode visitLeadsToExpression(LeadsToExpressionContext ctx) {
 		LeadsToNode leadsTo = new LeadsToNode();
-		leadsTo.getOperandContainer().setLeftOperand(
+		leadsTo.getChildContainer().setLeftOperand(
 				(AbsLogicalOperatorNode) ctx.expression(0).accept(this)
 		);
-		leadsTo.getOperandContainer().setRightOperand(
+		leadsTo.getChildContainer().setRightOperand(
 				(AbsLogicalOperatorNode) ctx.expression(1).accept(this)
 		);
 		return leadsTo;
@@ -39,10 +39,10 @@ public class ExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsExp
 	@Override
 	public AbsExpressionNode visitImplicativeExpression(ImplicativeExpressionContext ctx) {
 		ImplicationNode implication = new ImplicationNode();
-		implication.getOperandContainer().setLeftOperand(
+		implication.getChildContainer().setLeftOperand(
 				(AbsLogicalOperatorNode) ctx.expression(0).accept(this)
 		);
-		implication.getOperandContainer().setRightOperand(
+		implication.getChildContainer().setRightOperand(
 				(AbsLogicalOperatorNode) ctx.expression(1).accept(this)
 		);
 		return implication;
@@ -51,7 +51,7 @@ public class ExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsExp
 	@Override
 	public AbsExpressionNode visitGroupedExpression(GroupedExpressionContext ctx) {
 		GroupNode group = new GroupNode();
-		group.getOperandContainer().setOperand(
+		group.getChildContainer().setOperand(
 				(AbsLogicalOperatorNode) ctx.expression().accept(this)
 		);
 		return group;
@@ -60,10 +60,10 @@ public class ExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsExp
 	@Override
 	public AbsExpressionNode visitConjunctiveExpression(ConjunctiveExpressionContext ctx) {
 		ConjunctionNode conjunction = new ConjunctionNode();
-		conjunction.getOperandContainer().setLeftOperand(
+		conjunction.getChildContainer().setLeftOperand(
 				(AbsLogicalOperatorNode) ctx.expression(0).accept(this)
 		);
-		conjunction.getOperandContainer().setRightOperand(
+		conjunction.getChildContainer().setRightOperand(
 				(AbsLogicalOperatorNode) ctx.expression(1).accept(this)
 		);
 		return conjunction;
@@ -72,10 +72,10 @@ public class ExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsExp
 	@Override
 	public AbsExpressionNode visitDisjunctiveExpression(DisjunctiveExpressionContext ctx) {
 		DisjunctionNode disjunction = new DisjunctionNode();
-		disjunction.getOperandContainer().setLeftOperand(
+		disjunction.getChildContainer().setLeftOperand(
 				(AbsLogicalOperatorNode) ctx.expression(0).accept(this)
 		);
-		disjunction.getOperandContainer().setRightOperand(
+		disjunction.getChildContainer().setRightOperand(
 				(AbsLogicalOperatorNode) ctx.expression(1).accept(this)
 		);
 		return disjunction;
@@ -84,10 +84,10 @@ public class ExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsExp
 	@Override
 	public AbsExpressionNode visitEquivalenceExpression(EquivalenceExpressionContext ctx) {
 		EquivalenceNode equivalence = new EquivalenceNode();
-		equivalence.getOperandContainer().setLeftOperand(
+		equivalence.getChildContainer().setLeftOperand(
 				(AbsLogicalOperatorNode) ctx.expression(0).accept(this)
 		);
-		equivalence.getOperandContainer().setRightOperand(
+		equivalence.getChildContainer().setRightOperand(
 				(AbsLogicalOperatorNode) ctx.expression(1).accept(this)
 		);
 		return equivalence;
@@ -104,7 +104,7 @@ public class ExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsExp
 	public AbsExpressionNode visitConditionalRepetitionExpression(ConditionalRepetitionExpressionContext ctx) {
 		BoundedRepetitionNode boundedRepetition = new BoundedRepetitionNode();
 		boundedRepetition.setBound(BoundConverter.getInstance().convert(ctx.boundOverNaturals()));
-		boundedRepetition.getOperandContainer().setOperand(
+		boundedRepetition.getChildContainer().setOperand(
 				(AbsLogicalOperatorNode) ctx.expression().accept(this)
 		);
 		return boundedRepetition;
@@ -114,10 +114,10 @@ public class ExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsExp
 	public AbsExpressionNode visitTimeBoundedLeadsToExpression(TimeBoundedLeadsToExpressionContext ctx) {
 		BoundedLeadsToNode boundedLeadsTo = new BoundedLeadsToNode();
 		boundedLeadsTo.setBound(BoundConverter.getInstance().convert(ctx.boundOverNaturals()));
-		boundedLeadsTo.getOperandContainer().setLeftOperand(
+		boundedLeadsTo.getChildContainer().setLeftOperand(
 				(AbsLogicalOperatorNode) ctx.expression(0).accept(this)
 		);
-		boundedLeadsTo.getOperandContainer().setRightOperand(
+		boundedLeadsTo.getChildContainer().setRightOperand(
 				(AbsLogicalOperatorNode) ctx.expression(1).accept(this)
 		);
 		return boundedLeadsTo;
@@ -126,7 +126,7 @@ public class ExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsExp
 	@Override
 	public AbsExpressionNode visitUniversalTrapsetExpression(UniversalTrapsetExpressionContext ctx) {
 		UniversalQuantificationNode universalQuantification = new UniversalQuantificationNode();
-		universalQuantification.getOperandContainer().setOperand(
+		universalQuantification.getChildContainer().setOperand(
 				TrapsetExpressionConverter.getInstance().convert(ctx.trapsetExpression())
 		);
 		return universalQuantification;
@@ -135,7 +135,7 @@ public class ExpressionConverter extends TdlExpressionLanguageBaseVisitor<AbsExp
 	@Override
 	public AbsExpressionNode visitExistentialTrapsetExpression(ExistentialTrapsetExpressionContext ctx) {
 		ExistentialQuantificationNode existentialQuantification = new ExistentialQuantificationNode();
-		existentialQuantification.getOperandContainer().setOperand(
+		existentialQuantification.getChildContainer().setOperand(
 				TrapsetExpressionConverter.getInstance().convert(ctx.trapsetExpression())
 		);
 		return existentialQuantification;
