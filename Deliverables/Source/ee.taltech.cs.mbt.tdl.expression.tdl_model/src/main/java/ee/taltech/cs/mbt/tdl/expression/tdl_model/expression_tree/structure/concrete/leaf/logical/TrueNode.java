@@ -32,4 +32,9 @@ public class TrueNode extends AbsBooleanLeafNode {
 	public boolean equals(Object object) {
 		return this == object;
 	}
+
+	@Override
+	public String toString() {
+		return "True";
+	}
 }

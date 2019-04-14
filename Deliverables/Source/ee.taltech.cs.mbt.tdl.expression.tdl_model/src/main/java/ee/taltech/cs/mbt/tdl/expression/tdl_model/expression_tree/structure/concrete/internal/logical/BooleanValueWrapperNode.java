@@ -56,6 +56,11 @@ public class BooleanValueWrapperNode extends AbsBooleanInternalNode<AbsBooleanLe
 	}
 
 	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "(" + getChildContainer().getChild() + ")";
+	}
+
+	@Override
 	public AbsBooleanInternalNode<AbsBooleanLeafNode, UnaryChildContainer<AbsBooleanLeafNode>> deepClone() {
 		BooleanValueWrapperNode clone = new BooleanValueWrapperNode();
 		clone.getChildContainer().setChild(getChildContainer().getChild());

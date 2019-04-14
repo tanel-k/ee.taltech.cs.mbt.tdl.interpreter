@@ -50,6 +50,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.i
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.ConjunctionExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.IdentifierExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.NegationExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.LiteralConsts;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
@@ -132,6 +133,7 @@ public class GeneratorStub {
 	}
 
 	private static void reduceExpression(Queue<BooleanValueWrapperNode> leafQueue, TdlExpression expression) {
+		// TODO p v p = p, p && p = p, ...
 		while (!leafQueue.isEmpty()) {
 			BooleanValueWrapperNode valueWrapper = leafQueue.poll();
 			AbsExpressionNode parent = valueWrapper.getParentNode();
@@ -166,7 +168,6 @@ public class GeneratorStub {
 						expression.replaceDescendant(node, replacement);
 						leafQueue.add(replacement);
 					}
-
 					return null;
 				}
 
@@ -197,7 +198,7 @@ public class GeneratorStub {
 							expression.replaceDescendant(node, node.getChildContainer().getRightChild());
 						}
 					} else { // true or x = true
-						BooleanValueWrapperNode replacement = BooleanValueWrapperNode.falseWrapper();
+						BooleanValueWrapperNode replacement = BooleanValueWrapperNode.trueWrapper();
 						expression.replaceDescendant(node, replacement);
 						leafQueue.add(replacement);
 					}
@@ -580,7 +581,11 @@ public class GeneratorStub {
 								AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
 										.setLeftChild(IdentifierExpression.of(trapsetName))
 										.setRightChild(new NegationExpression().setChild(ts.getMarkerCondition(tr)));
-								// TODO: If literal.
+								derivedTrapset.addTrap(tpl, tr, markerExpr);
+							} else {
+								AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
+										.setLeftChild(IdentifierExpression.of(trapsetName))
+										.setRightChild(LiteralConsts.TRUE);
 								derivedTrapset.addTrap(tpl, tr, markerExpr);
 							}
 						}
@@ -606,7 +611,6 @@ public class GeneratorStub {
 							AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
 									.setLeftChild(IdentifierExpression.of(trapsetName))
 									.setRightChild(tsA.getMarkerCondition(tB));
-							// TODO: If literal.
 							derivedTrapset.addTrap(tpl, tB, markerExpr);
 						}
 					}
@@ -623,7 +627,7 @@ public class GeneratorStub {
 
 					MAIN: for (Transition tA : tsA) {
 						Template tplA = tsA.getParentTemplate(tA);
-						AbsExpression conditionExpr = tsA.getMarkerCondition(tA); // TODO: If literal.
+						AbsExpression conditionExpr = tsA.getMarkerCondition(tA);
 						for (Transition tB : tsB) {
 							if (tA == tB) {
 								if (!tsB.isConditional(tB))
@@ -699,7 +703,7 @@ public class GeneratorStub {
 	}
 
 	public static void main(String... args) throws ParseException, MarshallingException, InvalidSystemStructureException, EmbeddedCodeSyntaxException {
-		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("(U(!TS3) & (E(!TS1) -> U(TS1; TS2))) | (~E(!TS1))");
+		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("E(TS1; TS2) | E(!TS3)");
 		UtaSystem system = UtaParser.newInstance().parse(GeneratorStub.class.getResourceAsStream("/SampleSystem.xml"));
 		generate(ScenarioSpecification.of(system, expression));
 	}
