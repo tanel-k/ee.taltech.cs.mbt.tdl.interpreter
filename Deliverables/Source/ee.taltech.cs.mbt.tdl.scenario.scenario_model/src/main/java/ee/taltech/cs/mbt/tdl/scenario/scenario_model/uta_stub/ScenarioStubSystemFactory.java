@@ -18,6 +18,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.i
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.GreaterThanOrEqualExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.GroupedExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.IdentifierExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.InequalityExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.LessThanExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.LessThanOrEqualExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.NegationExpression;
@@ -46,6 +47,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identif
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.CustomTypeId;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.CommentLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.GuardLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.InvariantLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
@@ -1258,37 +1260,44 @@ public class ScenarioStubSystemFactory {
               new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("0")));
     }
 
-    protected Location newId14Location() {
+    protected Location newId16Location() {
       return new Location()
-          .setId("id14")
-          .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(222, -70)))
+          .setId("id16")
+          .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(-34, 170)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(232, -40));
+          .setCoordinates(GuiCoordinates.of(-24, 200));
     }
 
-    protected Location newId12Location() {
+    protected Location newId20Location() {
       return new Location()
-          .setId("id12")
-          .setExitPolicy(ELocationExitPolicy.COMMITTED)
+          .setId("id20")
+          .setName(new LocationName().setName("Idle").setCoordinates(GuiCoordinates.of(-1640, 184)))
+          .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-752, 88));
-    }
-
-    protected Location newId15Location() {
-      return new Location()
-          .setId("id15")
-          .setExitPolicy(ELocationExitPolicy.COMMITTED)
-          .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-400, -40));
+          .setCoordinates(GuiCoordinates.of(-1600, 200));
     }
 
     protected Location newId13Location() {
       return new Location()
           .setId("id13")
+          .setName(
+              new LocationName().setName("Checkpoint").setCoordinates(GuiCoordinates.of(-608, 368)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-16, -40));
+          .setCoordinates(GuiCoordinates.of(-624, 376));
+    }
+
+    protected Location newId15Location() {
+      return new Location()
+          .setId("id15")
+          .setName(
+              new LocationName()
+                  .setName("BeginListening")
+                  .setCoordinates(GuiCoordinates.of(-1144, 376)))
+          .setExitPolicy(ELocationExitPolicy.COMMITTED)
+          .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(-1160, 376));
     }
 
     protected Location newId17Location() {
@@ -1296,36 +1305,52 @@ public class ScenarioStubSystemFactory {
           .setId("id17")
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-944, -40));
+          .setCoordinates(GuiCoordinates.of(-272, 200));
+    }
+
+    protected Location newId12Location() {
+      return new Location()
+          .setId("id12")
+          .setExitPolicy(ELocationExitPolicy.COMMITTED)
+          .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(-1208, 272));
+    }
+
+    protected Location newId19Location() {
+      return new Location()
+          .setId("id19")
+          .setExitPolicy(ELocationExitPolicy.COMMITTED)
+          .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(-1376, 200));
+    }
+
+    protected Location newId14Location() {
+      return new Location()
+          .setId("id14")
+          .setName(new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-912, 384)))
+          .setExitPolicy(ELocationExitPolicy.NORMAL)
+          .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(-896, 376));
     }
 
     protected Location newId18Location() {
       return new Location()
           .setId("id18")
-          .setName(new LocationName().setName("Idle").setCoordinates(GuiCoordinates.of(-1202, -70)))
-          .setExitPolicy(ELocationExitPolicy.NORMAL)
+          .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-1192, -40));
+          .setCoordinates(GuiCoordinates.of(-1160, 136));
     }
 
-    protected Location newId16Location() {
-      return new Location()
-          .setId("id16")
-          .setName(new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-696, -72)))
-          .setExitPolicy(ELocationExitPolicy.NORMAL)
-          .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-680, -40));
-    }
-
-    protected Transition newId14ToId12Transition(Location source, Location target) {
+    protected Transition newId16ToId20Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
           .setLabels(new TransitionLabels())
-          .addNail(GuiCoordinates.of(232, 88));
+          .addNail(GuiCoordinates.of(-24, 496))
+          .addNail(GuiCoordinates.of(-1600, 496));
     }
 
-    protected Transition newId15ToId12Transition_Nr1(Location source, Location target) {
+    protected Transition newId13ToId15Transition_Nr1(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1334,139 +1359,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-744, 32))
-                              .setContent(
-                                  new ConjunctionExpression()
-                                      .setLeftChild(IdentifierExpression.of("lessThanOrEqBound"))
-                                      .setRightChild(
-                                          new GreaterThanExpression()
-                                              .setLeftChild(IdentifierExpression.of("repetitions"))
-                                              .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-400, 56))
-          .addNail(GuiCoordinates.of(-752, 56));
-    }
-
-    protected Transition newId15ToId12Transition_Nr2(Location source, Location target) {
-      return new Transition()
-          .setSource(source)
-          .setTarget(target)
-          .setLabels(
-              new TransitionLabels()
-                  .setGuardLabel(
-                      (GuardLabel)
-                          new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-744, 0))
-                              .setContent(
-                                  new ConjunctionExpression()
-                                      .setLeftChild(IdentifierExpression.of("lessThanBound"))
-                                      .setRightChild(
-                                          new GreaterThanOrEqualExpression()
-                                              .setLeftChild(IdentifierExpression.of("repetitions"))
-                                              .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-400, 24))
-          .addNail(GuiCoordinates.of(-752, 24));
-    }
-
-    protected Transition newId15ToId13Transition_Nr1(Location source, Location target) {
-      return new Transition()
-          .setSource(source)
-          .setTarget(target)
-          .setLabels(
-              new TransitionLabels()
-                  .setGuardLabel(
-                      (GuardLabel)
-                          new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-368, 32))
-                              .setContent(
-                                  new ConjunctionExpression()
-                                      .setLeftChild(IdentifierExpression.of("lessThanOrEqBound"))
-                                      .setRightChild(
-                                          new LessThanOrEqualExpression()
-                                              .setLeftChild(IdentifierExpression.of("repetitions"))
-                                              .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-400, 56))
-          .addNail(GuiCoordinates.of(-16, 56));
-    }
-
-    protected Transition newId15ToId13Transition_Nr2(Location source, Location target) {
-      return new Transition()
-          .setSource(source)
-          .setTarget(target)
-          .setLabels(
-              new TransitionLabels()
-                  .setGuardLabel(
-                      (GuardLabel)
-                          new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-368, 0))
-                              .setContent(
-                                  new ConjunctionExpression()
-                                      .setLeftChild(IdentifierExpression.of("lessThanBound"))
-                                      .setRightChild(
-                                          new LessThanExpression()
-                                              .setLeftChild(IdentifierExpression.of("repetitions"))
-                                              .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-400, 24))
-          .addNail(GuiCoordinates.of(-16, 24));
-    }
-
-    protected Transition newId15ToId13Transition_Nr3(Location source, Location target) {
-      return new Transition()
-          .setSource(source)
-          .setTarget(target)
-          .setLabels(
-              new TransitionLabels()
-                  .setGuardLabel(
-                      (GuardLabel)
-                          new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-368, -160))
-                              .setContent(
-                                  new ConjunctionExpression()
-                                      .setLeftChild(IdentifierExpression.of("greaterThanOrEqBound"))
-                                      .setRightChild(
-                                          new GreaterThanOrEqualExpression()
-                                              .setLeftChild(IdentifierExpression.of("repetitions"))
-                                              .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-400, -136))
-          .addNail(GuiCoordinates.of(-16, -136));
-    }
-
-    protected Transition newId15ToId13Transition_Nr4(Location source, Location target) {
-      return new Transition()
-          .setSource(source)
-          .setTarget(target)
-          .setLabels(
-              new TransitionLabels()
-                  .setGuardLabel(
-                      (GuardLabel)
-                          new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-368, -128))
-                              .setContent(
-                                  new ConjunctionExpression()
-                                      .setLeftChild(IdentifierExpression.of("greaterThanBound"))
-                                      .setRightChild(
-                                          new GreaterThanExpression()
-                                              .setLeftChild(IdentifierExpression.of("repetitions"))
-                                              .setRightChild(
-                                                  IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-400, -104))
-          .addNail(GuiCoordinates.of(-16, -104));
-    }
-
-    protected Transition newId15ToId17Transition_Nr1(Location source, Location target) {
-      return new Transition()
-          .setSource(source)
-          .setTarget(target)
-          .setLabels(
-              new TransitionLabels()
-                  .setGuardLabel(
-                      (GuardLabel)
-                          new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-816, -160))
+                              .setCoordinates(GuiCoordinates.of(-960, 448))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanOrEqBound"))
@@ -1475,11 +1368,11 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-400, -136))
-          .addNail(GuiCoordinates.of(-944, -136));
+          .addNail(GuiCoordinates.of(-624, 472))
+          .addNail(GuiCoordinates.of(-1160, 472));
     }
 
-    protected Transition newId15ToId17Transition_Nr2(Location source, Location target) {
+    protected Transition newId13ToId15Transition_Nr2(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1488,7 +1381,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-816, -128))
+                              .setCoordinates(GuiCoordinates.of(-936, 424))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanBound"))
@@ -1497,48 +1390,11 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-400, -104))
-          .addNail(GuiCoordinates.of(-944, -104));
+          .addNail(GuiCoordinates.of(-624, 448))
+          .addNail(GuiCoordinates.of(-1160, 448));
     }
 
-    protected Transition newId13ToId14Transition(Location source, Location target) {
-      return new Transition()
-          .setSource(source)
-          .setTarget(target)
-          .setLabels(
-              new TransitionLabels()
-                  .setAssignmentsLabel(
-                      (AssignmentsLabel)
-                          new AssignmentsLabel()
-                              .setCoordinates(GuiCoordinates.of(0, -40))
-                              .setContent(
-                                  CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
-                                      .add(
-                                          new AssignmentExpression()
-                                              .setLeftChild(
-                                                  new ArrayLookupExpression()
-                                                      .setLeftChild(
-                                                          IdentifierExpression.of("TdlDiagnostics"))
-                                                      .setRightChild(
-                                                          IdentifierExpression.of("treeIndex")))
-                                              .setRightChild(LiteralConsts.TRUE))
-                                      .build()))
-                  .setSynchronizationLabel(
-                      (SynchronizationLabel)
-                          new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(0, -64))
-                              .setContent(
-                                  new Synchronization()
-                                      .setActiveSync(true)
-                                      .setExpression(
-                                          new ArrayLookupExpression()
-                                              .setLeftChild(
-                                                  IdentifierExpression.of("TdlTerminatorChannels"))
-                                              .setRightChild(
-                                                  IdentifierExpression.of("treeIndex"))))));
-    }
-
-    protected Transition newId15ToId17Transition_Nr3(Location source, Location target) {
+    protected Transition newId13ToId15Transition_Nr3(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1547,40 +1403,20 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-816, -96))
+                              .setCoordinates(GuiCoordinates.of(-904, 400))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("equalityBound"))
                                       .setRightChild(
-                                          new LessThanExpression()
+                                          new InequalityExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-400, -72))
-          .addNail(GuiCoordinates.of(-944, -72));
+          .addNail(GuiCoordinates.of(-624, 424))
+          .addNail(GuiCoordinates.of(-1160, 424));
     }
 
-    protected Transition newId12ToId18Transition(Location source, Location target) {
-      return new Transition()
-          .setSource(source)
-          .setTarget(target)
-          .setLabels(
-              new TransitionLabels()
-                  .setAssignmentsLabel(
-                      (AssignmentsLabel)
-                          new AssignmentsLabel()
-                              .setCoordinates(GuiCoordinates.of(-1056, 64))
-                              .setContent(
-                                  CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
-                                      .add(
-                                          new AssignmentExpression()
-                                              .setLeftChild(IdentifierExpression.of("repetitions"))
-                                              .setRightChild(NaturalNumberLiteral.of("0")))
-                                      .build())))
-          .addNail(GuiCoordinates.of(-1192, 88));
-    }
-
-    protected Transition newId15ToId13Transition_Nr5(Location source, Location target) {
+    protected Transition newId13ToId17Transition_Nr1(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1589,20 +1425,97 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-368, -96))
+                              .setCoordinates(GuiCoordinates.of(-616, 320))
                               .setContent(
                                   new ConjunctionExpression()
-                                      .setLeftChild(IdentifierExpression.of("equalityBound"))
+                                      .setLeftChild(IdentifierExpression.of("greaterThanOrEqBound"))
                                       .setRightChild(
-                                          new EqualityExpression()
+                                          new GreaterThanOrEqualExpression()
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-400, -72))
-          .addNail(GuiCoordinates.of(-16, -72));
+          .addNail(GuiCoordinates.of(-624, 344))
+          .addNail(GuiCoordinates.of(-272, 344));
     }
 
-    protected Transition newId16ToId15Transition(Location source, Location target) {
+    protected Transition newId13ToId17Transition_Nr2(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-616, 296))
+                              .setContent(
+                                  new ConjunctionExpression()
+                                      .setLeftChild(IdentifierExpression.of("greaterThanBound"))
+                                      .setRightChild(
+                                          new GreaterThanExpression()
+                                              .setLeftChild(IdentifierExpression.of("repetitions"))
+                                              .setRightChild(
+                                                  IdentifierExpression.of("boundValue"))))))
+          .addNail(GuiCoordinates.of(-624, 320))
+          .addNail(GuiCoordinates.of(-272, 320));
+    }
+
+    protected Transition newId12ToId15Transition(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-1200, 312))
+                              .setContent(
+                                  new GreaterThanExpression()
+                                      .setLeftChild(IdentifierExpression.of("boundValue"))
+                                      .setRightChild(NaturalNumberLiteral.of("0")))))
+          .addNail(GuiCoordinates.of(-1208, 376));
+    }
+
+    protected Transition newId12ToId17Transition(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-1192, 248))
+                              .setContent(
+                                  new EqualityExpression()
+                                      .setLeftChild(IdentifierExpression.of("boundValue"))
+                                      .setRightChild(NaturalNumberLiteral.of("0"))))
+                  .setCommentLabel(
+                      (CommentLabel)
+                          new CommentLabel()
+                              .setContent(
+                                  "The condition is \"== 0\"."
+                                      + "When we begin testing, the number of repetitions is already 0, so we can immediately successfully terminate.")))
+          .addNail(GuiCoordinates.of(-272, 272));
+    }
+
+    protected Transition newId19ToId12Transition(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-1360, 208))
+                              .setContent(IdentifierExpression.of("equalityBound"))))
+          .addNail(GuiCoordinates.of(-1376, 232))
+          .addNail(GuiCoordinates.of(-1208, 232));
+    }
+
+    protected Transition newId14ToId13Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1611,7 +1524,7 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
-                              .setCoordinates(GuiCoordinates.of(-584, -64))
+                              .setCoordinates(GuiCoordinates.of(-816, 376))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -1621,7 +1534,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-664, -40))
+                              .setCoordinates(GuiCoordinates.of(-880, 352))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1633,7 +1546,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("operandIndex"))))));
     }
 
-    protected Transition newId17ToId16Transition(Location source, Location target) {
+    protected Transition newId15ToId14Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1642,7 +1555,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-928, -40))
+                              .setCoordinates(GuiCoordinates.of(-1144, 352))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -1654,7 +1567,84 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("operandIndex"))))));
     }
 
+    protected Transition newId13ToId17Transition_Nr3(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-616, 272))
+                              .setContent(
+                                  new ConjunctionExpression()
+                                      .setLeftChild(IdentifierExpression.of("equalityBound"))
+                                      .setRightChild(
+                                          new EqualityExpression()
+                                              .setLeftChild(IdentifierExpression.of("repetitions"))
+                                              .setRightChild(
+                                                  IdentifierExpression.of("boundValue"))))))
+          .addNail(GuiCoordinates.of(-624, 296))
+          .addNail(GuiCoordinates.of(-272, 296));
+    }
+
+    protected Transition newId19ToId15Transition_Nr1(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-1368, 368))
+                              .setContent(IdentifierExpression.of("greaterThanOrEqBound"))))
+          .addNail(GuiCoordinates.of(-1376, 392))
+          .addNail(GuiCoordinates.of(-1208, 392))
+          .addNail(GuiCoordinates.of(-1208, 376));
+    }
+
+    protected Transition newId19ToId15Transition_Nr2(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-1368, 336))
+                              .setContent(IdentifierExpression.of("greaterThanBound"))))
+          .addNail(GuiCoordinates.of(-1376, 360))
+          .addNail(GuiCoordinates.of(-1208, 360))
+          .addNail(GuiCoordinates.of(-1208, 376));
+    }
+
     protected Transition newId18ToId17Transition(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-1144, 112))
+                              .setContent(
+                                  new GreaterThanOrEqualExpression()
+                                      .setLeftChild(IdentifierExpression.of("boundValue"))
+                                      .setRightChild(NaturalNumberLiteral.of("1"))))
+                  .setCommentLabel(
+                      (CommentLabel)
+                          new CommentLabel()
+                              .setContent(
+                                  "The condition is \"< n\" (n >= 1)."
+                                      + "When we begin testing, the number of repetitions is 0 but 0 < n for n >= 1, so we can immediately successfully terminate.")))
+          .addNail(GuiCoordinates.of(-272, 136));
+    }
+
+    protected Transition newId17ToId16Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1663,7 +1653,96 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-1176, -64))
+                              .setCoordinates(GuiCoordinates.of(-256, 176))
+                              .setContent(
+                                  new Synchronization()
+                                      .setActiveSync(true)
+                                      .setExpression(
+                                          new ArrayLookupExpression()
+                                              .setLeftChild(
+                                                  IdentifierExpression.of("TdlTerminatorChannels"))
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))));
+    }
+
+    protected Transition newId18ToId20Transition(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-1272, 112))
+                              .setContent(
+                                  new LessThanExpression()
+                                      .setLeftChild(IdentifierExpression.of("boundValue"))
+                                      .setRightChild(NaturalNumberLiteral.of("1"))))
+                  .setCommentLabel(
+                      (CommentLabel)
+                          new CommentLabel()
+                              .setContent(
+                                  "The condition is \"< 0\"."
+                                      + "We cannot test whether a state occurs less than 0 times.")))
+          .addNail(GuiCoordinates.of(-1600, 136));
+    }
+
+    protected Transition newId19ToId17Transition(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-1360, 176))
+                              .setContent(IdentifierExpression.of("lessThanOrEqBound")))
+                  .setCommentLabel(
+                      (CommentLabel)
+                          new CommentLabel()
+                              .setContent(
+                                  "The condition is \"<= n\" (n >= 0)."
+                                      + "When we begin testing, the number of repetitions is already 0, but 0 <= n for n >= 0, so we can immediately successfully terminate.")));
+    }
+
+    protected Transition newId19ToId18Transition(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setGuardLabel(
+                      (GuardLabel)
+                          new GuardLabel()
+                              .setCoordinates(GuiCoordinates.of(-1360, 144))
+                              .setContent(IdentifierExpression.of("lessThanBound"))))
+          .addNail(GuiCoordinates.of(-1376, 168))
+          .addNail(GuiCoordinates.of(-1160, 168));
+    }
+
+    protected Transition newId20ToId19Transition(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setAssignmentsLabel(
+                      (AssignmentsLabel)
+                          new AssignmentsLabel()
+                              .setCoordinates(GuiCoordinates.of(-1548, 200))
+                              .setContent(
+                                  CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
+                                      .add(
+                                          new AssignmentExpression()
+                                              .setLeftChild(IdentifierExpression.of("repetitions"))
+                                              .setRightChild(NaturalNumberLiteral.of("0")))
+                                      .build()))
+                  .setSynchronizationLabel(
+                      (SynchronizationLabel)
+                          new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(-1592, 176))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1739,76 +1818,94 @@ public class ScenarioStubSystemFactory {
           TdlBoundedRepetitionRecognizer.getDeclarations(), new_repetitionsDeclaration());
 
       // Set locations:
-      Location locationId14 = newId14Location();
-      TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId14);
+      Location locationId16 = newId16Location();
+      TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId16);
 
-      Location locationId12 = newId12Location();
-      TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId12);
+      Location locationId20 = newId20Location();
+      TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId20);
+      TdlBoundedRepetitionRecognizer.setInitialLocation(locationId20);
+      Location locationId13 = newId13Location();
+      TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId13);
 
       Location locationId15 = newId15Location();
       TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId15);
 
-      Location locationId13 = newId13Location();
-      TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId13);
-
       Location locationId17 = newId17Location();
       TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId17);
 
+      Location locationId12 = newId12Location();
+      TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId12);
+
+      Location locationId19 = newId19Location();
+      TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId19);
+
+      Location locationId14 = newId14Location();
+      TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId14);
+
       Location locationId18 = newId18Location();
       TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId18);
-      TdlBoundedRepetitionRecognizer.setInitialLocation(locationId18);
-      Location locationId16 = newId16Location();
-      TdlBoundedRepetitionRecognizer.getLocationGraph().addVertex(locationId16);
 
       // Set transitions:
-      Transition transitionId14ToId12 = newId14ToId12Transition(locationId14, locationId12);
+      Transition transitionId16ToId20 = newId16ToId20Transition(locationId16, locationId20);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId14, locationId12, transitionId14ToId12);
-      Transition transitionId15ToId12_Nr1 = newId15ToId12Transition_Nr1(locationId15, locationId12);
+          .addEdge(locationId16, locationId20, transitionId16ToId20);
+      Transition transitionId13ToId15_Nr1 = newId13ToId15Transition_Nr1(locationId13, locationId15);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId15, locationId12, transitionId15ToId12_Nr1);
-      Transition transitionId15ToId12_Nr2 = newId15ToId12Transition_Nr2(locationId15, locationId12);
+          .addEdge(locationId13, locationId15, transitionId13ToId15_Nr1);
+      Transition transitionId13ToId15_Nr2 = newId13ToId15Transition_Nr2(locationId13, locationId15);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId15, locationId12, transitionId15ToId12_Nr2);
-      Transition transitionId15ToId13_Nr1 = newId15ToId13Transition_Nr1(locationId15, locationId13);
+          .addEdge(locationId13, locationId15, transitionId13ToId15_Nr2);
+      Transition transitionId13ToId15_Nr3 = newId13ToId15Transition_Nr3(locationId13, locationId15);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId15, locationId13, transitionId15ToId13_Nr1);
-      Transition transitionId15ToId13_Nr2 = newId15ToId13Transition_Nr2(locationId15, locationId13);
+          .addEdge(locationId13, locationId15, transitionId13ToId15_Nr3);
+      Transition transitionId13ToId17_Nr1 = newId13ToId17Transition_Nr1(locationId13, locationId17);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId15, locationId13, transitionId15ToId13_Nr2);
-      Transition transitionId15ToId13_Nr3 = newId15ToId13Transition_Nr3(locationId15, locationId13);
+          .addEdge(locationId13, locationId17, transitionId13ToId17_Nr1);
+      Transition transitionId13ToId17_Nr2 = newId13ToId17Transition_Nr2(locationId13, locationId17);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId15, locationId13, transitionId15ToId13_Nr3);
-      Transition transitionId15ToId13_Nr4 = newId15ToId13Transition_Nr4(locationId15, locationId13);
+          .addEdge(locationId13, locationId17, transitionId13ToId17_Nr2);
+      Transition transitionId12ToId15 = newId12ToId15Transition(locationId12, locationId15);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId15, locationId13, transitionId15ToId13_Nr4);
-      Transition transitionId15ToId17_Nr1 = newId15ToId17Transition_Nr1(locationId15, locationId17);
+          .addEdge(locationId12, locationId15, transitionId12ToId15);
+      Transition transitionId12ToId17 = newId12ToId17Transition(locationId12, locationId17);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId15, locationId17, transitionId15ToId17_Nr1);
-      Transition transitionId15ToId17_Nr2 = newId15ToId17Transition_Nr2(locationId15, locationId17);
+          .addEdge(locationId12, locationId17, transitionId12ToId17);
+      Transition transitionId19ToId12 = newId19ToId12Transition(locationId19, locationId12);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId15, locationId17, transitionId15ToId17_Nr2);
-      Transition transitionId13ToId14 = newId13ToId14Transition(locationId13, locationId14);
+          .addEdge(locationId19, locationId12, transitionId19ToId12);
+      Transition transitionId14ToId13 = newId14ToId13Transition(locationId14, locationId13);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId13, locationId14, transitionId13ToId14);
-      Transition transitionId15ToId17_Nr3 = newId15ToId17Transition_Nr3(locationId15, locationId17);
+          .addEdge(locationId14, locationId13, transitionId14ToId13);
+      Transition transitionId15ToId14 = newId15ToId14Transition(locationId15, locationId14);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId15, locationId17, transitionId15ToId17_Nr3);
-      Transition transitionId12ToId18 = newId12ToId18Transition(locationId12, locationId18);
+          .addEdge(locationId15, locationId14, transitionId15ToId14);
+      Transition transitionId13ToId17_Nr3 = newId13ToId17Transition_Nr3(locationId13, locationId17);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId12, locationId18, transitionId12ToId18);
-      Transition transitionId15ToId13_Nr5 = newId15ToId13Transition_Nr5(locationId15, locationId13);
+          .addEdge(locationId13, locationId17, transitionId13ToId17_Nr3);
+      Transition transitionId19ToId15_Nr1 = newId19ToId15Transition_Nr1(locationId19, locationId15);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId15, locationId13, transitionId15ToId13_Nr5);
-      Transition transitionId16ToId15 = newId16ToId15Transition(locationId16, locationId15);
+          .addEdge(locationId19, locationId15, transitionId19ToId15_Nr1);
+      Transition transitionId19ToId15_Nr2 = newId19ToId15Transition_Nr2(locationId19, locationId15);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId16, locationId15, transitionId16ToId15);
-      Transition transitionId17ToId16 = newId17ToId16Transition(locationId17, locationId16);
-      TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId17, locationId16, transitionId17ToId16);
+          .addEdge(locationId19, locationId15, transitionId19ToId15_Nr2);
       Transition transitionId18ToId17 = newId18ToId17Transition(locationId18, locationId17);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
           .addEdge(locationId18, locationId17, transitionId18ToId17);
+      Transition transitionId17ToId16 = newId17ToId16Transition(locationId17, locationId16);
+      TdlBoundedRepetitionRecognizer.getLocationGraph()
+          .addEdge(locationId17, locationId16, transitionId17ToId16);
+      Transition transitionId18ToId20 = newId18ToId20Transition(locationId18, locationId20);
+      TdlBoundedRepetitionRecognizer.getLocationGraph()
+          .addEdge(locationId18, locationId20, transitionId18ToId20);
+      Transition transitionId19ToId17 = newId19ToId17Transition(locationId19, locationId17);
+      TdlBoundedRepetitionRecognizer.getLocationGraph()
+          .addEdge(locationId19, locationId17, transitionId19ToId17);
+      Transition transitionId19ToId18 = newId19ToId18Transition(locationId19, locationId18);
+      TdlBoundedRepetitionRecognizer.getLocationGraph()
+          .addEdge(locationId19, locationId18, transitionId19ToId18);
+      Transition transitionId20ToId19 = newId20ToId19Transition(locationId20, locationId19);
+      TdlBoundedRepetitionRecognizer.getLocationGraph()
+          .addEdge(locationId20, locationId19, transitionId20ToId19);
 
       return TdlBoundedRepetitionRecognizer;
     }
@@ -1860,9 +1957,9 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected Location newId24Location() {
+    protected Location newId26Location() {
       return new Location()
-          .setId("id24")
+          .setId("id26")
           .setName(
               new LocationName().setName("End").setCoordinates(GuiCoordinates.of(-2000, -1144)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
@@ -1870,9 +1967,9 @@ public class ScenarioStubSystemFactory {
           .setCoordinates(GuiCoordinates.of(-1992, -1112));
     }
 
-    protected Location newId26Location() {
+    protected Location newId28Location() {
       return new Location()
-          .setId("id26")
+          .setId("id28")
           .setName(
               new LocationName().setName("Idle").setCoordinates(GuiCoordinates.of(-3280, -1032)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
@@ -1880,46 +1977,12 @@ public class ScenarioStubSystemFactory {
           .setCoordinates(GuiCoordinates.of(-3272, -1000));
     }
 
-    protected Location newId19Location() {
-      return new Location()
-          .setId("id19")
-          .setExitPolicy(ELocationExitPolicy.NORMAL)
-          .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-2248, -1000));
-    }
-
     protected Location newId21Location() {
       return new Location()
           .setId("id21")
-          .setExitPolicy(ELocationExitPolicy.COMMITTED)
-          .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-2248, -1112));
-    }
-
-    protected Location newId20Location() {
-      return new Location()
-          .setId("id20")
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-2520, -1112));
-    }
-
-    protected Location newId25Location() {
-      return new Location()
-          .setId("id25")
-          .setName(
-              new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-2512, -992)))
-          .setExitPolicy(ELocationExitPolicy.NORMAL)
-          .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-2520, -1000));
-    }
-
-    protected Location newId22Location() {
-      return new Location()
-          .setId("id22")
-          .setExitPolicy(ELocationExitPolicy.COMMITTED)
-          .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-2776, -1000));
+          .setCoordinates(GuiCoordinates.of(-2248, -1000));
     }
 
     protected Location newId23Location() {
@@ -1927,10 +1990,44 @@ public class ScenarioStubSystemFactory {
           .setId("id23")
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(-2248, -1112));
+    }
+
+    protected Location newId22Location() {
+      return new Location()
+          .setId("id22")
+          .setExitPolicy(ELocationExitPolicy.NORMAL)
+          .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(-2520, -1112));
+    }
+
+    protected Location newId27Location() {
+      return new Location()
+          .setId("id27")
+          .setName(
+              new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-2512, -992)))
+          .setExitPolicy(ELocationExitPolicy.NORMAL)
+          .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(-2520, -1000));
+    }
+
+    protected Location newId24Location() {
+      return new Location()
+          .setId("id24")
+          .setExitPolicy(ELocationExitPolicy.COMMITTED)
+          .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(-2776, -1000));
+    }
+
+    protected Location newId25Location() {
+      return new Location()
+          .setId("id25")
+          .setExitPolicy(ELocationExitPolicy.COMMITTED)
+          .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-3024, -1000));
     }
 
-    protected Transition newId24ToId26Transition(Location source, Location target) {
+    protected Transition newId26ToId28Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1939,7 +2036,7 @@ public class ScenarioStubSystemFactory {
           .addNail(GuiCoordinates.of(-3272, -936));
     }
 
-    protected Transition newId19ToId21Transition(Location source, Location target) {
+    protected Transition newId21ToId23Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1960,7 +2057,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("leftOpIndex"))))));
     }
 
-    protected Transition newId20ToId21Transition(Location source, Location target) {
+    protected Transition newId22ToId23Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1981,7 +2078,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("rightOpIndex"))))));
     }
 
-    protected Transition newId25ToId20Transition(Location source, Location target) {
+    protected Transition newId27ToId22Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2002,7 +2099,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("leftOpIndex"))))));
     }
 
-    protected Transition newId25ToId19Transition(Location source, Location target) {
+    protected Transition newId27ToId21Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2023,7 +2120,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("rightOpIndex"))))));
     }
 
-    protected Transition newId22ToId25Transition(Location source, Location target) {
+    protected Transition newId24ToId27Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2044,7 +2141,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("rightOpIndex"))))));
     }
 
-    protected Transition newId23ToId22Transition(Location source, Location target) {
+    protected Transition newId25ToId24Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2065,7 +2162,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("leftOpIndex"))))));
     }
 
-    protected Transition newId21ToId24Transition(Location source, Location target) {
+    protected Transition newId23ToId26Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2102,7 +2199,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    protected Transition newId26ToId23Transition(Location source, Location target) {
+    protected Transition newId28ToId25Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2167,58 +2264,58 @@ public class ScenarioStubSystemFactory {
       // Set local declarations:
 
       // Set locations:
-      Location locationId24 = newId24Location();
-      TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId24);
-
       Location locationId26 = newId26Location();
       TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId26);
-      TdlConjunctionRecognizer.setInitialLocation(locationId26);
-      Location locationId19 = newId19Location();
-      TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId19);
 
+      Location locationId28 = newId28Location();
+      TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId28);
+      TdlConjunctionRecognizer.setInitialLocation(locationId28);
       Location locationId21 = newId21Location();
       TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId21);
-
-      Location locationId20 = newId20Location();
-      TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId20);
-
-      Location locationId25 = newId25Location();
-      TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId25);
-
-      Location locationId22 = newId22Location();
-      TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId22);
 
       Location locationId23 = newId23Location();
       TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId23);
 
+      Location locationId22 = newId22Location();
+      TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId22);
+
+      Location locationId27 = newId27Location();
+      TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId27);
+
+      Location locationId24 = newId24Location();
+      TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId24);
+
+      Location locationId25 = newId25Location();
+      TdlConjunctionRecognizer.getLocationGraph().addVertex(locationId25);
+
       // Set transitions:
-      Transition transitionId24ToId26 = newId24ToId26Transition(locationId24, locationId26);
+      Transition transitionId26ToId28 = newId26ToId28Transition(locationId26, locationId28);
       TdlConjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId24, locationId26, transitionId24ToId26);
-      Transition transitionId19ToId21 = newId19ToId21Transition(locationId19, locationId21);
+          .addEdge(locationId26, locationId28, transitionId26ToId28);
+      Transition transitionId21ToId23 = newId21ToId23Transition(locationId21, locationId23);
       TdlConjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId19, locationId21, transitionId19ToId21);
-      Transition transitionId20ToId21 = newId20ToId21Transition(locationId20, locationId21);
+          .addEdge(locationId21, locationId23, transitionId21ToId23);
+      Transition transitionId22ToId23 = newId22ToId23Transition(locationId22, locationId23);
       TdlConjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId20, locationId21, transitionId20ToId21);
-      Transition transitionId25ToId20 = newId25ToId20Transition(locationId25, locationId20);
+          .addEdge(locationId22, locationId23, transitionId22ToId23);
+      Transition transitionId27ToId22 = newId27ToId22Transition(locationId27, locationId22);
       TdlConjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId25, locationId20, transitionId25ToId20);
-      Transition transitionId25ToId19 = newId25ToId19Transition(locationId25, locationId19);
+          .addEdge(locationId27, locationId22, transitionId27ToId22);
+      Transition transitionId27ToId21 = newId27ToId21Transition(locationId27, locationId21);
       TdlConjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId25, locationId19, transitionId25ToId19);
-      Transition transitionId22ToId25 = newId22ToId25Transition(locationId22, locationId25);
+          .addEdge(locationId27, locationId21, transitionId27ToId21);
+      Transition transitionId24ToId27 = newId24ToId27Transition(locationId24, locationId27);
       TdlConjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId22, locationId25, transitionId22ToId25);
-      Transition transitionId23ToId22 = newId23ToId22Transition(locationId23, locationId22);
+          .addEdge(locationId24, locationId27, transitionId24ToId27);
+      Transition transitionId25ToId24 = newId25ToId24Transition(locationId25, locationId24);
       TdlConjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId23, locationId22, transitionId23ToId22);
-      Transition transitionId21ToId24 = newId21ToId24Transition(locationId21, locationId24);
+          .addEdge(locationId25, locationId24, transitionId25ToId24);
+      Transition transitionId23ToId26 = newId23ToId26Transition(locationId23, locationId26);
       TdlConjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId21, locationId24, transitionId21ToId24);
-      Transition transitionId26ToId23 = newId26ToId23Transition(locationId26, locationId23);
+          .addEdge(locationId23, locationId26, transitionId23ToId26);
+      Transition transitionId28ToId25 = newId28ToId25Transition(locationId28, locationId25);
       TdlConjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId26, locationId23, transitionId26ToId23);
+          .addEdge(locationId28, locationId25, transitionId28ToId25);
 
       return TdlConjunctionRecognizer;
     }
@@ -2270,26 +2367,26 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected Location newId28Location() {
+    protected Location newId30Location() {
       return new Location()
-          .setId("id28")
+          .setId("id30")
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-1000, -600));
     }
 
-    protected Location newId27Location() {
+    protected Location newId29Location() {
       return new Location()
-          .setId("id27")
+          .setId("id29")
           .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(-760, -632)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-752, -600));
     }
 
-    protected Location newId29Location() {
+    protected Location newId31Location() {
       return new Location()
-          .setId("id29")
+          .setId("id31")
           .setName(
               new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-1288, -512)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
@@ -2297,25 +2394,25 @@ public class ScenarioStubSystemFactory {
           .setCoordinates(GuiCoordinates.of(-1296, -520));
     }
 
-    protected Location newId30Location() {
+    protected Location newId32Location() {
       return new Location()
-          .setId("id30")
+          .setId("id32")
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-1552, -520));
     }
 
-    protected Location newId31Location() {
+    protected Location newId33Location() {
       return new Location()
-          .setId("id31")
+          .setId("id33")
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-1792, -520));
     }
 
-    protected Location newId32Location() {
+    protected Location newId34Location() {
       return new Location()
-          .setId("id32")
+          .setId("id34")
           .setName(
               new LocationName().setName("Idle").setCoordinates(GuiCoordinates.of(-2040, -552)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
@@ -2323,7 +2420,7 @@ public class ScenarioStubSystemFactory {
           .setCoordinates(GuiCoordinates.of(-2032, -520));
     }
 
-    protected Transition newId28ToId27Transition(Location source, Location target) {
+    protected Transition newId30ToId29Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2360,7 +2457,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    protected Transition newId29ToId28Transition_Nr1(Location source, Location target) {
+    protected Transition newId31ToId30Transition_Nr1(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2382,7 +2479,7 @@ public class ScenarioStubSystemFactory {
           .addNail(GuiCoordinates.of(-1296, -600));
     }
 
-    protected Transition newId29ToId28Transition_Nr2(Location source, Location target) {
+    protected Transition newId31ToId30Transition_Nr2(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2404,7 +2501,7 @@ public class ScenarioStubSystemFactory {
           .addNail(GuiCoordinates.of(-1000, -520));
     }
 
-    protected Transition newId30ToId29Transition(Location source, Location target) {
+    protected Transition newId32ToId31Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2425,7 +2522,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("rightOpIndex"))))));
     }
 
-    protected Transition newId31ToId30Transition(Location source, Location target) {
+    protected Transition newId33ToId32Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2446,7 +2543,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("leftOpIndex"))))));
     }
 
-    protected Transition newId32ToId31Transition(Location source, Location target) {
+    protected Transition newId34ToId33Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2467,7 +2564,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    protected Transition newId27ToId32Transition(Location source, Location target) {
+    protected Transition newId29ToId34Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2520,47 +2617,47 @@ public class ScenarioStubSystemFactory {
       // Set local declarations:
 
       // Set locations:
-      Location locationId28 = newId28Location();
-      TdlDisjunctionRecognizer.getLocationGraph().addVertex(locationId28);
-
-      Location locationId27 = newId27Location();
-      TdlDisjunctionRecognizer.getLocationGraph().addVertex(locationId27);
+      Location locationId30 = newId30Location();
+      TdlDisjunctionRecognizer.getLocationGraph().addVertex(locationId30);
 
       Location locationId29 = newId29Location();
       TdlDisjunctionRecognizer.getLocationGraph().addVertex(locationId29);
-
-      Location locationId30 = newId30Location();
-      TdlDisjunctionRecognizer.getLocationGraph().addVertex(locationId30);
 
       Location locationId31 = newId31Location();
       TdlDisjunctionRecognizer.getLocationGraph().addVertex(locationId31);
 
       Location locationId32 = newId32Location();
       TdlDisjunctionRecognizer.getLocationGraph().addVertex(locationId32);
-      TdlDisjunctionRecognizer.setInitialLocation(locationId32);
+
+      Location locationId33 = newId33Location();
+      TdlDisjunctionRecognizer.getLocationGraph().addVertex(locationId33);
+
+      Location locationId34 = newId34Location();
+      TdlDisjunctionRecognizer.getLocationGraph().addVertex(locationId34);
+      TdlDisjunctionRecognizer.setInitialLocation(locationId34);
 
       // Set transitions:
-      Transition transitionId28ToId27 = newId28ToId27Transition(locationId28, locationId27);
-      TdlDisjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId28, locationId27, transitionId28ToId27);
-      Transition transitionId29ToId28_Nr1 = newId29ToId28Transition_Nr1(locationId29, locationId28);
-      TdlDisjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId29, locationId28, transitionId29ToId28_Nr1);
-      Transition transitionId29ToId28_Nr2 = newId29ToId28Transition_Nr2(locationId29, locationId28);
-      TdlDisjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId29, locationId28, transitionId29ToId28_Nr2);
       Transition transitionId30ToId29 = newId30ToId29Transition(locationId30, locationId29);
       TdlDisjunctionRecognizer.getLocationGraph()
           .addEdge(locationId30, locationId29, transitionId30ToId29);
-      Transition transitionId31ToId30 = newId31ToId30Transition(locationId31, locationId30);
+      Transition transitionId31ToId30_Nr1 = newId31ToId30Transition_Nr1(locationId31, locationId30);
       TdlDisjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId31, locationId30, transitionId31ToId30);
+          .addEdge(locationId31, locationId30, transitionId31ToId30_Nr1);
+      Transition transitionId31ToId30_Nr2 = newId31ToId30Transition_Nr2(locationId31, locationId30);
+      TdlDisjunctionRecognizer.getLocationGraph()
+          .addEdge(locationId31, locationId30, transitionId31ToId30_Nr2);
       Transition transitionId32ToId31 = newId32ToId31Transition(locationId32, locationId31);
       TdlDisjunctionRecognizer.getLocationGraph()
           .addEdge(locationId32, locationId31, transitionId32ToId31);
-      Transition transitionId27ToId32 = newId27ToId32Transition(locationId27, locationId32);
+      Transition transitionId33ToId32 = newId33ToId32Transition(locationId33, locationId32);
       TdlDisjunctionRecognizer.getLocationGraph()
-          .addEdge(locationId27, locationId32, transitionId27ToId32);
+          .addEdge(locationId33, locationId32, transitionId33ToId32);
+      Transition transitionId34ToId33 = newId34ToId33Transition(locationId34, locationId33);
+      TdlDisjunctionRecognizer.getLocationGraph()
+          .addEdge(locationId34, locationId33, transitionId34ToId33);
+      Transition transitionId29ToId34 = newId29ToId34Transition(locationId29, locationId34);
+      TdlDisjunctionRecognizer.getLocationGraph()
+          .addEdge(locationId29, locationId34, transitionId29ToId34);
 
       return TdlDisjunctionRecognizer;
     }
@@ -2612,18 +2709,18 @@ public class ScenarioStubSystemFactory {
                           .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
     }
 
-    protected Location newId33Location() {
+    protected Location newId35Location() {
       return new Location()
-          .setId("id33")
+          .setId("id35")
           .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(288, -448)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(296, -416));
     }
 
-    protected Location newId39Location() {
+    protected Location newId41Location() {
       return new Location()
-          .setId("id39")
+          .setId("id41")
           .setName(
               new LocationName().setName("Idle").setCoordinates(GuiCoordinates.of(-1208, -448)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
@@ -2631,17 +2728,17 @@ public class ScenarioStubSystemFactory {
           .setCoordinates(GuiCoordinates.of(-1200, -416));
     }
 
-    protected Location newId34Location() {
+    protected Location newId36Location() {
       return new Location()
-          .setId("id34")
+          .setId("id36")
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(48, -416));
     }
 
-    protected Location newId35Location() {
+    protected Location newId37Location() {
       return new Location()
-          .setId("id35")
+          .setId("id37")
           .setName(
               new LocationName()
                   .setName("ReadyForRightOp")
@@ -2651,17 +2748,17 @@ public class ScenarioStubSystemFactory {
           .setCoordinates(GuiCoordinates.of(-216, -416));
     }
 
-    protected Location newId36Location() {
+    protected Location newId38Location() {
       return new Location()
-          .setId("id36")
+          .setId("id38")
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-464, -416));
     }
 
-    protected Location newId37Location() {
+    protected Location newId39Location() {
       return new Location()
-          .setId("id37")
+          .setId("id39")
           .setName(
               new LocationName()
                   .setName("ReadyForLeftOp")
@@ -2671,15 +2768,15 @@ public class ScenarioStubSystemFactory {
           .setCoordinates(GuiCoordinates.of(-720, -416));
     }
 
-    protected Location newId38Location() {
+    protected Location newId40Location() {
       return new Location()
-          .setId("id38")
+          .setId("id40")
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-952, -416));
     }
 
-    protected Transition newId33ToId39Transition(Location source, Location target) {
+    protected Transition newId35ToId41Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2688,7 +2785,7 @@ public class ScenarioStubSystemFactory {
           .addNail(GuiCoordinates.of(-1200, -360));
     }
 
-    protected Transition newId34ToId33Transition(Location source, Location target) {
+    protected Transition newId36ToId35Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2725,7 +2822,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    protected Transition newId35ToId34Transition(Location source, Location target) {
+    protected Transition newId37ToId36Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2746,7 +2843,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("rightOpIndex"))))));
     }
 
-    protected Transition newId36ToId35Transition(Location source, Location target) {
+    protected Transition newId38ToId37Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2767,7 +2864,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("rightOpIndex"))))));
     }
 
-    protected Transition newId37ToId36Transition(Location source, Location target) {
+    protected Transition newId39ToId38Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2788,7 +2885,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("leftOpIndex"))))));
     }
 
-    protected Transition newId38ToId37Transition(Location source, Location target) {
+    protected Transition newId40ToId39Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2809,7 +2906,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("leftOpIndex"))))));
     }
 
-    protected Transition newId39ToId38Transition(Location source, Location target) {
+    protected Transition newId41ToId40Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -2874,18 +2971,12 @@ public class ScenarioStubSystemFactory {
       // Set local declarations:
 
       // Set locations:
-      Location locationId33 = newId33Location();
-      TdlLeadsToRecognizer.getLocationGraph().addVertex(locationId33);
-
-      Location locationId39 = newId39Location();
-      TdlLeadsToRecognizer.getLocationGraph().addVertex(locationId39);
-      TdlLeadsToRecognizer.setInitialLocation(locationId39);
-      Location locationId34 = newId34Location();
-      TdlLeadsToRecognizer.getLocationGraph().addVertex(locationId34);
-
       Location locationId35 = newId35Location();
       TdlLeadsToRecognizer.getLocationGraph().addVertex(locationId35);
 
+      Location locationId41 = newId41Location();
+      TdlLeadsToRecognizer.getLocationGraph().addVertex(locationId41);
+      TdlLeadsToRecognizer.setInitialLocation(locationId41);
       Location locationId36 = newId36Location();
       TdlLeadsToRecognizer.getLocationGraph().addVertex(locationId36);
 
@@ -2895,16 +2986,16 @@ public class ScenarioStubSystemFactory {
       Location locationId38 = newId38Location();
       TdlLeadsToRecognizer.getLocationGraph().addVertex(locationId38);
 
+      Location locationId39 = newId39Location();
+      TdlLeadsToRecognizer.getLocationGraph().addVertex(locationId39);
+
+      Location locationId40 = newId40Location();
+      TdlLeadsToRecognizer.getLocationGraph().addVertex(locationId40);
+
       // Set transitions:
-      Transition transitionId33ToId39 = newId33ToId39Transition(locationId33, locationId39);
+      Transition transitionId35ToId41 = newId35ToId41Transition(locationId35, locationId41);
       TdlLeadsToRecognizer.getLocationGraph()
-          .addEdge(locationId33, locationId39, transitionId33ToId39);
-      Transition transitionId34ToId33 = newId34ToId33Transition(locationId34, locationId33);
-      TdlLeadsToRecognizer.getLocationGraph()
-          .addEdge(locationId34, locationId33, transitionId34ToId33);
-      Transition transitionId35ToId34 = newId35ToId34Transition(locationId35, locationId34);
-      TdlLeadsToRecognizer.getLocationGraph()
-          .addEdge(locationId35, locationId34, transitionId35ToId34);
+          .addEdge(locationId35, locationId41, transitionId35ToId41);
       Transition transitionId36ToId35 = newId36ToId35Transition(locationId36, locationId35);
       TdlLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId36, locationId35, transitionId36ToId35);
@@ -2917,6 +3008,12 @@ public class ScenarioStubSystemFactory {
       Transition transitionId39ToId38 = newId39ToId38Transition(locationId39, locationId38);
       TdlLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId39, locationId38, transitionId39ToId38);
+      Transition transitionId40ToId39 = newId40ToId39Transition(locationId40, locationId39);
+      TdlLeadsToRecognizer.getLocationGraph()
+          .addEdge(locationId40, locationId39, transitionId40ToId39);
+      Transition transitionId41ToId40 = newId41ToId40Transition(locationId41, locationId40);
+      TdlLeadsToRecognizer.getLocationGraph()
+          .addEdge(locationId41, locationId40, transitionId41ToId40);
 
       return TdlLeadsToRecognizer;
     }
@@ -3133,42 +3230,42 @@ public class ScenarioStubSystemFactory {
                                                   .setRightChild(LiteralConsts.FALSE))))));
     }
 
-    protected Location newId42Location() {
+    protected Location newId44Location() {
       return new Location()
-          .setId("id42")
+          .setId("id44")
           .setName(new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-536, -24)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-552, -8));
     }
 
-    protected Location newId40Location() {
+    protected Location newId42Location() {
       return new Location()
-          .setId("id40")
+          .setId("id42")
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-16, -8));
     }
 
-    protected Location newId41Location() {
+    protected Location newId43Location() {
       return new Location()
-          .setId("id41")
+          .setId("id43")
           .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(216, -40)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(232, -8));
     }
 
-    protected Location newId43Location() {
+    protected Location newId45Location() {
       return new Location()
-          .setId("id43")
+          .setId("id45")
           .setName(new LocationName().setName("Idle").setCoordinates(GuiCoordinates.of(-800, -40)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-792, -8));
     }
 
-    protected Transition newId42ToId40Transition_Nr1(Location source, Location target) {
+    protected Transition newId44ToId42Transition_Nr1(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -3219,7 +3316,7 @@ public class ScenarioStubSystemFactory {
           .addNail(GuiCoordinates.of(-16, 32));
     }
 
-    protected Transition newId42ToId40Transition_Nr2(Location source, Location target) {
+    protected Transition newId44ToId42Transition_Nr2(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -3270,7 +3367,7 @@ public class ScenarioStubSystemFactory {
           .addNail(GuiCoordinates.of(-16, -72));
     }
 
-    protected Transition newId42ToId40Transition_Nr3(Location source, Location target) {
+    protected Transition newId44ToId42Transition_Nr3(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -3318,7 +3415,7 @@ public class ScenarioStubSystemFactory {
           .addNail(GuiCoordinates.of(-16, -80));
     }
 
-    protected Transition newId40ToId41Transition(Location source, Location target) {
+    protected Transition newId42ToId43Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -3355,7 +3452,7 @@ public class ScenarioStubSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    protected Transition newId41ToId43Transition(Location source, Location target) {
+    protected Transition newId43ToId45Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -3375,7 +3472,7 @@ public class ScenarioStubSystemFactory {
           .addNail(GuiCoordinates.of(-792, 160));
     }
 
-    protected Transition newId42ToId40Transition_Nr4(Location source, Location target) {
+    protected Transition newId44ToId42Transition_Nr4(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -3423,7 +3520,7 @@ public class ScenarioStubSystemFactory {
           .addNail(GuiCoordinates.of(-16, 96));
     }
 
-    protected Transition newId43ToId42Transition(Location source, Location target) {
+    protected Transition newId45ToId44Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -3527,41 +3624,41 @@ public class ScenarioStubSystemFactory {
           TdlQuantificationRecognizer.getDeclarations(), new_resetTrapsetDeclaration());
 
       // Set locations:
+      Location locationId44 = newId44Location();
+      TdlQuantificationRecognizer.getLocationGraph().addVertex(locationId44);
+
       Location locationId42 = newId42Location();
       TdlQuantificationRecognizer.getLocationGraph().addVertex(locationId42);
 
-      Location locationId40 = newId40Location();
-      TdlQuantificationRecognizer.getLocationGraph().addVertex(locationId40);
-
-      Location locationId41 = newId41Location();
-      TdlQuantificationRecognizer.getLocationGraph().addVertex(locationId41);
-
       Location locationId43 = newId43Location();
       TdlQuantificationRecognizer.getLocationGraph().addVertex(locationId43);
-      TdlQuantificationRecognizer.setInitialLocation(locationId43);
+
+      Location locationId45 = newId45Location();
+      TdlQuantificationRecognizer.getLocationGraph().addVertex(locationId45);
+      TdlQuantificationRecognizer.setInitialLocation(locationId45);
 
       // Set transitions:
-      Transition transitionId42ToId40_Nr1 = newId42ToId40Transition_Nr1(locationId42, locationId40);
+      Transition transitionId44ToId42_Nr1 = newId44ToId42Transition_Nr1(locationId44, locationId42);
       TdlQuantificationRecognizer.getLocationGraph()
-          .addEdge(locationId42, locationId40, transitionId42ToId40_Nr1);
-      Transition transitionId42ToId40_Nr2 = newId42ToId40Transition_Nr2(locationId42, locationId40);
+          .addEdge(locationId44, locationId42, transitionId44ToId42_Nr1);
+      Transition transitionId44ToId42_Nr2 = newId44ToId42Transition_Nr2(locationId44, locationId42);
       TdlQuantificationRecognizer.getLocationGraph()
-          .addEdge(locationId42, locationId40, transitionId42ToId40_Nr2);
-      Transition transitionId42ToId40_Nr3 = newId42ToId40Transition_Nr3(locationId42, locationId40);
+          .addEdge(locationId44, locationId42, transitionId44ToId42_Nr2);
+      Transition transitionId44ToId42_Nr3 = newId44ToId42Transition_Nr3(locationId44, locationId42);
       TdlQuantificationRecognizer.getLocationGraph()
-          .addEdge(locationId42, locationId40, transitionId42ToId40_Nr3);
-      Transition transitionId40ToId41 = newId40ToId41Transition(locationId40, locationId41);
+          .addEdge(locationId44, locationId42, transitionId44ToId42_Nr3);
+      Transition transitionId42ToId43 = newId42ToId43Transition(locationId42, locationId43);
       TdlQuantificationRecognizer.getLocationGraph()
-          .addEdge(locationId40, locationId41, transitionId40ToId41);
-      Transition transitionId41ToId43 = newId41ToId43Transition(locationId41, locationId43);
+          .addEdge(locationId42, locationId43, transitionId42ToId43);
+      Transition transitionId43ToId45 = newId43ToId45Transition(locationId43, locationId45);
       TdlQuantificationRecognizer.getLocationGraph()
-          .addEdge(locationId41, locationId43, transitionId41ToId43);
-      Transition transitionId42ToId40_Nr4 = newId42ToId40Transition_Nr4(locationId42, locationId40);
+          .addEdge(locationId43, locationId45, transitionId43ToId45);
+      Transition transitionId44ToId42_Nr4 = newId44ToId42Transition_Nr4(locationId44, locationId42);
       TdlQuantificationRecognizer.getLocationGraph()
-          .addEdge(locationId42, locationId40, transitionId42ToId40_Nr4);
-      Transition transitionId43ToId42 = newId43ToId42Transition(locationId43, locationId42);
+          .addEdge(locationId44, locationId42, transitionId44ToId42_Nr4);
+      Transition transitionId45ToId44 = newId45ToId44Transition(locationId45, locationId44);
       TdlQuantificationRecognizer.getLocationGraph()
-          .addEdge(locationId43, locationId42, transitionId43ToId42);
+          .addEdge(locationId45, locationId44, transitionId45ToId44);
 
       return TdlQuantificationRecognizer;
     }

@@ -2,6 +2,8 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extract
 
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.LineExtractor;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.expression.ExpressionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.template.SelectionCtxExtractor;
@@ -18,6 +20,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.imp
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?>>, ILabelVisitor<ContextBuilder> {
@@ -50,7 +54,12 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 	@Override
 	public ContextBuilder visitComment(CommentLabel label) {
 		requiredClasses.add(label.getClass());
-		return ContextBuilder.newBuilder().put("text", label.getContent());
+		List<String> textLines = new LinkedList<>();
+		for (String line : LineExtractor.forString(label.getContent())) {
+			line = line.replace("\"", "\\\"");
+			textLines.add(line);
+		}
+		return ContextBuilder.newBuilder().put("textLines", textLines);
 	}
 
 	@Override

@@ -341,7 +341,7 @@ new Transition()
 >>
 
 newCommentLabel(ctx) ::= <<
-new CommentLabel().setContent("<ctx.text>")
+new CommentLabel().setContent(<ctx.textLines:{txtLine|"<txtLine>"}; separator="\n+ ">)
 >>
 
 newInvariantLabel(ctx) ::= <<

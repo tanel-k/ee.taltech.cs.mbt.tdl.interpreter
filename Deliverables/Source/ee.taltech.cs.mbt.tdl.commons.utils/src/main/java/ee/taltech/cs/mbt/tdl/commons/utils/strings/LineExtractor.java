@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.commons.utils.strings;
 
 import java.util.Iterator;
 
-public class LineExtractor implements Iterator<String> {
+public class LineExtractor implements Iterator<String>, Iterable<String> {
 	public static LineExtractor forString(String str) {
 		return new LineExtractor(str);
 	}
@@ -43,5 +43,10 @@ public class LineExtractor implements Iterator<String> {
 		}
 
 		return line;
+	}
+
+	@Override
+	public Iterator<String> iterator() {
+		return new LineExtractor(str);
 	}
 }
