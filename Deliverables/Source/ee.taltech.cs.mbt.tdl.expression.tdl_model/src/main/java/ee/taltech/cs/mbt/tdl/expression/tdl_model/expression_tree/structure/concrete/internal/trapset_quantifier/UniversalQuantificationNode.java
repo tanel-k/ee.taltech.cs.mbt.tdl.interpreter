@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetQuantifierVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 
@@ -17,7 +17,7 @@ public class UniversalQuantificationNode extends AbsTrapsetQuantifierNode {
 	}
 
 	@Override
-	public <T> T accept(IDerivedTrapsetQuantifierVisitor<T> visitor) {
+	public <T> T accept(ITrapsetQuantifierVisitor<T> visitor) {
 		return visitor.visitUniversal(this);
 	}
 

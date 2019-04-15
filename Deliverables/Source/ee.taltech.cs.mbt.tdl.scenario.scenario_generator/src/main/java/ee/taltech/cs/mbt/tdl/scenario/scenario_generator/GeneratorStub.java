@@ -23,13 +23,10 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.ExistentialQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.logical.FalseNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.logical.TrueNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetQuantifierVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
@@ -90,7 +87,7 @@ public class GeneratorStub {
 			AbsDerivedTrapsetNode trapsetDerivingNode = trapsetQuantifier.getChildContainer().getChild();
 			Trapset derivedTrapset = mapDerivedTrapsets.get(trapsetDerivingNode);
 
-			Boolean replacementValue = trapsetQuantifier.accept(new IDerivedTrapsetQuantifierVisitor<Boolean>() {
+			Boolean replacementValue = trapsetQuantifier.accept(new ITrapsetQuantifierVisitor<Boolean>() {
 				@Override
 				public Boolean visitExistential(ExistentialQuantificationNode quantifier) {
 					return visitAny(quantifier);
@@ -133,6 +130,15 @@ public class GeneratorStub {
 	}
 
 	private static void reduceBooleanValues(Deque<BooleanValueWrapperNode> booleanLeafNodeDeque, TdlExpression normalizedExpression) {
+		/*
+		 * HUGE FIXME:
+		 *     par
+		 *    /  \
+		 * leafA leafB
+		 * queue[leafA, leafB] -> leafA
+		 * queue[leafB]
+		 * If par node is replaced here, leafB will still be in the queue, waiting for processing.
+		 */
 		while (!booleanLeafNodeDeque.isEmpty()) {
 			BooleanValueWrapperNode booleanChildNode = booleanLeafNodeDeque.pollFirst();
 
@@ -361,12 +367,11 @@ public class GeneratorStub {
 	}
 
 	private static Deque<BooleanValueWrapperNode> normalizeExpressionSubtree(TdlExpression expression, AbsBooleanInternalNode subtreeRoot) {
-		CollectionBuilder<BooleanValueWrapperNode, LinkedList<BooleanValueWrapperNode>> dequeBuilder = CollectionUtils
-				.collectionBuilder(new LinkedList<BooleanValueWrapperNode>());
+		Deque<BooleanValueWrapperNode> valueLeaves = new LinkedList<>();
 		subtreeRoot.accept(new BaseBooleanNodeVisitor<Void>() {
 			@Override
 			public Void visitValueWrapper(BooleanValueWrapperNode valueWrapper) {
-				dequeBuilder.add(valueWrapper);
+				valueLeaves.add(valueWrapper);
 				return null;
 			}
 
@@ -583,7 +588,7 @@ public class GeneratorStub {
 				return visitDisjunction(disjunction);
 			}
 		});
-		return dequeBuilder.build();
+		return valueLeaves;
 	}
 
 	private static Deque<BooleanValueWrapperNode> normalizeExpressionSubtree(TdlExpression expression) {
