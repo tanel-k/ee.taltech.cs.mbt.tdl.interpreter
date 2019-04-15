@@ -9,6 +9,10 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visi
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 
 public class BooleanValueWrapperNode extends AbsBooleanInternalNode<AbsBooleanLeafNode, UnaryChildContainer<AbsBooleanLeafNode>> {
+	public static BooleanValueWrapperNode of(boolean booleanValue) {
+		return booleanValue ? trueWrapper() : falseWrapper();
+	}
+
 	public static BooleanValueWrapperNode trueWrapper() {
 		return wrap(TrueNode.getInstance());
 	}
