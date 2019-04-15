@@ -1,7 +1,6 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_generator;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
-import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
@@ -64,7 +63,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 
 import java.math.BigInteger;
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -74,19 +72,19 @@ import java.util.Set;
 
 public class GeneratorStub {
 	public static void generate(ScenarioSpecification specification) {
-		TdlExpression expression = specification.getTdlExpression();
-		UtaSystem sutModel = specification.getSutModel();
+		TdlExpression expression = specification.getExpression();
+		UtaSystem system = specification.getSystemModel();
 
-		int systemTransitionCount = sutModel.getTemplates().stream()
+		int systemTransitionCount = system.getTemplates().stream()
 				.map(Template::getLocationGraph)
 				.mapToInt(DirectedMultigraph::edgeCount)
 				.sum();
 
-		Set<TrapsetNode> trapsetSymbols = extractTrapsetNodes(expression);
-		Map<TrapsetNode, BaseTrapset> baseTrapsets = extractTrapsets(sutModel, trapsetSymbols);
+		Set<TrapsetNode> trapsetNodes = extractTrapsetNodes(expression);
+		Map<TrapsetNode, BaseTrapset> baseTrapsets = constructBaseTrapsets(system, trapsetNodes);
 
 		List<AbsDerivedTrapsetNode> trapsetOperators = extractTrapsetOperators(expression);
-		Map<AbsDerivedTrapsetNode, AbsTrapset> mapDerivedTrapsets = extractDerivedTrapsets(sutModel, trapsetOperators, baseTrapsets);
+		Map<AbsDerivedTrapsetNode, AbsTrapset> mapDerivedTrapsets = constructDerivedTrapsets(system, trapsetOperators, baseTrapsets);
 
 		List<AbsTrapsetQuantifierNode> trapsetQuantifiers = extractTrapsetQuantifiers(expression);
 		for (AbsTrapsetQuantifierNode trapsetQuantifier : trapsetQuantifiers) {
@@ -226,48 +224,20 @@ public class GeneratorStub {
 				@Override
 				public Void visitBoundedRepetition(BoundedRepetitionNode parentNode) { // TODO.
 					Bound bound = parentNode.getBound();
-					boolean boundGreaterThanZero = bound.getBoundValue().compareTo(BigInteger.ZERO) > 0;
 
 					BooleanValueWrapperNode replacement = null;
-					if (booleanChildNode.isTrue()) {
-						/*
-						 * #[* n](False) (* in {<, <=, =, >, >=}).
-						 * Since the repeat condition is always True in any trace t,
-						 * it will always occur length(t) times (total).
-						 * The assumption below is that length(t) > 0 for any trace t.
-						 */
-						switch (bound.getBoundType()) {
-						case GREATER_THAN: // #[>n](True) ==> True.
-							replacement = BooleanValueWrapperNode.trueWrapper();
-							break;
-						case LESS_THAN_OR_EQUAL_TO: // #[<=n](True) ==> BooleanNode(n > 0) (will occur at least 1 time).
-						case GREATER_THAN_OR_EQUAL_TO: // #[>=n](True) ==> BooleanNode(n > 0) (will occur at least 1 time).
-						case LESS_THAN: // #[<n](True) ==> BooleanNode(n > 0) (will occur at least 1 time).
-						case EQUALS: // #[=n](True) ==> BooleanNode(n > 0) (will occur at least 1 time).
-							replacement = BooleanValueWrapperNode.of(boundGreaterThanZero);
-							break;
-						}
-					} else {
-						/*
-						 * #[* n](False) (* in {<, <=, =, >, >=}).
-						 * Since the repeat condition is always False in any trace t,
-						 * it will always occur 0 times.
-						 */
-						switch (bound.getBoundType()) {
-						case EQUALS: // #[=n](False) ==> Boolean(n == 0).
-						case GREATER_THAN_OR_EQUAL_TO: // #[>=n](False) ==> Boolean(n == 0).
-							replacement = BooleanValueWrapperNode.of(!boundGreaterThanZero);
-							break;
-						case LESS_THAN: // #[<n](False) ==> Boolean(n > 0).
-							replacement = BooleanValueWrapperNode.of(boundGreaterThanZero);
-							break;
-						case LESS_THAN_OR_EQUAL_TO: // #[<=n](False) ==> True (occurs exactly 0 times and n is at least 0).
-							replacement = BooleanValueWrapperNode.trueWrapper();
-							break;
-						case GREATER_THAN: // #[>n](False) = False (never occurs more than 0 times and n is at least 0).
-							replacement = BooleanValueWrapperNode.falseWrapper();
-							break;
-						}
+					switch (bound.getBoundType()) {
+					case GREATER_THAN:
+					case GREATER_THAN_OR_EQUAL_TO:
+						replacement = BooleanValueWrapperNode.of(booleanChildNode.wrapsTrue());
+						break;
+					case LESS_THAN:
+					case LESS_THAN_OR_EQUAL_TO:
+						replacement = BooleanValueWrapperNode.of(booleanChildNode.wrapsFalse());
+						break;
+					case EQUALS:
+						replacement = BooleanValueWrapperNode.falseWrapper();
+						break;
 					}
 
 					if (replacement != null) {
@@ -284,7 +254,7 @@ public class GeneratorStub {
 					AbsBooleanInternalNode leftChild = parentNode.getChildContainer().getLeftChild();
 					boolean rightChildIsBoolValue = rightChild == booleanChildNode;
 
-					if (booleanChildNode.isTrue()) {
+					if (booleanChildNode.wrapsTrue()) {
 						if (rightChildIsBoolValue) { // p ~> True ==> True.
 							BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.trueWrapper();
 							normalizedExpression.replaceDescendant(parentNode, replacementNode);
@@ -314,7 +284,7 @@ public class GeneratorStub {
 					AbsBooleanInternalNode leftChild = parentNode.getChildContainer().getLeftChild();
 					boolean rightChildIsBoolValue = rightChild == booleanChildNode;
 
-					if (booleanChildNode.isTrue()) { // True and x ==> x.
+					if (booleanChildNode.wrapsTrue()) { // True and x ==> x.
 						normalizedExpression.replaceDescendant(parentNode, rightChildIsBoolValue ? leftChild : rightChild);
 					} else { // False and x ==> False.
 						BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.falseWrapper();
@@ -331,7 +301,7 @@ public class GeneratorStub {
 					AbsBooleanInternalNode leftChild = parentNode.getChildContainer().getLeftChild();
 					boolean rightChildIsBoolValue = rightChild == booleanChildNode;
 
-					if (booleanChildNode.isTrue()) { // True or x ==> True.
+					if (booleanChildNode.wrapsTrue()) { // True or x ==> True.
 						BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.trueWrapper();
 						normalizedExpression.replaceDescendant(parentNode, replacementNode);
 						booleanLeafNodeDeque.addFirst(replacementNode);
@@ -616,36 +586,27 @@ public class GeneratorStub {
 	}
 
 	private static List<AbsTrapsetQuantifierNode> extractTrapsetQuantifiers(TdlExpression expression) {
-		return expression.getRootNode().accept(new BaseBooleanNodeVisitor<List<AbsTrapsetQuantifierNode>>() {
+		List<AbsTrapsetQuantifierNode> trapsetQuantifiers = new LinkedList<>();
+		expression.getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
 			@Override
-			protected List<AbsTrapsetQuantifierNode> defaultResult() {
-				return CollectionUtils.newList();
+			public Void visitExistentialQuantification(ExistentialQuantificationNode operator) {
+				trapsetQuantifiers.add(operator);
+				return null;
 			}
 
 			@Override
-			protected List<AbsTrapsetQuantifierNode> mergeResults(List<AbsTrapsetQuantifierNode> previousResult, List<AbsTrapsetQuantifierNode> nextResult) {
-				if (nextResult.isEmpty())
-					return previousResult;
-				previousResult.addAll(nextResult);
-				return previousResult;
-			}
-
-			@Override
-			public List<AbsTrapsetQuantifierNode> visitExistentialQuantification(ExistentialQuantificationNode operator) {
-				return CollectionUtils.newList(operator);
-			}
-
-			@Override
-			public List<AbsTrapsetQuantifierNode> visitUniversalQuantification(UniversalQuantificationNode operator) {
-				return CollectionUtils.newList(operator);
+			public Void visitUniversalQuantification(UniversalQuantificationNode operator) {
+				trapsetQuantifiers.add(operator);
+				return null;
 			}
 		});
+		return trapsetQuantifiers;
 	}
 
-	private static Map<TrapsetNode, BaseTrapset> extractTrapsets(UtaSystem sutModel, Set<TrapsetNode> trapsetSymbols) {
+	private static Map<TrapsetNode, BaseTrapset> constructBaseTrapsets(UtaSystem system, Set<TrapsetNode> trapsetSymbols) {
 		Map<TrapsetNode, BaseTrapset> trapsetMap = new LinkedHashMap<>();
 
-		for (AbsDeclarationStatement declarationStatement : sutModel.getDeclarations()) {
+		for (AbsDeclarationStatement declarationStatement : system.getDeclarations()) {
 			if (declarationStatement instanceof VariableDeclaration) {
 				VariableDeclaration variableDeclaration = (VariableDeclaration) declarationStatement;
 				Type type = variableDeclaration.getType();
@@ -680,7 +641,7 @@ public class GeneratorStub {
 			}
 		}
 
-		for (Template template : sutModel.getTemplates()) {
+		for (Template template : system.getTemplates()) {
 			Set<Transition> edges = template.getLocationGraph().getEdges();
 			for (Transition transition : edges) {
 				TransitionLabels labels;
@@ -709,7 +670,7 @@ public class GeneratorStub {
 		return trapsetMap;
 	}
 
-	private static Map<AbsDerivedTrapsetNode, AbsTrapset> extractDerivedTrapsets(
+	private static Map<AbsDerivedTrapsetNode, AbsTrapset> constructDerivedTrapsets(
 			UtaSystem system,
 			List<AbsDerivedTrapsetNode> trapsetOperators,
 			Map<TrapsetNode, BaseTrapset> baseTrapsets

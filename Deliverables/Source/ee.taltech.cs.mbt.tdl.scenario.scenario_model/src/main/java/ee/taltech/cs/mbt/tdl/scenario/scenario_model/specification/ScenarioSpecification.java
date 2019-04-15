@@ -8,19 +8,19 @@ public class ScenarioSpecification {
 		return new ScenarioSpecification(sutModel, tdlExpression);
 	}
 
-	private TdlExpression tdlExpression;
-	private UtaSystem sutModel;
+	private TdlExpression expression;
+	private UtaSystem systemModel;
 
-	private ScenarioSpecification(UtaSystem sutModel, TdlExpression tdlExpression) {
-		this.sutModel = sutModel;
-		this.tdlExpression = tdlExpression;
+	private ScenarioSpecification(UtaSystem systemModel, TdlExpression expression) {
+		this.systemModel = systemModel;
+		this.expression = expression;
 	}
 
-	public TdlExpression getTdlExpression() {
-		return tdlExpression;
+	public TdlExpression getExpression() {
+		return expression;
 	}
 
-	public UtaSystem getSutModel() {
-		return sutModel;
+	public UtaSystem getSystemModel() {
+		return systemModel;
 	}
 }

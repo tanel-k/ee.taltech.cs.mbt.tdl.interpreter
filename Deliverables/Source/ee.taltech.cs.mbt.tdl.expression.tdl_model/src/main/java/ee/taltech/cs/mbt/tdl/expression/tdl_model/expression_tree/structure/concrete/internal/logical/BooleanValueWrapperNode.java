@@ -41,8 +41,12 @@ public class BooleanValueWrapperNode extends AbsBooleanInternalNode<AbsBooleanLe
 		return visitor.visitBooleanValueWrapper(this);
 	}
 
-	public boolean isTrue() {
+	public boolean wrapsTrue() {
 		return getChildContainer().getChild() == TrueNode.getInstance();
+	}
+
+	public boolean wrapsFalse() {
+		return getChildContainer().getChild() == FalseNode.getInstance();
 	}
 
 	@Override
@@ -53,7 +57,7 @@ public class BooleanValueWrapperNode extends AbsBooleanInternalNode<AbsBooleanLe
 	@Override
 	public void setNegated(boolean negated) {
 		// Flip the value we are wrapping now:
-		getChildContainer().setChild(isTrue()
+		getChildContainer().setChild(wrapsTrue()
 				? FalseNode.getInstance()
 				: TrueNode.getInstance()
 		);
