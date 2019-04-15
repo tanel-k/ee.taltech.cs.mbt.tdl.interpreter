@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 
 public class TdlExpression {
 	private AbsBooleanInternalNode<?, ?> rootNode;
@@ -11,6 +12,14 @@ public class TdlExpression {
 
 	public void setRootNode(AbsBooleanInternalNode<?, ?> rootNode) {
 		this.rootNode = rootNode;
+	}
+
+	public boolean isDescendant(AbsExpressionNode node) {
+		AbsExpressionNode parentNode = node;
+		while (parentNode != null && parentNode.getParentNode() != null) {
+			parentNode = parentNode.getParentNode();
+		}
+		return parentNode == rootNode;
 	}
 
 	@SuppressWarnings("unchecked")

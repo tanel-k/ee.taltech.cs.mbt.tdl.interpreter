@@ -2,7 +2,6 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_generator;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
-import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils.CollectionBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
@@ -130,17 +129,31 @@ public class GeneratorStub {
 	}
 
 	private static void reduceBooleanValues(Deque<BooleanValueWrapperNode> booleanLeafNodeDeque, TdlExpression normalizedExpression) {
-		/*
-		 * HUGE FIXME:
-		 *     par
-		 *    /  \
-		 * leafA leafB
-		 * queue[leafA, leafB] -> leafA
-		 * queue[leafB]
-		 * If par node is replaced here, leafB will still be in the queue, waiting for processing.
-		 */
 		while (!booleanLeafNodeDeque.isEmpty()) {
 			BooleanValueWrapperNode booleanChildNode = booleanLeafNodeDeque.pollFirst();
+
+			/*
+			 * Imagine the following scenario:
+			 *      /
+			 *     op
+			 *    /  \
+			 * leafA leafB
+			 * queue[leafA, leafB] -> leafA.
+			 * queue[leafB]
+			 *
+			 * process(leafA) causes <op> to be replaced with <op'> but the dequeue will still contain leafB.
+			 * The tree will look like this:
+			 *      /
+			 *    op'
+			 * but leafB will still be in the dequeue, waiting for processing, even though it is no
+			 * longer attached to the tree.
+			 *
+			 * We use TdlExpression.isDescendant(...) to check whether the node is still inside the tree.
+			 * This will entail a walk from leaf to root and while not 100% efficient,
+			 * it is still better than processing an entire discarded subtree.
+			 */
+			if (!normalizedExpression.isDescendant(booleanChildNode))
+				continue;
 
 			// Nothing left to reduce:
 			if (booleanChildNode == normalizedExpression.getRootNode())
