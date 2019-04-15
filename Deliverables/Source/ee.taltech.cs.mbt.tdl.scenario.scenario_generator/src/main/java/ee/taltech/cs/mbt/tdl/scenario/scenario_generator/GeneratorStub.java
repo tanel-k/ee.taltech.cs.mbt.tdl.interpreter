@@ -31,8 +31,13 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visi
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.specification.ScenarioSpecification;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.ETrapsetType;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.Trapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.BaseTrap;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.LinkedPairTrap;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.AbsoluteComplementTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.BaseTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.LinkedPairTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.RelativeComplementTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
@@ -52,6 +57,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseTyp
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
@@ -60,6 +66,7 @@ import java.math.BigInteger;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -75,16 +82,16 @@ public class GeneratorStub {
 				.mapToInt(DirectedMultigraph::edgeCount)
 				.sum();
 
-		Set<TrapsetNode> trapsetSymbols = extractTrapsetSymbols(expression);
-		Map<TrapsetNode, Trapset> baseTrapsets = extractTrapsets(sutModel, trapsetSymbols);
+		Set<TrapsetNode> trapsetSymbols = extractTrapsetNodes(expression);
+		Map<TrapsetNode, BaseTrapset> baseTrapsets = extractTrapsets(sutModel, trapsetSymbols);
 
 		List<AbsDerivedTrapsetNode> trapsetOperators = extractTrapsetOperators(expression);
-		Map<AbsDerivedTrapsetNode, Trapset> mapDerivedTrapsets = extractDerivedTrapsets(sutModel, trapsetOperators, baseTrapsets);
+		Map<AbsDerivedTrapsetNode, AbsTrapset> mapDerivedTrapsets = extractDerivedTrapsets(sutModel, trapsetOperators, baseTrapsets);
 
 		List<AbsTrapsetQuantifierNode> trapsetQuantifiers = extractTrapsetQuantifiers(expression);
 		for (AbsTrapsetQuantifierNode trapsetQuantifier : trapsetQuantifiers) {
 			AbsDerivedTrapsetNode trapsetDerivingNode = trapsetQuantifier.getChildContainer().getChild();
-			Trapset derivedTrapset = mapDerivedTrapsets.get(trapsetDerivingNode);
+			AbsTrapset derivedTrapset = mapDerivedTrapsets.get(trapsetDerivingNode);
 
 			Boolean replacementValue = trapsetQuantifier.accept(new ITrapsetQuantifierVisitor<Boolean>() {
 				@Override
@@ -635,8 +642,8 @@ public class GeneratorStub {
 		});
 	}
 
-	private static Map<TrapsetNode, Trapset> extractTrapsets(UtaSystem sutModel, Set<TrapsetNode> trapsetSymbols) {
-		Map<TrapsetNode, Trapset> trapsetMap = new LinkedHashMap<>();
+	private static Map<TrapsetNode, BaseTrapset> extractTrapsets(UtaSystem sutModel, Set<TrapsetNode> trapsetSymbols) {
+		Map<TrapsetNode, BaseTrapset> trapsetMap = new LinkedHashMap<>();
 
 		for (AbsDeclarationStatement declarationStatement : sutModel.getDeclarations()) {
 			if (declarationStatement instanceof VariableDeclaration) {
@@ -650,7 +657,7 @@ public class GeneratorStub {
 					continue;
 				trapsetMap.put(
 						trapsetCandidate,
-						new Trapset()
+						(BaseTrapset) new BaseTrapset()
 								.setDeclaration(variableDeclaration)
 								.setName(Identifier.of(trapsetCandidate.getName()))
 				);
@@ -665,7 +672,7 @@ public class GeneratorStub {
 						return;
 					trapsetMap.put(
 							trapsetCandidate,
-							new Trapset()
+							(BaseTrapset) new BaseTrapset()
 									.setDeclaration(variableDeclarationGroup)
 									.setName(Identifier.of(trapsetCandidate.getName()))
 					);
@@ -690,7 +697,8 @@ public class GeneratorStub {
 							TrapsetNode trapsetCandidate = TrapsetNode.of(idExpr.getIdentifier().toString());
 							if (!trapsetMap.containsKey(trapsetCandidate))
 								continue;
-							boolean newTransition = trapsetMap.get(trapsetCandidate).addTrap(template, transition, assgExpr);
+							boolean newTransition = trapsetMap.get(trapsetCandidate)
+									.addTrap(BaseTrap.of(template, transition, assgExpr));
 							// FIXME: Duplication is invalid.
 						}
 					}
@@ -701,19 +709,20 @@ public class GeneratorStub {
 		return trapsetMap;
 	}
 
-	private static Map<AbsDerivedTrapsetNode, Trapset> extractDerivedTrapsets(
+	private static Map<AbsDerivedTrapsetNode, AbsTrapset> extractDerivedTrapsets(
 			UtaSystem system,
 			List<AbsDerivedTrapsetNode> trapsetOperators,
-			Map<TrapsetNode, Trapset> baseTrapsets
+			Map<TrapsetNode, BaseTrapset> baseTrapsets
 	) {
-		Map<AbsDerivedTrapsetNode, Trapset> derivedTrapsets = new LinkedHashMap<>();
+		Map<AbsDerivedTrapsetNode, AbsTrapset> derivedTrapsets = new LinkedHashMap<>();
 		for (AbsDerivedTrapsetNode<?> trapsetOperator : trapsetOperators) {
-			derivedTrapsets.put(trapsetOperator, trapsetOperator.accept(new IDerivedTrapsetVisitor<Trapset>() {
+			derivedTrapsets.put(trapsetOperator, trapsetOperator.accept(new IDerivedTrapsetVisitor<AbsTrapset>() {
 				@Override
-				public Trapset visitAbsoluteComplement(AbsoluteComplementNode absoluteComplement) {
-					Trapset ts = baseTrapsets.get(absoluteComplement.getChildContainer().getChild());
+				public AbsTrapset visitAbsoluteComplement(AbsoluteComplementNode absoluteComplement) {
+					BaseTrapset ts = baseTrapsets.get(absoluteComplement.getChildContainer().getChild());
 					Identifier trapsetName = Identifier.of("AbsoluteComplementOf_" + ts.getName());
-					Trapset derivedTrapset = new Trapset().setType(ETrapsetType.ABSOLUTE_COMPLEMENT).setName(trapsetName);
+					AbsoluteComplementTrapset derivedTrapset = new AbsoluteComplementTrapset();
+					derivedTrapset.setName(trapsetName);
 
 					for (Template tpl : system.getTemplates()) {
 						for (Transition tr : tpl.getLocationGraph().getEdges()) {
@@ -723,12 +732,12 @@ public class GeneratorStub {
 								AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
 										.setLeftChild(IdentifierExpression.of(trapsetName))
 										.setRightChild(new NegationExpression().setChild(ts.getMarkerCondition(tr)));
-								derivedTrapset.addTrap(tpl, tr, markerExpr);
+								derivedTrapset.addTrap(BaseTrap.of(tpl, tr, markerExpr));
 							} else {
 								AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
 										.setLeftChild(IdentifierExpression.of(trapsetName))
 										.setRightChild(LiteralConsts.TRUE);
-								derivedTrapset.addTrap(tpl, tr, markerExpr);
+								derivedTrapset.addTrap(BaseTrap.of(tpl, tr, markerExpr));
 							}
 						}
 					}
@@ -736,24 +745,26 @@ public class GeneratorStub {
 				}
 
 				@Override
-				public Trapset visitLinkedPair(LinkedPairNode linkedPair) {
-					Trapset tsA = baseTrapsets.get(linkedPair.getChildContainer().getLeftChild());
-					Trapset tsB = baseTrapsets.get(linkedPair.getChildContainer().getRightChild());
-					Identifier trapsetName = Identifier.of(tsA.getName() + "_LinkedPair_" + tsB.getName());
-					Trapset derivedTrapset = new Trapset().setType(ETrapsetType.LINKED_PAIR).setName(trapsetName);
+				public AbsTrapset visitLinkedPair(LinkedPairNode linkedPair) {
+					BaseTrapset ingressTrapset = baseTrapsets.get(linkedPair.getChildContainer().getLeftChild());
+					BaseTrapset egressTrapset = baseTrapsets.get(linkedPair.getChildContainer().getRightChild());
 
-					for (Transition tA : tsA) {
-						Template tplA = tsA.getParentTemplate(tA);
-						for (Transition tB : tsB) {
-							Template tpl = tsB.getParentTemplate(tB);
-							if (tplA != tpl)
-								continue;
-							if (tpl.getLocationGraph().getTargetVertex(tA) != tpl.getLocationGraph().getSourceVertex(tB))
+					Identifier trapsetName = Identifier.of(ingressTrapset.getName() + "_LinkedPair_" + egressTrapset.getName());
+					LinkedPairTrapset derivedTrapset = new LinkedPairTrapset();
+
+					for (Transition ingressTransition : ingressTrapset) {
+						Template ingressParentTpl = ingressTrapset.getParentTemplate(ingressTransition);
+						Location target = ingressParentTpl.getLocationGraph().getTargetVertex(ingressTransition);
+						Set<Transition> egressTransitions = ingressParentTpl.getLocationGraph().getEdgesFrom(target);
+						for (Transition egressTransition : egressTransitions) {
+							if (!egressTrapset.contains(egressTransition))
 								continue;
 							AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
 									.setLeftChild(IdentifierExpression.of(trapsetName))
-									.setRightChild(tsA.getMarkerCondition(tB));
-							derivedTrapset.addTrap(tpl, tB, markerExpr);
+									.setRightChild(ingressTrapset.getMarkerCondition(egressTransition));
+							derivedTrapset.addTrap(LinkedPairTrap.of(
+									ingressTrapset, ingressTransition, ingressParentTpl, egressTransition, markerExpr
+							));
 						}
 					}
 
@@ -761,28 +772,32 @@ public class GeneratorStub {
 				}
 
 				@Override
-				public Trapset visitRelativeComplement(RelativeComplementNode relativeComplement) {
-					Trapset tsA = baseTrapsets.get(relativeComplement.getChildContainer().getLeftChild());
-					Trapset tsB = baseTrapsets.get(relativeComplement.getChildContainer().getRightChild());
-					Identifier trapsetName = Identifier.of(tsA.getName() + "_RelativeComplement_" + tsB.getName());
-					Trapset derivedTrapset = new Trapset().setType(ETrapsetType.RELATIVE_COMPLEMENT).setName(trapsetName);
+				public AbsTrapset visitRelativeComplement(RelativeComplementNode relativeComplement) {
+					BaseTrapset includedTrapset = baseTrapsets.get(relativeComplement.getChildContainer().getLeftChild());
+					BaseTrapset excludedTrapset = baseTrapsets.get(relativeComplement.getChildContainer().getRightChild());
+					Identifier trapsetName = Identifier.of(includedTrapset.getName() + "_RelativeComplement_" + excludedTrapset.getName());
+					RelativeComplementTrapset derivedTrapset = new RelativeComplementTrapset();
+					derivedTrapset.setName(trapsetName);
 
-					MAIN: for (Transition tA : tsA) {
-						Template tplA = tsA.getParentTemplate(tA);
-						AbsExpression conditionExpr = tsA.getMarkerCondition(tA);
-						for (Transition tB : tsB) {
-							if (tA == tB) {
-								if (!tsB.isConditional(tB))
-									continue MAIN;
-								conditionExpr = new ConjunctionExpression()
-										.setLeftChild(conditionExpr)
-										.setRightChild(new NegationExpression().setChild(tsB.getMarkerCondition(tB)));
-							}
+					for (Transition includedTransition : includedTrapset) {
+						Template tplA = includedTrapset.getParentTemplate(includedTransition);
+						AbsExpression conditionExpr = includedTrapset.getMarkerCondition(includedTransition);
+						if (excludedTrapset.contains(includedTransition)) {
+							if (!excludedTrapset.isConditional(includedTransition))
+								continue;
+
+							conditionExpr = new ConjunctionExpression()
+									.setLeftChild(conditionExpr)
+									.setRightChild(
+											new NegationExpression()
+													.setChild(excludedTrapset.getMarkerCondition(includedTransition))
+									);
 						}
+
 						AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
 								.setLeftChild(IdentifierExpression.of(trapsetName))
 								.setRightChild(conditionExpr);
-						derivedTrapset.addTrap(tplA, tA, markerExpr);
+						derivedTrapset.addTrap(BaseTrap.of(tplA, includedTransition, markerExpr));
 					}
 
 					return derivedTrapset;
@@ -792,56 +807,40 @@ public class GeneratorStub {
 		return derivedTrapsets;
 	}
 
-	private static Set<TrapsetNode> extractTrapsetSymbols(TdlExpression expression) {
-		return expression.getRootNode().accept(new BaseTdlExpressionVisitor<Set<TrapsetNode>>() {
+	private static Set<TrapsetNode> extractTrapsetNodes(TdlExpression expression) {
+		Set<TrapsetNode> trapsetNodes = new LinkedHashSet<>();
+		expression.getRootNode().accept(new BaseTdlExpressionVisitor<Void>() {
 			@Override
-			public Set<TrapsetNode> visitTrapset(TrapsetNode node) {
-				return CollectionUtils.newSet(node);
-			}
-
-			@Override
-			protected Set<TrapsetNode> mergeResults(Set<TrapsetNode> previousResult, Set<TrapsetNode> nextResult) {
-				previousResult.addAll(nextResult);
-				return previousResult;
-			}
-
-			@Override
-			protected Set<TrapsetNode> defaultResult() {
-				return new HashSet<>();
+			public Void visitTrapset(TrapsetNode node) {
+				trapsetNodes.add(node);
+				return null;
 			}
 		});
+		return trapsetNodes;
 	}
 
 	private static List<AbsDerivedTrapsetNode> extractTrapsetOperators(TdlExpression expression) {
-		return expression.getRootNode().accept(new BaseTdlExpressionVisitor<List<AbsDerivedTrapsetNode>>() {
+		List<AbsDerivedTrapsetNode> trapsetOperators = new LinkedList<>();
+		expression.getRootNode().accept(new BaseTdlExpressionVisitor<Void>() {
 			@Override
-			public List<AbsDerivedTrapsetNode> visitAbsoluteComplement(AbsoluteComplementNode node) {
-				return CollectionUtils.newList(node);
+			public Void visitAbsoluteComplement(AbsoluteComplementNode node) {
+				trapsetOperators.add(node);
+				return null;
 			}
 
 			@Override
-			public List<AbsDerivedTrapsetNode> visitRelativeComplement(RelativeComplementNode node) {
-				return CollectionUtils.newList(node);
+			public Void visitRelativeComplement(RelativeComplementNode node) {
+				trapsetOperators.add(node);
+				return null;
 			}
 
 			@Override
-			public List<AbsDerivedTrapsetNode> visitLinkedPair(LinkedPairNode node) {
-				return CollectionUtils.newList(node);
-			}
-
-			@Override
-			protected List<AbsDerivedTrapsetNode> mergeResults(List<AbsDerivedTrapsetNode> previousResult, List<AbsDerivedTrapsetNode> nextResult) {
-				if (nextResult.isEmpty())
-					return previousResult;
-				previousResult.addAll(nextResult);
-				return previousResult;
-			}
-
-			@Override
-			protected List<AbsDerivedTrapsetNode> defaultResult() {
-				return CollectionUtils.newList();
+			public Void visitLinkedPair(LinkedPairNode node) {
+				trapsetOperators.add(node);
+				return null;
 			}
 		});
+		return trapsetOperators;
 	}
 
 	public static void main(String... args) throws ParseException, MarshallingException, InvalidSystemStructureException, EmbeddedCodeSyntaxException {

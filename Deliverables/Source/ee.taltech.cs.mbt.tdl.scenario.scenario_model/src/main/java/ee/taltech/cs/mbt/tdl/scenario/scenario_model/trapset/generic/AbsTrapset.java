@@ -1,5 +1,6 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic;
 
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.BaseTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.AssignmentExpression;
@@ -12,9 +13,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 
-public class Trapset implements Iterable<Transition> {
+public abstract class AbsTrapset<TrapType extends BaseTrap> implements Iterable<Transition> {
 	private Identifier name;
-	private ETrapsetType type;
 	private AbsDeclarationStatement declaration;
 
 	private LinkedHashSet<Transition> markedTransitions = new LinkedHashSet<>();
@@ -22,23 +22,14 @@ public class Trapset implements Iterable<Transition> {
 	private LinkedHashMap<Transition, AssignmentExpression> mapTransitionToMarkerAssignment = new LinkedHashMap<>();
 	private LinkedHashMap<Transition, AbsExpression> mapTransitionToCondition = new LinkedHashMap<>();
 
-	public Trapset() { }
+	protected AbsTrapset() { }
 
 	public AbsDeclarationStatement getDeclaration() {
 		return declaration;
 	}
 
-	public Trapset setDeclaration(AbsDeclarationStatement declaration) {
+	public AbsTrapset setDeclaration(AbsDeclarationStatement declaration) {
 		this.declaration = declaration;
-		return this;
-	}
-
-	public ETrapsetType getType() {
-		return type;
-	}
-
-	public Trapset setType(ETrapsetType type) {
-		this.type = type;
 		return this;
 	}
 
@@ -46,7 +37,7 @@ public class Trapset implements Iterable<Transition> {
 		return name;
 	}
 
-	public Trapset setName(Identifier name) {
+	public AbsTrapset setName(Identifier name) {
 		this.name = name;
 		return this;
 	}
@@ -78,13 +69,15 @@ public class Trapset implements Iterable<Transition> {
 		return mapTransitionToMarkerAssignment.get(transition);
 	}
 
-	public boolean addTrap(Template parentTemplate, Transition transition, AssignmentExpression markerAssignment) {
-		boolean newTransition = this.markedTransitions.add(transition);
-		this.mapTransitionParent.put(transition, parentTemplate);
-		this.mapTransitionToMarkerAssignment.put(transition, markerAssignment);
-		this.mapTransitionToCondition.put(transition, markerAssignment.getRightChild());
+	public boolean addTrap(TrapType trap) {
+		boolean newTransition = this.markedTransitions.add(trap.getTransition());
+		this.mapTransitionParent.put(trap.getTransition(), trap.getParentTemplate());
+		this.mapTransitionToMarkerAssignment.put(trap.getTransition(), trap.getMarkerAssignment());
+		this.mapTransitionToCondition.put(trap.getTransition(), trap.getMarkerAssignment().getRightChild());
 		return newTransition;
 	}
+
+	public abstract <T> T accept(ITrapsetVisitor<T> visitor);
 
 	@Override
 	public Iterator<Transition> iterator() {
