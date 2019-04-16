@@ -2,8 +2,8 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_generator;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils;
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntProvider;
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
@@ -23,26 +23,25 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.ExistentialQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.logical.FalseNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.logical.TrueNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_wrapper.ScenarioWrapperParameters;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_wrapper.ScenarioWrapperFactory;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.specification.ScenarioSpecification;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.BaseTrap;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.LinkedPairTrap;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.AbsoluteComplementTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.BaseTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.LinkedPairTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.RelativeComplementTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.BaseTrap;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.LinkedPairTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
@@ -126,39 +125,26 @@ public class GeneratorStub {
 		Deque<BooleanValueWrapperNode> booleanLeaves = normalizeExpression(expression);
 		eliminateBooleanLeafNodes(booleanLeaves, expression);
 
-		Map<AbsExpressionNode, Integer> treeIndexes = extractTreeIndexes(expression);
-		System.out.println(expression.getRootNode());
+		ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexes = extractTreeIndexes(expression);
+		ObjectIdentityMap<AbsTrapset, Integer> trapsetIndexes = null;
 
-		/*
-		 * TODO:
-		 * Create the result system based on normalized and reduced expression.
-		 * int treeIndex;
-		 * int trapsetIndex;
-		 *
-		 * For logical nodes:
-		 * Disjunction/Conjunction/LeadsTo: const TdlTreeIndex treeIndex, const TdlTreeIndex leftOpIndex, const TdlTreeIndex rightOpIndex
-		 * BoundedRepetition: const BoundType boundType, const BoundValue boundValue, const TdlTreeIndex treeIndex, const TdlTreeIndex operandIndex
-		 * BoundedLeadsTo: const BoundType boundType, const BoundValue boundValue, const TdlTreeIndex treeIndex, const TdlTreeIndex leftOpIndex, const TdlTreeIndex rightOpIndex
-		 *
-		 *
-		 * For TrapsetQuantifiers:
-		 * Quantifier: const bool universal, const bool negated, const TdlTreeIndex treeIndex, const TrapsetIndex trapsetIndex, const int trapsetSize, bool &trapset[0]
-		 * Trapset trapset = derivedTrapsetMap.get(trapsetQuantifier);
-		 * trapsetIndex = ++trapsetIndex;
-		 * trapsetSize = trapset.getTrapCount();
-		 * size(TrapsetActivatorChannels)++
-		 * trapset arg size = trapsetSize
-		 * createInstantiation
-		 */
+		ScenarioWrapperParameters parameters = new ScenarioWrapperParameters();
+		parameters.setExpression(expression);
+		parameters.getDerivedTrapsetMap().putAll(mapDerivedTrapsets);
+		parameters.getTreeIndexMap().putAll(treeIndexes);
+
+		UtaSystem scenarioWrapperSystem = ScenarioWrapperFactory
+				.getInstance(parameters)
+				.newSystem();
 
 		// ScenarioStubSystemFactory.DECLARED_NAME_TrapsetActivatorChannels.equals(null);
 		// TODO: Special case: #[{>, >=, =}boundValue](TRUE).
 		// TODO p v p = p, p && p = p?
 	}
 
-	private static Map<AbsExpressionNode, Integer> extractTreeIndexes(TdlExpression expression) {
-		Map<AbsExpressionNode, Integer> treeIndexMap = new LinkedHashMap<>();
-		IntProvider treeIndexProvider = IntUtils.IntProvider.newInstance();
+	private static ObjectIdentityMap<AbsExpressionNode, Integer> extractTreeIndexes(TdlExpression expression) {
+		ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
+		IntIterator treeIndexProvider = IntIterator.newInstance();
 		expression.getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
 			@Override
 			public Void visitBoundedRepetition(BoundedRepetitionNode node) {
@@ -222,6 +208,7 @@ public class GeneratorStub {
 
 			@Override
 			public Void visitValueWrapper(BooleanValueWrapperNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
 				return null;
 			}
 		});
@@ -888,7 +875,7 @@ public class GeneratorStub {
 	}
 
 	public static void main(String... args) throws ParseException, MarshallingException, InvalidSystemStructureException, EmbeddedCodeSyntaxException {
-		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("E(TS1; TS2) | #[>5]E(!TS3)");
+		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("E(TS1; TS2) | #[>5]E(!TS3) | #[>5]E(!TS3)");
 		UtaSystem system = UtaParser.newInstance().parse(GeneratorStub.class.getResourceAsStream("/SampleSystem.xml"));
 		generate(ScenarioSpecification.of(system, expression));
 	}

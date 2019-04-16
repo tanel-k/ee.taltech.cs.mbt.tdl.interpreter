@@ -10,4 +10,8 @@ public class StringUtils {
 			return defaultStr;
 		return str;
 	}
+
+	public static LineIterator lineExtractor(String str) {
+		return LineIterator.forString(str);
+	}
 }

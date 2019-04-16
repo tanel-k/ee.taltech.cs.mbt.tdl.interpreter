@@ -2,9 +2,9 @@ package ee.taltech.cs.mbt.tdl.commons.utils.strings;
 
 import java.util.Iterator;
 
-public class LineExtractor implements Iterator<String>, Iterable<String> {
-	public static LineExtractor forString(String str) {
-		return new LineExtractor(str);
+public class LineIterator implements Iterator<String>, Iterable<String> {
+	public static LineIterator forString(String str) {
+		return new LineIterator(str);
 	}
 
 	private String str;
@@ -12,7 +12,7 @@ public class LineExtractor implements Iterator<String>, Iterable<String> {
 	private int lastIndex = 0;
 	private int length;
 
-	private LineExtractor(String str) {
+	private LineIterator(String str) {
 		if (str == null)
 			throw new IllegalArgumentException("Expecting a non-null string argument.");
 		this.str = str;
@@ -47,6 +47,6 @@ public class LineExtractor implements Iterator<String>, Iterable<String> {
 
 	@Override
 	public Iterator<String> iterator() {
-		return new LineExtractor(str);
+		return new LineIterator(str);
 	}
 }

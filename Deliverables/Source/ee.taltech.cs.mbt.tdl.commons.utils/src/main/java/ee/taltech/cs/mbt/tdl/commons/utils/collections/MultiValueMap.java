@@ -9,23 +9,23 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class MultiValuedMap<K, V, C extends Collection<V>> implements Map<K, C> {
+public class MultiValueMap<K, V, C extends Collection<V>> implements Map<K, C> {
 	private LinkedHashMap<K, C> nestedMap;
 
-	public MultiValuedMap() {
+	public MultiValueMap() {
 		nestedMap = new LinkedHashMap<>();
 	}
 
-	public MultiValuedMap(int initialCapacity) {
+	public MultiValueMap(int initialCapacity) {
 		nestedMap = new LinkedHashMap<>(initialCapacity);
 	}
 
 	@SuppressWarnings("unchecked")
-	public MultiValuedMap(Map<? extends K, ? extends C> map) {
+	public MultiValueMap(Map<? extends K, ? extends C> map) {
 		nestedMap = new LinkedHashMap<>(map);
 	}
 
-	public MultiValuedMap(int initialCapacity, float loadFactor, boolean accessOrder) {
+	public MultiValueMap(int initialCapacity, float loadFactor, boolean accessOrder) {
 		nestedMap = new LinkedHashMap<>(initialCapacity, loadFactor, accessOrder);
 	}
 
@@ -155,9 +155,9 @@ public class MultiValuedMap<K, V, C extends Collection<V>> implements Map<K, C> 
 			return false;
 		if (o == this)
 			return true;
-		if (!(o instanceof MultiValuedMap))
+		if (!(o instanceof MultiValueMap))
 			return false;
-		MultiValuedMap other = (MultiValuedMap) o;
+		MultiValueMap other = (MultiValueMap) o;
 		return Objects.equals(this.nestedMap, other.nestedMap);
 	}
 }

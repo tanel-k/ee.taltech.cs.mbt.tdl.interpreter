@@ -2,8 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extract
 
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
-import ee.taltech.cs.mbt.tdl.commons.utils.strings.LineExtractor;
-import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.LineIterator;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.expression.ExpressionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.template.SelectionCtxExtractor;
@@ -55,7 +54,7 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 	public ContextBuilder visitComment(CommentLabel label) {
 		requiredClasses.add(label.getClass());
 		List<String> textLines = new LinkedList<>();
-		for (String line : LineExtractor.forString(label.getContent())) {
+		for (String line : LineIterator.forString(label.getContent())) {
 			line = line.replace("\"", "\\\"");
 			textLines.add(line);
 		}

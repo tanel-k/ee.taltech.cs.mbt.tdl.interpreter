@@ -4,7 +4,7 @@ import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseExce
 import ee.taltech.cs.mbt.tdl.commons.parser.AbsAntlrParser;
 import ee.taltech.cs.mbt.tdl.commons.utils.operations.IOperation;
 import ee.taltech.cs.mbt.tdl.commons.utils.operations.OperationQueue;
-import ee.taltech.cs.mbt.tdl.commons.utils.strings.LineExtractor;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.LineIterator;
 import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.ParseQueue.ParseOperation;
 
@@ -55,7 +55,7 @@ public class ParseQueue extends OperationQueue<ParseOperation<?>, EmbeddedCodeSy
 	 */
 	private static boolean onlyContainsComments(String input) {
 		String simpleInput = removeMultiLineComments(input);
-		Iterator<String> lineIterator = LineExtractor.forString(simpleInput);
+		Iterator<String> lineIterator = LineIterator.forString(simpleInput);
 		while (lineIterator.hasNext()) {
 			String line = lineIterator.next();
 			if (StringUtils.isEmpty(line))

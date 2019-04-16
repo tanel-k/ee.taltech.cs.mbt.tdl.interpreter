@@ -37,52 +37,52 @@ public class BaseBooleanNodeVisitor<T> implements IBooleanNodeVisitor<T> {
 	}
 
 	@Override
-	public T visitBoundedLeadsTo(BoundedLeadsToNode operator) {
-		return visitChildren(operator);
+	public T visitBoundedLeadsTo(BoundedLeadsToNode node) {
+		return visitChildren(node);
 	}
 
 	@Override
-	public T visitBoundedRepetition(BoundedRepetitionNode operator) {
-		return visitChildren(operator);
+	public T visitBoundedRepetition(BoundedRepetitionNode node) {
+		return visitChildren(node);
 	}
 
 	@Override
-	public T visitConjunction(ConjunctionNode operator) {
-		return visitChildren(operator);
+	public T visitConjunction(ConjunctionNode node) {
+		return visitChildren(node);
 	}
 
 	@Override
-	public T visitDisjunction(DisjunctionNode operator) {
-		return visitChildren(operator);
+	public T visitDisjunction(DisjunctionNode node) {
+		return visitChildren(node);
 	}
 
 	@Override
-	public T visitEquivalence(EquivalenceNode operator) {
-		return visitChildren(operator);
+	public T visitEquivalence(EquivalenceNode node) {
+		return visitChildren(node);
 	}
 
 	@Override
-	public T visitGroup(GroupNode operator) {
-		return visitChildren(operator);
+	public T visitGroup(GroupNode node) {
+		return visitChildren(node);
 	}
 
 	@Override
-	public T visitImplication(ImplicationNode operator) {
-		return visitChildren(operator);
+	public T visitImplication(ImplicationNode node) {
+		return visitChildren(node);
 	}
 
 	@Override
-	public T visitLeadsTo(LeadsToNode operator) {
-		return visitChildren(operator);
+	public T visitLeadsTo(LeadsToNode node) {
+		return visitChildren(node);
 	}
 
 	@Override
-	public T visitUniversalQuantification(UniversalQuantificationNode operator) {
+	public T visitUniversalQuantification(UniversalQuantificationNode node) {
 		return defaultResult();
 	}
 
 	@Override
-	public T visitExistentialQuantification(ExistentialQuantificationNode operator) {
+	public T visitExistentialQuantification(ExistentialQuantificationNode node) {
 		return defaultResult();
 	}
 
