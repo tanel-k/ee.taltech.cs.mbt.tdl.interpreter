@@ -745,6 +745,7 @@ public class GeneratorStub {
 			List<AbsDerivedTrapsetNode> trapsetOperators,
 			Map<TrapsetNode, BaseTrapset> baseTrapsets
 	) {
+		// TODO: Ensure names are unique!
 		Map<AbsDerivedTrapsetNode, AbsTrapset> derivedTrapsets = new LinkedHashMap<>();
 		for (AbsDerivedTrapsetNode<?> trapsetOperator : trapsetOperators) {
 			derivedTrapsets.put(trapsetOperator, trapsetOperator.accept(new IDerivedTrapsetVisitor<AbsTrapset>() {

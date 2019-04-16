@@ -13,18 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ScenarioWrapperParameters {
-	private List<AbsTrapset> trapsets = new LinkedList<>();
 	private ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
 	private Map<AbsDerivedTrapsetNode, AbsTrapset> trapsetMap = new LinkedHashMap<>();
 	private TdlExpression expression;
-
-	public Integer treeNodeCount() {
-		return null;
-	}
-
-	public List<AbsTrapset> getTrapsets() {
-		return trapsets;
-	}
 
 	public Map<AbsDerivedTrapsetNode, AbsTrapset> getDerivedTrapsetMap() {
 		return trapsetMap;
@@ -32,10 +23,6 @@ public class ScenarioWrapperParameters {
 
 	public ObjectIdentityMap<AbsExpressionNode, Integer> getTreeIndexMap() {
 		return treeIndexMap;
-	}
-
-	public Integer trapsetCount() {
-		return trapsets.size();
 	}
 
 	public TdlExpression getExpression() {

@@ -287,6 +287,9 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 				throw new UnsupportedOperationException("No scenario wrapper template exists for " + node.getClass().getName());
 			}
 		});
+
+		treeNodeCount = treeNodeCounter.getCurrentValue();
+		trapsetCount = trapsetCounter.getCurrentValue();
 	}
 
 	@Override
