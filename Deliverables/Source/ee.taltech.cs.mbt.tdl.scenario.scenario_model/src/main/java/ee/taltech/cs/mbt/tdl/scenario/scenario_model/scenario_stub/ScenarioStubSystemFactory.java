@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_model.uta_stub;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_stub;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 
@@ -103,7 +103,8 @@ public class ScenarioStubSystemFactory {
     protected Location newId2Location() {
       return new Location()
           .setId("id2")
-          .setName(new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-296, -96)))
+          .setName(
+              new LocationName().setName("Listening").setCoordinates(GuiCoordinates.of(-312, -96)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(
               new LocationLabels()
@@ -471,7 +472,7 @@ public class ScenarioStubSystemFactory {
           .setId("id7")
           .setName(
               new LocationName()
-                  .setName("ReadyForRightOp")
+                  .setName("ListeningRightOp")
                   .setCoordinates(GuiCoordinates.of(-552, -136)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
@@ -518,7 +519,7 @@ public class ScenarioStubSystemFactory {
           .setId("id9")
           .setName(
               new LocationName()
-                  .setName("ReadyForLeftOp")
+                  .setName("ListeningLeftOp")
                   .setCoordinates(GuiCoordinates.of(-1088, -136)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
@@ -1263,7 +1264,7 @@ public class ScenarioStubSystemFactory {
     protected Location newId16Location() {
       return new Location()
           .setId("id16")
-          .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(-34, 170)))
+          .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(-8, 192)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-24, 200));
@@ -1282,10 +1283,12 @@ public class ScenarioStubSystemFactory {
       return new Location()
           .setId("id13")
           .setName(
-              new LocationName().setName("Checkpoint").setCoordinates(GuiCoordinates.of(-608, 368)))
+              new LocationName()
+                  .setName("CounterCheck")
+                  .setCoordinates(GuiCoordinates.of(-616, 360)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-624, 376));
+          .setCoordinates(GuiCoordinates.of(-624, 352));
     }
 
     protected Location newId15Location() {
@@ -1293,11 +1296,11 @@ public class ScenarioStubSystemFactory {
           .setId("id15")
           .setName(
               new LocationName()
-                  .setName("BeginListening")
-                  .setCoordinates(GuiCoordinates.of(-1144, 376)))
+                  .setName("StartListening")
+                  .setCoordinates(GuiCoordinates.of(-1152, 360)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-1160, 376));
+          .setCoordinates(GuiCoordinates.of(-1160, 352));
     }
 
     protected Location newId17Location() {
@@ -1313,7 +1316,7 @@ public class ScenarioStubSystemFactory {
           .setId("id12")
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-1208, 272));
+          .setCoordinates(GuiCoordinates.of(-1208, 264));
     }
 
     protected Location newId19Location() {
@@ -1327,10 +1330,11 @@ public class ScenarioStubSystemFactory {
     protected Location newId14Location() {
       return new Location()
           .setId("id14")
-          .setName(new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-912, 384)))
+          .setName(
+              new LocationName().setName("Listening").setCoordinates(GuiCoordinates.of(-896, 360)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-896, 376));
+          .setCoordinates(GuiCoordinates.of(-904, 352));
     }
 
     protected Location newId18Location() {
@@ -1346,8 +1350,8 @@ public class ScenarioStubSystemFactory {
           .setSource(source)
           .setTarget(target)
           .setLabels(new TransitionLabels())
-          .addNail(GuiCoordinates.of(-24, 496))
-          .addNail(GuiCoordinates.of(-1600, 496));
+          .addNail(GuiCoordinates.of(-24, 472))
+          .addNail(GuiCoordinates.of(-1600, 472));
     }
 
     protected Transition newId13ToId15Transition_Nr1(Location source, Location target) {
@@ -1359,7 +1363,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-960, 448))
+                              .setCoordinates(GuiCoordinates.of(-960, 424))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanOrEqBound"))
@@ -1368,8 +1372,8 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-624, 472))
-          .addNail(GuiCoordinates.of(-1160, 472));
+          .addNail(GuiCoordinates.of(-624, 448))
+          .addNail(GuiCoordinates.of(-1160, 448));
     }
 
     protected Transition newId13ToId15Transition_Nr2(Location source, Location target) {
@@ -1381,7 +1385,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-936, 424))
+                              .setCoordinates(GuiCoordinates.of(-936, 400))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanBound"))
@@ -1390,8 +1394,8 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-624, 448))
-          .addNail(GuiCoordinates.of(-1160, 448));
+          .addNail(GuiCoordinates.of(-624, 424))
+          .addNail(GuiCoordinates.of(-1160, 424));
     }
 
     protected Transition newId13ToId15Transition_Nr3(Location source, Location target) {
@@ -1403,7 +1407,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-904, 400))
+                              .setCoordinates(GuiCoordinates.of(-904, 376))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("equalityBound"))
@@ -1412,8 +1416,8 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-624, 424))
-          .addNail(GuiCoordinates.of(-1160, 424));
+          .addNail(GuiCoordinates.of(-624, 400))
+          .addNail(GuiCoordinates.of(-1160, 400));
     }
 
     protected Transition newId13ToId17Transition_Nr1(Location source, Location target) {
@@ -1425,7 +1429,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-616, 320))
+                              .setCoordinates(GuiCoordinates.of(-616, 312))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanOrEqBound"))
@@ -1434,8 +1438,8 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-624, 344))
-          .addNail(GuiCoordinates.of(-272, 344));
+          .addNail(GuiCoordinates.of(-624, 336))
+          .addNail(GuiCoordinates.of(-272, 336));
     }
 
     protected Transition newId13ToId17Transition_Nr2(Location source, Location target) {
@@ -1447,7 +1451,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-616, 296))
+                              .setCoordinates(GuiCoordinates.of(-616, 288))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("greaterThanBound"))
@@ -1456,8 +1460,8 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-624, 320))
-          .addNail(GuiCoordinates.of(-272, 320));
+          .addNail(GuiCoordinates.of(-624, 312))
+          .addNail(GuiCoordinates.of(-272, 312));
     }
 
     protected Transition newId12ToId15Transition(Location source, Location target) {
@@ -1469,12 +1473,12 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-1200, 312))
+                              .setCoordinates(GuiCoordinates.of(-1200, 296))
                               .setContent(
                                   new GreaterThanExpression()
                                       .setLeftChild(IdentifierExpression.of("boundValue"))
                                       .setRightChild(NaturalNumberLiteral.of("0")))))
-          .addNail(GuiCoordinates.of(-1208, 376));
+          .addNail(GuiCoordinates.of(-1208, 352));
     }
 
     protected Transition newId12ToId17Transition(Location source, Location target) {
@@ -1486,7 +1490,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-1192, 248))
+                              .setCoordinates(GuiCoordinates.of(-1192, 240))
                               .setContent(
                                   new EqualityExpression()
                                       .setLeftChild(IdentifierExpression.of("boundValue"))
@@ -1495,12 +1499,13 @@ public class ScenarioStubSystemFactory {
                       (CommentLabel)
                           new CommentLabel()
                               .setContent(
-                                  "The condition is \"== 0\"."
-                                      + "When we begin testing, the number of repetitions is already 0, so we can immediately successfully terminate.")))
-          .addNail(GuiCoordinates.of(-272, 272));
+                                  "The condition is \"== n\" or \"&gt= n\" where n == 0.\n"
+                                      + "\n"
+                                      + "When we begin testing, the number of repetitions is already 0, so we can immediately successfully terminate.\n")))
+          .addNail(GuiCoordinates.of(-272, 264));
     }
 
-    protected Transition newId19ToId12Transition(Location source, Location target) {
+    protected Transition newId19ToId12Transition_Nr1(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1524,7 +1529,7 @@ public class ScenarioStubSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
-                              .setCoordinates(GuiCoordinates.of(-816, 376))
+                              .setCoordinates(GuiCoordinates.of(-816, 352))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -1534,7 +1539,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-880, 352))
+                              .setCoordinates(GuiCoordinates.of(-888, 328))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -1555,7 +1560,7 @@ public class ScenarioStubSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-1144, 352))
+                              .setCoordinates(GuiCoordinates.of(-1144, 328))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(true)
@@ -1576,7 +1581,7 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-616, 272))
+                              .setCoordinates(GuiCoordinates.of(-616, 264))
                               .setContent(
                                   new ConjunctionExpression()
                                       .setLeftChild(IdentifierExpression.of("equalityBound"))
@@ -1585,11 +1590,11 @@ public class ScenarioStubSystemFactory {
                                               .setLeftChild(IdentifierExpression.of("repetitions"))
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
-          .addNail(GuiCoordinates.of(-624, 296))
-          .addNail(GuiCoordinates.of(-272, 296));
+          .addNail(GuiCoordinates.of(-624, 288))
+          .addNail(GuiCoordinates.of(-272, 288));
     }
 
-    protected Transition newId19ToId15Transition_Nr1(Location source, Location target) {
+    protected Transition newId19ToId12Transition_Nr2(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1598,14 +1603,12 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-1368, 368))
+                              .setCoordinates(GuiCoordinates.of(-1368, 240))
                               .setContent(IdentifierExpression.of("greaterThanOrEqBound"))))
-          .addNail(GuiCoordinates.of(-1376, 392))
-          .addNail(GuiCoordinates.of(-1208, 392))
-          .addNail(GuiCoordinates.of(-1208, 376));
+          .addNail(GuiCoordinates.of(-1376, 264));
     }
 
-    protected Transition newId19ToId15Transition_Nr2(Location source, Location target) {
+    protected Transition newId19ToId15Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -1614,11 +1617,10 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-1368, 336))
+                              .setCoordinates(GuiCoordinates.of(-1368, 328))
                               .setContent(IdentifierExpression.of("greaterThanBound"))))
-          .addNail(GuiCoordinates.of(-1376, 360))
-          .addNail(GuiCoordinates.of(-1208, 360))
-          .addNail(GuiCoordinates.of(-1208, 376));
+          .addNail(GuiCoordinates.of(-1376, 352))
+          .addNail(GuiCoordinates.of(-1208, 352));
     }
 
     protected Transition newId18ToId17Transition(Location source, Location target) {
@@ -1632,15 +1634,15 @@ public class ScenarioStubSystemFactory {
                           new GuardLabel()
                               .setCoordinates(GuiCoordinates.of(-1144, 112))
                               .setContent(
-                                  new GreaterThanOrEqualExpression()
+                                  new GreaterThanExpression()
                                       .setLeftChild(IdentifierExpression.of("boundValue"))
-                                      .setRightChild(NaturalNumberLiteral.of("1"))))
+                                      .setRightChild(NaturalNumberLiteral.of("0"))))
                   .setCommentLabel(
                       (CommentLabel)
                           new CommentLabel()
                               .setContent(
-                                  "The condition is \"< n\" (n >= 1)."
-                                      + "When we begin testing, the number of repetitions is 0 but 0 < n for n >= 1, so we can immediately successfully terminate.")))
+                                  "The condition is \"&lt; n\" (n &gt;= 1).\n"
+                                      + "When we begin testing, the number of repetitions is 0 but 0 &lt; n for n &gt;= 1, so we can immediately successfully terminate.\n")))
           .addNail(GuiCoordinates.of(-272, 136));
     }
 
@@ -1674,17 +1676,18 @@ public class ScenarioStubSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-1272, 112))
+                              .setCoordinates(GuiCoordinates.of(-1280, 112))
                               .setContent(
-                                  new LessThanExpression()
+                                  new EqualityExpression()
                                       .setLeftChild(IdentifierExpression.of("boundValue"))
-                                      .setRightChild(NaturalNumberLiteral.of("1"))))
+                                      .setRightChild(NaturalNumberLiteral.of("0"))))
                   .setCommentLabel(
                       (CommentLabel)
                           new CommentLabel()
                               .setContent(
-                                  "The condition is \"< 0\"."
-                                      + "We cannot test whether a state occurs less than 0 times.")))
+                                  "The condition is \"&lt; n\" (n &lt; 1).\n"
+                                      + "This is equivalent to \"&lt; 0\" (n &lt; 1 and n &gt;= 0).\n"
+                                      + "We cannot test whether a state occurs less than 0 times.\n")))
           .addNail(GuiCoordinates.of(-1600, 136));
     }
 
@@ -1703,8 +1706,8 @@ public class ScenarioStubSystemFactory {
                       (CommentLabel)
                           new CommentLabel()
                               .setContent(
-                                  "The condition is \"<= n\" (n >= 0)."
-                                      + "When we begin testing, the number of repetitions is already 0, but 0 <= n for n >= 0, so we can immediately successfully terminate.")));
+                                  "The condition is \"&lt;= n\" (n &gt;= 0).\n"
+                                      + "When we begin testing, the number of repetitions is already 0, but 0 &lt;= n for n &gt;= 0, so we can immediately successfully terminate.\n")));
     }
 
     protected Transition newId19ToId18Transition(Location source, Location target) {
@@ -1870,9 +1873,9 @@ public class ScenarioStubSystemFactory {
       Transition transitionId12ToId17 = newId12ToId17Transition(locationId12, locationId17);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
           .addEdge(locationId12, locationId17, transitionId12ToId17);
-      Transition transitionId19ToId12 = newId19ToId12Transition(locationId19, locationId12);
+      Transition transitionId19ToId12_Nr1 = newId19ToId12Transition_Nr1(locationId19, locationId12);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId19, locationId12, transitionId19ToId12);
+          .addEdge(locationId19, locationId12, transitionId19ToId12_Nr1);
       Transition transitionId14ToId13 = newId14ToId13Transition(locationId14, locationId13);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
           .addEdge(locationId14, locationId13, transitionId14ToId13);
@@ -1882,12 +1885,12 @@ public class ScenarioStubSystemFactory {
       Transition transitionId13ToId17_Nr3 = newId13ToId17Transition_Nr3(locationId13, locationId17);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
           .addEdge(locationId13, locationId17, transitionId13ToId17_Nr3);
-      Transition transitionId19ToId15_Nr1 = newId19ToId15Transition_Nr1(locationId19, locationId15);
+      Transition transitionId19ToId12_Nr2 = newId19ToId12Transition_Nr2(locationId19, locationId12);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId19, locationId15, transitionId19ToId15_Nr1);
-      Transition transitionId19ToId15_Nr2 = newId19ToId15Transition_Nr2(locationId19, locationId15);
+          .addEdge(locationId19, locationId12, transitionId19ToId12_Nr2);
+      Transition transitionId19ToId15 = newId19ToId15Transition(locationId19, locationId15);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
-          .addEdge(locationId19, locationId15, transitionId19ToId15_Nr2);
+          .addEdge(locationId19, locationId15, transitionId19ToId15);
       Transition transitionId18ToId17 = newId18ToId17Transition(locationId18, locationId17);
       TdlBoundedRepetitionRecognizer.getLocationGraph()
           .addEdge(locationId18, locationId17, transitionId18ToId17);
@@ -2005,7 +2008,9 @@ public class ScenarioStubSystemFactory {
       return new Location()
           .setId("id27")
           .setName(
-              new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-2512, -992)))
+              new LocationName()
+                  .setName("Listening")
+                  .setCoordinates(GuiCoordinates.of(-2512, -992)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-2520, -1000));
@@ -2388,7 +2393,9 @@ public class ScenarioStubSystemFactory {
       return new Location()
           .setId("id31")
           .setName(
-              new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-1288, -512)))
+              new LocationName()
+                  .setName("Listening")
+                  .setCoordinates(GuiCoordinates.of(-1288, -512)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-1296, -520));
@@ -2741,7 +2748,7 @@ public class ScenarioStubSystemFactory {
           .setId("id37")
           .setName(
               new LocationName()
-                  .setName("ReadyForRightOp")
+                  .setName("ListeningRightOp")
                   .setCoordinates(GuiCoordinates.of(-264, -448)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
@@ -2761,7 +2768,7 @@ public class ScenarioStubSystemFactory {
           .setId("id39")
           .setName(
               new LocationName()
-                  .setName("ReadyForLeftOp")
+                  .setName("ListeningLeftOp")
                   .setCoordinates(GuiCoordinates.of(-768, -448)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
@@ -3233,7 +3240,8 @@ public class ScenarioStubSystemFactory {
     protected Location newId44Location() {
       return new Location()
           .setId("id44")
-          .setName(new LocationName().setName("Ready").setCoordinates(GuiCoordinates.of(-536, -24)))
+          .setName(
+              new LocationName().setName("Listening").setCoordinates(GuiCoordinates.of(-536, -16)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-552, -8));

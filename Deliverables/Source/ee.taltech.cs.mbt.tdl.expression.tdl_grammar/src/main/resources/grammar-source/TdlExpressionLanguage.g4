@@ -9,7 +9,7 @@ expression  : LEFT_PAREN expression RIGHT_PAREN  # GroupedExpression
             | expression LOP_EQUIVALENCE expression  # EquivalenceExpression
             | expression LOP_LEADS_TO expression  # LeadsToExpression
             | expression LOP_LEADS_TO LEFT_BRACKET boundOverNaturals RIGHT_BRACKET expression  # TimeBoundedLeadsToExpression
-            | LOP_REPETITION_COUNT expression LEFT_BRACKET boundOverNaturals RIGHT_BRACKET  # ConditionalRepetitionExpression
+            | LOP_REPETITION_COUNT LEFT_BRACKET boundOverNaturals RIGHT_BRACKET expression # ConditionalRepetitionExpression
             | quantifiedTrapsetExpression  # GroundTermExpression
             ;
 

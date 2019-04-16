@@ -35,7 +35,7 @@
               <outputDirectory>src/main/java</outputDirectory>
               <sourceFile>src/main/resources/UtaScenarioStubProject.xml</sourceFile>
               <pickleName>ScenarioStub</pickleName>
-              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_model.uta_stub</picklePackage>
+              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_stub</picklePackage>
             </configuration>
           </execution>
         </executions>

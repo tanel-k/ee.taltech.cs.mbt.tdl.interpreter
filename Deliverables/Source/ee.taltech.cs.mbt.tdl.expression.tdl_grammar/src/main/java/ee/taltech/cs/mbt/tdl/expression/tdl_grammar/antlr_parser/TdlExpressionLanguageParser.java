@@ -256,14 +256,14 @@ public class TdlExpressionLanguageParser extends Parser {
 	}
 	public static class ConditionalRepetitionExpressionContext extends ExpressionContext {
 		public TerminalNode LOP_REPETITION_COUNT() { return getToken(TdlExpressionLanguageParser.LOP_REPETITION_COUNT, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
 		public TerminalNode LEFT_BRACKET() { return getToken(TdlExpressionLanguageParser.LEFT_BRACKET, 0); }
 		public BoundOverNaturalsContext boundOverNaturals() {
 			return getRuleContext(BoundOverNaturalsContext.class,0);
 		}
 		public TerminalNode RIGHT_BRACKET() { return getToken(TdlExpressionLanguageParser.RIGHT_BRACKET, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
 		public ConditionalRepetitionExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -360,34 +360,34 @@ public class TdlExpressionLanguageParser extends Parser {
 				expression(9);
 				}
 				break;
-			case LEFT_PAREN:
-				{
-				_localctx = new GroupedExpressionContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(11);
-				match(LEFT_PAREN);
-				setState(12);
-				expression(0);
-				setState(13);
-				match(RIGHT_PAREN);
-				}
-				break;
 			case LOP_REPETITION_COUNT:
 				{
 				_localctx = new ConditionalRepetitionExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(15);
+				setState(11);
 				match(LOP_REPETITION_COUNT);
-				setState(16);
-				expression(0);
-				setState(17);
+				setState(12);
 				match(LEFT_BRACKET);
-				setState(18);
+				setState(13);
 				boundOverNaturals();
-				setState(19);
+				setState(14);
 				match(RIGHT_BRACKET);
+				setState(15);
+				expression(2);
+				}
+				break;
+			case LEFT_PAREN:
+				{
+				_localctx = new GroupedExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(17);
+				match(LEFT_PAREN);
+				setState(18);
+				expression(0);
+				setState(19);
+				match(RIGHT_PAREN);
 				}
 				break;
 			case LOP_UNIVERSAL_QUANTIFIER:
@@ -948,10 +948,10 @@ public class TdlExpressionLanguageParser extends Parser {
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3@\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
 		"\3\4\5\4J\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5V\n\5\3\5\2\3"+
 		"\2\6\2\4\6\b\2\2c\2\30\3\2\2\2\4?\3\2\2\2\6I\3\2\2\2\bU\3\2\2\2\n\13\b"+
-		"\2\1\2\13\f\7\t\2\2\f\31\5\2\2\13\r\16\7\5\2\2\16\17\5\2\2\2\17\20\7\6"+
-		"\2\2\20\31\3\2\2\2\21\22\7\17\2\2\22\23\5\2\2\2\23\24\7\3\2\2\24\25\5"+
-		"\b\5\2\25\26\7\4\2\2\26\31\3\2\2\2\27\31\5\4\3\2\30\n\3\2\2\2\30\r\3\2"+
-		"\2\2\30\21\3\2\2\2\30\27\3\2\2\2\31\62\3\2\2\2\32\33\f\n\2\2\33\34\7\n"+
+		"\2\1\2\13\f\7\t\2\2\f\31\5\2\2\13\r\16\7\17\2\2\16\17\7\3\2\2\17\20\5"+
+		"\b\5\2\20\21\7\4\2\2\21\22\5\2\2\4\22\31\3\2\2\2\23\24\7\5\2\2\24\25\5"+
+		"\2\2\2\25\26\7\6\2\2\26\31\3\2\2\2\27\31\5\4\3\2\30\n\3\2\2\2\30\r\3\2"+
+		"\2\2\30\23\3\2\2\2\30\27\3\2\2\2\31\62\3\2\2\2\32\33\f\n\2\2\33\34\7\n"+
 		"\2\2\34\61\5\2\2\13\35\36\f\t\2\2\36\37\7\13\2\2\37\61\5\2\2\n !\f\b\2"+
 		"\2!\"\7\f\2\2\"\61\5\2\2\t#$\f\7\2\2$%\7\r\2\2%\61\5\2\2\b&\'\f\6\2\2"+
 		"\'(\7\16\2\2(\61\5\2\2\7)*\f\5\2\2*+\7\16\2\2+,\7\3\2\2,-\5\b\5\2-.\7"+

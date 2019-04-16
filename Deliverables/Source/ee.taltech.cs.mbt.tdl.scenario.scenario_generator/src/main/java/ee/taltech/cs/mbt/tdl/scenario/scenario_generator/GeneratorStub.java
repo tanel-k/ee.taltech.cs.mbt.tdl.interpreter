@@ -2,6 +2,8 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_generator;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntProvider;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
@@ -21,9 +23,13 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.ExistentialQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.logical.FalseNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.logical.TrueNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
@@ -117,25 +123,119 @@ public class GeneratorStub {
 			}
 		}
 
+		Deque<BooleanValueWrapperNode> booleanLeaves = normalizeExpression(expression);
+		eliminateBooleanLeafNodes(booleanLeaves, expression);
 
-		Deque<BooleanValueWrapperNode> booleanLeaves = normalizeExpressionSubtree(expression);
-		reduceBooleanValues(booleanLeaves, expression);
-		// TODO p v p = p, p && p = p, ...
-
+		Map<AbsExpressionNode, Integer> treeIndexes = extractTreeIndexes(expression);
 		System.out.println(expression.getRootNode());
+
 		/*
 		 * TODO:
 		 * Create the result system based on normalized and reduced expression.
 		 * int treeIndex;
 		 * int trapsetIndex;
+		 *
+		 * For logical nodes:
+		 * Disjunction/Conjunction/LeadsTo: const TdlTreeIndex treeIndex, const TdlTreeIndex leftOpIndex, const TdlTreeIndex rightOpIndex
+		 * BoundedRepetition: const BoundType boundType, const BoundValue boundValue, const TdlTreeIndex treeIndex, const TdlTreeIndex operandIndex
+		 * BoundedLeadsTo: const BoundType boundType, const BoundValue boundValue, const TdlTreeIndex treeIndex, const TdlTreeIndex leftOpIndex, const TdlTreeIndex rightOpIndex
+		 *
+		 *
+		 * For TrapsetQuantifiers:
+		 * Quantifier: const bool universal, const bool negated, const TdlTreeIndex treeIndex, const TrapsetIndex trapsetIndex, const int trapsetSize, bool &trapset[0]
+		 * Trapset trapset = derivedTrapsetMap.get(trapsetQuantifier);
+		 * trapsetIndex = ++trapsetIndex;
+		 * trapsetSize = trapset.getTrapCount();
+		 * size(TrapsetActivatorChannels)++
+		 * trapset arg size = trapsetSize
+		 * createInstantiation
 		 */
 
 		// ScenarioStubSystemFactory.DECLARED_NAME_TrapsetActivatorChannels.equals(null);
+		// TODO: Special case: #[{>, >=, =}boundValue](TRUE).
+		// TODO p v p = p, p && p = p?
 	}
 
-	private static void reduceBooleanValues(Deque<BooleanValueWrapperNode> booleanLeafNodeDeque, TdlExpression normalizedExpression) {
-		while (!booleanLeafNodeDeque.isEmpty()) {
-			BooleanValueWrapperNode booleanChildNode = booleanLeafNodeDeque.pollFirst();
+	private static Map<AbsExpressionNode, Integer> extractTreeIndexes(TdlExpression expression) {
+		Map<AbsExpressionNode, Integer> treeIndexMap = new LinkedHashMap<>();
+		IntProvider treeIndexProvider = IntUtils.IntProvider.newInstance();
+		expression.getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
+			@Override
+			public Void visitBoundedRepetition(BoundedRepetitionNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitConjunction(ConjunctionNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitDisjunction(DisjunctionNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitEquivalence(EquivalenceNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitGroup(GroupNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitExistentialQuantification(ExistentialQuantificationNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return null;
+			}
+
+			@Override
+			public Void visitUniversalQuantification(UniversalQuantificationNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return null;
+			}
+
+			@Override
+			public Void visitLeadsTo(LeadsToNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitImplication(ImplicationNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitBoundedLeadsTo(BoundedLeadsToNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitValueWrapper(BooleanValueWrapperNode node) {
+				return null;
+			}
+		});
+
+		return treeIndexMap;
+	}
+
+	private static void eliminateBooleanLeafNodes(Deque<BooleanValueWrapperNode> remainingBooleanLeaves, TdlExpression normalizedExpression) {
+		while (!remainingBooleanLeaves.isEmpty()) {
+			BooleanValueWrapperNode currentBooleanLeaf = remainingBooleanLeaves.pollFirst();
+
+			// Entire tree has been reduced:
+			if (currentBooleanLeaf == normalizedExpression.getRootNode())
+				return;
 
 			/*
 			 * Imagine the following scenario:
@@ -144,10 +244,11 @@ public class GeneratorStub {
 			 *    /  \
 			 * leafA leafB
 			 * queue[leafA, leafB] -> leafA.
+			 * processLeaf(leafA).
 			 * queue[leafB]
 			 *
-			 * process(leafA) causes <op> to be replaced with <op'> but the dequeue will still contain leafB.
-			 * The tree will look like this:
+			 * If processLeaf(leafA) causes <op> to be replaced with <op'>,
+			 * the subtree will look like this:
 			 *      /
 			 *    op'
 			 * but leafB will still be in the dequeue, waiting for processing, even though it is no
@@ -157,108 +258,80 @@ public class GeneratorStub {
 			 * This will entail a walk from leaf to root and while not 100% efficient,
 			 * it is still better than processing an entire discarded subtree.
 			 */
-			if (!normalizedExpression.isDescendant(booleanChildNode))
+			if (!normalizedExpression.isDescendant(currentBooleanLeaf))
 				continue;
 
-			// Nothing left to reduce:
-			if (booleanChildNode == normalizedExpression.getRootNode())
-				return;
-
-			AbsBooleanInternalNode parentNode = (AbsBooleanInternalNode) booleanChildNode.getParentNode();
+			AbsBooleanInternalNode parentNode = (AbsBooleanInternalNode) currentBooleanLeaf.getParentNode();
 			parentNode.accept(new IBooleanNodeVisitor<Void>() {
 				private void renormalizeSubtree(AbsBooleanInternalNode subtreeRoot) {
 					Deque<BooleanValueWrapperNode> newLeaves = normalizeExpressionSubtree(normalizedExpression, subtreeRoot);
 					// Reprocess the subtree starting form its Boolean leaves:
 					while (!newLeaves.isEmpty()) {
-						booleanLeafNodeDeque.addFirst(newLeaves.pollLast());
+						remainingBooleanLeaves.addFirst(newLeaves.pollLast());
 					}
 				}
 
 				@Override
-				public Void visitBoundedLeadsTo(BoundedLeadsToNode parentNode) { // TODO.
-					// p ~> true == true
-					// p ~> false == not(p)
-					// true ~> p == p
-					// false ~> p == true
-
-					/*
-					 * true <n ~> a = true
-					 * true >n ~> a = true
-					 * true <=n ~> a =
-					 * true >=n ~> a
-					 * true =n ~> a
-					 *
-					 * false <n ~> a
-					 * false >n ~> a
-					 * false <=n ~> a
-					 * false >=n ~> a
-					 * false =n ~> a
-					 *
-					 * a <n ~> true
-					 * a >n ~> true
-					 * a <=n ~> true
-					 * a >=n ~> true
-					 * a =n ~> true
-					 *
-					 * a <n ~> false
-					 * a >n ~> false
-					 * a <=n ~> false
-					 * a >=n ~> false
-					 * a =n ~> false
-					 *
-					 * true <n ~> a
-					 * true >n ~> a
-					 * true <=n ~> a
-					 * true >=n ~> a
-					 * true =n ~> a
-					 *
-					 * false <n ~> a
-					 * false >n ~> a
-					 * false <=n ~> a
-					 * false >=n ~> a
-					 * false =n ~> a
-					 */
-					return visitLeadsTo(parentNode);
-				}
-
-				@Override
-				public Void visitBoundedRepetition(BoundedRepetitionNode parentNode) { // TODO.
+				public Void visitBoundedRepetition(BoundedRepetitionNode parentNode) {
 					Bound bound = parentNode.getBound();
 
+					BigInteger boundValue = bound.getBoundValue();
 					BooleanValueWrapperNode replacement = null;
 					switch (bound.getBoundType()) {
-					case GREATER_THAN:
-					case GREATER_THAN_OR_EQUAL_TO:
-						replacement = BooleanValueWrapperNode.of(booleanChildNode.wrapsTrue());
-						break;
 					case LESS_THAN:
-					case LESS_THAN_OR_EQUAL_TO:
-						replacement = BooleanValueWrapperNode.of(booleanChildNode.wrapsFalse());
+						// #[<n]True ==> n > 0.
+						// #[<n]False ==> n > 0.
+						replacement = BooleanValueWrapperNode.of(
+								BigInteger.ZERO.compareTo(boundValue) < 0
+						);
 						break;
+					case GREATER_THAN:
+						if (currentBooleanLeaf.wrapsFalse()) // #[>n]False ==> False.
+							replacement = BooleanValueWrapperNode.falseWrapper();
+						// #[>n]True ==> length(traceSinceLastCount) > n.
+						break;
+					case LESS_THAN_OR_EQUAL_TO:
+						// #[<=n]True ==> True.
+						// #[<=n]False ==> True.
+						replacement = BooleanValueWrapperNode.trueWrapper();
+						break;
+					case GREATER_THAN_OR_EQUAL_TO:
 					case EQUALS:
-						replacement = BooleanValueWrapperNode.falseWrapper();
+						// #[>=n]False ==> n == 0.
+						// #[=n]False ==> n == 0.
+						if (currentBooleanLeaf.wrapsFalse())
+							replacement = BooleanValueWrapperNode.of(
+									BigInteger.ZERO.equals(boundValue)
+							);
+						// #[>=n]True ==> length(traceSinceLastCount) >= n.
+						// #[=n]True ==> length(traceSinceLastCount) == 0.
 						break;
 					}
 
 					if (replacement != null) {
 						normalizedExpression.replaceDescendant(parentNode, replacement);
-						booleanLeafNodeDeque.addFirst(replacement);
+						remainingBooleanLeaves.addFirst(replacement);
 					}
 
 					return null;
 				}
 
 				@Override
+				public Void visitBoundedLeadsTo(BoundedLeadsToNode parentNode) {
+					return visitLeadsTo(parentNode);
+				}
+
+				@Override
 				public Void visitLeadsTo(LeadsToNode parentNode) {
 					AbsBooleanInternalNode rightChild = parentNode.getChildContainer().getRightChild();
 					AbsBooleanInternalNode leftChild = parentNode.getChildContainer().getLeftChild();
-					boolean rightChildIsBoolValue = rightChild == booleanChildNode;
+					boolean rightChildIsBoolValue = rightChild == currentBooleanLeaf;
 
-					if (booleanChildNode.wrapsTrue()) {
+					if (currentBooleanLeaf.wrapsTrue()) {
 						if (rightChildIsBoolValue) { // p ~> True ==> True.
 							BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.trueWrapper();
 							normalizedExpression.replaceDescendant(parentNode, replacementNode);
-							booleanLeafNodeDeque.addFirst(replacementNode);
+							remainingBooleanLeaves.addFirst(replacementNode);
 						} else { // True ~> p ==> p.
 							normalizedExpression.replaceDescendant(parentNode, rightChild);
 						}
@@ -271,7 +344,7 @@ public class GeneratorStub {
 						} else { // False ~> p ==> True.
 							BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.trueWrapper();
 							normalizedExpression.replaceDescendant(parentNode, replacementNode);
-							booleanLeafNodeDeque.addFirst(replacementNode);
+							remainingBooleanLeaves.addFirst(replacementNode);
 						}
 					}
 
@@ -282,14 +355,14 @@ public class GeneratorStub {
 				public Void visitConjunction(ConjunctionNode parentNode) {
 					AbsBooleanInternalNode rightChild = parentNode.getChildContainer().getRightChild();
 					AbsBooleanInternalNode leftChild = parentNode.getChildContainer().getLeftChild();
-					boolean rightChildIsBoolValue = rightChild == booleanChildNode;
+					boolean rightChildIsBoolValue = rightChild == currentBooleanLeaf;
 
-					if (booleanChildNode.wrapsTrue()) { // True and x ==> x.
+					if (currentBooleanLeaf.wrapsTrue()) { // True and x ==> x.
 						normalizedExpression.replaceDescendant(parentNode, rightChildIsBoolValue ? leftChild : rightChild);
 					} else { // False and x ==> False.
 						BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.falseWrapper();
 						normalizedExpression.replaceDescendant(parentNode, replacementNode);
-						booleanLeafNodeDeque.addFirst(replacementNode);
+						remainingBooleanLeaves.addFirst(replacementNode);
 					}
 
 					return null;
@@ -299,12 +372,12 @@ public class GeneratorStub {
 				public Void visitDisjunction(DisjunctionNode parentNode) {
 					AbsBooleanInternalNode rightChild = parentNode.getChildContainer().getRightChild();
 					AbsBooleanInternalNode leftChild = parentNode.getChildContainer().getLeftChild();
-					boolean rightChildIsBoolValue = rightChild == booleanChildNode;
+					boolean rightChildIsBoolValue = rightChild == currentBooleanLeaf;
 
-					if (booleanChildNode.wrapsTrue()) { // True or x ==> True.
+					if (currentBooleanLeaf.wrapsTrue()) { // True or x ==> True.
 						BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.trueWrapper();
 						normalizedExpression.replaceDescendant(parentNode, replacementNode);
-						booleanLeafNodeDeque.addFirst(replacementNode);
+						remainingBooleanLeaves.addFirst(replacementNode);
 					} else { // False or x ==> x.
 						normalizedExpression.replaceDescendant(parentNode, rightChildIsBoolValue ? leftChild : rightChild);
 					}
@@ -354,6 +427,10 @@ public class GeneratorStub {
 				}
 			});
 		}
+	}
+
+	private static Deque<BooleanValueWrapperNode> normalizeExpression(TdlExpression expression) {
+		return normalizeExpressionSubtree(expression, expression.getRootNode());
 	}
 
 	private static Deque<BooleanValueWrapperNode> normalizeExpressionSubtree(TdlExpression expression, AbsBooleanInternalNode subtreeRoot) {
@@ -454,46 +531,56 @@ public class GeneratorStub {
 
 			@Override
 			public Void visitBoundedRepetition(BoundedRepetitionNode boundedRepetition) {
-				if (!boundedRepetition.isNegated())
-					return visitChildren(boundedRepetition);
-				/*
-				 * not(#a(>n))      ==> #a(<=n)
-				 * not(#a(<n))      ==> #a(>=n)
-				 * not(#a(>=n))     ==> #a(<n)
-				 * not(#a(<=n))     ==> #a(>n)
-				 * not(#a(=n))      ==> #a(<n) or #a(>n)
-				 */
 				Bound bound = boundedRepetition.getBound();
-				switch (bound.getBoundType()) {
-					case GREATER_THAN:
-						bound.setBoundType(EBoundType.LESS_THAN_OR_EQUAL_TO);
-						boundedRepetition.setNegated(false);
-						return visitChildren(boundedRepetition);
-					case LESS_THAN:
-						bound.setBoundType(EBoundType.GREATER_THAN_OR_EQUAL_TO);
-						boundedRepetition.setNegated(false);
-						return visitChildren(boundedRepetition);
+				BigInteger boundValue = bound.getBoundValue();
+				BooleanValueWrapperNode replacementNode = null;
+
+				if (boundedRepetition.isNegated()) {
+					switch (bound.getBoundType()) {
+					case GREATER_THAN: // not(#[>n]P) ==> True.
+						replacementNode = BooleanValueWrapperNode.trueWrapper();
+						break;
+					case LESS_THAN: // not(#[<n]P) ==> n == 0.
+						replacementNode = BooleanValueWrapperNode.of(
+								BigInteger.ZERO.equals(boundValue)
+						);
+						break;
+					case LESS_THAN_OR_EQUAL_TO: // not(#[<=]P) ==> False.
+						replacementNode = BooleanValueWrapperNode.falseWrapper();
+						break;
+					case GREATER_THAN_OR_EQUAL_TO: // not(#[>=]P) ==> n > 0.
+					case EQUALS: // not(#[=n]P) ==> n > 0.
+						replacementNode = BooleanValueWrapperNode.of(
+								BigInteger.ZERO.compareTo(boundValue) < 0
+						);
+						break;
+					}
+				} else {
+					switch (bound.getBoundType()) {
+					case LESS_THAN: // #[<n]P ==> n > 0.
+						replacementNode = BooleanValueWrapperNode.of(
+								BigInteger.ZERO.compareTo(boundValue) < 0
+						);
+						break;
+					case LESS_THAN_OR_EQUAL_TO: // #[<=n]P ==> True.
+						replacementNode = BooleanValueWrapperNode.trueWrapper();
+						break;
 					case GREATER_THAN_OR_EQUAL_TO:
-						bound.setBoundType(EBoundType.LESS_THAN);
-						boundedRepetition.setNegated(false);
-						return visitChildren(boundedRepetition);
-					case LESS_THAN_OR_EQUAL_TO:
-						bound.setBoundType(EBoundType.GREATER_THAN);
-						boundedRepetition.setNegated(false);
-						return visitChildren(boundedRepetition);
 					case EQUALS:
-						DisjunctionNode disjunction = new DisjunctionNode();
-						expression.replaceDescendant(boundedRepetition, disjunction);
+						// #[>=0]P ==> True.
+						// #[=0]P ==> True.
+						if (BigInteger.ZERO.equals(boundValue))
+							replacementNode = BooleanValueWrapperNode.trueWrapper();
+						// Otherwise we need to count.
+						break;
+					case GREATER_THAN: // Need to count.
+						break;
+					}
+				}
 
-						bound.setBoundType(EBoundType.LESS_THAN);
-						boundedRepetition.setNegated(false);
-						BoundedRepetitionNode boundedRepetitionClone = boundedRepetition.deepClone();
-						boundedRepetitionClone.getBound().setBoundType(EBoundType.GREATER_THAN);
-
-						disjunction.getChildContainer().setLeftChild(boundedRepetition);
-						disjunction.getChildContainer().setRightChild(boundedRepetitionClone);
-
-						return visitChildren(disjunction);
+				if (replacementNode != null) {
+					expression.replaceDescendant(boundedRepetition, replacementNode);
+					return visitValueWrapper(replacementNode);
 				}
 
 				return visitChildren(boundedRepetition);
@@ -579,10 +666,6 @@ public class GeneratorStub {
 			}
 		});
 		return valueLeaves;
-	}
-
-	private static Deque<BooleanValueWrapperNode> normalizeExpressionSubtree(TdlExpression expression) {
-		return normalizeExpressionSubtree(expression, expression.getRootNode());
 	}
 
 	private static List<AbsTrapsetQuantifierNode> extractTrapsetQuantifiers(TdlExpression expression) {
@@ -805,7 +888,7 @@ public class GeneratorStub {
 	}
 
 	public static void main(String... args) throws ParseException, MarshallingException, InvalidSystemStructureException, EmbeddedCodeSyntaxException {
-		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("E(TS1; TS2) | E(!TS3)");
+		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("E(TS1; TS2) | #[>5]E(!TS3)");
 		UtaSystem system = UtaParser.newInstance().parse(GeneratorStub.class.getResourceAsStream("/SampleSystem.xml"));
 		generate(ScenarioSpecification.of(system, expression));
 	}

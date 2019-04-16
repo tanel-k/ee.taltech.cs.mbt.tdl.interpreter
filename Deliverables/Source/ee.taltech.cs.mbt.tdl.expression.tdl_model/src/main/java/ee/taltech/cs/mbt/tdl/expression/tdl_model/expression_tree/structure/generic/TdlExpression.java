@@ -32,5 +32,6 @@ public class TdlExpression {
 			AbsBooleanInternalNode parent = (AbsBooleanInternalNode) prevChild.getParentNode();
 			parent.getChildContainer().replaceChildNode(prevChild, newChild);
 		}
+		prevChild.setParentNode(null); // Detach from expression tree.
 	}
 }
