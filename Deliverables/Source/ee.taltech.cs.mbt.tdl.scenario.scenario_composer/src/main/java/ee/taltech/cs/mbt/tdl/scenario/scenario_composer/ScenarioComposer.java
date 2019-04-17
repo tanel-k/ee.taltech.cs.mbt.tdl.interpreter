@@ -42,6 +42,8 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.trap.LinkedPairT
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.UtaSerializer;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.SyntaxRepresentationException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller.MarshallingException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
@@ -64,7 +66,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -72,6 +76,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * FIXME:
+ * - Quantifier templates;
+ * - Adapter template logic;
+ * - Adding update expressions to edges in SUT;
+ * - Adding synch edges to SUT (for both trapsets and adapters).
+ */
 public class ScenarioComposer {
 	public static ScenarioComposer newInstance(ScenarioSpecification specification) {
 		return new ScenarioComposer(specification);
@@ -136,6 +147,38 @@ public class ScenarioComposer {
 				.setExpression(expression)
 				.setDerivedTrapsetMap(mapDerivedTrapsets);
 		ScenarioSystemComposer.newInstance(system, parameters).compose();
+
+		removeTrapsetMarkers(system, baseTrapsets.values());
+		System.out.println();
+	}
+
+	private void removeTrapsetMarkers(UtaSystem system, Collection<BaseTrapset> baseTrapsets) {
+		Map<Identifier, Boolean> cleanupFlags = new HashMap<>();
+		List<AbsDeclarationStatement> globalDeclarations = system.getDeclarations();
+		for (BaseTrapset trapset : baseTrapsets) {
+			if (cleanupFlags.getOrDefault(trapset.getName(), Boolean.FALSE))
+				continue;
+
+			AbsDeclarationStatement trapsetArrayDeclaration = trapset.getDeclaration();
+			if (trapsetArrayDeclaration instanceof VariableDeclarationGroup) {
+				VariableDeclarationGroup group = (VariableDeclarationGroup) trapsetArrayDeclaration;
+				group.removeItem(trapset.getName());
+
+				if (group.getBaseTypeExtensionMap().isEmpty()) {
+					globalDeclarations.remove(group);
+				}
+			} else {
+				globalDeclarations.remove(trapsetArrayDeclaration);
+			}
+
+			for (Transition transition : trapset) {
+				Collection<AbsExpression> transitionAssignments = transition.getLabels().getAssignmentsLabel().getContent();
+				AssignmentExpression transitionAssignment = trapset.getMarkerAssignment(transition);
+				transitionAssignments.remove(transitionAssignment);
+			}
+
+			cleanupFlags.put(trapset.getName(), Boolean.TRUE);
+		}
 	}
 
 	private void eliminateBooleanLeaves(Deque<BooleanValueWrapperNode> remainingBooleanLeaves, TdlExpression normalizedExpression) {
@@ -796,10 +839,13 @@ public class ScenarioComposer {
 		return trapsetOperators;
 	}
 
-	public static void main(String... args) throws ParseException, MarshallingException, InvalidSystemStructureException, EmbeddedCodeSyntaxException {
+	public static void main(String... args)
+			throws ParseException, MarshallingException, InvalidSystemStructureException,
+			EmbeddedCodeSyntaxException, SyntaxRepresentationException {
 		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("U(!TS1) & E(!TS1) | (#[>5]E(!TS3)) | (#[>5]E(!TS3)) | (#[>5]E(!TS3))");
 		UtaSystem system = UtaParser.newInstance().parse(ScenarioComposer.class.getResourceAsStream("/SampleSystem.xml"));
 		ScenarioComposer composer = ScenarioComposer.newInstance(ScenarioSpecification.of(system, expression));
 		composer.compose();
+		UtaSerializer.newInstance().serialize(system, System.out);
 	}
 }
