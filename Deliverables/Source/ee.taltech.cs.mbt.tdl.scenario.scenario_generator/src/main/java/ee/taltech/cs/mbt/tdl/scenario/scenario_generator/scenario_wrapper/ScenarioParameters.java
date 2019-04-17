@@ -16,7 +16,7 @@ public class ScenarioParameters {
 	}
 
 	public ScenarioParameters setDerivedTrapsetMap(Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> derivedTrapsetMap) {
-		derivedTrapsetMap.putAll(derivedTrapsetMap);
+		this.derivedTrapsetMap.putAll(derivedTrapsetMap);
 		return this;
 	}
 
