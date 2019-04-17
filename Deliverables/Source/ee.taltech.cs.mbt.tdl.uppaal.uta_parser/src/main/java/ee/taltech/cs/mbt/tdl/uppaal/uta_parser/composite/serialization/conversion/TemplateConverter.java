@@ -88,10 +88,12 @@ public class TemplateConverter {
 		locationNode.setX(location.getCoordinates().getX());
 		locationNode.setY(location.getCoordinates().getY());
 
-		location.getLabels().asCollection().stream()
-				.map(this::createLocationLabel)
-				.filter(Objects::nonNull)
-				.forEachOrdered(locationNode.getLabels()::add);
+		if (location.getLabels() != null) {
+			location.getLabels().asCollection().stream()
+					.map(this::createLocationLabel)
+					.filter(Objects::nonNull)
+					.forEachOrdered(locationNode.getLabels()::add);
+		}
 	}
 
 	private TransitionLabelNode createTransitionLabel(AbsUtaLabel<?> label) {
@@ -158,10 +160,13 @@ public class TemplateConverter {
 				ConversionUtils.idReferenceFor(target.getId())
 		);
 
-		transition.getLabels().asCollection().stream()
-				.map(this::createTransitionLabel)
-				.filter(Objects::nonNull)
-				.forEachOrdered(transitionNode.getLabels()::add);
+		if (transition.getLabels() != null) {
+			transition.getLabels().asCollection().stream()
+					.map(this::createTransitionLabel)
+					.filter(Objects::nonNull)
+					.forEachOrdered(transitionNode.getLabels()::add);
+		}
+
 		transition.getNails().stream()
 				.map(this::createTransitionNail)
 				.forEachOrdered(transitionNode.getNails()::add);

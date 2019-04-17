@@ -40,8 +40,10 @@ public class DirectedMultigraph<V, E> {
 
 	private void addNewEdge(V source, V target, E edge) {
 		edges.add(edge);
-		vertices.add(source);
-		vertices.add(target);
+		if (!hasVertex(source))
+			vertices.add(source);
+		if (!hasVertex(target))
+			vertices.add(target);
 		getOrCreateEgressEdgeSet(source).add(edge);
 		getOrCreateIngressEdgeSet(target).add(edge);
 		mapEdgeToSourceVertex.put(edge, source);
@@ -202,9 +204,9 @@ public class DirectedMultigraph<V, E> {
 	public void splitEdge(E edge, V middleVertex, E firstEdge, E secondEdge) {
 		if (!hasEdge(edge))
 			throw new IllegalArgumentException("Edge does not exist.");
-		if (hasEdge(firstEdge))
+		if (!hasEdge(firstEdge))
 			throw new IllegalArgumentException("First replacement edge already exists.");
-		if (hasEdge(secondEdge))
+		if (!hasEdge(secondEdge))
 			throw new IllegalArgumentException("Second replacement edge already exists.");
 		splitExistingEdge(edge, middleVertex, firstEdge, secondEdge);
 	}

@@ -1,6 +1,5 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer;
 
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
@@ -28,7 +27,6 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visi
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioCompositionParameters;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioSystemComposer;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.specification.ScenarioSpecification;
@@ -39,12 +37,6 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.derived.Relative
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.generic.AbsDerivedTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.trap.BaseTrap;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.trap.LinkedPairTrap;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.UtaSerializer;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.SyntaxRepresentationException;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller.MarshallingException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
@@ -76,83 +68,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * FIXME:
- * - Quantifier templates;
- * - Adapter template logic;
- * - Adding update expressions to edges in SUT;
- * - Adding synch edges to SUT (for both trapsets and adapters).
- */
 public class ScenarioComposer {
 	public static ScenarioComposer newInstance(ScenarioSpecification specification) {
 		return new ScenarioComposer(specification);
 	}
 
-	private ScenarioSpecification specification;
-
-	private ScenarioComposer(ScenarioSpecification specification) {
-		this.specification = specification;
-	}
-
-	public void compose() {
-		TdlExpression expression = specification.getExpression();
-		UtaSystem system = specification.getSystemModel();
-
-		int systemTransitionCount = system.getTemplates().stream()
-				.map(Template::getLocationGraph)
-				.mapToInt(DirectedMultigraph::edgeCount)
-				.sum();
-
-		Set<TrapsetNode> trapsetNodes = extractTrapsetNodes(expression);
-		Map<TrapsetNode, BaseTrapset> baseTrapsets = constructBaseTrapsets(system, trapsetNodes);
-
-		List<AbsDerivedTrapsetNode> trapsetOperators = collectTrapsetOperators(expression);
-		Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> mapDerivedTrapsets = constructDerivedTrapsets(system, trapsetOperators, baseTrapsets);
-
-		List<AbsTrapsetQuantifierNode> trapsetQuantifiers = extractTrapsetQuantifiers(expression);
-		for (AbsTrapsetQuantifierNode trapsetQuantifier : trapsetQuantifiers) {
-			AbsDerivedTrapsetNode trapsetDerivingNode = trapsetQuantifier.getChildContainer().getChild();
-			AbsDerivedTrapset derivedTrapset = mapDerivedTrapsets.get(trapsetDerivingNode);
-
-			Boolean replacementValue = trapsetQuantifier.accept(new ITrapsetQuantifierVisitor<Boolean>() {
-				@Override
-				public Boolean visitExistential(ExistentialQuantificationNode quantifier) {
-					return visitAny(quantifier);
-				}
-
-				@Override
-				public Boolean visitUniversal(UniversalQuantificationNode quantifier) {
-					return visitAny(quantifier);
-				}
-
-				private Boolean visitAny(AbsTrapsetQuantifierNode quantifier) {
-					if (derivedTrapset.isEmpty()) // Empty trapset.
-						return quantifier.isNegated();
-					if (derivedTrapset.getTrapCount() == systemTransitionCount) // Trapset that covers the entire system.
-						return !quantifier.isNegated();
-					return null;
-				}
-			});
-
-			if (replacementValue != null) {
-				BooleanValueWrapperNode wrapper = BooleanValueWrapperNode.of(replacementValue);
-				expression.replaceDescendant(trapsetQuantifier, wrapper);
-			}
-		}
-
-		Deque<BooleanValueWrapperNode> booleanLeaves = normalizeExpression(expression);
-		eliminateBooleanLeaves(booleanLeaves, expression);
-
-		ScenarioCompositionParameters parameters = new ScenarioCompositionParameters()
-				.setExpression(expression)
-				.setDerivedTrapsetMap(mapDerivedTrapsets);
-		ScenarioSystemComposer.newInstance(system, parameters).compose();
-
-		removeTrapsetMarkers(system, baseTrapsets.values());
-		System.out.println();
-	}
-
-	private void removeTrapsetMarkers(UtaSystem system, Collection<BaseTrapset> baseTrapsets) {
+	private static void removeTrapsetMarkers(UtaSystem system, Collection<BaseTrapset> baseTrapsets) {
 		Map<Identifier, Boolean> cleanupFlags = new HashMap<>();
 		List<AbsDeclarationStatement> globalDeclarations = system.getDeclarations();
 		for (BaseTrapset trapset : baseTrapsets) {
@@ -181,7 +102,9 @@ public class ScenarioComposer {
 		}
 	}
 
-	private void eliminateBooleanLeaves(Deque<BooleanValueWrapperNode> remainingBooleanLeaves, TdlExpression normalizedExpression) {
+	private static void eliminateBooleanLeaves(
+			Deque<BooleanValueWrapperNode> remainingBooleanLeaves, TdlExpression normalizedExpression
+	) {
 		while (!remainingBooleanLeaves.isEmpty()) {
 			BooleanValueWrapperNode currentBooleanLeaf = remainingBooleanLeaves.pollFirst();
 
@@ -230,34 +153,34 @@ public class ScenarioComposer {
 					BigInteger boundValue = bound.getBoundValue();
 					BooleanValueWrapperNode replacement = null;
 					switch (bound.getBoundType()) {
-					case LESS_THAN:
-						// #[<n]True ==> n > 0.
-						// #[<n]False ==> n > 0.
-						replacement = BooleanValueWrapperNode.of(
-								BigInteger.ZERO.compareTo(boundValue) < 0
-						);
-						break;
-					case GREATER_THAN:
-						if (currentBooleanLeaf.wrapsFalse()) // #[>n]False ==> False.
-							replacement = BooleanValueWrapperNode.falseWrapper();
-						// #[>n]True ==> length(traceSinceLastCount) > n.
-						break;
-					case LESS_THAN_OR_EQUAL_TO:
-						// #[<=n]True ==> True.
-						// #[<=n]False ==> True.
-						replacement = BooleanValueWrapperNode.trueWrapper();
-						break;
-					case GREATER_THAN_OR_EQUAL_TO:
-					case EQUALS:
-						// #[>=n]False ==> n == 0.
-						// #[=n]False ==> n == 0.
-						if (currentBooleanLeaf.wrapsFalse())
+						case LESS_THAN:
+							// #[<n]True ==> n > 0.
+							// #[<n]False ==> n > 0.
 							replacement = BooleanValueWrapperNode.of(
-									BigInteger.ZERO.equals(boundValue)
+									BigInteger.ZERO.compareTo(boundValue) < 0
 							);
-						// #[>=n]True ==> length(traceSinceLastCount) >= n.
-						// #[=n]True ==> length(traceSinceLastCount) == 0.
-						break;
+							break;
+						case GREATER_THAN:
+							if (currentBooleanLeaf.wrapsFalse()) // #[>n]False ==> False.
+								replacement = BooleanValueWrapperNode.falseWrapper();
+							// #[>n]True ==> length(traceSinceLastCount) > n.
+							break;
+						case LESS_THAN_OR_EQUAL_TO:
+							// #[<=n]True ==> True.
+							// #[<=n]False ==> True.
+							replacement = BooleanValueWrapperNode.trueWrapper();
+							break;
+						case GREATER_THAN_OR_EQUAL_TO:
+						case EQUALS:
+							// #[>=n]False ==> n == 0.
+							// #[=n]False ==> n == 0.
+							if (currentBooleanLeaf.wrapsFalse())
+								replacement = BooleanValueWrapperNode.of(
+										BigInteger.ZERO.equals(boundValue)
+								);
+							// #[>=n]True ==> length(traceSinceLastCount) >= n.
+							// #[=n]True ==> length(traceSinceLastCount) == 0.
+							break;
 					}
 
 					if (replacement != null) {
@@ -381,11 +304,11 @@ public class ScenarioComposer {
 		}
 	}
 
-	private Deque<BooleanValueWrapperNode> normalizeExpression(TdlExpression expression) {
+	private static Deque<BooleanValueWrapperNode> normalizeExpression(TdlExpression expression) {
 		return normalizeExpressionSubtree(expression, expression.getRootNode());
 	}
 
-	private Deque<BooleanValueWrapperNode> normalizeExpressionSubtree(TdlExpression expression, AbsBooleanInternalNode subtreeRoot) {
+	private static Deque<BooleanValueWrapperNode> normalizeExpressionSubtree(TdlExpression expression, AbsBooleanInternalNode subtreeRoot) {
 		Deque<BooleanValueWrapperNode> valueLeaves = new LinkedList<>();
 		subtreeRoot.accept(new BaseBooleanNodeVisitor<Void>() {
 			@Override
@@ -489,44 +412,44 @@ public class ScenarioComposer {
 
 				if (boundedRepetition.isNegated()) {
 					switch (bound.getBoundType()) {
-					case GREATER_THAN: // not(#[>n]P) ==> True.
-						replacementNode = BooleanValueWrapperNode.trueWrapper();
-						break;
-					case LESS_THAN: // not(#[<n]P) ==> n == 0.
-						replacementNode = BooleanValueWrapperNode.of(
-								BigInteger.ZERO.equals(boundValue)
-						);
-						break;
-					case LESS_THAN_OR_EQUAL_TO: // not(#[<=]P) ==> False.
-						replacementNode = BooleanValueWrapperNode.falseWrapper();
-						break;
-					case GREATER_THAN_OR_EQUAL_TO: // not(#[>=]P) ==> n > 0.
-					case EQUALS: // not(#[=n]P) ==> n > 0.
-						replacementNode = BooleanValueWrapperNode.of(
-								BigInteger.ZERO.compareTo(boundValue) < 0
-						);
-						break;
+						case GREATER_THAN: // not(#[>n]P) ==> True.
+							replacementNode = BooleanValueWrapperNode.trueWrapper();
+							break;
+						case LESS_THAN: // not(#[<n]P) ==> n == 0.
+							replacementNode = BooleanValueWrapperNode.of(
+									BigInteger.ZERO.equals(boundValue)
+							);
+							break;
+						case LESS_THAN_OR_EQUAL_TO: // not(#[<=]P) ==> False.
+							replacementNode = BooleanValueWrapperNode.falseWrapper();
+							break;
+						case GREATER_THAN_OR_EQUAL_TO: // not(#[>=]P) ==> n > 0.
+						case EQUALS: // not(#[=n]P) ==> n > 0.
+							replacementNode = BooleanValueWrapperNode.of(
+									BigInteger.ZERO.compareTo(boundValue) < 0
+							);
+							break;
 					}
 				} else {
 					switch (bound.getBoundType()) {
-					case LESS_THAN: // #[<n]P ==> n > 0.
-						replacementNode = BooleanValueWrapperNode.of(
-								BigInteger.ZERO.compareTo(boundValue) < 0
-						);
-						break;
-					case LESS_THAN_OR_EQUAL_TO: // #[<=n]P ==> True.
-						replacementNode = BooleanValueWrapperNode.trueWrapper();
-						break;
-					case GREATER_THAN_OR_EQUAL_TO:
-					case EQUALS:
-						// #[>=0]P ==> True.
-						// #[=0]P ==> True.
-						if (BigInteger.ZERO.equals(boundValue))
+						case LESS_THAN: // #[<n]P ==> n > 0.
+							replacementNode = BooleanValueWrapperNode.of(
+									BigInteger.ZERO.compareTo(boundValue) < 0
+							);
+							break;
+						case LESS_THAN_OR_EQUAL_TO: // #[<=n]P ==> True.
 							replacementNode = BooleanValueWrapperNode.trueWrapper();
-						// Otherwise we need to count.
-						break;
-					case GREATER_THAN: // Need to count.
-						break;
+							break;
+						case GREATER_THAN_OR_EQUAL_TO:
+						case EQUALS:
+							// #[>=0]P ==> True.
+							// #[=0]P ==> True.
+							if (BigInteger.ZERO.equals(boundValue))
+								replacementNode = BooleanValueWrapperNode.trueWrapper();
+							// Otherwise we need to count.
+							break;
+						case GREATER_THAN: // Need to count.
+							break;
 					}
 				}
 
@@ -620,7 +543,7 @@ public class ScenarioComposer {
 		return valueLeaves;
 	}
 
-	private List<AbsTrapsetQuantifierNode> extractTrapsetQuantifiers(TdlExpression expression) {
+	private static List<AbsTrapsetQuantifierNode> extractTrapsetQuantifiers(TdlExpression expression) {
 		List<AbsTrapsetQuantifierNode> trapsetQuantifiers = new LinkedList<>();
 		expression.getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
 			@Override
@@ -638,7 +561,7 @@ public class ScenarioComposer {
 		return trapsetQuantifiers;
 	}
 
-	private Map<TrapsetNode, BaseTrapset> constructBaseTrapsets(UtaSystem system, Set<TrapsetNode> trapsetSymbols) {
+	private static Map<TrapsetNode, BaseTrapset> constructBaseTrapsets(UtaSystem system, Set<TrapsetNode> trapsetSymbols) {
 		Map<TrapsetNode, BaseTrapset> trapsetMap = new LinkedHashMap<>();
 
 		for (AbsDeclarationStatement declarationStatement : system.getDeclarations()) {
@@ -705,7 +628,7 @@ public class ScenarioComposer {
 		return trapsetMap;
 	}
 
-	private Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> constructDerivedTrapsets(
+	private static Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> constructDerivedTrapsets(
 			UtaSystem system,
 			List<AbsDerivedTrapsetNode> trapsetOperators,
 			Map<TrapsetNode, BaseTrapset> baseTrapsets
@@ -720,23 +643,24 @@ public class ScenarioComposer {
 					AbsoluteComplementTrapset derivedTrapset = new AbsoluteComplementTrapset();
 					derivedTrapset.setName(trapsetName);
 
-					for (Template tpl : system.getTemplates()) {
-						for (Transition tr : tpl.getLocationGraph().getEdges()) {
-							if (ts.contains(tr)) {
-								if (!ts.isConditional(tr))
+					for (Template parentTemplate : system.getTemplates()) {
+						for (Transition transition : parentTemplate.getLocationGraph().getEdges()) {
+							if (ts.contains(transition)) {
+								if (!ts.isConditional(transition))
 									continue;
 								AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
 										.setLeftChild(IdentifierExpression.of(trapsetName))
-										.setRightChild(new NegationExpression().setChild(ts.getMarkerCondition(tr)));
-								derivedTrapset.addTrap(BaseTrap.of(tpl, tr, markerExpr));
+										.setRightChild(new NegationExpression().setChild(ts.getMarkerCondition(transition)));
+								derivedTrapset.addTrap(BaseTrap.of(parentTemplate, transition, markerExpr));
 							} else {
 								AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
 										.setLeftChild(IdentifierExpression.of(trapsetName))
 										.setRightChild(LiteralConsts.TRUE);
-								derivedTrapset.addTrap(BaseTrap.of(tpl, tr, markerExpr));
+								derivedTrapset.addTrap(BaseTrap.of(parentTemplate, transition, markerExpr));
 							}
 						}
 					}
+
 					return derivedTrapset;
 				}
 
@@ -776,7 +700,7 @@ public class ScenarioComposer {
 					derivedTrapset.setName(trapsetName);
 
 					for (Transition includedTransition : includedTrapset) {
-						Template tplA = includedTrapset.getParentTemplate(includedTransition);
+						Template parentTemplate = includedTrapset.getParentTemplate(includedTransition);
 						AbsExpression conditionExpr = includedTrapset.getMarkerCondition(includedTransition);
 						if (excludedTrapset.contains(includedTransition)) {
 							if (!excludedTrapset.isConditional(includedTransition))
@@ -793,7 +717,7 @@ public class ScenarioComposer {
 						AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
 								.setLeftChild(IdentifierExpression.of(trapsetName))
 								.setRightChild(conditionExpr);
-						derivedTrapset.addTrap(BaseTrap.of(tplA, includedTransition, markerExpr));
+						derivedTrapset.addTrap(BaseTrap.of(parentTemplate, includedTransition, markerExpr));
 					}
 
 					return derivedTrapset;
@@ -803,7 +727,7 @@ public class ScenarioComposer {
 		return derivedTrapsets;
 	}
 
-	private Set<TrapsetNode> extractTrapsetNodes(TdlExpression expression) {
+	private static Set<TrapsetNode> extractTrapsetNodes(TdlExpression expression) {
 		Set<TrapsetNode> trapsetNodes = new LinkedHashSet<>();
 		expression.getRootNode().accept(new BaseTdlExpressionVisitor<Void>() {
 			@Override
@@ -815,7 +739,7 @@ public class ScenarioComposer {
 		return trapsetNodes;
 	}
 
-	private List<AbsDerivedTrapsetNode> collectTrapsetOperators(TdlExpression expression) {
+	private static List<AbsDerivedTrapsetNode> collectTrapsetOperators(TdlExpression expression) {
 		List<AbsDerivedTrapsetNode> trapsetOperators = new LinkedList<>();
 		expression.getRootNode().accept(new BaseTdlExpressionVisitor<Void>() {
 			@Override
@@ -839,13 +763,66 @@ public class ScenarioComposer {
 		return trapsetOperators;
 	}
 
-	public static void main(String... args)
-			throws ParseException, MarshallingException, InvalidSystemStructureException,
-			EmbeddedCodeSyntaxException, SyntaxRepresentationException {
-		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("U(!TS1) & E(!TS1) | (#[>5]E(!TS3)) | (#[>5]E(!TS3)) | (#[>5]E(!TS3))");
-		UtaSystem system = UtaParser.newInstance().parse(ScenarioComposer.class.getResourceAsStream("/SampleSystem.xml"));
-		ScenarioComposer composer = ScenarioComposer.newInstance(ScenarioSpecification.of(system, expression));
-		composer.compose();
-		UtaSerializer.newInstance().serialize(system, System.out);
+	private ScenarioSpecification specification;
+
+	private ScenarioComposer(ScenarioSpecification specification) {
+		this.specification = specification;
+	}
+
+	public void compose() {
+		TdlExpression expression = specification.getExpression();
+		UtaSystem system = specification.getSystemModel();
+
+		int systemTransitionCount = system.getTemplates().stream()
+				.map(Template::getLocationGraph)
+				.mapToInt(DirectedMultigraph::edgeCount)
+				.sum();
+
+		Set<TrapsetNode> trapsetNodes = extractTrapsetNodes(expression);
+		Map<TrapsetNode, BaseTrapset> baseTrapsets = constructBaseTrapsets(system, trapsetNodes);
+
+		List<AbsDerivedTrapsetNode> trapsetOperators = collectTrapsetOperators(expression);
+		Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> mapDerivedTrapsets = constructDerivedTrapsets(system, trapsetOperators, baseTrapsets);
+
+		List<AbsTrapsetQuantifierNode> trapsetQuantifiers = extractTrapsetQuantifiers(expression);
+		for (AbsTrapsetQuantifierNode trapsetQuantifier : trapsetQuantifiers) {
+			AbsDerivedTrapsetNode trapsetDerivingNode = trapsetQuantifier.getChildContainer().getChild();
+			AbsDerivedTrapset derivedTrapset = mapDerivedTrapsets.get(trapsetDerivingNode);
+
+			Boolean replacementValue = trapsetQuantifier.accept(new ITrapsetQuantifierVisitor<Boolean>() {
+				@Override
+				public Boolean visitExistential(ExistentialQuantificationNode quantifier) {
+					return visitAny(quantifier);
+				}
+
+				@Override
+				public Boolean visitUniversal(UniversalQuantificationNode quantifier) {
+					return visitAny(quantifier);
+				}
+
+				private Boolean visitAny(AbsTrapsetQuantifierNode quantifier) {
+					if (derivedTrapset.isEmpty()) // Empty trapset.
+						return quantifier.isNegated();
+					if (derivedTrapset.getTrapCount() == systemTransitionCount) // Trapset that covers the entire system.
+						return !quantifier.isNegated();
+					return null;
+				}
+			});
+
+			if (replacementValue != null) {
+				BooleanValueWrapperNode wrapper = BooleanValueWrapperNode.of(replacementValue);
+				expression.replaceDescendant(trapsetQuantifier, wrapper);
+			}
+		}
+
+		Deque<BooleanValueWrapperNode> booleanLeaves = normalizeExpression(expression);
+		eliminateBooleanLeaves(booleanLeaves, expression);
+
+		ScenarioCompositionParameters parameters = new ScenarioCompositionParameters()
+				.setExpression(expression)
+				.setDerivedTrapsetMap(mapDerivedTrapsets);
+		ScenarioSystemComposer.newInstance(system, parameters).compose();
+
+		removeTrapsetMarkers(system, baseTrapsets.values());
 	}
 }

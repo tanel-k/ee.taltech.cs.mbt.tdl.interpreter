@@ -11,9 +11,9 @@ import java.util.LinkedList;
 
 public class AssignmentsLabel extends AbsUtaLabel<Collection<AbsExpression>> implements IPositionable {
 	public static AssignmentsLabel of(Collection<AbsExpression> expressions) {
-		AssignmentsLabel inst = new AssignmentsLabel();
-		inst.setContent(expressions == null ? new LinkedList<>() : expressions);
-		return inst;
+		AssignmentsLabel label = new AssignmentsLabel();
+		label.setContent(expressions == null ? new LinkedList<>() : expressions);
+		return label;
 	}
 
 	private GuiCoordinates coordinates;

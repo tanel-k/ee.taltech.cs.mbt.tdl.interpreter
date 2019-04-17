@@ -22,7 +22,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visi
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioCompositionParameters;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.base.ScenarioWrapperBaseSystemFactory;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.generic.AbsDerivedTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.generic.AbsDerivedTrapset.TrapsetDuplicationParameters;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.generic.AbsDerivedTrapset.TrapsetImplementationDetail;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
@@ -127,7 +127,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 		protected List<VariableDeclaration> trapsetArrayDeclarations = new LinkedList<>();
 		protected List<TemplateInstantiation> templateInstantiations = new LinkedList<>();
 		protected Map<Identifier, Integer> mapTrapsetOccurrenceCounts = new HashMap<>();
-		protected List<AbsDerivedTrapset> derivedTrapsets = new LinkedList<>();
+		protected Map<Identifier, AbsDerivedTrapset> derivedTrapsetMap = new HashMap<>();
 		protected List<AbsExpression> globallyApplicableTransitionNotificationChannels = new LinkedList<>();
 
 		protected ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
@@ -137,8 +137,8 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 			return globallyApplicableTransitionNotificationChannels;
 		}
 
-		public List<AbsDerivedTrapset> getDerivedTrapsets() {
-			return derivedTrapsets;
+		public Map<Identifier, AbsDerivedTrapset> getDerivedTrapsetMap() {
+			return derivedTrapsetMap;
 		}
 	}
 
@@ -413,17 +413,18 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 							.computeIfAbsent(trapset.getName(), k -> IntIterator.newInstance())
 							.next();
 					trapsetName = Identifier.of(trapsetName + "_" + trapsetNameQualifier);
-					trapset.getDuplications().add(
-							TrapsetDuplicationParameters.of(
-									trapsetName,
-									new Synchronization().setActiveSync(true).setExpression(
-											new ArrayLookupExpression()
-													.setLeftChild(IdentifierExpression.of(DECLARED_NAME_TdlActivatorChannels))
-													.setRightChild(NaturalNumberLiteral.of(trapsetIndex))
-									)
-							)
-					);
 				}
+
+				trapset.getTrapsetImplementationDetails().add(
+						TrapsetImplementationDetail.of(
+								trapsetName,
+								new Synchronization().setActiveSync(true).setExpression(
+										new ArrayLookupExpression()
+												.setLeftChild(IdentifierExpression.of(DECLARED_NAME_TdlActivatorChannels))
+												.setRightChild(NaturalNumberLiteral.of(trapsetIndex))
+								)
+						)
+				);
 
 				constructionCtx.trapsetArrayDeclarations.add(
 						new VariableDeclaration()
@@ -448,7 +449,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 				Template template = recognizerFactory.newTemplate();
 				TemplateInstantiation inst = recognizerFactory.createInstantiation();
 
-				constructionCtx.derivedTrapsets.add(trapset);
+				constructionCtx.derivedTrapsetMap.putIfAbsent(trapset.getName(), trapset);
 				constructionCtx.quantifierTemplates.add(template);
 				constructionCtx.templateInstantiations.add(inst);
 

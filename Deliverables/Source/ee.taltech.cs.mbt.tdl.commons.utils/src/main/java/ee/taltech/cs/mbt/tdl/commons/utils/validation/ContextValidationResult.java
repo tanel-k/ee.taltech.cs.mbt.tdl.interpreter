@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
@@ -21,12 +22,19 @@ public class ContextValidationResult implements Iterable<ValidationError> {
 	}
 
 	protected String constructFullyQualifiedName() {
-		StringBuilder sb = new StringBuilder(capitalize(getSourceCtx().getName()));
-		AbsHierarchyValidationCtx ctx = getSourceCtx().getParentContext();
+		StringBuilder sb = new StringBuilder();
+		AbsHierarchyValidationCtx ctx = getSourceCtx();
+		LinkedList<AbsHierarchyValidationCtx> validationCtxs = new LinkedList<>();
+
 		while (ctx != null) {
-			sb.append(" in ").append(ctx.getName());
+			validationCtxs.addFirst(ctx);
 			ctx = ctx.getParentContext();
 		}
+
+		for (AbsHierarchyValidationCtx ctxRef : validationCtxs) {
+			sb.append("/").append(capitalize(ctxRef.getName()));
+		}
+
 		return (fullyQualifiedContextName = sb.toString());
 	}
 

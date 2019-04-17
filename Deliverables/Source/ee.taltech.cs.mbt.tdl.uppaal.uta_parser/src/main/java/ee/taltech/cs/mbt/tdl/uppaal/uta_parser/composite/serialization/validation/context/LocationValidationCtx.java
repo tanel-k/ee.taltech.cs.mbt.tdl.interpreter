@@ -6,6 +6,7 @@ import ee.taltech.cs.mbt.tdl.commons.utils.validation.ContextValidationResult;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,9 @@ public class LocationValidationCtx extends AbsHierarchyValidationCtx<Location, T
 
 	@Override
 	public Collection<AbsHierarchyValidationCtx> orderedChildContexts() {
+		if (getContextObject().getLabels() == null)
+			return Collections.emptyList();
+
 		return getContextObject().getLabels().asCollection().stream()
 				.map(l -> new LocationLabelValidationCtx(l, this))
 				.collect(Collectors.toList());
