@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.generic.AbsDeriv
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ScenarioSystemParameters {
+public class ScenarioCompositionParameters {
 	private TdlExpression expression;
 	private Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> derivedTrapsetMap = new LinkedHashMap<>();
 
@@ -15,7 +15,7 @@ public class ScenarioSystemParameters {
 		return derivedTrapsetMap;
 	}
 
-	public ScenarioSystemParameters setDerivedTrapsetMap(Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> derivedTrapsetMap) {
+	public ScenarioCompositionParameters setDerivedTrapsetMap(Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> derivedTrapsetMap) {
 		this.derivedTrapsetMap = derivedTrapsetMap;
 		return this;
 	}
@@ -24,7 +24,7 @@ public class ScenarioSystemParameters {
 		return expression;
 	}
 
-	public ScenarioSystemParameters setExpression(TdlExpression expression) {
+	public ScenarioCompositionParameters setExpression(TdlExpression expression) {
 		this.expression = expression;
 		return this;
 	}

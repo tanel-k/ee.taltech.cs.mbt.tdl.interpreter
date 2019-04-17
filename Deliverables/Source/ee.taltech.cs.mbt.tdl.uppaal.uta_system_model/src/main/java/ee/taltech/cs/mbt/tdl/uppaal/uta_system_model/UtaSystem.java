@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IMergeable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
@@ -7,21 +8,21 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.
 import java.util.LinkedList;
 import java.util.List;
 
-public class UtaSystem {
-	private List<AbsDeclarationStatement> globalDeclarations;
+public class UtaSystem implements IMergeable<UtaSystem> {
+	private List<AbsDeclarationStatement> declarations;
 	private List<Template> templates;
 	private SystemDefinition systemDefinition;
 
 	public UtaSystem() {}
 
 	public List<AbsDeclarationStatement> getDeclarations() {
-		return globalDeclarations == null
-				? (globalDeclarations = new LinkedList<>())
-				: globalDeclarations;
+		return declarations == null
+				? (declarations = new LinkedList<>())
+				: declarations;
 	}
 
 	public UtaSystem setDeclarations(List<AbsDeclarationStatement> globalDeclarations) {
-		this.globalDeclarations = globalDeclarations;
+		this.declarations = globalDeclarations;
 		return this;
 	}
 
@@ -42,5 +43,18 @@ public class UtaSystem {
 
 	public void setSystemDefinition(SystemDefinition systemDefinition) {
 		this.systemDefinition = systemDefinition;
+	}
+
+	@Override
+	public void merge(UtaSystem other) {
+		declarations.addAll(other.declarations);
+		templates.addAll(other.templates);
+
+		if (other.systemDefinition != null) {
+			systemDefinition = systemDefinition != null
+					? systemDefinition
+					: new SystemDefinition();
+			systemDefinition.merge(other.systemDefinition);
+		}
 	}
 }

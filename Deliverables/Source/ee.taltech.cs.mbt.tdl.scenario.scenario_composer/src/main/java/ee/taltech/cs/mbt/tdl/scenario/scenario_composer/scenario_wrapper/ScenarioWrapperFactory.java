@@ -24,7 +24,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioSystemParameters;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioCompositionParameters;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.base.ScenarioWrapperBaseSystemFactory;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.generic.AbsDerivedTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.generic.AbsDerivedTrapset.TrapsetDuplicationParameters;
@@ -53,7 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
-	public static ScenarioWrapperFactory getInstance(ScenarioSystemParameters parameters) {
+	public static ScenarioWrapperFactory getInstance(ScenarioCompositionParameters parameters) {
 		return new ScenarioWrapperFactory(parameters);
 	}
 
@@ -75,10 +75,10 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 				= new ObjectIdentityMap<>();
 	}
 
-	private ScenarioSystemParameters parameters;
+	private ScenarioCompositionParameters parameters;
 	private ScenarioWrapperConstructionContext constructionCtx;
 
-	private ScenarioWrapperFactory(ScenarioSystemParameters parameters) {
+	private ScenarioWrapperFactory(ScenarioCompositionParameters parameters) {
 		this.parameters = parameters;
 	}
 
@@ -577,6 +577,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 				.addAll(constructionCtx.trapsetArrayDeclarations);
 		wrapperSystem.getTemplates()
 				.addAll(constructionCtx.quantifierTemplates);
+
 		return wrapperSystem;
 	}
 }
