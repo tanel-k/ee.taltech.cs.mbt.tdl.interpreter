@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_model;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_generator;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
@@ -29,16 +29,16 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visi
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_wrapper.ScenarioParameters;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_wrapper.ScenarioWrapperFactory;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.specification.ScenarioSpecification;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.derived.AbsoluteComplementTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.derived.LinkedPairTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.derived.RelativeComplementTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsDerivedTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.BaseTrap;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.LinkedPairTrap;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.scenario_wrapper.ScenarioParameters;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.scenario_wrapper.ScenarioWrapperFactory;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.specification.ScenarioSpecification;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.derived.AbsoluteComplementTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.BaseTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.derived.LinkedPairTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.derived.RelativeComplementTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.trap.BaseTrap;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.trap.LinkedPairTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;

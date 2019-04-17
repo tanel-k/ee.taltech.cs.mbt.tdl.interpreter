@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_wrapper;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_generator.scenario_wrapper;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
@@ -24,10 +24,10 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_stub.ScenarioStubSystemFactory;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsDerivedTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsDerivedTrapset.TrapsetDuplicationParameters;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.scenario_wrapper.base.ScenarioWrapperBaseSystemFactory;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.generic.AbsDerivedTrapset.TrapsetDuplicationParameters;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.generic.AbsTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
@@ -51,7 +51,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
+public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 	public static ScenarioWrapperFactory getInstance(ScenarioParameters parameters) {
 		return new ScenarioWrapperFactory(parameters);
 	}

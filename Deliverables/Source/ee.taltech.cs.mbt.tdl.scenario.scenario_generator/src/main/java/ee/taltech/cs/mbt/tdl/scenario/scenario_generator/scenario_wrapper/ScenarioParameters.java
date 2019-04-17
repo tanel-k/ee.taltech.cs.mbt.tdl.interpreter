@@ -1,8 +1,8 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_wrapper;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_generator.scenario_wrapper;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.generic.AbsDerivedTrapset;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

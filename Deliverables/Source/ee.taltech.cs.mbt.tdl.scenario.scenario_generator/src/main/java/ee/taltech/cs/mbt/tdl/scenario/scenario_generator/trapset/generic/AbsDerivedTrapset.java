@@ -1,6 +1,6 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.generic;
 
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.BaseTrap;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_generator.trapset.trap.BaseTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Synchronization;
 

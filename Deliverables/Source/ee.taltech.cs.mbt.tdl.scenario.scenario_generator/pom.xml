@@ -35,7 +35,7 @@
               <outputDirectory>src/main/java</outputDirectory>
               <sourceFile>src/main/resources/UtaScenarioStubProject.xml</sourceFile>
               <pickleName>ScenarioWrapperBase</pickleName>
-              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_generator.wrapper_base</picklePackage>
+              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_generator.scenario_wrapper.base</picklePackage>
             </configuration>
           </execution>
         </executions>
