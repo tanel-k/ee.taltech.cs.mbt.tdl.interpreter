@@ -1,9 +1,7 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_generator;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_model;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
-import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
@@ -25,21 +23,20 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_wrapper.ScenarioWrapperParameters;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_wrapper.ScenarioParameters;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_wrapper.ScenarioWrapperFactory;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.specification.ScenarioSpecification;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.AbsoluteComplementTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.derived.AbsoluteComplementTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.LinkedPairTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.RelativeComplementTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.derived.LinkedPairTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.derived.RelativeComplementTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsDerivedTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.BaseTrap;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.LinkedPairTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
@@ -75,7 +72,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GeneratorStub {
+public class ScenarioGenerator {
 	public static void generate(ScenarioSpecification specification) {
 		TdlExpression expression = specification.getExpression();
 		UtaSystem system = specification.getSystemModel();
@@ -88,13 +85,13 @@ public class GeneratorStub {
 		Set<TrapsetNode> trapsetNodes = extractTrapsetNodes(expression);
 		Map<TrapsetNode, BaseTrapset> baseTrapsets = constructBaseTrapsets(system, trapsetNodes);
 
-		List<AbsDerivedTrapsetNode> trapsetOperators = extractTrapsetOperators(expression);
-		Map<AbsDerivedTrapsetNode, AbsTrapset> mapDerivedTrapsets = constructDerivedTrapsets(system, trapsetOperators, baseTrapsets);
+		List<AbsDerivedTrapsetNode> trapsetOperators = collectTrapsetOperators(expression);
+		Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> mapDerivedTrapsets = constructDerivedTrapsets(system, trapsetOperators, baseTrapsets);
 
 		List<AbsTrapsetQuantifierNode> trapsetQuantifiers = extractTrapsetQuantifiers(expression);
 		for (AbsTrapsetQuantifierNode trapsetQuantifier : trapsetQuantifiers) {
 			AbsDerivedTrapsetNode trapsetDerivingNode = trapsetQuantifier.getChildContainer().getChild();
-			AbsTrapset derivedTrapset = mapDerivedTrapsets.get(trapsetDerivingNode);
+			AbsDerivedTrapset derivedTrapset = mapDerivedTrapsets.get(trapsetDerivingNode);
 
 			Boolean replacementValue = trapsetQuantifier.accept(new ITrapsetQuantifierVisitor<Boolean>() {
 				@Override
@@ -125,96 +122,18 @@ public class GeneratorStub {
 		Deque<BooleanValueWrapperNode> booleanLeaves = normalizeExpression(expression);
 		eliminateBooleanLeafNodes(booleanLeaves, expression);
 
-		ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexes = extractTreeIndexes(expression);
-		ObjectIdentityMap<AbsTrapset, Integer> trapsetIndexes = null;
+		ScenarioParameters parameters = new ScenarioParameters()
+				.setReducedExpression(expression)
+				.setDerivedTrapsetMap(mapDerivedTrapsets);
 
-		ScenarioWrapperParameters parameters = new ScenarioWrapperParameters();
-		parameters.setExpression(expression);
-		parameters.getDerivedTrapsetMap().putAll(mapDerivedTrapsets);
-		parameters.getTreeIndexMap().putAll(treeIndexes);
-
-		UtaSystem scenarioWrapperSystem = ScenarioWrapperFactory
-				.getInstance(parameters)
-				.newSystem();
+		ScenarioWrapperFactory wrapperFactory = ScenarioWrapperFactory.getInstance(parameters);
+		UtaSystem scenarioWrapperSystem = wrapperFactory.newSystem();
 
 		// ScenarioStubSystemFactory.DECLARED_NAME_TrapsetActivatorChannels.equals(null);
 		// TODO: Special case: #[{>, >=, =}boundValue](TRUE).
 		// TODO p v p = p, p && p = p?
 	}
 
-	private static ObjectIdentityMap<AbsExpressionNode, Integer> extractTreeIndexes(TdlExpression expression) {
-		ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
-		IntIterator treeIndexProvider = IntIterator.newInstance();
-		expression.getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
-			@Override
-			public Void visitBoundedRepetition(BoundedRepetitionNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitConjunction(ConjunctionNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitDisjunction(DisjunctionNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitEquivalence(EquivalenceNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitGroup(GroupNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitExistentialQuantification(ExistentialQuantificationNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return null;
-			}
-
-			@Override
-			public Void visitUniversalQuantification(UniversalQuantificationNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return null;
-			}
-
-			@Override
-			public Void visitLeadsTo(LeadsToNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitImplication(ImplicationNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitBoundedLeadsTo(BoundedLeadsToNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitValueWrapper(BooleanValueWrapperNode node) {
-				treeIndexMap.put(node, treeIndexProvider.next());
-				return null;
-			}
-		});
-
-		return treeIndexMap;
-	}
 
 	private static void eliminateBooleanLeafNodes(Deque<BooleanValueWrapperNode> remainingBooleanLeaves, TdlExpression normalizedExpression) {
 		while (!remainingBooleanLeaves.isEmpty()) {
@@ -740,17 +659,17 @@ public class GeneratorStub {
 		return trapsetMap;
 	}
 
-	private static Map<AbsDerivedTrapsetNode, AbsTrapset> constructDerivedTrapsets(
+	private static Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> constructDerivedTrapsets(
 			UtaSystem system,
 			List<AbsDerivedTrapsetNode> trapsetOperators,
 			Map<TrapsetNode, BaseTrapset> baseTrapsets
 	) {
 		// TODO: Ensure names are unique!
-		Map<AbsDerivedTrapsetNode, AbsTrapset> derivedTrapsets = new LinkedHashMap<>();
+		Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> derivedTrapsets = new LinkedHashMap<>();
 		for (AbsDerivedTrapsetNode<?> trapsetOperator : trapsetOperators) {
-			derivedTrapsets.put(trapsetOperator, trapsetOperator.accept(new IDerivedTrapsetVisitor<AbsTrapset>() {
+			derivedTrapsets.put(trapsetOperator, trapsetOperator.accept(new IDerivedTrapsetVisitor<AbsDerivedTrapset>() {
 				@Override
-				public AbsTrapset visitAbsoluteComplement(AbsoluteComplementNode absoluteComplement) {
+				public AbsDerivedTrapset visitAbsoluteComplement(AbsoluteComplementNode absoluteComplement) {
 					BaseTrapset ts = baseTrapsets.get(absoluteComplement.getChildContainer().getChild());
 					Identifier trapsetName = Identifier.of("AbsoluteComplementOf_" + ts.getName());
 					AbsoluteComplementTrapset derivedTrapset = new AbsoluteComplementTrapset();
@@ -777,7 +696,7 @@ public class GeneratorStub {
 				}
 
 				@Override
-				public AbsTrapset visitLinkedPair(LinkedPairNode linkedPair) {
+				public AbsDerivedTrapset visitLinkedPair(LinkedPairNode linkedPair) {
 					BaseTrapset ingressTrapset = baseTrapsets.get(linkedPair.getChildContainer().getLeftChild());
 					BaseTrapset egressTrapset = baseTrapsets.get(linkedPair.getChildContainer().getRightChild());
 
@@ -804,7 +723,7 @@ public class GeneratorStub {
 				}
 
 				@Override
-				public AbsTrapset visitRelativeComplement(RelativeComplementNode relativeComplement) {
+				public AbsDerivedTrapset visitRelativeComplement(RelativeComplementNode relativeComplement) {
 					BaseTrapset includedTrapset = baseTrapsets.get(relativeComplement.getChildContainer().getLeftChild());
 					BaseTrapset excludedTrapset = baseTrapsets.get(relativeComplement.getChildContainer().getRightChild());
 					Identifier trapsetName = Identifier.of(includedTrapset.getName() + "_RelativeComplement_" + excludedTrapset.getName());
@@ -851,7 +770,7 @@ public class GeneratorStub {
 		return trapsetNodes;
 	}
 
-	private static List<AbsDerivedTrapsetNode> extractTrapsetOperators(TdlExpression expression) {
+	private static List<AbsDerivedTrapsetNode> collectTrapsetOperators(TdlExpression expression) {
 		List<AbsDerivedTrapsetNode> trapsetOperators = new LinkedList<>();
 		expression.getRootNode().accept(new BaseTdlExpressionVisitor<Void>() {
 			@Override
@@ -876,8 +795,8 @@ public class GeneratorStub {
 	}
 
 	public static void main(String... args) throws ParseException, MarshallingException, InvalidSystemStructureException, EmbeddedCodeSyntaxException {
-		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("E(TS1; TS2) | #[>5]E(!TS3) | #[>5]E(!TS3)");
-		UtaSystem system = UtaParser.newInstance().parse(GeneratorStub.class.getResourceAsStream("/SampleSystem.xml"));
+		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("U(!TS1) & E(!TS1) | (#[>5]E(!TS3)) | (#[>5]E(!TS3)) | (#[>5]E(!TS3))");
+		UtaSystem system = UtaParser.newInstance().parse(ScenarioGenerator.class.getResourceAsStream("/SampleSystem.xml"));
 		generate(ScenarioSpecification.of(system, expression));
 	}
 }

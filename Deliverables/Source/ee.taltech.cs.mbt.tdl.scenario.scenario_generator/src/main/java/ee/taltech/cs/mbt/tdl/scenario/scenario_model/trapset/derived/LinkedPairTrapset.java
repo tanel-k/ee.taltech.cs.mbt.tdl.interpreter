@@ -1,14 +1,16 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.derived;
 
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.BaseTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.IDerivedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.trap.LinkedPairTrap;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.ITrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class LinkedPairTrapset extends AbsTrapset<LinkedPairTrap> {
+public class LinkedPairTrapset extends AbsDerivedTrapset<LinkedPairTrap> {
 	public LinkedPairTrapset() { }
 
 	private Map<Transition, BaseTrapset> mapTransitionIngressTrapset = new LinkedHashMap<>();
@@ -33,5 +35,10 @@ public class LinkedPairTrapset extends AbsTrapset<LinkedPairTrap> {
 
 	public Transition getIngressTransition(Transition transition) {
 		return mapTransitionIngressTransition.get(transition);
+	}
+
+	@Override
+	public <T> T accept(IDerivedTrapsetVisitor<T> visitor) {
+		return visitor.visitLinkedPair(this);
 	}
 }

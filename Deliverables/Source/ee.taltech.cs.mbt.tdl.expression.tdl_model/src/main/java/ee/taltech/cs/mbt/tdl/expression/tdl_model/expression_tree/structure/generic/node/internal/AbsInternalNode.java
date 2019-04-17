@@ -2,6 +2,7 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gen
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 
+import java.util.Iterator;
 import java.util.Objects;
 
 public abstract class AbsInternalNode<
@@ -55,5 +56,18 @@ public abstract class AbsInternalNode<
 			return false;
 		AbsInternalNode other = (AbsInternalNode) obj;
 		return Objects.equals(this.childContainer, other.childContainer);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder buf = new StringBuilder(getClass().getSimpleName())
+			.append("(");
+		Iterator<ChildType> childIter = getChildContainer().getListView().iterator();
+		while (childIter.hasNext()) {
+			buf.append(String.valueOf(childIter.next()));
+			if (childIter.hasNext())
+				buf.append(",");
+		}
+		return buf.append(")").toString();
 	}
 }

@@ -1,6 +1,10 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_wrapper;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BoundedLeadsToNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BoundedRepetitionNode;
@@ -11,45 +15,66 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.ImplicationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.LeadsToNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.Bound;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.AbsoluteComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.ExistentialQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.scenario_stub.ScenarioStubSystemFactory;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsDerivedTrapset.TrapsetDuplicationParameters;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_model.trapset.generic.AbsTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.initializer.FlatVariableInitializer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.ArrayLookupExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.IdentifierExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.NaturalNumberLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.SizeExpressionArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.system_line.ProcessReferenceGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Synchronization;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
-	public static ScenarioWrapperFactory getInstance(ScenarioWrapperParameters parameters) {
+	public static ScenarioWrapperFactory getInstance(ScenarioParameters parameters) {
 		return new ScenarioWrapperFactory(parameters);
 	}
 
-	private ScenarioWrapperParameters parameters;
+	private ScenarioParameters parameters;
 
 	private int treeNodeCount = 0;
 	private int trapsetCount = 0;
+
+	private BooleanFlag terminatorAdapterInclusionFlag = BooleanFlag.newInstance();
+	private BooleanFlag disjunctionInclusionFlag = BooleanFlag.newInstance();
+	private BooleanFlag conjunctionInclusionFlag = BooleanFlag.newInstance();
+	private BooleanFlag leadsToInclusionFlag = BooleanFlag.newInstance();
+	private BooleanFlag boundedLeadsToInclusionFlag = BooleanFlag.newInstance();
+	private BooleanFlag boundedInclusionFlag = BooleanFlag.newInstance();
+
+	private ObjectIdentityMap<AbsBooleanInternalNode, RecognizerParameters> mapRecognizerParams = new ObjectIdentityMap<>();
 
 	private List<Template> quantifierTemplates = new LinkedList<>();
 	private List<VariableDeclaration> trapsetArrayDeclarations = new LinkedList<>();
 	private List<TemplateInstantiation> templateInstantiations = new LinkedList<>();
 
-	private ScenarioWrapperFactory(ScenarioWrapperParameters parameters) {
+	private ScenarioWrapperFactory(ScenarioParameters parameters) {
 		this.parameters = parameters;
 	}
 
@@ -74,6 +99,54 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 	}
 
 	@Override
+	protected Template new_TdlDisjunctionRecognizerTemplate() {
+		if (disjunctionInclusionFlag.isNotSet())
+			return null;
+
+		return super.new_TdlDisjunctionRecognizerTemplate();
+	}
+
+	@Override
+	protected Template new_TdlConjunctionRecognizerTemplate() {
+		if (conjunctionInclusionFlag.isNotSet())
+			return null;
+
+		return super.new_TdlConjunctionRecognizerTemplate();
+	}
+
+	@Override
+	protected Template new_TdlBoundedRepetitionRecognizerTemplate() {
+		if (boundedInclusionFlag.isNotSet())
+			return null;
+
+		return super.new_TdlBoundedRepetitionRecognizerTemplate();
+	}
+
+	@Override
+	protected Template new_TdlLeadsToRecognizerTemplate() {
+		if (leadsToInclusionFlag.isNotSet())
+			return null;
+
+		return super.new_TdlLeadsToRecognizerTemplate();
+	}
+
+	@Override
+	protected Template new_TdlBoundedLeadsToRecognizerTemplate() {
+		if (boundedLeadsToInclusionFlag.isNotSet())
+			return null;
+
+		return super.new_TdlBoundedLeadsToRecognizerTemplate();
+	}
+
+	@Override
+	protected Template new_TdlTerminatorChannelAdapterTemplate() {
+		if (terminatorAdapterInclusionFlag.isNotSet())
+			return null;
+
+		return super.new_TdlTerminatorChannelAdapterTemplate();
+	}
+
+	@Override
 	protected Template new_TdlQuantificationRecognizerTemplate() {
 		// Prevent adding the base quantification recognizer.
 		return null;
@@ -94,10 +167,23 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 	protected void populateFromExpression() {
 		IntIterator treeNodeCounter = IntIterator.newInstance(0);
 		IntIterator trapsetCounter = IntIterator.newInstance(0);
+		Map<Identifier, IntIterator> trapsetNameCounters = new HashMap<>();
 
-		parameters.getExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
+		ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = extractTreeIndexes(parameters.getReducedExpression());
+		List<AbsTrapset> remainingTrapsets = collectRemainingTrapsets(parameters.getReducedExpression(), parameters.getDerivedTrapsetMap());
+
+		Map<Identifier, IntIterator> mapTrapsetCounters = new HashMap<>();
+		for (AbsTrapset<?> trapset : remainingTrapsets) {
+			mapTrapsetCounters.computeIfAbsent(trapset.getName(), k -> IntIterator.newInstance(1)).next();
+		}
+
+		Map<Identifier, Integer> mapTrapsetOccurrences = new HashMap<>();
+		mapTrapsetCounters.forEach((k, v) -> mapTrapsetOccurrences.put(k, v.getCurrentValue()));
+
+		parameters.getReducedExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
 			private AbsExpression getBoundTypeExpression(Bound bound) {
 				Identifier boundTypeName = null;
+
 				switch (bound.getBoundType()) {
 					case GREATER_THAN:
 						boundTypeName = DECLARED_NAME_BOUND_GT;
@@ -115,27 +201,37 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 						boundTypeName = DECLARED_NAME_BOUND_LT;
 						break;
 				}
+
 				return IdentifierExpression.of(boundTypeName);
 			}
 
 			@Override
-			public Void visitValueWrapper(BooleanValueWrapperNode node) {
+			public Void visitValueWrapper(BooleanValueWrapperNode node) { // FIXME.
+				terminatorAdapterInclusionFlag.set();
 				treeNodeCounter.next();
-				Integer treeIndex = parameters.getTreeIndexMap().get(node);
+
+				Integer treeIndex = treeIndexMap.get(node);
 				TemplateInstantiation inst = TdlTerminatorChannelAdapterTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlTerminatorChannelAdapterTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
 						NaturalNumberLiteral.of(treeIndex)
 				);
 				templateInstantiations.add(inst);
+				mapRecognizerParams.put(
+						node,
+						new RecognizerParameters<>(node).setTreeIndex(treeIndex).setProcessName(inst.getNewTemplateName())
+				);
+
 				return null;
 			}
 
 			@Override
 			public Void visitConjunction(ConjunctionNode node) {
+				conjunctionInclusionFlag.set();
 				treeNodeCounter.next();
-				Integer treeIndex = parameters.getTreeIndexMap().get(node);
-				Integer leftChildIndex = parameters.getTreeIndexMap().get(node.getChildContainer().getLeftChild());
-				Integer rightChildIndex = parameters.getTreeIndexMap().get(node.getChildContainer().getRightChild());
+
+				Integer treeIndex = treeIndexMap.get(node);
+				Integer leftChildIndex = treeIndexMap.get(node.getChildContainer().getLeftChild());
+				Integer rightChildIndex = treeIndexMap.get(node.getChildContainer().getRightChild());
 				TemplateInstantiation inst = TdlConjunctionRecognizerTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlConjunctionRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
 						NaturalNumberLiteral.of(treeIndex),
@@ -143,15 +239,22 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 						NaturalNumberLiteral.of(rightChildIndex)
 				);
 				templateInstantiations.add(inst);
+				mapRecognizerParams.put(
+						node,
+						new RecognizerParameters<>(node).setTreeIndex(treeIndex).setProcessName(inst.getNewTemplateName())
+				);
+
 				return visitChildren(node);
 			}
 
 			@Override
 			public Void visitDisjunction(DisjunctionNode node) {
+				disjunctionInclusionFlag.set();
 				treeNodeCounter.next();
-				Integer treeIndex = parameters.getTreeIndexMap().get(node);
-				Integer leftChildIndex = parameters.getTreeIndexMap().get(node.getChildContainer().getLeftChild());
-				Integer rightChildIndex = parameters.getTreeIndexMap().get(node.getChildContainer().getRightChild());
+
+				Integer treeIndex = treeIndexMap.get(node);
+				Integer leftChildIndex = treeIndexMap.get(node.getChildContainer().getLeftChild());
+				Integer rightChildIndex = treeIndexMap.get(node.getChildContainer().getRightChild());
 				TemplateInstantiation inst = TdlDisjunctionRecognizerTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlDisjunctionRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
 						NaturalNumberLiteral.of(treeIndex),
@@ -159,15 +262,22 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 						NaturalNumberLiteral.of(rightChildIndex)
 				);
 				templateInstantiations.add(inst);
+				mapRecognizerParams.put(
+						node,
+						new RecognizerParameters<>(node).setTreeIndex(treeIndex).setProcessName(inst.getNewTemplateName())
+				);
+
 				return visitChildren(node);
 			}
 
 			@Override
 			public Void visitLeadsTo(LeadsToNode node) {
+				leadsToInclusionFlag.set();
 				treeNodeCounter.next();
-				Integer treeIndex = parameters.getTreeIndexMap().get(node);
-				Integer leftChildIndex = parameters.getTreeIndexMap().get(node.getChildContainer().getLeftChild());
-				Integer rightChildIndex = parameters.getTreeIndexMap().get(node.getChildContainer().getRightChild());
+
+				Integer treeIndex = treeIndexMap.get(node);
+				Integer leftChildIndex = treeIndexMap.get(node.getChildContainer().getLeftChild());
+				Integer rightChildIndex = treeIndexMap.get(node.getChildContainer().getRightChild());
 				TemplateInstantiation inst = TdlLeadsToRecognizerTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlLeadsToRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
 						NaturalNumberLiteral.of(treeIndex),
@@ -175,15 +285,22 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 						NaturalNumberLiteral.of(rightChildIndex)
 				);
 				templateInstantiations.add(inst);
+				mapRecognizerParams.put(
+						node,
+						new RecognizerParameters<>(node).setTreeIndex(treeIndex).setProcessName(inst.getNewTemplateName())
+				);
+
 				return visitChildren(node);
 			}
 
 			@Override
 			public Void visitBoundedLeadsTo(BoundedLeadsToNode node) {
+				boundedLeadsToInclusionFlag.set();
 				treeNodeCounter.next();
-				Integer treeIndex = parameters.getTreeIndexMap().get(node);
-				Integer leftChildIndex = parameters.getTreeIndexMap().get(node.getChildContainer().getLeftChild());
-				Integer rightChildIndex = parameters.getTreeIndexMap().get(node.getChildContainer().getRightChild());
+
+				Integer treeIndex = treeIndexMap.get(node);
+				Integer leftChildIndex = treeIndexMap.get(node.getChildContainer().getLeftChild());
+				Integer rightChildIndex = treeIndexMap.get(node.getChildContainer().getRightChild());
 				TemplateInstantiation inst = TdlBoundedLeadsToRecognizerTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlBoundedLeadsToRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
 						getBoundTypeExpression(node.getBound()),
@@ -193,14 +310,21 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 						NaturalNumberLiteral.of(rightChildIndex)
 				);
 				templateInstantiations.add(inst);
+				mapRecognizerParams.put(
+						node,
+						new RecognizerParameters<>(node).setTreeIndex(treeIndex).setProcessName(inst.getNewTemplateName())
+				);
+
 				return visitChildren(node);
 			}
 
 			@Override
 			public Void visitBoundedRepetition(BoundedRepetitionNode node) {
+				boundedInclusionFlag.set();
 				treeNodeCounter.next();
-				Integer treeIndex = parameters.getTreeIndexMap().get(node);
-				Integer childIndex = parameters.getTreeIndexMap().get(node.getChildContainer().getChild());
+
+				Integer treeIndex = treeIndexMap.get(node);
+				Integer childIndex = treeIndexMap.get(node.getChildContainer().getChild());
 				TemplateInstantiation inst = TdlBoundedRepetitionRecognizerTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlBoundedRepetitionRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
 						getBoundTypeExpression(node.getBound()),
@@ -209,6 +333,11 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 						NaturalNumberLiteral.of(childIndex)
 				);
 				templateInstantiations.add(inst);
+				mapRecognizerParams.put(
+						node,
+						new RecognizerParameters<>(node).setTreeIndex(treeIndex).setProcessName(inst.getNewTemplateName())
+				);
+
 				return visitChildren(node);
 			}
 
@@ -230,45 +359,73 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 			 */
 			@Override
 			public Void visitUniversalQuantification(UniversalQuantificationNode node) {
-				trapsetCounter.next();
 				treeNodeCounter.next();
-				Integer trapsetIndex = trapsetCounter.getCurrentValue();
-				AbsTrapset derivedTrapset = parameters.getDerivedTrapsetMap()
+				Integer trapsetIndex = trapsetCounter.next();
+
+				AbsDerivedTrapset trapset = parameters.getDerivedTrapsetMap()
 						.get(node.getChildContainer().getChild());
+				Identifier trapsetName = trapset.getName();
+
+				if (mapTrapsetOccurrences.get(trapsetName) > 1) {
+					Integer trapsetNameQualifier = trapsetNameCounters
+							.computeIfAbsent(trapset.getName(), k -> IntIterator.newInstance(1))
+							.next();
+					trapsetName = Identifier.of(trapsetName + "_" + trapsetNameQualifier);
+				}
+
 				trapsetArrayDeclarations.add(
 						new VariableDeclaration()
-								.setIdentifier(derivedTrapset.getName())
+								.setIdentifier(trapsetName)
 								.setType(new Type()
 										.setBaseType(new BaseType().setTypeId(BaseTypeIdentifiers.BOOLEAN))
 										.addArrayModifier(new SizeExpressionArrayModifier()
-												.setSizeSpecifier(NaturalNumberLiteral.of(derivedTrapset.getTrapCount()))
+												.setSizeSpecifier(NaturalNumberLiteral.of(trapset.getTrapCount()))
 										)
 								)
 				);
+
 				// FIXME!
-				// Can be used to declare trapset array.
-				return super.visitUniversalQuantification(node);
+				return null;
 			}
 
 			@Override
 			public Void visitExistentialQuantification(ExistentialQuantificationNode node) {
-				trapsetCounter.next();
 				treeNodeCounter.next();
-				Integer trapsetIndex = trapsetCounter.getCurrentValue(); // FIXME
-				AbsTrapset derivedTrapset = parameters.getDerivedTrapsetMap()
+				Integer trapsetIndex = trapsetCounter.next();
+
+				AbsDerivedTrapset<?> trapset = parameters.getDerivedTrapsetMap()
 						.get(node.getChildContainer().getChild());
+
+				Identifier trapsetName = trapset.getName();
+				if (mapTrapsetOccurrences.get(trapsetName) > 1) {
+					Integer trapsetNameQualifier = trapsetNameCounters
+							.computeIfAbsent(trapset.getName(), k -> IntIterator.newInstance(1))
+							.next();
+					trapsetName = Identifier.of(trapsetName + "_" + trapsetNameQualifier);
+					trapset.getDuplications().add(
+							TrapsetDuplicationParameters.of(
+								trapsetName,
+								new Synchronization().setActiveSync(true).setExpression(
+										new ArrayLookupExpression()
+												.setLeftChild(IdentifierExpression.of(DECLARED_NAME_TdlActivatorChannels))
+												.setRightChild(NaturalNumberLiteral.of(trapsetIndex))
+								)
+							)
+					);
+				}
+
 				trapsetArrayDeclarations.add(
 						new VariableDeclaration()
-						.setIdentifier(derivedTrapset.getName())
+						.setIdentifier(trapsetName)
 						.setType(new Type()
 								.setBaseType(new BaseType().setTypeId(BaseTypeIdentifiers.BOOLEAN))
 								.addArrayModifier(new SizeExpressionArrayModifier()
-										.setSizeSpecifier(NaturalNumberLiteral.of(derivedTrapset.getTrapCount()))
+										.setSizeSpecifier(NaturalNumberLiteral.of(trapset.getTrapCount()))
 								)
 						)
 				);
+
 				// FIXME!
-				// Can be used to declare trapset array.
 				return null;
 			}
 
@@ -290,6 +447,111 @@ public class ScenarioWrapperFactory extends ScenarioStubSystemFactory {
 
 		treeNodeCount = treeNodeCounter.getCurrentValue();
 		trapsetCount = trapsetCounter.getCurrentValue();
+	}
+
+	private static List<AbsTrapset> collectRemainingTrapsets(TdlExpression expression, Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> mapDerivedTrapset) {
+		List<AbsTrapset> trapsets = new LinkedList<>();
+
+		expression.getRootNode().accept(new BaseTdlExpressionVisitor<Void>() {
+			@Override
+			public Void visitLinkedPair(LinkedPairNode node) {
+				trapsets.add(mapDerivedTrapset.get(node));
+				return null;
+			}
+
+			@Override
+			public Void visitRelativeComplement(RelativeComplementNode node) {
+				trapsets.add(mapDerivedTrapset.get(node));
+				return null;
+			}
+
+			@Override
+			public Void visitAbsoluteComplement(AbsoluteComplementNode node) {
+				trapsets.add(mapDerivedTrapset.get(node));
+				return null;
+			}
+		});
+
+		return trapsets;
+	}
+
+	private static ObjectIdentityMap<AbsExpressionNode, Integer> extractTreeIndexes(TdlExpression expression) {
+		ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
+		IntIterator treeIndexProvider = IntIterator.newInstance();
+		expression.getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
+			@Override
+			public Void visitBoundedRepetition(BoundedRepetitionNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitConjunction(ConjunctionNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitDisjunction(DisjunctionNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitEquivalence(EquivalenceNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitGroup(GroupNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitExistentialQuantification(ExistentialQuantificationNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return null;
+			}
+
+			@Override
+			public Void visitUniversalQuantification(UniversalQuantificationNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return null;
+			}
+
+			@Override
+			public Void visitLeadsTo(LeadsToNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitImplication(ImplicationNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitBoundedLeadsTo(BoundedLeadsToNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitValueWrapper(BooleanValueWrapperNode node) {
+				treeIndexMap.put(node, treeIndexProvider.next());
+				return null;
+			}
+		});
+
+		return treeIndexMap;
+	}
+
+
+	public ObjectIdentityMap<AbsBooleanInternalNode, RecognizerParameters> getRecognizerParams() {
+		return mapRecognizerParams;
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class ObjectIdentityMap<K, V> implements Map<K, V> {
 
 	@Override
 	public void putAll(Map<? extends K, ? extends V> m) {
-		m.entrySet().stream().map(e -> put(e.getKey(), e.getValue()));
+		m.entrySet().stream().forEachOrdered(e -> put(e.getKey(), e.getValue()));
 	}
 
 	@Override

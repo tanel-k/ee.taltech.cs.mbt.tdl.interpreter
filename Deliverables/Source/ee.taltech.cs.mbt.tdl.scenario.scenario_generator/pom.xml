@@ -22,11 +22,28 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
+        <artifactId>uta_pickler_plugin</artifactId>
+        <executions>
+          <execution>
+            <id>pickle-stub-project</id>
+            <goals>
+              <goal>pickle</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>src/main/java</outputDirectory>
+              <sourceFile>src/main/resources/UtaScenarioStubProject.xml</sourceFile>
+              <pickleName>ScenarioWrapperBase</pickleName>
+              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_generator.wrapper_base</picklePackage>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
   <dependencies>
-    <!-- Internal -->
     <!-- DEBUG! -->
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
@@ -37,6 +54,7 @@
       <artifactId>uta_parser</artifactId>
     </dependency>
     <!-- /DEBUG! -->
+    <!-- Internal -->
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
       <artifactId>utils</artifactId>
@@ -49,10 +67,6 @@
       <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
       <artifactId>tdl_model</artifactId>
     </dependency>
-    <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.scenario</groupId>
-      <artifactId>scenario_model</artifactId>
-    </dependency>
     <!-- /Internal -->
   </dependencies>
 
@@ -61,7 +75,7 @@
   </properties>
 
   <name>TDL(TP) Scenario Generator</name>
-  <description>TDL(TP) test scenario generator.</description>
+  <description>TDL(TP) scenario generator.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
     <name>TalTech</name>
