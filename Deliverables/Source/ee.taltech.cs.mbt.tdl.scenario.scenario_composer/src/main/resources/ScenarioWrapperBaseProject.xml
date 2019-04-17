@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>const int TDL_MAX_INT = 32767;
 const int TDL_TIMEOUT = 10000;
-const int TDL_TREE_NODE_COUNT = 1; // Tool needs to specify value.
 const int TRAPSET_COUNT = 1; // Tool needs to specify value.
+const int TDL_TREE_NODE_COUNT = 1; // Tool needs to specify value.
 
-typedef int[0, TRAPSET_COUNT] TrapsetIndex;
 typedef int[1, 5] BoundType;
 typedef int[0, TDL_MAX_INT] BoundValue;
+typedef int[0, TRAPSET_COUNT - 1] TrapsetIndex;
 typedef int[0, TDL_TREE_NODE_COUNT - 1] TdlTreeIndex;
 
 const BoundType BOUND_EQ = 1;
@@ -46,7 +46,7 @@ const bool negatedUniversalQuantification = universal &amp;&amp; negated;
 const bool negatedExistentialQuantification = !universal &amp;&amp; negated;
 const bool universalQuantification = universal &amp;&amp; !negated;
 const bool existentialQuantification = !universal &amp;&amp; !negated;
-typedef int[0, trapsetSize] index;
+typedef int[0, trapsetSize - 1] index;
 
 void resetTrapset() {
     for (i : index) {

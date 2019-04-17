@@ -3206,7 +3206,9 @@ public class ScenarioWrapperBaseSystemFactory {
                           .setTypeId(
                               BoundedIntegerTypeId.of(
                                   NaturalNumberLiteral.of("0"),
-                                  IdentifierExpression.of("trapsetSize")))))
+                                  new SubtractionExpression()
+                                      .setLeftChild(IdentifierExpression.of("trapsetSize"))
+                                      .setRightChild(NaturalNumberLiteral.of("1"))))))
           .setIdentifier(Identifier.of("index"));
     }
 
@@ -3921,12 +3923,12 @@ public class ScenarioWrapperBaseSystemFactory {
 
   public static final Identifier DECLARED_NAME_TDL_MAX_INT = Identifier.of("TDL_MAX_INT");
   public static final Identifier DECLARED_NAME_TDL_TIMEOUT = Identifier.of("TDL_TIMEOUT");
+  public static final Identifier DECLARED_NAME_TRAPSET_COUNT = Identifier.of("TRAPSET_COUNT");
   public static final Identifier DECLARED_NAME_TDL_TREE_NODE_COUNT =
       Identifier.of("TDL_TREE_NODE_COUNT");
-  public static final Identifier DECLARED_NAME_TRAPSET_COUNT = Identifier.of("TRAPSET_COUNT");
-  public static final Identifier DECLARED_NAME_TrapsetIndex = Identifier.of("TrapsetIndex");
   public static final Identifier DECLARED_NAME_BoundType = Identifier.of("BoundType");
   public static final Identifier DECLARED_NAME_BoundValue = Identifier.of("BoundValue");
+  public static final Identifier DECLARED_NAME_TrapsetIndex = Identifier.of("TrapsetIndex");
   public static final Identifier DECLARED_NAME_TdlTreeIndex = Identifier.of("TdlTreeIndex");
   public static final Identifier DECLARED_NAME_BOUND_EQ = Identifier.of("BOUND_EQ");
   public static final Identifier DECLARED_NAME_BOUND_GT = Identifier.of("BOUND_GT");
@@ -3986,18 +3988,6 @@ public class ScenarioWrapperBaseSystemFactory {
             new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("10000")));
   }
 
-  protected VariableDeclaration new_TDL_TREE_NODE_COUNTDeclaration() {
-    return new VariableDeclaration()
-        .setIdentifier(Identifier.of("TDL_TREE_NODE_COUNT"))
-        .setType(
-            new Type()
-                .setBaseType(
-                    new BaseType()
-                        .setPrefix(ETypePrefix.CONSTANT)
-                        .setTypeId(BaseTypeIdentifiers.INTEGER)))
-        .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("1")));
-  }
-
   protected VariableDeclaration new_TRAPSET_COUNTDeclaration() {
     return new VariableDeclaration()
         .setIdentifier(Identifier.of("TRAPSET_COUNT"))
@@ -4010,18 +4000,16 @@ public class ScenarioWrapperBaseSystemFactory {
         .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("1")));
   }
 
-  protected TypeDeclaration new_TrapsetIndexDeclaration() {
-    return new TypeDeclaration()
+  protected VariableDeclaration new_TDL_TREE_NODE_COUNTDeclaration() {
+    return new VariableDeclaration()
+        .setIdentifier(Identifier.of("TDL_TREE_NODE_COUNT"))
         .setType(
             new Type()
                 .setBaseType(
                     new BaseType()
-                        .setPrefix(ETypePrefix.NONE)
-                        .setTypeId(
-                            BoundedIntegerTypeId.of(
-                                NaturalNumberLiteral.of("0"),
-                                IdentifierExpression.of("TRAPSET_COUNT")))))
-        .setIdentifier(Identifier.of("TrapsetIndex"));
+                        .setPrefix(ETypePrefix.CONSTANT)
+                        .setTypeId(BaseTypeIdentifiers.INTEGER)))
+        .setInitializer(new FlatVariableInitializer().setExpression(NaturalNumberLiteral.of("1")));
   }
 
   protected TypeDeclaration new_BoundTypeDeclaration() {
@@ -4049,6 +4037,22 @@ public class ScenarioWrapperBaseSystemFactory {
                                 NaturalNumberLiteral.of("0"),
                                 IdentifierExpression.of("TDL_MAX_INT")))))
         .setIdentifier(Identifier.of("BoundValue"));
+  }
+
+  protected TypeDeclaration new_TrapsetIndexDeclaration() {
+    return new TypeDeclaration()
+        .setType(
+            new Type()
+                .setBaseType(
+                    new BaseType()
+                        .setPrefix(ETypePrefix.NONE)
+                        .setTypeId(
+                            BoundedIntegerTypeId.of(
+                                NaturalNumberLiteral.of("0"),
+                                new SubtractionExpression()
+                                    .setLeftChild(IdentifierExpression.of("TRAPSET_COUNT"))
+                                    .setRightChild(NaturalNumberLiteral.of("1"))))))
+        .setIdentifier(Identifier.of("TrapsetIndex"));
   }
 
   protected TypeDeclaration new_TdlTreeIndexDeclaration() {
@@ -4242,14 +4246,14 @@ public class ScenarioWrapperBaseSystemFactory {
     CollectionUtils.addIfNonNull(
         ScenarioWrapperBase.getDeclarations(), new_TDL_TIMEOUTDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TDL_TREE_NODE_COUNTDeclaration());
-    CollectionUtils.addIfNonNull(
         ScenarioWrapperBase.getDeclarations(), new_TRAPSET_COUNTDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TrapsetIndexDeclaration());
+        ScenarioWrapperBase.getDeclarations(), new_TDL_TREE_NODE_COUNTDeclaration());
     CollectionUtils.addIfNonNull(ScenarioWrapperBase.getDeclarations(), new_BoundTypeDeclaration());
     CollectionUtils.addIfNonNull(
         ScenarioWrapperBase.getDeclarations(), new_BoundValueDeclaration());
+    CollectionUtils.addIfNonNull(
+        ScenarioWrapperBase.getDeclarations(), new_TrapsetIndexDeclaration());
     CollectionUtils.addIfNonNull(
         ScenarioWrapperBase.getDeclarations(), new_TdlTreeIndexDeclaration());
     CollectionUtils.addIfNonNull(ScenarioWrapperBase.getDeclarations(), new_BOUND_EQDeclaration());

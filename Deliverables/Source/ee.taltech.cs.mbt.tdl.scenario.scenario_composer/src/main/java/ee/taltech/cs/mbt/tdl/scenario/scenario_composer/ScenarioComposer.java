@@ -803,7 +803,8 @@ public class ScenarioComposer {
 				private Boolean visitAny(AbsTrapsetQuantifierNode quantifier) {
 					if (derivedTrapset.isEmpty()) // Empty trapset.
 						return quantifier.isNegated();
-					if (derivedTrapset.getTrapCount() == systemTransitionCount) // Trapset that covers the entire system.
+					// BIG FIXME: All of these traps should be unconditional for applicability.
+					if (derivedTrapset.getUnconditionalTrapCount() == systemTransitionCount) // Trapset that covers the entire system.
 						return !quantifier.isNegated();
 					return null;
 				}

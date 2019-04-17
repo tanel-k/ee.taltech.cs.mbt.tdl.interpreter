@@ -53,6 +53,10 @@ public abstract class AbsTrapset<TrapType extends BaseTrap> implements Iterable<
 		return markedTransitions.size();
 	}
 
+	public int getUnconditionalTrapCount() {
+		throw new UnsupportedOperationException();
+	}
+
 	public boolean isConditional(Transition transition) {
 		return !(getMarkerCondition(transition) instanceof AbsLiteralExpression); // FIXME
 	}

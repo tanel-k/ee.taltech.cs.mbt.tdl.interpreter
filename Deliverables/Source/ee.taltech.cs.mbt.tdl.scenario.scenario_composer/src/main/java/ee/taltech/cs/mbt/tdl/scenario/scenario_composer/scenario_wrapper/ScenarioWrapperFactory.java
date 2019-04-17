@@ -128,13 +128,13 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 		protected List<TemplateInstantiation> templateInstantiations = new LinkedList<>();
 		protected Map<Identifier, Integer> mapTrapsetOccurrenceCounts = new HashMap<>();
 		protected Map<Identifier, AbsDerivedTrapset> derivedTrapsetMap = new HashMap<>();
-		protected List<AbsExpression> globallyApplicableTransitionNotificationChannels = new LinkedList<>();
+		protected List<Synchronization> globallyApplicableTransitionSynchs = new LinkedList<>();
 
 		protected ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
 		protected ObjectIdentityMap<AbsDerivedTrapsetNode, Integer> trapsetIndexMap = new ObjectIdentityMap<>();
 
-		public List<AbsExpression> getGloballyApplicableTransitionNotificationChannels() {
-			return globallyApplicableTransitionNotificationChannels;
+		public List<Synchronization> getGloballyApplicableTransitionSynchs() {
+			return globallyApplicableTransitionSynchs;
 		}
 
 		public Map<Identifier, AbsDerivedTrapset> getDerivedTrapsetMap() {
@@ -278,10 +278,13 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 						NaturalNumberLiteral.of(treeIndex)
 				);
 
-				constructionCtx.globallyApplicableTransitionNotificationChannels.add(
-						new ArrayLookupExpression()
-								.setLeftChild(IdentifierExpression.of(DECLARED_NAME_TdlTerminatorChannels))
-								.setRightChild(NaturalNumberLiteral.of(treeIndex))
+				constructionCtx.globallyApplicableTransitionSynchs.add(
+						new Synchronization()
+								.setExpression(new ArrayLookupExpression()
+										.setLeftChild(IdentifierExpression.of(DECLARED_NAME_TdlTerminatorChannels))
+										.setRightChild(NaturalNumberLiteral.of(treeIndex))
+								)
+								.setActiveSync(true)
 				);
 				constructionCtx.templateInstantiations.add(inst);
 
@@ -420,7 +423,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 								trapsetName,
 								new Synchronization().setActiveSync(true).setExpression(
 										new ArrayLookupExpression()
-												.setLeftChild(IdentifierExpression.of(DECLARED_NAME_TdlActivatorChannels))
+												.setLeftChild(IdentifierExpression.of(DECLARED_NAME_TrapsetActivatorChannels))
 												.setRightChild(NaturalNumberLiteral.of(trapsetIndex))
 								)
 						)

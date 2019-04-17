@@ -76,7 +76,7 @@
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.scenario</groupId>
-        <artifactId>scenario_generator</artifactId>
+        <artifactId>scenario_composer</artifactId>
         <version>${project.version}</version>
       </dependency>
       <!-- /Internal -->
@@ -86,12 +86,6 @@
   <build>
     <pluginManagement>
       <plugins>
-        <!-- TODO: Remove -->
-        <plugin>
-          <groupId>com.github.spotbugs</groupId>
-          <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>${spotBugs.version}</version>
-        </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>jaxb2-maven-plugin</artifactId>
@@ -112,6 +106,7 @@
         <plugin>
           <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
           <artifactId>uta_pickler_plugin</artifactId>
+          <version>${project.version}</version>
         </plugin>
         <plugin>
           <groupId>org.antlr</groupId>

@@ -7,6 +7,7 @@ public class Color {
 	public static final Color WHITE = Color.of(MAX_VALUE);
 	public static final Color BLACK = Color.of(MIN_VALUE);
 	public static final Color RED = Color.of(0xFF0000);
+	public static final Color GREEN = Color.of(0x008000);
 
 	public static Color of(int hexValue) {
 		if (hexValue < MIN_VALUE || hexValue > MAX_VALUE) {
