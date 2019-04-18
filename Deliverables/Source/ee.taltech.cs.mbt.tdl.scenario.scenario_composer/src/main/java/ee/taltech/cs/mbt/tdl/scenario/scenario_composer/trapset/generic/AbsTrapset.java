@@ -12,6 +12,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map.Entry;
 
 public abstract class AbsTrapset<TrapType extends BaseTrap> implements Iterable<Transition> {
 	private Identifier name;
@@ -54,7 +55,8 @@ public abstract class AbsTrapset<TrapType extends BaseTrap> implements Iterable<
 	}
 
 	public int getUnconditionalTrapCount() {
-		throw new UnsupportedOperationException();
+		return markedTransitions.stream()
+				.mapToInt(t -> isConditional(t) ? 0 : 1).sum();
 	}
 
 	public boolean isConditional(Transition transition) {

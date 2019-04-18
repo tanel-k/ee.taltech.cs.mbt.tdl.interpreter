@@ -599,6 +599,8 @@ public class ScenarioComposer {
 			}
 		}
 
+		// FIXME: If trapset is undefined in system.
+
 		for (Template template : system.getTemplates()) {
 			Set<Transition> edges = template.getLocationGraph().getEdges();
 			for (Transition transition : edges) {
@@ -803,8 +805,8 @@ public class ScenarioComposer {
 				private Boolean visitAny(AbsTrapsetQuantifierNode quantifier) {
 					if (derivedTrapset.isEmpty()) // Empty trapset.
 						return quantifier.isNegated();
-					// BIG FIXME: All of these traps should be unconditional for applicability.
-					if (derivedTrapset.getUnconditionalTrapCount() == systemTransitionCount) // Trapset that covers the entire system.
+					// Trapset that covers the entire system unconditionally.
+					if (derivedTrapset.getUnconditionalTrapCount() == systemTransitionCount)
 						return !quantifier.isNegated();
 					return null;
 				}

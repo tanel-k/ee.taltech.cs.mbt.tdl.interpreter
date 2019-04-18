@@ -27,9 +27,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -55,6 +58,8 @@ public class ScenarioSystemComposer {
 		this.wrapperFactory = ScenarioWrapperFactory.getInstance(parameters);
 	}
 
+	private Map<Template, Map<Transition, Collection<Synchronization>>> synchMap = new HashMap<>();
+
 	public void compose() {
 		UtaSystem wrapperSystem = wrapperFactory.newSystem();
 		ScenarioWrapperConstructionContext wrapperContext = wrapperFactory.getConstructionContext();
@@ -67,50 +72,112 @@ public class ScenarioSystemComposer {
 			applyTrapset(derivedTrapset);
 		}
 
+		applyOutputSynchronizations();
 		// TODO: modify transitions in baseSystem.
 		baseSystem.merge(wrapperSystem);
 	}
 
 	private void applyGlobalSynch(Synchronization globalTransitionSynch) {
-		baseSystem.getTemplates().stream()
-				.map(Template::getLocationGraph)
-				.forEachOrdered(graph -> {
-					List<Transition> edges = new LinkedList<>(graph.getEdges());
-					edges.forEach(transition -> {
-						if (excludedTransitions.contains(transition))
-							return;
+		baseSystem.getTemplates().stream().forEachOrdered(template -> {
+				Map<Transition, Collection<Synchronization>> templateSynchMap = synchMap.computeIfAbsent(template, k -> new HashMap<>());
+				for (Transition transition : template.getLocationGraph().getEdges()) {
+					Collection<Synchronization> transitionSynchs = templateSynchMap
+							.computeIfAbsent(transition, k -> new LinkedList<>());
+					transitionSynchs.add(globalTransitionSynch);
+				}
+		});
+	}
 
-						Location origSourceLocation = transition.getSource();
-						Location origTargetLocation = transition.getTarget();
+	private void applyOutputSynchronizations() {
+		for (Entry<Template, Map<Transition, Collection<Synchronization>>> templateSynchEntry : synchMap.entrySet()) {
+			Template template = templateSynchEntry.getKey();
+			DirectedMultigraph<Location, Transition> graph = template.getLocationGraph();
+			Map<Transition, Collection<Synchronization>> mapTransitionSynchs = templateSynchEntry.getValue();
+			// FIXME.
+			for (Entry<Transition, Collection<Synchronization>> transitionSynchEntry : mapTransitionSynchs.entrySet()) {
+				Transition transition = transitionSynchEntry.getKey();
+				Collection<Synchronization> applicableSynchs = transitionSynchEntry.getValue();
+
+				List<GuiCoordinates> outputCoordinates = GuiCoordinates.evenlyDistributedCoordinatesBetween(
+						graph.getSourceVertex(transition).getCoordinates(),
+						graph.getTargetVertex(transition).getCoordinates(),
+						applicableSynchs.size()
+				);
+
+				Integer outputCount = applicableSynchs.size();
+				Integer outputTransitionIndex = 0;
+				Location prevOutputLocation = null;
+				Transition prevOutputTransition = null;
+				SynchronizationLabel prevSyncLabel = null;
+				Location origSourceLocation = graph.getSourceVertex(transition);
+				Location origTargetLocation = graph.getTargetVertex(transition);
+
+				for (Synchronization synchronization : applicableSynchs) {
+					Location outputLocation = new Location()
+							.setId(String.valueOf(Math.random() * 100)) // TODO!
+							.setColor(Color.ORANGE)
+							.setExitPolicy(ELocationExitPolicy.COMMITTED)
+							.setCoordinates(outputCoordinates.get(outputTransitionIndex));
+
+					SynchronizationLabel syncLabel;
+					Transition outputTransition = new Transition()
+							.setSource(outputLocation)
+							.setColor(Color.ORANGE)
+							.setLabels(new TransitionLabels()
+									.setSynchronizationLabel(syncLabel = (SynchronizationLabel) new SynchronizationLabel()
+											.setContent(synchronization)));
+
+					if (outputTransitionIndex == 0) {
 						graph.removeEdge(transition);
-
-						Location outputLocation = new Location()
-								.setExitPolicy(ELocationExitPolicy.COMMITTED)
-								.setId(String.valueOf(Math.random() * 100)) // FIXME.
-								.setCoordinates(GuiCoordinates.middleCoordinates(
-										origSourceLocation.getCoordinates(),
-										origTargetLocation.getCoordinates()
-								));
-						Transition outputTransition = new Transition()
-								.setSource(outputLocation)
-								.setTarget(origTargetLocation)
-								.setColor(Color.GREEN)
-								.setLabels(new TransitionLabels()
-										.setSynchronizationLabel((SynchronizationLabel) new SynchronizationLabel()
-												.setCoordinates(GuiCoordinates.middleCoordinates(
-														outputLocation.getCoordinates(),
-														origTargetLocation.getCoordinates()
-												))
-												.setContent(globalTransitionSynch))
-								);
-
+						// FIXME: Adjust transition label position.
 						transition.setTarget(outputLocation);
+						syncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
+								origSourceLocation.getCoordinates(),
+								outputLocation.getCoordinates()
+						));
 						graph.addEdge(origSourceLocation, outputLocation, transition);
-						graph.addEdge(outputLocation, origTargetLocation, outputTransition);
+					}
 
-						excludedTransitions.add(outputTransition);
-					});
-				});
+					if (outputTransitionIndex == outputCount - 1) {
+						if (prevOutputTransition == null) {
+							outputTransition.setTarget(origTargetLocation);
+							syncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
+									outputLocation.getCoordinates(),
+									origTargetLocation.getCoordinates()
+							));
+							graph.addEdge(outputLocation, origTargetLocation, outputTransition);
+						} else {
+							prevOutputTransition.setTarget(outputLocation);
+							outputTransition.setSource(outputLocation);
+							outputTransition.setTarget(origTargetLocation);
+							prevSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
+									prevOutputLocation.getCoordinates(),
+									outputLocation.getCoordinates()
+							));
+							graph.addEdge(prevOutputLocation, outputLocation, prevOutputTransition);
+							syncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
+									outputLocation.getCoordinates(),
+									origTargetLocation.getCoordinates()
+							));
+							graph.addEdge(outputLocation, origTargetLocation, outputTransition);
+						}
+					} else if (outputTransitionIndex > 0) {
+						prevOutputTransition.setTarget(outputLocation);
+						prevSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
+								prevOutputLocation.getCoordinates(),
+								outputLocation.getCoordinates()
+						));
+						graph.addEdge(prevOutputLocation, outputLocation, prevOutputTransition);
+						outputTransition.setSource(prevOutputLocation);
+					}
+
+					prevSyncLabel = syncLabel;
+					prevOutputLocation = outputLocation;
+					prevOutputTransition = outputTransition;
+					outputTransitionIndex++;
+				}
+			}
+		}
 	}
 
 	private void applyTrapset(AbsDerivedTrapset trapset) {
@@ -119,7 +186,9 @@ public class ScenarioSystemComposer {
 			public Void visitAbsoluteComplement(AbsoluteComplementTrapset trapset) {
 				for (Transition transition : trapset) {
 					TransitionLabels labels = transition.getLabels();
-					DirectedMultigraph<Location, Transition> graph = trapset.getParentTemplate(transition).getLocationGraph();
+					Template parentTemplate = trapset.getParentTemplate(transition);
+					DirectedMultigraph<Location, Transition> graph = parentTemplate.getLocationGraph();
+
 					Location origSourceLocation = graph.getSourceVertex(transition);
 					Location origTargetLocation = graph.getTargetVertex(transition);
 
@@ -132,89 +201,22 @@ public class ScenarioSystemComposer {
 						labels.setAssignmentsLabel(label);
 					}
 
-					Integer outputCount = trapset.getTrapsetImplementationDetails().size();
+					Map<Transition, Collection<Synchronization>> templateSynchMap = synchMap
+							.computeIfAbsent(parentTemplate, k -> new HashMap<>());
+					Collection<Synchronization> transitionSynchs = templateSynchMap
+							.computeIfAbsent(transition, k -> new LinkedList<>());
+
 					Collection<AbsExpression> transitionAssignments = labels.getAssignmentsLabel().getContent();
-					List<GuiCoordinates> outputCoordinates = GuiCoordinates.evenlyDistributedCoordinatesBetween(
-							graph.getSourceVertex(transition).getCoordinates(),
-							graph.getTargetVertex(transition).getCoordinates(),
-							outputCount
-					);
-
-					Integer outputTransitionIndex = 0;
-
-					SynchronizationLabel prevSyncLabel = null;
-					Location prevOutputLocation = null;
-					Transition prevOutputTransition = null;
 					for (TrapsetImplementationDetail detail : trapset.getTrapsetImplementationDetails()) {
-						Location outputLocation = new Location()
-								.setId(String.valueOf(Math.random() * 100)) // TODO!
-								.setExitPolicy(ELocationExitPolicy.COMMITTED)
-								.setCoordinates(outputCoordinates.get(outputTransitionIndex));
-
-						SynchronizationLabel syncLabel;
-						Transition outputTransition = new Transition()
-								.setSource(outputLocation)
-								.setColor(Color.RED)
-								.setLabels(new TransitionLabels()
-										.setSynchronizationLabel(syncLabel = (SynchronizationLabel) new SynchronizationLabel()
-												.setContent(detail.getActivatingSynchronization())));
-						excludedTransitions.add(outputTransition);
-
-						if (outputTransitionIndex == 0) {
-							graph.removeEdge(transition);
-							transition.setTarget(outputLocation);
-							syncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
-									origSourceLocation.getCoordinates(),
-									outputLocation.getCoordinates()
-							));
-							graph.addEdge(origSourceLocation, outputLocation, transition);
-						}
-
-						if (outputTransitionIndex == outputCount - 1) {
-							if (prevOutputTransition == null) {
-								outputTransition.setTarget(origTargetLocation);
-								syncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
-										outputLocation.getCoordinates(),
-										origTargetLocation.getCoordinates()
-								));
-								graph.addEdge(outputLocation, origTargetLocation, outputTransition);
-							} else {
-								prevOutputTransition.setTarget(outputLocation);
-								outputTransition.setSource(outputLocation);
-								outputTransition.setTarget(origTargetLocation);
-								prevSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
-										prevOutputLocation.getCoordinates(),
-										outputLocation.getCoordinates()
-								));
-								graph.addEdge(prevOutputLocation, outputLocation, prevOutputTransition);
-								syncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
-										outputLocation.getCoordinates(),
-										origTargetLocation.getCoordinates()
-								));
-								graph.addEdge(outputLocation, origTargetLocation, outputTransition);
-							}
-						} else if (outputTransitionIndex > 0) {
-							prevOutputTransition.setTarget(outputLocation);
-							prevSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
-									prevOutputLocation.getCoordinates(),
-									outputLocation.getCoordinates()
-							));
-							graph.addEdge(prevOutputLocation, outputLocation, prevOutputTransition);
-							outputTransition.setSource(prevOutputLocation);
-						}
-
-						prevSyncLabel = syncLabel;
-						prevOutputLocation = outputLocation;
-						prevOutputTransition = outputTransition;
-						outputTransitionIndex++;
-
 						AbsExpression lookupExpression = new ArrayLookupExpression()
 								.setLeftChild(IdentifierExpression.of(detail.getArrayName()))
 								.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
 
 						AssignmentExpression assignmentExpression = trapset.getMarkerAssignment(transition).deepClone();
 						assignmentExpression.setLeftChild(lookupExpression);
+
 						transitionAssignments.add(assignmentExpression);
+						transitionSynchs.add(detail.getActivatingSynchronization());
 					}
 				}
 
@@ -232,7 +234,9 @@ public class ScenarioSystemComposer {
 				// TODO: Duplication!
 				for (Transition transition : trapset) {
 					TransitionLabels labels = transition.getLabels();
-					DirectedMultigraph<Location, Transition> graph = trapset.getParentTemplate(transition).getLocationGraph();
+					Template parentTemplate = trapset.getParentTemplate(transition);
+					DirectedMultigraph<Location, Transition> graph = parentTemplate.getLocationGraph();
+
 					Location origSourceLocation = graph.getSourceVertex(transition);
 					Location origTargetLocation = graph.getTargetVertex(transition);
 
@@ -245,82 +249,13 @@ public class ScenarioSystemComposer {
 						labels.setAssignmentsLabel(label);
 					}
 
-					Integer outputCount = trapset.getTrapsetImplementationDetails().size();
+					Map<Transition, Collection<Synchronization>> templateSynchMap = synchMap
+							.computeIfAbsent(parentTemplate, k -> new HashMap<>());
+					Collection<Synchronization> transitionSynchs = templateSynchMap
+							.computeIfAbsent(transition, k -> new LinkedList<>());
+
 					Collection<AbsExpression> transitionAssignments = labels.getAssignmentsLabel().getContent();
-					List<GuiCoordinates> outputCoordinates = GuiCoordinates.evenlyDistributedCoordinatesBetween(
-							graph.getSourceVertex(transition).getCoordinates(),
-							graph.getTargetVertex(transition).getCoordinates(),
-							outputCount
-					);
-
-					Integer outputTransitionIndex = 0;
-
-					SynchronizationLabel prevSyncLabel = null;
-					Location prevOutputLocation = null;
-					Transition prevOutputTransition = null;
 					for (TrapsetImplementationDetail detail : trapset.getTrapsetImplementationDetails()) {
-						Location outputLocation = new Location()
-								.setId(String.valueOf(Math.random() * 100)) // TODO!
-								.setExitPolicy(ELocationExitPolicy.COMMITTED)
-								.setCoordinates(outputCoordinates.get(outputTransitionIndex));
-
-						SynchronizationLabel syncLabel;
-						Transition outputTransition = new Transition()
-								.setSource(outputLocation)
-								.setColor(Color.RED)
-								.setLabels(new TransitionLabels()
-										.setSynchronizationLabel(syncLabel = (SynchronizationLabel) new SynchronizationLabel()
-												.setContent(detail.getActivatingSynchronization())));
-						excludedTransitions.add(outputTransition);
-
-						if (outputTransitionIndex == 0) {
-							graph.removeEdge(transition);
-							transition.setTarget(outputLocation);
-							syncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
-									origSourceLocation.getCoordinates(),
-									outputLocation.getCoordinates()
-							));
-							graph.addEdge(origSourceLocation, outputLocation, transition);
-						}
-
-						if (outputTransitionIndex == outputCount - 1) {
-							if (prevOutputTransition == null) {
-								outputTransition.setTarget(origTargetLocation);
-								syncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
-										outputLocation.getCoordinates(),
-										origTargetLocation.getCoordinates()
-								));
-								graph.addEdge(outputLocation, origTargetLocation, outputTransition);
-							} else {
-								prevOutputTransition.setTarget(outputLocation);
-								outputTransition.setSource(outputLocation);
-								outputTransition.setTarget(origTargetLocation);
-								prevSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
-										prevOutputLocation.getCoordinates(),
-										outputLocation.getCoordinates()
-								));
-								graph.addEdge(prevOutputLocation, outputLocation, prevOutputTransition);
-								syncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
-										outputLocation.getCoordinates(),
-										origTargetLocation.getCoordinates()
-								));
-								graph.addEdge(outputLocation, origTargetLocation, outputTransition);
-							}
-						} else if (outputTransitionIndex > 0) {
-							prevOutputTransition.setTarget(outputLocation);
-							prevSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
-									prevOutputLocation.getCoordinates(),
-									outputLocation.getCoordinates()
-							));
-							graph.addEdge(prevOutputLocation, outputLocation, prevOutputTransition);
-							outputTransition.setSource(prevOutputLocation);
-						}
-
-						prevSyncLabel = syncLabel;
-						prevOutputLocation = outputLocation;
-						prevOutputTransition = outputTransition;
-						outputTransitionIndex++;
-
 						AbsExpression lookupExpression = new ArrayLookupExpression()
 								.setLeftChild(IdentifierExpression.of(detail.getArrayName()))
 								.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
@@ -328,6 +263,7 @@ public class ScenarioSystemComposer {
 						AssignmentExpression assignmentExpression = trapset.getMarkerAssignment(transition).deepClone();
 						assignmentExpression.setLeftChild(lookupExpression);
 						transitionAssignments.add(assignmentExpression);
+						transitionSynchs.add(detail.getActivatingSynchronization());
 					}
 				}
 
