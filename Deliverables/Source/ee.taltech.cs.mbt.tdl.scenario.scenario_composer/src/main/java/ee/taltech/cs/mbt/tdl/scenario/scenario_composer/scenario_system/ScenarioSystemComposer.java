@@ -364,6 +364,15 @@ public class ScenarioSystemComposer {
 						);
 
 						transitionAssignments.add(assignmentExpression);
+						transitionAssignments.add(new AssignmentExpression()
+								.setLeftChild(new ArrayLookupExpression()
+										.setLeftChild(IdentifierExpression.of(
+												mapFlagArrayNames.get(detail)
+										))
+										.setRightChild(
+												NaturalNumberLiteral.of(transitionIdx)
+										))
+								.setRightChild(LiteralConsts.FALSE));
 						transitionSynchs.add(detail.getActivatingSynchronization());
 					}
 
@@ -416,3 +425,5 @@ public class ScenarioSystemComposer {
 		});
 	}
 }
+
+// FIXME: Handle basic trap = True condition.
