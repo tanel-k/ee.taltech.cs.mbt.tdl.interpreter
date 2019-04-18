@@ -68,6 +68,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/*
+ * FIXME:
+ * - Lots of interdependence;
+ * - Potential undiscovered bugs;
+ * - Lots of duplication;
+ * - APIs are too complicated/non-existent;
+ * - Needs some kind of one-off operation pattern;
+ * - No Exception handling logic;
+ * - && True issue;
+ * - lots of new Interface() { interfaceDefinition }; - need to define an interface with a clear API;
+ * - global variable reliance within object;
+ * - bad naming habits;
+ * - lots of duplications.
+ */
 public class ScenarioComposer {
 	public static ScenarioComposer newInstance(ScenarioSpecification specification) {
 		return new ScenarioComposer(specification);
