@@ -62,7 +62,8 @@ public abstract class AbsExpression {
 		}
 
 		this.childExpressions.set(position, childExpression);
-		childExpression.setParentExpression(this);
+		if (childExpression != null)
+			childExpression.setParentExpression(this);
 
 		return this;
 	}

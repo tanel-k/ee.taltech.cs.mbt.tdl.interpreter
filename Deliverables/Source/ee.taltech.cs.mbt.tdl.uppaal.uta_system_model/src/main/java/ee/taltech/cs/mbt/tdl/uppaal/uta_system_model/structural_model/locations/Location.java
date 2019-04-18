@@ -8,6 +8,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPosit
 import java.util.Objects;
 
 public class Location implements IPositionable, IColorable {
+	public static final String LOCATION_ID_PREFIX = "id";
+
 	public enum ELocationExitPolicy {
 		NORMAL, URGENT, COMMITTED
 	}
@@ -35,6 +37,16 @@ public class Location implements IPositionable, IColorable {
 			this.coordinates = coordinates;
 			return this;
 		}
+	}
+
+	public static int parseIdString(String stringId) {
+		return Integer.parseInt(
+				stringId.replace(LOCATION_ID_PREFIX, "")
+		);
+	}
+
+	public static String composeIdString(int numericId) {
+		return LOCATION_ID_PREFIX + numericId;
 	}
 
 	private String id;

@@ -16,7 +16,7 @@ public class Test {
 	public static void main(String... args)
 			throws ParseException, MarshallingException, InvalidSystemStructureException,
 			EmbeddedCodeSyntaxException, SyntaxRepresentationException {
-		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("E(TS1\\TS2) & U(!TS1) & E(!TS1) & (#[>5]~E(TS1;TS3))");
+		TdlExpression expression = TdlExpressionParser.getInstance().parseInput("#[>5]E(TS1; TS2)");
 		UtaSystem system = UtaParser.newInstance().parse(Test.class.getResourceAsStream("/SampleSystem.xml"));
 		ScenarioComposer composer = ScenarioComposer.newInstance(ScenarioSpecification.of(system, expression));
 		composer.compose();

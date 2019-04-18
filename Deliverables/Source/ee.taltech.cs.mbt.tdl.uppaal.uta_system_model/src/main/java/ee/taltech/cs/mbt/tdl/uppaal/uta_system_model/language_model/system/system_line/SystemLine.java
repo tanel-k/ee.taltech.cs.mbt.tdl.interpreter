@@ -31,7 +31,12 @@ public class SystemLine implements Iterable<ProcessReferenceGroup>, IMergeable<S
 		if (processPrioritySequence.isEmpty()) {
 			processPrioritySequence.addAll(other.processPrioritySequence);
 		} else {
-			processPrioritySequence.addAll(other.processPrioritySequence);
+			if (processPrioritySequence.size() == 1 && other.processPrioritySequence.size() == 1) {
+				processPrioritySequence.get(0).getProcessIdentifiers()
+						.addAll(other.processPrioritySequence.get(0).getProcessIdentifiers());
+			} else {
+				processPrioritySequence.addAll(other.processPrioritySequence);
+			}
 		}
 	}
 }

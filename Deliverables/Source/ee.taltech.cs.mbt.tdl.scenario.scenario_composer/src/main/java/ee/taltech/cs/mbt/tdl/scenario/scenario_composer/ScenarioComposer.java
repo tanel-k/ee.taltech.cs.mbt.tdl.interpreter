@@ -671,8 +671,11 @@ public class ScenarioComposer {
 					BaseTrapset ingressTrapset = baseTrapsets.get(linkedPair.getChildContainer().getLeftChild());
 					BaseTrapset egressTrapset = baseTrapsets.get(linkedPair.getChildContainer().getRightChild());
 
-					Identifier trapsetName = Identifier.of(ingressTrapset.getName() + "_LinkedPair_" + egressTrapset.getName());
+					Identifier trapsetName = Identifier.of(
+							ingressTrapset.getName() + "_LinkedPair_" + egressTrapset.getName()
+					);
 					LinkedPairTrapset derivedTrapset = new LinkedPairTrapset();
+					derivedTrapset.setName(trapsetName);
 
 					for (Transition ingressTransition : ingressTrapset) {
 						Template ingressParentTpl = ingressTrapset.getParentTemplate(ingressTransition);
@@ -683,7 +686,7 @@ public class ScenarioComposer {
 								continue;
 							AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
 									.setLeftChild(IdentifierExpression.of(trapsetName))
-									.setRightChild(ingressTrapset.getMarkerCondition(egressTransition));
+									.setRightChild(egressTrapset.getMarkerCondition(egressTransition));
 							derivedTrapset.addTrap(LinkedPairTrap.of(
 									ingressTrapset, ingressTransition, ingressParentTpl, egressTransition, markerExpr
 							));
@@ -697,6 +700,7 @@ public class ScenarioComposer {
 				public AbsDerivedTrapset visitRelativeComplement(RelativeComplementNode relativeComplement) {
 					BaseTrapset includedTrapset = baseTrapsets.get(relativeComplement.getChildContainer().getLeftChild());
 					BaseTrapset excludedTrapset = baseTrapsets.get(relativeComplement.getChildContainer().getRightChild());
+
 					Identifier trapsetName = Identifier.of(includedTrapset.getName() + "_RelativeComplement_" + excludedTrapset.getName());
 					RelativeComplementTrapset derivedTrapset = new RelativeComplementTrapset();
 					derivedTrapset.setName(trapsetName);

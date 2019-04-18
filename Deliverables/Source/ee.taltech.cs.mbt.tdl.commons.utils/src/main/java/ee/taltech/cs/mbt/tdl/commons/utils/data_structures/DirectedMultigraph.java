@@ -204,9 +204,9 @@ public class DirectedMultigraph<V, E> {
 	public void splitEdge(E edge, V middleVertex, E firstEdge, E secondEdge) {
 		if (!hasEdge(edge))
 			throw new IllegalArgumentException("Edge does not exist.");
-		if (!hasEdge(firstEdge))
+		if (hasEdge(firstEdge))
 			throw new IllegalArgumentException("First replacement edge already exists.");
-		if (!hasEdge(secondEdge))
+		if (hasEdge(secondEdge))
 			throw new IllegalArgumentException("Second replacement edge already exists.");
 		splitExistingEdge(edge, middleVertex, firstEdge, secondEdge);
 	}
