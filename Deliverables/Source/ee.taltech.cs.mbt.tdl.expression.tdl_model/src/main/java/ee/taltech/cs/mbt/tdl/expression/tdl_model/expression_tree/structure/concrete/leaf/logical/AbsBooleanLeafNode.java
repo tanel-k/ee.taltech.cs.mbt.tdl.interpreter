@@ -3,5 +3,6 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.con
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.leaf.AbsLeafNode;
 
 public abstract class AbsBooleanLeafNode extends AbsLeafNode {
-	// Marker class
+	@Override
+	public abstract AbsBooleanLeafNode deepClone();
 }

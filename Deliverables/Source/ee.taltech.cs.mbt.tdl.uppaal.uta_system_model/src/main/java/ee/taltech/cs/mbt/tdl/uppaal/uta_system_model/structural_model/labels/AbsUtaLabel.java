@@ -1,9 +1,8 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPositionable;
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 
-public abstract class AbsUtaLabel<ContentType> {
+public abstract class AbsUtaLabel<ContentType> implements IDeepCloneable<AbsUtaLabel<ContentType>> {
 	private ContentType content;
 
 	public ContentType getContent() {

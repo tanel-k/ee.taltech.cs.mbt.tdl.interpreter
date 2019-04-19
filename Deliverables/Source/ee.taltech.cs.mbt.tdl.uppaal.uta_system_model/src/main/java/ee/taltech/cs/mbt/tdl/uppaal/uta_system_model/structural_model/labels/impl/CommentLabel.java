@@ -14,4 +14,11 @@ public class CommentLabel extends AbsUtaLabel<String> {
 	public <T> T accept(ILabelVisitor<T> visitor) {
 		return visitor.visitComment(this);
 	}
+
+	@Override
+	public CommentLabel deepClone() {
+		CommentLabel clone = new CommentLabel();
+		clone.setContent(getContent());
+		return clone;
+	}
 }

@@ -31,4 +31,11 @@ public class ExpressionStatement extends AbsStatement {
 	public <T> T accept(IStatementVisitor<T> visitor) {
 		return visitor.visitExpressionStatement(this);
 	}
+
+	@Override
+	public ExpressionStatement deepClone() {
+		ExpressionStatement clone = new ExpressionStatement();
+		clone.expression = expression.deepClone();
+		return clone;
+	}
 }

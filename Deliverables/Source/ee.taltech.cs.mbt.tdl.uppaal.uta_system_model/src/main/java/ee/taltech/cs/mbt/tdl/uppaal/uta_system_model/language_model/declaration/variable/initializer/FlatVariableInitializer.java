@@ -23,4 +23,11 @@ public class FlatVariableInitializer extends AbsVariableInitializer {
 	public <T> T accept(IInitializerVisitor<T> visitor) {
 		return visitor.visitFlatInitializer(this);
 	}
+
+	@Override
+	public FlatVariableInitializer deepClone() {
+		FlatVariableInitializer clone = new FlatVariableInitializer();
+		clone.expression = expression.deepClone();
+		return clone;
+	}
 }

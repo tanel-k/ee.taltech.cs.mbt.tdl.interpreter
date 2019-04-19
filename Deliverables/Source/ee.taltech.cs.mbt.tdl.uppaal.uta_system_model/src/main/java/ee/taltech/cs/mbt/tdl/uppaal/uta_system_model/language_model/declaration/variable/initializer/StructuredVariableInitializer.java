@@ -25,4 +25,13 @@ public class StructuredVariableInitializer extends AbsVariableInitializer {
 	public <T> T accept(IInitializerVisitor<T> visitor) {
 		return visitor.visitStructuredInitializer(this);
 	}
+
+	@Override
+	public StructuredVariableInitializer deepClone() {
+		StructuredVariableInitializer clone = new StructuredVariableInitializer();
+		initializers.stream().forEachOrdered(
+				i -> clone.initializers.add(i.deepClone())
+		);
+		return clone;
+	}
 }

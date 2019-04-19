@@ -28,8 +28,8 @@ public class BaseType implements IDeepCloneable<BaseType> {
 	@Override
 	public BaseType deepClone() {
 		BaseType clone = new BaseType();
-		clone.setTypeId(getTypeId().deepClone());
-		clone.setPrefix(getPrefix());
+		clone.typeId = typeId.deepClone();
+		clone.prefix = prefix;
 		return clone;
 	}
 }

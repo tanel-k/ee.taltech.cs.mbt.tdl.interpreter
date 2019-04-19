@@ -33,4 +33,17 @@ public class AssignmentsLabel extends AbsUtaLabel<Collection<AbsExpression>> imp
 	public <T> T accept(ILabelVisitor<T> visitor) {
 		return visitor.visitAssignments(this);
 	}
+
+	@Override
+	public AssignmentsLabel deepClone() {
+		AssignmentsLabel clone = new AssignmentsLabel();
+		clone.coordinates = coordinates;
+		if (getContent() != null) {
+			clone.setContent(new LinkedList<>());
+			getContent().stream().forEachOrdered(
+					expr -> clone.getContent().add(expr.deepClone())
+			);
+		}
+		return clone;
+	}
 }

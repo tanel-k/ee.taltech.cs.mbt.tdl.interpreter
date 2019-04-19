@@ -28,4 +28,13 @@ public class ReturnStatement extends AbsStatement {
 	public <T> T accept(IStatementVisitor<T> visitor) {
 		return visitor.visitReturnStatement(this);
 	}
+
+	@Override
+	public ReturnStatement deepClone() {
+		ReturnStatement clone = new ReturnStatement();
+		clone.returnExpression = returnExpression != null
+				? returnExpression.deepClone()
+				: null;
+		return clone;
+	}
 }

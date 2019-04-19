@@ -23,7 +23,7 @@ public class FieldDeclarationGroup extends AbsFieldDeclaration implements ITypeE
 	@Override
 	public FieldDeclarationGroup deepClone() {
 		FieldDeclarationGroup clone = new FieldDeclarationGroup();
-		clone.baseTypeExtensionMap = getBaseTypeExtensionMap().deepClone();
+		clone.baseTypeExtensionMap = baseTypeExtensionMap.deepClone();
 		return clone;
 	}
 

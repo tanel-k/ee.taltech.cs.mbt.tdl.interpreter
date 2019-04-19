@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.Color;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IColorable;
@@ -7,7 +8,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPosit
 
 import java.util.Objects;
 
-public class Location implements IPositionable, IColorable {
+public class Location implements IPositionable, IColorable, IDeepCloneable<Location> {
 	public static final String LOCATION_ID_PREFIX = "id";
 
 	public enum ELocationExitPolicy {
@@ -131,5 +132,21 @@ public class Location implements IPositionable, IColorable {
 			return false;
 		Location other = (Location) obj;
 		return Objects.equals(other.id, this.id);
+	}
+
+	@Override
+	public Location deepClone() {
+		Location clone = new Location();
+		clone.color = color;
+		clone.id = id;
+		clone.coordinates = coordinates;
+		clone.exitPolicy = exitPolicy;
+		clone.name = name != null
+				? (new LocationName().setName(name.name).setCoordinates(name.coordinates))
+				: null;
+		clone.labels = labels != null
+				? labels.deepClone()
+				: null;
+		return clone;
 	}
 }

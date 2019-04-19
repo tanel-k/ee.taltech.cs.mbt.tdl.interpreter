@@ -30,4 +30,16 @@ public class InvariantLabel extends AbsUtaLabel<AbsExpression> implements IPosit
 	public <T> T accept(ILabelVisitor<T> visitor) {
 		return visitor.visitInvariant(this);
 	}
+
+	@Override
+	public InvariantLabel deepClone() {
+		InvariantLabel clone = new InvariantLabel();
+		clone.coordinates = coordinates;
+		clone.setContent(
+				getContent() != null
+						? getContent().deepClone()
+						: null
+		);
+		return clone;
+	}
 }

@@ -26,16 +26,20 @@ public class SynchronizationLabel extends AbsUtaLabel<Synchronization> implement
 		return this;
 	}
 
-	public boolean isOutbound() {
-		return getContent().isActiveSync();
-	}
-
-	public void setOutbound(boolean outbound) {
-		getContent().setActiveSync(outbound);
-	}
-
 	@Override
 	public <T> T accept(ILabelVisitor<T> visitor) {
 		return visitor.visitSynchronization(this);
+	}
+
+	@Override
+	public SynchronizationLabel deepClone() {
+		SynchronizationLabel clone = new SynchronizationLabel();
+		clone.coordinates = coordinates;
+		clone.setContent(
+				getContent() != null
+						? getContent().deepClone()
+						: null
+		);
+		return clone;
 	}
 }

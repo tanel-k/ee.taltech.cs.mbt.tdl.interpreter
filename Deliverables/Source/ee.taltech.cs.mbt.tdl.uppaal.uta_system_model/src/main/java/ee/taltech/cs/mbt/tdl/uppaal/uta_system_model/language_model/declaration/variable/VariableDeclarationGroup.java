@@ -9,10 +9,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_m
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IDeclarationVisitor;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class VariableDeclarationGroup extends AbsVariableDeclaration implements ITypeExtensionGroup<AbsVariableDeclaration, VariableDeclaration> {
 	private BaseTypeExtensionMap baseTypeExtensionMap = new BaseTypeExtensionMap();
@@ -55,5 +53,15 @@ public class VariableDeclarationGroup extends AbsVariableDeclaration implements 
 	@Override
 	public <T> T accept(IDeclarationVisitor<T> visitor) {
 		return visitor.visitVariableDeclarationGroup(this);
+	}
+
+	@Override
+	public VariableDeclarationGroup deepClone() {
+		VariableDeclarationGroup clone = new VariableDeclarationGroup();
+		clone.baseTypeExtensionMap = baseTypeExtensionMap.deepClone();
+		initializerMap.entrySet().stream().forEachOrdered(
+				e -> clone.initializerMap.put(e.getKey().deepClone(), e.getValue().deepClone())
+		);
+		return clone;
 	}
 }

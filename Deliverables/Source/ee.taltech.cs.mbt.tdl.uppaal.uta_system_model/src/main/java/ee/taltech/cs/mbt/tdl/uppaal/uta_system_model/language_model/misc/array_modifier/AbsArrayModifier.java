@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IArrayModifierVisitor;
 
 import java.util.Objects;
@@ -10,7 +11,7 @@ import java.util.Objects;
  * latter parameter/field as an array type.
  * @param <SizeSpecifier> Type used to represent the size specified in the modifier.
  */
-public abstract class AbsArrayModifier<SizeSpecifier> {
+public abstract class AbsArrayModifier<SizeSpecifier> implements IDeepCloneable<AbsArrayModifier<SizeSpecifier>> {
 	private SizeSpecifier sizeSpecifier;
 
 	public SizeSpecifier getSizeSpecifier() {
@@ -40,6 +41,4 @@ public abstract class AbsArrayModifier<SizeSpecifier> {
 		AbsArrayModifier other = (AbsArrayModifier) obj;
 		return Objects.equals(other.sizeSpecifier, this.sizeSpecifier);
 	}
-
-	public abstract AbsArrayModifier deepClone();
 }

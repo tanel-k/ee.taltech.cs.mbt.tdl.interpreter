@@ -32,8 +32,8 @@ public class FieldDeclaration extends AbsFieldDeclaration {
 	@Override
 	public FieldDeclaration deepClone() {
 		FieldDeclaration clone = new FieldDeclaration();
-		clone.setIdentifier(identifier);
-		clone.setType(type.deepClone());
+		clone.identifier = identifier.deepClone();
+		clone.type = type.deepClone();
 		return clone;
 	}
 

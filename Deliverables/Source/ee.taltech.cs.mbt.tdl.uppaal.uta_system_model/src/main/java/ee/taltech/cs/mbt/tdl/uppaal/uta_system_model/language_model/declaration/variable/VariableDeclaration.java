@@ -62,4 +62,15 @@ public class VariableDeclaration extends AbsVariableDeclaration {
 	public <T> T accept(IDeclarationVisitor<T> visitor) {
 		return visitor.visitVariableDeclaration(this);
 	}
+
+	@Override
+	public VariableDeclaration deepClone() {
+		VariableDeclaration clone = new VariableDeclaration();
+		clone.type = type.deepClone();
+		clone.identifier = identifier.deepClone();
+		clone.initializer = initializer != null
+				? initializer.deepClone()
+				: null;
+		return clone;
+	}
 }

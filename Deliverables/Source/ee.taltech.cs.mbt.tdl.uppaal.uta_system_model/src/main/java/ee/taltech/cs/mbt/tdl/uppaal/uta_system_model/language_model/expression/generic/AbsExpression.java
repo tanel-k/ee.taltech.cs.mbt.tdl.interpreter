@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IExpressionVisitor;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ import java.util.List;
  *             |  '&lt;?' | '&gt;?' | 'or' | 'and' | 'imply'
  * </pre>
  */
-public abstract class AbsExpression {
+public abstract class AbsExpression implements IDeepCloneable<AbsExpression> {
 	private AbsExpression parentExpression;
 	private final List<AbsExpression> childExpressions;
 	protected final int childCount;
@@ -87,7 +88,6 @@ public abstract class AbsExpression {
 		return Collections.unmodifiableList(childExpressions);
 	}
 
-	public abstract AbsExpression deepClone();
 	public abstract <T> T accept(IExpressionVisitor<T> visitor);
 
 	@Override

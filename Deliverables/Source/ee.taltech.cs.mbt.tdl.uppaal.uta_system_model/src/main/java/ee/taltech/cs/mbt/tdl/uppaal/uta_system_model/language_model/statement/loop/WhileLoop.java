@@ -14,4 +14,12 @@ public class WhileLoop extends AbsConditionalLoopStatement {
 	public <T> T accept(IStatementVisitor<T> visitor) {
 		return visitor.visitWhileStatement(this);
 	}
+
+	@Override
+	public WhileLoop deepClone() {
+		WhileLoop clone = new WhileLoop();
+		clone.setCondition(getCondition().deepClone());
+		clone.setStatement(getStatement().deepClone());
+		return clone;
+	}
 }

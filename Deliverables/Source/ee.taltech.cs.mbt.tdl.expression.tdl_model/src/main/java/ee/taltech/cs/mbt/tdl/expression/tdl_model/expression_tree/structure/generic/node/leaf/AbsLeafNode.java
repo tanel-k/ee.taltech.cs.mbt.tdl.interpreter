@@ -5,5 +5,6 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 import java.util.Objects;
 
 public abstract class AbsLeafNode extends AbsExpressionNode {
-	// Marker class
+	@Override
+	public abstract AbsLeafNode deepClone();
 }

@@ -1,15 +1,15 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.Color;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IColorable;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPositionable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class Transition implements IColorable {
+public class Transition implements IColorable, IDeepCloneable<Transition> {
 	private Location source;
 	private Location target;
 
@@ -66,5 +66,18 @@ public class Transition implements IColorable {
 	public Transition setColor(Color color) {
 		this.color = color;
 		return this;
+	}
+
+	@Override
+	public Transition deepClone() {
+		Transition clone = new Transition();
+		clone.color = color;
+		clone.source = source.deepClone();
+		clone.target = target.deepClone();
+		clone.labels = labels != null
+				? labels.deepClone()
+				: null;
+		clone.nails.addAll(nails);
+		return clone;
 	}
 }

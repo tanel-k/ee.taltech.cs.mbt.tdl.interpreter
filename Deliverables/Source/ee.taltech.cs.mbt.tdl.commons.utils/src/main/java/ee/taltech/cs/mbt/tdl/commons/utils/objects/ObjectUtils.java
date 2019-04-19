@@ -6,4 +6,12 @@ public class ObjectUtils {
 			return defaultObj;
 		return obj;
 	}
+
+	public static <T> T firstEquivalent(T comparisonObj, T... candidates) {
+		for (T candidate : candidates) {
+			if (comparisonObj.equals(candidate))
+				return candidate;
+		}
+		return null;
+	}
 }

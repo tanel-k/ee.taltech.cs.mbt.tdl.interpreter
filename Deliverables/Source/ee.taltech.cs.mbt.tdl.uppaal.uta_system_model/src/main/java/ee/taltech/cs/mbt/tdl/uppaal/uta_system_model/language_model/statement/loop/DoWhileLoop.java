@@ -14,4 +14,12 @@ public class DoWhileLoop extends WhileLoop {
 	public <T> T accept(IStatementVisitor<T> visitor) {
 		return visitor.visitDoWhileStatement(this);
 	}
+
+	@Override
+	public DoWhileLoop deepClone() {
+		DoWhileLoop clone = new DoWhileLoop();
+		clone.setCondition(getCondition().deepClone());
+		clone.setStatement(getStatement().deepClone());
+		return clone;
+	}
 }

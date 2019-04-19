@@ -19,4 +19,11 @@ public class ChannelArrayLookup extends AbsChannelReference {
 	public <T> T accept(IChannelReferenceVisitor<T> visitor) {
 		return visitor.visitChannelArrayLookup(this);
 	}
+
+	@Override
+	public ChannelArrayLookup deepClone() {
+		ChannelArrayLookup clone = new ChannelArrayLookup();
+		clone.arrayVariableLookup = arrayVariableLookup.deepClone();
+		return clone;
+	}
 }

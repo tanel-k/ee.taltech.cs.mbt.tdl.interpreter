@@ -40,4 +40,16 @@ public class StatementBlock extends AbsStatement {
 	public <T> T accept(IStatementVisitor<T> visitor) {
 		return visitor.visitBlockStatement(this);
 	}
+
+	@Override
+	public StatementBlock deepClone() {
+		StatementBlock clone = new StatementBlock();
+		getDeclarations().stream()
+				.map(AbsDeclarationStatement::deepClone)
+				.forEachOrdered(clone.declarations::add);
+		getStatements().stream()
+				.map(AbsStatement::deepClone)
+				.forEachOrdered(clone.statements::add);
+		return clone;
+	}
 }

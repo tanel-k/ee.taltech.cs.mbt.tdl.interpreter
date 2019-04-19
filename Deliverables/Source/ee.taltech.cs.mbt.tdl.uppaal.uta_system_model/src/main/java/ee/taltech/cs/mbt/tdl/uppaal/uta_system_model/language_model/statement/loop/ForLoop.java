@@ -36,4 +36,14 @@ public class ForLoop extends AbsConditionalLoopStatement{
 	public <T> T accept(IStatementVisitor<T> visitor) {
 		return visitor.visitForStatement(this);
 	}
+
+	@Override
+	public ForLoop deepClone() {
+		ForLoop clone = new ForLoop();
+		clone.initializer = initializer.deepClone();
+		clone.update = update.deepClone();
+		clone.setCondition(getCondition().deepClone());
+		clone.setStatement(getStatement().deepClone());
+		return clone;
+	}
 }

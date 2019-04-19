@@ -40,4 +40,12 @@ public class TypeDeclaration extends AbsTypeDeclaration {
 	public <T> T accept(IDeclarationVisitor<T> visitor) {
 		return visitor.visitTypeDeclaration(this);
 	}
+
+	@Override
+	public TypeDeclaration deepClone() {
+		TypeDeclaration clone = new TypeDeclaration();
+		clone.type = type.deepClone();
+		clone.identifier = identifier.deepClone();
+		return clone;
+	}
 }

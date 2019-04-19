@@ -1,9 +1,10 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
 
-public class Selection {
+public class Selection implements IDeepCloneable<Selection> {
 	private Identifier variableName;
 	private BaseType selectType;
 
@@ -23,5 +24,13 @@ public class Selection {
 	public Selection setSelectType(BaseType selectType) {
 		this.selectType = selectType;
 		return this;
+	}
+
+	@Override
+	public Selection deepClone() {
+		Selection clone = new Selection();
+		clone.variableName = variableName.deepClone();
+		clone.selectType = selectType.deepClone();
+		return clone;
 	}
 }

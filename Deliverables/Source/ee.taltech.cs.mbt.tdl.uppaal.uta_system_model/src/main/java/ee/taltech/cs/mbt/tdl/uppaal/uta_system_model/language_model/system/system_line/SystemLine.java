@@ -1,12 +1,13 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.system_line;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.IMergeable;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SystemLine implements Iterable<ProcessReferenceGroup>, IMergeable<SystemLine> {
+public class SystemLine implements Iterable<ProcessReferenceGroup>, IMergeable<SystemLine>, IDeepCloneable<SystemLine> {
 	private List<ProcessReferenceGroup> processPrioritySequence = new LinkedList<>();
 
 	public List<ProcessReferenceGroup> getProcessPrioritySequence() {
@@ -38,5 +39,13 @@ public class SystemLine implements Iterable<ProcessReferenceGroup>, IMergeable<S
 				processPrioritySequence.addAll(other.processPrioritySequence);
 			}
 		}
+	}
+
+	@Override
+	public SystemLine deepClone() {
+		SystemLine clone = new SystemLine();
+		processPrioritySequence.stream()
+				.forEachOrdered(s -> clone.processPrioritySequence.add(s.deepClone()));
+		return clone;
 	}
 }

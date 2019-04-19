@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IStatementVisitor;
 
 /**
@@ -24,6 +25,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.ISt
  * ReturnStatement ::= 'return' [ Expression ] ';'
  * </pre>
  */
-public abstract class AbsStatement {
+public abstract class AbsStatement implements IDeepCloneable<AbsStatement> {
 	public abstract <T> T accept(IStatementVisitor<T> visitor);
 }

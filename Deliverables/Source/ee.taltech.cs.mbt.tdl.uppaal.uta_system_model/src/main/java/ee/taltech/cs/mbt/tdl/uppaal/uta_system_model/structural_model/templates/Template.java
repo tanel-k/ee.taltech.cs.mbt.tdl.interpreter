@@ -1,21 +1,25 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-public class Template {
+public class Template implements IDeepCloneable<Template> {
 	private Identifier name;
-	private List<ParameterDeclaration> parameters;
+	private List<ParameterDeclaration> parameters = new LinkedList<>();
 	private Location initialLocation;
-	private DirectedMultigraph<Location, Transition> locationGraph;
-	private List<AbsDeclarationStatement> localDeclarations;
+	private DirectedMultigraph<Location, Transition> locationGraph = new DirectedMultigraph<>();
+	private List<AbsDeclarationStatement> declarations = new LinkedList<>();
 
 	public Template() { }
 
@@ -29,9 +33,7 @@ public class Template {
 	}
 
 	public List<ParameterDeclaration> getParameters() {
-		return parameters == null
-				? (parameters = new LinkedList<>())
-				: parameters;
+		return parameters;
 	}
 
 	public Template setParameters(List<ParameterDeclaration> parameters) {
@@ -49,24 +51,47 @@ public class Template {
 	}
 
 	public DirectedMultigraph<Location, Transition> getLocationGraph() {
-		return locationGraph == null
-				? (locationGraph = new DirectedMultigraph<>())
-				: locationGraph;
-	}
-
-	public Template setLocationGraph(DirectedMultigraph<Location, Transition> locationGraph) {
-		this.locationGraph = locationGraph;
-		return this;
+		return locationGraph;
 	}
 
 	public List<AbsDeclarationStatement> getDeclarations() {
-		return localDeclarations == null
-				? (localDeclarations = new LinkedList<>())
-				: localDeclarations;
+		return declarations;
 	}
 
-	public Template setDeclarations(List<AbsDeclarationStatement> localDeclarations) {
-		this.localDeclarations = localDeclarations;
+	public Template setDeclarations(List<AbsDeclarationStatement> declarations) {
+		this.declarations = declarations != null ? declarations : this.declarations;
 		return this;
+	}
+
+	@Override
+	public Template deepClone() {
+		Template clone = new Template();
+
+		clone.name = name.deepClone();
+		parameters.stream()
+				.forEachOrdered(p -> clone.parameters.add(p.deepClone()));
+		declarations.stream()
+				.forEachOrdered(d -> clone.declarations.add(d.deepClone()));
+
+		Map<Location, Location> locationCloneMap = new HashMap<>();
+		for (Transition transition : locationGraph.getEdges()) {
+			Transition transitionClone = transition.deepClone();
+			Location srcLocation = locationGraph.getSourceVertex(transition);
+			Location tgtLocation = locationGraph.getTargetVertex(transition);
+
+			Location srcLocClone = locationCloneMap.computeIfAbsent(srcLocation, Location::deepClone);
+			Location tgtLocClone = locationCloneMap.computeIfAbsent(tgtLocation, Location::deepClone);
+
+			Location initLocClone = ObjectUtils.firstEquivalent(initialLocation, srcLocClone, tgtLocClone);
+			if (initLocClone != null) {
+				clone.initialLocation = initLocClone;
+			}
+
+			transitionClone.setSource(srcLocClone);
+			transitionClone.setTarget(tgtLocClone);
+			clone.locationGraph.addEdge(srcLocClone, tgtLocClone, transitionClone);
+		}
+
+		return clone;
 	}
 }

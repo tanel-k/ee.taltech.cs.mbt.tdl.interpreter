@@ -22,4 +22,9 @@ public class EmptyStatement extends AbsStatement {
 	public <T> T accept(IStatementVisitor<T> visitor) {
 		return visitor.visitEmptyStatement(this);
 	}
+
+	@Override
+	public EmptyStatement deepClone() {
+		return this;
+	}
 }

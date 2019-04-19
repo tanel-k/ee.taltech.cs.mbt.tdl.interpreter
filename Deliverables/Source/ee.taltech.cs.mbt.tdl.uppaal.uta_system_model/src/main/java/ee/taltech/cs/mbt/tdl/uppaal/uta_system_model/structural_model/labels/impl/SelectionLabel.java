@@ -33,4 +33,17 @@ public class SelectionLabel extends AbsUtaLabel<Collection<Selection>> implement
 	public <T> T accept(ILabelVisitor<T> visitor) {
 		return visitor.visitSelection(this);
 	}
+
+	@Override
+	public SelectionLabel deepClone() {
+		SelectionLabel clone = new SelectionLabel();
+		clone.coordinates = coordinates;
+		if (getContent() != null) {
+			clone.setContent(new LinkedList<>());
+			getContent().stream().forEachOrdered(
+					expr -> clone.getContent().add(expr.deepClone())
+			);
+		}
+		return clone;
+	}
 }

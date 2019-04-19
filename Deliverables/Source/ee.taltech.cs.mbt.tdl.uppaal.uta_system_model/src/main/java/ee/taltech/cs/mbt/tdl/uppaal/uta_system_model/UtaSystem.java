@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.IMergeable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
@@ -8,32 +9,32 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.
 import java.util.LinkedList;
 import java.util.List;
 
-public class UtaSystem implements IMergeable<UtaSystem> {
-	private List<AbsDeclarationStatement> declarations;
-	private List<Template> templates;
+public class UtaSystem implements IMergeable<UtaSystem>, IDeepCloneable<UtaSystem> {
+	private List<AbsDeclarationStatement> declarations = new LinkedList<>();
+	private List<Template> templates = new LinkedList<>();
 	private SystemDefinition systemDefinition;
 
 	public UtaSystem() {}
 
 	public List<AbsDeclarationStatement> getDeclarations() {
-		return declarations == null
-				? (declarations = new LinkedList<>())
-				: declarations;
+		return declarations;
 	}
 
-	public UtaSystem setDeclarations(List<AbsDeclarationStatement> globalDeclarations) {
-		this.declarations = globalDeclarations;
+	public UtaSystem setDeclarations(List<AbsDeclarationStatement> declarations) {
+		this.declarations = declarations != null
+				? declarations
+				: this.declarations;
 		return this;
 	}
 
 	public List<Template> getTemplates() {
-		return templates == null
-				? (templates = new LinkedList<>())
-				: templates;
+		return templates;
 	}
 
 	public UtaSystem setTemplates(List<Template> templates) {
-		this.templates = templates;
+		this.templates = templates != null
+				? templates
+				: this.templates;
 		return this;
 	}
 
@@ -56,5 +57,21 @@ public class UtaSystem implements IMergeable<UtaSystem> {
 					: new SystemDefinition();
 			systemDefinition.merge(other.systemDefinition);
 		}
+	}
+
+	@Override
+	public UtaSystem deepClone() {
+		UtaSystem clone = new UtaSystem();
+
+		declarations.stream()
+				.forEachOrdered(d -> clone.declarations.add(d.deepClone()));
+		templates.stream()
+				.forEachOrdered(t -> clone.templates.add(t.deepClone()));
+
+		clone.systemDefinition = systemDefinition != null
+				? systemDefinition.deepClone()
+				: null;
+
+		return clone;
 	}
 }

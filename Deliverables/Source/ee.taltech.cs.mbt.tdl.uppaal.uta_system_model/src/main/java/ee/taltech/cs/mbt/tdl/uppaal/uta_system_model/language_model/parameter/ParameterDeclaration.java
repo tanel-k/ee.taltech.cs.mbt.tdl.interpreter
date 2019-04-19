@@ -1,12 +1,13 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 
 /**
  * Represents the declaration of a parameter in an UPPAAL function or template.<br/>
  */
-public class ParameterDeclaration {
+public class ParameterDeclaration implements IDeepCloneable<ParameterDeclaration> {
 	private Type type;
 	private Identifier identifier;
 
@@ -26,5 +27,13 @@ public class ParameterDeclaration {
 	public ParameterDeclaration setIdentifier(Identifier identifier) {
 		this.identifier = identifier;
 		return this;
+	}
+
+	@Override
+	public ParameterDeclaration deepClone() {
+		ParameterDeclaration clone = new ParameterDeclaration();
+		clone.type = type.deepClone();
+		clone.identifier = identifier.deepClone();
+		return clone;
 	}
 }

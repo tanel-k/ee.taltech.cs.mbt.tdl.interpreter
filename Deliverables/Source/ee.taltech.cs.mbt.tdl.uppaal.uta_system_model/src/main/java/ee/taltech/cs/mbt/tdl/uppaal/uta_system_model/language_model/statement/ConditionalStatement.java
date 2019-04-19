@@ -49,4 +49,15 @@ public class ConditionalStatement extends AbsStatement {
 	public <T> T accept(IStatementVisitor<T> visitor) {
 		return visitor.visitConditionalStatement(this);
 	}
+
+	@Override
+	public ConditionalStatement deepClone() {
+		ConditionalStatement clone = new ConditionalStatement();
+		clone.condition = condition.deepClone();
+		clone.primaryStatement = primaryStatement.deepClone();
+		clone.alternativeStatement = alternativeStatement != null
+				? alternativeStatement.deepClone()
+				: null;
+		return clone;
+	}
 }

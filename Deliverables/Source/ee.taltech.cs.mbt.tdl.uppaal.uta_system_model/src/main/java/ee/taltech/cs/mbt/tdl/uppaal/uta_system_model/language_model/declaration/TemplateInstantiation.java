@@ -81,4 +81,18 @@ public class TemplateInstantiation extends AbsDeclarationStatement {
 	public <T> T accept(IDeclarationVisitor<T> visitor) {
 		return visitor.visitTemplateInstantiation(this);
 	}
+
+	@Override
+	public TemplateInstantiation deepClone() {
+		TemplateInstantiation clone = new TemplateInstantiation();
+
+		clone.newTemplateName = newTemplateName.deepClone();
+		clone.sourceTemplateName = sourceTemplateName.deepClone();
+		getArguments().stream()
+				.forEachOrdered(arg -> clone.arguments.add(arg.deepClone()));
+		getParameters().stream()
+				.forEachOrdered(param -> clone.parameters.add(param.deepClone()));
+
+		return clone;
+	}
 }

@@ -15,4 +15,9 @@ public class DefaultChannelReference extends AbsChannelReference {
 	public <T> T accept(IChannelReferenceVisitor<T> visitor) {
 		return visitor.visitDefaultChannelReference(this);
 	}
+
+	@Override
+	public DefaultChannelReference deepClone() {
+		return this;
+	}
 }

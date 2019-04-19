@@ -19,4 +19,11 @@ public class ChannelIdentifierReference extends AbsChannelReference {
 	public <T> T accept(IChannelReferenceVisitor<T> visitor) {
 		return visitor.visitChannelIdentifierReference(this);
 	}
+
+	@Override
+	public ChannelIdentifierReference deepClone() {
+		ChannelIdentifierReference clone = new ChannelIdentifierReference();
+		clone.identifier = identifier.deepClone();
+		return clone;
+	}
 }

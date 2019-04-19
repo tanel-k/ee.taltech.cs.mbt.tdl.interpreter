@@ -69,11 +69,10 @@ public class Type implements IDeepCloneable<Type> {
 	@Override
 	public Type deepClone() {
 		Type clone = new Type();
-		clone.setBaseType(getBaseType().deepClone());
-		clone.setReferenceType(isReferenceType());
-		getArrayModifiers().stream()
-				.map(AbsArrayModifier::deepClone)
-				.forEachOrdered(clone::addArrayModifier);
+		clone.baseType = baseType.deepClone();
+		clone.referenceType = referenceType;
+		arrayModifiers.stream()
+				.forEachOrdered(m -> clone.arrayModifiers.add((AbsArrayModifier<?>) m.deepClone()));
 		return clone;
 	}
 }

@@ -40,4 +40,13 @@ public class IterationLoop extends AbsLoopStatement {
 	public <T> T accept(IStatementVisitor<T> visitor) {
 		return visitor.visitIterationStatement(this);
 	}
+
+	@Override
+	public IterationLoop deepClone() {
+		IterationLoop clone = new IterationLoop();
+		clone.iteratedType = iteratedType.deepClone();
+		clone.loopVariable = loopVariable.deepClone();
+		clone.setStatement(getStatement().deepClone());
+		return clone;
+	}
 }

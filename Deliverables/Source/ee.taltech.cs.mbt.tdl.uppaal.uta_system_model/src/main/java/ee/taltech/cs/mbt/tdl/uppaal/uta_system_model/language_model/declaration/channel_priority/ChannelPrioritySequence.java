@@ -42,4 +42,13 @@ public class ChannelPrioritySequence extends AbsDeclarationStatement implements 
 	public <T> T accept(IDeclarationVisitor<T> visitor) {
 		return visitor.visitChannelPriorityDeclaration(this);
 	}
+
+	@Override
+	public ChannelPrioritySequence deepClone() {
+		ChannelPrioritySequence clone = new ChannelPrioritySequence();
+		prioritySequence.stream().forEachOrdered(
+				p -> clone.prioritySequence.add(p.deepClone())
+		);
+		return clone;
+	}
 }

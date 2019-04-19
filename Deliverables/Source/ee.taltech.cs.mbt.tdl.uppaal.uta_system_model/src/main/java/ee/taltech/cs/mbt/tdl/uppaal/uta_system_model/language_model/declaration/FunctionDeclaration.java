@@ -63,4 +63,16 @@ public class FunctionDeclaration extends AbsDeclarationStatement {
 	public <T> T accept(IDeclarationVisitor<T> visitor) {
 		return visitor.visitFunctionDeclaration(this);
 	}
+
+	@Override
+	public FunctionDeclaration deepClone() {
+		FunctionDeclaration clone = new FunctionDeclaration();
+
+		getParameters().stream()
+				.map(ParameterDeclaration::deepClone)
+				.forEachOrdered(clone.parameters::add);
+		clone.statementBlock = getStatementBlock().deepClone();
+
+		return clone;
+	}
 }

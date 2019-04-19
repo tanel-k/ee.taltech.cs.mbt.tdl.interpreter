@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.CommentLabel;
@@ -10,9 +11,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.imp
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
-public class TransitionLabels {
+public class TransitionLabels implements IDeepCloneable<TransitionLabels> {
 	private CommentLabel commentLabel;
 	private GuardLabel guardLabel;
 	private AssignmentsLabel assignmentsLabel;
@@ -72,5 +72,26 @@ public class TransitionLabels {
 				.addIfNonNull(selectLabel)
 				.addIfNonNull(synchronizationLabel)
 				.build();
+	}
+
+	@Override
+	public TransitionLabels deepClone() {
+		TransitionLabels clone = new TransitionLabels();
+		clone.commentLabel = commentLabel != null
+				? commentLabel.deepClone()
+				: null;
+		clone.assignmentsLabel = assignmentsLabel != null
+				? assignmentsLabel.deepClone()
+				: null;
+		clone.guardLabel = guardLabel != null
+				? guardLabel.deepClone()
+				: null;
+		clone.selectLabel = selectLabel != null
+				? selectLabel.deepClone()
+				: null;
+		clone.synchronizationLabel = synchronizationLabel != null
+				? synchronizationLabel.deepClone()
+				: null;
+		return clone;
 	}
 }

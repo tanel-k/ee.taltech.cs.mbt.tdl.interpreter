@@ -30,4 +30,16 @@ public class GuardLabel extends AbsUtaLabel<AbsExpression> implements IPositiona
 	public <T> T accept(ILabelVisitor<T> visitor) {
 		return visitor.visitGuard(this);
 	}
+
+	@Override
+	public GuardLabel deepClone() {
+		GuardLabel clone = new GuardLabel();
+		clone.coordinates = coordinates;
+		clone.setContent(
+				getContent() != null
+						? getContent().deepClone()
+						: null
+		);
+		return clone;
+	}
 }
