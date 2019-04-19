@@ -1,6 +1,6 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.generic;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic;
 
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.trap.BaseTrap;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trap.BaseTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.AssignmentExpression;
@@ -12,7 +12,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Map.Entry;
 
 public abstract class AbsTrapset<TrapType extends BaseTrap> implements Iterable<Transition> {
 	private Identifier name;

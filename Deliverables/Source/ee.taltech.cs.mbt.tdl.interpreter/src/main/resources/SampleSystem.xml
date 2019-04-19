@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>clock cl;
+    int i_command_comm_create;
+    chan i_command;
+    chan o_response;
+    int  o_response_p; // values of EPS registers
+    int n;
+
+    bool TS1,TS2,TS3,TS4,TS5;
+    bool comm_valid;</declaration><template><name x="5" y="5">MCS_EPS</name><declaration>// Place local declarations here.
+
+    bool comm_create,
+    comm_send,
+    comm_rec,
+    eps_busy,
+    data_create,
+    error_create,
+    data_send,
+    error_send;
+
+    bool fl23,fl24;</declaration><location id="id0" x="-297" y="-34"><committed/></location><location id="id1" x="663" y="-85"><name x="671" y="-128">replyReceived</name><committed/></location><location id="id2" x="552" y="-85"><name x="511" y="-125">errorCreated</name><committed/></location><location id="id3" x="552" y="-255"><name x="518" y="-297">dataCreated</name><committed/></location><location id="id4" x="433" y="-85"><name x="385" y="-124">commandInvalid</name><committed/></location><location id="id5" x="433" y="-255"><name x="391" y="-297">commandValid</name><committed/></location><location id="id6" x="-85" y="-34"><name x="-136" y="-68">commandIgnored</name><committed/></location><location id="id7" x="238" y="-170"><name x="255" y="-187">commandReceived</name><committed/></location><location id="id8" x="76" y="-170"><name x="34" y="-221">commandSent</name><committed/></location><location id="id9" x="-85" y="-170"><name x="-119" y="-221">commandCreated</name><label kind="invariant" x="-103" y="-205">cl &lt; 20</label></location><location id="id10" x="-297" y="-170"><name x="-316" y="-220">start</name><label kind="invariant" x="-317" y="-205">cl &lt; 20</label></location><init ref="id10"/><transition><source ref="id10"/><target ref="id0"/><label kind="guard" x="-357" y="-119">cl==20</label><nail x="-314" y="-102"/></transition><transition><source ref="id0"/><target ref="id10"/><label kind="assignment" x="-289" y="-102">cl=0</label></transition><transition><source ref="id1"/><target ref="id0"/><label kind="synchronisation" x="127" y="-17">o_response!</label><label kind="assignment" x="110" y="8">n = o_response_p</label><nail x="663" y="10"/><nail x="-297" y="10"/></transition><transition><source ref="id2"/><target ref="id1"/><label kind="assignment" x="561" y="-76">error_send=1</label></transition><transition><source ref="id3"/><target ref="id1"/><label kind="assignment" x="569" y="-246">data_send=1</label><nail x="663" y="-255"/></transition><transition><source ref="id4"/><target ref="id2"/><label kind="assignment" x="442" y="-76">error_create=1</label></transition><transition><source ref="id5"/><target ref="id3"/><label kind="assignment" x="442" y="-246">data_create=1</label></transition><transition><source ref="id7"/><target ref="id4"/><label kind="guard" x="238" y="-119">not comm_valid</label><label kind="assignment" x="238" y="-85">TS4 = true</label><nail x="238" y="-85"/></transition><transition><source ref="id7"/><target ref="id5"/><label kind="guard" x="265" y="-292">comm_valid</label><label kind="assignment" x="246" y="-255">TS3 = true</label><nail x="238" y="-255"/></transition><transition><source ref="id8"/><target ref="id7"/><label kind="guard" x="127" y="-187">not eps_busy</label><label kind="assignment" x="128" y="-168">TS2 = true</label></transition><transition><source ref="id6"/><target ref="id0"/></transition><transition><source ref="id8"/><target ref="id6"/><label kind="guard" x="11" y="-112">eps_busy</label><label kind="assignment" x="8" y="-96">TS5 = true</label><nail x="76" y="-34"/></transition><transition><source ref="id9"/><target ref="id8"/><label kind="select" x="-34" y="-195">i : int [0,1]</label><label kind="assignment" x="-51" y="-170">comm_send=1,
+    eps_busy=i</label></transition><transition><source ref="id10"/><target ref="id9"/><label kind="guard" x="-221" y="-212">cl &gt; 15</label><label kind="synchronisation" x="-221" y="-195">i_command?</label><label kind="assignment" x="-280" y="-170">i_command_comm_create=1,
+    cl:=0,
+    TS1=true</label></transition></template><template><name>Environment</name><declaration>clock cl;
+    const int  C1=40;</declaration><location id="id11" x="0" y="0"><label kind="invariant" x="25" y="-8">cl&lt;=C1</label></location><init ref="id11"/><transition><source ref="id11"/><target ref="id11"/><label kind="synchronisation" x="-35" y="87">o_response?</label><label kind="assignment" x="-20" y="71">cl=0</label><nail x="44" y="71"/><nail x="-38" y="72"/></transition><transition><source ref="id11"/><target ref="id11"/><label kind="select" x="-34" y="-110">i : int [0,1]</label><label kind="synchronisation" x="-42" y="-93">i_command!</label><label kind="assignment" x="-34" y="-68">comm_valid=i,
+    cl=0</label><nail x="68" y="-68"/><nail x="-68" y="-68"/></transition></template><system>system Environment, MCS_EPS;
+
+</system></nta>

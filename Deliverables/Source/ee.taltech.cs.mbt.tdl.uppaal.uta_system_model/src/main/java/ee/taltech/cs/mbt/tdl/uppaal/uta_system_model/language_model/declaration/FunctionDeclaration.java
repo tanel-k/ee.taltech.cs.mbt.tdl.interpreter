@@ -68,7 +68,11 @@ public class FunctionDeclaration extends AbsDeclarationStatement {
 	public FunctionDeclaration deepClone() {
 		FunctionDeclaration clone = new FunctionDeclaration();
 
-		getParameters().stream()
+		clone.name = name.deepClone();
+		clone.valueType = valueType != null
+				? valueType.deepClone()
+				: null;
+		parameters.stream()
 				.map(ParameterDeclaration::deepClone)
 				.forEachOrdered(clone.parameters::add);
 		clone.statementBlock = getStatementBlock().deepClone();

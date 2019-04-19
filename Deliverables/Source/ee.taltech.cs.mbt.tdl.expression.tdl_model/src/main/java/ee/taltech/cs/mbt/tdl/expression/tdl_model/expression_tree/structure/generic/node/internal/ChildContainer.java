@@ -109,6 +109,10 @@ public class ChildContainer<ChildType extends AbsExpressionNode> {
 			throw new IllegalArgumentException("Ordinal out of bounds.");
 		}
 		invalidateLocalCache();
+
+		if (this.childList.get(ordinal) != null)
+			this.childList.get(ordinal).setParentNode(null);
+
 		operand.setParentNode(getSubtreeRoot());
 		this.childList.set(ordinal, operand);
 		return this;
@@ -116,9 +120,9 @@ public class ChildContainer<ChildType extends AbsExpressionNode> {
 
 	public ChildContainer<ChildType> replaceChildNode(ChildType prevChild, ChildType newChild) {
 		for (int i = 0; i < arity; i++) {
-			ChildType ch = getChildNode(i);
-			if (prevChild.hashCode() == ch.hashCode()) {
-				if (prevChild.equals(ch))
+			ChildType childCandidate = getChildNode(i);
+			if (childCandidate != null && prevChild.hashCode() == childCandidate.hashCode()) {
+				if (prevChild.equals(childCandidate))
 					setChildNode(i, newChild);
 			}
 		}

@@ -60,7 +60,10 @@ public class VariableDeclarationGroup extends AbsVariableDeclaration implements 
 		VariableDeclarationGroup clone = new VariableDeclarationGroup();
 		clone.baseTypeExtensionMap = baseTypeExtensionMap.deepClone();
 		initializerMap.entrySet().stream().forEachOrdered(
-				e -> clone.initializerMap.put(e.getKey().deepClone(), e.getValue().deepClone())
+				e -> clone.initializerMap.put(
+						e.getKey().deepClone(),
+						e.getValue() != null ? e.getValue().deepClone() : null
+				)
 		);
 		return clone;
 	}

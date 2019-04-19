@@ -79,6 +79,11 @@
         <artifactId>scenario_composer</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>ee.taltech.cs.mbt.tdl</groupId>
+        <artifactId>interpreter</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <!-- /Internal -->
     </dependencies>
   </dependencyManagement>

@@ -4,8 +4,7 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ee.taltech.cs.mbt.tdl.scenario</groupId>
-  <artifactId>scenario_composer</artifactId>
+  <artifactId>interpreter</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -22,50 +21,30 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
-      <plugin>
-        <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-        <artifactId>uta_pickler_plugin</artifactId>
-        <executions>
-          <execution>
-            <id>pickle-stub-project</id>
-            <goals>
-              <goal>pickle</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>src/main/java</outputDirectory>
-              <sourceFile>src/main/resources/ScenarioWrapperBaseProject.xml</sourceFile>
-              <pickleName>ScenarioWrapperBase</pickleName>
-              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.base</picklePackage>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 
   <dependencies>
-    <!-- Internal -->
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
-      <artifactId>utils</artifactId>
+      <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
+      <artifactId>tdl_parser</artifactId>
     </dependency>
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-      <artifactId>uta_system_model</artifactId>
+      <artifactId>uta_parser</artifactId>
     </dependency>
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
-      <artifactId>tdl_model</artifactId>
+      <groupId>ee.taltech.cs.mbt.tdl.scenario</groupId>
+      <artifactId>scenario_composer</artifactId>
     </dependency>
-    <!-- /Internal -->
   </dependencies>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>TDL(TP) Scenario Composer</name>
-  <description>TDL(TP) scenario composer.</description>
+  <name>TDL(TP) Interpreter</name>
+  <description>TDL(TP) interpreter.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
     <name>TalTech</name>

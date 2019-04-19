@@ -21,8 +21,8 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioCompositionParameters;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.base.ScenarioWrapperBaseSystemFactory;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.generic.AbsDerivedTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.generic.AbsDerivedTrapset.TrapsetImplementationDetail;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset.TrapsetImplementationDetail;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
@@ -151,7 +151,6 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 	@Override
 	protected VariableDeclaration new_TDL_TREE_NODE_COUNTDeclaration() {
-		// Adjust the value of TDL_TREE_NODE_COUNT.
 		VariableDeclaration baseDeclaration = super.new_TDL_TREE_NODE_COUNTDeclaration();
 		baseDeclaration.setInitializer(new FlatVariableInitializer().setExpression(
 				NaturalNumberLiteral.of(constructionCtx.treeNodeCount)
@@ -161,7 +160,6 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 	@Override
 	protected VariableDeclaration new_TRAPSET_COUNTDeclaration() {
-		// Adjust the value of TRAPSET_COUNT.
 		VariableDeclaration baseDeclaration = super.new_TRAPSET_COUNTDeclaration();
 		baseDeclaration.setInitializer(new FlatVariableInitializer().setExpression(
 				NaturalNumberLiteral.of(constructionCtx.trapsetNodeCount)
@@ -242,8 +240,8 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 	protected void prepareContext() {
 		preprocessExpressionTree();
 
-		Map<Identifier, IntIterator> trapsetNameCounters = new HashMap<>();
-		parameters.getExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
+		Map<Identifier, IntIterator> trapsetQualifierCounters = new HashMap<>();
+		parameters.getTdlExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
 			private AbsExpression getBoundTypeExpression(Bound bound) {
 				Identifier boundTypeName = null;
 
@@ -412,8 +410,8 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 				Identifier trapsetName = trapset.getName();
 				if (constructionCtx.mapTrapsetOccurrenceCounts.get(trapsetName) > 1) {
-					Integer trapsetNameQualifier = trapsetNameCounters
-							.computeIfAbsent(trapset.getName(), k -> IntIterator.newInstance())
+					Integer trapsetNameQualifier = trapsetQualifierCounters
+							.computeIfAbsent(trapset.getName(), k -> IntIterator.newInstance(1))
 							.next();
 					trapsetName = Identifier.of(trapsetName + "_" + trapsetNameQualifier);
 				}
@@ -481,7 +479,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 		IntIterator treeNodeCounter = IntIterator.newInstance();
 		IntIterator trapsetNodeCounter = IntIterator.newInstance();
-		parameters.getExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
+		parameters.getTdlExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
 			@Override
 			public Void visitBoundedRepetition(BoundedRepetitionNode node) {
 				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
@@ -559,7 +557,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 		constructionCtx.treeNodeCount = treeNodeCounter.getCurrentValue();
 		constructionCtx.trapsetNodeCount = trapsetNodeCounter.getCurrentValue();
-		mapTrapsetCounters.forEach((k, v) -> constructionCtx.mapTrapsetOccurrenceCounts.put(k, v.getCurrentValue()));
+		mapTrapsetCounters.forEach((k, v) -> constructionCtx.mapTrapsetOccurrenceCounts.put(k, v.getCurrentValue() - 1));
 	}
 
 	public ScenarioWrapperConstructionContext getConstructionContext() {

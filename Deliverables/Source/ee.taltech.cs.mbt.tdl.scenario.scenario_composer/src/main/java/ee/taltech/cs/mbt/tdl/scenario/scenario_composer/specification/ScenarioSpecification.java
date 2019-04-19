@@ -16,11 +16,11 @@ public class ScenarioSpecification {
 		this.expression = expression;
 	}
 
-	public TdlExpression getExpression() {
+	public TdlExpression getTdlExpression() {
 		return expression;
 	}
 
-	public UtaSystem getSystemModel() {
+	public UtaSystem getSutModel() {
 		return systemModel;
 	}
 }
