@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.commons.utils.math;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.BiTuple;
 
 public class MathUtils {
-	public static BiTuple<Double, Double> solveQuadraticApprox(double a, double b, double c) {
+	public static BiTuple<Double, Double> solveQuadratic(double a, double b, double c) {
 		if (a == 0.0) {
 			if (b == 0.0)
 				return null;

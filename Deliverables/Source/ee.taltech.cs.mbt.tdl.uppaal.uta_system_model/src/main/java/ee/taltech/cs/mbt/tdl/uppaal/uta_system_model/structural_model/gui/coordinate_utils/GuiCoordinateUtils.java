@@ -6,10 +6,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoo
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GuiCoordinateUtils {
-	public static Integer distanceBetween(GuiCoordinates start, GuiCoordinates end) {
+	public static Integer flooredDistanceBetween(GuiCoordinates start, GuiCoordinates end) {
 		double xDiff = (double) (end.getX() - start.getX());
 		double yDiff = (double) (end.getY() - start.getY());
 		return (int) Math.floor(
@@ -25,6 +24,9 @@ public class GuiCoordinateUtils {
 	}
 
 	public static List<GuiCoordinates> evenlyDistributedCoordinatesBetween(GuiCoordinates start, GuiCoordinates end, Integer count) {
+		if (count < 0)
+			throw new IllegalArgumentException("Coordinate count must be >= 0");
+
 		List<GuiCoordinates> coordinates = new ArrayList<>(count);
 		int xDiff = Math.floorDiv(end.getX() - start.getX(), count + 1);
 		int yDiff = Math.floorDiv(end.getY() - start.getY(), count + 1);
@@ -43,6 +45,12 @@ public class GuiCoordinateUtils {
 	}
 
 	public static List<GuiCoordinates> evenlyDistributedCoordinatesOnPath(List<GuiCoordinates> path, Integer count) {
+		if (path.size() < 2)
+			throw new IllegalArgumentException("Path must have at least two nodes.");
+
+		if (count <= 0)
+			throw new IllegalArgumentException("Coordinate count must be > 0.");
+
 		Integer pathLength = 0;
 
 		int segIdx = 0;
@@ -52,7 +60,7 @@ public class GuiCoordinateUtils {
 		GuiCoordinates prevCoordinates = null;
 		for (GuiCoordinates pathCoordinates : path) {
 			if (prevCoordinates != null) {
-				int segLength = distanceBetween(prevCoordinates, pathCoordinates);
+				int segLength = flooredDistanceBetween(prevCoordinates, pathCoordinates);
 				pathLength += segLength;
 
 				segmentLengths.add(segIdx, segLength);
@@ -74,10 +82,10 @@ public class GuiCoordinateUtils {
 
 			GuiCoordinates startCoords = segment.getFirst();
 			GuiCoordinates endCoords = segment.getSecond();
-			GuiCoordinateApproxFunction approxFunction = GuiCoordinateApproxFunction
+			GuiCoordinateLineFunction approxFunction = GuiCoordinateLineFunction
 					.of(startCoords, endCoords);
 
-			BiTuple<Integer, Integer> checkSignum = BiTuple.of(
+			BiTuple<Integer, Integer> segmentSignum = BiTuple.of(
 					MathUtils.signum(endCoords.getX() - startCoords.getX()),
 					MathUtils.signum(endCoords.getY() - startCoords.getY())
 			);
@@ -91,14 +99,14 @@ public class GuiCoordinateUtils {
 					// Line through X axis:
 					coordsOnPath.add(GuiCoordinates.of(
 							startCoords.getX(),
-							startCoords.getY() + lengthOnSegment
+							startCoords.getY() + (segmentSignum.getSecond() * lengthOnSegment)
 					));
 					nextLength += distBtwn;
 					continue;
 				} else if (b == 0) {
 					// Line through Y axis:
 					coordsOnPath.add(GuiCoordinates.of(
-							startCoords.getX() + lengthOnSegment,
+							startCoords.getX() + (segmentSignum.getFirst() * lengthOnSegment),
 							startCoords.getY()
 					));
 
@@ -117,27 +125,27 @@ public class GuiCoordinateUtils {
 						+ (x * x)
 						- (lengthOnSegment * lengthOnSegment);
 
-				BiTuple<Double, Double> quadSolution = MathUtils.solveQuadraticApprox(qA, qB, qC);
-				if (quadSolution != null) {
+				// Rough solution due to Double precision - good enough since coordinates are int-based.
+				BiTuple<Double, Double> quadraticSolution = MathUtils.solveQuadratic(qA, qB, qC);
+				if (quadraticSolution != null) {
 					GuiCoordinates candidateCoordsA = GuiCoordinates.of(
-							quadSolution.getFirst().intValue(),
-							approxFunction.approximateY(quadSolution.getFirst()).intValue()
+							quadraticSolution.getFirst().intValue(),
+							approxFunction.approximateYFloored(quadraticSolution.getFirst())
 					);
 					GuiCoordinates candidateCoordsB = GuiCoordinates.of(
-							quadSolution.getSecond().intValue(),
-							approxFunction.approximateY(quadSolution.getSecond()).intValue()
+							quadraticSolution.getSecond().intValue(),
+							approxFunction.approximateYFloored(quadraticSolution.getSecond())
 					);
 					BiTuple<Integer, Integer> candidateSignumA = BiTuple.of(
 						MathUtils.signum(candidateCoordsA.getX() - startCoords.getX()),
 						MathUtils.signum(candidateCoordsA.getY() - startCoords.getY())
 					);
-					if (checkSignum.equals(candidateSignumA)) {
+					if (segmentSignum.equals(candidateSignumA)) {
 						coordsOnPath.add(candidateCoordsA);
 					} else {
 						coordsOnPath.add(candidateCoordsB);
 					}
 				} else {
-					// Shouldn't be possible.
 					// FIXME.
 				}
 
