@@ -44,6 +44,11 @@ public class CollectionUtils {
 			return this;
 		}
 
+		public CollectionBuilder<T, C> addAll(Collection<T> items) {
+			collection.addAll(items);
+			return this;
+		}
+
 		public C build() {
 			return collection;
 		}

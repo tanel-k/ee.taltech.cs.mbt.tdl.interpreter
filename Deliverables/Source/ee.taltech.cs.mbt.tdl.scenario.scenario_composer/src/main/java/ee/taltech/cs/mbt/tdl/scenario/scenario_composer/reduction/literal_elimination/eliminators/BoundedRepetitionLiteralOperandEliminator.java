@@ -2,14 +2,13 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimi
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BoundedRepetitionNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.ConjunctionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.Bound;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 
 import java.math.BigInteger;
 import java.util.Deque;
 
-public class BoundedRepetitionLiteralOperandEliminator extends AbsLiteralEliminator<BoundedRepetitionNode> {
+public class BoundedRepetitionLiteralOperandEliminator extends AbsLiteralOperandEliminator<BoundedRepetitionNode> {
 	public static BoundedRepetitionLiteralOperandEliminator getInstance(
 			TdlExpression expression,
 			BoundedRepetitionNode parentNode,

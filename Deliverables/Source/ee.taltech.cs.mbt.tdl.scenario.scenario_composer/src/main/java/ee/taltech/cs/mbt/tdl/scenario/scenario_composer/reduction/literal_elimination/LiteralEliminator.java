@@ -98,7 +98,9 @@ public class LiteralEliminator {
 	}
 
 	private BooleanFlag completionFlag = BooleanFlag.newInstance();
-	private TdlExpression expression;
+
+	private final TdlExpression expression;
+
 	private BooleanValueWrapperNode currentLeaf;
 	private Deque<BooleanValueWrapperNode> remainingBooleanLeaves;
 

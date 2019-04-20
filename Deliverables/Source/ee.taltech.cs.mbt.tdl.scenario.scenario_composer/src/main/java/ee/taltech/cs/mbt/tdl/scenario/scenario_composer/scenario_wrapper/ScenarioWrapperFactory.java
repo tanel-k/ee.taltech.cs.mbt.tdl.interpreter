@@ -557,7 +557,9 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 		constructionCtx.treeNodeCount = treeNodeCounter.getCurrentValue();
 		constructionCtx.trapsetNodeCount = trapsetNodeCounter.getCurrentValue();
-		mapTrapsetCounters.forEach((k, v) -> constructionCtx.mapTrapsetOccurrenceCounts.put(k, v.getCurrentValue() - 1));
+		mapTrapsetCounters.forEach(
+				(k, v) -> constructionCtx.mapTrapsetOccurrenceCounts.put(k, v.getCurrentValue() - 1)
+		);
 	}
 
 	public ScenarioWrapperConstructionContext getConstructionContext() {

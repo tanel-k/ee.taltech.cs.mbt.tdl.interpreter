@@ -72,7 +72,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>Uppaal System Pickler</name>
+  <name>UTA Pickler</name>
   <description>A Maven plugin for generating UTA system builders based on UTA XML.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>

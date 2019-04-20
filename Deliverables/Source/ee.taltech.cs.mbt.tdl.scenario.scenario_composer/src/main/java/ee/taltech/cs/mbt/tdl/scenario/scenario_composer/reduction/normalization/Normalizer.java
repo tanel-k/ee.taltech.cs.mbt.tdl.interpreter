@@ -117,13 +117,13 @@ public class Normalizer {
 	}
 
 	private BooleanFlag completionFlag = BooleanFlag.newInstance();
-	private TdlExpression expression;
-	private AbsBooleanInternalNode subtreeRoot;
+
+	private final TdlExpression expression;
+	private final AbsBooleanInternalNode subtreeRoot;
 	private Deque<BooleanValueWrapperNode> booleanValueWrappers = new LinkedList<>();
 
 	private Normalizer(TdlExpression expression) {
-		this.expression = expression;
-		this.subtreeRoot = expression.getRootNode();
+		this(expression, expression.getRootNode());
 	}
 
 	private Normalizer(TdlExpression expression, AbsBooleanInternalNode subtreeRoot) {
@@ -134,8 +134,10 @@ public class Normalizer {
 	public Deque<BooleanValueWrapperNode> normalize() {
 		if (completionFlag.isSet())
 			return booleanValueWrappers;
+
 		subtreeRoot.accept(new NormalizingVisitor(expression, booleanValueWrappers));
 		completionFlag.set();
+
 		return booleanValueWrappers;
 	}
 }

@@ -1,6 +1,8 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
+import ee.taltech.cs.mbt.tdl.commons.utils.math.MathUtils;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.ScenarioWrapperFactory;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.ScenarioWrapperFactory.ScenarioWrapperConstructionContext;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived.AbsoluteComplementTrapset;
@@ -25,6 +27,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseTyp
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.Color;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.coordinate_utils.GuiCoordinateUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
@@ -35,23 +38,39 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Stack;
 
-
+/*
+ * FIXME:
+ * - Lots of interdependence;
+ * - Potential undiscovered bugs;
+ * - Lots of duplication;
+ * - APIs are too complicated/non-existent;
+ * - Needs some kind of one-off operation pattern;
+ * - No Exception handling logic;
+ * - && True issue;
+ * - lots of new Interface() { interfaceDefinition }; - need to define an interface with a clear API;
+ * - global variable reliance within object;
+ * - bad naming habits;
+ * - lots of duplications.
+ */
 public class ScenarioSystemComposer {
-	public static ScenarioSystemComposer newInstance(UtaSystem baseSystem, ScenarioCompositionParameters parameters) {
-		return new ScenarioSystemComposer(baseSystem, parameters);
+
+	public static ScenarioSystemComposer newInstance(ScenarioCompositionParameters parameters) {
+		return new ScenarioSystemComposer(parameters);
 	}
 
-	private UtaSystem system;
 	private ScenarioWrapperFactory wrapperFactory;
+	private ScenarioCompositionParameters parameters;
 
-	public ScenarioSystemComposer(UtaSystem system, ScenarioCompositionParameters parameters) {
-		this.system = system;
+	public ScenarioSystemComposer(ScenarioCompositionParameters parameters) {
+		this.parameters = parameters;
 		this.wrapperFactory = ScenarioWrapperFactory.getInstance(parameters);
 	}
 
@@ -61,7 +80,7 @@ public class ScenarioSystemComposer {
 		ScenarioWrapperConstructionContext wrapperContext = wrapperFactory.getConstructionContext();
 
 		for (Synchronization globalTransitionSynch : wrapperContext.getGloballyApplicableTransitionSynchs()) {
-			handleGlobalSynch(system, globalTransitionSynch, hookMap);
+			handleGlobalSynch(parameters.getSutModel(), globalTransitionSynch, hookMap);
 		}
 
 		for (AbsDerivedTrapset systemTrapset : wrapperContext.getDerivedTrapsetMap().values()) {
@@ -70,7 +89,7 @@ public class ScenarioSystemComposer {
 
 		insertOutputHooks(hookMap);
 
-		system.merge(wrapperSystem);
+		parameters.getSutModel().merge(wrapperSystem);
 	}
 
 	private void handleGlobalSynch(UtaSystem system, Synchronization globalSynch, Map<Template, Map<Transition, Collection<Synchronization>>> hookMap) {
@@ -82,6 +101,11 @@ public class ScenarioSystemComposer {
 					transitionSynchs.add(globalSynch);
 				}
 		});
+	}
+
+	private static boolean isBetween(GuiCoordinates coords, GuiCoordinates start, GuiCoordinates end) {
+		return MathUtils.inRange(coords.getX(), start.getX(), end.getX())
+				|| MathUtils.inRange(coords.getY(), start.getY(), end.getY());
 	}
 
 	private static void insertOutputHooks(Map<Template, Map<Transition, Collection<Synchronization>>> hookMap) {
@@ -106,11 +130,26 @@ public class ScenarioSystemComposer {
 
 				Collection<Synchronization> hookSynchs = transitionSynchEntry.getValue();
 
-				List<GuiCoordinates> hookLocationCoords = GuiCoordinates.evenlyDistributedCoordinatesBetween(
-						initSourceLocation.getCoordinates(),
-						initTargetLocation.getCoordinates(),
-						hookSynchs.size()
-				);
+				List<GuiCoordinates> hookLocationCoords;
+				Deque<GuiCoordinates> nailStack = new LinkedList<>();
+				if (transition.getNails().isEmpty()) {
+					hookLocationCoords = GuiCoordinateUtils.evenlyDistributedCoordinatesBetween(
+							initSourceLocation.getCoordinates(),
+							initTargetLocation.getCoordinates(),
+							hookSynchs.size()
+					);
+				} else {
+					hookLocationCoords = GuiCoordinateUtils.evenlyDistributedCoordinatesOnPath(
+							CollectionUtils.collectionBuilder(new LinkedList<GuiCoordinates>())
+									.add(initSourceLocation.getCoordinates())
+									.addAll(transition.getNails())
+									.add(initTargetLocation.getCoordinates())
+									.build(),
+							hookSynchs.size()
+					);
+					nailStack.addAll(transition.getNails());
+					transition.getNails().clear();
+				}
 
 				Integer hookLocationIdx = hookSynchs.size();
 				Integer hookTransitionIdx = 0;
@@ -136,45 +175,78 @@ public class ScenarioSystemComposer {
 					if (hookTransitionIdx == 0) {
 						graph.removeEdge(transition);
 						transition.setTarget(hookLocation);
-						hookSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
+						hookSyncLabel.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 								initSourceLocation.getCoordinates(),
 								hookLocation.getCoordinates()
 						));
 						graph.addEdge(initSourceLocation, hookLocation, transition);
+
+						while (!nailStack.isEmpty() && isBetween(
+								nailStack.peekFirst(), initSourceLocation.getCoordinates(), hookLocation.getCoordinates())
+						) {
+							transition.getNails().add(nailStack.pollFirst());
+						}
 					}
 
 					if (hookTransitionIdx == hookLocationIdx - 1) {
 						if (prevHookTransition == null) {
 							hookTransition.setTarget(initTargetLocation);
-							hookSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
+							hookSyncLabel.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 									hookLocation.getCoordinates(),
 									initTargetLocation.getCoordinates()
 							));
 							graph.addEdge(hookLocation, initTargetLocation, hookTransition);
+
+							while (!nailStack.isEmpty() && isBetween(
+									nailStack.peekFirst(), hookLocation.getCoordinates(), initTargetLocation.getCoordinates())
+							) {
+								hookTransition.getNails().add(nailStack.pollFirst());
+							}
 						} else {
 							prevHookTransition.setTarget(hookLocation);
-							prevHookSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
+							prevHookSyncLabel.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 									prevHookLocation.getCoordinates(),
 									hookLocation.getCoordinates()
 							));
 							graph.addEdge(prevHookLocation, hookLocation, prevHookTransition);
 
-							hookSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
+							while (!nailStack.isEmpty() && isBetween(
+									nailStack.peekFirst(), prevHookLocation.getCoordinates(), hookLocation.getCoordinates())
+							) {
+								prevHookTransition.getNails().add(nailStack.pollFirst());
+							}
+
+							hookSyncLabel.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 									hookLocation.getCoordinates(),
 									initTargetLocation.getCoordinates()
 							));
 							hookTransition.setSource(hookLocation);
 							hookTransition.setTarget(initTargetLocation);
 							graph.addEdge(hookLocation, initTargetLocation, hookTransition);
+
+							while (!nailStack.isEmpty() && isBetween(
+									nailStack.peekFirst(), hookLocation.getCoordinates(), initTargetLocation.getCoordinates())
+							) {
+								hookTransition.getNails().add(nailStack.pollFirst());
+							}
 						}
 					} else if (hookTransitionIdx > 0) {
 						prevHookTransition.setTarget(hookLocation);
-						prevHookSyncLabel.setCoordinates(GuiCoordinates.middleCoordinates(
+						prevHookSyncLabel.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 								prevHookLocation.getCoordinates(),
 								hookLocation.getCoordinates()
 						));
 						graph.addEdge(prevHookLocation, hookLocation, prevHookTransition);
+
+						while (!nailStack.isEmpty() && isBetween(
+								nailStack.peekFirst(), prevHookLocation.getCoordinates(), hookLocation.getCoordinates())
+						) {
+							prevHookTransition.getNails().add(nailStack.pollFirst());
+						}
 					}
+
+					// FIXME: Ordering is not possible.
+					System.out.println(nailStack.isEmpty());
 
 					prevHookSyncLabel = hookSyncLabel;
 					prevHookLocation = hookLocation;
@@ -208,7 +280,7 @@ public class ScenarioSystemComposer {
 									)
 							);
 					mapFlagArrayNames.put(detail, flagArrayName);
-					system.getDeclarations().add(declaration);
+					parameters.getSutModel().getDeclarations().add(declaration);
 				}
 
 				int trapIdx = 0;
@@ -222,7 +294,7 @@ public class ScenarioSystemComposer {
 
 					if (labels.getAssignmentsLabel() == null) {
 						AssignmentsLabel label = AssignmentsLabel.of(new LinkedList<>())
-								.setCoordinates(GuiCoordinates.middleCoordinates(
+								.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 										initSourceLocation.getCoordinates(),
 										initTargetLocation.getCoordinates()
 								));
@@ -243,7 +315,7 @@ public class ScenarioSystemComposer {
 						if (ingressTransition.getLabels().getAssignmentsLabel() == null) {
 							ingressTransition.getLabels().setAssignmentsLabel(
 									AssignmentsLabel.of(new LinkedList<>())
-											.setCoordinates(GuiCoordinates.middleCoordinates(
+											.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 													ingressTransition.getSource().getCoordinates(),
 													ingressTransition.getTarget().getCoordinates()
 											))
@@ -270,7 +342,7 @@ public class ScenarioSystemComposer {
 
 								if (egressTransition.getLabels().getAssignmentsLabel() == null) {
 									egressTransition.getLabels().setAssignmentsLabel(AssignmentsLabel.of(new LinkedList<>())
-											.setCoordinates(GuiCoordinates.middleCoordinates(
+											.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 													egressTransition.getSource().getCoordinates(),
 													egressTransition.getTarget().getCoordinates()
 											))
@@ -350,7 +422,7 @@ public class ScenarioSystemComposer {
 
 					if (labels.getAssignmentsLabel() == null) {
 						AssignmentsLabel label = AssignmentsLabel.of(new LinkedList<>())
-								.setCoordinates(GuiCoordinates.middleCoordinates(
+								.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 										initSourceLocation.getCoordinates(),
 										initTargetLocation.getCoordinates()
 								));

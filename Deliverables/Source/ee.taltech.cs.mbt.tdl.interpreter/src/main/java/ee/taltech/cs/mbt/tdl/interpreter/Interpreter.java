@@ -4,7 +4,7 @@ import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseExce
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioComposer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.specification.ScenarioSpecification;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioSpecification;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;

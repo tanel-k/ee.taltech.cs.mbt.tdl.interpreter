@@ -8,7 +8,7 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.
 
 import java.util.Deque;
 
-public abstract class AbsLiteralEliminator<T extends AbsBooleanInternalNode> {
+public abstract class AbsLiteralOperandEliminator<T extends AbsBooleanInternalNode> {
 	private BooleanFlag completionFlag = BooleanFlag.newInstance();
 
 	private T parentNode;
@@ -16,7 +16,7 @@ public abstract class AbsLiteralEliminator<T extends AbsBooleanInternalNode> {
 	protected BooleanValueWrapperNode childLeaf;
 	protected Deque<BooleanValueWrapperNode> remainingLeaves;
 
-	protected AbsLiteralEliminator(
+	protected AbsLiteralOperandEliminator(
 			TdlExpression expression,
 			T parentNode,
 			BooleanValueWrapperNode childLeaf,

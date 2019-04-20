@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 
 import java.util.Deque;
 
-public class ConjunctionLiteralOperandEliminator extends AbsLiteralEliminator<ConjunctionNode> {
+public class ConjunctionLiteralOperandEliminator extends AbsLiteralOperandEliminator<ConjunctionNode> {
 	public static ConjunctionLiteralOperandEliminator getInstance(
 			TdlExpression expression,
 			ConjunctionNode parentNode,
