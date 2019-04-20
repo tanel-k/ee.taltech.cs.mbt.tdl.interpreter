@@ -146,7 +146,10 @@ public class GuiCoordinateUtils {
 						coordsOnPath.add(candidateCoordsB);
 					}
 				} else {
-					// FIXME.
+					throw new IllegalStateException(
+							"Cannot find point at distance " + lengthOnSegment + " between " + startCoords + " and " + endCoords
+									+ ". Unsolvable quadratic equation with A=" + qA + ", B=" + qB + ", C=" + qC + "."
+					);
 				}
 
 				nextLength += distBtwn;
