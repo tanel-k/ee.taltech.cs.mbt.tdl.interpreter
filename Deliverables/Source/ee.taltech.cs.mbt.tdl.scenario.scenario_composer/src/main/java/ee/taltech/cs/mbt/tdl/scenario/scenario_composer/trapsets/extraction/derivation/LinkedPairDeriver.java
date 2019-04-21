@@ -59,10 +59,10 @@ public class LinkedPairDeriver extends AbsTrapsetDeriver<LinkedPairNode> {
 		for (Transition ingressTransition : ingressTrapset) {
 			Template ingressParentTpl = ingressTrapset.getParentTemplate(ingressTransition);
 			Location target = ingressParentTpl.getLocationGraph().getTargetVertex(ingressTransition);
-			Set<Transition> egressTransitions = ingressParentTpl.getLocationGraph().getEdgesFrom(target);
+			Set<Transition> egressTransitionCandidates = ingressParentTpl.getLocationGraph().getEdgesFrom(target);
 
 			// Check edges leaving the target of the ingress transition:
-			for (Transition egressTransition : egressTransitions) {
+			for (Transition egressTransition : egressTransitionCandidates) {
 				if (!egressTrapset.contains(egressTransition))
 					continue;
 

@@ -6,8 +6,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import java.util.Optional;
 
 public class ScenarioCompositionResults {
-	public static ScenarioCompositionResults of(TdlExpression tdlExpression) {
-		return new ScenarioCompositionResults(tdlExpression, null);
+	public static ScenarioCompositionResults of(TdlExpression trivialExpression) {
+		return new ScenarioCompositionResults(trivialExpression, null);
 	}
 
 	public static ScenarioCompositionResults of(TdlExpression tdlExpression, UtaSystem scenarioSystem) {

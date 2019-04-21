@@ -50,6 +50,7 @@ public class ScenarioComposer {
 		 * in order to present it to the user if required.
 		 * We will need an object structure for representing expression tree diffs.
 		 */
+
 		// Replace immediately evaluable trapset quantifiers with True/False:
 		TrapsetQuantifierEvaluator
 				.getInstance(sutModelCpy, tdlExpressionCpy, mapDerivedTrapsets)
@@ -65,12 +66,12 @@ public class ScenarioComposer {
 			return ScenarioCompositionResults.of(tdlExpressionCpy);
 		}
 
-		// Compose SUT model and TDL recognition wrapper:
 		ScenarioCompositionParameters compositionParameters = new ScenarioCompositionParameters()
 				.setSutModel(sutModelCpy)
 				.setTdlExpression(tdlExpressionCpy)
 				.setDerivedTrapsetMap(mapDerivedTrapsets);
 
+		// Construct TDL recognition wrapper, adjust SUT model and compose into single system:
 		ScenarioSystemComposer
 				.newInstance(compositionParameters)
 				.compose();

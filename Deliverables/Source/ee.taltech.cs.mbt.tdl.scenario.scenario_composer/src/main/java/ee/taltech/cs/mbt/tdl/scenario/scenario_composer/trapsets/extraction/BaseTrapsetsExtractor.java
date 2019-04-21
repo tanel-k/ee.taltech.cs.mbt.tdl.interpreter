@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction;
 
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
@@ -118,7 +118,7 @@ public class BaseTrapsetsExtractor {
 		return trapsetNodes;
 	}
 
-	private final BooleanFlag completionFlag = BooleanFlag.newInstance();
+	private final Flag completionFlag = Flag.newInstance();
 
 	private final UtaSystem system;
 	private final TdlExpression expression;

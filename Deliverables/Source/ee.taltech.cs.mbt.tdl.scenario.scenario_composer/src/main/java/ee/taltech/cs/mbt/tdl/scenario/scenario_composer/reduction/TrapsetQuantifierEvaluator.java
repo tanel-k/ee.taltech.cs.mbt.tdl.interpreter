@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
@@ -54,7 +54,7 @@ public class TrapsetQuantifierEvaluator {
 				.sum();
 	}
 
-	private BooleanFlag completionFlag = BooleanFlag.newInstance();
+	private Flag completionFlag = Flag.newInstance();
 
 	private UtaSystem system;
 	private TdlExpression expression;

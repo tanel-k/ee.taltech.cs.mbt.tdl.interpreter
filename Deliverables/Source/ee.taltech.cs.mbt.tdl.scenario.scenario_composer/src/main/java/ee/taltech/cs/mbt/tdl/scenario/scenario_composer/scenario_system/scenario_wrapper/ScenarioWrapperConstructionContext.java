@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
@@ -21,12 +21,12 @@ public class ScenarioWrapperConstructionContext {
 	private int treeNodeCount = 0;
 	private int trapsetNodeCount = 0;
 
-	private BooleanFlag terminatorAdapterInclusionFlag = BooleanFlag.newInstance();
-	private BooleanFlag disjunctionInclusionFlag = BooleanFlag.newInstance();
-	private BooleanFlag conjunctionInclusionFlag = BooleanFlag.newInstance();
-	private BooleanFlag leadsToInclusionFlag = BooleanFlag.newInstance();
-	private BooleanFlag boundedLeadsToInclusionFlag = BooleanFlag.newInstance();
-	private BooleanFlag boundedRepetitionInclusionFlag = BooleanFlag.newInstance();
+	private Flag terminatorAdapterInclusionFlag = Flag.newInstance();
+	private Flag disjunctionInclusionFlag = Flag.newInstance();
+	private Flag conjunctionInclusionFlag = Flag.newInstance();
+	private Flag leadsToInclusionFlag = Flag.newInstance();
+	private Flag boundedLeadsToInclusionFlag = Flag.newInstance();
+	private Flag boundedRepetitionInclusionFlag = Flag.newInstance();
 
 	private ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
 	private ObjectIdentityMap<AbsDerivedTrapsetNode, Integer> trapsetIndexMap = new ObjectIdentityMap<>();
@@ -56,27 +56,27 @@ public class ScenarioWrapperConstructionContext {
 		this.trapsetNodeCount = trapsetNodeCount;
 	}
 
-	BooleanFlag getTerminatorAdapterInclusionFlag() {
+	Flag getTerminatorAdapterInclusionFlag() {
 		return terminatorAdapterInclusionFlag;
 	}
 
-	BooleanFlag getDisjunctionInclusionFlag() {
+	Flag getDisjunctionInclusionFlag() {
 		return disjunctionInclusionFlag;
 	}
 
-	BooleanFlag getConjunctionInclusionFlag() {
+	Flag getConjunctionInclusionFlag() {
 		return conjunctionInclusionFlag;
 	}
 
-	BooleanFlag getLeadsToInclusionFlag() {
+	Flag getLeadsToInclusionFlag() {
 		return leadsToInclusionFlag;
 	}
 
-	BooleanFlag getBoundedRepetitionInclusionFlag() {
+	Flag getBoundedRepetitionInclusionFlag() {
 		return boundedRepetitionInclusionFlag;
 	}
 
-	BooleanFlag getBoundedLeadsToInclusionFlag() {
+	Flag getBoundedLeadsToInclusionFlag() {
 		return boundedLeadsToInclusionFlag;
 	}
 

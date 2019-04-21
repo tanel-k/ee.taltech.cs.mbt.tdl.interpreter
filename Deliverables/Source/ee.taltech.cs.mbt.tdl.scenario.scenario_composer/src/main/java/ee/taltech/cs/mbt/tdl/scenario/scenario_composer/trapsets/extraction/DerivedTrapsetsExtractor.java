@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction;
 
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.AbsoluteComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.LinkedPairNode;
@@ -30,7 +30,7 @@ public class DerivedTrapsetsExtractor {
 		return new DerivedTrapsetsExtractor(system, expression, baseTrapsetMap);
 	}
 
-	private final BooleanFlag completionFlag = BooleanFlag.newInstance();
+	private final Flag completionFlag = Flag.newInstance();
 
 	private final UtaSystem system;
 	private final TdlExpression expression;

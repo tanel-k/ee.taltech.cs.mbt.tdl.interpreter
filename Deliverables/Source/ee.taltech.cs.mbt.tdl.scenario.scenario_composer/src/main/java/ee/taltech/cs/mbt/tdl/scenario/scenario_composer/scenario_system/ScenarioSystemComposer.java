@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.ScenarioWrapperConstructionContext;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.ScenarioWrapperFactory;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
@@ -51,7 +51,7 @@ public class ScenarioSystemComposer {
 		return new ScenarioSystemComposer(parameters);
 	}
 
-	private BooleanFlag completionFlag = BooleanFlag.newInstance();
+	private Flag completionFlag = Flag.newInstance();
 
 	private ScenarioWrapperFactory wrapperFactory;
 	private ScenarioCompositionParameters parameters;
@@ -80,11 +80,12 @@ public class ScenarioSystemComposer {
 	private static LinkedList<LinkedList<GuiCoordinates>> getNailSegments(
 			List<GuiCoordinates> fullTransitionPath, List<GuiCoordinates> hookLocationCoords
 	) {
-		LinkedList<LinkedList<GuiCoordinates>> pathSegmentation = GuiCoordinateUtils.segmentPath(
+		LinkedList<LinkedList<GuiCoordinates>> segments = GuiCoordinateUtils.segmentPath(
 				fullTransitionPath, hookLocationCoords
 		);
+
 		// Get rid of origin location coordinates (first coordinate in first segment):
-		for (LinkedList<GuiCoordinates> segment : pathSegmentation) {
+		for (LinkedList<GuiCoordinates> segment : segments) {
 			if (!segment.isEmpty()) {
 				segment.removeFirst();
 				break;
@@ -92,14 +93,14 @@ public class ScenarioSystemComposer {
 		}
 
 		// Get rid of target location coordinates (last coordinate in last segment):
-		for (int i = pathSegmentation.size() - 1; i >= 0; i--) {
-			if (!pathSegmentation.get(i).isEmpty()) {
-				pathSegmentation.get(i).removeLast();
+		for (int i = segments.size() - 1; i >= 0; i--) {
+			if (!segments.get(i).isEmpty()) {
+				segments.get(i).removeLast();
 				break;
 			}
 		}
 
-		return pathSegmentation;
+		return segments;
 	}
 
 	private static void injectSynchronizationHooks(

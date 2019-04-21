@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization;
 
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BoundedLeadsToNode;
@@ -115,7 +115,7 @@ public class ExpressionNormalizer {
 		}
 	}
 
-	private BooleanFlag completionFlag = BooleanFlag.newInstance();
+	private Flag completionFlag = Flag.newInstance();
 
 	private final TdlExpression expression;
 	private final AbsBooleanInternalNode subtreeRoot;

@@ -62,12 +62,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 import java.util.LinkedList;
 
 public class ScenarioWrapperBaseSystemFactory {
-  public static class TdlStopwatchTemplateFactory {
-    public static TdlStopwatchTemplateFactory getInstance() {
-      return new TdlStopwatchTemplateFactory();
+  public static class TdlScenarioStopwatchTemplateFactory {
+    public static TdlScenarioStopwatchTemplateFactory getInstance() {
+      return new TdlScenarioStopwatchTemplateFactory();
     }
 
-    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlStopwatch");
+    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlScenarioStopwatch");
 
     public static final Identifier DECLARED_NAME_timeoutClock = Identifier.of("timeoutClock");
 
@@ -75,7 +75,7 @@ public class ScenarioWrapperBaseSystemFactory {
       return TEMPLATE_NAME;
     }
 
-    protected TdlStopwatchTemplateFactory() {}
+    protected TdlScenarioStopwatchTemplateFactory() {}
 
     protected ParameterDeclaration new_rootIndexParameterDeclaration() {
       return new ParameterDeclaration()
@@ -236,38 +236,39 @@ public class ScenarioWrapperBaseSystemFactory {
     }
 
     public Template newTemplate() {
-      Template TdlStopwatch = new Template().setName(getTemplateName());
+      Template TdlScenarioStopwatch = new Template().setName(getTemplateName());
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
-          TdlStopwatch.getParameters(), new_rootIndexParameterDeclaration());
+          TdlScenarioStopwatch.getParameters(), new_rootIndexParameterDeclaration());
 
       // Set local declarations:
-      CollectionUtils.addIfNonNull(TdlStopwatch.getDeclarations(), new_timeoutClockDeclaration());
+      CollectionUtils.addIfNonNull(
+          TdlScenarioStopwatch.getDeclarations(), new_timeoutClockDeclaration());
 
       // Set locations:
       Location locationId2 = newId2Location();
-      TdlStopwatch.getLocationGraph().addVertex(locationId2);
+      TdlScenarioStopwatch.getLocationGraph().addVertex(locationId2);
 
       Location locationId0 = newId0Location();
-      TdlStopwatch.getLocationGraph().addVertex(locationId0);
+      TdlScenarioStopwatch.getLocationGraph().addVertex(locationId0);
 
       Location locationId1 = newId1Location();
-      TdlStopwatch.getLocationGraph().addVertex(locationId1);
+      TdlScenarioStopwatch.getLocationGraph().addVertex(locationId1);
 
       Location locationId3 = newId3Location();
-      TdlStopwatch.getLocationGraph().addVertex(locationId3);
-      TdlStopwatch.setInitialLocation(locationId3);
+      TdlScenarioStopwatch.getLocationGraph().addVertex(locationId3);
+      TdlScenarioStopwatch.setInitialLocation(locationId3);
 
       // Set transitions:
       Transition transitionId2ToId0 = newId2ToId0Transition(locationId2, locationId0);
-      TdlStopwatch.getLocationGraph().addEdge(locationId2, locationId0, transitionId2ToId0);
+      TdlScenarioStopwatch.getLocationGraph().addEdge(locationId2, locationId0, transitionId2ToId0);
       Transition transitionId2ToId1 = newId2ToId1Transition(locationId2, locationId1);
-      TdlStopwatch.getLocationGraph().addEdge(locationId2, locationId1, transitionId2ToId1);
+      TdlScenarioStopwatch.getLocationGraph().addEdge(locationId2, locationId1, transitionId2ToId1);
       Transition transitionId3ToId2 = newId3ToId2Transition(locationId3, locationId2);
-      TdlStopwatch.getLocationGraph().addEdge(locationId3, locationId2, transitionId3ToId2);
+      TdlScenarioStopwatch.getLocationGraph().addEdge(locationId3, locationId2, transitionId3ToId2);
 
-      return TdlStopwatch;
+      return TdlScenarioStopwatch;
     }
   }
 
@@ -3910,25 +3911,26 @@ public class ScenarioWrapperBaseSystemFactory {
 
     protected ScenarioWrapperBaseSystemDefinitionFactory() {}
 
-    protected TemplateInstantiation new_TdlSWDeclaration() {
+    protected TemplateInstantiation new_TdlStopwatchDeclaration() {
       return new TemplateInstantiation()
-          .setNewTemplateName(Identifier.of("TdlSW"))
-          .setSourceTemplateName(Identifier.of("TdlStopwatch"))
+          .setNewTemplateName(Identifier.of("TdlStopwatch"))
+          .setSourceTemplateName(Identifier.of("TdlScenarioStopwatch"))
           .addArgument(NaturalNumberLiteral.of("0"));
     }
 
-    protected static final Identifier ProcessReferenceTdlSW = Identifier.of("TdlSW");
+    protected static final Identifier ProcessReferenceTdlStopwatch = Identifier.of("TdlStopwatch");
 
     protected SystemLine newSystemLine() {
       return new SystemLine()
-          .addGroup(new ProcessReferenceGroup().addIdentifier(Identifier.of("TdlSW")));
+          .addGroup(new ProcessReferenceGroup().addIdentifier(Identifier.of("TdlStopwatch")));
     }
 
     public SystemDefinition newSystemDefinition() {
       SystemDefinition systemDefinition = new SystemDefinition();
 
       // Set local declarations:
-      CollectionUtils.addIfNonNull(systemDefinition.getDeclarations(), new_TdlSWDeclaration());
+      CollectionUtils.addIfNonNull(
+          systemDefinition.getDeclarations(), new_TdlStopwatchDeclaration());
       // Set system line:
       systemDefinition.setSystemLine(newSystemLine());
       // Set progress measures:
@@ -3964,7 +3966,8 @@ public class ScenarioWrapperBaseSystemFactory {
   public static final Identifier DECLARED_NAME_TrapsetTerminatorChannels =
       Identifier.of("TrapsetTerminatorChannels");
   public static final Identifier DECLARED_NAME_TdlDiagnostics = Identifier.of("TdlDiagnostics");
-  public static final Identifier DECLARED_NAME_TdlStopwatch = Identifier.of("TdlStopwatch");
+  public static final Identifier DECLARED_NAME_TdlScenarioStopwatch =
+      Identifier.of("TdlScenarioStopwatch");
   public static final Identifier DECLARED_NAME_TdlBoundedLeadsToRecognizer =
       Identifier.of("TdlBoundedLeadsToRecognizer");
   public static final Identifier DECLARED_NAME_TdlBoundedRepetitionRecognizer =
@@ -4221,8 +4224,8 @@ public class ScenarioWrapperBaseSystemFactory {
                         .setSizeSpecifier(IdentifierExpression.of("TdlTreeIndex"))));
   }
 
-  protected Template new_TdlStopwatchTemplate() {
-    return TdlStopwatchTemplateFactory.getInstance().newTemplate();
+  protected Template new_TdlScenarioStopwatchTemplate() {
+    return TdlScenarioStopwatchTemplateFactory.getInstance().newTemplate();
   }
 
   protected Template new_TdlBoundedLeadsToRecognizerTemplate() {
@@ -4293,7 +4296,8 @@ public class ScenarioWrapperBaseSystemFactory {
         ScenarioWrapperBase.getDeclarations(), new_TdlDiagnosticsDeclaration());
 
     // Set templates:
-    CollectionUtils.addIfNonNull(ScenarioWrapperBase.getTemplates(), new_TdlStopwatchTemplate());
+    CollectionUtils.addIfNonNull(
+        ScenarioWrapperBase.getTemplates(), new_TdlScenarioStopwatchTemplate());
     CollectionUtils.addIfNonNull(
         ScenarioWrapperBase.getTemplates(), new_TdlBoundedLeadsToRecognizerTemplate());
     CollectionUtils.addIfNonNull(

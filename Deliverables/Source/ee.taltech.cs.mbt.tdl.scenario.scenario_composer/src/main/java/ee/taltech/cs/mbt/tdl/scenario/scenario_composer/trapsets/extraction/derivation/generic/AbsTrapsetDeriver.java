@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.derivation.generic;
 
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.Map;
 
 public abstract class AbsTrapsetDeriver<T extends AbsDerivedTrapsetNode> {
-	private BooleanFlag completionFlag = BooleanFlag.newInstance();
+	private Flag completionFlag = Flag.newInstance();
 
 	private AbsDerivedTrapset derivedTrapset;
 	private final UtaSystem system;

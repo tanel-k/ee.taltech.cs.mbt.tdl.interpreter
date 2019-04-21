@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper;
 
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
@@ -108,7 +108,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 		}
 	}
 
-	private BooleanFlag completionFlag = BooleanFlag.newInstance();
+	private Flag completionFlag = Flag.newInstance();
 
 	private UtaSystem wrapperSystem;
 	private ScenarioCompositionParameters parameters;
