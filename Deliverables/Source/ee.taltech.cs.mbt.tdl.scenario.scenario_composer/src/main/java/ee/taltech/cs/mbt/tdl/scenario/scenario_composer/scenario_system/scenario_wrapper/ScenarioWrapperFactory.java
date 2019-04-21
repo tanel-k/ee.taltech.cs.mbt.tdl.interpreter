@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
@@ -18,9 +18,9 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioCompositionParameters;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.base.ScenarioWrapperBaseSystemFactory;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset.TrapsetImplementationDetail;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.base.ScenarioWrapperBaseSystemFactory;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset.TrapsetImplementationDetail;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;

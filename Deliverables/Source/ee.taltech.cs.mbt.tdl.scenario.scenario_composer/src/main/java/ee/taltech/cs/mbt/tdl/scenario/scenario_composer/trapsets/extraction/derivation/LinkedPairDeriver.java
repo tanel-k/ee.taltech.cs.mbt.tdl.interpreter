@@ -1,12 +1,12 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.extraction.trapset_derivation;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.derivation;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.LinkedPairNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.extraction.trapset_derivation.generic.AbsTrapsetDeriver;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived.LinkedPairTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trap.LinkedPairTrap;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.derivation.generic.AbsTrapsetDeriver;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.LinkedPairTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.trap.LinkedPairTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.AssignmentExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.IdentifierExpression;
@@ -55,6 +55,7 @@ public class LinkedPairDeriver extends AbsTrapsetDeriver<LinkedPairNode> {
 		LinkedPairTrapset derivedTrapset = new LinkedPairTrapset();
 		derivedTrapset.setName(trapsetName);
 
+		// FIXME: Linked pair is the only trapset where a transition can occur more than once!
 		// -ingressTransition- L -egressTransition-
 		for (Transition ingressTransition : ingressTrapset) {
 			Template ingressParentTpl = ingressTrapset.getParentTemplate(ingressTransition);

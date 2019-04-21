@@ -1,11 +1,11 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
@@ -28,14 +28,16 @@ public class ScenarioWrapperConstructionContext {
 	private BooleanFlag boundedLeadsToInclusionFlag = BooleanFlag.newInstance();
 	private BooleanFlag boundedRepetitionInclusionFlag = BooleanFlag.newInstance();
 
+	private ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
+	private ObjectIdentityMap<AbsDerivedTrapsetNode, Integer> trapsetIndexMap = new ObjectIdentityMap<>();
+
+	private Map<Identifier, Integer> trapsetOccurrenceCountMap = new HashMap<>();
+	private Map<Identifier, IntIterator> trapsetCounterMap = new HashMap<>();
+	private Map<Identifier, AbsDerivedTrapset> derivedTrapsetMap = new HashMap<>();
+
 	private List<Template> quantifierTemplates = new LinkedList<>();
 	private List<VariableDeclaration> trapsetArrayDeclarations = new LinkedList<>();
 	private List<TemplateInstantiation> templateInstantiations = new LinkedList<>();
-	private Map<Identifier, IntIterator> trapsetCounterMap = new HashMap<>();
-	private ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
-	private ObjectIdentityMap<AbsDerivedTrapsetNode, Integer> trapsetIndexMap = new ObjectIdentityMap<>();
-	private Map<Identifier, Integer> trapsetOccurrenceCountMap = new HashMap<>();
-	private Map<Identifier, AbsDerivedTrapset> derivedTrapsetMap = new HashMap<>();
 	private List<Synchronization> globallyApplicableTransitionSynchs = new LinkedList<>();
 
 	int getTreeNodeCount() {

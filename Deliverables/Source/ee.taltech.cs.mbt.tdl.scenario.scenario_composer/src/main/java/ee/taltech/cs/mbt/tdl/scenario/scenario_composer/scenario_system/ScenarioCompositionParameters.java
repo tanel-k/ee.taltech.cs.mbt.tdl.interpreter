@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
 import java.util.Collections;
@@ -12,7 +12,7 @@ import java.util.Map;
 public class ScenarioCompositionParameters {
 	private UtaSystem sutModel;
 	private TdlExpression tdlExpression;
-	private Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> derivedTrapsetMap = new LinkedHashMap<>();
+	private Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> derivedTrapsetMap;
 
 	public UtaSystem getSutModel() {
 		return sutModel;

@@ -7,7 +7,7 @@ public class Test {
 		Interpreter.getInstance().interpret(
 				Test.class.getResourceAsStream("/SampleSystem.xml"),
 				new ByteArrayInputStream(
-						"U(TS2;TS4) ~> E(TS2;TS3)".getBytes()
+						"E(TS1; TS2)".getBytes()
 				),
 				System.out
 		);

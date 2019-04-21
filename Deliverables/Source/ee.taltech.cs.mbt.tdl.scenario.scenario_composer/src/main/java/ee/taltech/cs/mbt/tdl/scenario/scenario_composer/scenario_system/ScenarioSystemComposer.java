@@ -2,14 +2,15 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.ScenarioWrapperConstructionContext;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.ScenarioWrapperFactory;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived.AbsoluteComplementTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived.LinkedPairTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived.RelativeComplementTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset.TrapsetImplementationDetail;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.IDerivedTrapsetVisitor;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.ScenarioWrapperConstructionContext;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.ScenarioWrapperFactory;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.AbsoluteComplementTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.LinkedPairTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.RelativeComplementTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset.TrapsetImplementationDetail;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.IDerivedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
@@ -43,59 +44,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-/*
- * FIXME:
- * - Lots of interdependence;
- * - Potential undiscovered bugs;
- * - Lots of duplication;
- * - APIs are too complicated/non-existent;
- * - Needs some kind of one-off operation pattern;
- * - No Exception handling logic;
- * - && True issue;
- * - lots of new Interface() { interfaceDefinition }; - need to define an interface with a clear API;
- * - global variable reliance within object;
- * - bad naming habits;
- * - lots of duplications.
- */
 public class ScenarioSystemComposer {
 	public static ScenarioSystemComposer newInstance(ScenarioCompositionParameters parameters) {
 		return new ScenarioSystemComposer(parameters);
 	}
 
+	private BooleanFlag completionFlag = BooleanFlag.newInstance();
+
 	private ScenarioWrapperFactory wrapperFactory;
 	private ScenarioCompositionParameters parameters;
 
-	public ScenarioSystemComposer(ScenarioCompositionParameters parameters) {
-		this.parameters = parameters;
-		this.wrapperFactory = ScenarioWrapperFactory.getInstance(parameters);
-	}
-
-	public void compose() {
-		Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap = new HashMap<>();
-		UtaSystem wrapperSystem = wrapperFactory.constructSystem();
-		ScenarioWrapperConstructionContext wrapperContext = wrapperFactory.getConstructionContext();
-
-		for (Synchronization globalTransitionSynch : wrapperContext.getGloballyApplicableTransitionSynchs()) {
-			injectGlobalTransitionSynchronization(parameters.getSutModel(), globalTransitionSynch, transitionSynchHooksMap);
-		}
-
-		for (AbsDerivedTrapset systemTrapset : wrapperContext.getDerivedTrapsetMap().values()) {
-			injectTrapset(systemTrapset, transitionSynchHooksMap);
-		}
-
-		insertOutputHooks(transitionSynchHooksMap);
-
-		parameters.getSutModel().merge(wrapperSystem);
-	}
-
-	private void injectGlobalTransitionSynchronization(UtaSystem system, Synchronization globalSynch, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
+	private static void processGloballyApplicableTransitionSynch(
+			UtaSystem system,
+			Synchronization globalSynch,
+			Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap
+	) {
 		system.getTemplates().stream().forEachOrdered(template -> {
-				Map<Transition, Collection<Synchronization>> templateSynchMap = transitionSynchHooksMap.computeIfAbsent(template, k -> new HashMap<>());
-				for (Transition transition : template.getLocationGraph().getEdges()) {
-					Collection<Synchronization> transitionSynchs = templateSynchMap
-							.computeIfAbsent(transition, k -> new LinkedList<>());
-					transitionSynchs.add(globalSynch);
-				}
+			Map<Transition, Collection<Synchronization>> templateSynchMap = transitionSynchHooksMap.computeIfAbsent(template, k -> new HashMap<>());
+			for (Transition transition : template.getLocationGraph().getEdges()) {
+				Collection<Synchronization> transitionSynchs = templateSynchMap
+						.computeIfAbsent(transition, k -> new LinkedList<>());
+				transitionSynchs.add(globalSynch);
+			}
 		});
 	}
 
@@ -105,19 +75,21 @@ public class ScenarioSystemComposer {
 		}
 	}
 
-	private static LinkedList<LinkedList<GuiCoordinates>> getNailSegments(List<GuiCoordinates> fullTransitionPath, List<GuiCoordinates> hookLocationCoords) {
+	private static LinkedList<LinkedList<GuiCoordinates>> getNailSegments(
+			List<GuiCoordinates> fullTransitionPath, List<GuiCoordinates> hookLocationCoords
+	) {
 		LinkedList<LinkedList<GuiCoordinates>> pathSegmentation = GuiCoordinateUtils.segmentPath(
 				fullTransitionPath, hookLocationCoords
 		);
-		// Get rid of origin location coordinates:
-		for (int i = 0; i < pathSegmentation.size(); i++) {
-			if (!pathSegmentation.get(i).isEmpty()) {
-				pathSegmentation.get(i).removeFirst();
+		// Get rid of origin location coordinates (first coordinate in first segment):
+		for (LinkedList<GuiCoordinates> segment : pathSegmentation) {
+			if (!segment.isEmpty()) {
+				segment.removeFirst();
 				break;
 			}
 		}
 
-		// Get rid of target location coordinates:
+		// Get rid of target location coordinates (last coordinate in last segment):
 		for (int i = pathSegmentation.size() - 1; i >= 0; i--) {
 			if (!pathSegmentation.get(i).isEmpty()) {
 				pathSegmentation.get(i).removeLast();
@@ -128,7 +100,9 @@ public class ScenarioSystemComposer {
 		return pathSegmentation;
 	}
 
-	private static void insertOutputHooks(Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
+	private static void injectSynchronizationHooks(
+			Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap
+	) {
 		Map<Template, Integer> maxLocationIdMap = new HashMap<>();
 
 		for (Entry<Template, Map<Transition, Collection<Synchronization>>> templateSynchEntry : transitionSynchHooksMap.entrySet()) {
@@ -136,6 +110,7 @@ public class ScenarioSystemComposer {
 			DirectedMultigraph<Location, Transition> graph = template.getLocationGraph();
 			Map<Transition, Collection<Synchronization>> mapTransitionSynchs = templateSynchEntry.getValue();
 
+			// Ensure new locations have ids that do not conflict with existing locations:
 			Integer maxLocationId = maxLocationIdMap.computeIfAbsent(
 					template, t -> t.getLocationGraph().getVertices().stream()
 							.map(Location::getId)
@@ -258,13 +233,21 @@ public class ScenarioSystemComposer {
 		}
 	}
 
-	// FIXME: Duplication.
-	private void injectTrapset(AbsDerivedTrapset systemTrapset, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
+	private static void processDerivedTrapset(
+			UtaSystem sutModel,
+			AbsDerivedTrapset systemTrapset,
+			Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap
+	) {
 		systemTrapset.accept(new IDerivedTrapsetVisitor<Void>() {
 			@Override
 			public Void visitLinkedPair(LinkedPairTrapset trapset) {
 				Map<TrapsetImplementationDetail, Identifier> mapFlagArrayNames = new HashMap<>();
 
+				/*
+				 * Declare ingress flag Boolean arrays.
+				 * These flags are used to determine whether the system has moved onto a trapped egress transition from
+				 * a transition that belongs in the ingress trapset.
+				 */
 				for (TrapsetImplementationDetail detail : trapset.getImplementationDetails()) {
 					Identifier flagArrayName = Identifier.of(detail.getFlagArrayName() + "_IngressFlags");
 					VariableDeclaration declaration = new VariableDeclaration()
@@ -280,9 +263,10 @@ public class ScenarioSystemComposer {
 									)
 							);
 					mapFlagArrayNames.put(detail, flagArrayName);
-					parameters.getSutModel().getDeclarations().add(declaration);
+					sutModel.getDeclarations().add(declaration);
 				}
 
+				// Add label to each trapped egress transition:
 				int trapIdx = 0;
 				for (Transition trappedEgressTransition : trapset) {
 					TransitionLabels labels = trappedEgressTransition.getLabels();
@@ -322,6 +306,7 @@ public class ScenarioSystemComposer {
 							);
 						}
 
+						// The ingress transition needs to set the appropriate ingress flag to True.
 						ingressTransition.getLabels().getAssignmentsLabel().getContent().add(
 								new AssignmentExpression()
 										.setLeftChild(new ArrayLookupExpression()
@@ -334,6 +319,7 @@ public class ScenarioSystemComposer {
 										.setRightChild(LiteralConsts.TRUE)
 						);
 
+						// Unrelated transitions departing from the target of the ingress transition should reset the ingress flag:
 						Location ingressTargetLocation = templateGraph.getTargetVertex(ingressTransition);
 						for (Transition egressTransition : templateGraph.getEdgesFrom(ingressTargetLocation)) {
 							if (egressTransition != trappedEgressTransition) {
@@ -462,5 +448,38 @@ public class ScenarioSystemComposer {
 				return null;
 			}
 		});
+	}
+
+	public ScenarioSystemComposer(ScenarioCompositionParameters parameters) {
+		this.parameters = parameters;
+		this.wrapperFactory = ScenarioWrapperFactory.getInstance(parameters);
+	}
+
+	public void compose() {
+		if (completionFlag.isSet())
+			return;
+
+		// Construct scenario wrapper (recognizer architecture):
+		UtaSystem wrapperSystem = wrapperFactory.constructSystem();
+		ScenarioWrapperConstructionContext wrapperContext = wrapperFactory.getConstructionContext();
+
+		Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap = new HashMap<>();
+		// Globally applicable transition synchronizations should be added to every transition in the system.
+		// They represent conditions that hold on every system transition.
+		for (Synchronization globalTransitionSynch : wrapperContext.getGloballyApplicableTransitionSynchs()) {
+			processGloballyApplicableTransitionSynch(parameters.getSutModel(), globalTransitionSynch, transitionSynchHooksMap);
+		}
+
+		// Apply derived trapset labels to applicable transitions in the system:
+		for (AbsDerivedTrapset derivedTrapset : wrapperContext.getDerivedTrapsetMap().values()) {
+			processDerivedTrapset(parameters.getSutModel(), derivedTrapset, transitionSynchHooksMap);
+		}
+
+		injectSynchronizationHooks(transitionSynchHooksMap);
+
+		// Merge scenario wrapper into modified SUT model to form the final scenario model:
+		parameters.getSutModel().merge(wrapperSystem);
+
+		completionFlag.set();
 	}
 }

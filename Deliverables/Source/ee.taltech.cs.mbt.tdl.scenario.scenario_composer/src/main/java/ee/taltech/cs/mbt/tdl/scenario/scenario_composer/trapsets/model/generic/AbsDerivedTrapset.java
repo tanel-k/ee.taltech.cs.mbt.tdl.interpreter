@@ -1,7 +1,7 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trap.BaseTrap;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.trap.BaseTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Synchronization;
 

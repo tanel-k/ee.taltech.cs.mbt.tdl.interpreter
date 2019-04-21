@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.base;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.base;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 

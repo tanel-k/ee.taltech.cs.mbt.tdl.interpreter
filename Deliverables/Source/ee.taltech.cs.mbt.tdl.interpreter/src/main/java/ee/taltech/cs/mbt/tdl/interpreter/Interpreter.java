@@ -4,8 +4,9 @@ import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseExce
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.ScenarioComposer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.ScenarioCompositionResults;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.ScenarioSpecification;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.extraction.BaseTrapsetsExtractor.InvalidBaseTrapsetDefinitionException;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor.InvalidBaseTrapsetDefinitionException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
@@ -48,9 +49,9 @@ public class Interpreter {
 			throw new RuntimeException(e);
 		}
 
-		UtaSystem scenarioModel = null;
+		ScenarioCompositionResults results = null;
 		try {
-			scenarioModel = ScenarioComposer
+			results = ScenarioComposer
 					.newInstance(ScenarioSpecification.of(sutModel, expression))
 					.compose();
 		} catch (InvalidBaseTrapsetDefinitionException e) {
@@ -58,7 +59,7 @@ public class Interpreter {
 		}
 
 		try {
-			UtaSerializer.newInstance().serialize(scenarioModel, outStream);
+			UtaSerializer.newInstance().serialize(results.getScenarioSystem().get(), outStream);
 		} catch (MarshallingException e) {
 			throw new RuntimeException(e);
 		} catch (SyntaxRepresentationException e) {

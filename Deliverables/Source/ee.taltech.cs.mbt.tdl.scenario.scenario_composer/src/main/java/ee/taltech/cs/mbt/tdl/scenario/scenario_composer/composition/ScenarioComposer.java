@@ -8,11 +8,11 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.TdlExpressionR
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.TrapsetQuantifierEvaluator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioCompositionParameters;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioSystemComposer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.extraction.BaseTrapsetsExtractor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.extraction.BaseTrapsetsExtractor.InvalidBaseTrapsetDefinitionException;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.extraction.DerivedTrapsetsExtractor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor.InvalidBaseTrapsetDefinitionException;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.DerivedTrapsetsExtractor;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
 import java.util.Map;
@@ -29,7 +29,7 @@ public class ScenarioComposer {
 		this.specification = specification;
 	}
 
-	public UtaSystem compose() throws InvalidBaseTrapsetDefinitionException /* FIXME */ {
+	public ScenarioCompositionResults compose() throws InvalidBaseTrapsetDefinitionException {
 		TdlExpression tdlExpressionCpy = specification
 				.getTdlExpression()
 				.deepClone();
@@ -55,14 +55,14 @@ public class ScenarioComposer {
 				.getInstance(sutModelCpy, tdlExpressionCpy, mapDerivedTrapsets)
 				.evaluate();
 
-		// Normalize the TDL expression and pull True/False up the tree according to semantics:
+		// Normalize the TDL expression and pull True/False up the tree according to TDL operator semantics:
 		TdlExpressionReducer
 				.getInstance(tdlExpressionCpy)
 				.reduce();
 
-		Optional<BooleanValueWrapperNode> optRootBooleanWrapper = tdlExpressionCpy.getRootBooleanWrapper();
-		if (optRootBooleanWrapper.isPresent()) {
-			// TODO: entire tree has been reduced (throw Exception?).
+		if (tdlExpressionCpy.getRootBooleanWrapper().isPresent()) {
+			// Makes no sense to compose a scenario for a single True/False node; just return the expression.
+			return ScenarioCompositionResults.of(tdlExpressionCpy);
 		}
 
 		// Compose SUT model and TDL recognition wrapper:
@@ -70,10 +70,11 @@ public class ScenarioComposer {
 				.setSutModel(sutModelCpy)
 				.setTdlExpression(tdlExpressionCpy)
 				.setDerivedTrapsetMap(mapDerivedTrapsets);
+
 		ScenarioSystemComposer
 				.newInstance(compositionParameters)
 				.compose();
 
-		return sutModelCpy;
+		return ScenarioCompositionResults.of(tdlExpressionCpy, sutModelCpy);
 	}
 }

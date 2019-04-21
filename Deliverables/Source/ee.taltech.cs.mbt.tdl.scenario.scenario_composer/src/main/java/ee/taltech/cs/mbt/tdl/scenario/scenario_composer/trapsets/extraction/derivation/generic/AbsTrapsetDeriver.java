@@ -1,10 +1,10 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.extraction.trapset_derivation.generic;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.derivation.generic;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
 import java.util.Collections;
