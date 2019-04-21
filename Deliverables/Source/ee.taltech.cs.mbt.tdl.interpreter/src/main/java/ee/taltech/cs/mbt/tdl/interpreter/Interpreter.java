@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-// FIXME: Provide appropriate API.
+// FIXME: One artifact per user interface (CLI, GUI* etc).
 public class Interpreter {
 	public static Interpreter getInstance() {
 		return INSTANCE;
@@ -30,46 +30,52 @@ public class Interpreter {
 	private Interpreter() { }
 
 	public void interpret(InputStream sutModelStream, InputStream expressionStream, OutputStream outStream) {
-		// TODO: Needs separate exception wrapper:
 		TdlExpression expression;
 		try {
 			expression = TdlExpressionParser.getInstance().parseInput(expressionStream);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} catch (ParseException e) {
+			e.getSyntaxErrors();
+			e.getMessage();
 			throw new RuntimeException(e);
 		}
 
-		// TODO: Needs separate exception wrapper:
 		UtaSystem sutModel;
 		try {
 			sutModel = UtaParser.newInstance().parse(sutModelStream);
 		} catch (MarshallingException e) {
 			throw new RuntimeException(e);
 		} catch (InvalidSystemStructureException e) {
+			e.getErrorMessages();
 			throw new RuntimeException(e);
 		} catch (EmbeddedCodeSyntaxException e) {
+			e.getSyntaxErrors();
+			e.getOffendingCodeSnippet();
 			throw new RuntimeException(e);
 		}
 
-		// TODO: Needs separate exception wrapper:
 		ScenarioCompositionResults results = null;
 		try {
 			results = ScenarioComposer
 					.newInstance(ScenarioSpecification.of(sutModel, expression))
 					.compose();
 		} catch (InvalidBaseTrapsetDefinitionException e) {
-			e.printStackTrace();
+			e.getMessage();
+			throw new RuntimeException(e);
 		}
 
-		// TODO: Needs separate exception wrapper:
 		try {
 			UtaSerializer.newInstance().serialize(results.getScenarioSystem().get(), outStream);
 		} catch (MarshallingException e) {
+			e.getMessage();
+			e.getCause();
 			throw new RuntimeException(e);
 		} catch (SyntaxRepresentationException e) {
+			e.getMessage();
 			throw new RuntimeException(e);
 		} catch (InvalidSystemStructureException e) {
+			e.getErrorMessages();
 			throw new RuntimeException(e);
 		}
 	}
