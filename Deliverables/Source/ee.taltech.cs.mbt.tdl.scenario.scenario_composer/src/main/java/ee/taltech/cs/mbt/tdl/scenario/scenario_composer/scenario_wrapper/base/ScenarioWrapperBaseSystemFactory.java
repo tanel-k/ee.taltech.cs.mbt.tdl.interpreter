@@ -104,14 +104,14 @@ public class ScenarioWrapperBaseSystemFactory {
       return new Location()
           .setId("id2")
           .setName(
-              new LocationName().setName("Listening").setCoordinates(GuiCoordinates.of(-312, -96)))
+              new LocationName().setName("Listening").setCoordinates(GuiCoordinates.of(-264, -64)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(
               new LocationLabels()
                   .setInvariantLabel(
                       (InvariantLabel)
                           new InvariantLabel()
-                              .setCoordinates(GuiCoordinates.of(-264, -64))
+                              .setCoordinates(GuiCoordinates.of(-264, -80))
                               .setContent(
                                   new LessThanOrEqualExpression()
                                       .setLeftChild(IdentifierExpression.of("timeoutClock"))
@@ -122,24 +122,26 @@ public class ScenarioWrapperBaseSystemFactory {
     protected Location newId0Location() {
       return new Location()
           .setId("id0")
-          .setName(new LocationName().setName("Fail").setCoordinates(GuiCoordinates.of(-136, 48)))
+          .setName(new LocationName().setName("Fail").setCoordinates(GuiCoordinates.of(-32, 48)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-152, 56));
+          .setCoordinates(GuiCoordinates.of(-48, 56));
     }
 
     protected Location newId1Location() {
       return new Location()
           .setId("id1")
-          .setName(new LocationName().setName("Pass").setCoordinates(GuiCoordinates.of(-136, -168)))
+          .setName(new LocationName().setName("Pass").setCoordinates(GuiCoordinates.of(-32, -168)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-152, -160));
+          .setCoordinates(GuiCoordinates.of(-48, -160));
     }
 
     protected Location newId3Location() {
       return new Location()
           .setId("id3")
+          .setName(
+              new LocationName().setName("Starting").setCoordinates(GuiCoordinates.of(-592, -72)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-528, -56));
@@ -154,11 +156,12 @@ public class ScenarioWrapperBaseSystemFactory {
                   .setGuardLabel(
                       (GuardLabel)
                           new GuardLabel()
-                              .setCoordinates(GuiCoordinates.of(-200, -8))
+                              .setCoordinates(GuiCoordinates.of(-272, 32))
                               .setContent(
                                   new EqualityExpression()
                                       .setLeftChild(IdentifierExpression.of("timeoutClock"))
-                                      .setRightChild(IdentifierExpression.of("TDL_TIMEOUT")))));
+                                      .setRightChild(IdentifierExpression.of("TDL_TIMEOUT")))))
+          .addNail(GuiCoordinates.of(-280, 56));
     }
 
     protected Transition newId2ToId1Transition(Location source, Location target) {
@@ -170,7 +173,7 @@ public class ScenarioWrapperBaseSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-192, -120))
+                              .setCoordinates(GuiCoordinates.of(-280, -184))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -179,7 +182,8 @@ public class ScenarioWrapperBaseSystemFactory {
                                               .setLeftChild(
                                                   IdentifierExpression.of("TdlTerminatorChannels"))
                                               .setRightChild(
-                                                  IdentifierExpression.of("rootIndex"))))));
+                                                  IdentifierExpression.of("rootIndex"))))))
+          .addNail(GuiCoordinates.of(-280, -160));
     }
 
     protected Transition newId3ToId2Transition(Location source, Location target) {
@@ -1284,7 +1288,7 @@ public class ScenarioWrapperBaseSystemFactory {
           .setId("id13")
           .setName(
               new LocationName()
-                  .setName("CounterCheck")
+                  .setName("CheckCounter")
                   .setCoordinates(GuiCoordinates.of(-616, 360)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
@@ -4253,7 +4257,7 @@ public class ScenarioWrapperBaseSystemFactory {
     return ScenarioWrapperBaseSystemDefinitionFactory.getInstance().newSystemDefinition();
   }
 
-  public UtaSystem newSystem() {
+  public UtaSystem constructSystem() {
     UtaSystem ScenarioWrapperBase = new UtaSystem();
 
     // Set global declarations:

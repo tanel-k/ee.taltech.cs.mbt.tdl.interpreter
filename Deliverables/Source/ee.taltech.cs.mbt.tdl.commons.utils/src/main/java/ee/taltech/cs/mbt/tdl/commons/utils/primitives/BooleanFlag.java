@@ -15,8 +15,24 @@ public class BooleanFlag {
 		this.state = state;
 	}
 
+	public boolean xor(BooleanFlag other) {
+		return state ^ other.state;
+	}
+
+	public boolean or(BooleanFlag other) {
+		return state || other.state;
+	}
+
+	public boolean and(BooleanFlag other) {
+		return state && other.state;
+	}
+
 	public boolean flip() {
 		return this.state = !this.state;
+	}
+
+	public void set(boolean state) {
+		this.state = state;
 	}
 
 	public void set() {

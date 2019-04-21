@@ -43,11 +43,11 @@ public class LinkedPairDeriver extends AbsTrapsetDeriver<LinkedPairNode> {
 			LinkedPairNode linkedPair,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
 	) {
-		TrapsetNode leftBaseTrapset = linkedPair.getChildContainer().getLeftChild();
-		TrapsetNode rightBaseTrapset = linkedPair.getChildContainer().getRightChild();
+		TrapsetNode leftTrapsetNode = linkedPair.getChildContainer().getLeftChild();
+		TrapsetNode rightTrapsetNode = linkedPair.getChildContainer().getRightChild();
 
-		BaseTrapset ingressTrapset = baseTrapsetMap.get(leftBaseTrapset);
-		BaseTrapset egressTrapset = baseTrapsetMap.get(rightBaseTrapset);
+		BaseTrapset ingressTrapset = baseTrapsetMap.get(leftTrapsetNode);
+		BaseTrapset egressTrapset = baseTrapsetMap.get(rightTrapsetNode);
 
 		Identifier trapsetName = Identifier.of(
 				ingressTrapset.getName() + LINKED_PAIR_NAME_MODIFIER + egressTrapset.getName()
@@ -55,19 +55,22 @@ public class LinkedPairDeriver extends AbsTrapsetDeriver<LinkedPairNode> {
 		LinkedPairTrapset derivedTrapset = new LinkedPairTrapset();
 		derivedTrapset.setName(trapsetName);
 
+		// -ingressTransition- L -egressTransition-
 		for (Transition ingressTransition : ingressTrapset) {
 			Template ingressParentTpl = ingressTrapset.getParentTemplate(ingressTransition);
 			Location target = ingressParentTpl.getLocationGraph().getTargetVertex(ingressTransition);
 			Set<Transition> egressTransitions = ingressParentTpl.getLocationGraph().getEdgesFrom(target);
+
+			// Check edges leaving the target of the ingress transition:
 			for (Transition egressTransition : egressTransitions) {
 				if (!egressTrapset.contains(egressTransition))
 					continue;
 
-				AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
+				AssignmentExpression markerExpression = (AssignmentExpression) new AssignmentExpression()
 						.setLeftChild(IdentifierExpression.of(trapsetName))
-						.setRightChild(egressTrapset.getMarkerCondition(egressTransition));
+						.setRightChild(egressTrapset.getMarkerCondition(egressTransition).deepClone());
 				derivedTrapset.addTrap(LinkedPairTrap.of(
-						ingressTrapset, ingressTransition, ingressParentTpl, egressTransition, markerExpr
+						ingressTrapset, ingressTransition, ingressParentTpl, egressTransition, markerExpression
 				));
 			}
 		}

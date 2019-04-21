@@ -48,7 +48,7 @@ public class LeadsToLiteralOperandEliminator extends AbsLiteralOperandEliminator
 		} else {
 			if (rightChildIsBoolValue) { // p ~> False ==> not(p).
 				expression.replaceDescendant(parentNode, leftChild);
-				leftChild.setNegated(true);
+				leftChild.setNegated(!leftChild.isNegated());
 				// Get rid of the new negation:
 				renormalizeSubtree(expression, leftChild, remainingLeaves);
 			} else { // False ~> p ==> True.

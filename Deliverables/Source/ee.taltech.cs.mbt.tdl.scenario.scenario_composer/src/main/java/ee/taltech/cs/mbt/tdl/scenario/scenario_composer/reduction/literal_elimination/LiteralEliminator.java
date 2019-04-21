@@ -15,6 +15,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.BoundedLeadsToLiteralOperandEliminator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.BoundedRepetitionLiteralOperandEliminator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.ConjunctionLiteralOperandEliminator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.DisjunctionLiteralOperandEliminator;
@@ -38,7 +39,10 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitBoundedLeadsTo(BoundedLeadsToNode parentNode) {
-			return visitLeadsTo(parentNode);
+			BoundedLeadsToLiteralOperandEliminator
+					.getInstance(expression, parentNode, currentLeaf, remainingBooleanLeaves)
+					.eliminate();
+			return null;
 		}
 
 		@Override
@@ -93,7 +97,7 @@ public class LiteralEliminator {
 		@Override
 		public Void visitValueWrapper(BooleanValueWrapperNode node) {
 			// Not possible in context: BooleanValueWrapperNode cannot have BooleanValueWrapperNode as its parent.
-			throw new IllegalStateException("Unrecognized node layout encountered. Literal node cannot be the child of a literal node.");
+			throw new IllegalStateException("Unrecognized node layout encountered. Literal node cannot be the child of another literal node.");
 		}
 	}
 

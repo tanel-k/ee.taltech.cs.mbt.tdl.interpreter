@@ -2,8 +2,8 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.ScenarioWrapperConstructionContext;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.ScenarioWrapperFactory;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.ScenarioWrapperFactory.ScenarioWrapperConstructionContext;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived.AbsoluteComplementTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived.LinkedPairTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived.RelativeComplementTrapset;
@@ -38,7 +38,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -73,15 +72,15 @@ public class ScenarioSystemComposer {
 
 	public void compose() {
 		Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap = new HashMap<>();
-		UtaSystem wrapperSystem = wrapperFactory.newSystem();
+		UtaSystem wrapperSystem = wrapperFactory.constructSystem();
 		ScenarioWrapperConstructionContext wrapperContext = wrapperFactory.getConstructionContext();
 
 		for (Synchronization globalTransitionSynch : wrapperContext.getGloballyApplicableTransitionSynchs()) {
-			handleGlobalSynch(parameters.getSutModel(), globalTransitionSynch, transitionSynchHooksMap);
+			injectGlobalTransitionSynchronization(parameters.getSutModel(), globalTransitionSynch, transitionSynchHooksMap);
 		}
 
 		for (AbsDerivedTrapset systemTrapset : wrapperContext.getDerivedTrapsetMap().values()) {
-			handleTrapset(systemTrapset, transitionSynchHooksMap);
+			injectTrapset(systemTrapset, transitionSynchHooksMap);
 		}
 
 		insertOutputHooks(transitionSynchHooksMap);
@@ -89,7 +88,7 @@ public class ScenarioSystemComposer {
 		parameters.getSutModel().merge(wrapperSystem);
 	}
 
-	private void handleGlobalSynch(UtaSystem system, Synchronization globalSynch, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
+	private void injectGlobalTransitionSynchronization(UtaSystem system, Synchronization globalSynch, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
 		system.getTemplates().stream().forEachOrdered(template -> {
 				Map<Transition, Collection<Synchronization>> templateSynchMap = transitionSynchHooksMap.computeIfAbsent(template, k -> new HashMap<>());
 				for (Transition transition : template.getLocationGraph().getEdges()) {
@@ -260,14 +259,14 @@ public class ScenarioSystemComposer {
 	}
 
 	// FIXME: Duplication.
-	private void handleTrapset(AbsDerivedTrapset systemTrapset, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
+	private void injectTrapset(AbsDerivedTrapset systemTrapset, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
 		systemTrapset.accept(new IDerivedTrapsetVisitor<Void>() {
 			@Override
 			public Void visitLinkedPair(LinkedPairTrapset trapset) {
 				Map<TrapsetImplementationDetail, Identifier> mapFlagArrayNames = new HashMap<>();
 
-				for (TrapsetImplementationDetail detail : trapset.getTrapsetImplementationDetails()) {
-					Identifier flagArrayName = Identifier.of(detail.getArrayName() + "_Flags");
+				for (TrapsetImplementationDetail detail : trapset.getImplementationDetails()) {
+					Identifier flagArrayName = Identifier.of(detail.getFlagArrayName() + "_IngressFlags");
 					VariableDeclaration declaration = new VariableDeclaration()
 							.setIdentifier(flagArrayName)
 							.setType(new Type()
@@ -308,7 +307,7 @@ public class ScenarioSystemComposer {
 							.computeIfAbsent(trappedEgressTransition, k -> new LinkedList<>());
 
 					Collection<AbsExpression> transitionAssignments = labels.getAssignmentsLabel().getContent();
-					for (TrapsetImplementationDetail detail : trapset.getTrapsetImplementationDetails()) {
+					for (TrapsetImplementationDetail detail : trapset.getImplementationDetails()) {
 						Transition ingressTransition = trapset.getIngressTransition(trappedEgressTransition);
 						if (ingressTransition.getLabels() == null)
 							ingressTransition.setLabels(new TransitionLabels());
@@ -365,7 +364,7 @@ public class ScenarioSystemComposer {
 						}
 
 						AbsExpression lookupExpression = new ArrayLookupExpression()
-								.setLeftChild(IdentifierExpression.of(detail.getArrayName()))
+								.setLeftChild(IdentifierExpression.of(detail.getFlagArrayName()))
 								.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
 
 						AssignmentExpression assignmentExpression = trapset
@@ -447,9 +446,9 @@ public class ScenarioSystemComposer {
 							.computeIfAbsent(transition, k -> new LinkedList<>());
 
 					Collection<AbsExpression> transitionAssignments = labels.getAssignmentsLabel().getContent();
-					for (TrapsetImplementationDetail detail : trapset.getTrapsetImplementationDetails()) {
+					for (TrapsetImplementationDetail detail : trapset.getImplementationDetails()) {
 						AbsExpression lookupExpression = new ArrayLookupExpression()
-								.setLeftChild(IdentifierExpression.of(detail.getArrayName()))
+								.setLeftChild(IdentifierExpression.of(detail.getFlagArrayName()))
 								.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
 
 						AssignmentExpression assignmentExpression = trapset.getMarkerAssignment(transition).deepClone();

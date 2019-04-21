@@ -1,6 +1,5 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper;
 
-import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
@@ -17,7 +16,6 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.Bound;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.ExistentialQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioCompositionParameters;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.base.ScenarioWrapperBaseSystemFactory;
@@ -44,8 +42,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identif
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
@@ -62,7 +58,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 		private Identifier trapsetArrayName;
 		private Integer trapsetSize;
 
-		public QuantifierRecognizerFactory(
+		private QuantifierRecognizerFactory(
 				boolean universal,
 				boolean negated,
 				Integer treeIndex,
@@ -112,38 +108,11 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 		}
 	}
 
-	public static class ScenarioWrapperConstructionContext {
-		protected int treeNodeCount = 0;
-		protected int trapsetNodeCount = 0;
+	private BooleanFlag completionFlag = BooleanFlag.newInstance();
 
-		protected BooleanFlag terminatorAdapterInclusionFlag = BooleanFlag.newInstance();
-		protected BooleanFlag disjunctionInclusionFlag = BooleanFlag.newInstance();
-		protected BooleanFlag conjunctionInclusionFlag = BooleanFlag.newInstance();
-		protected BooleanFlag leadsToInclusionFlag = BooleanFlag.newInstance();
-		protected BooleanFlag boundedLeadsToInclusionFlag = BooleanFlag.newInstance();
-		protected BooleanFlag boundedInclusionFlag = BooleanFlag.newInstance();
-
-		protected List<Template> quantifierTemplates = new LinkedList<>();
-		protected List<VariableDeclaration> trapsetArrayDeclarations = new LinkedList<>();
-		protected List<TemplateInstantiation> templateInstantiations = new LinkedList<>();
-		protected Map<Identifier, Integer> mapTrapsetOccurrenceCounts = new HashMap<>();
-		protected Map<Identifier, AbsDerivedTrapset> derivedTrapsetMap = new HashMap<>();
-		protected List<Synchronization> globallyApplicableTransitionSynchs = new LinkedList<>();
-
-		protected ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
-		protected ObjectIdentityMap<AbsDerivedTrapsetNode, Integer> trapsetIndexMap = new ObjectIdentityMap<>();
-
-		public List<Synchronization> getGloballyApplicableTransitionSynchs() {
-			return globallyApplicableTransitionSynchs;
-		}
-
-		public Map<Identifier, AbsDerivedTrapset> getDerivedTrapsetMap() {
-			return derivedTrapsetMap;
-		}
-	}
-
+	private UtaSystem wrapperSystem;
 	private ScenarioCompositionParameters parameters;
-	private ScenarioWrapperConstructionContext constructionCtx;
+	private ScenarioWrapperConstructionContext ctx;
 
 	private ScenarioWrapperFactory(ScenarioCompositionParameters parameters) {
 		this.parameters = parameters;
@@ -153,7 +122,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 	protected VariableDeclaration new_TDL_TREE_NODE_COUNTDeclaration() {
 		VariableDeclaration baseDeclaration = super.new_TDL_TREE_NODE_COUNTDeclaration();
 		baseDeclaration.setInitializer(new FlatVariableInitializer().setExpression(
-				NaturalNumberLiteral.of(constructionCtx.treeNodeCount)
+				NaturalNumberLiteral.of(ctx.getTreeNodeCount())
 		));
 		return baseDeclaration;
 	}
@@ -162,14 +131,14 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 	protected VariableDeclaration new_TRAPSET_COUNTDeclaration() {
 		VariableDeclaration baseDeclaration = super.new_TRAPSET_COUNTDeclaration();
 		baseDeclaration.setInitializer(new FlatVariableInitializer().setExpression(
-				NaturalNumberLiteral.of(constructionCtx.trapsetNodeCount)
+				NaturalNumberLiteral.of(ctx.getTrapsetNodeCount())
 		));
 		return baseDeclaration;
 	}
 
 	@Override
 	protected Template new_TdlDisjunctionRecognizerTemplate() {
-		if (constructionCtx.disjunctionInclusionFlag.isNotSet())
+		if (ctx.getDisjunctionInclusionFlag().isNotSet())
 			return null;
 
 		return super.new_TdlDisjunctionRecognizerTemplate();
@@ -177,7 +146,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 	@Override
 	protected Template new_TdlConjunctionRecognizerTemplate() {
-		if (constructionCtx.conjunctionInclusionFlag.isNotSet())
+		if (ctx.getConjunctionInclusionFlag().isNotSet())
 			return null;
 
 		return super.new_TdlConjunctionRecognizerTemplate();
@@ -185,7 +154,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 	@Override
 	protected Template new_TdlBoundedRepetitionRecognizerTemplate() {
-		if (constructionCtx.boundedInclusionFlag.isNotSet())
+		if (ctx.getBoundedRepetitionInclusionFlag().isNotSet())
 			return null;
 
 		return super.new_TdlBoundedRepetitionRecognizerTemplate();
@@ -193,7 +162,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 	@Override
 	protected Template new_TdlLeadsToRecognizerTemplate() {
-		if (constructionCtx.leadsToInclusionFlag.isNotSet())
+		if (ctx.getLeadsToInclusionFlag().isNotSet())
 			return null;
 
 		return super.new_TdlLeadsToRecognizerTemplate();
@@ -201,7 +170,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 	@Override
 	protected Template new_TdlBoundedLeadsToRecognizerTemplate() {
-		if (constructionCtx.boundedLeadsToInclusionFlag.isNotSet())
+		if (ctx.getBoundedLeadsToInclusionFlag().isNotSet())
 			return null;
 
 		return super.new_TdlBoundedLeadsToRecognizerTemplate();
@@ -209,7 +178,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 	@Override
 	protected Template new_TdlTerminatorChannelAdapterTemplate() {
-		if (constructionCtx.terminatorAdapterInclusionFlag.isNotSet())
+		if (ctx.getTerminatorAdapterInclusionFlag().isNotSet())
 			return null;
 
 		return super.new_TdlTerminatorChannelAdapterTemplate();
@@ -226,19 +195,99 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 		SystemDefinition baseDefinition = super.newSystemDefinition();
 		ProcessReferenceGroup processReferences = baseDefinition.getSystemLine().getProcessPrioritySequence()
 				.iterator().next();
-		constructionCtx.templateInstantiations.stream().forEachOrdered(inst -> {
+		getConstructionContext().getTemplateInstantiations().stream().forEachOrdered(inst -> {
 				processReferences.addIdentifier(inst.getNewTemplateName());
 				baseDefinition.getDeclarations().add(inst);
 		});
 		return baseDefinition;
 	}
 
-	protected void resetConstructionContext() {
-		this.constructionCtx = new ScenarioWrapperConstructionContext();
-	}
+	private void prepareConstructionContext() {
+		ctx = new ScenarioWrapperConstructionContext();
 
-	protected void prepareContext() {
-		preprocessExpressionTree();
+		IntIterator treeNodeCounter = IntIterator.newInstance();
+		IntIterator trapsetNodeCounter = IntIterator.newInstance();
+		parameters.getTdlExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
+			@Override
+			public Void visitBoundedRepetition(BoundedRepetitionNode node) {
+				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitConjunction(ConjunctionNode node) {
+				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitDisjunction(DisjunctionNode node) {
+				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitEquivalence(EquivalenceNode node) {
+				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitGroup(GroupNode node) {
+				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitExistentialQuantification(ExistentialQuantificationNode node) {
+				return visitQuantification(node);
+			}
+
+			@Override
+			public Void visitUniversalQuantification(UniversalQuantificationNode node) {
+				return visitQuantification(node);
+			}
+
+			private Void visitQuantification(AbsTrapsetQuantifierNode node) {
+				AbsDerivedTrapsetNode derivedTrapsetNode = node.getChildContainer().getChild();
+				AbsDerivedTrapset derivedTrapset = parameters.getDerivedTrapsetMap().get(derivedTrapsetNode);
+				ctx.getTrapsetCounterMap().computeIfAbsent(derivedTrapset.getName(), k -> IntIterator.newInstance(1)).next();
+
+				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
+				ctx.getTrapsetIndexMap().put(node.getChildContainer().getChild(), trapsetNodeCounter.next());
+				return null;
+			}
+
+			@Override
+			public Void visitLeadsTo(LeadsToNode node) {
+				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitImplication(ImplicationNode node) {
+				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitBoundedLeadsTo(BoundedLeadsToNode node) {
+				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
+				return visitChildren(node);
+			}
+
+			@Override
+			public Void visitValueWrapper(BooleanValueWrapperNode node) {
+				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
+				return null;
+			}
+		});
+
+		ctx.setTreeNodeCount(treeNodeCounter.getCurrentValue());
+		ctx.setTrapsetNodeCount(trapsetNodeCounter.getCurrentValue());
+		ctx.getTrapsetCounterMap().forEach(
+				(k, v) -> ctx.getTrapsetOccurrenceCountMap().put(k, v.getCurrentValue() - 1)
+		);
 
 		Map<Identifier, IntIterator> trapsetQualifierCounters = new HashMap<>();
 		parameters.getTdlExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
@@ -268,15 +317,16 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 			@Override
 			public Void visitValueWrapper(BooleanValueWrapperNode node) {
-				constructionCtx.terminatorAdapterInclusionFlag.set();
+				ctx.getTerminatorAdapterInclusionFlag().set();
 
-				Integer treeIndex = constructionCtx.treeIndexMap.get(node);
+				// Note: This represents a condition that holds on every transition in the SUT.
+				Integer treeIndex = ctx.getTreeIndexMap().get(node);
 				TemplateInstantiation inst = TdlTerminatorChannelAdapterTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlTerminatorChannelAdapterTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
 						NaturalNumberLiteral.of(treeIndex)
 				);
 
-				constructionCtx.globallyApplicableTransitionSynchs.add(
+				ctx.getGloballyApplicableTransitionSynchs().add(
 						new Synchronization()
 								.setExpression(new ArrayLookupExpression()
 										.setLeftChild(IdentifierExpression.of(DECLARED_NAME_TdlTerminatorChannels))
@@ -284,18 +334,18 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 								)
 								.setActiveSync(true)
 				);
-				constructionCtx.templateInstantiations.add(inst);
 
+				ctx.getTemplateInstantiations().add(inst);
 				return null;
 			}
 
 			@Override
 			public Void visitConjunction(ConjunctionNode node) {
-				constructionCtx.conjunctionInclusionFlag.set();
+				ctx.getConjunctionInclusionFlag().set();
 
-				Integer treeIndex = constructionCtx.treeIndexMap.get(node);
-				Integer leftChildIndex = constructionCtx.treeIndexMap.get(node.getChildContainer().getLeftChild());
-				Integer rightChildIndex = constructionCtx.treeIndexMap.get(node.getChildContainer().getRightChild());
+				Integer treeIndex = ctx.getTreeIndexMap().get(node);
+				Integer leftChildIndex = ctx.getTreeIndexMap().get(node.getChildContainer().getLeftChild());
+				Integer rightChildIndex = ctx.getTreeIndexMap().get(node.getChildContainer().getRightChild());
 
 				TemplateInstantiation inst = TdlConjunctionRecognizerTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlConjunctionRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
@@ -304,18 +354,17 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 						NaturalNumberLiteral.of(rightChildIndex)
 				);
 
-				constructionCtx.templateInstantiations.add(inst);
-
+				ctx.getTemplateInstantiations().add(inst);
 				return visitChildren(node);
 			}
 
 			@Override
 			public Void visitDisjunction(DisjunctionNode node) {
-				constructionCtx.disjunctionInclusionFlag.set();
+				ctx.getDisjunctionInclusionFlag().set();
 
-				Integer treeIndex = constructionCtx.treeIndexMap.get(node);
-				Integer leftChildIndex = constructionCtx.treeIndexMap.get(node.getChildContainer().getLeftChild());
-				Integer rightChildIndex = constructionCtx.treeIndexMap.get(node.getChildContainer().getRightChild());
+				Integer treeIndex = ctx.getTreeIndexMap().get(node);
+				Integer leftChildIndex = ctx.getTreeIndexMap().get(node.getChildContainer().getLeftChild());
+				Integer rightChildIndex = ctx.getTreeIndexMap().get(node.getChildContainer().getRightChild());
 
 				TemplateInstantiation inst = TdlDisjunctionRecognizerTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlDisjunctionRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
@@ -324,18 +373,17 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 						NaturalNumberLiteral.of(rightChildIndex)
 				);
 
-				constructionCtx.templateInstantiations.add(inst);
-
+				ctx.getTemplateInstantiations().add(inst);
 				return visitChildren(node);
 			}
 
 			@Override
 			public Void visitLeadsTo(LeadsToNode node) {
-				constructionCtx.leadsToInclusionFlag.set();
+				ctx.getLeadsToInclusionFlag().set();
 
-				Integer treeIndex = constructionCtx.treeIndexMap.get(node);
-				Integer leftChildIndex = constructionCtx.treeIndexMap.get(node.getChildContainer().getLeftChild());
-				Integer rightChildIndex = constructionCtx.treeIndexMap.get(node.getChildContainer().getRightChild());
+				Integer treeIndex = ctx.getTreeIndexMap().get(node);
+				Integer leftChildIndex = ctx.getTreeIndexMap().get(node.getChildContainer().getLeftChild());
+				Integer rightChildIndex = ctx.getTreeIndexMap().get(node.getChildContainer().getRightChild());
 
 				TemplateInstantiation inst = TdlLeadsToRecognizerTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlLeadsToRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
@@ -344,18 +392,17 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 						NaturalNumberLiteral.of(rightChildIndex)
 				);
 
-				constructionCtx.templateInstantiations.add(inst);
-
+				ctx.getTemplateInstantiations().add(inst);
 				return visitChildren(node);
 			}
 
 			@Override
 			public Void visitBoundedLeadsTo(BoundedLeadsToNode node) {
-				constructionCtx.boundedLeadsToInclusionFlag.set();
+				ctx.getBoundedLeadsToInclusionFlag().set();
 
-				Integer treeIndex = constructionCtx.treeIndexMap.get(node);
-				Integer leftChildIndex = constructionCtx.treeIndexMap.get(node.getChildContainer().getLeftChild());
-				Integer rightChildIndex = constructionCtx.treeIndexMap.get(node.getChildContainer().getRightChild());
+				Integer treeIndex = ctx.getTreeIndexMap().get(node);
+				Integer leftChildIndex = ctx.getTreeIndexMap().get(node.getChildContainer().getLeftChild());
+				Integer rightChildIndex = ctx.getTreeIndexMap().get(node.getChildContainer().getRightChild());
 
 				TemplateInstantiation inst = TdlBoundedLeadsToRecognizerTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlBoundedLeadsToRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
@@ -366,17 +413,16 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 						NaturalNumberLiteral.of(rightChildIndex)
 				);
 
-				constructionCtx.templateInstantiations.add(inst);
-
+				ctx.getTemplateInstantiations().add(inst);
 				return visitChildren(node);
 			}
 
 			@Override
 			public Void visitBoundedRepetition(BoundedRepetitionNode node) {
-				constructionCtx.boundedInclusionFlag.set();
+				ctx.getBoundedRepetitionInclusionFlag().set();
 
-				Integer treeIndex = constructionCtx.treeIndexMap.get(node);
-				Integer childIndex = constructionCtx.treeIndexMap.get(node.getChildContainer().getChild());
+				Integer treeIndex = ctx.getTreeIndexMap().get(node);
+				Integer childIndex = ctx.getTreeIndexMap().get(node.getChildContainer().getChild());
 
 				TemplateInstantiation inst = TdlBoundedRepetitionRecognizerTemplateFactory.getInstance().createInstantiation(
 						Identifier.of(TdlBoundedRepetitionRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
@@ -386,8 +432,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 						NaturalNumberLiteral.of(childIndex)
 				);
 
-				constructionCtx.templateInstantiations.add(inst);
-
+				ctx.getTemplateInstantiations().add(inst);
 				return visitChildren(node);
 			}
 
@@ -402,21 +447,21 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 			}
 
 			private Void visitQuantification(boolean universal, AbsTrapsetQuantifierNode node) {
-				Integer treeIndex = constructionCtx.treeIndexMap.get(node);
-				Integer trapsetIndex = constructionCtx.trapsetIndexMap.get(node.getChildContainer().getChild());
+				Integer treeIndex = ctx.getTreeIndexMap().get(node);
+				Integer trapsetIndex = ctx.getTrapsetIndexMap().get(node.getChildContainer().getChild());
 
 				AbsDerivedTrapset<?> trapset = parameters.getDerivedTrapsetMap()
 						.get(node.getChildContainer().getChild());
 
 				Identifier trapsetName = trapset.getName();
-				if (constructionCtx.mapTrapsetOccurrenceCounts.get(trapsetName) > 1) {
+				if (ctx.getTrapsetOccurrenceCountMap().get(trapsetName) > 1) {
 					Integer trapsetNameQualifier = trapsetQualifierCounters
 							.computeIfAbsent(trapset.getName(), k -> IntIterator.newInstance(1))
 							.next();
 					trapsetName = Identifier.of(trapsetName + "_" + trapsetNameQualifier);
 				}
 
-				trapset.getTrapsetImplementationDetails().add(
+				trapset.getImplementationDetails().add(
 						TrapsetImplementationDetail.of(
 								trapsetName,
 								new Synchronization().setActiveSync(true).setExpression(
@@ -427,7 +472,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 						)
 				);
 
-				constructionCtx.trapsetArrayDeclarations.add(
+				ctx.getTrapsetArrayDeclarations().add(
 						new VariableDeclaration()
 								.setIdentifier(trapsetName)
 								.setType(new Type()
@@ -450,9 +495,9 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 				Template template = recognizerFactory.newTemplate();
 				TemplateInstantiation inst = recognizerFactory.createInstantiation();
 
-				constructionCtx.derivedTrapsetMap.putIfAbsent(trapset.getName(), trapset);
-				constructionCtx.quantifierTemplates.add(template);
-				constructionCtx.templateInstantiations.add(inst);
+				ctx.getDerivedTrapsetMap().putIfAbsent(trapset.getName(), trapset);
+				ctx.getQuantifierTemplates().add(template);
+				ctx.getTemplateInstantiations().add(inst);
 
 				return null;
 			}
@@ -472,111 +517,26 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 				throw new UnsupportedOperationException("No scenario wrapper template exists for " + node.getClass().getName());
 			}
 		});
-	}
-
-	private void preprocessExpressionTree() {
-		Map<Identifier, IntIterator> mapTrapsetCounters = new HashMap<>();
-
-		IntIterator treeNodeCounter = IntIterator.newInstance();
-		IntIterator trapsetNodeCounter = IntIterator.newInstance();
-		parameters.getTdlExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
-			@Override
-			public Void visitBoundedRepetition(BoundedRepetitionNode node) {
-				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitConjunction(ConjunctionNode node) {
-				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitDisjunction(DisjunctionNode node) {
-				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitEquivalence(EquivalenceNode node) {
-				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitGroup(GroupNode node) {
-				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitExistentialQuantification(ExistentialQuantificationNode node) {
-				return visitQuantification(node);
-			}
-
-			@Override
-			public Void visitUniversalQuantification(UniversalQuantificationNode node) {
-				return visitQuantification(node);
-			}
-
-			private Void visitQuantification(AbsTrapsetQuantifierNode node) {
-				AbsDerivedTrapsetNode derivedTrapsetNode = node.getChildContainer().getChild();
-				AbsDerivedTrapset derivedTrapset = parameters.getDerivedTrapsetMap().get(derivedTrapsetNode);
-				mapTrapsetCounters.computeIfAbsent(derivedTrapset.getName(), k -> IntIterator.newInstance(1)).next();
-
-				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
-				constructionCtx.trapsetIndexMap.put(node.getChildContainer().getChild(), trapsetNodeCounter.next());
-				return null;
-			}
-
-			@Override
-			public Void visitLeadsTo(LeadsToNode node) {
-				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitImplication(ImplicationNode node) {
-				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitBoundedLeadsTo(BoundedLeadsToNode node) {
-				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
-				return visitChildren(node);
-			}
-
-			@Override
-			public Void visitValueWrapper(BooleanValueWrapperNode node) {
-				constructionCtx.treeIndexMap.put(node, treeNodeCounter.next());
-				return null;
-			}
-		});
-
-		constructionCtx.treeNodeCount = treeNodeCounter.getCurrentValue();
-		constructionCtx.trapsetNodeCount = trapsetNodeCounter.getCurrentValue();
-		mapTrapsetCounters.forEach(
-				(k, v) -> constructionCtx.mapTrapsetOccurrenceCounts.put(k, v.getCurrentValue() - 1)
-		);
 	}
 
 	public ScenarioWrapperConstructionContext getConstructionContext() {
-		return constructionCtx;
+		return ctx;
 	}
 
 	@Override
-	public UtaSystem newSystem() {
-		resetConstructionContext();
-		prepareContext();
+	public UtaSystem constructSystem() {
+		if (completionFlag.isSet())
+			return wrapperSystem;
 
-		UtaSystem wrapperSystem = super.newSystem();
+		prepareConstructionContext();
+
+		wrapperSystem = super.constructSystem();
 		wrapperSystem.getDeclarations()
-				.addAll(constructionCtx.trapsetArrayDeclarations);
+				.addAll(ctx.getTrapsetArrayDeclarations());
 		wrapperSystem.getTemplates()
-				.addAll(constructionCtx.quantifierTemplates);
+				.addAll(ctx.getQuantifierTemplates());
 
+		completionFlag.set();
 		return wrapperSystem;
 	}
 }

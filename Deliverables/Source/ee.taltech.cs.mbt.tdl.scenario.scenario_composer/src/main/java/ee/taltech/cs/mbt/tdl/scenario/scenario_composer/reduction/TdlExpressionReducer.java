@@ -4,7 +4,7 @@ import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminator;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.Normalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.ExpressionNormalizer;
 
 import java.util.Deque;
 
@@ -24,8 +24,11 @@ public class TdlExpressionReducer {
 		if (completionFlag.isSet())
 			return;
 
-		Deque<BooleanValueWrapperNode> booleanLeaves = Normalizer.getInstance(expression).normalize();
-		LiteralEliminator.getInstance(expression, booleanLeaves).eliminate();
+		ExpressionNormalizer normalizer = ExpressionNormalizer.getInstance(expression);
+		Deque<BooleanValueWrapperNode> booleanLeaves = normalizer.normalize();
+
+		LiteralEliminator eliminator = LiteralEliminator.getInstance(expression, booleanLeaves);
+		eliminator.eliminate();
 
 		completionFlag.set();
 	}

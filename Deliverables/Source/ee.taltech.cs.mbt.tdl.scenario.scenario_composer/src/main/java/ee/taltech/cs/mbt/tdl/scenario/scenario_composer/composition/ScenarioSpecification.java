@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;

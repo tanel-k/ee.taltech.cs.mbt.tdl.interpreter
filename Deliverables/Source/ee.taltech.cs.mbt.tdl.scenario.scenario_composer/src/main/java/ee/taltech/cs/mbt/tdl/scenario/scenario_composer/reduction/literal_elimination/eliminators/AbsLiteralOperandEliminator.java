@@ -4,7 +4,7 @@ import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.Normalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.ExpressionNormalizer;
 
 import java.util.Deque;
 
@@ -47,7 +47,7 @@ public abstract class AbsLiteralOperandEliminator<T extends AbsBooleanInternalNo
 			AbsBooleanInternalNode subtreeRoot,
 			Deque<BooleanValueWrapperNode> remainingLeaves
 	) {
-		Deque<BooleanValueWrapperNode> newLeaves = Normalizer
+		Deque<BooleanValueWrapperNode> newLeaves = ExpressionNormalizer
 				.getInstance(expression, subtreeRoot)
 				.normalize();
 		// Reprocess the subtree starting form its Boolean leaves:

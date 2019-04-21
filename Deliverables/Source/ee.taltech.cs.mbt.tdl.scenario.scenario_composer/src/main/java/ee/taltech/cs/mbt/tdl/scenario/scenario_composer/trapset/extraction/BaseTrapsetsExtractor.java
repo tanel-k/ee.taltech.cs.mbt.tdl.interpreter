@@ -31,6 +31,42 @@ import java.util.Map;
 import java.util.Set;
 
 public class BaseTrapsetsExtractor {
+	public static class InvalidBaseTrapsetDefinitionException extends Exception {
+		private static final String MSG_FORMAT = "Invalid trapset definition %s: %s.";
+
+		private static String formatMessage(TrapsetNode node, String errMsg) {
+			return String.format(MSG_FORMAT, node.getName(), errMsg);
+		}
+
+		InvalidBaseTrapsetDefinitionException(TrapsetNode node, String errMsg) {
+			super(formatMessage(node, errMsg));
+		}
+	}
+
+	public static class DuplicateLabelingException extends InvalidBaseTrapsetDefinitionException {
+		public static final String MSG_FORMAT = "System/%s/%s->%s has been labeled more than once";
+
+		private static String formatMessage(Template template, Transition transition) {
+			String locSrc = transition.getSource().getName() != null
+					? transition.getSource().getName().getName()
+					: transition.getSource().getId();
+			String locTgt = transition.getTarget().getName() != null
+					? transition.getTarget().getName().getName()
+					: transition.getTarget().getId();
+			return String.format(MSG_FORMAT, template.getName(), locSrc, locTgt);
+		}
+
+		DuplicateLabelingException(TrapsetNode node, Template template, Transition transition) {
+			super(node, formatMessage(template, transition));
+		}
+	}
+
+	public static class UndefinedTrapsetException extends InvalidBaseTrapsetDefinitionException {
+		UndefinedTrapsetException(TrapsetNode node) {
+			super(node, "missing global declaration");
+		}
+	}
+
 	public static BaseTrapsetsExtractor getInstance(UtaSystem system, TdlExpression expression) {
 		return new BaseTrapsetsExtractor(system, expression);
 	}
@@ -42,11 +78,13 @@ public class BaseTrapsetsExtractor {
 			if (cleanupFlags.getOrDefault(trapset.getName(), Boolean.FALSE))
 				continue;
 
+			// Remove trapset marker variable declaration:
 			AbsDeclarationStatement trapsetArrayDeclaration = trapset.getDeclaration();
 			if (trapsetArrayDeclaration instanceof VariableDeclarationGroup) {
 				VariableDeclarationGroup group = (VariableDeclarationGroup) trapsetArrayDeclaration;
 				group.removeItem(trapset.getName());
 
+				// Retain group as until it's empty (may contain unrelated variable decls):
 				if (group.getBaseTypeExtensionMap().isEmpty()) {
 					globalDeclarations.remove(group);
 				}
@@ -54,8 +92,12 @@ public class BaseTrapsetsExtractor {
 				globalDeclarations.remove(trapsetArrayDeclaration);
 			}
 
+			// Remove marker assignments from transitions:
 			for (Transition transition : trapset) {
-				Collection<AbsExpression> transitionAssignments = transition.getLabels().getAssignmentsLabel().getContent();
+				Collection<AbsExpression> transitionAssignments = transition
+						.getLabels()
+						.getAssignmentsLabel()
+						.getContent();
 				AssignmentExpression transitionAssignment = trapset.getMarkerAssignment(transition);
 				transitionAssignments.remove(transitionAssignment);
 			}
@@ -87,7 +129,7 @@ public class BaseTrapsetsExtractor {
 		this.expression = expression;
 	}
 
-	private void populateTrapsetMap() {
+	private void populateTrapsetMap() throws InvalidBaseTrapsetDefinitionException {
 		Set<TrapsetNode> trapsetNodes = collectTrapsetNodes(expression);
 		for (AbsDeclarationStatement declarationStatement : system.getDeclarations()) {
 			if (declarationStatement instanceof VariableDeclaration) {
@@ -96,6 +138,7 @@ public class BaseTrapsetsExtractor {
 				BaseType baseType = type.getBaseType();
 				if (!BaseTypeIdentifiers.BOOLEAN.equals(baseType.getTypeId()))
 					continue;
+
 				TrapsetNode trapsetCandidate = TrapsetNode.of(variableDeclaration.getIdentifier().toString());
 				if (!trapsetNodes.contains(trapsetCandidate))
 					continue;
@@ -110,6 +153,7 @@ public class BaseTrapsetsExtractor {
 				BaseType baseType = variableDeclarationGroup.getBaseType();
 				if (!BaseTypeIdentifiers.BOOLEAN.equals(baseType.getTypeId()))
 					continue;
+
 				variableDeclarationGroup.getBaseTypeExtensionMap().streamView().forEachOrdered(ext -> {
 					TrapsetNode trapsetCandidate = TrapsetNode.of(ext.getIdentifier().toString());
 					if (!trapsetNodes.contains(trapsetCandidate))
@@ -124,7 +168,11 @@ public class BaseTrapsetsExtractor {
 			}
 		}
 
-		// FIXME: If trapset is undefined in system (cannot find decl).
+		for (TrapsetNode trapsetNode : trapsetNodes) {
+			if (!baseTrapsetMap.containsKey(trapsetNode)) {
+				throw new UndefinedTrapsetException(trapsetNode);
+			}
+		}
 
 		for (Template template : system.getTemplates()) {
 			Set<Transition> transitions = template.getLocationGraph().getEdges();
@@ -133,21 +181,24 @@ public class BaseTrapsetsExtractor {
 				if ((labels = transition.getLabels()) != null && labels.getAssignmentsLabel() != null) {
 					AssignmentsLabel label = labels.getAssignmentsLabel();
 					for (AbsExpression expr : label.getContent()) {
-						if (expr instanceof AssignmentExpression) {
-							// We will only accept basic BoolVar = (expr) updates, not chains like BoolVar1=Boolvar2=(expr) etc.
-							AssignmentExpression assgExpr = (AssignmentExpression) expr;
-							AbsExpression leftExpr = assgExpr.getLeftChild();
-							if (!(leftExpr instanceof IdentifierExpression))
-								continue;
-							IdentifierExpression idExpr = (IdentifierExpression) leftExpr;
-							TrapsetNode trapsetCandidate = TrapsetNode.of(idExpr.getIdentifier().toString());
-							if (!baseTrapsetMap.containsKey(trapsetCandidate))
-								continue;
-							boolean newTransition = baseTrapsetMap.get(trapsetCandidate)
-									.addTrap(BaseTrap.of(template, transition, assgExpr));
-							if (!newTransition) {
-								// FIXME: throw something.
-							}
+						// We will only accept basic BoolVar=<expr> markers, not chains like Var1=Var2=<expr> etc.
+						if (!(expr instanceof AssignmentExpression))
+							continue;
+
+						AssignmentExpression assgExpr = (AssignmentExpression) expr;
+						AbsExpression leftExpr = assgExpr.getLeftChild();
+						if (!(leftExpr instanceof IdentifierExpression))
+							continue;
+
+						IdentifierExpression idExpr = (IdentifierExpression) leftExpr;
+						TrapsetNode trapsetCandidate = TrapsetNode.of(idExpr.getIdentifier().toString());
+						if (!baseTrapsetMap.containsKey(trapsetCandidate))
+							continue;
+
+						boolean newTransition = baseTrapsetMap.get(trapsetCandidate)
+								.addTrap(BaseTrap.of(template, transition, assgExpr));
+						if (!newTransition) {
+							throw new DuplicateLabelingException(trapsetCandidate, template, transition);
 						}
 					}
 				}
@@ -155,11 +206,12 @@ public class BaseTrapsetsExtractor {
 		}
 	}
 
-	public Map<TrapsetNode, BaseTrapset> extract() {
+	public Map<TrapsetNode, BaseTrapset> extract() throws InvalidBaseTrapsetDefinitionException {
 		if (completionFlag.isSet())
 			return baseTrapsetMap;
 
 		populateTrapsetMap();
+		// Markers just clutter the result-system, remove them after consumption:
 		removeTrapsetMarkers(system, baseTrapsetMap.values());
 
 		completionFlag.set();

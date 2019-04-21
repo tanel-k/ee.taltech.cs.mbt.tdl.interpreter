@@ -1,10 +1,12 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic;
 
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trap.BaseTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.AssignmentExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.AbsLiteralExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.TrueLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
@@ -49,17 +51,21 @@ public abstract class AbsTrapset<TrapType extends BaseTrap> implements Iterable<
 	public boolean contains(Transition transition) {
 		return markedTransitions.contains(transition);
 	}
+
 	public int getTrapCount() {
 		return markedTransitions.size();
 	}
 
 	public int getUnconditionalTrapCount() {
 		return markedTransitions.stream()
-				.mapToInt(t -> isConditional(t) ? 0 : 1).sum();
+				.mapToInt(t -> isConditional(t) ? 0 : 1)
+				.sum();
 	}
 
 	public boolean isConditional(Transition transition) {
-		return !(getMarkerCondition(transition) instanceof AbsLiteralExpression); // FIXME
+		AbsExpression markerCondition = getMarkerCondition(transition);
+		return markerCondition != null
+				&& !TrueLiteral.getInstance().equals(markerCondition);
 	}
 
 	public Template getParentTemplate(Transition transition) {

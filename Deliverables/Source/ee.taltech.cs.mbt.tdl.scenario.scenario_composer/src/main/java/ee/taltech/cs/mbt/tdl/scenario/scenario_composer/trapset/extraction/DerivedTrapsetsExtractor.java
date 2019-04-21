@@ -67,22 +67,28 @@ public class DerivedTrapsetsExtractor {
 		return trapsetOperators;
 	}
 
-	private void populateDerivedTrapsetMap(final Map<TrapsetNode, BaseTrapset> baseTrapsetMap) {
+	private void populateDerivedTrapsetMap() {
 		for (AbsDerivedTrapsetNode<?> trapsetOperator : collectTrapsetOperators(expression)) {
 			derivedTrapsetMap.put(trapsetOperator, trapsetOperator.accept(new IDerivedTrapsetVisitor<AbsDerivedTrapset>() {
 				@Override
 				public AbsDerivedTrapset visitAbsoluteComplement(AbsoluteComplementNode absoluteComplement) {
-					return AbsoluteComplementDeriver.getInstance(system, absoluteComplement, baseTrapsetMap).derive();
+					return AbsoluteComplementDeriver
+							.getInstance(system, absoluteComplement, baseTrapsetMap)
+							.derive();
 				}
 
 				@Override
 				public AbsDerivedTrapset visitLinkedPair(LinkedPairNode linkedPair) {
-					return LinkedPairDeriver.getInstance(system, linkedPair, baseTrapsetMap).derive();
+					return LinkedPairDeriver
+							.getInstance(system, linkedPair, baseTrapsetMap)
+							.derive();
 				}
 
 				@Override
 				public AbsDerivedTrapset visitRelativeComplement(RelativeComplementNode relativeComplement) {
-					return RelativeComplementDeriver.getInstance(system, relativeComplement, baseTrapsetMap).derive();
+					return RelativeComplementDeriver
+							.getInstance(system, relativeComplement, baseTrapsetMap)
+							.derive();
 				}
 			}));
 		}
@@ -92,7 +98,7 @@ public class DerivedTrapsetsExtractor {
 		if (completionFlag.isSet())
 			return derivedTrapsetMap;
 
-		populateDerivedTrapsetMap(baseTrapsetMap);
+		populateDerivedTrapsetMap();
 
 		completionFlag.set();
 		return derivedTrapsetMap;

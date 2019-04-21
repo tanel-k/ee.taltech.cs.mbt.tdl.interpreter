@@ -10,22 +10,22 @@ import java.util.List;
 
 public abstract class AbsDerivedTrapset<TrapType extends BaseTrap> extends AbsTrapset<TrapType> {
 	public static class TrapsetImplementationDetail {
-		public static TrapsetImplementationDetail of(Identifier arrayName, Synchronization synchronization) {
-			return new TrapsetImplementationDetail(arrayName, synchronization);
+		public static TrapsetImplementationDetail of(Identifier flagArrayName, Synchronization synchronization) {
+			return new TrapsetImplementationDetail(flagArrayName, synchronization);
 		}
 
-		private Identifier arrayName;
+		private Identifier flagArrayName;
 		private IntIterator indexCounter;
 		private Synchronization activatingSynchronization;
 
-		private TrapsetImplementationDetail(Identifier arrayName, Synchronization activatingSynchronization) {
-			this.arrayName = arrayName;
+		private TrapsetImplementationDetail(Identifier flagArrayName, Synchronization activatingSynchronization) {
+			this.flagArrayName = flagArrayName;
 			this.indexCounter = IntIterator.newInstance();
 			this.activatingSynchronization = activatingSynchronization;
 		}
 
-		public Identifier getArrayName() {
-			return arrayName;
+		public Identifier getFlagArrayName() {
+			return flagArrayName;
 		}
 
 		public IntIterator getIndexCounter() {
@@ -37,14 +37,10 @@ public abstract class AbsDerivedTrapset<TrapType extends BaseTrap> extends AbsTr
 		}
 	}
 
-	private List<TrapsetImplementationDetail> trapsetImplementationDetails = new LinkedList<>();
+	private List<TrapsetImplementationDetail> implementationDetails = new LinkedList<>();
 
-	public List<TrapsetImplementationDetail> getTrapsetImplementationDetails() {
-		return trapsetImplementationDetails;
-	}
-
-	public boolean isDuplicated() {
-		return !trapsetImplementationDetails.isEmpty();
+	public List<TrapsetImplementationDetail> getImplementationDetails() {
+		return implementationDetails;
 	}
 
 	public abstract <T> T accept(IDerivedTrapsetVisitor<T> visitor);

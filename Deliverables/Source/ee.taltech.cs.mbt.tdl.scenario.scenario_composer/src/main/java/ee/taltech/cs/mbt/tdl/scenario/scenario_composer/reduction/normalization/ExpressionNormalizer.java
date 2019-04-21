@@ -11,7 +11,6 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.GroupNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.ImplicationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.LeadsToNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.logical.AbsBooleanLeafNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers.BoundedLeadsToNormalizingReducer;
@@ -26,17 +25,17 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.
 import java.util.Deque;
 import java.util.LinkedList;
 
-public class Normalizer {
-	public static Normalizer getInstance(TdlExpression expression) {
-		return new Normalizer(expression);
+public class ExpressionNormalizer {
+	public static ExpressionNormalizer getInstance(TdlExpression expression) {
+		return new ExpressionNormalizer(expression);
 	}
 
-	public static Normalizer getInstance(TdlExpression expression, AbsBooleanInternalNode subtreeRoot) {
-		return new Normalizer(expression, subtreeRoot);
+	public static ExpressionNormalizer getInstance(TdlExpression expression, AbsBooleanInternalNode subtreeRoot) {
+		return new ExpressionNormalizer(expression, subtreeRoot);
 	}
 
 	@SuppressWarnings("unchecked")
-	private static class NormalizingVisitor extends BaseBooleanNodeVisitor<Void> {
+	private class NormalizingVisitor extends BaseBooleanNodeVisitor<Void> {
 		private TdlExpression expression;
 		private Deque<BooleanValueWrapperNode> leafNodeStorage;
 
@@ -122,11 +121,11 @@ public class Normalizer {
 	private final AbsBooleanInternalNode subtreeRoot;
 	private Deque<BooleanValueWrapperNode> booleanValueWrappers = new LinkedList<>();
 
-	private Normalizer(TdlExpression expression) {
+	private ExpressionNormalizer(TdlExpression expression) {
 		this(expression, expression.getRootNode());
 	}
 
-	private Normalizer(TdlExpression expression, AbsBooleanInternalNode subtreeRoot) {
+	private ExpressionNormalizer(TdlExpression expression, AbsBooleanInternalNode subtreeRoot) {
 		this.expression = expression;
 		this.subtreeRoot = subtreeRoot;
 	}
@@ -135,9 +134,10 @@ public class Normalizer {
 		if (completionFlag.isSet())
 			return booleanValueWrappers;
 
-		subtreeRoot.accept(new NormalizingVisitor(expression, booleanValueWrappers));
-		completionFlag.set();
+		NormalizingVisitor normalizingVisitor = new NormalizingVisitor(expression, booleanValueWrappers);
+		subtreeRoot.accept(normalizingVisitor);
 
+		completionFlag.set();
 		return booleanValueWrappers;
 	}
 }

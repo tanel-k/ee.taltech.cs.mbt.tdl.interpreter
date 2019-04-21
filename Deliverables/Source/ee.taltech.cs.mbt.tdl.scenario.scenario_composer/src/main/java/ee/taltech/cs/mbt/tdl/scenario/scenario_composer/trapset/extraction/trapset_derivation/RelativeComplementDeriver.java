@@ -44,11 +44,11 @@ public class RelativeComplementDeriver extends AbsTrapsetDeriver<RelativeComplem
 			RelativeComplementNode relativeComplement,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
 	) {
-		TrapsetNode leftBaseTrapset = relativeComplement.getChildContainer().getLeftChild();
-		TrapsetNode rightBaseTrapset = relativeComplement.getChildContainer().getRightChild();
+		TrapsetNode leftTrapsetNode = relativeComplement.getChildContainer().getLeftChild();
+		TrapsetNode rightTrapsetNode = relativeComplement.getChildContainer().getRightChild();
 
-		BaseTrapset includedTrapset = baseTrapsetMap.get(leftBaseTrapset);
-		BaseTrapset excludedTrapset = baseTrapsetMap.get(rightBaseTrapset);
+		BaseTrapset includedTrapset = baseTrapsetMap.get(leftTrapsetNode);
+		BaseTrapset excludedTrapset = baseTrapsetMap.get(rightTrapsetNode);
 
 		Identifier trapsetName = Identifier.of(
 				includedTrapset.getName() + RELATIVE_COMPLEMENT_NAME_MODIFIER + excludedTrapset.getName()
@@ -58,16 +58,19 @@ public class RelativeComplementDeriver extends AbsTrapsetDeriver<RelativeComplem
 
 		for (Transition includedTransition : includedTrapset) {
 			Template parentTemplate = includedTrapset.getParentTemplate(includedTransition);
-			AbsExpression conditionExpr = includedTrapset.getMarkerCondition(includedTransition);
+			AbsExpression conditionExpr = includedTrapset.getMarkerCondition(includedTransition).deepClone();
+
 			if (excludedTrapset.contains(includedTransition)) {
+				// As long as the condition doesn't hold, the transition is excluded from excludedTrapset.
 				if (!excludedTrapset.isConditional(includedTransition))
 					continue;
 
+				// Negate the inclusion expression:
 				conditionExpr = new ConjunctionExpression()
 						.setLeftChild(conditionExpr)
 						.setRightChild(
 								new NegationExpression()
-										.setChild(excludedTrapset.getMarkerCondition(includedTransition))
+										.setChild(excludedTrapset.getMarkerCondition(includedTransition).deepClone())
 						);
 			}
 

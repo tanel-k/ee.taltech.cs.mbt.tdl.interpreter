@@ -43,28 +43,36 @@ public class AbsoluteComplementDeriver extends AbsTrapsetDeriver<AbsoluteComplem
 			AbsoluteComplementNode absoluteComplement,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
 	) {
-		BaseTrapset ts = baseTrapsetMap.get(absoluteComplement.getChildContainer().getChild());
+		BaseTrapset excludedTrapset = baseTrapsetMap.get(absoluteComplement.getChildContainer().getChild());
 		Identifier trapsetName = Identifier.of(
-				ABSOLUTE_COMPLEMENT_NAME_MODIFIER + ts.getName()
+				ABSOLUTE_COMPLEMENT_NAME_MODIFIER + excludedTrapset.getName()
 		);
 		AbsoluteComplementTrapset derivedTrapset = new AbsoluteComplementTrapset();
 		derivedTrapset.setName(trapsetName);
 
 		for (Template parentTemplate : system.getTemplates()) {
-			for (Transition transition : parentTemplate.getLocationGraph().getEdges()) {
-				if (ts.contains(transition)) {
-					if (!ts.isConditional(transition))
+			for (Transition candidateTransition : parentTemplate.getLocationGraph().getEdges()) {
+				AssignmentExpression markerExpression;
+				if (excludedTrapset.contains(candidateTransition)) {
+					// In excludedTrapset, check if conditionally:
+					if (!excludedTrapset.isConditional(candidateTransition))
 						continue;
-					AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
+
+					// Whenever the condition doesn't hold the transition is not trapped:
+					markerExpression = (AssignmentExpression) new AssignmentExpression()
 							.setLeftChild(IdentifierExpression.of(trapsetName))
-							.setRightChild(new NegationExpression().setChild(ts.getMarkerCondition(transition)));
-					derivedTrapset.addTrap(BaseTrap.of(parentTemplate, transition, markerExpr));
+							.setRightChild(new NegationExpression()
+									.setChild(excludedTrapset.getMarkerCondition(candidateTransition).deepClone())
+							);
 				} else {
-					AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
+					// Definitely outside of excludedTrapset.
+					markerExpression = (AssignmentExpression) new AssignmentExpression()
 							.setLeftChild(IdentifierExpression.of(trapsetName))
 							.setRightChild(LiteralConsts.TRUE);
-					derivedTrapset.addTrap(BaseTrap.of(parentTemplate, transition, markerExpr));
 				}
+				derivedTrapset.addTrap(
+						BaseTrap.of(parentTemplate, candidateTransition, markerExpression)
+				);
 			}
 		}
 

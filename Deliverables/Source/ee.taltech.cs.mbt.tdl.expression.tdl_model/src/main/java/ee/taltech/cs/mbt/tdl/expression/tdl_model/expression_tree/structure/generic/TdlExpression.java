@@ -2,7 +2,11 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gen
 
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.IDeepCloneable;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
+
+import java.util.Objects;
+import java.util.Optional;
 
 public class TdlExpression implements IDeepCloneable<TdlExpression> {
 	private AbsBooleanInternalNode<?, ?> rootNode;
@@ -36,6 +40,17 @@ public class TdlExpression implements IDeepCloneable<TdlExpression> {
 		prevChild.setParentNode(null); // Detach from expression tree.
 	}
 
+	public boolean rootIsBooleanWrapper() {
+		return rootNode != null
+				&& rootNode instanceof BooleanValueWrapperNode;
+	}
+
+	public Optional<BooleanValueWrapperNode> getRootBooleanWrapper() {
+		if (!rootIsBooleanWrapper())
+			return Optional.empty();
+		return Optional.of((BooleanValueWrapperNode) rootNode);
+	}
+
 	@Override
 	public TdlExpression deepClone() {
 		TdlExpression clone = new TdlExpression();
@@ -43,5 +58,22 @@ public class TdlExpression implements IDeepCloneable<TdlExpression> {
 				? rootNode.deepClone()
 				: null;
 		return clone;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getClass(), rootNode);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		if (!(obj instanceof TdlExpression))
+			return false;
+		TdlExpression other = (TdlExpression) obj;
+		return Objects.equals(this.rootNode, other.rootNode);
 	}
 }

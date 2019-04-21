@@ -32,7 +32,7 @@ public class <systemFactoryClassName(ctx)> {
 
     <systemDefinitionConstructor(ctx.name, ctx.systemDefinition)>
 
-    public UtaSystem newSystem() {
+    public UtaSystem constructSystem() {
         UtaSystem <ctx.name> = new UtaSystem();
 
         // Set global declarations:
