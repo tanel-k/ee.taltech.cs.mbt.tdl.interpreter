@@ -89,18 +89,6 @@ public class TdlExpressionLanguageBaseListener implements TdlExpressionLanguageL
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterConditionalRepetitionExpression(TdlExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -108,6 +96,18 @@ public class TdlExpressionLanguageBaseListener implements TdlExpressionLanguageL
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitConditionalRepetitionExpression(TdlExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

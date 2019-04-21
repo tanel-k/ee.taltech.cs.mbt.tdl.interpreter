@@ -7,6 +7,7 @@ public class ObjectUtils {
 		return obj;
 	}
 
+	@SafeVarargs
 	public static <T> T firstEquivalent(T comparisonObj, T... candidates) {
 		for (T candidate : candidates) {
 			if (comparisonObj.equals(candidate))

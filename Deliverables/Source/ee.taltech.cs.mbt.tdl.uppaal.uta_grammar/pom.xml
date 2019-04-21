@@ -75,6 +75,7 @@
       <groupId>org.antlr</groupId>
       <artifactId>antlr4</artifactId>
     </dependency>
+    <!-- Internal -->
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
       <artifactId>st_facade</artifactId>
@@ -83,6 +84,7 @@
       <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
       <artifactId>uta_system_model</artifactId>
     </dependency>
+    <!-- /Internal -->
   </dependencies>
 
   <properties>

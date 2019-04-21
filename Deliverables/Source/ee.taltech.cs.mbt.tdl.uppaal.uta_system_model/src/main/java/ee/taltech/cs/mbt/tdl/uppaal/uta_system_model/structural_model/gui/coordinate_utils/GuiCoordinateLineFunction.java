@@ -110,9 +110,10 @@ public class GuiCoordinateLineFunction {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "(m = "
-				+ (approxSlope == null ? "INFINITY" : approxSlope)
-				+ ", b = " + (yIntercept == null ? "undefined" : yIntercept)
+		return getClass().getSimpleName()
+				+ "("
+						+ "m = " + (hasInfiniteSlope() ? "INFINITY" : approxSlope) + ", "
+						+ "b = " + (hasInfiniteSlope() ? "undefined" : yIntercept)
 				+ ")";
 	}
 }

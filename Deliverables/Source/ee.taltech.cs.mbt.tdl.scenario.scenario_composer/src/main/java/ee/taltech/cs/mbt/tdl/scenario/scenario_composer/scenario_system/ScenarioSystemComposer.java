@@ -2,7 +2,6 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
-import ee.taltech.cs.mbt.tdl.commons.utils.math.MathUtils;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.ScenarioWrapperFactory;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_wrapper.ScenarioWrapperFactory.ScenarioWrapperConstructionContext;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived.AbsoluteComplementTrapset;
@@ -27,9 +26,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseTyp
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.Color;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.coordinate_utils.GuiCoordinateLineFunction;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.coordinate_utils.GuiCoordinateUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.coordinate_utils.GuiCoordinateUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
@@ -39,15 +37,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.TransitionLabels;
 
 import java.util.Collection;
-import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Stack;
 
 /*
  * FIXME:
@@ -64,7 +59,6 @@ import java.util.Stack;
  * - lots of duplications.
  */
 public class ScenarioSystemComposer {
-
 	public static ScenarioSystemComposer newInstance(ScenarioCompositionParameters parameters) {
 		return new ScenarioSystemComposer(parameters);
 	}
@@ -106,104 +100,33 @@ public class ScenarioSystemComposer {
 		});
 	}
 
-	private static boolean isBetween(GuiCoordinates coords, GuiCoordinates start, GuiCoordinates end) { // FIXME: Not good enough.
-		return MathUtils.inRange(coords.getX(), start.getX(), end.getX())
-				|| MathUtils.inRange(coords.getY(), start.getY(), end.getY());
-	}
-
-	private static void appendNailsIfApplicable(Stack<LinkedList<GuiCoordinates>> nailStack, Transition transition) {
-		if (!nailStack.isEmpty()) {
-			System.out.println(transition.getSource().getCoordinates());
-			List<GuiCoordinates> nails = nailStack.pop();
-			System.out.println(nails);
-			transition.getNails().addAll(nails);
-			System.out.println(transition.getTarget().getCoordinates());
+	private static void appendNailsIfApplicable(LinkedList<LinkedList<GuiCoordinates>> nailSegments, Transition transition) {
+		if (!nailSegments.isEmpty()) {
+			transition.getNails().addAll(nailSegments.pollFirst());
 		}
 	}
 
-	private static LinkedList<LinkedList<GuiCoordinates>> getNailSegments(
-			List<GuiCoordinates> nailPath,
-			List<GuiCoordinates> interceptingPoints
-	) {
-		// Seems adequate for most cases; should probably figure out dpcy with input:
-		final double errorTolerance = 5.0;
-
-		List<GuiCoordinateLineFunction> lineFunctions = new LinkedList<>();
-		GuiCoordinates prevNailCoordinates = null;
-		for (GuiCoordinates nailCoordinates : nailPath) {
-			if (prevNailCoordinates != null) {
-				lineFunctions.add(GuiCoordinateLineFunction.of(prevNailCoordinates, nailCoordinates));
-			}
-			prevNailCoordinates = nailCoordinates;
-		}
-
-		LinkedList<LinkedList<GuiCoordinates>> nailSegments = new LinkedList<>();
-		int nailPtIdx = 0;
-		int interceptPtIdx = 0;
-
-		LinkedList<GuiCoordinates> segment = new LinkedList<>();
-		nailSegments.add(segment);
-
-		for (; nailPtIdx < lineFunctions.size(); nailPtIdx++) {
-			GuiCoordinateLineFunction segLineFn = lineFunctions.get(nailPtIdx);
-			GuiCoordinates startPt = nailPath.get(nailPtIdx);
-			GuiCoordinates endPt = nailPath.get(nailPtIdx + 1);
-
-			GuiCoordinates interceptPt = interceptingPoints.get(interceptPtIdx);
-			if (!segLineFn.checkIntercepts(interceptPt, errorTolerance)) {
-				// ... - startPt - endPt - ... - interceptPt - ...
-				if (segment.isEmpty()) {
-					// endPt in last iter is startPt in this iter.
-					// If segment is empty, startPt does not exist in segment (not added in last iter as endPt).
-					segment.add(startPt);
-				}
-				segment.add(endPt);
-				continue;
-			}
-
-			if (segment.isEmpty()) {
-				// endPt in last iter is startPt in this iter.
-				// If segment is empty, startPt does not exist in segment (not added in last iter as endPt).
-				segment.add(startPt);
-			} // else: startPt is already in segment.
-
-			while (++interceptPtIdx < interceptingPoints.size()
-				&& segLineFn.checkIntercepts(interceptingPoints.get(interceptPtIdx), errorTolerance)
-			) {
-				// Still on the same segment but this time we have no other pts btwn interceptors.
-				// ... - startPt - origInterceptPt - interceptPt - ... - endPt -
-				segment = new LinkedList<>();
-				nailSegments.add(segment);
-			}
-
-			if (interceptPtIdx < interceptingPoints.size()) {
-				// Prepare for next iteration.
-				segment = new LinkedList<>();
-				nailSegments.add(segment);
-			} else {
+	private static LinkedList<LinkedList<GuiCoordinates>> getNailSegments(List<GuiCoordinates> fullTransitionPath, List<GuiCoordinates> hookLocationCoords) {
+		LinkedList<LinkedList<GuiCoordinates>> pathSegmentation = GuiCoordinateUtils.segmentPath(
+				fullTransitionPath, hookLocationCoords
+		);
+		// Get rid of origin location coordinates:
+		for (int i = 0; i < pathSegmentation.size(); i++) {
+			if (!pathSegmentation.get(i).isEmpty()) {
+				pathSegmentation.get(i).removeFirst();
 				break;
 			}
 		}
 
-		// Final segment prep:
-		if (!segment.isEmpty()
-				&& nailPtIdx < nailPath.size()
-				&& segment.getLast().equals(nailPath.get(nailPtIdx))
-		) {
-			nailPtIdx++;
+		// Get rid of target location coordinates:
+		for (int i = pathSegmentation.size() - 1; i >= 0; i--) {
+			if (!pathSegmentation.get(i).isEmpty()) {
+				pathSegmentation.get(i).removeLast();
+				break;
+			}
 		}
 
-		// Final segment:
-		segment = new LinkedList<>();
-		nailSegments.add(segment);
-		for (; nailPtIdx < nailPath.size(); nailPtIdx++) {
-			segment.add(nailPath.get(nailPtIdx));
-		}
-
-		// Just in case:
-		CollectionUtils.fill(nailSegments, interceptingPoints.size() + 1, LinkedList::new);
-
-		return nailSegments;
+		return pathSegmentation;
 	}
 
 	private static void insertOutputHooks(Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
@@ -230,31 +153,29 @@ public class ScenarioSystemComposer {
 				Collection<Synchronization> hookSynchs = transitionSynchEntry.getValue();
 
 				// Need one location and transition per synchronization transition (hook).
-				// Calculate coordinates for locations:
-				Stack<LinkedList<GuiCoordinates>> nailStack = new Stack<>();
+				// Calculate coordinates for hook locations:
+				LinkedList<LinkedList<GuiCoordinates>> nailSegments = new LinkedList<>();
 				List<GuiCoordinates> hookLocationCoords;
 				if (transition.getNails().isEmpty()) {
+					// If we're dealing with a straight line that has no nails in between:
 					hookLocationCoords = GuiCoordinateUtils.evenlyDistributedCoordinatesBetween(
 							initSourceLocation.getCoordinates(),
 							initTargetLocation.getCoordinates(),
 							hookSynchs.size()
 					);
 				} else {
+					// Try to preserve nails on the transition:
 					LinkedList<GuiCoordinates> transitionPath = CollectionUtils.collectionBuilder(new LinkedList<GuiCoordinates>())
 							.add(initSourceLocation.getCoordinates())
 							.addAll(transition.getNails())
 							.add(initTargetLocation.getCoordinates())
 							.build();
-
-					hookLocationCoords = GuiCoordinateUtils.evenlyDistributedCoordinatesOnPath(transitionPath, hookSynchs.size());
-
-					transitionPath.removeFirst();
-					transitionPath.removeLast();
-
-					LinkedList<LinkedList<GuiCoordinates>> nailSegments = getNailSegments(transitionPath, hookLocationCoords);
-					while (!nailSegments.isEmpty()) {
-						nailStack.add(nailSegments.pollLast());
-					}
+					hookLocationCoords = GuiCoordinateUtils.evenlyDistributedCoordinatesOnPath(
+							transitionPath, hookSynchs.size()
+					);
+					nailSegments = getNailSegments(
+							transitionPath, hookLocationCoords
+					);
 					transition.getNails().clear();
 				}
 
@@ -287,7 +208,7 @@ public class ScenarioSystemComposer {
 								hookLocation.getCoordinates()
 						));
 						graph.addEdge(initSourceLocation, hookLocation, transition);
-						appendNailsIfApplicable(nailStack, transition);
+						appendNailsIfApplicable(nailSegments, transition);
 					}
 
 					if (hookTransitionIdx == hookLocationIdx - 1) {
@@ -298,7 +219,7 @@ public class ScenarioSystemComposer {
 									initTargetLocation.getCoordinates()
 							));
 							graph.addEdge(hookLocation, initTargetLocation, hookTransition);
-							appendNailsIfApplicable(nailStack, hookTransition);
+							appendNailsIfApplicable(nailSegments, hookTransition);
 						} else {
 							prevHookTransition.setTarget(hookLocation);
 							prevHookSyncLabel.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
@@ -306,7 +227,7 @@ public class ScenarioSystemComposer {
 									hookLocation.getCoordinates()
 							));
 							graph.addEdge(prevHookLocation, hookLocation, prevHookTransition);
-							appendNailsIfApplicable(nailStack, prevHookTransition);
+							appendNailsIfApplicable(nailSegments, prevHookTransition);
 
 							hookSyncLabel.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 									hookLocation.getCoordinates(),
@@ -315,7 +236,7 @@ public class ScenarioSystemComposer {
 							hookTransition.setSource(hookLocation);
 							hookTransition.setTarget(initTargetLocation);
 							graph.addEdge(hookLocation, initTargetLocation, hookTransition);
-							appendNailsIfApplicable(nailStack, hookTransition);
+							appendNailsIfApplicable(nailSegments, hookTransition);
 						}
 					} else if (hookTransitionIdx > 0) {
 						prevHookTransition.setTarget(hookLocation);
@@ -324,7 +245,7 @@ public class ScenarioSystemComposer {
 								hookLocation.getCoordinates()
 						));
 						graph.addEdge(prevHookLocation, hookLocation, prevHookTransition);
-						appendNailsIfApplicable(nailStack, prevHookTransition);
+						appendNailsIfApplicable(nailSegments, prevHookTransition);
 					}
 
 					prevHookSyncLabel = hookSyncLabel;

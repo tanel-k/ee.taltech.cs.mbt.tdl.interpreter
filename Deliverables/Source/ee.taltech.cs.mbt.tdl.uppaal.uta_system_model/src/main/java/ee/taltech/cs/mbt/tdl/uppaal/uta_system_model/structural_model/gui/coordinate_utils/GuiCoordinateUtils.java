@@ -1,10 +1,12 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.coordinate_utils;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.BiTuple;
 import ee.taltech.cs.mbt.tdl.commons.utils.math.MathUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class GuiCoordinateUtils {
@@ -88,7 +90,7 @@ public class GuiCoordinateUtils {
 			GuiCoordinateLineFunction approxFunction = GuiCoordinateLineFunction
 					.of(startCoords, endCoords);
 
-			BiTuple<Integer, Integer> segmentEndpointSignums = BiTuple.of(
+			BiTuple<Integer, Integer> segmentEndpointDiffSignum = BiTuple.of(
 					MathUtils.signum(endCoords.getX() - startCoords.getX()),
 					MathUtils.signum(endCoords.getY() - startCoords.getY())
 			);
@@ -102,14 +104,14 @@ public class GuiCoordinateUtils {
 					// Line through X axis:
 					coordsOnPath.add(GuiCoordinates.of(
 							startCoords.getX(),
-							startCoords.getY() + (segmentEndpointSignums.getSecond() * lengthOnSegment)
+							startCoords.getY() + (segmentEndpointDiffSignum.getSecond() * lengthOnSegment)
 					));
 					currLengthTarget += distBetweenPts;
 					continue;
 				} else if (segYIntercept == 0) {
 					// Line through Y axis:
 					coordsOnPath.add(GuiCoordinates.of(
-							startCoords.getX() + (segmentEndpointSignums.getFirst() * lengthOnSegment),
+							startCoords.getX() + (segmentEndpointDiffSignum.getFirst() * lengthOnSegment),
 							startCoords.getY()
 					));
 					currLengthTarget += distBetweenPts;
@@ -141,11 +143,11 @@ public class GuiCoordinateUtils {
 							quadraticSolution.getSecond().intValue(),
 							approxFunction.approximateYFloored(quadraticSolution.getSecond())
 					);
-					BiTuple<Integer, Integer> candidateSignumA = BiTuple.of(
+					BiTuple<Integer, Integer> diffSignumA = BiTuple.of(
 						MathUtils.signum(candidateCoordsA.getX() - startCoords.getX()),
 						MathUtils.signum(candidateCoordsA.getY() - startCoords.getY())
 					);
-					if (segmentEndpointSignums.equals(candidateSignumA)) {
+					if (segmentEndpointDiffSignum.equals(diffSignumA)) {
 						coordsOnPath.add(candidateCoordsA);
 					} else {
 						coordsOnPath.add(candidateCoordsB);
@@ -164,5 +166,94 @@ public class GuiCoordinateUtils {
 		}
 
 		return coordsOnPath;
+	}
+
+	public static LinkedList<LinkedList<GuiCoordinates>> segmentPath(
+			List<GuiCoordinates> pathToSegment,
+			List<GuiCoordinates> interceptingPoints
+	) {
+		// Seems adequate for most cases; should probably figure out a formula:
+		final double errorTolerance = 5.0;
+
+		List<GuiCoordinateLineFunction> lineFunctions = new LinkedList<>();
+		GuiCoordinates prevPathPt = null;
+		for (GuiCoordinates pathPt : pathToSegment) {
+			if (prevPathPt != null) {
+				lineFunctions.add(GuiCoordinateLineFunction.of(prevPathPt, pathPt));
+			}
+			prevPathPt = pathPt;
+		}
+
+		LinkedList<LinkedList<GuiCoordinates>> segments = new LinkedList<>();
+		int segmentPtIdx = 0;
+		int interceptPtIdx = 0;
+
+		LinkedList<GuiCoordinates> segment = new LinkedList<>();
+		segments.add(segment);
+
+		for (; segmentPtIdx < lineFunctions.size(); segmentPtIdx++) {
+			GuiCoordinateLineFunction segLineFn = lineFunctions.get(segmentPtIdx);
+			GuiCoordinates segmentStartPt = pathToSegment.get(segmentPtIdx);
+			GuiCoordinates segmentEndPt = pathToSegment.get(segmentPtIdx + 1);
+
+			GuiCoordinates interceptPt = interceptingPoints.get(interceptPtIdx);
+			if (!segLineFn.checkIntercepts(interceptPt, errorTolerance)) {
+				// ... - segmentStartPt - segmentEndPt - ... - interceptPt - ...
+				if (segment.isEmpty()) {
+					// endPt in last iter is startPt in this iter.
+					// If segment is empty, startPt does not exist in segment (not added in last iter as endPt).
+					segment.add(segmentStartPt);
+				}
+				segment.add(segmentEndPt);
+				continue;
+			}
+
+			if (segment.isEmpty()) {
+				// segmentEndPt in last iter is segmentStartPt in this iter.
+				// If segment is empty, segmentStartPt does not exist in segment (not added in last iter as segmentEndPt).
+				segment.add(segmentStartPt);
+			} // else: segmentStartPt is already in segment.
+
+			while (++interceptPtIdx < interceptingPoints.size()
+					&& segLineFn.checkIntercepts(interceptingPoints.get(interceptPtIdx), errorTolerance)
+					) {
+				// Still on the same segment but this time we have no other pts btwn interceptors.
+				// ... - segmentStartPt - origInterceptPt - interceptPt - ... - segmentEndPt - ...
+				segment = new LinkedList<>();
+				segments.add(segment);
+			}
+
+			if (interceptPtIdx < interceptingPoints.size()) {
+				// Prepare for next iteration:
+				segment = new LinkedList<>();
+				segments.add(segment);
+			} else {
+				break;
+			}
+		}
+
+		// Final segment prep:
+		if (!segment.isEmpty()
+				&& segmentPtIdx < pathToSegment.size()
+				&& segment.getLast().equals(pathToSegment.get(segmentPtIdx))
+				) {
+			segmentPtIdx++;
+		}
+
+		// Final segment:
+		segment = new LinkedList<>();
+		segments.add(segment);
+		for (; segmentPtIdx < pathToSegment.size(); segmentPtIdx++) {
+			segment.add(pathToSegment.get(segmentPtIdx));
+		}
+
+		// Just in case:
+		CollectionUtils.fill(
+				segments,
+				interceptingPoints.size() + 1,
+				LinkedList::new
+		);
+
+		return segments;
 	}
 }

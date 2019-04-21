@@ -54,19 +54,19 @@ public interface TdlExpressionLanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEquivalenceExpression(TdlExpressionLanguageParser.EquivalenceExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code NegatedExpression}
-	 * labeled alternative in {@link TdlExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code ConditionalRepetitionExpression}
 	 * labeled alternative in {@link TdlExpressionLanguageParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitConditionalRepetitionExpression(TdlExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NegatedExpression}
+	 * labeled alternative in {@link TdlExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code TimeBoundedLeadsToExpression}
 	 * labeled alternative in {@link TdlExpressionLanguageParser#expression}.

@@ -71,10 +71,18 @@
   <dependencies>
     <!-- Internal -->
     <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+      <artifactId>st_facade</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
+      <artifactId>tdl_model</artifactId>
+    </dependency>
+    <!-- /Internal -->
+    <dependency>
       <groupId>org.antlr</groupId>
       <artifactId>antlr4</artifactId>
     </dependency>
-    <!-- /Internal -->
   </dependencies>
 
   <properties>

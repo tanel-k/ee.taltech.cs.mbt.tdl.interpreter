@@ -60,14 +60,14 @@ public class TdlExpressionLanguageBaseVisitor<T> extends AbstractParseTreeVisito
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConditionalRepetitionExpression(TdlExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConditionalRepetitionExpression(TdlExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

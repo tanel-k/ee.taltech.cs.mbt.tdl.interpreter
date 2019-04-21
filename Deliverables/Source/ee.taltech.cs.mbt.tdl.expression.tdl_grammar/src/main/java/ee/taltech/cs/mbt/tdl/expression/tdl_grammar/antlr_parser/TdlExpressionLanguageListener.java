@@ -81,18 +81,6 @@ public interface TdlExpressionLanguageListener extends ParseTreeListener {
 	 */
 	void exitEquivalenceExpression(TdlExpressionLanguageParser.EquivalenceExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code NegatedExpression}
-	 * labeled alternative in {@link TdlExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code NegatedExpression}
-	 * labeled alternative in {@link TdlExpressionLanguageParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code ConditionalRepetitionExpression}
 	 * labeled alternative in {@link TdlExpressionLanguageParser#expression}.
 	 * @param ctx the parse tree
@@ -104,6 +92,18 @@ public interface TdlExpressionLanguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitConditionalRepetitionExpression(TdlExpressionLanguageParser.ConditionalRepetitionExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code NegatedExpression}
+	 * labeled alternative in {@link TdlExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code NegatedExpression}
+	 * labeled alternative in {@link TdlExpressionLanguageParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitNegatedExpression(TdlExpressionLanguageParser.NegatedExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code TimeBoundedLeadsToExpression}
 	 * labeled alternative in {@link TdlExpressionLanguageParser#expression}.

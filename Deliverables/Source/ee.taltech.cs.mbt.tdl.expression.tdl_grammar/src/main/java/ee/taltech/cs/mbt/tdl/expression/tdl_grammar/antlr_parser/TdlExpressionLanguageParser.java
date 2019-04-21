@@ -234,26 +234,6 @@ public class TdlExpressionLanguageParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class NegatedExpressionContext extends ExpressionContext {
-		public TerminalNode LOP_NEGATION() { return getToken(TdlExpressionLanguageParser.LOP_NEGATION, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public NegatedExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterNegatedExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitNegatedExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitNegatedExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class ConditionalRepetitionExpressionContext extends ExpressionContext {
 		public TerminalNode LOP_REPETITION_COUNT() { return getToken(TdlExpressionLanguageParser.LOP_REPETITION_COUNT, 0); }
 		public TerminalNode LEFT_BRACKET() { return getToken(TdlExpressionLanguageParser.LEFT_BRACKET, 0); }
@@ -276,6 +256,26 @@ public class TdlExpressionLanguageParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitConditionalRepetitionExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NegatedExpressionContext extends ExpressionContext {
+		public TerminalNode LOP_NEGATION() { return getToken(TdlExpressionLanguageParser.LOP_NEGATION, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public NegatedExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterNegatedExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitNegatedExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitNegatedExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -348,33 +348,33 @@ public class TdlExpressionLanguageParser extends Parser {
 			{
 			setState(22);
 			switch (_input.LA(1)) {
-			case LOP_NEGATION:
-				{
-				_localctx = new NegatedExpressionContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-
-				setState(9);
-				match(LOP_NEGATION);
-				setState(10);
-				expression(9);
-				}
-				break;
 			case LOP_REPETITION_COUNT:
 				{
 				_localctx = new ConditionalRepetitionExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(11);
+
+				setState(9);
 				match(LOP_REPETITION_COUNT);
-				setState(12);
+				setState(10);
 				match(LEFT_BRACKET);
-				setState(13);
+				setState(11);
 				boundOverNaturals();
-				setState(14);
+				setState(12);
 				match(RIGHT_BRACKET);
+				setState(13);
+				expression(8);
+				}
+				break;
+			case LOP_NEGATION:
+				{
+				_localctx = new NegatedExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(15);
-				expression(2);
+				match(LOP_NEGATION);
+				setState(16);
+				expression(7);
 				}
 				break;
 			case LEFT_PAREN:
@@ -416,80 +416,80 @@ public class TdlExpressionLanguageParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ConjunctiveExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new TimeBoundedLeadsToExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(24);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
 						setState(25);
-						match(LOP_CONJUNCTION);
+						match(LOP_LEADS_TO);
 						setState(26);
+						match(LEFT_BRACKET);
+						setState(27);
+						boundOverNaturals();
+						setState(28);
+						match(RIGHT_BRACKET);
+						setState(29);
 						expression(9);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new DisjunctiveExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new ConjunctiveExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(27);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(28);
-						match(LOP_DISJUNCTION);
-						setState(29);
-						expression(8);
+						setState(31);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(32);
+						match(LOP_CONJUNCTION);
+						setState(33);
+						expression(7);
 						}
 						break;
 					case 3:
 						{
-						_localctx = new ImplicativeExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new DisjunctiveExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(30);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(31);
-						match(LOP_IMPLICATION);
-						setState(32);
-						expression(7);
+						setState(34);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(35);
+						match(LOP_DISJUNCTION);
+						setState(36);
+						expression(6);
 						}
 						break;
 					case 4:
 						{
-						_localctx = new EquivalenceExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new ImplicativeExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(33);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(34);
-						match(LOP_EQUIVALENCE);
-						setState(35);
-						expression(6);
+						setState(37);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(38);
+						match(LOP_IMPLICATION);
+						setState(39);
+						expression(5);
 						}
 						break;
 					case 5:
 						{
-						_localctx = new LeadsToExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new EquivalenceExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(36);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(37);
-						match(LOP_LEADS_TO);
-						setState(38);
-						expression(5);
+						setState(40);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(41);
+						match(LOP_EQUIVALENCE);
+						setState(42);
+						expression(4);
 						}
 						break;
 					case 6:
 						{
-						_localctx = new TimeBoundedLeadsToExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new LeadsToExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(39);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(40);
-						match(LOP_LEADS_TO);
-						setState(41);
-						match(LEFT_BRACKET);
-						setState(42);
-						boundOverNaturals();
 						setState(43);
-						match(RIGHT_BRACKET);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(44);
-						expression(4);
+						match(LOP_LEADS_TO);
+						setState(45);
+						expression(3);
 						}
 						break;
 					}
@@ -925,17 +925,17 @@ public class TdlExpressionLanguageParser extends Parser {
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 8);
+			return precpred(_ctx, 9);
 		case 1:
-			return precpred(_ctx, 7);
-		case 2:
 			return precpred(_ctx, 6);
-		case 3:
+		case 2:
 			return precpred(_ctx, 5);
-		case 4:
+		case 3:
 			return precpred(_ctx, 4);
-		case 5:
+		case 4:
 			return precpred(_ctx, 3);
+		case 5:
+			return precpred(_ctx, 2);
 		}
 		return true;
 	}
@@ -948,23 +948,23 @@ public class TdlExpressionLanguageParser extends Parser {
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3@\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
 		"\3\4\5\4J\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5V\n\5\3\5\2\3"+
 		"\2\6\2\4\6\b\2\2c\2\30\3\2\2\2\4?\3\2\2\2\6I\3\2\2\2\bU\3\2\2\2\n\13\b"+
-		"\2\1\2\13\f\7\t\2\2\f\31\5\2\2\13\r\16\7\17\2\2\16\17\7\3\2\2\17\20\5"+
-		"\b\5\2\20\21\7\4\2\2\21\22\5\2\2\4\22\31\3\2\2\2\23\24\7\5\2\2\24\25\5"+
-		"\2\2\2\25\26\7\6\2\2\26\31\3\2\2\2\27\31\5\4\3\2\30\n\3\2\2\2\30\r\3\2"+
-		"\2\2\30\23\3\2\2\2\30\27\3\2\2\2\31\62\3\2\2\2\32\33\f\n\2\2\33\34\7\n"+
-		"\2\2\34\61\5\2\2\13\35\36\f\t\2\2\36\37\7\13\2\2\37\61\5\2\2\n !\f\b\2"+
-		"\2!\"\7\f\2\2\"\61\5\2\2\t#$\f\7\2\2$%\7\r\2\2%\61\5\2\2\b&\'\f\6\2\2"+
-		"\'(\7\16\2\2(\61\5\2\2\7)*\f\5\2\2*+\7\16\2\2+,\7\3\2\2,-\5\b\5\2-.\7"+
-		"\4\2\2./\5\2\2\6/\61\3\2\2\2\60\32\3\2\2\2\60\35\3\2\2\2\60 \3\2\2\2\60"+
-		"#\3\2\2\2\60&\3\2\2\2\60)\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\62\63\3"+
-		"\2\2\2\63\3\3\2\2\2\64\62\3\2\2\2\65\66\7\7\2\2\66\67\7\5\2\2\678\5\6"+
-		"\4\289\7\6\2\29@\3\2\2\2:;\7\b\2\2;<\7\5\2\2<=\5\6\4\2=>\7\6\2\2>@\3\2"+
-		"\2\2?\65\3\2\2\2?:\3\2\2\2@\5\3\2\2\2AB\7\20\2\2BJ\7\30\2\2CD\7\30\2\2"+
-		"DE\7\21\2\2EJ\7\30\2\2FG\7\30\2\2GH\7\22\2\2HJ\7\30\2\2IA\3\2\2\2IC\3"+
-		"\2\2\2IF\3\2\2\2J\7\3\2\2\2KL\7\25\2\2LV\7\31\2\2MN\7\26\2\2NV\7\31\2"+
-		"\2OP\7\23\2\2PV\7\31\2\2QR\7\24\2\2RV\7\31\2\2ST\7\27\2\2TV\7\31\2\2U"+
-		"K\3\2\2\2UM\3\2\2\2UO\3\2\2\2UQ\3\2\2\2US\3\2\2\2V\t\3\2\2\2\b\30\60\62"+
-		"?IU";
+		"\2\1\2\13\f\7\17\2\2\f\r\7\3\2\2\r\16\5\b\5\2\16\17\7\4\2\2\17\20\5\2"+
+		"\2\n\20\31\3\2\2\2\21\22\7\t\2\2\22\31\5\2\2\t\23\24\7\5\2\2\24\25\5\2"+
+		"\2\2\25\26\7\6\2\2\26\31\3\2\2\2\27\31\5\4\3\2\30\n\3\2\2\2\30\21\3\2"+
+		"\2\2\30\23\3\2\2\2\30\27\3\2\2\2\31\62\3\2\2\2\32\33\f\13\2\2\33\34\7"+
+		"\16\2\2\34\35\7\3\2\2\35\36\5\b\5\2\36\37\7\4\2\2\37 \5\2\2\13 \61\3\2"+
+		"\2\2!\"\f\b\2\2\"#\7\n\2\2#\61\5\2\2\t$%\f\7\2\2%&\7\13\2\2&\61\5\2\2"+
+		"\b\'(\f\6\2\2()\7\f\2\2)\61\5\2\2\7*+\f\5\2\2+,\7\r\2\2,\61\5\2\2\6-."+
+		"\f\4\2\2./\7\16\2\2/\61\5\2\2\5\60\32\3\2\2\2\60!\3\2\2\2\60$\3\2\2\2"+
+		"\60\'\3\2\2\2\60*\3\2\2\2\60-\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\62\63"+
+		"\3\2\2\2\63\3\3\2\2\2\64\62\3\2\2\2\65\66\7\7\2\2\66\67\7\5\2\2\678\5"+
+		"\6\4\289\7\6\2\29@\3\2\2\2:;\7\b\2\2;<\7\5\2\2<=\5\6\4\2=>\7\6\2\2>@\3"+
+		"\2\2\2?\65\3\2\2\2?:\3\2\2\2@\5\3\2\2\2AB\7\20\2\2BJ\7\30\2\2CD\7\30\2"+
+		"\2DE\7\21\2\2EJ\7\30\2\2FG\7\30\2\2GH\7\22\2\2HJ\7\30\2\2IA\3\2\2\2IC"+
+		"\3\2\2\2IF\3\2\2\2J\7\3\2\2\2KL\7\25\2\2LV\7\31\2\2MN\7\26\2\2NV\7\31"+
+		"\2\2OP\7\23\2\2PV\7\31\2\2QR\7\24\2\2RV\7\31\2\2ST\7\27\2\2TV\7\31\2\2"+
+		"UK\3\2\2\2UM\3\2\2\2UO\3\2\2\2UQ\3\2\2\2US\3\2\2\2V\t\3\2\2\2\b\30\60"+
+		"\62?IU";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

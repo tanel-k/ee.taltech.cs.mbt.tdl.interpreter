@@ -1,15 +1,15 @@
 grammar TdlExpressionLanguage;
 
 // Root production:
-expression  : LEFT_PAREN expression RIGHT_PAREN  # GroupedExpression
-            | LOP_NEGATION expression  # NegatedExpression
-            | expression LOP_CONJUNCTION expression  # ConjunctiveExpression
-            | expression LOP_DISJUNCTION expression  # DisjunctiveExpression
-            | expression LOP_IMPLICATION expression  # ImplicativeExpression
-            | expression LOP_EQUIVALENCE expression  # EquivalenceExpression
-            | expression LOP_LEADS_TO expression  # LeadsToExpression
-            | expression LOP_LEADS_TO LEFT_BRACKET boundOverNaturals RIGHT_BRACKET expression  # TimeBoundedLeadsToExpression
-            | LOP_REPETITION_COUNT LEFT_BRACKET boundOverNaturals RIGHT_BRACKET expression # ConditionalRepetitionExpression
+expression  :<assoc=left> LEFT_PAREN expression RIGHT_PAREN  # GroupedExpression
+            |<assoc=right> expression LOP_LEADS_TO LEFT_BRACKET boundOverNaturals RIGHT_BRACKET expression  # TimeBoundedLeadsToExpression
+            |<assoc=right> LOP_REPETITION_COUNT LEFT_BRACKET boundOverNaturals RIGHT_BRACKET expression # ConditionalRepetitionExpression
+            |<assoc=left> LOP_NEGATION expression  # NegatedExpression
+            |<assoc=left> expression LOP_CONJUNCTION expression  # ConjunctiveExpression
+            |<assoc=left> expression LOP_DISJUNCTION expression  # DisjunctiveExpression
+            |<assoc=left> expression LOP_IMPLICATION expression  # ImplicativeExpression
+            |<assoc=left> expression LOP_EQUIVALENCE expression  # EquivalenceExpression
+            |<assoc=left> expression LOP_LEADS_TO expression  # LeadsToExpression
             | quantifiedTrapsetExpression  # GroundTermExpression
             ;
 

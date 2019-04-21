@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
 public class DelegatingAntlrErrorListener extends org.antlr.v4.runtime.BaseErrorListener {
-	private ErrorListener listenerDelegate = null;
+	private final ErrorListener listenerDelegate;
 
 	public DelegatingAntlrErrorListener(ErrorListener listenerDelegate) {
 		this.listenerDelegate = listenerDelegate;
@@ -31,6 +31,6 @@ public class DelegatingAntlrErrorListener extends org.antlr.v4.runtime.BaseError
 				.setCharPositionInLine(charPositionInLine)
 				.setMessage(msg)
 				.setException(e);
-		listenerDelegate.registerSyntaxError(syntaxError);
+		getDelegate().registerSyntaxError(syntaxError);
 	}
 }
