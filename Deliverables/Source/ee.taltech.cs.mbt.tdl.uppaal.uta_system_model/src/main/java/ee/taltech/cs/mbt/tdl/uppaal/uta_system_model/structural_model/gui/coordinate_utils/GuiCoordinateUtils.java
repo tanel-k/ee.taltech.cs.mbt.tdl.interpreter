@@ -76,8 +76,13 @@ public class GuiCoordinateUtils {
 		List<GuiCoordinates> coordsOnPath = new ArrayList<>(count);
 		for (segmentIndex = 0; segmentIndex < partialPathLengths.size() && coordsOnPath.size() < count; segmentIndex++) {
 			Integer partialPathLength = partialPathLengths.get(segmentIndex);
-			BiTuple<GuiCoordinates, GuiCoordinates> segment = segments.get(segmentIndex);
 
+			if (currLengthTarget > partialPathLength) {
+				prevPartialPathLength = partialPathLength;
+				continue;
+			}
+
+			BiTuple<GuiCoordinates, GuiCoordinates> segment = segments.get(segmentIndex);
 			GuiCoordinates startCoords = segment.getFirst();
 			GuiCoordinates endCoords = segment.getSecond();
 			GuiCoordinateLineFunction approxFunction = GuiCoordinateLineFunction
@@ -87,7 +92,7 @@ public class GuiCoordinateUtils {
 					MathUtils.signum(endCoords.getX() - startCoords.getX()),
 					MathUtils.signum(endCoords.getY() - startCoords.getY())
 			);
-			while (currLengthTarget < partialPathLength && coordsOnPath.size() < count) {
+			while (currLengthTarget <= partialPathLength && coordsOnPath.size() < count) {
 				Integer lengthOnSegment = currLengthTarget - prevPartialPathLength;
 
 				Double segSlope = approxFunction.getApproxSlope();
@@ -99,7 +104,6 @@ public class GuiCoordinateUtils {
 							startCoords.getX(),
 							startCoords.getY() + (segmentEndpointSignums.getSecond() * lengthOnSegment)
 					));
-
 					currLengthTarget += distBetweenPts;
 					continue;
 				} else if (segYIntercept == 0) {
@@ -108,7 +112,6 @@ public class GuiCoordinateUtils {
 							startCoords.getX() + (segmentEndpointSignums.getFirst() * lengthOnSegment),
 							startCoords.getY()
 					));
-
 					currLengthTarget += distBetweenPts;
 					continue;
 				}
@@ -157,7 +160,7 @@ public class GuiCoordinateUtils {
 				currLengthTarget += distBetweenPts;
 			}
 
-			prevPartialPathLength = partialPathLengths.get(segmentIndex);
+			prevPartialPathLength = partialPathLength;
 		}
 
 		return coordsOnPath;

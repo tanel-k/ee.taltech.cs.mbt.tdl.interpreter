@@ -28,6 +28,10 @@ public class MathUtils {
 		return x < 0 ? - 1 : 1;
 	}
 
+	public static boolean signumEquivalent(int a, int b) {
+		return signum(a) == signum(b);
+	}
+
 	public static boolean inRange(double x, double a, double b) {
 		if (a <= b)
 			return a <= x && x <= b;

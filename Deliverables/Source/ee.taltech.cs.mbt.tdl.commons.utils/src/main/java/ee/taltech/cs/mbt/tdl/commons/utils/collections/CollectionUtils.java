@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class CollectionUtils {
 	public static class CollectionBuilder<T, C extends Collection<T>> {
@@ -94,5 +95,10 @@ public class CollectionUtils {
 
 	public static <T, C extends Collection<T>> CollectionBuilder<T, C> collectionBuilder(C collection) {
 		return new CollectionBuilder<>(collection);
+	}
+
+	public static <T, C extends Collection<T>> void fill(C collection, int targetSize, Supplier<T> entryProvider) {
+		while (collection.size() < targetSize)
+			collection.add(entryProvider.get());
 	}
 }

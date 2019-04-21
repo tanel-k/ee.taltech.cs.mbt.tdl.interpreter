@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.coordinate_utils;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.math.MathUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 
 public class GuiCoordinateLineFunction {
@@ -57,7 +58,7 @@ public class GuiCoordinateLineFunction {
 		if (approxSlope == null)
 			return null;
 
-		if (approxSlope == 0)
+		if (approxSlope == 0.0)
 			return yIntercept;
 
 		return approxSlope * x + yIntercept;
@@ -67,10 +68,18 @@ public class GuiCoordinateLineFunction {
 		if (approxSlope == null)
 			return xIntercept;
 
-		if (approxSlope == 0)
+		if (approxSlope == 0.0)
 			return null;
 
 		return (y - yIntercept) / approxSlope;
+	}
+
+	public boolean hasInfiniteSlope() {
+		return approxSlope == null;
+	}
+
+	public boolean hasNoSlope() {
+		return approxSlope == 0.0;
 	}
 
 	public Double getApproxSlope() {
@@ -83,5 +92,27 @@ public class GuiCoordinateLineFunction {
 
 	public Double getXIntercept() {
 		return xIntercept;
+	}
+
+	public boolean checkIntercepts(GuiCoordinates coordinates) {
+		return checkIntercepts(coordinates, 0.0);
+	}
+
+	public boolean checkIntercepts(GuiCoordinates coordinates, Double errorTolerance) {
+		Double y = approximateY((double) coordinates.getX());
+		if (y == null) {
+			return Math.abs(xIntercept - coordinates.getX()) < errorTolerance
+					&& MathUtils.signumEquivalent(xIntercept.intValue(), coordinates.getX());
+		}
+		return Math.abs(coordinates.getY() - y) < errorTolerance
+				&& MathUtils.signumEquivalent(y.intValue(), coordinates.getY());
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "(m = "
+				+ (approxSlope == null ? "INFINITY" : approxSlope)
+				+ ", b = " + (yIntercept == null ? "undefined" : yIntercept)
+				+ ")";
 	}
 }

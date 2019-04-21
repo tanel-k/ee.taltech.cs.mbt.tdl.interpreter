@@ -27,6 +27,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseTyp
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.Color;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.coordinate_utils.GuiCoordinateLineFunction;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.coordinate_utils.GuiCoordinateUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
@@ -40,10 +41,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Stack;
 
 /*
@@ -75,26 +78,26 @@ public class ScenarioSystemComposer {
 	}
 
 	public void compose() {
-		Map<Template, Map<Transition, Collection<Synchronization>>> hookMap = new HashMap<>();
+		Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap = new HashMap<>();
 		UtaSystem wrapperSystem = wrapperFactory.newSystem();
 		ScenarioWrapperConstructionContext wrapperContext = wrapperFactory.getConstructionContext();
 
 		for (Synchronization globalTransitionSynch : wrapperContext.getGloballyApplicableTransitionSynchs()) {
-			handleGlobalSynch(parameters.getSutModel(), globalTransitionSynch, hookMap);
+			handleGlobalSynch(parameters.getSutModel(), globalTransitionSynch, transitionSynchHooksMap);
 		}
 
 		for (AbsDerivedTrapset systemTrapset : wrapperContext.getDerivedTrapsetMap().values()) {
-			handleTrapset(systemTrapset, hookMap);
+			handleTrapset(systemTrapset, transitionSynchHooksMap);
 		}
 
-		insertOutputHooks(hookMap);
+		insertOutputHooks(transitionSynchHooksMap);
 
 		parameters.getSutModel().merge(wrapperSystem);
 	}
 
-	private void handleGlobalSynch(UtaSystem system, Synchronization globalSynch, Map<Template, Map<Transition, Collection<Synchronization>>> hookMap) {
+	private void handleGlobalSynch(UtaSystem system, Synchronization globalSynch, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
 		system.getTemplates().stream().forEachOrdered(template -> {
-				Map<Transition, Collection<Synchronization>> templateSynchMap = hookMap.computeIfAbsent(template, k -> new HashMap<>());
+				Map<Transition, Collection<Synchronization>> templateSynchMap = transitionSynchHooksMap.computeIfAbsent(template, k -> new HashMap<>());
 				for (Transition transition : template.getLocationGraph().getEdges()) {
 					Collection<Synchronization> transitionSynchs = templateSynchMap
 							.computeIfAbsent(transition, k -> new LinkedList<>());
@@ -103,26 +106,122 @@ public class ScenarioSystemComposer {
 		});
 	}
 
-	private static boolean isBetween(GuiCoordinates coords, GuiCoordinates start, GuiCoordinates end) {
+	private static boolean isBetween(GuiCoordinates coords, GuiCoordinates start, GuiCoordinates end) { // FIXME: Not good enough.
 		return MathUtils.inRange(coords.getX(), start.getX(), end.getX())
 				|| MathUtils.inRange(coords.getY(), start.getY(), end.getY());
 	}
 
-	private static void insertOutputHooks(Map<Template, Map<Transition, Collection<Synchronization>>> hookMap) {
+	private static void appendNailsIfApplicable(Stack<LinkedList<GuiCoordinates>> nailStack, Transition transition) {
+		if (!nailStack.isEmpty()) {
+			System.out.println(transition.getSource().getCoordinates());
+			List<GuiCoordinates> nails = nailStack.pop();
+			System.out.println(nails);
+			transition.getNails().addAll(nails);
+			System.out.println(transition.getTarget().getCoordinates());
+		}
+	}
+
+	private static LinkedList<LinkedList<GuiCoordinates>> getNailSegments(
+			List<GuiCoordinates> nailPath,
+			List<GuiCoordinates> interceptingPoints
+	) {
+		// Seems adequate for most cases; should probably figure out dpcy with input:
+		final double errorTolerance = 5.0;
+
+		List<GuiCoordinateLineFunction> lineFunctions = new LinkedList<>();
+		GuiCoordinates prevNailCoordinates = null;
+		for (GuiCoordinates nailCoordinates : nailPath) {
+			if (prevNailCoordinates != null) {
+				lineFunctions.add(GuiCoordinateLineFunction.of(prevNailCoordinates, nailCoordinates));
+			}
+			prevNailCoordinates = nailCoordinates;
+		}
+
+		LinkedList<LinkedList<GuiCoordinates>> nailSegments = new LinkedList<>();
+		int nailPtIdx = 0;
+		int interceptPtIdx = 0;
+
+		LinkedList<GuiCoordinates> segment = new LinkedList<>();
+		nailSegments.add(segment);
+
+		for (; nailPtIdx < lineFunctions.size(); nailPtIdx++) {
+			GuiCoordinateLineFunction segLineFn = lineFunctions.get(nailPtIdx);
+			GuiCoordinates startPt = nailPath.get(nailPtIdx);
+			GuiCoordinates endPt = nailPath.get(nailPtIdx + 1);
+
+			GuiCoordinates interceptPt = interceptingPoints.get(interceptPtIdx);
+			if (!segLineFn.checkIntercepts(interceptPt, errorTolerance)) {
+				// ... - startPt - endPt - ... - interceptPt - ...
+				if (segment.isEmpty()) {
+					// endPt in last iter is startPt in this iter.
+					// If segment is empty, startPt does not exist in segment (not added in last iter as endPt).
+					segment.add(startPt);
+				}
+				segment.add(endPt);
+				continue;
+			}
+
+			if (segment.isEmpty()) {
+				// endPt in last iter is startPt in this iter.
+				// If segment is empty, startPt does not exist in segment (not added in last iter as endPt).
+				segment.add(startPt);
+			} // else: startPt is already in segment.
+
+			while (++interceptPtIdx < interceptingPoints.size()
+				&& segLineFn.checkIntercepts(interceptingPoints.get(interceptPtIdx), errorTolerance)
+			) {
+				// Still on the same segment but this time we have no other pts btwn interceptors.
+				// ... - startPt - origInterceptPt - interceptPt - ... - endPt -
+				segment = new LinkedList<>();
+				nailSegments.add(segment);
+			}
+
+			if (interceptPtIdx < interceptingPoints.size()) {
+				// Prepare for next iteration.
+				segment = new LinkedList<>();
+				nailSegments.add(segment);
+			} else {
+				break;
+			}
+		}
+
+		// Final segment prep:
+		if (!segment.isEmpty()
+				&& nailPtIdx < nailPath.size()
+				&& segment.getLast().equals(nailPath.get(nailPtIdx))
+		) {
+			nailPtIdx++;
+		}
+
+		// Final segment:
+		segment = new LinkedList<>();
+		nailSegments.add(segment);
+		for (; nailPtIdx < nailPath.size(); nailPtIdx++) {
+			segment.add(nailPath.get(nailPtIdx));
+		}
+
+		// Just in case:
+		CollectionUtils.fill(nailSegments, interceptingPoints.size() + 1, LinkedList::new);
+
+		return nailSegments;
+	}
+
+	private static void insertOutputHooks(Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
 		Map<Template, Integer> maxLocationIdMap = new HashMap<>();
 
-		for (Entry<Template, Map<Transition, Collection<Synchronization>>> templateSynchEntry : hookMap.entrySet()) {
+		for (Entry<Template, Map<Transition, Collection<Synchronization>>> templateSynchEntry : transitionSynchHooksMap.entrySet()) {
 			Template template = templateSynchEntry.getKey();
 			DirectedMultigraph<Location, Transition> graph = template.getLocationGraph();
 			Map<Transition, Collection<Synchronization>> mapTransitionSynchs = templateSynchEntry.getValue();
 
-			Integer maxId = maxLocationIdMap.computeIfAbsent(
+			Integer maxLocationId = maxLocationIdMap.computeIfAbsent(
 					template, t -> t.getLocationGraph().getVertices().stream()
 							.map(Location::getId)
 							.mapToInt(Location::parseIdString)
 							.max()
 							.orElse(0)
 			);
+
 			for (Entry<Transition, Collection<Synchronization>> transitionSynchEntry : mapTransitionSynchs.entrySet()) {
 				Transition transition = transitionSynchEntry.getKey();
 				Location initSourceLocation = graph.getSourceVertex(transition);
@@ -130,8 +229,10 @@ public class ScenarioSystemComposer {
 
 				Collection<Synchronization> hookSynchs = transitionSynchEntry.getValue();
 
+				// Need one location and transition per synchronization transition (hook).
+				// Calculate coordinates for locations:
+				Stack<LinkedList<GuiCoordinates>> nailStack = new Stack<>();
 				List<GuiCoordinates> hookLocationCoords;
-				Deque<GuiCoordinates> nailStack = new LinkedList<>();
 				if (transition.getNails().isEmpty()) {
 					hookLocationCoords = GuiCoordinateUtils.evenlyDistributedCoordinatesBetween(
 							initSourceLocation.getCoordinates(),
@@ -139,15 +240,21 @@ public class ScenarioSystemComposer {
 							hookSynchs.size()
 					);
 				} else {
-					hookLocationCoords = GuiCoordinateUtils.evenlyDistributedCoordinatesOnPath(
-							CollectionUtils.collectionBuilder(new LinkedList<GuiCoordinates>())
-									.add(initSourceLocation.getCoordinates())
-									.addAll(transition.getNails())
-									.add(initTargetLocation.getCoordinates())
-									.build(),
-							hookSynchs.size()
-					);
-					nailStack.addAll(transition.getNails());
+					LinkedList<GuiCoordinates> transitionPath = CollectionUtils.collectionBuilder(new LinkedList<GuiCoordinates>())
+							.add(initSourceLocation.getCoordinates())
+							.addAll(transition.getNails())
+							.add(initTargetLocation.getCoordinates())
+							.build();
+
+					hookLocationCoords = GuiCoordinateUtils.evenlyDistributedCoordinatesOnPath(transitionPath, hookSynchs.size());
+
+					transitionPath.removeFirst();
+					transitionPath.removeLast();
+
+					LinkedList<LinkedList<GuiCoordinates>> nailSegments = getNailSegments(transitionPath, hookLocationCoords);
+					while (!nailSegments.isEmpty()) {
+						nailStack.add(nailSegments.pollLast());
+					}
 					transition.getNails().clear();
 				}
 
@@ -159,7 +266,7 @@ public class ScenarioSystemComposer {
 
 				for (Synchronization hookSync : hookSynchs) {
 					Location hookLocation = new Location()
-							.setId(Location.composeIdString(++maxId))
+							.setId(Location.composeIdString(++maxLocationId))
 							.setColor(Color.ORANGE)
 							.setExitPolicy(ELocationExitPolicy.COMMITTED)
 							.setCoordinates(hookLocationCoords.get(hookTransitionIdx));
@@ -180,12 +287,7 @@ public class ScenarioSystemComposer {
 								hookLocation.getCoordinates()
 						));
 						graph.addEdge(initSourceLocation, hookLocation, transition);
-
-						while (!nailStack.isEmpty() && isBetween(
-								nailStack.peekFirst(), initSourceLocation.getCoordinates(), hookLocation.getCoordinates())
-						) {
-							transition.getNails().add(nailStack.pollFirst());
-						}
+						appendNailsIfApplicable(nailStack, transition);
 					}
 
 					if (hookTransitionIdx == hookLocationIdx - 1) {
@@ -196,12 +298,7 @@ public class ScenarioSystemComposer {
 									initTargetLocation.getCoordinates()
 							));
 							graph.addEdge(hookLocation, initTargetLocation, hookTransition);
-
-							while (!nailStack.isEmpty() && isBetween(
-									nailStack.peekFirst(), hookLocation.getCoordinates(), initTargetLocation.getCoordinates())
-							) {
-								hookTransition.getNails().add(nailStack.pollFirst());
-							}
+							appendNailsIfApplicable(nailStack, hookTransition);
 						} else {
 							prevHookTransition.setTarget(hookLocation);
 							prevHookSyncLabel.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
@@ -209,12 +306,7 @@ public class ScenarioSystemComposer {
 									hookLocation.getCoordinates()
 							));
 							graph.addEdge(prevHookLocation, hookLocation, prevHookTransition);
-
-							while (!nailStack.isEmpty() && isBetween(
-									nailStack.peekFirst(), prevHookLocation.getCoordinates(), hookLocation.getCoordinates())
-							) {
-								prevHookTransition.getNails().add(nailStack.pollFirst());
-							}
+							appendNailsIfApplicable(nailStack, prevHookTransition);
 
 							hookSyncLabel.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
 									hookLocation.getCoordinates(),
@@ -223,12 +315,7 @@ public class ScenarioSystemComposer {
 							hookTransition.setSource(hookLocation);
 							hookTransition.setTarget(initTargetLocation);
 							graph.addEdge(hookLocation, initTargetLocation, hookTransition);
-
-							while (!nailStack.isEmpty() && isBetween(
-									nailStack.peekFirst(), hookLocation.getCoordinates(), initTargetLocation.getCoordinates())
-							) {
-								hookTransition.getNails().add(nailStack.pollFirst());
-							}
+							appendNailsIfApplicable(nailStack, hookTransition);
 						}
 					} else if (hookTransitionIdx > 0) {
 						prevHookTransition.setTarget(hookLocation);
@@ -237,16 +324,8 @@ public class ScenarioSystemComposer {
 								hookLocation.getCoordinates()
 						));
 						graph.addEdge(prevHookLocation, hookLocation, prevHookTransition);
-
-						while (!nailStack.isEmpty() && isBetween(
-								nailStack.peekFirst(), prevHookLocation.getCoordinates(), hookLocation.getCoordinates())
-						) {
-							prevHookTransition.getNails().add(nailStack.pollFirst());
-						}
+						appendNailsIfApplicable(nailStack, prevHookTransition);
 					}
-
-					// FIXME: Ordering is not possible.
-					System.out.println(nailStack.isEmpty());
 
 					prevHookSyncLabel = hookSyncLabel;
 					prevHookLocation = hookLocation;
@@ -255,11 +334,12 @@ public class ScenarioSystemComposer {
 				}
 			}
 
-			maxLocationIdMap.put(template, maxId);
+			maxLocationIdMap.put(template, maxLocationId);
 		}
 	}
 
-	private void handleTrapset(AbsDerivedTrapset systemTrapset, Map<Template, Map<Transition, Collection<Synchronization>>> hookMap) {
+	// FIXME: Duplication.
+	private void handleTrapset(AbsDerivedTrapset systemTrapset, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
 		systemTrapset.accept(new IDerivedTrapsetVisitor<Void>() {
 			@Override
 			public Void visitLinkedPair(LinkedPairTrapset trapset) {
@@ -301,7 +381,7 @@ public class ScenarioSystemComposer {
 						labels.setAssignmentsLabel(label);
 					}
 
-					Map<Transition, Collection<Synchronization>> templateSynchMap = hookMap
+					Map<Transition, Collection<Synchronization>> templateSynchMap = transitionSynchHooksMap
 							.computeIfAbsent(parentTemplate, k -> new HashMap<>());
 					Collection<Synchronization> transitionSynchs = templateSynchMap
 							.computeIfAbsent(trappedEgressTransition, k -> new LinkedList<>());
@@ -370,17 +450,28 @@ public class ScenarioSystemComposer {
 						AssignmentExpression assignmentExpression = trapset
 								.getMarkerAssignment(trappedEgressTransition).deepClone();
 						assignmentExpression.setLeftChild(lookupExpression);
-						assignmentExpression.setRightChild(new ConjunctionExpression()
-								.setLeftChild(new ArrayLookupExpression()
-										.setLeftChild(IdentifierExpression.of(
-												mapFlagArrayNames.get(detail)
-										))
-										.setRightChild(
-												NaturalNumberLiteral.of(trapIdx)
-										)
-								)
-								.setRightChild(assignmentExpression.getRightChild())
-						);
+						if (LiteralConsts.TRUE.equals(assignmentExpression.getRightChild())) {
+							assignmentExpression.setRightChild(new ArrayLookupExpression()
+									.setLeftChild(IdentifierExpression.of(
+											mapFlagArrayNames.get(detail)
+									))
+									.setRightChild(
+											NaturalNumberLiteral.of(trapIdx)
+									)
+							);
+						} else {
+							assignmentExpression.setRightChild(new ConjunctionExpression()
+									.setLeftChild(new ArrayLookupExpression()
+											.setLeftChild(IdentifierExpression.of(
+													mapFlagArrayNames.get(detail)
+											))
+											.setRightChild(
+													NaturalNumberLiteral.of(trapIdx)
+											)
+									)
+									.setRightChild(assignmentExpression.getRightChild())
+							);
+						}
 
 						transitionAssignments.add(assignmentExpression);
 						transitionAssignments.add(new AssignmentExpression()
@@ -403,15 +494,15 @@ public class ScenarioSystemComposer {
 
 			@Override
 			public Void visitAbsoluteComplement(AbsoluteComplementTrapset trapset) {
-				return visitAny(trapset);
+				return visitCommonDerivedTrapset(trapset);
 			}
 
 			@Override
 			public Void visitRelativeComplement(RelativeComplementTrapset trapset) {
-				return visitAny(trapset);
+				return visitCommonDerivedTrapset(trapset);
 			}
 
-			private Void visitAny(AbsDerivedTrapset<?> trapset) {
+			private Void visitCommonDerivedTrapset(AbsDerivedTrapset<?> trapset) {
 				for (Transition transition : trapset) {
 					TransitionLabels labels = transition.getLabels();
 					Template parentTemplate = trapset.getParentTemplate(transition);
@@ -429,7 +520,7 @@ public class ScenarioSystemComposer {
 						labels.setAssignmentsLabel(label);
 					}
 
-					Map<Transition, Collection<Synchronization>> templateSynchMap = hookMap
+					Map<Transition, Collection<Synchronization>> templateSynchMap = transitionSynchHooksMap
 							.computeIfAbsent(parentTemplate, k -> new HashMap<>());
 					Collection<Synchronization> transitionSynchs = templateSynchMap
 							.computeIfAbsent(transition, k -> new LinkedList<>());
