@@ -3,8 +3,8 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.BaseTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.IDerivedTrapsetVisitor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trap.LinkedPairTrap;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.ITrapsetVisitor;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trap.LinkedPairTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
 
 import java.util.LinkedHashMap;

@@ -2,8 +2,8 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.derived;
 
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.AbsDerivedTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.IDerivedTrapsetVisitor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trap.BaseTrap;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.generic.ITrapsetVisitor;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trap.BaseTrap;
 
 public class AbsoluteComplementTrapset extends AbsDerivedTrapset<BaseTrap> {
 	public AbsoluteComplementTrapset() { }
