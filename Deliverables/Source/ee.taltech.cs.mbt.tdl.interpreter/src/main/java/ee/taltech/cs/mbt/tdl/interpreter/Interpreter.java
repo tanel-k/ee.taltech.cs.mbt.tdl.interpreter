@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+// FIXME: Provide appropriate API.
 public class Interpreter {
 	public static Interpreter getInstance() {
 		return INSTANCE;
@@ -29,6 +30,7 @@ public class Interpreter {
 	private Interpreter() { }
 
 	public void interpret(InputStream sutModelStream, InputStream expressionStream, OutputStream outStream) {
+		// TODO: Needs separate exception wrapper:
 		TdlExpression expression;
 		try {
 			expression = TdlExpressionParser.getInstance().parseInput(expressionStream);
@@ -38,6 +40,7 @@ public class Interpreter {
 			throw new RuntimeException(e);
 		}
 
+		// TODO: Needs separate exception wrapper:
 		UtaSystem sutModel;
 		try {
 			sutModel = UtaParser.newInstance().parse(sutModelStream);
@@ -49,6 +52,7 @@ public class Interpreter {
 			throw new RuntimeException(e);
 		}
 
+		// TODO: Needs separate exception wrapper:
 		ScenarioCompositionResults results = null;
 		try {
 			results = ScenarioComposer
@@ -58,6 +62,7 @@ public class Interpreter {
 			e.printStackTrace();
 		}
 
+		// TODO: Needs separate exception wrapper:
 		try {
 			UtaSerializer.newInstance().serialize(results.getScenarioSystem().get(), outStream);
 		} catch (MarshallingException e) {

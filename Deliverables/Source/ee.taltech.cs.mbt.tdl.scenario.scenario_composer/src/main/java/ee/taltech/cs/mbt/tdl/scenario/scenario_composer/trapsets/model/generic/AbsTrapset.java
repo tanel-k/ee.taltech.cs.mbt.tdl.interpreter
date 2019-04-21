@@ -42,16 +42,16 @@ public abstract class AbsTrapset<TrapType extends BaseTrap> implements Iterable<
 		return this;
 	}
 
+	public int getTrapCount() {
+		return markedTransitions.size();
+	}
+
 	public boolean isEmpty() {
 		return markedTransitions.isEmpty();
 	}
 
 	public boolean contains(Transition transition) {
 		return markedTransitions.contains(transition);
-	}
-
-	public int getTrapCount() {
-		return markedTransitions.size();
 	}
 
 	public int getUnconditionalTrapCount() {

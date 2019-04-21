@@ -5,6 +5,7 @@ import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.BooleanFlag;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.ScenarioWrapperConstructionContext;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.ScenarioWrapperFactory;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.AbsoluteComplementTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.LinkedPairTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.RelativeComplementTrapset;
@@ -43,6 +44,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 public class ScenarioSystemComposer {
 	public static ScenarioSystemComposer newInstance(ScenarioCompositionParameters parameters) {
@@ -248,6 +250,7 @@ public class ScenarioSystemComposer {
 				 * These flags are used to determine whether the system has moved onto a trapped egress transition from
 				 * a transition that belongs in the ingress trapset.
 				 */
+				int trapCount = trapset.getTrapCount();
 				for (TrapsetImplementationDetail detail : trapset.getImplementationDetails()) {
 					Identifier flagArrayName = Identifier.of(detail.getFlagArrayName() + "_IngressFlags");
 					VariableDeclaration declaration = new VariableDeclaration()
@@ -258,7 +261,7 @@ public class ScenarioSystemComposer {
 									)
 									.addArrayModifier(new SizeExpressionArrayModifier()
 											.setSizeSpecifier(
-													NaturalNumberLiteral.of(trapset.getTrapCount())
+													NaturalNumberLiteral.of(trapCount)
 											)
 									)
 							);
@@ -291,108 +294,119 @@ public class ScenarioSystemComposer {
 							.computeIfAbsent(trappedEgressTransition, k -> new LinkedList<>());
 
 					Collection<AbsExpression> transitionAssignments = labels.getAssignmentsLabel().getContent();
+					Vector<Transition> ingressTransitionVector = trapset.getIngressTransitionVector(trappedEgressTransition);
+					Vector<BaseTrapset> ingressTrapsetVector = trapset.getIngressTrapsetVector(trappedEgressTransition);
+
 					for (TrapsetImplementationDetail detail : trapset.getImplementationDetails()) {
-						Transition ingressTransition = trapset.getIngressTransition(trappedEgressTransition);
-						if (ingressTransition.getLabels() == null)
-							ingressTransition.setLabels(new TransitionLabels());
+						for (int i = 0; i < ingressTransitionVector.size(); i++) {
+							Transition ingressTransition = ingressTransitionVector.get(i);
+							BaseTrapset ingressTrapset = ingressTrapsetVector.get(i);
 
-						if (ingressTransition.getLabels().getAssignmentsLabel() == null) {
-							ingressTransition.getLabels().setAssignmentsLabel(
-									AssignmentsLabel.of(new LinkedList<>())
-											.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
-													ingressTransition.getSource().getCoordinates(),
-													ingressTransition.getTarget().getCoordinates()
-											))
+							if (ingressTransition.getLabels() == null)
+								ingressTransition.setLabels(new TransitionLabels());
+
+							if (ingressTransition.getLabels().getAssignmentsLabel() == null) {
+								ingressTransition.getLabels().setAssignmentsLabel(
+										AssignmentsLabel.of(new LinkedList<>())
+												.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
+														ingressTransition.getSource().getCoordinates(),
+														ingressTransition.getTarget().getCoordinates()
+												))
+								);
+							}
+
+							// The ingress transition needs to set the appropriate ingress flag to True.
+							ingressTransition.getLabels().getAssignmentsLabel().getContent().add(
+									new AssignmentExpression()
+											.setLeftChild(new ArrayLookupExpression()
+													.setLeftChild(IdentifierExpression.of(
+															mapFlagArrayNames.get(detail)
+													))
+													.setRightChild(
+															NaturalNumberLiteral.of(trapIdx)
+													))
+											.setRightChild(
+													ingressTrapset.getMarkerCondition(ingressTransition).deepClone()
+											)
 							);
-						}
 
-						// The ingress transition needs to set the appropriate ingress flag to True.
-						ingressTransition.getLabels().getAssignmentsLabel().getContent().add(
-								new AssignmentExpression()
+							// Unrelated transitions departing from the target of the ingress transition should reset the ingress flag:
+							Location ingressTargetLocation = templateGraph.getTargetVertex(ingressTransition);
+							for (Transition egressTransition : templateGraph.getEdgesFrom(ingressTargetLocation)) {
+								if (egressTransition != trappedEgressTransition) {
+									if (egressTransition.getLabels() == null)
+										egressTransition.setLabels(new TransitionLabels());
+
+									if (egressTransition.getLabels().getAssignmentsLabel() == null) {
+										egressTransition.getLabels().setAssignmentsLabel(AssignmentsLabel.of(new LinkedList<>())
+												.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
+														egressTransition.getSource().getCoordinates(),
+														egressTransition.getTarget().getCoordinates()
+												))
+										);
+									}
+
+									egressTransition.getLabels().getAssignmentsLabel().getContent().add(
+											new AssignmentExpression()
+													.setLeftChild(new ArrayLookupExpression()
+															.setLeftChild(IdentifierExpression.of(
+																	mapFlagArrayNames.get(detail)
+															))
+															.setRightChild(
+																	NaturalNumberLiteral.of(trapIdx)
+															))
+													.setRightChild(LiteralConsts.FALSE)
+									);
+								}
+							}
+
+							AbsExpression lookupExpression = new ArrayLookupExpression()
+									.setLeftChild(IdentifierExpression.of(detail.getFlagArrayName()))
+									.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
+
+							AssignmentExpression assignmentExpression = trapset
+									.getMarkerAssignment(trappedEgressTransition).deepClone();
+							assignmentExpression.setLeftChild(lookupExpression);
+							if (LiteralConsts.TRUE.equals(assignmentExpression.getRightChild())) {
+								assignmentExpression.setRightChild(new ArrayLookupExpression()
+										.setLeftChild(IdentifierExpression.of(
+												mapFlagArrayNames.get(detail)
+										))
+										.setRightChild(
+												NaturalNumberLiteral.of(trapIdx)
+										)
+								);
+							} else {
+								assignmentExpression.setRightChild(new ConjunctionExpression()
 										.setLeftChild(new ArrayLookupExpression()
 												.setLeftChild(IdentifierExpression.of(
 														mapFlagArrayNames.get(detail)
 												))
 												.setRightChild(
 														NaturalNumberLiteral.of(trapIdx)
-												))
-										.setRightChild(LiteralConsts.TRUE)
-						);
-
-						// Unrelated transitions departing from the target of the ingress transition should reset the ingress flag:
-						Location ingressTargetLocation = templateGraph.getTargetVertex(ingressTransition);
-						for (Transition egressTransition : templateGraph.getEdgesFrom(ingressTargetLocation)) {
-							if (egressTransition != trappedEgressTransition) {
-								if (egressTransition.getLabels() == null)
-									egressTransition.setLabels(new TransitionLabels());
-
-								if (egressTransition.getLabels().getAssignmentsLabel() == null) {
-									egressTransition.getLabels().setAssignmentsLabel(AssignmentsLabel.of(new LinkedList<>())
-											.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
-													egressTransition.getSource().getCoordinates(),
-													egressTransition.getTarget().getCoordinates()
-											))
-									);
-								}
-
-								egressTransition.getLabels().getAssignmentsLabel().getContent().add(
-										new AssignmentExpression()
-												.setLeftChild(new ArrayLookupExpression()
-														.setLeftChild(IdentifierExpression.of(
-																mapFlagArrayNames.get(detail)
-														))
-														.setRightChild(
-																NaturalNumberLiteral.of(trapIdx)
-														))
-												.setRightChild(LiteralConsts.FALSE)
+												)
+										)
+										.setRightChild(assignmentExpression.getRightChild())
 								);
 							}
-						}
 
-						AbsExpression lookupExpression = new ArrayLookupExpression()
-								.setLeftChild(IdentifierExpression.of(detail.getFlagArrayName()))
-								.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
-
-						AssignmentExpression assignmentExpression = trapset
-								.getMarkerAssignment(trappedEgressTransition).deepClone();
-						assignmentExpression.setLeftChild(lookupExpression);
-						if (LiteralConsts.TRUE.equals(assignmentExpression.getRightChild())) {
-							assignmentExpression.setRightChild(new ArrayLookupExpression()
-									.setLeftChild(IdentifierExpression.of(
-											mapFlagArrayNames.get(detail)
-									))
-									.setRightChild(
-											NaturalNumberLiteral.of(trapIdx)
-									)
-							);
-						} else {
-							assignmentExpression.setRightChild(new ConjunctionExpression()
+							transitionAssignments.add(assignmentExpression);
+							transitionAssignments.add(new AssignmentExpression()
 									.setLeftChild(new ArrayLookupExpression()
 											.setLeftChild(IdentifierExpression.of(
 													mapFlagArrayNames.get(detail)
 											))
 											.setRightChild(
 													NaturalNumberLiteral.of(trapIdx)
-											)
-									)
-									.setRightChild(assignmentExpression.getRightChild())
-							);
+											))
+									.setRightChild(LiteralConsts.FALSE));
+
+							// Prevent adding the activating synchronization more than once:
+							trapIdx++;
 						}
 
-						transitionAssignments.add(assignmentExpression);
-						transitionAssignments.add(new AssignmentExpression()
-								.setLeftChild(new ArrayLookupExpression()
-										.setLeftChild(IdentifierExpression.of(
-												mapFlagArrayNames.get(detail)
-										))
-										.setRightChild(
-												NaturalNumberLiteral.of(trapIdx)
-										))
-								.setRightChild(LiteralConsts.FALSE));
 						transitionSynchs.add(detail.getActivatingSynchronization());
 					}
-
-					trapIdx++;
 				}
 
 				return null;

@@ -55,7 +55,6 @@ public class LinkedPairDeriver extends AbsTrapsetDeriver<LinkedPairNode> {
 		LinkedPairTrapset derivedTrapset = new LinkedPairTrapset();
 		derivedTrapset.setName(trapsetName);
 
-		// FIXME: Linked pair is the only trapset where a transition can occur more than once!
 		// -ingressTransition- L -egressTransition-
 		for (Transition ingressTransition : ingressTrapset) {
 			Template ingressParentTpl = ingressTrapset.getParentTemplate(ingressTransition);
@@ -70,6 +69,7 @@ public class LinkedPairDeriver extends AbsTrapsetDeriver<LinkedPairNode> {
 				AssignmentExpression markerExpression = (AssignmentExpression) new AssignmentExpression()
 						.setLeftChild(IdentifierExpression.of(trapsetName))
 						.setRightChild(egressTrapset.getMarkerCondition(egressTransition).deepClone());
+
 				derivedTrapset.addTrap(LinkedPairTrap.of(
 						ingressTrapset, ingressTransition, ingressParentTpl, egressTransition, markerExpression
 				));
