@@ -30,6 +30,7 @@ public abstract class AbsSTGenerator<T> {
 	}
 
 	protected ContextBuilder extractContext(T inst) {
+		// Get context from provider if possible:
 		ContextBuilder providedCtx = ctxProvidingGenerator != null
 				? ctxProvidingGenerator.getLastContext()
 				: null;
@@ -39,6 +40,7 @@ public abstract class AbsSTGenerator<T> {
 	}
 
 	protected Collection<ContextBuilder> extractContext(Collection<T> instances) {
+		// Get context from provider if possible:
 		Collection<ContextBuilder> providedCtxColl = ctxProvidingGenerator != null
 				? ctxProvidingGenerator.getLastContextCollection()
 				: null;

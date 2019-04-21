@@ -22,6 +22,10 @@ public class Bound implements IDeepCloneable<Bound> {
 	}
 
 	public void setBoundValue(BigInteger boundValue) {
+		if (boundValue == null)
+			throw new IllegalArgumentException("Bound value cannot be empty.");
+		if (BigInteger.ZERO.compareTo(boundValue) > 0)
+			throw new IllegalArgumentException("Bound value must be >= 0.");
 		this.boundValue = boundValue;
 	}
 

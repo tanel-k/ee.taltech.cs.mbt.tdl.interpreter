@@ -29,33 +29,28 @@ public class LeadsToLiteralOperandEliminator extends AbsLiteralOperandEliminator
 	@Override
 	protected void eliminate(
 			TdlExpression expression,
-			LeadsToNode parentNode,
+			LeadsToNode leadsTo,
 			BooleanValueWrapperNode childLeaf,
 			Deque<BooleanValueWrapperNode> remainingLeaves
 	) {
-		AbsBooleanInternalNode rightChild = parentNode.getChildContainer().getRightChild();
-		AbsBooleanInternalNode leftChild = parentNode.getChildContainer().getLeftChild();
+		AbsBooleanInternalNode rightChild = leadsTo.getChildContainer().getRightChild();
+		AbsBooleanInternalNode leftChild = leadsTo.getChildContainer().getLeftChild();
 		boolean rightChildIsBoolValue = rightChild == childLeaf;
 
 		if (childLeaf.wrapsTrue()) {
-			if (rightChildIsBoolValue) { // p ~> True ==> True.
-				BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.trueWrapper();
-				expression.replaceDescendant(parentNode, replacementNode);
-				remainingLeaves.addFirst(replacementNode);
-			} else { // True ~> p ==> p.
-				expression.replaceDescendant(parentNode, rightChild);
+			if (rightChildIsBoolValue) {
+				// p ~> True ==> p.
+				expression.replaceDescendant(leadsTo, leftChild);
+			} else {
+				// True ~> p ==> p.
+				expression.replaceDescendant(leadsTo, rightChild);
 			}
 		} else {
-			if (rightChildIsBoolValue) { // p ~> False ==> not(p).
-				expression.replaceDescendant(parentNode, leftChild);
-				leftChild.setNegated(!leftChild.isNegated());
-				// Get rid of the new negation:
-				renormalizeSubtree(expression, leftChild, remainingLeaves);
-			} else { // False ~> p ==> True.
-				BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.trueWrapper();
-				expression.replaceDescendant(parentNode, replacementNode);
-				remainingLeaves.addFirst(replacementNode);
-			}
+			// False ~> p ==> False.
+			// p ~> False ==> False.
+			BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.falseWrapper();
+			expression.replaceDescendant(leadsTo, replacementNode);
+			remainingLeaves.addFirst(replacementNode);
 		}
 	}
 }

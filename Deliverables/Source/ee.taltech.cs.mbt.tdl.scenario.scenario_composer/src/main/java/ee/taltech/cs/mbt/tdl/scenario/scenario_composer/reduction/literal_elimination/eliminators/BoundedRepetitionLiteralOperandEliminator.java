@@ -69,6 +69,14 @@ public class BoundedRepetitionLiteralOperandEliminator extends AbsLiteralOperand
 				break;
 		}
 
+		/*
+		 * Abstraction leak:
+		 * We leave #[>n]True, #[>=n]True, #[=n]True as is without removing boolean leafs
+		 * because we know True will be replaced with TdlTerminatorChannelAdapter.
+		 * The latter fires a synch on every transition
+		 * - this will help us ensure we have the appropriate trace segment length.
+		 */
+
 		if (replacement != null) {
 			expression.replaceDescendant(parentNode, replacement);
 			remainingLeaves.addFirst(replacement);

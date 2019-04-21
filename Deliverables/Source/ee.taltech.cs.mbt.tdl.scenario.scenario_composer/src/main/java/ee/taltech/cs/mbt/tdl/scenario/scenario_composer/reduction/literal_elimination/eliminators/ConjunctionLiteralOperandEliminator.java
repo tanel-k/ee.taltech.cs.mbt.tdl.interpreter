@@ -29,19 +29,19 @@ public class ConjunctionLiteralOperandEliminator extends AbsLiteralOperandElimin
 	@Override
 	protected void eliminate(
 			TdlExpression expression,
-			ConjunctionNode parentNode,
+			ConjunctionNode conjunction,
 			BooleanValueWrapperNode childLeaf,
 			Deque<BooleanValueWrapperNode> remainingLeaves
 	) {
-		AbsBooleanInternalNode rightChild = parentNode.getChildContainer().getRightChild();
-		AbsBooleanInternalNode leftChild = parentNode.getChildContainer().getLeftChild();
+		AbsBooleanInternalNode rightChild = conjunction.getChildContainer().getRightChild();
+		AbsBooleanInternalNode leftChild = conjunction.getChildContainer().getLeftChild();
 		boolean rightChildIsBoolValue = rightChild == childLeaf;
 
 		if (childLeaf.wrapsTrue()) { // True and x ==> x.
-			expression.replaceDescendant(parentNode, rightChildIsBoolValue ? leftChild : rightChild);
+			expression.replaceDescendant(conjunction, rightChildIsBoolValue ? leftChild : rightChild);
 		} else { // False and x ==> False.
 			BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.falseWrapper();
-			expression.replaceDescendant(parentNode, replacementNode);
+			expression.replaceDescendant(conjunction, replacementNode);
 			remainingLeaves.addFirst(replacementNode);
 		}
 	}
