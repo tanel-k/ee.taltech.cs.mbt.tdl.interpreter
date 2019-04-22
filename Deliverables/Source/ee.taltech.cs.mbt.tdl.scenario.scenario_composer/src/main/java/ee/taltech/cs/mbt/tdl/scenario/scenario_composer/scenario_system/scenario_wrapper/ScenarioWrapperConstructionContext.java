@@ -28,8 +28,8 @@ public class ScenarioWrapperConstructionContext {
 	private Flag boundedLeadsToInclusionFlag = Flag.newInstance();
 	private Flag boundedRepetitionInclusionFlag = Flag.newInstance();
 
-	private ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
-	private ObjectIdentityMap<AbsTrapsetExpressionNode, Integer> trapsetIndexMap = new ObjectIdentityMap<>();
+	private Map<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
+	private Map<AbsTrapsetExpressionNode, Integer> trapsetIndexMap = new ObjectIdentityMap<>();
 
 	private Map<Identifier, Integer> trapsetOccurrenceCountMap = new HashMap<>();
 	private Map<Identifier, IntIterator> trapsetCounterMap = new HashMap<>();
@@ -39,6 +39,8 @@ public class ScenarioWrapperConstructionContext {
 	private List<VariableDeclaration> trapsetArrayDeclarations = new LinkedList<>();
 	private List<TemplateInstantiation> templateInstantiations = new LinkedList<>();
 	private List<Synchronization> globallyApplicableTransitionSynchs = new LinkedList<>();
+
+	ScenarioWrapperConstructionContext() { }
 
 	int getTreeNodeCount() {
 		return treeNodeCount;
@@ -100,11 +102,11 @@ public class ScenarioWrapperConstructionContext {
 		return trapsetOccurrenceCountMap;
 	}
 
-	public ObjectIdentityMap<AbsExpressionNode, Integer> getTreeIndexMap() {
+	public Map<AbsExpressionNode, Integer> getTreeIndexMap() {
 		return treeIndexMap;
 	}
 
-	public ObjectIdentityMap<AbsTrapsetExpressionNode, Integer> getTrapsetIndexMap() {
+	public Map<AbsTrapsetExpressionNode, Integer> getTrapsetIndexMap() {
 		return trapsetIndexMap;
 	}
 

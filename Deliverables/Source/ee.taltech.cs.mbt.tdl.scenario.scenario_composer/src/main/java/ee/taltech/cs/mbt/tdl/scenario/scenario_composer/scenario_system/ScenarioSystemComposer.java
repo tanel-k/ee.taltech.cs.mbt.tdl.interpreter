@@ -229,10 +229,7 @@ public class ScenarioSystemComposer {
 		UtaSystem wrapperSystem = wrapperFactory.constructSystem();
 		ScenarioWrapperConstructionContext wrapperContext = wrapperFactory.getConstructionContext();
 
-		ObjectIdentityMap<
-				Template,
-				Map<Transition, Collection<Synchronization>>
-		> transitionSynchHooksMap = new ObjectIdentityMap<>();
+		Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap = new ObjectIdentityMap<>();
 		// Globally applicable transition synchronizations should be added to every transition in the system.
 		// They represent conditions that hold on every system transition.
 		for (Synchronization globalTransitionSynch : wrapperContext.getGloballyApplicableTransitionSynchs()) {
