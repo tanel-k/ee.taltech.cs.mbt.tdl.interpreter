@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.Optional;
 
 public class TdlCommandLineOptions {
+	@Option(name = "-h", aliases = "--help", usage = "Print help information.", help = true)
+	private boolean printHelpMessage;
 	@Option(name = "-e", aliases = "--expression", required = true, usage = "Test specification TDL expression.")
 	private String expression;
 	@Option(name = "-m", aliases = "--model", required = true, usage = "Uppaal SUT model file path.")
@@ -18,6 +20,14 @@ public class TdlCommandLineOptions {
 	private File outputFile;
 	@Option(name = "-u", aliases = "--uppaal", usage = "Path to Uppaal JAR.", depends = "-o")
 	private File uppaalJar;
+
+	public boolean isPrintHelpMessage() {
+		return printHelpMessage;
+	}
+
+	public void setPrintHelpMessage(boolean printHelpMessage) {
+		this.printHelpMessage = printHelpMessage;
+	}
 
 	public boolean isTracePrintingEnabled() {
 		return tracePrintingEnabled;

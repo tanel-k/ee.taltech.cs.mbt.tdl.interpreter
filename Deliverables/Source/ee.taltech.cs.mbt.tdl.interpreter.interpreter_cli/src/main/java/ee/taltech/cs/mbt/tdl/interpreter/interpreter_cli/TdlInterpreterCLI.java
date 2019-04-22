@@ -1,8 +1,6 @@
 package ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli;
 
-import static java.lang.System.out;
-import static java.lang.System.err;
-
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli.interpretation_listeners.PrintingErrorListener;
 import ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli.interpretation_listeners.PrintingProgressListener;
@@ -15,12 +13,22 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Optional;
 
+import static java.lang.System.err;
+import static java.lang.System.out;
+
 public class TdlInterpreterCLI {
-	private static void printHelp(CmdLineParser argParser, PrintStream outStream) {
+	private static void printHelp() {
+		printHelp(out);
+	}
+
+	private static void printHelp(PrintStream outStream) {
+		// Workaround: use new options inst to prevent outputting invalid default values (args4j bug #153).
+		CmdLineParser argParser = new CmdLineParser(new TdlCommandLineOptions());
 		outStream.println("TDL(TP) Interpreter Usage:");
 		argParser.printSingleLineUsage(outStream);
 		outStream.println();
@@ -29,19 +37,20 @@ public class TdlInterpreterCLI {
 		argParser.printUsage(outStream);
 	}
 
-	private static void printHelp(CmdLineParser argParser) {
-		printHelp(argParser, out);
-	}
-
 	private static void printUsageError(CmdLineException ex, CmdLineParser argParser) {
 		err.println(ex.getLocalizedMessage());
 		err.println();
-		printHelp(argParser, err);
+		printHelp(err);
+	}
+
+	private static void printMissingFileError(File modelFile) {
+		err.println("ERROR: " + modelFile.getAbsolutePath() + " not found.");
+		printHelp(err);
 	}
 
 	private static void interpret(TdlCommandLineOptions options) {
 		boolean verbose = options.isVerbose();
-		boolean enableTraces = options.isTracePrintingEnabled();
+		boolean tracesEnabled = options.isTracePrintingEnabled();
 		String expression = options.getExpression();
 		File modelFile = options.getModelFile(); // Check exists.
 
@@ -51,13 +60,14 @@ public class TdlInterpreterCLI {
 		OutputStream outStream;
 		File outputFile = null;
 		if (optOutputFile.isPresent()) {
-			// TODO: file may be invalid.
 			outputFile = optOutputFile.get();
 			try
 			{
 				outStream = new FileOutputStream(outputFile);
 			} catch (FileNotFoundException ex) {
-				throw new RuntimeException(ex);
+				printMissingFileError(outputFile);
+				System.exit(EReturnStatus.FILE_NOT_FOUND.value());
+				return; // Formality.
 			}
 		} else {
 			// We will send results to std out; prevent outputting chatter.
@@ -66,16 +76,25 @@ public class TdlInterpreterCLI {
 		}
 
 		Flag completionFlag = Flag.newInstance();
-		PrintingErrorListener errorListener = new PrintingErrorListener(enableTraces, err,(errStatus) -> System.exit(errStatus.intValue()));
-		PrintingProgressListener progressListener = new PrintingProgressListener(verbose ? out : null, completionFlag);
+		PrintingErrorListener errorListener = new PrintingErrorListener(
+				tracesEnabled,
+				err,
+				(s) -> System.exit(s.value())
+		);
+		PrintingProgressListener progressListener = new PrintingProgressListener(
+				verbose ? out : null,
+				completionFlag
+		);
 
 		FileInputStream sutModelStream;
 		try {
 			sutModelStream = new FileInputStream(modelFile);
 		} catch (FileNotFoundException ex) {
-			// FIXME.
-			throw new RuntimeException(ex);
+			printMissingFileError(modelFile);
+			System.exit(EReturnStatus.FILE_NOT_FOUND.value());
+			return; // Formality.
 		}
+
 		ByteArrayInputStream expressionStream = new ByteArrayInputStream(expression.getBytes());
 
 		TdlInterpreter tdlInterpreter = TdlInterpreter
@@ -84,12 +103,26 @@ public class TdlInterpreterCLI {
 		tdlInterpreter.interpret(sutModelStream, expressionStream, outStream);
 
 		if (completionFlag.isSet() && optUppaalJarFile.isPresent()) {
-			if (outputFile != null) {
-				// TODO: Try to run Uppaal jar with new file.
+			File uppaalJarFile = optUppaalJarFile.get();
+			if (outputFile != null && outputFile.exists()) {
+				try {
+					String command = String.format(
+						"java -jar \"%s\" \"%s\"",
+						uppaalJarFile.getAbsoluteFile(),
+						outputFile.getAbsolutePath()
+					);
+					Runtime.getRuntime().exec(command);
+				} catch (IOException ex) {
+					err.println("ERROR: Cannot send command to Uppaal JAR: " + ex.getClass().getSimpleName() + ".");
+					if (tracesEnabled)
+						ex.printStackTrace(err);
+					System.exit(EReturnStatus.UPPAAL_RUN_FAILURE.value());
+					return; // Formality.
+				}
 			}
 		}
 
-		System.exit(0);
+		System.exit(EReturnStatus.SUCCESS.value());
 	}
 
 	public static void main(final String... args) {
@@ -97,17 +130,28 @@ public class TdlInterpreterCLI {
 		CmdLineParser argParser = new CmdLineParser(options);
 
 		if (args.length == 0) {
-			printHelp(argParser, out);
+			printHelp();
 		} else {
 			try {
 				argParser.parseArgument(args);
-				interpret(options);
 			} catch (CmdLineException ex) {
 				printUsageError(ex, argParser);
-				System.exit(EReturnStatus.INVALID_ARGUMENTS.intValue());
+				System.exit(EReturnStatus.INVALID_ARGUMENTS.value());
+				// Formality:
+				return;
 			}
+
+			if (options.isPrintHelpMessage()) {
+				printHelp();
+
+				// Check whether only the -h|--help option was provided:
+				if (ObjectUtils.isAnyNull(options.getExpression(), options.getModelFile()))
+					return;
+			}
+
+			interpret(options);
 		}
 
-		System.exit(EReturnStatus.SUCCESS.intValue());
+		System.exit(EReturnStatus.SUCCESS.value());
 	}
 }

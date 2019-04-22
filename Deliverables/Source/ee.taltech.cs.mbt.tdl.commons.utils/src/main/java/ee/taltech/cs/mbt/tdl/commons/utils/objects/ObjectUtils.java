@@ -15,4 +15,12 @@ public class ObjectUtils {
 		}
 		return null;
 	}
+
+	public static boolean isAnyNull(Object... items) {
+		for (Object o : items) {
+			if (o == null)
+				return true;
+		}
+		return false;
+	}
 }

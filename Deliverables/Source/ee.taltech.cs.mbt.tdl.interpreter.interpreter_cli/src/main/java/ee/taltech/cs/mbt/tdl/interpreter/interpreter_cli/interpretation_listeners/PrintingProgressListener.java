@@ -21,25 +21,41 @@ public class PrintingProgressListener implements IInterpretationProgressListener
 	}
 
 	@Override
+	public void beforeExpressionParsed() {
+		if (out != null)
+			out.println("Parsing TDL expression.");
+	}
+
+	@Override
 	public void afterExpressionParsed(TdlExpression expression) {
-		if (out == null)
-			return;
-		out.println("Expression successfully parsed.");
+		if (out != null)
+			out.println("TDL expression successfully parsed.");
 	}
 
 	@Override
-	public void afterModelParsed(UtaSystem model) {
-		if (out == null)
-			return;
-		out.println("SUT model successfully parsed.");
+	public void beforeModelParsed() {
+		if (out != null)
+			out.println("Parsing SUT model.");
 	}
 
 	@Override
-	public void afterScenarioComposition(ScenarioSpecification parameters, ScenarioCompositionResults results) {
+	public void afterModelParsed(UtaSystem sutModel) {
+		if (out != null)
+			out.println("SUT model successfully parsed.");
+	}
+
+	@Override
+	public void beforeScenarioComposition(ScenarioSpecification specification) {
+		if (out != null)
+			out.println("Composing scenario.");
+	}
+
+	@Override
+	public void afterScenarioComposition(ScenarioSpecification specification, ScenarioCompositionResults results) {
 		if (out == null)
 			return;
 		out.println("Scenario composition successful.");
-		if (!parameters.getTdlExpression().equals(results.getTdlExpression())) {
+		if (!specification.getTdlExpression().equals(results.getTdlExpression())) {
 			try {
 				String reducedExpression = TdlGeneratorFactory.getInstance().expressionGenerator().generate(results.getTdlExpression());
 				out.println("Expression reduced to:");
@@ -50,9 +66,14 @@ public class PrintingProgressListener implements IInterpretationProgressListener
 
 	@Override
 	public void afterFullReduction(TdlExpression tdlExpression) {
-		if (out == null)
-			return;
-		out.println("Progress halted; expression fully reduced.");
+		if (out != null)
+			out.println("Progress halted; expression fully reduced.");
+	}
+
+	@Override
+	public void beforeScenarioSerialized(UtaSystem scenarioModel) {
+		if (out != null)
+			out.println("Serializing scenario.");
 	}
 
 	@Override

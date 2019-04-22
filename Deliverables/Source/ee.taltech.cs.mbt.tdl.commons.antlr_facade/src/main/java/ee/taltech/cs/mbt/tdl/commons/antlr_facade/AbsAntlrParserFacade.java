@@ -93,6 +93,10 @@ public abstract class AbsAntlrParserFacade<OutputType, ParserType extends Parser
 		ANTLRInputStream input = new ANTLRInputStream(in);
 
 		Lexer lexer = getLexerInstance(input);
+		lexer.removeErrorListeners();
+		// Note: irrecoverable lexer errors will end up as ParseExceptions, handled by parser error listener.
+		// In the future, consider aggregating these as well.
+
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		ParserType parser = getParserInstance(tokenStream);
 		return parser;

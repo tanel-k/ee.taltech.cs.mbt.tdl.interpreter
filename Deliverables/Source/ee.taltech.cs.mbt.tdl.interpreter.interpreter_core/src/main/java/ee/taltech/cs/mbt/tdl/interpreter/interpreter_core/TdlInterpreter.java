@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Optional;
 
-// FIXME: Non-existent API; API layout should be informed by CLI, GUI implementations.
 public class TdlInterpreter {
 	public static TdlInterpreter getInstance() {
 		return getInstance(null, null);
@@ -56,6 +55,7 @@ public class TdlInterpreter {
 		try {
 			TdlExpression expression;
 			try {
+				progressListener.beforeExpressionParsed();
 				expression = TdlExpressionParser.getInstance().parseInput(expressionStream);
 				progressListener.afterExpressionParsed(expression);
 			} catch (IOException ex) {
@@ -68,6 +68,7 @@ public class TdlInterpreter {
 
 			UtaSystem sutModel;
 			try {
+				progressListener.beforeModelParsed();
 				sutModel = UtaParser.newInstance().parse(sutModelStream);
 				progressListener.afterModelParsed(sutModel);
 			} catch (MarshallingException ex) {
@@ -84,6 +85,7 @@ public class TdlInterpreter {
 			ScenarioSpecification spec = ScenarioSpecification.of(sutModel, expression);
 			ScenarioCompositionResults results;
 			try {
+				progressListener.beforeScenarioComposition(spec);
 				results = ScenarioComposer
 						.newInstance(spec)
 						.compose();
@@ -100,7 +102,9 @@ public class TdlInterpreter {
 			}
 
 			try {
-				UtaSerializer.newInstance().serialize(optScenarioSystem.get(), outStream);
+				UtaSystem scenarioSystem = optScenarioSystem.get();
+				progressListener.beforeScenarioSerialized(scenarioSystem);
+				UtaSerializer.newInstance().serialize(scenarioSystem, outStream);
 				progressListener.afterScenarioSerialized();
 			} catch (MarshallingException ex) {
 				errorListener.onScenarioSerializationFailure(ex);
