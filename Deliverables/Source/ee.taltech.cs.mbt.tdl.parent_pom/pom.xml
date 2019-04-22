@@ -8,6 +8,20 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <modules>
+    <module>../ee.taltech.cs.mbt.tdl.commons.utils</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.antlr_facade</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.st_facade</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_system_model</module>
+    <module>../ee.taltech.cs.mbt.tdl.expression.tdl_model</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_grammar</module>
+    <module>../ee.taltech.cs.mbt.tdl.expression.tdl_grammar</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_parser</module>
+    <module>../ee.taltech.cs.mbt.tdl.expression.tdl_parser</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin</module>
+    <module>../ee.taltech.cs.mbt.tdl.scenario.scenario_composer</module>
+  </modules>
+
   <dependencyManagement>
     <!-- External -->
     <dependencies>

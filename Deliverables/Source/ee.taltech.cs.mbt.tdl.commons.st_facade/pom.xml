@@ -42,7 +42,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>Commons - StringTemplate Utils</name>
+  <name>Commons - StringTemplate Facade</name>
   <description>Provides utilities for implementing StringTemplate-based code generators.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
