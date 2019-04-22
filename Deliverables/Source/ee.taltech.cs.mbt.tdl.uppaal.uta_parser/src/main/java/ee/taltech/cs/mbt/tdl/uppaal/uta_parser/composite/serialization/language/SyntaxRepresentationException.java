@@ -13,7 +13,7 @@ public class SyntaxRepresentationException extends Exception {
 			if (coll.size() > 0) {
 				Object firstInst = coll.iterator().next();
 				return "Unable to serialize: collection of <"
-							+ (firstInst == null ? "null" : firstInst.getClass().getName())
+							+ (firstInst == null ? "null" : firstInst.getClass().getSimpleName())
 						+ ">";
 			}
 		}

@@ -42,19 +42,23 @@ public class SystemPicklerMojo extends AbstractMojo {
 			// Just a string:
 			return Paths.get(packageString);
 		}
+
 		String first = m.group();
-		first = first.substring(0, first.length() - 1); // Trim last "."
+		// Trim last ".":
+		first = first.substring(0, first.length() - 1);
+
 		// Split the rest:
 		String[] rest = m.replaceFirst("").split("\\.");
 		return Paths.get(first, rest);
 	}
 
-	private static final Set<PosixFilePermission> POSIX_READ_ONLY_PERMS = Collections.unmodifiableSet(CollectionUtils.newSet(
+	private static final Set<PosixFilePermission> READ_ONLY_PERMS = Collections.unmodifiableSet(CollectionUtils.newSet(
 			PosixFilePermission.OTHERS_READ,
 			PosixFilePermission.OTHERS_EXECUTE,
 			PosixFilePermission.OWNER_WRITE
 	));
-	private static final Set<PosixFilePermission> POSIX_WRITE_PERMS = Collections.unmodifiableSet(CollectionUtils.newSet(
+
+	private static final Set<PosixFilePermission> WRITE_PERMS = Collections.unmodifiableSet(CollectionUtils.newSet(
 			PosixFilePermission.OTHERS_READ,
 			PosixFilePermission.OTHERS_EXECUTE,
 			PosixFilePermission.OTHERS_WRITE
@@ -68,11 +72,11 @@ public class SystemPicklerMojo extends AbstractMojo {
 			dosView.setReadOnly(readOnly);
 		} else if (fileStore.supportsFileAttributeView(PosixFileAttributeView.class)) {
 			PosixFileAttributeView posixView = Files.getFileAttributeView(filePath, PosixFileAttributeView.class);
-			posixView.setPermissions(readOnly ? POSIX_READ_ONLY_PERMS : POSIX_WRITE_PERMS);
+			posixView.setPermissions(readOnly ? READ_ONLY_PERMS : WRITE_PERMS);
 		}
 	}
 
-	@Parameter(defaultValue = "true", readonly = true)
+	@Parameter(defaultValue = "false", readonly = true)
 	private boolean writeProtect;
 
 	@Parameter(defaultValue = "pickles", readonly = true)
@@ -143,23 +147,22 @@ public class SystemPicklerMojo extends AbstractMojo {
 		Path outputFilePath = outputDirectory.toPath().resolve(packagePath);
 		try {
 			if (Files.notExists(outputFilePath.getParent())) {
-				getLog().info("Setting up file directory " + outputFilePath.getParent().getFileName());
+				getLog().info("Setting up source file directory " + outputFilePath.getParent().getFileName());
 				Files.createDirectories(outputFilePath.getParent());
 			}
 
 			if (Files.notExists(outputFilePath)) {
-				getLog().info("Setting up file " + outputFilePath.getFileName());
+				getLog().info("Creating source file " + outputFilePath.getFileName());
 				outputFilePath = Files.createFile(outputFilePath);
 			} else if (!Files.isWritable(outputFilePath)) {
 				getLog().info("Removing read-only restriction from " + outputFilePath.getFileName() + ".");
 				setReadOnly(outputFilePath, false);
 			}
 		} catch (Throwable t) {
-			throw new MojoExecutionException("Failed to set up file path.", t);
+			throw new MojoExecutionException("Failed to set up source file path.", t);
 		}
 
-		File outputFile;
-		try (FileOutputStream out = new FileOutputStream(outputFile = outputFilePath.toFile())) {
+		try (FileOutputStream out = new FileOutputStream(outputFilePath.toFile())) {
 			getLog().info("Writing to " + outputFilePath.toString());
 			out.write(formattedPickleClass.getBytes());
 		} catch (Throwable t) {
@@ -167,10 +170,11 @@ public class SystemPicklerMojo extends AbstractMojo {
 		}
 
 		if (writeProtect) {
+			getLog().info("Adding write-protection to " + outputFilePath.getFileName() + ".");
 			try {
 				setReadOnly(outputFilePath, true);
 			} catch (IOException ex) {
-				getLog().warn("Failed to set read only permissions for pickle class file.", ex);
+				getLog().warn("Failed to write-protect pickle source file.", ex);
 			}
 		}
 	}
