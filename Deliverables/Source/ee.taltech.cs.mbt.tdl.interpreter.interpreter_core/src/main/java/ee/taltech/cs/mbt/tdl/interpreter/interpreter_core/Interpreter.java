@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-// FIXME: One artifact per user interface (CLI, GUI* etc).
+// FIXME: Non-existent API; API layout should be informed by CLI, GUI implementations.
 public class Interpreter {
 	public static Interpreter getInstance() {
 		return INSTANCE;
