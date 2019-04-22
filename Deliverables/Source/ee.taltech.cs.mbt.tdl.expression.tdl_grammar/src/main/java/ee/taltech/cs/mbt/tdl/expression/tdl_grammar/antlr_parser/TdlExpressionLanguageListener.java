@@ -189,6 +189,18 @@ public interface TdlExpressionLanguageListener extends ParseTreeListener {
 	 */
 	void exitLinkedTrapsetPairExpression(TdlExpressionLanguageParser.LinkedTrapsetPairExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code BaseTrapsetExpression}
+	 * labeled alternative in {@link TdlExpressionLanguageParser#trapsetExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterBaseTrapsetExpression(TdlExpressionLanguageParser.BaseTrapsetExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code BaseTrapsetExpression}
+	 * labeled alternative in {@link TdlExpressionLanguageParser#trapsetExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitBaseTrapsetExpression(TdlExpressionLanguageParser.BaseTrapsetExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code LessThanBound}
 	 * labeled alternative in {@link TdlExpressionLanguageParser#boundOverNaturals}.
 	 * @param ctx the parse tree

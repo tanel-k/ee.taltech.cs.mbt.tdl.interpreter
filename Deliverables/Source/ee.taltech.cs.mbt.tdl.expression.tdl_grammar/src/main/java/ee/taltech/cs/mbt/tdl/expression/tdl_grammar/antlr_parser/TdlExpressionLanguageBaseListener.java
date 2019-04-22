@@ -197,6 +197,18 @@ public class TdlExpressionLanguageBaseListener implements TdlExpressionLanguageL
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBaseTrapsetExpression(TdlExpressionLanguageParser.BaseTrapsetExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBaseTrapsetExpression(TdlExpressionLanguageParser.BaseTrapsetExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLessThanBound(TdlExpressionLanguageParser.LessThanBoundContext ctx) { }
 	/**
 	 * {@inheritDoc}

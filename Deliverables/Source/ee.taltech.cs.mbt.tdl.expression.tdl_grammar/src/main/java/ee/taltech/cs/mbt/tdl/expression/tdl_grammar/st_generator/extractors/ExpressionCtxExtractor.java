@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.extractors;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BoundedLeadsToNode;
@@ -16,9 +16,10 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.LeadsToNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.Bound;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.IBounded;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.AbsoluteComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.LinkedPairNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.RelativeComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.AbsoluteComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.TrapsetWrapperNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.ExistentialQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.logical.FalseNode;
@@ -113,19 +114,19 @@ public class ExpressionCtxExtractor implements IContextExtractor<TdlExpression>,
 	}
 
 	private <
-			T extends AbsDerivedTrapsetNode<BinaryChildContainer<TrapsetNode>>
-	> ContextBuilder visitBinaryDerivedTrapsetNode(String name, T nodeInst) {
+			T extends AbsTrapsetExpressionNode<BinaryChildContainer<TrapsetNode>>
+	> ContextBuilder visitBinaryTrapsetExpressionNode(String name, T nodeInst) {
 		return ContextBuilder.newBuilder(name)
-				.put("derivedTrapset", true)
+				.put("trapsetExpression", true)
 				.put("leftChild", nodeInst.getChildContainer().getLeftChild().accept(this))
 				.put("rightChild", nodeInst.getChildContainer().getRightChild().accept(this));
 	}
 
 	private <
-			T extends AbsDerivedTrapsetNode<UnaryChildContainer<TrapsetNode>>
-	> ContextBuilder visitUnaryDerivedTrapsetNode(String name, T nodeInst) {
+			T extends AbsTrapsetExpressionNode<UnaryChildContainer<TrapsetNode>>
+	> ContextBuilder visitUnaryTrapsetExpressionNode(String name, T nodeInst) {
 		return ContextBuilder.newBuilder(name)
-				.put("derivedTrapset", true)
+				.put("trapsetExpression", true)
 				.put("child", nodeInst.getChildContainer().getChild().accept(this));
 	}
 
@@ -192,18 +193,23 @@ public class ExpressionCtxExtractor implements IContextExtractor<TdlExpression>,
 	}
 
 	@Override
+	public ContextBuilder visitTrapsetWrapper(TrapsetWrapperNode node) {
+		return visitUnaryTrapsetExpressionNode("trapsetWrapper", node);
+	}
+
+	@Override
 	public ContextBuilder visitAbsoluteComplement(AbsoluteComplementNode node) {
-		return visitUnaryDerivedTrapsetNode("absoluteComplement", node);
+		return visitUnaryTrapsetExpressionNode("absoluteComplement", node);
 	}
 
 	@Override
 	public ContextBuilder visitLinkedPair(LinkedPairNode node) {
-		return visitBinaryDerivedTrapsetNode("linkedPair", node);
+		return visitBinaryTrapsetExpressionNode("linkedPair", node);
 	}
 
 	@Override
 	public ContextBuilder visitRelativeComplement(RelativeComplementNode node) {
-		return visitBinaryDerivedTrapsetNode("relativeComplement", node);
+		return visitBinaryTrapsetExpressionNode("relativeComplement", node);
 	}
 
 	@Override

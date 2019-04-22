@@ -3,9 +3,9 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenari
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
@@ -29,11 +29,11 @@ public class ScenarioWrapperConstructionContext {
 	private Flag boundedRepetitionInclusionFlag = Flag.newInstance();
 
 	private ObjectIdentityMap<AbsExpressionNode, Integer> treeIndexMap = new ObjectIdentityMap<>();
-	private ObjectIdentityMap<AbsDerivedTrapsetNode, Integer> trapsetIndexMap = new ObjectIdentityMap<>();
+	private ObjectIdentityMap<AbsTrapsetExpressionNode, Integer> trapsetIndexMap = new ObjectIdentityMap<>();
 
 	private Map<Identifier, Integer> trapsetOccurrenceCountMap = new HashMap<>();
 	private Map<Identifier, IntIterator> trapsetCounterMap = new HashMap<>();
-	private Map<Identifier, AbsDerivedTrapset> derivedTrapsetMap = new HashMap<>();
+	private Map<Identifier, AbsEvaluatedTrapset> trapsetEvaluationMap = new HashMap<>();
 
 	private List<Template> quantifierTemplates = new LinkedList<>();
 	private List<VariableDeclaration> trapsetArrayDeclarations = new LinkedList<>();
@@ -104,12 +104,12 @@ public class ScenarioWrapperConstructionContext {
 		return treeIndexMap;
 	}
 
-	public ObjectIdentityMap<AbsDerivedTrapsetNode, Integer> getTrapsetIndexMap() {
+	public ObjectIdentityMap<AbsTrapsetExpressionNode, Integer> getTrapsetIndexMap() {
 		return trapsetIndexMap;
 	}
 
-	public Map<Identifier, AbsDerivedTrapset> getDerivedTrapsetMap() {
-		return derivedTrapsetMap;
+	public Map<Identifier, AbsEvaluatedTrapset> getTrapsetEvaluationMap() {
+		return trapsetEvaluationMap;
 	}
 
 	public List<Synchronization> getGloballyApplicableTransitionSynchs() {

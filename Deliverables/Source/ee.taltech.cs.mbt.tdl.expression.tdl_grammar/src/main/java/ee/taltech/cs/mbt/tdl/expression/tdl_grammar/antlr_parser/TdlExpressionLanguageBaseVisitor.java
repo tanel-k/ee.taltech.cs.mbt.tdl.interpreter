@@ -123,6 +123,13 @@ public class TdlExpressionLanguageBaseVisitor<T> extends AbstractParseTreeVisito
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitBaseTrapsetExpression(TdlExpressionLanguageParser.BaseTrapsetExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitLessThanBound(TdlExpressionLanguageParser.LessThanBoundContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

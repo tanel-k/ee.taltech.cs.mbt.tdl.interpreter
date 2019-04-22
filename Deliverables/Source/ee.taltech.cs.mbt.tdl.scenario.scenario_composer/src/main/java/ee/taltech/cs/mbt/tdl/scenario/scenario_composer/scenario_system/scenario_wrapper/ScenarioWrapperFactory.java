@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenari
 
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BoundedLeadsToNode;
@@ -19,8 +19,8 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioCompositionParameters;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.base.ScenarioWrapperBaseSystemFactory;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset.TrapsetImplementationDetail;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset.TrapsetImplementationDetail;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
@@ -249,9 +249,9 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 			}
 
 			private Void visitQuantification(AbsTrapsetQuantifierNode node) {
-				AbsDerivedTrapsetNode derivedTrapsetNode = node.getChildContainer().getChild();
-				AbsDerivedTrapset derivedTrapset = parameters.getDerivedTrapsetMap().get(derivedTrapsetNode);
-				ctx.getTrapsetCounterMap().computeIfAbsent(derivedTrapset.getName(), k -> IntIterator.newInstance(1)).next();
+				AbsTrapsetExpressionNode trapsetExpressionNode = node.getChildContainer().getChild();
+				AbsEvaluatedTrapset evaluatedTrapset = parameters.getTrapsetEvaluationMap().get(trapsetExpressionNode);
+				ctx.getTrapsetCounterMap().computeIfAbsent(evaluatedTrapset.getName(), k -> IntIterator.newInstance(1)).next();
 
 				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
 				ctx.getTrapsetIndexMap().put(node.getChildContainer().getChild(), trapsetNodeCounter.next());
@@ -450,7 +450,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 				Integer treeIndex = ctx.getTreeIndexMap().get(node);
 				Integer trapsetIndex = ctx.getTrapsetIndexMap().get(node.getChildContainer().getChild());
 
-				AbsDerivedTrapset<?> trapset = parameters.getDerivedTrapsetMap()
+				AbsEvaluatedTrapset<?> trapset = parameters.getTrapsetEvaluationMap()
 						.get(node.getChildContainer().getChild());
 
 				Identifier trapsetName = trapset.getName();
@@ -461,7 +461,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 					trapsetName = Identifier.of(trapsetName + "_" + trapsetNameQualifier);
 				}
 
-				trapset.getImplementationDetails().add(
+				trapset.getTrapsetImplementationDetails().add(
 						TrapsetImplementationDetail.of(
 								trapsetName,
 								new Synchronization().setActiveSync(true).setExpression(
@@ -495,7 +495,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 				Template template = recognizerFactory.newTemplate();
 				TemplateInstantiation inst = recognizerFactory.createInstantiation();
 
-				ctx.getDerivedTrapsetMap().putIfAbsent(trapset.getName(), trapset);
+				ctx.getTrapsetEvaluationMap().putIfAbsent(trapset.getName(), trapset);
 				ctx.getQuantifierTemplates().add(template);
 				ctx.getTemplateInstantiations().add(inst);
 

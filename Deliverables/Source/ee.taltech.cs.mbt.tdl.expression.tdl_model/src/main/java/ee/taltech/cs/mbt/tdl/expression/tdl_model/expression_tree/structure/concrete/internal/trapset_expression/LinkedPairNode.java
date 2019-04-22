@@ -1,12 +1,12 @@
-package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation;
+package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.arity.BinaryChildContainer;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetExpressionVisitor;
 
-public class LinkedPairNode extends AbsDerivedTrapsetNode<
+public class LinkedPairNode extends AbsTrapsetExpressionNode<
 		BinaryChildContainer<TrapsetNode>
 		> {
 	public LinkedPairNode() {
@@ -19,12 +19,12 @@ public class LinkedPairNode extends AbsDerivedTrapsetNode<
 	}
 
 	@Override
-	public <T> T accept(IDerivedTrapsetVisitor<T> visitor) {
+	public <T> T accept(ITrapsetExpressionVisitor<T> visitor) {
 		return visitor.visitLinkedPair(this);
 	}
 
 	@Override
-	public AbsDerivedTrapsetNode<BinaryChildContainer<TrapsetNode>> deepClone() {
+	public AbsTrapsetExpressionNode<BinaryChildContainer<TrapsetNode>> deepClone() {
 		LinkedPairNode clone = new LinkedPairNode();
 		clone.getChildContainer()
 				.setLeftChild(getChildContainer().getLeftChild().deepClone())

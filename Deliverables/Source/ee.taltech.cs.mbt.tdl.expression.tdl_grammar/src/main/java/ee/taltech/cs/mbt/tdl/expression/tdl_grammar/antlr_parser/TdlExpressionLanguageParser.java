@@ -688,12 +688,29 @@ public class TdlExpressionLanguageParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class BaseTrapsetExpressionContext extends TrapsetExpressionContext {
+		public TerminalNode TRAPSET_ID() { return getToken(TdlExpressionLanguageParser.TRAPSET_ID, 0); }
+		public BaseTrapsetExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).enterBaseTrapsetExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TdlExpressionLanguageListener ) ((TdlExpressionLanguageListener)listener).exitBaseTrapsetExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TdlExpressionLanguageVisitor ) return ((TdlExpressionLanguageVisitor<? extends T>)visitor).visitBaseTrapsetExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final TrapsetExpressionContext trapsetExpression() throws RecognitionException {
 		TrapsetExpressionContext _localctx = new TrapsetExpressionContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_trapsetExpression);
 		try {
-			setState(71);
+			setState(72);
 			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				_localctx = new AbsoluteTrapsetComplementExpressionContext(_localctx);
@@ -726,6 +743,14 @@ public class TdlExpressionLanguageParser extends Parser {
 				setState(69);
 				match(TOP_LINKED_PAIR);
 				setState(70);
+				match(TRAPSET_ID);
+				}
+				break;
+			case 4:
+				_localctx = new BaseTrapsetExpressionContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(71);
 				match(TRAPSET_ID);
 				}
 				break;
@@ -848,15 +873,15 @@ public class TdlExpressionLanguageParser extends Parser {
 		BoundOverNaturalsContext _localctx = new BoundOverNaturalsContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_boundOverNaturals);
 		try {
-			setState(83);
+			setState(84);
 			switch (_input.LA(1)) {
 			case REL_LESS_THAN:
 				_localctx = new LessThanBoundContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(73);
-				match(REL_LESS_THAN);
 				setState(74);
+				match(REL_LESS_THAN);
+				setState(75);
 				match(NATURAL_NUMBER);
 				}
 				break;
@@ -864,9 +889,9 @@ public class TdlExpressionLanguageParser extends Parser {
 				_localctx = new GreaterThanBoundContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(75);
-				match(REL_GREATER_THAN);
 				setState(76);
+				match(REL_GREATER_THAN);
+				setState(77);
 				match(NATURAL_NUMBER);
 				}
 				break;
@@ -874,9 +899,9 @@ public class TdlExpressionLanguageParser extends Parser {
 				_localctx = new LessThanOrEqBoundContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(77);
-				match(REL_LESS_THAN_OR_EQ);
 				setState(78);
+				match(REL_LESS_THAN_OR_EQ);
+				setState(79);
 				match(NATURAL_NUMBER);
 				}
 				break;
@@ -884,9 +909,9 @@ public class TdlExpressionLanguageParser extends Parser {
 				_localctx = new GreaterThanOrEqBoundContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(79);
-				match(REL_GREATER_THAN_OR_EQ);
 				setState(80);
+				match(REL_GREATER_THAN_OR_EQ);
+				setState(81);
 				match(NATURAL_NUMBER);
 				}
 				break;
@@ -894,9 +919,9 @@ public class TdlExpressionLanguageParser extends Parser {
 				_localctx = new EqualityBoundContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(81);
-				match(REL_EQUAL);
 				setState(82);
+				match(REL_EQUAL);
+				setState(83);
 				match(NATURAL_NUMBER);
 				}
 				break;
@@ -941,30 +966,30 @@ public class TdlExpressionLanguageParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\33X\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\33Y\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2"+
 		"\3\2\5\2\31\n\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3"+
 		"\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\7\2\61\n\2\f\2\16\2\64\13\2\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3@\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\3\4\5\4J\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5V\n\5\3\5\2\3"+
-		"\2\6\2\4\6\b\2\2c\2\30\3\2\2\2\4?\3\2\2\2\6I\3\2\2\2\bU\3\2\2\2\n\13\b"+
-		"\2\1\2\13\f\7\17\2\2\f\r\7\3\2\2\r\16\5\b\5\2\16\17\7\4\2\2\17\20\5\2"+
-		"\2\n\20\31\3\2\2\2\21\22\7\t\2\2\22\31\5\2\2\t\23\24\7\5\2\2\24\25\5\2"+
-		"\2\2\25\26\7\6\2\2\26\31\3\2\2\2\27\31\5\4\3\2\30\n\3\2\2\2\30\21\3\2"+
-		"\2\2\30\23\3\2\2\2\30\27\3\2\2\2\31\62\3\2\2\2\32\33\f\13\2\2\33\34\7"+
-		"\16\2\2\34\35\7\3\2\2\35\36\5\b\5\2\36\37\7\4\2\2\37 \5\2\2\13 \61\3\2"+
-		"\2\2!\"\f\b\2\2\"#\7\n\2\2#\61\5\2\2\t$%\f\7\2\2%&\7\13\2\2&\61\5\2\2"+
-		"\b\'(\f\6\2\2()\7\f\2\2)\61\5\2\2\7*+\f\5\2\2+,\7\r\2\2,\61\5\2\2\6-."+
-		"\f\4\2\2./\7\16\2\2/\61\5\2\2\5\60\32\3\2\2\2\60!\3\2\2\2\60$\3\2\2\2"+
-		"\60\'\3\2\2\2\60*\3\2\2\2\60-\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\62\63"+
-		"\3\2\2\2\63\3\3\2\2\2\64\62\3\2\2\2\65\66\7\7\2\2\66\67\7\5\2\2\678\5"+
-		"\6\4\289\7\6\2\29@\3\2\2\2:;\7\b\2\2;<\7\5\2\2<=\5\6\4\2=>\7\6\2\2>@\3"+
-		"\2\2\2?\65\3\2\2\2?:\3\2\2\2@\5\3\2\2\2AB\7\20\2\2BJ\7\30\2\2CD\7\30\2"+
-		"\2DE\7\21\2\2EJ\7\30\2\2FG\7\30\2\2GH\7\22\2\2HJ\7\30\2\2IA\3\2\2\2IC"+
-		"\3\2\2\2IF\3\2\2\2J\7\3\2\2\2KL\7\25\2\2LV\7\31\2\2MN\7\26\2\2NV\7\31"+
-		"\2\2OP\7\23\2\2PV\7\31\2\2QR\7\24\2\2RV\7\31\2\2ST\7\27\2\2TV\7\31\2\2"+
-		"UK\3\2\2\2UM\3\2\2\2UO\3\2\2\2UQ\3\2\2\2US\3\2\2\2V\t\3\2\2\2\b\30\60"+
-		"\62?IU";
+		"\3\4\3\4\5\4K\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5W\n\5\3\5"+
+		"\2\3\2\6\2\4\6\b\2\2e\2\30\3\2\2\2\4?\3\2\2\2\6J\3\2\2\2\bV\3\2\2\2\n"+
+		"\13\b\2\1\2\13\f\7\17\2\2\f\r\7\3\2\2\r\16\5\b\5\2\16\17\7\4\2\2\17\20"+
+		"\5\2\2\n\20\31\3\2\2\2\21\22\7\t\2\2\22\31\5\2\2\t\23\24\7\5\2\2\24\25"+
+		"\5\2\2\2\25\26\7\6\2\2\26\31\3\2\2\2\27\31\5\4\3\2\30\n\3\2\2\2\30\21"+
+		"\3\2\2\2\30\23\3\2\2\2\30\27\3\2\2\2\31\62\3\2\2\2\32\33\f\13\2\2\33\34"+
+		"\7\16\2\2\34\35\7\3\2\2\35\36\5\b\5\2\36\37\7\4\2\2\37 \5\2\2\13 \61\3"+
+		"\2\2\2!\"\f\b\2\2\"#\7\n\2\2#\61\5\2\2\t$%\f\7\2\2%&\7\13\2\2&\61\5\2"+
+		"\2\b\'(\f\6\2\2()\7\f\2\2)\61\5\2\2\7*+\f\5\2\2+,\7\r\2\2,\61\5\2\2\6"+
+		"-.\f\4\2\2./\7\16\2\2/\61\5\2\2\5\60\32\3\2\2\2\60!\3\2\2\2\60$\3\2\2"+
+		"\2\60\'\3\2\2\2\60*\3\2\2\2\60-\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\62"+
+		"\63\3\2\2\2\63\3\3\2\2\2\64\62\3\2\2\2\65\66\7\7\2\2\66\67\7\5\2\2\67"+
+		"8\5\6\4\289\7\6\2\29@\3\2\2\2:;\7\b\2\2;<\7\5\2\2<=\5\6\4\2=>\7\6\2\2"+
+		">@\3\2\2\2?\65\3\2\2\2?:\3\2\2\2@\5\3\2\2\2AB\7\20\2\2BK\7\30\2\2CD\7"+
+		"\30\2\2DE\7\21\2\2EK\7\30\2\2FG\7\30\2\2GH\7\22\2\2HK\7\30\2\2IK\7\30"+
+		"\2\2JA\3\2\2\2JC\3\2\2\2JF\3\2\2\2JI\3\2\2\2K\7\3\2\2\2LM\7\25\2\2MW\7"+
+		"\31\2\2NO\7\26\2\2OW\7\31\2\2PQ\7\23\2\2QW\7\31\2\2RS\7\24\2\2SW\7\31"+
+		"\2\2TU\7\27\2\2UW\7\31\2\2VL\3\2\2\2VN\3\2\2\2VP\3\2\2\2VR\3\2\2\2VT\3"+
+		"\2\2\2W\t\3\2\2\2\b\30\60\62?JV";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

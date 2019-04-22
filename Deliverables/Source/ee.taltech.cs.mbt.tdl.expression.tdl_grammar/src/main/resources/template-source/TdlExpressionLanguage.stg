@@ -28,19 +28,21 @@ expression(ctx) ::= <%
 
 trapsetQuantifier(ctx) ::= <%
     <if(ctx.existentialTrapsetQuantification)>
-        E(<derivedTrapsetNode(ctx.domain)>)
+        E(<trapsetExpression(ctx.domain)>)
     <elseif(ctx.universalTrapsetQuantification)>
-        U(<derivedTrapsetNode(ctx.domain)>)
+        U(<trapsetExpression(ctx.domain)>)
     <endif>
 %>
 
-derivedTrapsetNode(ctx) ::= <%
+trapsetExpression(ctx) ::= <%
     <if(ctx.absoluteComplement)>
         !<leafNode(ctx.child)>
     <elseif(ctx.relativeComplement)>
         <leafNode(ctx.leftChild)> \ <leafNode(ctx.rightChild)>
     <elseif(ctx.linkedPair)>
         <leafNode(ctx.leftChild)> ; <leafNode(ctx.rightChild)>
+    <elseif(ctx.trapsetWrapper)>
+        <leafNode(ctx.child)>
     <endif>
 %>
 

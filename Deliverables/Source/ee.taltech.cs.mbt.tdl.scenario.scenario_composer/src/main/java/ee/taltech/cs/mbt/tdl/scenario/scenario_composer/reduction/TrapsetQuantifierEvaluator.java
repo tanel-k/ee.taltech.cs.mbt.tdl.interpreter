@@ -2,14 +2,14 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.ExistentialQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
 
@@ -22,9 +22,9 @@ public class TrapsetQuantifierEvaluator {
 	public static TrapsetQuantifierEvaluator getInstance(
 			UtaSystem system,
 			TdlExpression expression,
-			Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> derivedTrapsetMap
+			Map<AbsTrapsetExpressionNode, AbsEvaluatedTrapset> trapsetEvaluationMap
 	) {
-		return new TrapsetQuantifierEvaluator(system, expression, derivedTrapsetMap);
+		return new TrapsetQuantifierEvaluator(system, expression, trapsetEvaluationMap);
 	}
 
 	private static List<AbsTrapsetQuantifierNode> extractTrapsetQuantifiers(TdlExpression expression) {
@@ -58,44 +58,34 @@ public class TrapsetQuantifierEvaluator {
 
 	private UtaSystem system;
 	private TdlExpression expression;
-	private Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> derivedTrapsetMap;
+	private Map<AbsTrapsetExpressionNode, AbsEvaluatedTrapset> trapsetEvaluationMap;
 
 	private TrapsetQuantifierEvaluator(
 			UtaSystem system,
 			TdlExpression expression,
-			Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> derivedTrapsetMap
+			Map<AbsTrapsetExpressionNode, AbsEvaluatedTrapset> trapsetEvaluationMap
 	) {
 		this.system = system;
 		this.expression = expression;
-		this.derivedTrapsetMap = Collections.unmodifiableMap(derivedTrapsetMap);
+		this.trapsetEvaluationMap = Collections.unmodifiableMap(trapsetEvaluationMap);
 	}
 
 	private void evaluateTrapsetQuantifiers() {
 		final int systemTransitionCount = getSystemTransitionCount(system);
 		for (AbsTrapsetQuantifierNode trapsetQuantifier : extractTrapsetQuantifiers(expression)) {
-			AbsDerivedTrapsetNode trapsetDerivingNode = trapsetQuantifier.getChildContainer().getChild();
-			AbsDerivedTrapset derivedTrapset = derivedTrapsetMap.get(trapsetDerivingNode);
+			AbsTrapsetExpressionNode trapsetExpression = trapsetQuantifier.getChildContainer().getChild();
+			AbsEvaluatedTrapset trapset = trapsetEvaluationMap.get(trapsetExpression);
 			/*
 			 * Reduction rules:
-			 * E({}) = False.
-			 * U({}) = False.
-			 * not(E({})) = True.
-			 * not(E({})) = True.
-			 *
 			 * E(universal) = True.
 			 * U(universal) = True.
 			 * not(E(universal)) = False.
 			 * not(U(universal)) = False.
+			 *
+			 * Note that trapsets cannot be empty as that would result in Uppaal syntax errors.
 			 */
-			Boolean replacementValue = null;
-			if (derivedTrapset.isEmpty()) {
-				replacementValue = trapsetQuantifier.isNegated();
-			} else if (derivedTrapset.getUnconditionalTrapCount() == systemTransitionCount) {
-				replacementValue = !trapsetQuantifier.isNegated();
-			}
-
-			if (replacementValue != null) {
-				BooleanValueWrapperNode wrapper = BooleanValueWrapperNode.of(replacementValue);
+			if (trapset.getUnconditionalTrapCount() == systemTransitionCount) {
+				BooleanValueWrapperNode wrapper = BooleanValueWrapperNode.of(!trapsetQuantifier.isNegated());
 				expression.replaceDescendant(trapsetQuantifier, wrapper);
 			}
 		}

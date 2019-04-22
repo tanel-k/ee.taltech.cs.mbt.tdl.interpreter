@@ -24,29 +24,36 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BaseTrapsetsExtractor {
 	public static class InvalidBaseTrapsetDefinitionException extends Exception {
 		private static final String MSG_FORMAT = "Invalid trapset definition %s: %s.";
 
-		private static String formatMessage(TrapsetNode node, String errMsg) {
+		private static String formattedMessage(TrapsetNode node, String errMsg) {
 			return String.format(MSG_FORMAT, node.getName(), errMsg);
 		}
 
 		InvalidBaseTrapsetDefinitionException(TrapsetNode node, String errMsg) {
-			super(formatMessage(node, errMsg));
+			super(formattedMessage(node, errMsg));
+		}
+
+		InvalidBaseTrapsetDefinitionException(String msg) {
+			super(msg);
 		}
 	}
 
 	public static class DuplicateLabelingException extends InvalidBaseTrapsetDefinitionException {
 		public static final String MSG_FORMAT = "System/%s/%s->%s has been labeled more than once";
 
-		private static String formatMessage(Template template, Transition transition) {
+		private static String formattedMessage(Template template, Transition transition) {
 			String locSrc = transition.getSource().getName() != null
 					? transition.getSource().getName().getName()
 					: transition.getSource().getId();
@@ -57,12 +64,41 @@ public class BaseTrapsetsExtractor {
 		}
 
 		DuplicateLabelingException(TrapsetNode node, Template template, Transition transition) {
-			super(node, formatMessage(template, transition));
+			super(node, formattedMessage(template, transition));
 		}
 	}
 
-	public static class UndefinedTrapsetException extends InvalidBaseTrapsetDefinitionException {
-		UndefinedTrapsetException(TrapsetNode node) {
+	public static class EmptyTrapsetException extends InvalidBaseTrapsetDefinitionException {
+		private static final String SINGLE_EMPTY_TRAPSET_FORMAT = "Invalid trapset definition %s: empty trapset.";
+
+		private static String formattedMessage(Collection<TrapsetNode> emptyTrapsets) {
+			if (emptyTrapsets.size() == 0)
+				return null;
+
+			if (emptyTrapsets.size() == 1) {
+				return String.format(SINGLE_EMPTY_TRAPSET_FORMAT, emptyTrapsets.iterator().next());
+			}
+
+			StringBuilder sb = new StringBuilder("Invalid trapset definitions: ");
+			Iterator<TrapsetNode> iter = emptyTrapsets.iterator();
+			while (iter.hasNext()) {
+				TrapsetNode emptyTrapset = iter.next();
+				sb.append(emptyTrapset.getName());
+				if (iter.hasNext())
+					sb.append(", ");
+			}
+			sb.append(" are empty.");
+
+			return sb.toString();
+		}
+
+		EmptyTrapsetException(Collection<TrapsetNode> emptyTrapsets) {
+			super(formattedMessage(emptyTrapsets));
+		}
+	}
+
+	public static class MissingTrapsetDeclarationException extends InvalidBaseTrapsetDefinitionException {
+		MissingTrapsetDeclarationException(TrapsetNode node) {
 			super(node, "missing global declaration");
 		}
 	}
@@ -170,7 +206,7 @@ public class BaseTrapsetsExtractor {
 
 		for (TrapsetNode trapsetNode : trapsetNodes) {
 			if (!baseTrapsetMap.containsKey(trapsetNode)) {
-				throw new UndefinedTrapsetException(trapsetNode);
+				throw new MissingTrapsetDeclarationException(trapsetNode);
 			}
 		}
 
@@ -203,6 +239,14 @@ public class BaseTrapsetsExtractor {
 					}
 				}
 			}
+
+			List<TrapsetNode> emptyTrapsets = baseTrapsetMap.entrySet().stream()
+					.filter(e -> e.getValue().isEmpty())
+					.map(Entry::getKey)
+					.collect(Collectors.toList());
+
+			if (!emptyTrapsets.isEmpty())
+				throw new EmptyTrapsetException(emptyTrapsets);
 		}
 	}
 

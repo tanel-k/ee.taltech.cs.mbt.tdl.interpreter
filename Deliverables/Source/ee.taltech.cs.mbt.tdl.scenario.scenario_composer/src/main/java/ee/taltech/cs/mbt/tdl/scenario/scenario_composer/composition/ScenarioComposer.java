@@ -1,7 +1,6 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.TdlExpressionReducer;
@@ -10,13 +9,12 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.Scenario
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioSystemComposer;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor.InvalidBaseTrapsetDefinitionException;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.DerivedTrapsetsExtractor;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.TrapsetEvaluator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
 import java.util.Map;
-import java.util.Optional;
 
 public class ScenarioComposer {
 	public static ScenarioComposer newInstance(ScenarioSpecification specification) {
@@ -40,9 +38,9 @@ public class ScenarioComposer {
 		Map<TrapsetNode, BaseTrapset> baseTrapsetMap = BaseTrapsetsExtractor
 				.getInstance(sutModelCpy, tdlExpressionCpy)
 				.extract();
-		Map<AbsDerivedTrapsetNode, AbsDerivedTrapset> mapDerivedTrapsets = DerivedTrapsetsExtractor
+		Map<AbsTrapsetExpressionNode, AbsEvaluatedTrapset> trapsetEvaluationMap = TrapsetEvaluator
 				.getInstance(sutModelCpy, tdlExpressionCpy, baseTrapsetMap)
-				.extract();
+				.evaluate();
 
 		/*
 		 * NOTE:
@@ -53,7 +51,7 @@ public class ScenarioComposer {
 
 		// Replace immediately evaluable trapset quantifiers with True/False:
 		TrapsetQuantifierEvaluator
-				.getInstance(sutModelCpy, tdlExpressionCpy, mapDerivedTrapsets)
+				.getInstance(sutModelCpy, tdlExpressionCpy, trapsetEvaluationMap)
 				.evaluate();
 
 		// Normalize the TDL expression and pull True/False up the tree according to TDL operator semantics:
@@ -69,7 +67,7 @@ public class ScenarioComposer {
 		ScenarioCompositionParameters compositionParameters = new ScenarioCompositionParameters()
 				.setSutModel(sutModelCpy)
 				.setTdlExpression(tdlExpressionCpy)
-				.setDerivedTrapsetMap(mapDerivedTrapsets);
+				.setTrapsetEvaluationMap(trapsetEvaluationMap);
 
 		// Construct TDL recognition wrapper, adjust SUT model and compose into single system:
 		ScenarioSystemComposer

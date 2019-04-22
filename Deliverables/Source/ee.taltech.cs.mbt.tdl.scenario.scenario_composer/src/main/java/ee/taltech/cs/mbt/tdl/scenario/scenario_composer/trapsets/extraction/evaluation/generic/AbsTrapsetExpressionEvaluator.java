@@ -1,24 +1,24 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.derivation.generic;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation.generic;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 
 import java.util.Collections;
 import java.util.Map;
 
-public abstract class AbsTrapsetDeriver<T extends AbsDerivedTrapsetNode> {
+public abstract class AbsTrapsetExpressionEvaluator<T extends AbsTrapsetExpressionNode> {
 	private Flag completionFlag = Flag.newInstance();
 
-	private AbsDerivedTrapset derivedTrapset;
+	private AbsEvaluatedTrapset resultTrapset;
 	private final UtaSystem system;
 	private final T trapsetDerivingNode;
 	private final Map<TrapsetNode, BaseTrapset> baseTrapsetMap;
 
-	protected AbsTrapsetDeriver(
+	protected AbsTrapsetExpressionEvaluator(
 			UtaSystem system,
 			T trapsetDerivingNode,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
@@ -28,7 +28,7 @@ public abstract class AbsTrapsetDeriver<T extends AbsDerivedTrapsetNode> {
 		this.baseTrapsetMap = Collections.unmodifiableMap(baseTrapsetMap);
 	}
 
-	protected abstract AbsDerivedTrapset derive(
+	protected abstract AbsEvaluatedTrapset evaluate(
 			UtaSystem system,
 			T trapsetDerivingNode,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
@@ -38,13 +38,13 @@ public abstract class AbsTrapsetDeriver<T extends AbsDerivedTrapsetNode> {
 		return system;
 	}
 
-	public AbsDerivedTrapset derive() {
+	public AbsEvaluatedTrapset evaluate() {
 		if (completionFlag.isSet())
-			return derivedTrapset;
+			return resultTrapset;
 
-		derivedTrapset = derive(system, trapsetDerivingNode, baseTrapsetMap);
+		resultTrapset = evaluate(system, trapsetDerivingNode, baseTrapsetMap);
 
 		completionFlag.set();
-		return derivedTrapset;
+		return resultTrapset;
 	}
 }

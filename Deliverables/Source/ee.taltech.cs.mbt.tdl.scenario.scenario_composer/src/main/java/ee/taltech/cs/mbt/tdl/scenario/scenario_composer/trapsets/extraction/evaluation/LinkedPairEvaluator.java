@@ -1,11 +1,11 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.derivation;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.LinkedPairNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.derivation.generic.AbsTrapsetDeriver;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation.generic.AbsTrapsetExpressionEvaluator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.LinkedPairTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.evaluated.LinkedPairTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.trap.LinkedPairTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.AssignmentExpression;
@@ -18,18 +18,18 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 import java.util.Map;
 import java.util.Set;
 
-public class LinkedPairDeriver extends AbsTrapsetDeriver<LinkedPairNode> {
+public class LinkedPairEvaluator extends AbsTrapsetExpressionEvaluator<LinkedPairNode> {
 	private static final String LINKED_PAIR_NAME_MODIFIER = "_LinkedPairsWith_";
 
-	public static LinkedPairDeriver getInstance(
+	public static LinkedPairEvaluator getInstance(
 			UtaSystem system,
 			LinkedPairNode trapsetDerivingNode,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
 	) {
-		return new LinkedPairDeriver(system, trapsetDerivingNode, baseTrapsetMap);
+		return new LinkedPairEvaluator(system, trapsetDerivingNode, baseTrapsetMap);
 	}
 
-	private LinkedPairDeriver(
+	private LinkedPairEvaluator(
 			UtaSystem system,
 			LinkedPairNode trapsetDerivingNode,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
@@ -38,7 +38,7 @@ public class LinkedPairDeriver extends AbsTrapsetDeriver<LinkedPairNode> {
 	}
 
 	@Override
-	protected AbsDerivedTrapset derive(
+	protected AbsEvaluatedTrapset evaluate(
 			UtaSystem system,
 			LinkedPairNode linkedPair,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
@@ -52,8 +52,8 @@ public class LinkedPairDeriver extends AbsTrapsetDeriver<LinkedPairNode> {
 		Identifier trapsetName = Identifier.of(
 				ingressTrapset.getName() + LINKED_PAIR_NAME_MODIFIER + egressTrapset.getName()
 		);
-		LinkedPairTrapset derivedTrapset = new LinkedPairTrapset();
-		derivedTrapset.setName(trapsetName);
+		LinkedPairTrapset resultTrapset = new LinkedPairTrapset();
+		resultTrapset.setName(trapsetName);
 
 		// -ingressTransition- L -egressTransition-
 		for (Transition ingressTransition : ingressTrapset) {
@@ -70,12 +70,12 @@ public class LinkedPairDeriver extends AbsTrapsetDeriver<LinkedPairNode> {
 						.setLeftChild(IdentifierExpression.of(trapsetName))
 						.setRightChild(egressTrapset.getMarkerCondition(egressTransition).deepClone());
 
-				derivedTrapset.addTrap(LinkedPairTrap.of(
+				resultTrapset.addTrap(LinkedPairTrap.of(
 						ingressTrapset, ingressTransition, ingressParentTpl, egressTransition, markerExpression
 				));
 			}
 		}
 
-		return derivedTrapset;
+		return resultTrapset;
 	}
 }

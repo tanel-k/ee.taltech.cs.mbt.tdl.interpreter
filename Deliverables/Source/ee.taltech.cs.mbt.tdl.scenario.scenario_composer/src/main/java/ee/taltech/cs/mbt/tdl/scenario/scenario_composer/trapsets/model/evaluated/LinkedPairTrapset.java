@@ -1,19 +1,17 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.evaluated;
 
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.IDerivedTrapsetVisitor;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.IEvaluatedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.ITrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.trap.LinkedPairTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-public class LinkedPairTrapset extends AbsDerivedTrapset<LinkedPairTrap> {
+public class LinkedPairTrapset extends AbsEvaluatedTrapset<LinkedPairTrap> {
 	public LinkedPairTrapset() { }
 
 	// An egress transition in this trapset can have multiple ingress transitions - these actually represent distinct traps.
@@ -57,7 +55,7 @@ public class LinkedPairTrapset extends AbsDerivedTrapset<LinkedPairTrap> {
 	}
 
 	@Override
-	public <T> T accept(IDerivedTrapsetVisitor<T> visitor) {
+	public <T> T accept(IEvaluatedTrapsetVisitor<T> visitor) {
 		return visitor.visitLinkedPair(this);
 	}
 }

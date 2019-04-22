@@ -2,35 +2,16 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.ScenarioWrapperConstructionContext;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.ScenarioWrapperFactory;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.AbsoluteComplementTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.LinkedPairTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.RelativeComplementTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset.TrapsetImplementationDetail;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.IDerivedTrapsetVisitor;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.ArrayLookupExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.AssignmentExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.ConjunctionExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.IdentifierExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.LiteralConsts;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.literal.NaturalNumberLiteral;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.SizeExpressionArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Synchronization;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.identifier.BaseTypeIdentifiers;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.Color;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.coordinate_utils.GuiCoordinateUtils;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location.ELocationExitPolicy;
@@ -44,7 +25,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Vector;
 
 public class ScenarioSystemComposer {
 	public static ScenarioSystemComposer newInstance(ScenarioCompositionParameters parameters) {
@@ -236,235 +216,6 @@ public class ScenarioSystemComposer {
 		}
 	}
 
-	private static void processDerivedTrapset(
-			UtaSystem sutModel,
-			AbsDerivedTrapset systemTrapset,
-			Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap
-	) {
-		systemTrapset.accept(new IDerivedTrapsetVisitor<Void>() {
-			@Override
-			public Void visitLinkedPair(LinkedPairTrapset trapset) {
-				Map<TrapsetImplementationDetail, Identifier> mapFlagArrayNames = new HashMap<>();
-
-				/*
-				 * Declare ingress flag Boolean arrays.
-				 * These flags are used to determine whether the system has moved onto a trapped egress transition from
-				 * a transition that belongs in the ingress trapset.
-				 */
-				int trapCount = trapset.getTrapCount();
-				for (TrapsetImplementationDetail detail : trapset.getImplementationDetails()) {
-					Identifier flagArrayName = Identifier.of(detail.getFlagArrayName() + "_IngressFlags");
-					VariableDeclaration declaration = new VariableDeclaration()
-							.setIdentifier(flagArrayName)
-							.setType(new Type()
-									.setBaseType(new BaseType()
-											.setTypeId(BaseTypeIdentifiers.BOOLEAN)
-									)
-									.addArrayModifier(new SizeExpressionArrayModifier()
-											.setSizeSpecifier(
-													NaturalNumberLiteral.of(trapCount)
-											)
-									)
-							);
-					mapFlagArrayNames.put(detail, flagArrayName);
-					sutModel.getDeclarations().add(declaration);
-				}
-
-				// Add label to each trapped egress transition:
-				int trapIdx = 0;
-				for (Transition trappedEgressTransition : trapset) {
-					TransitionLabels labels = trappedEgressTransition.getLabels();
-					Template parentTemplate = trapset.getParentTemplate(trappedEgressTransition);
-					DirectedMultigraph<Location, Transition> templateGraph = parentTemplate.getLocationGraph();
-
-					Location initSourceLocation = templateGraph.getSourceVertex(trappedEgressTransition);
-					Location initTargetLocation = templateGraph.getTargetVertex(trappedEgressTransition);
-
-					if (labels.getAssignmentsLabel() == null) {
-						AssignmentsLabel label = AssignmentsLabel.of(new LinkedList<>())
-								.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
-										initSourceLocation.getCoordinates(),
-										initTargetLocation.getCoordinates()
-								));
-						labels.setAssignmentsLabel(label);
-					}
-
-					Map<Transition, Collection<Synchronization>> templateSynchMap = transitionSynchHooksMap
-							.computeIfAbsent(parentTemplate, k -> new HashMap<>());
-					Collection<Synchronization> transitionSynchs = templateSynchMap
-							.computeIfAbsent(trappedEgressTransition, k -> new LinkedList<>());
-
-					Collection<AbsExpression> transitionAssignments = labels.getAssignmentsLabel().getContent();
-					Vector<Transition> ingressTransitionVector = trapset.getIngressTransitionVector(trappedEgressTransition);
-					Vector<BaseTrapset> ingressTrapsetVector = trapset.getIngressTrapsetVector(trappedEgressTransition);
-
-					for (TrapsetImplementationDetail detail : trapset.getImplementationDetails()) {
-						for (int i = 0; i < ingressTransitionVector.size(); i++) {
-							Transition ingressTransition = ingressTransitionVector.get(i);
-							BaseTrapset ingressTrapset = ingressTrapsetVector.get(i);
-
-							if (ingressTransition.getLabels() == null)
-								ingressTransition.setLabels(new TransitionLabels());
-
-							if (ingressTransition.getLabels().getAssignmentsLabel() == null) {
-								ingressTransition.getLabels().setAssignmentsLabel(
-										AssignmentsLabel.of(new LinkedList<>())
-												.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
-														ingressTransition.getSource().getCoordinates(),
-														ingressTransition.getTarget().getCoordinates()
-												))
-								);
-							}
-
-							// The ingress transition needs to set the appropriate ingress flag to True.
-							ingressTransition.getLabels().getAssignmentsLabel().getContent().add(
-									new AssignmentExpression()
-											.setLeftChild(new ArrayLookupExpression()
-													.setLeftChild(IdentifierExpression.of(
-															mapFlagArrayNames.get(detail)
-													))
-													.setRightChild(
-															NaturalNumberLiteral.of(trapIdx)
-													))
-											.setRightChild(
-													ingressTrapset.getMarkerCondition(ingressTransition).deepClone()
-											)
-							);
-
-							// Unrelated transitions departing from the target of the ingress transition should reset the ingress flag:
-							Location ingressTargetLocation = templateGraph.getTargetVertex(ingressTransition);
-							for (Transition egressTransition : templateGraph.getEdgesFrom(ingressTargetLocation)) {
-								if (egressTransition != trappedEgressTransition) {
-									if (egressTransition.getLabels() == null)
-										egressTransition.setLabels(new TransitionLabels());
-
-									if (egressTransition.getLabels().getAssignmentsLabel() == null) {
-										egressTransition.getLabels().setAssignmentsLabel(AssignmentsLabel.of(new LinkedList<>())
-												.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
-														egressTransition.getSource().getCoordinates(),
-														egressTransition.getTarget().getCoordinates()
-												))
-										);
-									}
-
-									egressTransition.getLabels().getAssignmentsLabel().getContent().add(
-											new AssignmentExpression()
-													.setLeftChild(new ArrayLookupExpression()
-															.setLeftChild(IdentifierExpression.of(
-																	mapFlagArrayNames.get(detail)
-															))
-															.setRightChild(
-																	NaturalNumberLiteral.of(trapIdx)
-															))
-													.setRightChild(LiteralConsts.FALSE)
-									);
-								}
-							}
-
-							AbsExpression lookupExpression = new ArrayLookupExpression()
-									.setLeftChild(IdentifierExpression.of(detail.getFlagArrayName()))
-									.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
-
-							AssignmentExpression assignmentExpression = trapset
-									.getMarkerAssignment(trappedEgressTransition).deepClone();
-							assignmentExpression.setLeftChild(lookupExpression);
-							if (LiteralConsts.TRUE.equals(assignmentExpression.getRightChild())) {
-								assignmentExpression.setRightChild(new ArrayLookupExpression()
-										.setLeftChild(IdentifierExpression.of(
-												mapFlagArrayNames.get(detail)
-										))
-										.setRightChild(
-												NaturalNumberLiteral.of(trapIdx)
-										)
-								);
-							} else {
-								assignmentExpression.setRightChild(new ConjunctionExpression()
-										.setLeftChild(new ArrayLookupExpression()
-												.setLeftChild(IdentifierExpression.of(
-														mapFlagArrayNames.get(detail)
-												))
-												.setRightChild(
-														NaturalNumberLiteral.of(trapIdx)
-												)
-										)
-										.setRightChild(assignmentExpression.getRightChild())
-								);
-							}
-
-							transitionAssignments.add(assignmentExpression);
-							transitionAssignments.add(new AssignmentExpression()
-									.setLeftChild(new ArrayLookupExpression()
-											.setLeftChild(IdentifierExpression.of(
-													mapFlagArrayNames.get(detail)
-											))
-											.setRightChild(
-													NaturalNumberLiteral.of(trapIdx)
-											))
-									.setRightChild(LiteralConsts.FALSE));
-
-							// Prevent adding the activating synchronization more than once:
-							trapIdx++;
-						}
-
-						transitionSynchs.add(detail.getActivatingSynchronization());
-					}
-				}
-
-				return null;
-			}
-
-			@Override
-			public Void visitAbsoluteComplement(AbsoluteComplementTrapset trapset) {
-				return visitCommonDerivedTrapset(trapset);
-			}
-
-			@Override
-			public Void visitRelativeComplement(RelativeComplementTrapset trapset) {
-				return visitCommonDerivedTrapset(trapset);
-			}
-
-			private Void visitCommonDerivedTrapset(AbsDerivedTrapset<?> trapset) {
-				for (Transition transition : trapset) {
-					TransitionLabels labels = transition.getLabels();
-					Template parentTemplate = trapset.getParentTemplate(transition);
-					DirectedMultigraph<Location, Transition> templateGraph = parentTemplate.getLocationGraph();
-
-					Location initSourceLocation = templateGraph.getSourceVertex(transition);
-					Location initTargetLocation = templateGraph.getTargetVertex(transition);
-
-					if (labels.getAssignmentsLabel() == null) {
-						AssignmentsLabel label = AssignmentsLabel.of(new LinkedList<>())
-								.setCoordinates(GuiCoordinateUtils.midpointCoordinates(
-										initSourceLocation.getCoordinates(),
-										initTargetLocation.getCoordinates()
-								));
-						labels.setAssignmentsLabel(label);
-					}
-
-					Map<Transition, Collection<Synchronization>> templateSynchMap = transitionSynchHooksMap
-							.computeIfAbsent(parentTemplate, k -> new HashMap<>());
-					Collection<Synchronization> transitionSynchs = templateSynchMap
-							.computeIfAbsent(transition, k -> new LinkedList<>());
-
-					Collection<AbsExpression> transitionAssignments = labels.getAssignmentsLabel().getContent();
-					for (TrapsetImplementationDetail detail : trapset.getImplementationDetails()) {
-						AbsExpression lookupExpression = new ArrayLookupExpression()
-								.setLeftChild(IdentifierExpression.of(detail.getFlagArrayName()))
-								.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
-
-						AssignmentExpression assignmentExpression = trapset.getMarkerAssignment(transition).deepClone();
-						assignmentExpression.setLeftChild(lookupExpression);
-
-						transitionAssignments.add(assignmentExpression);
-						transitionSynchs.add(detail.getActivatingSynchronization());
-					}
-				}
-
-				return null;
-			}
-		});
-	}
-
 	public ScenarioSystemComposer(ScenarioCompositionParameters parameters) {
 		this.parameters = parameters;
 		this.wrapperFactory = ScenarioWrapperFactory.getInstance(parameters);
@@ -478,7 +229,10 @@ public class ScenarioSystemComposer {
 		UtaSystem wrapperSystem = wrapperFactory.constructSystem();
 		ScenarioWrapperConstructionContext wrapperContext = wrapperFactory.getConstructionContext();
 
-		Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap = new HashMap<>();
+		ObjectIdentityMap<
+				Template,
+				Map<Transition, Collection<Synchronization>>
+		> transitionSynchHooksMap = new ObjectIdentityMap<>();
 		// Globally applicable transition synchronizations should be added to every transition in the system.
 		// They represent conditions that hold on every system transition.
 		for (Synchronization globalTransitionSynch : wrapperContext.getGloballyApplicableTransitionSynchs()) {
@@ -486,8 +240,9 @@ public class ScenarioSystemComposer {
 		}
 
 		// Apply derived trapset labels to applicable transitions in the system:
-		for (AbsDerivedTrapset derivedTrapset : wrapperContext.getDerivedTrapsetMap().values()) {
-			processDerivedTrapset(parameters.getSutModel(), derivedTrapset, transitionSynchHooksMap);
+		TrapsetAnnotator trapsetAnnotator = new TrapsetAnnotator(parameters.getSutModel(), transitionSynchHooksMap);
+		for (AbsEvaluatedTrapset trapset : wrapperContext.getTrapsetEvaluationMap().values()) {
+			trapsetAnnotator.annotateAccordingTo(trapset);
 		}
 
 		injectSynchronizationHooks(transitionSynchHooksMap);

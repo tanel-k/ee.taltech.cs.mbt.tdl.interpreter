@@ -1,12 +1,12 @@
-package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation;
+package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsDerivedTrapsetNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.arity.BinaryChildContainer;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IDerivedTrapsetVisitor;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetExpressionVisitor;
 
-public class RelativeComplementNode extends AbsDerivedTrapsetNode<
+public class RelativeComplementNode extends AbsTrapsetExpressionNode<
 		BinaryChildContainer<TrapsetNode>
 		> {
 	public RelativeComplementNode() {
@@ -19,7 +19,7 @@ public class RelativeComplementNode extends AbsDerivedTrapsetNode<
 	}
 
 	@Override
-	public <T> T accept(IDerivedTrapsetVisitor<T> visitor) {
+	public <T> T accept(ITrapsetExpressionVisitor<T> visitor) {
 		return visitor.visitRelativeComplement(this);
 	}
 

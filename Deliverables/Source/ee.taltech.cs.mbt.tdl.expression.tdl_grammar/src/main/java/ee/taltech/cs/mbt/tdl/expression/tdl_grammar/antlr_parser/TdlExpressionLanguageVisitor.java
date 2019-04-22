@@ -117,6 +117,13 @@ public interface TdlExpressionLanguageVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLinkedTrapsetPairExpression(TdlExpressionLanguageParser.LinkedTrapsetPairExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code BaseTrapsetExpression}
+	 * labeled alternative in {@link TdlExpressionLanguageParser#trapsetExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBaseTrapsetExpression(TdlExpressionLanguageParser.BaseTrapsetExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code LessThanBound}
 	 * labeled alternative in {@link TdlExpressionLanguageParser#boundOverNaturals}.
 	 * @param ctx the parse tree

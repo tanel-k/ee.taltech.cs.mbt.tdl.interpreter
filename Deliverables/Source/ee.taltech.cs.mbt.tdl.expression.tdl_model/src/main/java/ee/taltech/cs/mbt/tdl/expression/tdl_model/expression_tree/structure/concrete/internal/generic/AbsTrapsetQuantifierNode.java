@@ -4,15 +4,15 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetQuantifierVisitor;
 
 public abstract class AbsTrapsetQuantifierNode extends AbsBooleanInternalNode<
-		AbsDerivedTrapsetNode,
-		UnaryChildContainer<AbsDerivedTrapsetNode>
+		AbsTrapsetExpressionNode,
+		UnaryChildContainer<AbsTrapsetExpressionNode>
 	> {
 	protected AbsTrapsetQuantifierNode() {
 		super(new UnaryChildContainer<>(), null);
 	}
 
 	@Override
-	protected AbsTrapsetQuantifierNode setChildContainer(UnaryChildContainer<AbsDerivedTrapsetNode> childContainer) {
+	protected AbsTrapsetQuantifierNode setChildContainer(UnaryChildContainer<AbsTrapsetExpressionNode> childContainer) {
 		return (AbsTrapsetQuantifierNode) super.setChildContainer(childContainer);
 	}
 

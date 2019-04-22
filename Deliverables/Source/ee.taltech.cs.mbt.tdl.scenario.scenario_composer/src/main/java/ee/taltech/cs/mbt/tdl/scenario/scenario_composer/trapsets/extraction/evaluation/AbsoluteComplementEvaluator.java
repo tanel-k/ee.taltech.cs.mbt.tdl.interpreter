@@ -1,11 +1,11 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.derivation;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation;
 
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_derivation.AbsoluteComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.AbsoluteComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.derivation.generic.AbsTrapsetDeriver;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation.generic.AbsTrapsetExpressionEvaluator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.derived.AbsoluteComplementTrapset;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsDerivedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.evaluated.AbsoluteComplementTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.trap.BaseTrap;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.impl.AssignmentExpression;
@@ -18,18 +18,18 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transition
 
 import java.util.Map;
 
-public class AbsoluteComplementDeriver extends AbsTrapsetDeriver<AbsoluteComplementNode> {
+public class AbsoluteComplementEvaluator extends AbsTrapsetExpressionEvaluator<AbsoluteComplementNode> {
 	private static final String ABSOLUTE_COMPLEMENT_NAME_MODIFIER = "AbsoluteComplementOf_";
 
-	public static AbsoluteComplementDeriver getInstance(
+	public static AbsoluteComplementEvaluator getInstance(
 			UtaSystem system,
 			AbsoluteComplementNode trapsetDerivingNode,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
 	) {
-		return new AbsoluteComplementDeriver(system, trapsetDerivingNode, baseTrapsetMap);
+		return new AbsoluteComplementEvaluator(system, trapsetDerivingNode, baseTrapsetMap);
 	}
 
-	protected AbsoluteComplementDeriver(
+	protected AbsoluteComplementEvaluator(
 			UtaSystem system,
 			AbsoluteComplementNode trapsetDerivingNode,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
@@ -38,7 +38,7 @@ public class AbsoluteComplementDeriver extends AbsTrapsetDeriver<AbsoluteComplem
 	}
 
 	@Override
-	protected AbsDerivedTrapset derive(
+	protected AbsEvaluatedTrapset evaluate(
 			UtaSystem system,
 			AbsoluteComplementNode absoluteComplement,
 			Map<TrapsetNode, BaseTrapset> baseTrapsetMap
@@ -47,8 +47,8 @@ public class AbsoluteComplementDeriver extends AbsTrapsetDeriver<AbsoluteComplem
 		Identifier trapsetName = Identifier.of(
 				ABSOLUTE_COMPLEMENT_NAME_MODIFIER + excludedTrapset.getName()
 		);
-		AbsoluteComplementTrapset derivedTrapset = new AbsoluteComplementTrapset();
-		derivedTrapset.setName(trapsetName);
+		AbsoluteComplementTrapset resultTrapset = new AbsoluteComplementTrapset();
+		resultTrapset.setName(trapsetName);
 
 		for (Template parentTemplate : system.getTemplates()) {
 			for (Transition candidateTransition : parentTemplate.getLocationGraph().getEdges()) {
@@ -70,12 +70,12 @@ public class AbsoluteComplementDeriver extends AbsTrapsetDeriver<AbsoluteComplem
 							.setLeftChild(IdentifierExpression.of(trapsetName))
 							.setRightChild(LiteralConsts.TRUE);
 				}
-				derivedTrapset.addTrap(
+				resultTrapset.addTrap(
 						BaseTrap.of(parentTemplate, candidateTransition, markerExpression)
 				);
 			}
 		}
 
-		return derivedTrapset;
+		return resultTrapset;
 	}
 }
