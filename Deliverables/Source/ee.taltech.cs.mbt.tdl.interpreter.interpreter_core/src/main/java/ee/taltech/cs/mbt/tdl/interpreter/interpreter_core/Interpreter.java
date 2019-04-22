@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.interpreter;
+package ee.taltech.cs.mbt.tdl.interpreter.interpreter_core;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;

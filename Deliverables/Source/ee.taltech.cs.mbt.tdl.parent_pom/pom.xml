@@ -20,6 +20,9 @@
     <module>../ee.taltech.cs.mbt.tdl.expression.tdl_parser</module>
     <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin</module>
     <module>../ee.taltech.cs.mbt.tdl.scenario.scenario_composer</module>
+    <module>../ee.taltech.cs.mbt.tdl.interpreter.interpreter_core</module>
+    <module>../ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli</module>
+    <module>../ee.taltech.cs.mbt.tdl.interpreter.interpreter_gui</module>
   </modules>
 
   <dependencyManagement>
@@ -94,8 +97,18 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>ee.taltech.cs.mbt.tdl</groupId>
-        <artifactId>interpreter</artifactId>
+        <groupId>ee.taltech.cs.mbt.tdl.interpreter</groupId>
+        <artifactId>interpreter_core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ee.taltech.cs.mbt.tdl.interpreter</groupId>
+        <artifactId>interpreter_cli</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ee.taltech.cs.mbt.tdl.interpreter</groupId>
+        <artifactId>interpreter_gui</artifactId>
         <version>${project.version}</version>
       </dependency>
       <!-- /Internal -->
