@@ -47,7 +47,7 @@ public class UtaLanguageParserFactory {
 			AbsUtaAntlrFacade<AbsExpression, ?> facade;
 
 			@Override
-			public AbsAntlrParserFacade<AbsExpression, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<AbsExpression, ?, ?, ?> getFacade() {
 				return facade == null
 						? facade = facadeFactory.guardFacade()
 						: facade;
@@ -60,7 +60,7 @@ public class UtaLanguageParserFactory {
 			AbsUtaAntlrFacade<AbsExpression, ?> facade;
 
 			@Override
-			public AbsAntlrParserFacade<AbsExpression, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<AbsExpression, ?, ?, ?> getFacade() {
 				return facade == null
 						? (facade = facadeFactory.invariantFacade())
 						: facade;
@@ -73,7 +73,7 @@ public class UtaLanguageParserFactory {
 			AbsUtaAntlrFacade<List<AbsExpression>, ?> facade;
 
 			@Override
-			public AbsAntlrParserFacade<List<AbsExpression>, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<List<AbsExpression>, ?, ?, ?> getFacade() {
 				return facade == null
 						? (facade = facadeFactory.updatesFacade())
 						: facade;
@@ -86,7 +86,7 @@ public class UtaLanguageParserFactory {
 			AbsUtaAntlrFacade<List<ParameterDeclaration>, ?> facade;
 
 			@Override
-			public AbsAntlrParserFacade<List<ParameterDeclaration>, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<List<ParameterDeclaration>, ?, ?, ?> getFacade() {
 				return facade == null
 						? (facade = facadeFactory.parametersFacade())
 						: facade;
@@ -99,7 +99,7 @@ public class UtaLanguageParserFactory {
 			AbsUtaAntlrFacade<SystemDefinition, ?> facade;
 
 			@Override
-			public AbsAntlrParserFacade<SystemDefinition, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<SystemDefinition, ?, ?, ?> getFacade() {
 				return facade == null
 						? (facade = facadeFactory.systemDefinitionFacade())
 						: facade;
@@ -112,7 +112,7 @@ public class UtaLanguageParserFactory {
 			AbsUtaAntlrFacade<List<Selection>, ?> facade;
 
 			@Override
-			public AbsAntlrParserFacade<List<Selection>, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<List<Selection>, ?, ?, ?> getFacade() {
 				return facade == null
 						? (facade = facadeFactory.selectionFacade())
 						: facade;
@@ -125,7 +125,7 @@ public class UtaLanguageParserFactory {
 			AbsUtaAntlrFacade<Synchronization, ?> facade;
 
 			@Override
-			public AbsAntlrParserFacade<Synchronization, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<Synchronization, ?, ?, ?> getFacade() {
 				return facade == null
 						? (facade = facadeFactory.synchronizationFacade())
 						: facade;
@@ -138,7 +138,7 @@ public class UtaLanguageParserFactory {
 			AbsUtaAntlrFacade<List<AbsDeclarationStatement>, ?> facade;
 
 			@Override
-			public AbsAntlrParserFacade<List<AbsDeclarationStatement>, ?, ?> getFacade() {
+			public AbsAntlrParserFacade<List<AbsDeclarationStatement>, ?, ?, ?> getFacade() {
 				return facade == null
 						? (facade = facadeFactory.declarationsFacade())
 						: facade;

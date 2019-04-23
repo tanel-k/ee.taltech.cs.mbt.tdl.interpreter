@@ -65,6 +65,12 @@ public class TrapsetEvaluator {
 				trapsetOperators.add(node);
 				return null;
 			}
+
+			@Override
+			public Void visitTrapsetWrapper(TrapsetWrapperNode node) {
+				trapsetOperators.add(node);
+				return null;
+			}
 		});
 		return trapsetOperators;
 	}

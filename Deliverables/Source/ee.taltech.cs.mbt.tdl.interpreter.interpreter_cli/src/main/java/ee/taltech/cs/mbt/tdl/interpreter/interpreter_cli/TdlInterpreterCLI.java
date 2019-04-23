@@ -38,23 +38,13 @@ public class TdlInterpreterCLI {
 		argParser.printUsage(outStream);
 	}
 
-	private static void printUsageError(CmdLineException ex, CmdLineParser argParser) {
+	private static void printUsageError(CmdLineException ex) {
 		err.println(ex.getLocalizedMessage());
 		err.println();
 		printHelp(err);
 	}
 
-	private static void printMissingFileError(File modelFile) {
-		err.println("ERROR: " + modelFile.getAbsolutePath() + " not found.");
-		printHelp(err);
-	}
-
-	private static void printFileWriteError(File targetFile) {
-		err.println("ERROR: Failed to write to " + targetFile.getAbsolutePath() + ".");
-		printHelp(err);
-	}
-
-	private static void interpret(TdlCommandLineOptions options) {
+	private static void executeInterpretation(TdlCommandLineOptions options) {
 		boolean verbose = options.isVerbose();
 		boolean tracesEnabled = options.isTracePrintingEnabled();
 		String expression = options.getExpression();
@@ -89,8 +79,7 @@ public class TdlInterpreterCLI {
 		try {
 			sutModelStream = new FileInputStream(modelFile);
 		} catch (FileNotFoundException ex) {
-			printMissingFileError(modelFile);
-
+			err.println("ERROR: " + modelFile.getAbsolutePath() + " not found.");
 			System.exit(EReturnStatus.FILE_NOT_FOUND.value());
 			return; // Formality.
 		}
@@ -108,7 +97,7 @@ public class TdlInterpreterCLI {
 			try (FileOutputStream fileOut = new FileOutputStream(outputFile)) {
 				fileOut.write(byteArrOutStream.toByteArray());
 			} catch (IOException ex) {
-				printFileWriteError(outputFile);
+				err.println("ERROR: Failed to write to " + outputFile.getAbsolutePath() + ".");
 
 				if (tracesEnabled)
 					ex.printStackTrace(err);
@@ -151,7 +140,7 @@ public class TdlInterpreterCLI {
 			try {
 				argParser.parseArgument(args);
 			} catch (CmdLineException ex) {
-				printUsageError(ex, argParser);
+				printUsageError(ex);
 				System.exit(EReturnStatus.INVALID_ARGUMENTS.value());
 				// Formality:
 				return;
@@ -165,7 +154,7 @@ public class TdlInterpreterCLI {
 					return;
 			}
 
-			interpret(options);
+			executeInterpretation(options);
 		}
 
 		System.exit(EReturnStatus.SUCCESS.value());

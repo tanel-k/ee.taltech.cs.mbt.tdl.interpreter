@@ -2,6 +2,7 @@ package ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli.interpretation_listene
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListener.SyntaxError;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.WordUtils;
 import ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli.EReturnStatus;
 import ee.taltech.cs.mbt.tdl.interpreter.interpreter_core.listeners.IInterpretationErrorListener;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor.InvalidBaseTrapsetDefinitionException;
@@ -70,7 +71,9 @@ public class PrintingErrorListener implements IInterpretationErrorListener {
 		out.println("Syntax errors:");
 		for (SyntaxError syntaxError : ex.getSyntaxErrors()) {
 			out.println(
-					syntaxError.getLine() + ":" + syntaxError.getCharPositionInLine() + " - " + syntaxError.getMessage()
+					syntaxError.getLine()
+							+ ":" + syntaxError.getCharPositionInLine()
+							+ " - " + WordUtils.capitalize(syntaxError.getMessage())
 			);
 		}
 		handleFailure(ex, EReturnStatus.MODEL_PARSING_FAILED);

@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public abstract class AbsAntlrParser<ResultType> {
-	public abstract AbsAntlrParserFacade<ResultType, ?, ?> getFacade();
+	public abstract AbsAntlrParserFacade<ResultType, ?, ?, ?> getFacade();
 
 	public ResultType parseInput(String inputString) throws ParseException {
 		return parseInput(inputString, StandardCharsets.UTF_8);

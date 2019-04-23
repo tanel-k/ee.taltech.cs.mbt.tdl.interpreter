@@ -12,9 +12,9 @@ public class TdlCommandLineOptions {
 	private String expression;
 	@Option(name = "-m", aliases = "--model", required = true, usage = "Uppaal SUT model file path.")
 	private File modelFile;
-	@Option(name = "-v", aliases = "--verbose", usage = "Toggles verbose output.")
+	@Option(name = "-v", aliases = "--verbose", usage = "Enables verbose output.")
 	private boolean verbose;
-	@Option(name = "-t", aliases = "--traces", usage = "Toggles error trace printing.")
+	@Option(name = "-t", aliases = "--traces", usage = "Enables error trace printing.")
 	private boolean tracePrintingEnabled;
 	@Option(name = "-o", aliases = "--output", usage = "Output project file path.")
 	private File outputFile;

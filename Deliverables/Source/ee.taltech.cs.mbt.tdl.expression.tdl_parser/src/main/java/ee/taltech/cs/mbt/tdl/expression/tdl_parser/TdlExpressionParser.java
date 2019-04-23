@@ -13,7 +13,7 @@ public class TdlExpressionParser extends AbsAntlrParser<TdlExpression> {
 	private TdlExpressionParser() { }
 
 	@Override
-	public AbsAntlrParserFacade<TdlExpression, ?, ?> getFacade() {
+	public AbsAntlrParserFacade<TdlExpression, ?, ?, ?> getFacade() {
 		return new TdlParserFacade();
 	}
 }
