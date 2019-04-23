@@ -9,6 +9,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -48,31 +49,29 @@ public class TdlInterpreterCLI {
 		printHelp(err);
 	}
 
+	private static void printFileWriteError(File targetFile) {
+		err.println("ERROR: Failed to write to " + targetFile.getAbsolutePath() + ".");
+		printHelp(err);
+	}
+
 	private static void interpret(TdlCommandLineOptions options) {
 		boolean verbose = options.isVerbose();
 		boolean tracesEnabled = options.isTracePrintingEnabled();
 		String expression = options.getExpression();
 		File modelFile = options.getModelFile();
-
 		Optional<File> optOutputFile = options.getOutputFile();
 		Optional<File> optUppaalJarFile = options.getUppaalJar();
 
 		OutputStream outStream;
-		File outputFile = null;
-		if (optOutputFile.isPresent()) {
-			outputFile = optOutputFile.get();
-			try
-			{
-				outStream = new FileOutputStream(outputFile);
-			} catch (FileNotFoundException ex) {
-				printMissingFileError(outputFile);
-				System.exit(EReturnStatus.FILE_NOT_FOUND.value());
-				return; // Formality.
-			}
-		} else {
-			// We will send results to std out; prevent outputting chatter.
+		ByteArrayOutputStream byteArrOutStream = null;
+		if (!optOutputFile.isPresent()) {
+			// Prevent chatter when outputting to std stream.
 			verbose = false;
 			outStream = out;
+		} else {
+			// Write into byte array so that we don't get an empty file when interpretation fails.
+			byteArrOutStream = new ByteArrayOutputStream();
+			outStream = byteArrOutStream;
 		}
 
 		Flag completionFlag = Flag.newInstance();
@@ -91,6 +90,7 @@ public class TdlInterpreterCLI {
 			sutModelStream = new FileInputStream(modelFile);
 		} catch (FileNotFoundException ex) {
 			printMissingFileError(modelFile);
+
 			System.exit(EReturnStatus.FILE_NOT_FOUND.value());
 			return; // Formality.
 		}
@@ -102,24 +102,39 @@ public class TdlInterpreterCLI {
 
 		tdlInterpreter.interpret(sutModelStream, expressionStream, outStream);
 
-		// FIXME: Remove file produced by outStream on fail.
-		if (completionFlag.isSet() && optUppaalJarFile.isPresent()) {
+		File outputFile = null;
+		if (byteArrOutStream != null) {
+			outputFile = optOutputFile.get();
+			try (FileOutputStream fileOut = new FileOutputStream(outputFile)) {
+				fileOut.write(byteArrOutStream.toByteArray());
+			} catch (IOException ex) {
+				printFileWriteError(outputFile);
+
+				if (tracesEnabled)
+					ex.printStackTrace(err);
+
+				System.exit(EReturnStatus.FILE_WRITE_ERROR.value());
+				return; // Formality.
+			}
+		}
+
+		if (outputFile != null && completionFlag.isSet() && optUppaalJarFile.isPresent()) {
 			File uppaalJarFile = optUppaalJarFile.get();
-			if (outputFile != null && outputFile.exists()) {
-				try {
-					String command = String.format(
+			try {
+				String command = String.format(
 						"java -jar \"%s\" \"%s\"",
 						uppaalJarFile.getAbsoluteFile(),
 						outputFile.getAbsolutePath()
-					);
-					Runtime.getRuntime().exec(command);
-				} catch (IOException ex) {
-					err.println("ERROR: Cannot send command to Uppaal JAR: " + ex.getClass().getSimpleName() + ".");
-					if (tracesEnabled)
-						ex.printStackTrace(err);
-					System.exit(EReturnStatus.UPPAAL_RUN_FAILURE.value());
-					return; // Formality.
-				}
+				);
+				Runtime.getRuntime().exec(command);
+			} catch (IOException ex) {
+				err.println("ERROR: Cannot send command to Uppaal JAR.");
+
+				if (tracesEnabled)
+					ex.printStackTrace(err);
+
+				System.exit(EReturnStatus.UPPAAL_RUN_FAILURE.value());
+				return; // Formality.
 			}
 		}
 
