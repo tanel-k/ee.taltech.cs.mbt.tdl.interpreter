@@ -1,7 +1,5 @@
 package ee.taltech.cs.mbt.tdl.commons.utils.data_structures;
 
-import sun.security.provider.certpath.Vertex;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;

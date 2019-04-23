@@ -52,7 +52,7 @@ public class TdlInterpreterCLI {
 		boolean verbose = options.isVerbose();
 		boolean tracesEnabled = options.isTracePrintingEnabled();
 		String expression = options.getExpression();
-		File modelFile = options.getModelFile(); // Check exists.
+		File modelFile = options.getModelFile();
 
 		Optional<File> optOutputFile = options.getOutputFile();
 		Optional<File> optUppaalJarFile = options.getUppaalJar();
@@ -102,6 +102,7 @@ public class TdlInterpreterCLI {
 
 		tdlInterpreter.interpret(sutModelStream, expressionStream, outStream);
 
+		// FIXME: Remove file produced by outStream on fail.
 		if (completionFlag.isSet() && optUppaalJarFile.isPresent()) {
 			File uppaalJarFile = optUppaalJarFile.get();
 			if (outputFile != null && outputFile.exists()) {
