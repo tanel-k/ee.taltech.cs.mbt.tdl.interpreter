@@ -10,7 +10,6 @@ import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.bridge.Configura
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.bridge.DelegatingAntlrErrorListener;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectUtils;
-import ee.taltech.cs.mbt.tdl.commons.utils.strings.WordUtils;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -57,11 +56,7 @@ public abstract class AbsAntlrParserFacade<OutputType, ParserType extends Parser
 			if (!getSyntaxErrors().isEmpty()) {
 				pw.println("Syntax errors:");
 				for (SyntaxError syntaxError : getSyntaxErrors()) {
-					pw.println(
-							syntaxError.getLine()
-									+ ":" + syntaxError.getCharPositionInLine()
-									+ " - " + WordUtils.capitalize(syntaxError.getMessage())
-					);
+					pw.println(syntaxError.toSingleLineMessage());
 				}
 			}
 

@@ -1,5 +1,7 @@
 package ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.WordUtils;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -56,6 +58,10 @@ public class ErrorListener {
 		public SyntaxError setException(Exception ex) {
 			this.ex = ex;
 			return this;
+		}
+
+		public String toSingleLineMessage() {
+			return getLine() + ":" + getCharPositionInLine() + " - " + WordUtils.capitalize(getMessage());
 		}
 
 		@Override

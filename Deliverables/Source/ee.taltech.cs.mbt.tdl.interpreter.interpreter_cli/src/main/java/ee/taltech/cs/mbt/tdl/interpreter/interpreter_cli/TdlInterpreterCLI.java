@@ -50,7 +50,7 @@ public class TdlInterpreterCLI {
 		String expression = options.getExpression();
 		File modelFile = options.getModelFile();
 		Optional<File> optOutputFile = options.getOutputFile();
-		Optional<File> optUppaalJarFile = options.getUppaalJar();
+		Optional<File> optUppaalJARFile = options.getUppaalJAR();
 
 		OutputStream outStream;
 		ByteArrayOutputStream byteArrOutStream = null;
@@ -107,14 +107,16 @@ public class TdlInterpreterCLI {
 			}
 		}
 
-		if (outputFile != null && completionFlag.isSet() && optUppaalJarFile.isPresent()) {
-			File uppaalJarFile = optUppaalJarFile.get();
+		if (outputFile != null && completionFlag.isSet() && optUppaalJARFile.isPresent()) {
+			File uppaalJARFile = optUppaalJARFile.get();
 			try {
 				String command = String.format(
-						"java -jar \"%s\" \"%s\"",
-						uppaalJarFile.getAbsoluteFile(),
+						"\"%s\\bin\\java.exe\" -jar \"%s\" \"%s\"",
+						System.getProperty("java.home"),
+						uppaalJARFile.getAbsoluteFile(),
 						outputFile.getAbsolutePath()
 				);
+				out.println("Starting UPPAAL with command: " + command);
 				Runtime.getRuntime().exec(command);
 			} catch (IOException ex) {
 				err.println("ERROR: Cannot send command to Uppaal JAR.");
@@ -142,8 +144,7 @@ public class TdlInterpreterCLI {
 			} catch (CmdLineException ex) {
 				printUsageError(ex);
 				System.exit(EReturnStatus.INVALID_ARGUMENTS.value());
-				// Formality:
-				return;
+				return; // Formality.
 			}
 
 			if (options.isPrintHelpMessage()) {

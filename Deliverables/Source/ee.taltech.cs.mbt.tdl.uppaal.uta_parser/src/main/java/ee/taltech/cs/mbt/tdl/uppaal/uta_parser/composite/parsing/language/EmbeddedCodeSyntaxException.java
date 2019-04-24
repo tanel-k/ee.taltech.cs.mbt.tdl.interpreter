@@ -39,7 +39,7 @@ public class EmbeddedCodeSyntaxException extends Exception {
 		if (!getSyntaxErrors().isEmpty()) {
 			pw.println("Syntax errors:");
 			for (SyntaxError syntaxError : getSyntaxErrors()) {
-				pw.println(syntaxError.getLine() + ":" + syntaxError.getCharPositionInLine() + " - " + syntaxError.getMessage());
+				pw.println(syntaxError.toSingleLineMessage());
 			}
 		}
 

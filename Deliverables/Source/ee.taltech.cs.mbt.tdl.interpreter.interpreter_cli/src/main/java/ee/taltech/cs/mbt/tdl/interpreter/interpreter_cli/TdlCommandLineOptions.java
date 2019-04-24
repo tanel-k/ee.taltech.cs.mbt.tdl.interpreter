@@ -6,20 +6,45 @@ import java.io.File;
 import java.util.Optional;
 
 public class TdlCommandLineOptions {
-	@Option(name = "-h", aliases = "--help", usage = "Print help information.", help = true)
-	private boolean printHelpMessage;
-	@Option(name = "-e", aliases = "--expression", required = true, usage = "Test specification TDL expression.")
-	private String expression;
-	@Option(name = "-m", aliases = "--model", required = true, usage = "Uppaal SUT model file path.")
-	private File modelFile;
-	@Option(name = "-v", aliases = "--verbose", usage = "Enables verbose output.")
-	private boolean verbose;
-	@Option(name = "-t", aliases = "--traces", usage = "Enables error trace printing.")
-	private boolean tracePrintingEnabled;
-	@Option(name = "-o", aliases = "--output", usage = "Output project file path.")
-	private File outputFile;
-	@Option(name = "-u", aliases = "--uppaal", usage = "Path to Uppaal JAR.", depends = "-o")
-	private File uppaalJar;
+	@Option(
+			name = "-h",
+			aliases = "--help",
+			usage = "Print usage information.",
+			help = true
+	) private boolean printHelpMessage;
+	@Option(
+			name = "-e",
+			aliases = "--expression",
+			required = true,
+			usage = "Test specification TDL expression."
+	) private String expression;
+	@Option(
+			name = "-m",
+			aliases = "--model",
+			required = true,
+			usage = "UPPAAL SUT model file path."
+	) private File modelFile;
+	@Option(
+			name = "-v",
+			aliases = "--verbose",
+			usage = "Enables verbosity (unless streaming to std output)."
+	) private boolean verbose;
+	@Option(
+			name = "-t",
+			aliases = "--traces",
+			usage = "Enables error trace printing."
+	) private boolean tracePrintingEnabled;
+	@Option(
+			name = "-o",
+			aliases = "--output",
+			usage = "File path for storing the resulting UPPAAL model. When omitted, results are pushed to std output."
+	) private File outputFile;
+	@Option(
+			name = "-u",
+			aliases = "--uppaal",
+			usage = "Path to UPPAAL JAR. When -o|--output is available, used to open the result model in UPPAAL.",
+			depends = "-o"
+	) private File uppaalJAR;
 
 	public boolean isPrintHelpMessage() {
 		return printHelpMessage;
@@ -69,11 +94,11 @@ public class TdlCommandLineOptions {
 		this.outputFile = outputFile;
 	}
 
-	public Optional<File> getUppaalJar() {
-		return Optional.ofNullable(uppaalJar);
+	public Optional<File> getUppaalJAR() {
+		return Optional.ofNullable(uppaalJAR);
 	}
 
-	public void setUppaalJar(File uppaalJar) {
-		this.uppaalJar = uppaalJar;
+	public void setUppaalJAR(File uppaalJAR) {
+		this.uppaalJAR = uppaalJAR;
 	}
 }

@@ -2,7 +2,6 @@ package ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli.interpretation_listene
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListener.SyntaxError;
-import ee.taltech.cs.mbt.tdl.commons.utils.strings.WordUtils;
 import ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli.EReturnStatus;
 import ee.taltech.cs.mbt.tdl.interpreter.interpreter_core.listeners.IInterpretationErrorListener;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor.InvalidBaseTrapsetDefinitionException;
@@ -21,8 +20,10 @@ public class PrintingErrorListener implements IInterpretationErrorListener {
 	private Consumer<EReturnStatus> errorStatusHandler;
 
 	private void handleFailure(Throwable t, EReturnStatus returnStatus) {
-		if (printTraces)
+		if (printTraces) {
+			out.println();
 			t.printStackTrace(out);
+		}
 		errorStatusHandler.accept(returnStatus);
 	}
 
@@ -36,9 +37,7 @@ public class PrintingErrorListener implements IInterpretationErrorListener {
 	public void onExpressionParseFailure(ParseException ex) {
 		out.println("ERROR: TDL expression contains syntax error(s):");
 		for (SyntaxError syntaxError : ex.getSyntaxErrors()) {
-			out.println(
-					syntaxError.getLine() + ":" + syntaxError.getCharPositionInLine() + " - " + syntaxError.getMessage()
-			);
+			out.println(syntaxError.toSingleLineMessage());
 		}
 		handleFailure(ex, EReturnStatus.EXPRESSION_PARSING_FAILED);
 	}
@@ -70,11 +69,7 @@ public class PrintingErrorListener implements IInterpretationErrorListener {
 		out.println();
 		out.println("Syntax errors:");
 		for (SyntaxError syntaxError : ex.getSyntaxErrors()) {
-			out.println(
-					syntaxError.getLine()
-							+ ":" + syntaxError.getCharPositionInLine()
-							+ " - " + WordUtils.capitalize(syntaxError.getMessage())
-			);
+			out.println(syntaxError.toSingleLineMessage());
 		}
 		handleFailure(ex, EReturnStatus.MODEL_PARSING_FAILED);
 	}
