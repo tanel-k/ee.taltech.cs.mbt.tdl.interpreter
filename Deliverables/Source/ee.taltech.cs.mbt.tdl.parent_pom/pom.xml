@@ -150,6 +150,23 @@
           <artifactId>maven-clean-plugin</artifactId>
           <version>${mavenCleaner.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>${mavenShadePlugin.version}</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+                <createDependencyReducedPom>false</createDependencyReducedPom>
+                <minimizeJar>true</minimizeJar>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -162,8 +179,8 @@
     <mavenCompiler.version>3.3</mavenCompiler.version>
     <mavenCleaner.version>3.1.0</mavenCleaner.version>
     <stringTemplate.version>4.0.8</stringTemplate.version>
+    <mavenShadePlugin.version>3.2.0</mavenShadePlugin.version>
     <jaxb2Plugin.version>2.3</jaxb2Plugin.version>
-    <spotBugs.version>3.1.11</spotBugs.version>
   </properties>
 
   <name>TDL(TP) Interpreter Parent POM</name>
