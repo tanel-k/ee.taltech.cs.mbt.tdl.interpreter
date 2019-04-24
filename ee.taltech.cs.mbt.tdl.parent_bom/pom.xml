@@ -5,23 +5,23 @@
 
   <groupId>ee.taltech.cs.mbt.tdl</groupId>
   <artifactId>parent_bom</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>pom</packaging>
 
   <properties>
-    <commons.utils.version>1.0-SNAPSHOT</commons.utils.version>
-    <commons.stFacade.version>1.0-SNAPSHOT</commons.stFacade.version>
-    <commons.antlrFacade.version>1.0-SNAPSHOT</commons.antlrFacade.version>
-    <uta.model.version>1.0-SNAPSHOT</uta.model.version>
-    <uta.grammar.version>1.0-SNAPSHOT</uta.grammar.version>
-    <uta.parser.version>1.0-SNAPSHOT</uta.parser.version>
-    <uta.pickler.version>1.0-SNAPSHOT</uta.pickler.version>
-    <tdl.model.version>1.0-SNAPSHOT</tdl.model.version>
-    <tdl.grammar.version>1.0-SNAPSHOT</tdl.grammar.version>
-    <tdl.parser.version>1.0-SNAPSHOT</tdl.parser.version>
-    <scenario.composer.version>1.0-SNAPSHOT</scenario.composer.version>
-    <interpreter.core.version>1.0-SNAPSHOT</interpreter.core.version>
-    <interpreter.cli.version>1.0-SNAPSHOT</interpreter.cli.version>
+    <commons.utils.version>1.0</commons.utils.version>
+    <commons.stFacade.version>1.0</commons.stFacade.version>
+    <commons.antlrFacade.version>1.0</commons.antlrFacade.version>
+    <uta.model.version>1.0</uta.model.version>
+    <uta.grammar.version>1.0</uta.grammar.version>
+    <uta.parser.version>1.0</uta.parser.version>
+    <uta.pickler.version>1.0</uta.pickler.version>
+    <tdl.model.version>1.0</tdl.model.version>
+    <tdl.grammar.version>1.0</tdl.grammar.version>
+    <tdl.parser.version>1.0</tdl.parser.version>
+    <scenario.composer.version>1.0</scenario.composer.version>
+    <interpreter.core.version>1.0</interpreter.core.version>
+    <interpreter.cli.version>1.0</interpreter.cli.version>
   </properties>
 
   <dependencyManagement>

@@ -6,12 +6,12 @@
   <parent>
     <groupId>ee.taltech.cs.mbt.tdl</groupId>
     <artifactId>parent_bom</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <relativePath>../ee.taltech.cs.mbt.tdl.parent_bom/pom.xml</relativePath>
   </parent>
 
   <artifactId>parent_pom</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>pom</packaging>
 
   <modules>
