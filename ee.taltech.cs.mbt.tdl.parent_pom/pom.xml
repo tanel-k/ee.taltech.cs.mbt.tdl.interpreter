@@ -1,0 +1,128 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ee.taltech.cs.mbt.tdl</groupId>
+    <artifactId>parent_bom</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../ee.taltech.cs.mbt.tdl.parent_bom/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>parent_pom</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>../ee.taltech.cs.mbt.tdl.commons.utils</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.antlr_facade</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.st_facade</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_model</module>
+    <module>../ee.taltech.cs.mbt.tdl.expression.tdl_model</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_grammar</module>
+    <module>../ee.taltech.cs.mbt.tdl.expression.tdl_grammar</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_parser</module>
+    <module>../ee.taltech.cs.mbt.tdl.expression.tdl_parser</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin</module>
+    <module>../ee.taltech.cs.mbt.tdl.scenario.scenario_composer</module>
+    <module>../ee.taltech.cs.mbt.tdl.interpreter.interpreter_core</module>
+    <module>../ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4</artifactId>
+        <version>${antlr.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>ST4</artifactId>
+        <version>${stringTemplate.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>jaxb2-maven-plugin</artifactId>
+          <version>${jaxb2Plugin.version}</version>
+          <configuration>
+            <clearOutputDir>false</clearOutputDir>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${mavenCompiler.version}</version>
+          <configuration>
+            <source>${source.version}</source>
+            <target>${target.version}</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
+          <artifactId>uta_pickler_plugin</artifactId>
+          <version>${uta.pickler.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.antlr</groupId>
+          <artifactId>antlr4-maven-plugin</artifactId>
+          <version>${antlr.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${mavenCleaner.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>${mavenShadePlugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <source.version>1.8</source.version>
+    <target.version>1.8</target.version>
+    <antlr.version>4.5</antlr.version>
+    <mavenCompiler.version>3.3</mavenCompiler.version>
+    <mavenCleaner.version>3.1.0</mavenCleaner.version>
+    <stringTemplate.version>4.0.8</stringTemplate.version>
+    <mavenShadePlugin.version>3.2.0</mavenShadePlugin.version>
+    <jaxb2Plugin.version>2.3</jaxb2Plugin.version>
+  </properties>
+
+  <name>TDL(TP) Interpreter Parent POM</name>
+  <description />
+  <inceptionYear>2019</inceptionYear>
+  <organization>
+    <name>TalTech</name>
+    <url>https://www.taltech.ee</url>
+  </organization>
+  <developers>
+    <developer>
+      <id>null</id>
+      <name>Tanel Prikk</name>
+      <email>tanel.prikk@taltech.ee</email>
+      <organization>TalTech</organization>
+      <organizationUrl>https://www.taltech.ee</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <system>GitLab</system>
+    <url>https://gitlab.cs.ttu.ee/Tanel.Prikk/iapb/issues</url>
+  </issueManagement>
+</project>
