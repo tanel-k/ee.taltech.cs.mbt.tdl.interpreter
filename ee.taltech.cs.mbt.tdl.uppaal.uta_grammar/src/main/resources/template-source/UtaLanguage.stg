@@ -1,0 +1,463 @@
+// BEGIN: System definition
+systemDefinition(ctx) ::=<<
+<if(ctx.declarations)><systemDeclarations(ctx.declarations)><endif>
+<if(ctx.systemLine)><systemLine(ctx.systemLine)><endif>
+<if(ctx.progressMeasures)><progressMeasureDeclaration(ctx.progressMeasures)><endif>
+>>
+
+systemDeclarations(iterable) ::= <%
+    <iterable:declaration(); separator="\n">
+%>
+
+systemLine(ctx) ::= <%
+    system <ctx.processReferenceGroups:processReferenceGroup(); separator="\n    < ">;
+%>
+
+progressMeasureDeclaration(iterable) ::= <<progress {
+    <iterable:progressExpression(); separator="\n">
+}>>
+
+// BEGIN: System definition utils
+processReferenceGroup(ctx) ::= <%
+    <ctx.processReferences:processRef(); separator=", ">
+%>
+
+processRef(identifierValue) ::= <%
+    <identifierValue>
+%>
+
+progressExpression(ctx) ::= <%
+    <expression(ctx)>;
+%>
+// END: System definition utils
+// END: System definition
+
+// BEGIN: Template
+selections(iterable) ::= <%
+    <iterable:selection(); separator=", ">
+%>
+
+selection(ctx) ::= <%
+    <ctx.variableName> : <baseType(ctx.baseType)>
+%>
+
+synchronization(ctx) ::= <%
+    <if(ctx.activeSync)>
+        <expression(ctx.expression)>!
+    <else>
+        <expression(ctx.expression)>?
+    <endif>
+%>
+// END: Template
+
+// BEGIN: Declarations
+declaration(ctx) ::= <%
+    <if(ctx.variableDeclaration)>
+        <variableDeclaration(ctx)>
+    <elseif(ctx.typeDeclaration)>
+        <typeDeclaration(ctx)>
+    <elseif(ctx.channelPriorityDeclaration)>
+        <channelPriorityDeclaration(ctx)>
+    <elseif(ctx.templateInstantiation)>
+        <templateInstantiation(ctx)>
+    <elseif(ctx.functionDeclaration)>
+        <functionDeclaration(ctx)>
+    <endif>
+%>
+
+channelPriorityDeclaration(ctx) ::= <%
+    chan priority <channelReferenceGroups(ctx.channelReferenceGroups)>;
+%>
+
+templateInstantiation(ctx) ::= <%
+    <ctx.newTemplateName>(<parameters(ctx.parameters)>) = <ctx.sourceTemplateName>(<arguments(ctx.arguments)>);
+%>
+
+functionDeclaration(ctx) ::= <%
+    <functionType(ctx.valueType)> <ctx.identifierValue>(<parameters(ctx.parameters)>) <statement(ctx.statementBlock)>
+%>
+
+variableDeclaration(ctx) ::= <%
+    <if(ctx.singleVariableDeclaration)>
+        <singleVariableDeclaration(ctx)>
+    <elseif(ctx.multiVariableDeclaration)>
+        <multiVariableDeclaration(ctx)>
+    <endif>
+%>
+
+typeDeclaration(ctx) ::= <%
+    <if(ctx.singleTypeDeclaration)>
+        <singleTypeDeclaration(ctx)>
+    <elseif(ctx.multiDeclaration)>
+        <multiTypeDeclaration(ctx)>
+    <endif>
+%>
+
+// BEGIN: Declaration utils
+functionType(ctx) ::= <%
+    <if(ctx)>
+        <baseType(ctx)>
+    <else>
+        void
+    <endif>
+%>
+
+channelReferenceGroups(iterable) ::= <%
+    <iterable:channelReferenceGroup(); separator=" < ">
+%>
+
+channelReferenceGroup(ctx) ::= <%
+    <ctx.channelReferences:channelReference(); separator=", ">
+%>
+
+channelReference(ctx) ::= <%
+    <if(ctx.defaultPriority)>
+        default
+    <elseif(ctx.channelIdentifier)>
+        <ctx.identifierValue>
+    <elseif(ctx.arrayLookup)>
+        <ctx.arrayName><ctx.arrayLookups:arrayLookup()>
+    <endif>
+%>
+
+arrayLookup(ctx) ::= <%
+    [<expression(ctx)>]
+%>
+
+singleVariableDeclaration(ctx) ::= <%
+    <baseType(ctx.type.baseType)> <if(ctx.type.referenceType)>&<endif><ctx.identifierValue><arrayModifiers(ctx.type.arrayModifiers)>
+    <if(ctx.initializer)> = <variableInitializer(ctx.initializer)><endif>;
+%>
+
+multiVariableDeclaration(ctx) ::= <%
+    <baseType(ctx.baseType)> <ctx.subDeclarations:subVariableDeclaration(); separator=", ">;
+%>
+
+subVariableDeclaration(ctx) ::= <%
+    <ctx.identifierValue><arrayModifiers(ctx.arrayModifiers)>
+    <if(ctx.initializer)> = <variableInitializer(ctx.initializer)><endif>
+%>
+
+variableInitializer(ctx) ::= <<<if(ctx.structuredInitializer)>{
+    <ctx.nestedInitializers:variableInitializer(); separator=",\n">
+}<elseif(ctx.flatInitializer)><expression(ctx.expression)><endif>
+>>
+
+singleTypeDeclaration(ctx) ::= <%
+    typedef <baseType(ctx.type.baseType)> <ctx.identifierValue><arrayModifiers(ctx.type.arrayModifiers)>;
+%>
+
+multiTypeDeclaration(ctx) ::= <%
+    typedef <baseType(ctx.baseType)> <ctx.subDeclarations:subTypeDeclaration(); separator=", ">;
+%>
+
+subTypeDeclaration(ctx) ::= <%
+    <ctx.identifierValue><arrayModifiers(ctx.arrayModifiers)>
+%>
+// END: Declaration utils
+// END: Declarations
+
+// BEGIN: Statements
+statement(ctx) ::= <%
+    <if(ctx.blockStatement)>
+        <blockStmt(ctx)>
+    <elseif(ctx.forLoopStatement)>
+        <forStmt(ctx)>
+    <elseif(ctx.iterationStatement)>
+        <iterationStmt(ctx)>
+    <elseif(ctx.whileStatement)>
+        <whileStmt(ctx)>
+    <elseif(ctx.doWhileStatement)>
+        <doWhileStmt(ctx)>
+    <elseif(ctx.conditionalStatement)>
+        <conditionalStmt(ctx)>
+    <elseif(ctx.expressionStatement)>
+        <expression(ctx.expression)>;
+    <elseif(ctx.returnStatement)>
+        return<if(ctx.expression)> <expression(ctx.expression)><endif>;
+    <elseif(ctx.emptyStatement)>
+        ;
+    <endif>
+%>
+
+blockStmt(ctx) ::= <<{
+<if(ctx.declarations)>
+    <declarations(ctx.declarations)>
+<endif><if(ctx.statements)>
+    <ctx.statements:statement(); separator="\n">
+<endif>}>>
+
+forStmt(ctx) ::= <<for (<expression(ctx.initializer)>; <expression(ctx.condition)>; <expression(ctx.update)>)
+<statement(ctx.statement)>
+>>
+
+iterationStmt(ctx) ::= <<for (<ctx.identifierValue> : <baseType(ctx.iteratedType)>)
+<statement(ctx.statement)>
+>>
+
+whileStmt(ctx) ::= <<while (<expression(ctx.condition)>)
+<statement(ctx.statement)>
+>>
+
+doWhileStmt(ctx) ::= <<do
+<statement(ctx.statement)>
+while (<expression(ctx.condition)>);
+>>
+
+conditionalStmt(ctx) ::= <<if (<expression(ctx.condition)>)
+<statement(ctx.primary)><if(ctx.alternative)>
+else
+<statement(ctx.alternative)><endif>
+>>
+// END: Statements
+
+// BEGIN: Expressions
+expression(ctx) ::= <%
+    <if(ctx.group)>
+        (<expression(ctx.child)>)
+    <elseif(ctx.arrayLookup)>
+        <expression(ctx.leftChild)>[<expression(ctx.rightChild)>]
+    <elseif(ctx.fieldAccess)>
+        <expression(ctx.child)>.<ctx.identifierValue>
+    <elseif(ctx.negation)>
+        <if(ctx.phrasal)>
+            not <expression(ctx.child)>
+        <else>
+            !<expression(ctx.child)>
+        <endif>
+    <elseif(ctx.implication)>
+        <expression(ctx.leftChild)> imply <expression(ctx.rightChild)>
+    <elseif(ctx.conjunction)>
+        <if(ctx.phrasal)>
+            <expression(ctx.leftChild)> and <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> && <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.disjunction)>
+        <if(ctx.phrasal)>
+            <expression(ctx.leftChild)> or <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> || <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.prefixIncrement)>
+        ++<expression(ctx.child)>
+    <elseif(ctx.postfixIncrement)>
+        <expression(ctx.child)>++
+    <elseif(ctx.prefixDecrement)>
+        --<expression(ctx.child)>
+    <elseif(ctx.postfixDecrement)>
+        <expression(ctx.child)>--
+    <elseif(ctx.additiveInverse)>
+        -<expression(ctx.child)>
+    <elseif(ctx.additiveIdentity)>
+        +<expression(ctx.child)>
+    <elseif(ctx.multiplication)>
+        <if(ctx.assignment)>
+            <expression(ctx.leftChild)> *= <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> * <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.division)>
+        <if(ctx.assignment)>
+            <expression(ctx.leftChild)> /= <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> / <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.modulo)>
+        <if(ctx.assignment)>
+            <expression(ctx.leftChild)> %= <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> % <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.subtraction)>
+        <if(ctx.assignment)>
+            <expression(ctx.leftChild)> -= <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> - <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.addition)>
+        <if(ctx.assignment)>
+            <expression(ctx.leftChild)> += <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> + <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.leftShift)>
+        <if(ctx.assignment)>
+            <expression(ctx.leftChild)> \<\<= <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> \<\< <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.rightShift)>
+        <if(ctx.assignment)>
+            <expression(ctx.leftChild)> >>= <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> >> <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.maximum)>
+        <expression(ctx.leftChild)> >? <expression(ctx.rightChild)>
+    <elseif(ctx.minimum)>
+        <expression(ctx.leftChild)> \<? <expression(ctx.rightChild)>
+    <elseif(ctx.lessThan)>
+        <expression(ctx.leftChild)> \< <expression(ctx.rightChild)>
+    <elseif(ctx.lessThanOrEqual)>
+        <expression(ctx.leftChild)> \<= <expression(ctx.rightChild)>
+    <elseif(ctx.greaterThan)>
+        <expression(ctx.leftChild)> > <expression(ctx.rightChild)>
+    <elseif(ctx.greaterThanOrEqual)>
+        <expression(ctx.leftChild)> >= <expression(ctx.rightChild)>
+    <elseif(ctx.equality)>
+        <expression(ctx.leftChild)> == <expression(ctx.rightChild)>
+    <elseif(ctx.inequality)>
+        <expression(ctx.leftChild)> != <expression(ctx.rightChild)>
+    <elseif(ctx.bitwiseAnd)>
+        <if(ctx.assignment)>
+            <expression(ctx.leftChild)> &= <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> & <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.bitwiseXor)>
+        <if(ctx.assignment)>
+            <expression(ctx.leftChild)> ^= <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> ^ <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.bitwiseOr)>
+        <if(ctx.assignment)>
+            <expression(ctx.leftChild)> |= <expression(ctx.rightChild)>
+        <else>
+            <expression(ctx.leftChild)> | <expression(ctx.rightChild)>
+        <endif>
+    <elseif(ctx.ternary)>
+        <expression(ctx.leftChild)> ? <expression(ctx.middleChild)> : <expression(ctx.rightChild)>
+    <elseif(ctx.existentialQuantification)>
+        exists (<ctx.identifierValue> : <baseType(ctx.baseType)>) <expression(ctx.child)>
+    <elseif(ctx.universalQuantification)>
+        forall (<ctx.identifierValue> : <baseType(ctx.baseType)>) <expression(ctx.child)>
+    <elseif(ctx.assignmentExpression)>
+        <expression(ctx.leftChild)> = <expression(ctx.rightChild)>
+    <elseif(ctx.call)>
+        <expression(ctx.child)>(<arguments(ctx.arguments)>)
+    <elseif(ctx.literal)>
+        <literal(ctx)>
+    <elseif(ctx.identifier)>
+        <ctx.identifierValue>
+    <endif>
+%>
+
+// BEGIN: Expression utils
+literal(ctx) ::= <%
+    <if(ctx.deadlockLiteral)>
+        deadlock
+    <elseif(ctx.trueLiteral)>
+        true
+    <elseif(ctx.falseLiteral)>
+        false
+    <elseif(ctx.naturalNumberLiteral)>
+        <ctx.naturalNumber>
+    <endif>
+%>
+// END: Expression utils
+// END: Expressions
+
+// BEGIN: Types
+baseType(ctx) ::= <%
+    <if(ctx.prefix)><typePrefix(ctx.prefix)> <endif><typeId(ctx.typeId)>
+%>
+
+typePrefix(ctx) ::= <%
+    <if(ctx.urgent)>
+        urgent
+    <elseif(ctx.broadcast)>
+        broadcast
+    <elseif(ctx.meta)>
+        meta
+    <elseif(ctx.constant)>
+        const
+    <endif>
+%>
+
+typeId(ctx) ::= <%
+    <if(ctx.struct)>
+        struct <fieldDeclarations(ctx.fieldDeclarations)>
+    <elseif(ctx.scalar)>
+        scalar [<expression(ctx.expression)>]
+    <elseif(ctx.customType)>
+        <ctx.identifierValue>
+    <elseif(ctx.boundedInt)>
+        int[<expression(ctx.minExpression)>, <expression(ctx.maxExpression)>]
+    <elseif(ctx.boolean)>
+        bool
+    <elseif(ctx.int)>
+        int
+    <elseif(ctx.chan)>
+        chan
+    <elseif(ctx.clock)>
+        clock
+    <endif>
+%>
+
+// BEGIN: Type utils
+fieldDeclarations(iterable) ::= <<{
+    <iterable:fieldDeclaration(); separator="\n">
+}
+>>
+
+fieldDeclaration(ctx) ::= <%
+    <if(ctx.singleDeclaration)>
+        <singleDeclaration(ctx)>
+    <elseif(ctx.multiDeclaration)>
+        <multiDeclaration(ctx)>
+    <endif>
+%>
+
+singleDeclaration(ctx) ::= <%
+    <baseType(ctx.type.baseType)> <if(ctx.type.referenceType)>&<endif><ctx.name><arrayModifiers(ctx.type.arrayModifiers)>;
+%>
+
+multiDeclaration(ctx) ::= <%
+    <baseType(ctx.baseType)> <extendedTypes(ctx.extendedTypes)>;
+%>
+// END: Type utils
+// END: Types
+
+// BEGIN: General utils
+expressions(iterable) ::= <%
+    <iterable:expression(); separator=",\n">
+%>
+
+arguments(iterable) ::= <%
+    <iterable:expression(); separator=", ">
+%>
+
+parameters(iterable) ::= <%
+    <iterable:parameter(); separator=", ">
+%>
+
+declarations(iterable) ::= <%
+    <iterable:declaration(); separator="\n">
+%>
+
+parameter(ctx) ::= <%
+    <baseType(ctx.type.baseType)> <if(ctx.type.referenceType)>&<endif><ctx.name><arrayModifiers(ctx.type.arrayModifiers)>
+%>
+
+extendedTypes(iterable) ::= <%
+    <iterable:extendedType(); separator=", ">
+%>
+
+extendedType(ctx) ::= <%
+    <if(ctx.referenceType)>&<endif><ctx.identifierValue><ctx.arrayModifiers:arrayModifier()>
+%>
+
+arrayModifiers(iterable) ::= <%
+    <iterable:arrayModifier()>
+%>
+
+arrayModifier(ctx) ::= <%
+    <if(ctx.sizeFromType)>
+        [<baseType(ctx.sizeType)>]
+    <elseif(ctx.sizeFromExpression)>
+        [<expression(ctx.sizeExpression)>]
+    <endif>
+%>
+// END: General utils

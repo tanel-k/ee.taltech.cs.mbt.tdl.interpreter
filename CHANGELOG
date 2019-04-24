@@ -1,14 +1,46 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [X.Y.Z] YYYY-MM-DDD
-### Changed
-- Example change.
-
+## [1.0] - 2019-04-24
 ### Added
-- Example addition.
+- #24: Created ee.taltech.cs.mbt.tdl.expression.grammar; an ANTLR parser/lexer for TDL<sup>TP</sup>.
+- #24: Simplified component documentation folder structure.
+- #24: Added IntelliJ fluff to .gitignore.
+- #25: Created ee.taltech.cs.mbt.tdl.expression.model:
+    Can be used to decouple higher level logic from ANTLR generated code
+- #26: Created ee.taltech.cs.mbt.tdl.expression.grammar_facade.
+- #31: Created ee.taltech.cs.mbt.tdl.commons.utils.
+- #31: Created ee.taltech.cs.mbt.tdl.commons.antlr_facade (from ee.taltech.cs.mbt.tdl.expression.grammar_facade):
+    Interface simplification library for ANTLR-generated lexers/parsers.
+- #31: Created ee.taltech.cs.mbt.tdl.commons.st_facade:
+    Interface simplification library for StringTemplate-based code generation.
+    Object model for representing TDL(TP) expression trees.
+- #31: Created ee.taltech.cs.mbt.tdl.expression.tdl_parser:
+    Parser implementation for TDP(TP) expressions (based on tdl_grammar and antlr_facade).
+- #31: Created ee.taltech.cs.mbt.tdl.uppaal.model:
+    Object model for representing UPPAAL (UTA) systems.
+- #31: Created ee.taltech.cs.mbt.tdl.uppaal.grammar:
+    ANTLR4 grammar for UTA's declaration language.
+- #31: Created ee.taltech.cs.mbt.tdl.uppaal.uta_parser:
+    Parser implementation for UTA systems (based on uppaal_grammar, antlr_facade and xjc).
+- #31: Created ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin:
+    Maven plugin for generating uppaal.model-based Java factory class source code from UTA XML files.
+- #31: Created ee.taltech.cs.mbt.tdl.scenario.scenario_composer:
+    Contains logic for applying a TDL expression object to a UTA model object in order to produce a scenario object model.
+- #31: Created ee.taltech.cs.mbt.tdl.interpreter.interpreter_core:
+    Core logic for client TDL(TP) interpreters.
+- #31: Created ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli:
+    CLI TDL(TP) interpreter.
+- #31: Created ee.taltech.cs.mbt.tdl.parent_bom:
+    Maven Bill of Materials for the project.
+- #31: Created ee.taltech.cs.mbt.tdl.parent_pom:
+    Maven parent POM for the project.
+
+### Changed
+- #26: Use composition instead of an interface-based hack for a convenient operand contract for clients in ee.taltech.cs.mbt.tdl.expression.model.
+- #27: Fix errors in ee.taltech.cs.mbt.tdl.expression.grammar.
+- #31: Refactored ee.taltech.cs.mbt.tdl.expression.grammar into ee.taltech.cs.mbt.tdl.expression.tdl_grammar.
+- #31: Refactored ee.taltech.cs.mbt.tdl.expression.model into ee.taltech.cs.mbt.tdl.expression.tdl_model.
 
 ### Removed
-- Example removal.
-
-
+- #26: Removed ee.taltech.cs.mbt.tdl.expression.parser.

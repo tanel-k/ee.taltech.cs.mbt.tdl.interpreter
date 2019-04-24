@@ -1,0 +1,944 @@
+systemFactoryClassName(ctx) ::= <%
+    <ctx.name;format="cap">SystemFactory
+%>
+
+
+systemFactory(ctx) ::= <<
+package <ctx.package>;
+
+import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
+
+<ctx.imports:{importPath|import <importPath>;}; separator="\n">
+
+import java.util.LinkedList;
+
+public class <systemFactoryClassName(ctx)> {
+    <ctx.templates:templateFactory(); separator="\n">
+<if(ctx.systemDefinition)>
+    <systemDefinitionFactory(ctx.name, ctx.systemDefinition)>
+<endif>
+    public static <systemFactoryClassName(ctx)> getInstance() {
+        return new <systemFactoryClassName(ctx)>();
+    }
+
+    <ctx.declarations:declaredName()>
+    <ctx.templates:{tplCtx|public static final Identifier DECLARED_NAME_<tplCtx.name> = Identifier.of("<tplCtx.name>");}; separator="\n">
+
+    protected <systemFactoryClassName(ctx)>() { }
+
+    <ctx.declarations:declarationConstructor(); separator="\n">
+
+    <ctx.templates:templateConstructor(); separator="\n">
+
+    <systemDefinitionConstructor(ctx.name, ctx.systemDefinition)>
+
+    public UtaSystem constructSystem() {
+        UtaSystem <ctx.name> = new UtaSystem();
+
+        // Set global declarations:
+        <ctx.declarations:{declCtx|<declarationConsumer(ctx.name, declCtx)>}; separator="\n">
+
+        // Set templates:
+        <ctx.templates:{templateCtx|<templateConsumer(ctx.name, templateCtx)>}; separator="\n">
+<if(ctx.systemDefinition)>
+        // Set system definition:
+        <systemDefinitionConsumer(ctx.name)>
+<endif>
+        return <ctx.name>;
+    }
+}
+>>
+
+systemDefinitionFactory(systemName, ctx) ::= <<
+public static class <systemName;format="cap">SystemDefinitionFactory {
+    public static <systemName;format="cap">SystemDefinitionFactory getInstance() {
+        return new <systemName;format="cap">SystemDefinitionFactory();
+    }
+
+    protected <systemName;format="cap">SystemDefinitionFactory() { }
+
+    <ctx.declarations:declarationConstructor(); separator="\n">
+
+<if(ctx.systemLine)>
+    <ctx.systemLine.processReferenceGroups:{grpCtx|
+    <grpCtx.identifiers:{identifier|
+    protected static final Identifier ProcessReference<identifier;format="cap"> = Identifier.of("<identifier>");
+    }>}>
+
+    protected SystemLine newSystemLine() {
+        return new SystemLine()
+        <ctx.systemLine.processReferenceGroups:{grpCtx|
+            .addGroup(
+                new ProcessReferenceGroup()
+                    <grpCtx.identifiers:{identifier|
+                    .addIdentifier(Identifier.of("<identifier>"))}>
+            )}>;
+    }
+<endif>
+
+    public SystemDefinition newSystemDefinition() {
+        SystemDefinition systemDefinition = new SystemDefinition();
+
+        // Set local declarations:
+        <ctx.declarations:{declCtx|<declarationConsumer("systemDefinition", declCtx)>}; separator="\n">
+<if(ctx.systemLine)>
+        // Set system line:
+        systemDefinition.setSystemLine(newSystemLine());
+<endif>
+        // Set progress measures:
+        <ctx.progressMeasures:{exprCtx|
+        systemDefinition.addProgressMeasure(<newExpression(exprCtx)>);
+        }>
+
+        return systemDefinition;
+    }
+}
+>>
+
+systemDefinitionConstructor(systemName, ctx) ::= <<
+protected SystemDefinition newSystemDefinition() {
+    return <systemName;format="cap">SystemDefinitionFactory.getInstance()
+            .newSystemDefinition();
+}
+>>
+
+systemDefinitionConsumer(targetVar) ::= <<
+SystemDefinition systemDefinition = newSystemDefinition();
+if (systemDefinition != null) {
+    <targetVar>.setSystemDefinition(systemDefinition);
+}
+>>
+
+templateFactory(ctx) ::= <<
+public static class <ctx.name>TemplateFactory {
+    public static <ctx.name>TemplateFactory getInstance() {
+        return new <ctx.name>TemplateFactory();
+    }
+
+    public static final Identifier TEMPLATE_NAME = Identifier.of("<ctx.name>");
+
+    <ctx.declarations:declaredName()>
+
+    public Identifier getTemplateName() {
+        return TEMPLATE_NAME;
+    }
+
+    protected <ctx.name>TemplateFactory() { }
+
+    <ctx.parameters:parameterDeclarationConstructor(); separator="\n">
+
+    <ctx.declarations:declarationConstructor(); separator="\n">
+
+    <ctx.locations:locationConstructor(); separator="\n">
+
+    <ctx.transitions:transitionConstructor(); separator="\n">
+
+    <templateInstantiationConstructor(ctx)>
+
+    public Template newTemplate() {
+        Template <ctx.name> = new Template()
+            .setName(getTemplateName());
+
+        // Set parameter declarations:
+        <ctx.parameters:{paramCtx|<parameterDeclarationConsumer(ctx.name, paramCtx)>}; separator="\n">
+
+        // Set local declarations:
+        <ctx.declarations:{declCtx|<declarationConsumer(ctx.name, declCtx)>}; separator="\n">
+
+        // Set locations:
+        <ctx.locations:{locCtx|<locationConsumer(ctx.name, locCtx)>}; separator="\n">
+
+        // Set transitions:
+        <ctx.transitions:{trCtx|<transitionConsumer(ctx.name, trCtx)>}; separator="\n">
+
+        return <ctx.name>;
+    }
+}
+>>
+
+parameterDeclarationConstructor(ctx) ::= <<
+protected ParameterDeclaration new_<ctx.name>ParameterDeclaration() {
+    return <newParameter(ctx)>;
+}
+>>
+
+parameterDeclarationConsumer(targetVar, ctx) ::= <<
+CollectionUtils.addIfNonNull(
+    <targetVar>.getParameters(),
+    new_<ctx.name>ParameterDeclaration()
+);
+>>
+
+declaredName(ctx) ::= <%
+    <if(ctx.variableDeclaration)>
+        <if(ctx.singleVariableDeclaration)>
+            public static final Identifier DECLARED_NAME_<ctx.variableName> = Identifier.of("<ctx.variableName>");
+        <elseif(ctx.multiVariableDeclaration)>
+            public static final Identifier <ctx.subDeclarations:{subCtx|
+                DECLARED_NAME_<subCtx.variableName> = Identifier.of("<subCtx.variableName>")
+            }; separator=", ">;
+        <endif>
+    <elseif(ctx.typeDeclaration)>
+        <if(ctx.singleTypeDeclaration)>
+            public static final Identifier DECLARED_NAME_<ctx.typeName> = Identifier.of("<ctx.typeName>");
+        <elseif(ctx.multiTypeDeclaration)>
+            public static final Identifier <ctx.subDeclarations:{subCtx|
+                DECLARED_NAME_<subCtx.identifier> = Identifier.of("<subCtx.identifier>")
+            }; separator=", ">;
+        <endif>
+    <elseif(ctx.templateInstantiation)>
+        public static final Identifier DECLARED_NAME_<ctx.newTemplateName> = Identifier.of("<ctx.newTemplateName>");
+    <elseif(ctx.functionDeclaration)>
+        public static final Identifier DECLARED_NAME_<ctx.functionName> = Identifier.of("<ctx.functionName>");
+    <endif>
+%>
+
+templateInstantiationConstructor(ctx) ::= <<
+public TemplateInstantiation createInstantiation(Identifier newTemplateName,
+    <ctx.parameters:{paramCtx|AbsExpression arg_<paramCtx.identifier>}; separator=", ">
+) {
+    TemplateInstantiation inst = new TemplateInstantiation()
+        .setNewTemplateName(newTemplateName)
+        .setSourceTemplateName(getTemplateName());
+
+    // Set arguments/parameters:
+    <ctx.parameters:{paramCtx|
+    if (arg_<paramCtx.identifier> != null) {
+        inst.addArgument(arg_<paramCtx.identifier>);
+    \} else { // Either provide <paramCtx.identifier> argument or leave a parameter:
+        inst.addParameter(new_<paramCtx.name>ParameterDeclaration());
+    \}}>
+
+    return inst;
+}
+>>
+
+templateConstructor(ctx) ::= <<
+protected Template new_<ctx.name>Template() {
+    return <ctx.name>TemplateFactory.getInstance()
+        .newTemplate();
+}
+>>
+
+templateConsumer(targetVar, ctx) ::= <<
+CollectionUtils.addIfNonNull(
+    <targetVar>.getTemplates(),
+    new_<ctx.name>Template()
+);
+>>
+
+locationConstructor(ctx) ::= <<
+protected Location new<ctx.id;format="cap">Location() {
+    return <newLocation(ctx)>;
+}
+>>
+
+locationConsumer(targetVar, ctx) ::= <<
+Location location<ctx.id;format="cap"> = new<ctx.id;format="cap">Location();
+<targetVar;format="cap">.getLocationGraph()
+    .addVertex(location<ctx.id;format="cap">);
+<if(ctx.initial)><targetVar;format="cap">.setInitialLocation(location<ctx.id;format="cap">);<endif>
+>>
+
+transitionConstructor(ctx) ::= <<
+protected Transition new<ctx.name;format="cap">Transition<if(ctx.qualifier)><ctx.qualifier><endif>(Location source, Location target) {
+    return <newTransition(ctx, "source", "target")>;
+}
+>>
+
+transitionConsumer(targetVar, ctx) ::= <<
+Transition transition<ctx.name;format="cap"><if(ctx.qualifier)><ctx.qualifier><endif> = new<ctx.name;format="cap">Transition<if(ctx.qualifier)><ctx.qualifier><endif>(
+    location<ctx.sourceId;format="cap">,
+    location<ctx.targetId;format="cap">
+);
+<targetVar>.getLocationGraph().addEdge(
+    location<ctx.sourceId;format="cap">,
+    location<ctx.targetId;format="cap">,
+    transition<ctx.name;format="cap"><if(ctx.qualifier)><ctx.qualifier><endif>
+);
+>>
+
+declarationConstructor(ctx) ::= <<
+protected <declarationReturnType(ctx)> new_<ctx.name>Declaration() {
+    return <newDeclaration(ctx)>;
+}
+>>
+
+declarationConsumer(targetVar, ctx) ::= <<
+CollectionUtils.addIfNonNull(
+    <targetVar>.getDeclarations(),
+    new_<ctx.name>Declaration()
+);
+>>
+
+newLocation(ctx) ::= <<
+new Location()
+    .setId("<ctx.id>")
+<if(ctx.name)>
+    .setName(
+        new LocationName()
+            .setName("<ctx.name.value>")
+            .setCoordinates(GuiCoordinates.of(<ctx.name.coordinates.x>, <ctx.name.coordinates.y>))
+    )
+<endif>
+    .setExitPolicy(<locationExitPolicy(ctx.exitPolicy)>)
+    .setLabels(
+        new LocationLabels()
+<if(ctx.labels.invariant)>
+            .setInvariantLabel((InvariantLabel) <newInvariantLabel(ctx.labels.invariant)>)
+<endif>
+<if(ctx.labels.comment)>
+            .setCommentLabel((CommentLabel) <newCommentLabel(ctx.labels.comment)>)
+<endif>
+    )
+<if(ctx.color)>
+    .setColor(Color.of(<ctx.color.value>))
+<endif>
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+>>
+
+locationExitPolicy(ctx) ::= <%
+    <if(ctx.committed)>
+        ELocationExitPolicy.COMMITTED
+    <elseif(ctx.urgent)>
+        ELocationExitPolicy.URGENT
+    <else>
+        ELocationExitPolicy.NORMAL
+    <endif>
+%>
+
+newTransition(ctx, sourceLocationVar, targetLocationVar) ::= <<
+new Transition()
+<if(sourceLocationVar)>
+    .setSource(<sourceLocationVar>)
+<endif>
+<if(targetLocationVar)>
+    .setTarget(<targetLocationVar>)
+<endif>
+<if(ctx.color)>
+    .setColor(Color.of(<ctx.color.value>))
+<endif>
+    .setLabels(
+        new TransitionLabels()
+<if(ctx.labels.guard)>
+            .setGuardLabel((GuardLabel) <newGuardLabel(ctx.labels.guard)>)
+<endif>
+<if(ctx.labels.comment)>
+            .setCommentLabel((CommentLabel) <newCommentLabel(ctx.labels.comment)>)
+<endif>
+<if(ctx.labels.assignments)>
+            .setAssignmentsLabel((AssignmentsLabel) <newAssignmentsLabel(ctx.labels.assignments)>)
+<endif>
+<if(ctx.labels.selection)>
+            .setSelectionLabel((SelectionLabel) <newSelectionLabel(ctx.labels.selection)>)
+<endif>
+<if(ctx.labels.synchronization)>
+            .setSynchronizationLabel((SynchronizationLabel) <newSynchronizationLabel(ctx.labels.synchronization)>)
+<endif>
+    )
+    <ctx.nails:{nailCtx|
+    .addNail(GuiCoordinates.of(<nailCtx.x>, <nailCtx.y>))}>
+>>
+
+newCommentLabel(ctx) ::= <<
+new CommentLabel().setContent(<ctx.textLines:{txtLine|"<txtLine>\\n"}; separator="\n+ ">)
+>>
+
+newInvariantLabel(ctx) ::= <<
+new InvariantLabel()
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+    .setContent(<newExpression(ctx.expression)>)
+>>
+
+newGuardLabel(ctx) ::= <<
+new GuardLabel()
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+    .setContent(<newExpression(ctx.expression)>)
+>>
+
+newAssignmentsLabel(ctx) ::= <<
+new AssignmentsLabel()
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+    .setContent(
+        CollectionUtils.collectionBuilder(new LinkedList\<AbsExpression>())
+            <ctx.expressions:{exprCtx| .add(<newExpression(exprCtx)>) };separator="\n">
+            .build()
+    )
+>>
+
+newSelectionLabel(ctx) ::= <<
+new SelectionLabel()
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+    .setContent(
+        CollectionUtils.collectionBuilder(new LinkedList\<Selection>())
+            <ctx.selections:{selCtx|.add(<newSelection(selCtx)>)};separator="\n">
+            .build()
+    )
+>>
+
+newSelection(ctx) ::= <<
+new Selection()
+    .setVariableName(Identifier.of("<ctx.variableName>"))
+    .setSelectType(<newBaseType(ctx.selectType)>)
+>>
+
+newSynchronizationLabel(ctx) ::= <<
+new SynchronizationLabel()
+    .setCoordinates(GuiCoordinates.of(<ctx.coordinates.x>, <ctx.coordinates.y>))
+    .setContent(
+        new Synchronization()
+            .setActiveSync(<if(ctx.synchronization.active)>true<else>false<endif>)
+            .setExpression(<newExpression(ctx.synchronization.expression)>)
+    )
+>>
+
+newParameter(ctx) ::= <<
+new ParameterDeclaration()
+    .setIdentifier(Identifier.of("<ctx.identifier>"))
+    .setType(<newType(ctx.type)>)
+>>
+
+newDeclaration(ctx) ::= <<
+<if(ctx.variableDeclaration)>
+<newVariableDeclaration(ctx)>
+<elseif(ctx.typeDeclaration)>
+<newTypeDeclaration(ctx)>
+<elseif(ctx.channelPriorityDeclaration)>
+<newChannelPriorityDeclaration(ctx)>
+<elseif(ctx.templateInstantiation)>
+<newTemplateInstantiation(ctx)>
+<elseif(ctx.functionDeclaration)>
+<newFunctionDeclaration(ctx)>
+<endif>
+>>
+
+declarationReturnType(ctx) ::= <%
+    <if(ctx.variableDeclaration)>
+        <if(ctx.singleVariableDeclaration)>
+            VariableDeclaration
+        <elseif(ctx.multiVariableDeclaration)>
+            VariableDeclarationGroup
+        <endif>
+    <elseif(ctx.typeDeclaration)>
+        <if(ctx.singleTypeDeclaration)>
+            TypeDeclaration
+        <elseif(ctx.multiTypeDeclaration)>
+            TypeDeclarationGroup
+        <endif>
+    <elseif(ctx.channelPriorityDeclaration)>
+        ChannelPrioritySequence
+    <elseif(ctx.templateInstantiation)>
+        TemplateInstantiation
+    <elseif(ctx.functionDeclaration)>
+        FunctionDeclaration
+    <endif>
+%>
+
+newChannelPriorityDeclaration(ctx) ::= <<
+new ChannelPrioritySequence()
+    <ctx.channelReferenceGroups:{grpCtx |
+        .addGroup(
+            new ChannelReferenceGroup()
+                <grpCtx.channelReferences:{refCtx|
+                .addReference(<newChannelReference(refCtx)>)}>
+        )}>
+>>
+
+newChannelReference(ctx) ::= <<
+<if(ctx.defaultPriority)>
+DefaultChannelReference.INSTANCE
+<elseif(ctx.channelIdentifier)>
+new ChannelIdentifierReference()
+    .setIdentifier(Identifier.of("<ctx.identifier>"))
+<elseif(ctx.arrayLookup)>
+new ChannelArrayLookup().setArrayVariableLookup(
+    new ArrayVariableLookup()
+        .setIdentifier(Identifier.of("<ctx.arrayName>"))
+        <ctx.lookupExpressions:{exprCtx|
+        .addLookupExpression(<newExpression(exprCtx)>)}>
+)
+<endif>
+>>
+
+newTemplateInstantiation(ctx) ::= <<
+new TemplateInstantiation()
+    .setNewTemplateName(Identifier.of("<ctx.newTemplateName>"))
+    .setSourceTemplateName(Identifier.of("<ctx.sourceTemplateName>"))
+    <ctx.parameters:{paramCtx|
+    .addParameter(
+        new ParameterDeclaration()
+            .setIdentifier(Identifier.of("<paramCtx.identifier>"))
+            .setType(<newType(paramCtx.type)>)
+    )}>
+    <ctx.arguments:{argCtx|
+    .addArgument(
+        <newExpression(argCtx)>
+    )}>
+>>
+
+newFunctionDeclaration(ctx) ::= <<
+new FunctionDeclaration()
+<if(ctx.valueType)>
+    .setValueType(<newBaseType(ctx.valueType)>)
+<endif>
+    .setName(Identifier.of("<ctx.functionName>"))
+    <ctx.parameters:{paramCtx|
+    .addParameter(
+        new ParameterDeclaration()
+            .setIdentifier(Identifier.of("<paramCtx.identifier>"))
+            .setType(<newType(paramCtx.type)>)
+    )
+    }>
+    .setStatementBlock(<newBlockStmt(ctx.statementBlock)>)
+>>
+
+newVariableDeclaration(ctx) ::= <<
+<if(ctx.singleVariableDeclaration)>
+<newSingleVariableDeclaration(ctx)>
+<elseif(ctx.multiVariableDeclaration)>
+<newMultiVariableDeclaration(ctx)>
+<endif>
+>>
+
+newSingleVariableDeclaration(ctx) ::= <<
+new VariableDeclaration()
+    .setIdentifier(Identifier.of("<ctx.variableName>"))
+    .setType(<newType(ctx.type)>)
+<if(ctx.initializer)>
+    .setInitializer(<newInitializer(ctx.initializer)>)
+<endif>
+>>
+
+newMultiVariableDeclaration(ctx) ::= <<
+(VariableDeclarationGroup) new VariableDeclarationGroup()
+<ctx.subDeclarations:{subCtx|
+    .putItem(
+        Identifier.of("<subCtx.variableName>"),
+        <if(subCtx.initializer)><newInitializer(subCtx.initializer)><else>null<endif>,
+        false,
+        <newArrayModifierList(subCtx.arrayModifiers)>
+    )
+}>
+    .setBaseType(<newBaseType(ctx.baseType)>)
+>>
+
+newInitializer(ctx) ::= <<
+<if(ctx.structuredInitializer)>
+<newStructuredInitializer(ctx)>
+<elseif(ctx.flatInitializer)>
+<newFlatInitializer(ctx)>
+<endif>
+>>
+
+newFlatInitializer(ctx) ::= <<
+new FlatVariableInitializer()
+    .setExpression(<newExpression(ctx.expression)>)
+>>
+
+newStructuredInitializer(ctx) ::= <<
+new StructuredVariableInitializer()
+<ctx.nestedInitializers:{initCtx|
+    .addInitializer(<newInitializer(initCtx)>)
+}>
+>>
+
+newArrayModifierList(iterable) ::= <<
+CollectionUtils.collectionBuilder(new LinkedList\<AbsArrayModifier>())
+    <iterable:{ctx|.add(<newArrayModifier(ctx)>)};separator="\n">
+    .build()
+>>
+
+newArrayModifier(ctx) ::= <<
+<if(ctx.sizeFromType)>
+new SizeTypeArrayModifier()
+    .setSizeSpecifier(<newBaseType(ctx.sizeType)>)
+<elseif(ctx.sizeFromExpression)>
+new SizeExpressionArrayModifier()
+    .setSizeSpecifier(<newExpression(ctx.sizeExpression)>)
+<endif>
+>>
+
+newTypeDeclaration(ctx) ::= <<
+<if(ctx.singleTypeDeclaration)>
+<newSingleTypeDeclaration(ctx)>
+<elseif(ctx.multiTypeDeclaration)>
+<newMultiTypeDeclaration(ctx)>
+<endif>
+>>
+
+newSingleTypeDeclaration(ctx) ::= <<
+new TypeDeclaration()
+    .setType(<newType(ctx.type)>)
+    .setIdentifier(Identifier.of("<ctx.typeName>"))
+>>
+
+newMultiTypeDeclaration(ctx) ::= <<
+(TypeDeclarationGroup) new TypeDeclarationGroup()
+    .setBaseType(<newBaseType(ctx.baseType)>)
+<ctx.subDeclarations:{subCtx|
+    .putItem(
+        Identifier.of("<subCtx.identifier>"),
+        false,
+        <newArrayModifierList(subCtx.arrayModifiers)>
+    )
+}>
+>>
+
+newStatement(ctx) ::= <<
+<if(ctx.blockStatement)>
+<newBlockStmt(ctx)>
+<elseif(ctx.forLoopStatement)>
+<newForStmt(ctx)>
+<elseif(ctx.iterationStatement)>
+<newIterationStmt(ctx)>
+<elseif(ctx.whileStatement)>
+<newWhileStmt(ctx)>
+<elseif(ctx.doWhileStatement)>
+<newDoWhileStmt(ctx)>
+<elseif(ctx.conditionalStatement)>
+<newConditionalStmt(ctx)>
+<elseif(ctx.expressionStatement)>
+new ExpressionStatement().setExpression(<newExpression(ctx.expression)>)
+<elseif(ctx.returnStatement)>
+new ReturnStatement()<if(ctx.expression)>.setExpression(<newExpression(ctx.expression)>)<endif>
+<elseif(ctx.emptyStatement)>
+EmptyStatement.getInstance()
+<endif>
+>>
+
+newBlockStmt(ctx) ::= <<
+new StatementBlock()
+<if(ctx.declarations)>
+<ctx.declarations:{declCtx|
+    .addDeclaration(<newDeclaration(declCtx)>)
+}>
+<endif>
+<if(ctx.statements)>
+<ctx.statements:{stmtCtx|
+    .addStatement(<newStatement(stmtCtx)>)
+}>
+<endif>
+>>
+
+newForStmt(ctx) ::= <<
+new ForLoop()
+    .setUpdate(<newExpression(ctx.update)>)
+    .setInitializer(<newExpression(ctx.initializer)>)
+    .setCondition(<newExpression(ctx.condition)>)
+    .setStatement(<newStatement(ctx.statement)>)
+>>
+
+newIterationStmt(ctx) ::= <<
+new IterationLoop()
+    .setIteratedType(<newBaseType(ctx.iteratedType)>)
+    .setLoopVariable(Identifier.of("<ctx.loopVariableName>"))
+    .setStatement(<newStatement(ctx.statement)>)
+>>
+
+newWhileStmt(ctx) ::= <<
+new WhileLoop()
+    .setCondition(<newExpression(ctx.condition)>)
+    .setStatement(<newStatement(ctx.statement)>)
+>>
+
+newDoWhileStmt(ctx) ::= <<
+new DoWhileLoop()
+    .setCondition(<newExpression(ctx.condition)>)
+    .setStatement(<newStatement(ctx.statement)>)
+>>
+
+newConditionalStmt(ctx) ::= <<
+new ConditionalStatement()
+    .setCondition(<newExpression(ctx.condition)>)
+    .setPrimaryStatement(<newStatement(ctx.primary)>)
+<if(ctx.alternative)>
+    .setAlternativeStatement(<newStatement(ctx.alternative)>)
+<endif>
+>>
+
+newExpression(ctx) ::= <<
+<if(ctx.group)>
+new GroupedExpression().setChild(<newExpression(ctx.child)>)
+<elseif(ctx.arrayLookup)>
+new ArrayLookupExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.fieldAccess)>
+new FieldAccessExpression()
+    .setIdentifier(Identifier.of("<ctx.fieldIdentifier>"))
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.negation)>
+new NegationExpression()
+<if(ctx.phrase)>
+    .setPhrase(true)
+<endif>
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.conjunction)>
+new ConjunctionExpression()
+<if(ctx.phrase)>
+    .setPhrase(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.disjunction)>
+new DisjunctionExpression()
+<if(ctx.phrase)>
+    .setPhrase(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.implication)>
+new ImplicationExpression()
+<if(ctx.phrase)>
+    .setPhrase(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.prefixIncrement)>
+new PrefixIncrementExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.postfixIncrement)>
+new PostfixIncrementExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.prefixDecrement)>
+new PrefixDecrementExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.postfixDecrement)>
+new PostfixDecrementExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.additiveInverse)>
+new AdditiveInverseExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.additiveIdentity)>
+new AdditiveIdentityExpression()
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.multiplication)>
+new MultiplicationExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.division)>
+new DivisionExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.modulo)>
+new ModuloExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.subtraction)>
+new SubtractionExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.addition)>
+new AdditionExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.leftShift)>
+new LeftShiftExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.rightShift)>
+new RightShiftExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.maximum)>
+new MaximumExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.minimum)>
+new MinimumExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.lessThan)>
+new LessThanExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.lessThanOrEqual)>
+new LessThanOrEqualExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.greaterThan)>
+new GreaterThanExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.greaterThanOrEqual)>
+new GreaterThanOrEqualExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.equality)>
+new EqualityExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.inequality)>
+new InequalityExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.bitwiseAnd)>
+new BitwiseAndExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.bitwiseXor)>
+new BitwiseXorExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.bitwiseOr)>
+new BitwiseOrExpression()
+<if(ctx.assignment)>
+    .setAssignment(true)
+<endif>
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.ternary)>
+new TernaryExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setMiddleChild(<newExpression(ctx.middleChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.existentialQuantification)>
+new QuantificationExpression()
+    .setQuantificationType(EQuantificationType.EXISTENTIAL)
+    .setIterationVariableType(<newBaseType(ctx.baseType)>)
+    .setIdentifierName(Identifier.of("<ctx.loopVarName>"))
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.universalQuantification)>
+new QuantificationExpression()
+    .setQuantificationType(EQuantificationType.UNIVERSAL)
+    .setIterationVariableType(<newBaseType(ctx.baseType)>)
+    .setIdentifierName(Identifier.of("<ctx.loopVarName>"))
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.assignmentExpression)>
+new AssignmentExpression()
+    .setLeftChild(<newExpression(ctx.leftChild)>)
+    .setRightChild(<newExpression(ctx.rightChild)>)
+<elseif(ctx.call)>
+new CallExpression()
+<ctx.arguments:{argCtx|
+    .addArgument(<newExpression(argCtx)>)
+}>
+    .setChild(<newExpression(ctx.child)>)
+<elseif(ctx.literal)>
+<literal(ctx)>
+<elseif(ctx.identifierExpression)>
+IdentifierExpression.of("<ctx.identifier>")
+<endif>
+>>
+
+literal(ctx) ::= <%
+    <if(ctx.deadlockLiteral)>
+        LiteralConsts.DEADLOCK
+    <elseif(ctx.trueLiteral)>
+        LiteralConsts.TRUE
+    <elseif(ctx.falseLiteral)>
+        LiteralConsts.FALSE
+    <elseif(ctx.naturalNumberLiteral)>
+        NaturalNumberLiteral.of("<ctx.naturalNumber>")
+    <endif>
+%>
+
+newType(ctx) ::= <<
+new Type()
+    .setBaseType(<newBaseType(ctx.baseType)>)
+<if(ctx.referenceType)>
+    .setReferenceType(true)
+<endif>
+<ctx.arrayModifiers:{modCtx|
+    .addArrayModifier(<newArrayModifier(modCtx)>)
+}>
+>>
+
+newBaseType(ctx) ::= <<
+new BaseType()
+    .setPrefix(<typePrefix(ctx.prefix)>)
+    .setTypeId(<newTypeId(ctx.typeId)>)
+>>
+
+typePrefix(ctx) ::= <%
+    <if(ctx.urgent)>
+        ETypePrefix.URGENT
+    <elseif(ctx.broadcast)>
+        ETypePrefix.BROADCAST
+    <elseif(ctx.meta)>
+        ETypePrefix.META
+    <elseif(ctx.constant)>
+        ETypePrefix.CONSTANT
+    <else>
+        ETypePrefix.NONE
+    <endif>
+%>
+
+newTypeId(ctx) ::= <<
+<if(ctx.struct)>
+new StructTypeId()
+<ctx.fieldDeclarations:{declCtx|
+    .addFieldDeclaration(<newFieldDeclaration(declCtx)>)
+}>
+<elseif(ctx.scalar)>
+new ScalarTypeId().setSizeExpression(<newExpression(ctx.expression)>)
+<elseif(ctx.customType)>
+CustomTypeId.of(Identifier.of("<ctx.identifier>"))
+<elseif(ctx.boundedInt)>
+BoundedIntegerTypeId.of(
+    <newExpression(ctx.minExpression)>,
+    <newExpression(ctx.maxExpression)>
+)
+<elseif(ctx.bool)>
+BaseTypeIdentifiers.BOOLEAN
+<elseif(ctx.int)>
+BaseTypeIdentifiers.INTEGER
+<elseif(ctx.chan)>
+BaseTypeIdentifiers.CHANNEL
+<elseif(ctx.clock)>
+BaseTypeIdentifiers.CLOCK
+<endif>
+>>
+
+newFieldDeclaration(ctx) ::= <<
+<if(ctx.singleFieldDeclaration)>
+<newSingleFieldDeclaration(ctx)>
+<elseif(ctx.groupOfFieldDeclarations)>
+<newFieldDeclarationGroup(ctx)>
+<endif>
+>>
+
+newSingleFieldDeclaration(ctx) ::= <<
+new FieldDeclaration()
+    .setType(<newType(ctx.type)>)
+    .setIdentifier(Identifier.of("<ctx.identifier>"))
+>>
+
+newFieldDeclarationGroup(ctx) ::= <<
+(FieldDeclarationGroup) new FieldDeclarationGroup()
+<ctx.subDeclarations:{subCtx|
+    .putItem(
+        Identifier.of("<subCtx.identifier>"),
+        false,
+        <newArrayModifierList(subCtx.arrayModifiers)>
+    )
+}>
+    .setBaseType(<newBaseType(ctx.baseType)>)
+>>
