@@ -19,12 +19,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.P
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SelectionSequenceContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SynchronizationContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemDefinitionContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Selection;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Synchronization;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.AbsDeclarationStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.system.SystemDefinition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Selection;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Synchronization;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.LinkedList;

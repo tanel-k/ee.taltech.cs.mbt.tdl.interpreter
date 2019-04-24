@@ -10,7 +10,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller.MarshallingException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.UtaNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.UtaGeneratorFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 
 import java.io.OutputStream;
 

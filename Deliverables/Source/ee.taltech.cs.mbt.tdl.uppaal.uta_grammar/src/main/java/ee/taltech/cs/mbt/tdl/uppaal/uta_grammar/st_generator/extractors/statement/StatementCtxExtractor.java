@@ -5,17 +5,17 @@ import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.declaration.DeclarationCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.expression.ExpressionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.type.BaseTypeCtxExtractor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.AbsStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ConditionalStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.EmptyStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ExpressionStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ReturnStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.StatementBlock;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.DoWhileLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.ForLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.IterationLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.WhileLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.visitors.IStatementVisitor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.AbsStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.ConditionalStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.EmptyStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.ExpressionStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.ReturnStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.StatementBlock;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.DoWhileLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.ForLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.IterationLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.WhileLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.IStatementVisitor;
 
 import java.util.Collection;
 

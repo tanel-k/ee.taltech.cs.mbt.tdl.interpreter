@@ -5,7 +5,7 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.A
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.IEvaluatedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.ITrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.trap.LinkedPairTrap;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.Transition;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

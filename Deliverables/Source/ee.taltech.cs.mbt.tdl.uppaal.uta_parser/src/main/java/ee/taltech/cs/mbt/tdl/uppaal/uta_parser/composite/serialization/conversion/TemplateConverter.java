@@ -3,18 +3,18 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.conversi
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.GenerationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.UtaGeneratorFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.GuiCoordinates;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPositionable;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.AssignmentsLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.CommentLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.GuardLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.InvariantLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SelectionLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.impl.SynchronizationLabel;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.locations.Location;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.transitions.Transition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.gui.GuiCoordinates;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.gui.IPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.AbsUtaLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.impl.AssignmentsLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.impl.CommentLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.impl.GuardLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.impl.InvariantLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.impl.SelectionLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.impl.SynchronizationLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.locations.Location;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.templates.Template;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.Transition;
 
 import java.util.Objects;
 

@@ -5,7 +5,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.GlobalDeclarations
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.SystemDefinitionNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.UtaNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.UtaGeneratorFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 
 public class UtaSystemConverter {
 	public static UtaSystemConverter getInstance(UtaGeneratorFactory generatorFactory, GenerationQueue generationQueue) {

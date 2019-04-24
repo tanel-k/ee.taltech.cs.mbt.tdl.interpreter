@@ -6,11 +6,11 @@ import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.TemplateInstantiation;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.variable.VariableDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Synchronization;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.templates.Template;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.TemplateInstantiation;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.VariableDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Synchronization;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.templates.Template;
 
 import java.util.HashMap;
 import java.util.LinkedList;

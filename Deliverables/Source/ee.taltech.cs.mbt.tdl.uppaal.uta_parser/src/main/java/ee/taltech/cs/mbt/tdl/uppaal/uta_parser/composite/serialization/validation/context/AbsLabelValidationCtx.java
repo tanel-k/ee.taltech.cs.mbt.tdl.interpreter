@@ -2,8 +2,8 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.validati
 
 import ee.taltech.cs.mbt.tdl.commons.utils.validation.AbsHierarchyValidationCtx;
 import ee.taltech.cs.mbt.tdl.commons.utils.validation.ContextValidationResult;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.gui.IPositionable;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.structural_model.labels.AbsUtaLabel;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.gui.IPositionable;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.AbsUtaLabel;
 
 import java.util.Collection;
 import java.util.Collections;

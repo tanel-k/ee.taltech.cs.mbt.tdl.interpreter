@@ -6,12 +6,12 @@ import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorStrate
 import ee.taltech.cs.mbt.tdl.commons.parser.AbsAntlrParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.AbsUtaAntlrFacade;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.UtaAntlrFacadeFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.declaration.AbsDeclarationStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.expression.generic.AbsExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Selection;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Synchronization;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.AbsDeclarationStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.system.SystemDefinition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Selection;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Synchronization;
 
 import java.util.List;
 

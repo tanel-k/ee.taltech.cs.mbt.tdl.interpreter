@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 import ee.taltech.cs.mbt.tdl.interpreter.interpreter_core.listeners.IInterpretationProgressListener;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.ScenarioCompositionResults;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.ScenarioSpecification;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 
 import java.io.PrintStream;
 

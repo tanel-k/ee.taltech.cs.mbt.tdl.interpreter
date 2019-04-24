@@ -9,7 +9,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.E
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ProgressMeasureDeclarationContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemDefinitionContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemLineContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.SystemDefinition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.system.SystemDefinition;
 
 public class SystemDefinitionConverter extends UtaLanguageBaseVisitor<SystemDefinition>
 		implements IParseTreeConverter<SystemDefinition, SystemDefinitionContext> {

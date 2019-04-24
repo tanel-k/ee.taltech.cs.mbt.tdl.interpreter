@@ -6,7 +6,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extracto
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.declaration.DeclarationCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.system.SystemDefinitionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.templates.TemplateCtxExtractor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 
 import java.util.Collection;
 import java.util.Set;

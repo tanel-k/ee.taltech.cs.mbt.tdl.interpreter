@@ -4,17 +4,17 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ee.taltech.cs.mbt.tdl.interpreter</groupId>
-  <artifactId>interpreter_core</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
   <parent>
     <groupId>ee.taltech.cs.mbt.tdl</groupId>
     <artifactId>parent_pom</artifactId>
     <version>1.0-SNAPSHOT</version>
     <relativePath>../ee.taltech.cs.mbt.tdl.parent_pom/pom.xml</relativePath>
   </parent>
+
+  <groupId>ee.taltech.cs.mbt.tdl.interpreter</groupId>
+  <artifactId>interpreter_core</artifactId>
+  <version>${interpreter.core.version}</version>
+  <packaging>jar</packaging>
 
   <build>
     <plugins>

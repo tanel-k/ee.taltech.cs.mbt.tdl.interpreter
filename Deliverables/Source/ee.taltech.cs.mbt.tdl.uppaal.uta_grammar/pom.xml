@@ -4,17 +4,17 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-  <artifactId>uta_grammar</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
   <parent>
     <groupId>ee.taltech.cs.mbt.tdl</groupId>
     <artifactId>parent_pom</artifactId>
     <version>1.0-SNAPSHOT</version>
     <relativePath>../ee.taltech.cs.mbt.tdl.parent_pom/pom.xml</relativePath>
   </parent>
+
+  <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
+  <artifactId>uta_grammar</artifactId>
+  <version>${uta.grammar.version}</version>
+  <packaging>jar</packaging>
 
   <build>
     <plugins>
@@ -82,7 +82,7 @@
     </dependency>
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-      <artifactId>uta_system_model</artifactId>
+      <artifactId>uta_model</artifactId>
     </dependency>
     <!-- /Internal -->
   </dependencies>

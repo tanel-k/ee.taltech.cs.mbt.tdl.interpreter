@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.A
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ExpressionContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ReactiveSynchronizationContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SynchronizationContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Synchronization;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Synchronization;
 
 public class SynchronizationConverter extends UtaLanguageBaseVisitor<Synchronization>
 		implements IParseTreeConverter<Synchronization, SynchronizationContext> {

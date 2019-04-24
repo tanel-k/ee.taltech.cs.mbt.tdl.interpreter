@@ -5,9 +5,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisi
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemLineContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemProcessGroupContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SystemProcessSequenceContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.system_line.ProcessReferenceGroup;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.system.system_line.SystemLine;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.system.system_line.ProcessReferenceGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.system.system_line.SystemLine;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class SystemLineConverter extends UtaLanguageBaseVisitor<SystemLine>

@@ -16,7 +16,7 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.eval
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation.TrapsetWrapperEvaluator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 
 import java.util.HashMap;
 import java.util.LinkedList;

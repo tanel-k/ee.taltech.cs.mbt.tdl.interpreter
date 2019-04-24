@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.paramet
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.type.TypeCtxExtractor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclaration;
 
 public class ParameterCtxExtractor implements IContextExtractor<ParameterDeclaration> {
 	public static ParameterCtxExtractor getInstance() {

@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.templat
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.type.BaseTypeCtxExtractor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.template.Selection;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Selection;
 
 public class SelectionCtxExtractor implements IContextExtractor<Selection> {
 	public static SelectionCtxExtractor getInstance() {

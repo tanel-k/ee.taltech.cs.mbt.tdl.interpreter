@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.validati
 
 import ee.taltech.cs.mbt.tdl.commons.utils.validation.AbsHierarchyValidator;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.validation.context.UtaSystemValidationCtx;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 
 public class UtaSystemValidator extends AbsHierarchyValidator<UtaSystemValidationCtx> {
 	public static UtaSystemValidator newInstance(UtaSystem utaSystem) {

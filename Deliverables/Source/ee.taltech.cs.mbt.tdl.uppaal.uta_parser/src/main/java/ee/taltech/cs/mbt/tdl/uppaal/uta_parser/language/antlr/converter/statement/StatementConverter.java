@@ -6,18 +6,17 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.expressi
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.type.BaseTypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.identifier.Identifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.AbsStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ConditionalStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.EmptyStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ExpressionStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.ReturnStatement;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.StatementBlock;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.DoWhileLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.ForLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.IterationLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.statement.loop.WhileLoop;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.AbsStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.ConditionalStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.EmptyStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.ExpressionStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.ReturnStatement;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.StatementBlock;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.DoWhileLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.ForLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.IterationLoop;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.WhileLoop;
 
 public class StatementConverter extends UtaLanguageBaseVisitor<AbsStatement>
 		implements IParseTreeConverter<AbsStatement, StatementContext> {

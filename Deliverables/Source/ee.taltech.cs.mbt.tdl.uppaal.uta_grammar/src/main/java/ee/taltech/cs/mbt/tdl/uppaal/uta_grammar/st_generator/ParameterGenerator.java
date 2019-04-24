@@ -4,7 +4,7 @@ import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.parameter.ParameterCtxExtractor;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.AbsSTGenerator;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclaration;
 
 import java.util.Optional;
 

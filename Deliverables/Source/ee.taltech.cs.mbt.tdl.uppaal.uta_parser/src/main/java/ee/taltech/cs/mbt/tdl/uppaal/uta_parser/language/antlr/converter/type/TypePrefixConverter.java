@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.T
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.TypePrefixContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.TypePrefixMetaContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.TypePrefixUrgentContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.ETypePrefix;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.ETypePrefix;
 
 public class TypePrefixConverter extends UtaLanguageBaseVisitor<ETypePrefix>
 		implements IParseTreeConverter<ETypePrefix, TypePrefixContext> {

@@ -3,13 +3,13 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin;
 import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.GenerationException;
-import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
+import ee.taltech.cs.mbt.tdl.commons.utils.files.FileUtils;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller.MarshallingException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.SystemPickleGeneratorFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.UtaSystem;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -22,15 +22,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.DosFileAttributeView;
-import java.nio.file.attribute.PosixFileAttributeView;
-import java.nio.file.attribute.PosixFilePermission;
-import java.util.Collections;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,30 +44,6 @@ public class SystemPicklerMojo extends AbstractMojo {
 		// Split the rest:
 		String[] rest = m.replaceFirst("").split("\\.");
 		return Paths.get(first, rest);
-	}
-
-	private static final Set<PosixFilePermission> READ_ONLY_PERMS = Collections.unmodifiableSet(CollectionUtils.newSet(
-			PosixFilePermission.OTHERS_READ,
-			PosixFilePermission.OTHERS_EXECUTE,
-			PosixFilePermission.OWNER_WRITE
-	));
-
-	private static final Set<PosixFilePermission> WRITE_PERMS = Collections.unmodifiableSet(CollectionUtils.newSet(
-			PosixFilePermission.OTHERS_READ,
-			PosixFilePermission.OTHERS_EXECUTE,
-			PosixFilePermission.OTHERS_WRITE
-	));
-
-	private static void setReadOnly(Path filePath, boolean readOnly) throws IOException {
-		FileStore fileStore = Files.getFileStore(filePath);
-
-		if (fileStore.supportsFileAttributeView(DosFileAttributeView.class)) {
-			DosFileAttributeView dosView = Files.getFileAttributeView(filePath, DosFileAttributeView.class);
-			dosView.setReadOnly(readOnly);
-		} else if (fileStore.supportsFileAttributeView(PosixFileAttributeView.class)) {
-			PosixFileAttributeView posixView = Files.getFileAttributeView(filePath, PosixFileAttributeView.class);
-			posixView.setPermissions(readOnly ? READ_ONLY_PERMS : WRITE_PERMS);
-		}
 	}
 
 	@Parameter(defaultValue = "false", readonly = true)
@@ -134,12 +104,13 @@ public class SystemPicklerMojo extends AbstractMojo {
 
 		getLog().info("Source code generation successful.");
 
-		String formattedPickleClass = pickleClass;
+		String formattedPickleClass;
 		try {
 			getLog().info("Attempting to format source code.");
-			formattedPickleClass = new Formatter().formatSource(formattedPickleClass);
+			formattedPickleClass = new Formatter().formatSource(pickleClass);
 			getLog().info("Successfully formatted source code.");
 		} catch (FormatterException ex) {
+			formattedPickleClass = pickleClass;
 			getLog().warn("Failed to format source code.", ex);
 		}
 
@@ -156,7 +127,7 @@ public class SystemPicklerMojo extends AbstractMojo {
 				outputFilePath = Files.createFile(outputFilePath);
 			} else if (!Files.isWritable(outputFilePath)) {
 				getLog().info("Removing read-only restriction from " + outputFilePath.getFileName() + ".");
-				setReadOnly(outputFilePath, false);
+				FileUtils.setReadOnly(outputFilePath, false);
 			}
 		} catch (Throwable t) {
 			throw new MojoExecutionException("Failed to set up source file path.", t);
@@ -172,7 +143,7 @@ public class SystemPicklerMojo extends AbstractMojo {
 		if (writeProtect) {
 			getLog().info("Adding write-protection to " + outputFilePath.getFileName() + ".");
 			try {
-				setReadOnly(outputFilePath, true);
+				FileUtils.setReadOnly(outputFilePath, true);
 			} catch (IOException ex) {
 				getLog().warn("Failed to write-protect pickle source file.", ex);
 			}

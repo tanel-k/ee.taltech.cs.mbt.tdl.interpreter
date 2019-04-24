@@ -7,10 +7,10 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.type.Bas
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ParameterContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ParameterSequenceContext;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.misc.array_modifier.AbsArrayModifier;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.parameter.ParameterDeclaration;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.BaseType;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_system_model.language_model.type.Type;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.array_modifier.AbsArrayModifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.BaseType;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.Type;
 
 import java.util.LinkedList;
 import java.util.List;
