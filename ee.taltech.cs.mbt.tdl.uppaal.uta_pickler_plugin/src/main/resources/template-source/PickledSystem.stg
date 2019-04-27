@@ -12,6 +12,9 @@ import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 
 import java.util.LinkedList;
 
+/**
+ * <ctx.classCommentLine>
+ */
 public class <systemFactoryClassName(ctx)> {
     <ctx.templates:templateFactory(); separator="\n">
 <if(ctx.systemDefinition)>

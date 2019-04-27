@@ -20,8 +20,8 @@
     <tdl.grammar.version>1.0</tdl.grammar.version>
     <tdl.parser.version>1.0</tdl.parser.version>
     <scenario.composer.version>1.0</scenario.composer.version>
-    <interpreter.core.version>1.0</interpreter.core.version>
-    <interpreter.cli.version>1.0</interpreter.cli.version>
+    <interface.core.version>1.0</interface.core.version>
+    <interface.cli.version>1.0</interface.cli.version>
   </properties>
 
   <dependencyManagement>
@@ -82,14 +82,14 @@
         <version>${scenario.composer.version}</version>
       </dependency>
       <dependency>
-        <groupId>ee.taltech.cs.mbt.tdl.interpreter</groupId>
-        <artifactId>interpreter_core</artifactId>
-        <version>${interpreter.core.version}</version>
+        <groupId>ee.taltech.cs.mbt.tdl.user_interface</groupId>
+        <artifactId>user_interface_core</artifactId>
+        <version>${interface.core.version}</version>
       </dependency>
       <dependency>
-        <groupId>ee.taltech.cs.mbt.tdl.interpreter</groupId>
-        <artifactId>interpreter_cli</artifactId>
-        <version>${interpreter.cli.version}</version>
+        <groupId>ee.taltech.cs.mbt.tdl.user_interface</groupId>
+        <artifactId>user_interface_cli</artifactId>
+        <version>${interface.cli.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

@@ -7,12 +7,15 @@ import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.SystemExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SystemPickleGenerator extends AbsSTGenerator<UtaSystem> {
 	private static final String TEMPLATE_NAME = "systemFactory";
+	private static final SimpleDateFormat commentDateFmt = new SimpleDateFormat("dd/MMM/yyyy");
 
 	private String picklePackage;
 	private String pickleName;
@@ -29,6 +32,10 @@ public class SystemPickleGenerator extends AbsSTGenerator<UtaSystem> {
 			.map(Class::getCanonicalName)
 			.sorted()
 			.collect(Collectors.toList());
+	}
+
+	protected String getClassCommentLine() {
+		return "Generated on " + commentDateFmt.format(new Date()) + " using the UTA pickler plugin.";
 	}
 
 	@Override
@@ -51,6 +58,7 @@ public class SystemPickleGenerator extends AbsSTGenerator<UtaSystem> {
 		return super.extractContext(inst)
 				.put("package", picklePackage)
 				.put("name", pickleName)
-				.put("imports", getImportStrings(extractor));
+				.put("imports", getImportStrings(extractor))
+				.put("classCommentLine", getClassCommentLine());
 	}
 }

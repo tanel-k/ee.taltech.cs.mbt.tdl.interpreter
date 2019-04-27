@@ -26,8 +26,8 @@
     <module>../ee.taltech.cs.mbt.tdl.expression.tdl_parser</module>
     <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin</module>
     <module>../ee.taltech.cs.mbt.tdl.scenario.scenario_composer</module>
-    <module>../ee.taltech.cs.mbt.tdl.interpreter.interpreter_core</module>
-    <module>../ee.taltech.cs.mbt.tdl.interpreter.interpreter_cli</module>
+    <module>../ee.taltech.cs.mbt.tdl.user_interface.user_interface_core</module>
+    <module>../ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli</module>
   </modules>
 
   <dependencyManagement>

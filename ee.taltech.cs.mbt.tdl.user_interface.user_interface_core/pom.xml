@@ -11,10 +11,10 @@
     <relativePath>../ee.taltech.cs.mbt.tdl.parent_pom/pom.xml</relativePath>
   </parent>
 
-  <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-  <artifactId>uta_pickler_plugin</artifactId>
-  <version>${uta.pickler.version}</version>
-  <packaging>maven-plugin</packaging>
+  <groupId>ee.taltech.cs.mbt.tdl.user_interface</groupId>
+  <artifactId>user_interface_core</artifactId>
+  <version>${interface.core.version}</version>
+  <packaging>jar</packaging>
 
   <build>
     <plugins>
@@ -22,58 +22,32 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
-      <!-- Fix issues with interfaces that have default methods: -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.4</version>
-      </plugin>
     </plugins>
   </build>
 
   <dependencies>
     <!-- Internal -->
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
-      <artifactId>utils</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-      <artifactId>uta_model</artifactId>
+      <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
+      <artifactId>tdl_parser</artifactId>
     </dependency>
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
       <artifactId>uta_parser</artifactId>
     </dependency>
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
-      <artifactId>st_facade</artifactId>
+      <groupId>ee.taltech.cs.mbt.tdl.scenario</groupId>
+      <artifactId>scenario_composer</artifactId>
     </dependency>
     <!-- /Internal -->
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-      <version>3.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.plugin-tools</groupId>
-      <artifactId>maven-plugin-annotations</artifactId>
-      <version>3.4</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.googlejavaformat</groupId>
-      <artifactId>google-java-format</artifactId>
-      <version>1.6</version>
-    </dependency>
   </dependencies>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>UTA Pickler Maven Plugin</name>
-  <description>A Maven plugin for generating UTA system builders based on UTA XML.</description>
+  <name>TDL(TP) Interpreter Interface - Core</name>
+  <description>TDL(TP) interpreter core logic.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
     <name>TalTech</name>
