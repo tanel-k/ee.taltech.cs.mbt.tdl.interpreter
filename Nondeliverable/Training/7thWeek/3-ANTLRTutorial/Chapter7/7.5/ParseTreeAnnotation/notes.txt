@@ -1,8 +1,0 @@
-Instead of using temporary storage to share data between event methods, we can store those values in the parse tree itself. We can use this tree annotation approach with both a listener and a visitor, but we'll demonstrate how it works using a listener here.
-
-----------
-
-The easiest way to annotate parse-tree nodes is to use a Map that associates arbitrary values with nodes. For that reason, ANTLR provides a simple helper class called ParseTreeProperty.
-
-Caution: If you want to use your own field type Map instead of ParseTreeProperty, make sure to derive it from IdentityHashMap, not the usual HashMap. We need to annotate specific nodes, testing by identity instead of equals(). Two e nodes might be equals but not the same physical node in memory.
-

@@ -1,2 +1,0 @@
-You can treat an edge as a "state vertex".
-Helps make sense of the committed location in the "Gossiping Girls" example.

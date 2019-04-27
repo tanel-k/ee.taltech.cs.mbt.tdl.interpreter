@@ -1,8 +1,0 @@
-We can build just about anything we want with visitors and listeners. Once we're in the Java space, there's no more ANTLR stuff to learn.
-All we have to know is the relationship between a grammar, its parse tree, and the visitor or listener event methods. Beyond that, it's just code.
-In response to recognizing input phrases, we can generate output, collect information (as we've done here), validate phrases in some way, or perform computations.
-
-This property file example is small enough that we didn't run into an issue regarding rules with alternatives. By default ANTLR generates a single kind of event for each rule no matter which alternative the parser matches.
-That's pretty inconvenient because the listener and visitor methods have to figure out which alternative was matched by the parser.
-
-In the next section, we'll see how to get events at a finer granularity.

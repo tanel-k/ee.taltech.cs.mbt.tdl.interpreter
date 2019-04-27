@@ -1,6 +1,0 @@
-http://ppedreiras.av.it.pt/resources/empse0809/slides/TheUppaalModelChecker-Julian.pdf
-http://people.cs.aau.dk/~srba/courses/SV-05/slides/l11.pdf
-https://www.sws.cs.ru.nl/publications/papers/fvaan/handbookuppaal/paper.pdf
-http://people.cs.aau.dk/~adavid/RTSS05/uppaal-intro.pdf
-http://www.di.univr.it/documenti/OccorrenzaIns/matdid/matdid015657.pdf
-http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.51.9725&rep=rep1&type=pdf

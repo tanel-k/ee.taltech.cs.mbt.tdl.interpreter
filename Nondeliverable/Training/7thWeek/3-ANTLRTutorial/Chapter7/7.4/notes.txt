@@ -1,4 +1,0 @@
-Listeners and visitors are great.
-We get reusable and retargetable grammars as well as encapsulated language applications just by fleshing out event methods.
-ANTLR even automatically generates the skeleton code for us.
-It turns out, though, that the applications we've built so far are so simple we haven't run into a common implementation issue, which is that event methods sometimes need to pass around partial results or other information.

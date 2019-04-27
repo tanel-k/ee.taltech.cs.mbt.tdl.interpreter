@@ -1,2 +1,0 @@
-Useful trick:
-The middle mouse button is a shortcut for adding new elements, i.e. pressing it on the canvas, a location, or edge adds a new location, edge, or nail, respectively.

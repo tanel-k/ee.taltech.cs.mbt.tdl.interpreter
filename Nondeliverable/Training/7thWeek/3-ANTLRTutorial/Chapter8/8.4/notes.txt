@@ -1,8 +1,0 @@
-To build an intepreter, compiler, or translator for a programming language such as Cymbol, we'd need to verify that Cymbol programs used symbols (identifiers) properly.
-In this section we will build a Cymbol validator that checks the following conditions:
-* Variable references have corresponding definitions that are visible to them (in scope);
-* Function references have corresponding definitions (functions can appear in any order);
-* Functions are not used as variables.
-
-The key to implementing this kind of problem is an appropriate data structure called a symbol table.
-Our application will store symbols in the symbol table and then check identifier references for correctness by looking them up in the symbol table.

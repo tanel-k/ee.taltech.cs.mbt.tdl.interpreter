@@ -1,2 +1,0 @@
-Visitors work very well if we need application-specific return values because we get to use the build-in Java return value mechanism.
-If we prefer not having to explicitly invoke visitor methods to visit children, we can switch to the listener mechanism. Unfortunately, that means giving up on the cleanliness of using Java method return values.
