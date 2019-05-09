@@ -3696,18 +3696,18 @@ public class ScenarioWrapperBaseSystemFactory {
     }
   }
 
-  public static class TdlTerminatorChannelAdapterTemplateFactory {
-    public static TdlTerminatorChannelAdapterTemplateFactory getInstance() {
-      return new TdlTerminatorChannelAdapterTemplateFactory();
+  public static class TdlTrivialTrueRecognizerTemplateFactory {
+    public static TdlTrivialTrueRecognizerTemplateFactory getInstance() {
+      return new TdlTrivialTrueRecognizerTemplateFactory();
     }
 
-    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlTerminatorChannelAdapter");
+    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlTrivialTrueRecognizer");
 
     public Identifier getTemplateName() {
       return TEMPLATE_NAME;
     }
 
-    protected TdlTerminatorChannelAdapterTemplateFactory() {}
+    protected TdlTrivialTrueRecognizerTemplateFactory() {}
 
     protected ParameterDeclaration new_treeIndexParameterDeclaration() {
       return new ParameterDeclaration()
@@ -3723,74 +3723,41 @@ public class ScenarioWrapperBaseSystemFactory {
     protected Location newId46Location() {
       return new Location()
           .setId("id46")
-          .setName(
-              new LocationName()
-                  .setName("Duplicating")
-                  .setCoordinates(GuiCoordinates.of(-296, -240)))
+          .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(390, -30)))
           .setExitPolicy(ELocationExitPolicy.COMMITTED)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-264, -208));
-    }
-
-    protected Location newId47Location() {
-      return new Location()
-          .setId("id47")
-          .setName(new LocationName().setName("End").setCoordinates(GuiCoordinates.of(-24, -240)))
-          .setExitPolicy(ELocationExitPolicy.COMMITTED)
-          .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-16, -208));
-    }
-
-    protected Location newId49Location() {
-      return new Location()
-          .setId("id49")
-          .setName(new LocationName().setName("Idle").setCoordinates(GuiCoordinates.of(-816, -240)))
-          .setExitPolicy(ELocationExitPolicy.NORMAL)
-          .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-808, -208));
+          .setCoordinates(GuiCoordinates.of(400, 0));
     }
 
     protected Location newId48Location() {
       return new Location()
           .setId("id48")
-          .setName(
-              new LocationName().setName("Listening").setCoordinates(GuiCoordinates.of(-576, -240)))
+          .setName(new LocationName().setName("Idle").setCoordinates(GuiCoordinates.of(-154, -30)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-552, -208));
+          .setCoordinates(GuiCoordinates.of(-144, 0));
     }
 
-    protected Transition newId46ToId47Transition(Location source, Location target) {
-      return new Transition()
-          .setSource(source)
-          .setTarget(target)
-          .setLabels(
-              new TransitionLabels()
-                  .setSynchronizationLabel(
-                      (SynchronizationLabel)
-                          new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-248, -208))
-                              .setContent(
-                                  new Synchronization()
-                                      .setActiveSync(true)
-                                      .setExpression(
-                                          new ArrayLookupExpression()
-                                              .setLeftChild(
-                                                  IdentifierExpression.of("TdlTerminatorChannels"))
-                                              .setRightChild(
-                                                  IdentifierExpression.of("treeIndex"))))));
+    protected Location newId47Location() {
+      return new Location()
+          .setId("id47")
+          .setName(
+              new LocationName().setName("Notifying").setCoordinates(GuiCoordinates.of(96, -32)))
+          .setExitPolicy(ELocationExitPolicy.COMMITTED)
+          .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(120, 0));
     }
 
-    protected Transition newId47ToId49Transition(Location source, Location target) {
+    protected Transition newId46ToId48Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
           .setLabels(new TransitionLabels())
-          .addNail(GuiCoordinates.of(-16, -120))
-          .addNail(GuiCoordinates.of(-808, -120));
+          .addNail(GuiCoordinates.of(400, 56))
+          .addNail(GuiCoordinates.of(-144, 56));
     }
 
-    protected Transition newId48ToId46Transition(Location source, Location target) {
+    protected Transition newId47ToId46Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -3799,7 +3766,7 @@ public class ScenarioWrapperBaseSystemFactory {
                   .setAssignmentsLabel(
                       (AssignmentsLabel)
                           new AssignmentsLabel()
-                              .setCoordinates(GuiCoordinates.of(-512, -232))
+                              .setCoordinates(GuiCoordinates.of(168, 0))
                               .setContent(
                                   CollectionUtils.collectionBuilder(new LinkedList<AbsExpression>())
                                       .add(
@@ -3815,10 +3782,10 @@ public class ScenarioWrapperBaseSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-520, -208))
+                              .setCoordinates(GuiCoordinates.of(160, -24))
                               .setContent(
                                   new Synchronization()
-                                      .setActiveSync(false)
+                                      .setActiveSync(true)
                                       .setExpression(
                                           new ArrayLookupExpression()
                                               .setLeftChild(
@@ -3827,7 +3794,7 @@ public class ScenarioWrapperBaseSystemFactory {
                                                   IdentifierExpression.of("treeIndex"))))));
     }
 
-    protected Transition newId49ToId48Transition(Location source, Location target) {
+    protected Transition newId48ToId47Transition(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -3836,7 +3803,7 @@ public class ScenarioWrapperBaseSystemFactory {
                   .setSynchronizationLabel(
                       (SynchronizationLabel)
                           new SynchronizationLabel()
-                              .setCoordinates(GuiCoordinates.of(-792, -208))
+                              .setCoordinates(GuiCoordinates.of(-120, -24))
                               .setContent(
                                   new Synchronization()
                                       .setActiveSync(false)
@@ -3866,42 +3833,36 @@ public class ScenarioWrapperBaseSystemFactory {
     }
 
     public Template newTemplate() {
-      Template TdlTerminatorChannelAdapter = new Template().setName(getTemplateName());
+      Template TdlTrivialTrueRecognizer = new Template().setName(getTemplateName());
 
       // Set parameter declarations:
       CollectionUtils.addIfNonNull(
-          TdlTerminatorChannelAdapter.getParameters(), new_treeIndexParameterDeclaration());
+          TdlTrivialTrueRecognizer.getParameters(), new_treeIndexParameterDeclaration());
 
       // Set local declarations:
 
       // Set locations:
       Location locationId46 = newId46Location();
-      TdlTerminatorChannelAdapter.getLocationGraph().addVertex(locationId46);
+      TdlTrivialTrueRecognizer.getLocationGraph().addVertex(locationId46);
 
-      Location locationId47 = newId47Location();
-      TdlTerminatorChannelAdapter.getLocationGraph().addVertex(locationId47);
-
-      Location locationId49 = newId49Location();
-      TdlTerminatorChannelAdapter.getLocationGraph().addVertex(locationId49);
-      TdlTerminatorChannelAdapter.setInitialLocation(locationId49);
       Location locationId48 = newId48Location();
-      TdlTerminatorChannelAdapter.getLocationGraph().addVertex(locationId48);
+      TdlTrivialTrueRecognizer.getLocationGraph().addVertex(locationId48);
+      TdlTrivialTrueRecognizer.setInitialLocation(locationId48);
+      Location locationId47 = newId47Location();
+      TdlTrivialTrueRecognizer.getLocationGraph().addVertex(locationId47);
 
       // Set transitions:
-      Transition transitionId46ToId47 = newId46ToId47Transition(locationId46, locationId47);
-      TdlTerminatorChannelAdapter.getLocationGraph()
-          .addEdge(locationId46, locationId47, transitionId46ToId47);
-      Transition transitionId47ToId49 = newId47ToId49Transition(locationId47, locationId49);
-      TdlTerminatorChannelAdapter.getLocationGraph()
-          .addEdge(locationId47, locationId49, transitionId47ToId49);
-      Transition transitionId48ToId46 = newId48ToId46Transition(locationId48, locationId46);
-      TdlTerminatorChannelAdapter.getLocationGraph()
-          .addEdge(locationId48, locationId46, transitionId48ToId46);
-      Transition transitionId49ToId48 = newId49ToId48Transition(locationId49, locationId48);
-      TdlTerminatorChannelAdapter.getLocationGraph()
-          .addEdge(locationId49, locationId48, transitionId49ToId48);
+      Transition transitionId46ToId48 = newId46ToId48Transition(locationId46, locationId48);
+      TdlTrivialTrueRecognizer.getLocationGraph()
+          .addEdge(locationId46, locationId48, transitionId46ToId48);
+      Transition transitionId47ToId46 = newId47ToId46Transition(locationId47, locationId46);
+      TdlTrivialTrueRecognizer.getLocationGraph()
+          .addEdge(locationId47, locationId46, transitionId47ToId46);
+      Transition transitionId48ToId47 = newId48ToId47Transition(locationId48, locationId47);
+      TdlTrivialTrueRecognizer.getLocationGraph()
+          .addEdge(locationId48, locationId47, transitionId48ToId47);
 
-      return TdlTerminatorChannelAdapter;
+      return TdlTrivialTrueRecognizer;
     }
   }
 
@@ -3981,8 +3942,8 @@ public class ScenarioWrapperBaseSystemFactory {
       Identifier.of("TdlLeadsToRecognizer");
   public static final Identifier DECLARED_NAME_TdlQuantificationRecognizer =
       Identifier.of("TdlQuantificationRecognizer");
-  public static final Identifier DECLARED_NAME_TdlTerminatorChannelAdapter =
-      Identifier.of("TdlTerminatorChannelAdapter");
+  public static final Identifier DECLARED_NAME_TdlTrivialTrueRecognizer =
+      Identifier.of("TdlTrivialTrueRecognizer");
 
   protected ScenarioWrapperBaseSystemFactory() {}
 
@@ -4253,8 +4214,8 @@ public class ScenarioWrapperBaseSystemFactory {
     return TdlQuantificationRecognizerTemplateFactory.getInstance().newTemplate();
   }
 
-  protected Template new_TdlTerminatorChannelAdapterTemplate() {
-    return TdlTerminatorChannelAdapterTemplateFactory.getInstance().newTemplate();
+  protected Template new_TdlTrivialTrueRecognizerTemplate() {
+    return TdlTrivialTrueRecognizerTemplateFactory.getInstance().newTemplate();
   }
 
   protected SystemDefinition newSystemDefinition() {
@@ -4312,7 +4273,7 @@ public class ScenarioWrapperBaseSystemFactory {
     CollectionUtils.addIfNonNull(
         ScenarioWrapperBase.getTemplates(), new_TdlQuantificationRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getTemplates(), new_TdlTerminatorChannelAdapterTemplate());
+        ScenarioWrapperBase.getTemplates(), new_TdlTrivialTrueRecognizerTemplate());
     // Set system definition:
     SystemDefinition systemDefinition = newSystemDefinition();
     if (systemDefinition != null) {

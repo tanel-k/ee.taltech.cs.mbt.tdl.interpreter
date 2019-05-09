@@ -21,7 +21,7 @@ public class ScenarioWrapperConstructionContext {
 	private int treeNodeCount = 0;
 	private int trapsetNodeCount = 0;
 
-	private Flag terminatorAdapterInclusionFlag = Flag.newInstance();
+	private Flag trivialTrueInclusionFlag = Flag.newInstance();
 	private Flag disjunctionInclusionFlag = Flag.newInstance();
 	private Flag conjunctionInclusionFlag = Flag.newInstance();
 	private Flag leadsToInclusionFlag = Flag.newInstance();
@@ -58,8 +58,8 @@ public class ScenarioWrapperConstructionContext {
 		this.trapsetNodeCount = trapsetNodeCount;
 	}
 
-	Flag getTerminatorAdapterInclusionFlag() {
-		return terminatorAdapterInclusionFlag;
+	Flag getTrivialTrueInclusionFlag() {
+		return trivialTrueInclusionFlag;
 	}
 
 	Flag getDisjunctionInclusionFlag() {

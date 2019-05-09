@@ -11,9 +11,9 @@
     <relativePath>../ee.taltech.cs.mbt.tdl.parent-pom/pom.xml</relativePath>
   </parent>
 
-  <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
-  <artifactId>st-facade</artifactId>
-  <version>${commons.stFacade.version}</version>
+  <groupId>ee.taltech.cs.mbt.tdl.user_interface</groupId>
+  <artifactId>user-interface-core</artifactId>
+  <version>${interface.core.version}</version>
   <packaging>jar</packaging>
 
   <build>
@@ -28,22 +28,26 @@
   <dependencies>
     <!-- Internal -->
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
-      <artifactId>utils</artifactId>
+      <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
+      <artifactId>tdl-parser</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
+      <artifactId>uta-parser</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.scenario</groupId>
+      <artifactId>scenario-composer</artifactId>
     </dependency>
     <!-- /Internal -->
-    <dependency>
-      <groupId>org.antlr</groupId>
-      <artifactId>ST4</artifactId>
-    </dependency>
   </dependencies>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>Commons - StringTemplate Facade</name>
-  <description>Provides utilities for implementing StringTemplate-based code generators.</description>
+  <name>TDL(TP) Interpreter Interface - Core</name>
+  <description>TDL(TP) interpreter core logic.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
     <name>TalTech</name>

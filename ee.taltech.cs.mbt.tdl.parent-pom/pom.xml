@@ -5,12 +5,12 @@
 
   <parent>
     <groupId>ee.taltech.cs.mbt.tdl</groupId>
-    <artifactId>parent_bom</artifactId>
+    <artifactId>parent-bom</artifactId>
     <version>1.5-SNAPSHOT</version>
-    <relativePath>../ee.taltech.cs.mbt.tdl.parent_bom/pom.xml</relativePath>
+    <relativePath>../ee.taltech.cs.mbt.tdl.parent-bom/pom.xml</relativePath>
   </parent>
 
-  <artifactId>parent_pom</artifactId>
+  <artifactId>parent-pom</artifactId>
   <version>1.5-SNAPSHOT</version>
   <packaging>pom</packaging>
 

@@ -6,9 +6,9 @@
 
   <parent>
     <groupId>ee.taltech.cs.mbt.tdl</groupId>
-    <artifactId>parent_pom</artifactId>
+    <artifactId>parent-pom</artifactId>
     <version>1.5-SNAPSHOT</version>
-    <relativePath>../ee.taltech.cs.mbt.tdl.parent_pom/pom.xml</relativePath>
+    <relativePath>../ee.taltech.cs.mbt.tdl.parent-pom/pom.xml</relativePath>
   </parent>
 
   <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>

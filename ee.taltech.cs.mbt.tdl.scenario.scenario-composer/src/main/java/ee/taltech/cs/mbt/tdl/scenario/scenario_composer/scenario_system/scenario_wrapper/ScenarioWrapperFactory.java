@@ -177,11 +177,11 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 	}
 
 	@Override
-	protected Template new_TdlTerminatorChannelAdapterTemplate() {
-		if (ctx.getTerminatorAdapterInclusionFlag().isNotSet())
+	protected Template new_TdlTrivialTrueRecognizerTemplate() {
+		if (ctx.getTrivialTrueInclusionFlag().isNotSet())
 			return null;
 
-		return super.new_TdlTerminatorChannelAdapterTemplate();
+		return super.new_TdlTrivialTrueRecognizerTemplate();
 	}
 
 	@Override
@@ -317,12 +317,13 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 			@Override
 			public Void visitValueWrapper(BooleanValueWrapperNode node) {
-				ctx.getTerminatorAdapterInclusionFlag().set();
+				// FIXME: What if node == False??
+				ctx.getTrivialTrueInclusionFlag().set();
 
 				// Note: This represents a condition that holds on every transition in the SUT.
 				Integer treeIndex = ctx.getTreeIndexMap().get(node);
-				TemplateInstantiation inst = TdlTerminatorChannelAdapterTemplateFactory.getInstance().createInstantiation(
-						Identifier.of(TdlTerminatorChannelAdapterTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
+				TemplateInstantiation inst = TdlTrivialTrueRecognizerTemplateFactory.getInstance().createInstantiation(
+						Identifier.of(TdlTrivialTrueRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
 						NaturalNumberLiteral.of(treeIndex)
 				);
 
