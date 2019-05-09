@@ -52,10 +52,9 @@ public class ExpressionNormalizer {
 
 		@Override
 		public Void visitGroup(GroupNode group) {
-			return visitChildren(
-					GroupNormalizingReducer.getInstance()
-							.reduce(expression, group)
-			);
+			GroupNormalizingReducer.getInstance()
+					.reduce(expression, group).accept(this);
+			return null;
 		}
 
 		@Override

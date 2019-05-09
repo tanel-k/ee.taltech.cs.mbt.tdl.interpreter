@@ -21,21 +21,39 @@ public class LeadsToNormalizingReducer extends AbsReducer<LeadsToNode> {
 		if (!leadsTo.isNegated())
 			return leadsTo;
 
-		// not(a ~> b) ==> not(a) or (a ~> not(b)).
-		DisjunctionNode disjunction = new DisjunctionNode();
-		expression.replaceDescendant(leadsTo, disjunction);
+		/*
+		 * not(A ~> B): It is not the case that whenever A is satisfied, B will eventually be satisfied.
+		 * Equivalently, either:
+		 * a) A is never satisfied, or;
+		 * b) whenever A is satisfied, it is not the case that B will be satisfied at a later point in time.
+		 *
+		 * We cannot simply write not(A) || A ~> not(B):
+		 * Assume A does not hold, then the "||"-recognizer returns pretty much immediately.
+		 * But there is nothing indicating that A cannot occur at a later point in time.
+		 * Assume A holds, then we start the recognizer for not(B).
+		 * When not(B) holds, the "~>"-recognizer returns.
+		 * But there is nothing indicating that B won't begin to hold at a later point in time.
+		 *
+		 * In terms of the implementation, we would either have to wait for A to *never* occur or
+		 * for B to *never* occur after A.
+		 * The notion of 'waiting' is not well-defined.
+		 * We obviously cannot wait until the end of time.
+		 * The TDL(TP) architecture described in the source article does not provide any structures
+		 * which could support implementing this waiting logic.
+		 *
+		 * Recognizers have to do with recognizing configurations that may occur in trace sub-sequences -
+		 * they are not designed to recognize when the test trace has concluded.
+		 * Additionally, the concept of waiting becomes contradictory when we consider the fact that
+		 * the TDL stopwatch automaton has a hard-coded timeout attached to it.
+		 *
+		 * As this is unimplementable based on the theoretical basis at the time of writing, our options are:
+		 * * throw Exception;
+		 * * replace with something meaningful.
+		 *
+		 * We'll throw an Exception as it is more informative.
+		 * TODO!
+		 */
 
-		AbsBooleanInternalNode leftChild = leadsTo.getChildContainer().getLeftChild();
-		AbsBooleanInternalNode rightChild = leadsTo.getChildContainer().getRightChild();
-
-		AbsBooleanInternalNode leftChildClone = leftChild.deepClone();
-		leftChildClone.setNegated(!leftChild.isNegated());
-		rightChild.setNegated(!rightChild.isNegated());
-		leadsTo.setNegated(false);
-
-		disjunction.getChildContainer().setLeftChild(leftChildClone);
-		disjunction.getChildContainer().setRightChild(leadsTo);
-
-		return DisjunctionNormalizingReducer.getInstance().reduce(expression, disjunction);
+		throw new UnsupportedOperationException("Placeholder, FIXME.");
 	}
 }
