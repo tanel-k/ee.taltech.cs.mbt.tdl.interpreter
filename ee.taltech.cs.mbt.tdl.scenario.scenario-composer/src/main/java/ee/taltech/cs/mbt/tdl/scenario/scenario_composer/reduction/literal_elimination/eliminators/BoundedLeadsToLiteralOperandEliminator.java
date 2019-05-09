@@ -32,6 +32,7 @@ public class BoundedLeadsToLiteralOperandEliminator extends AbsLiteralOperandEli
 			BooleanValueWrapperNode childLeaf,
 			Deque<BooleanValueWrapperNode> remainingLeaves
 	) {
+		// FIXME: Double-check.
 		if (childLeaf.wrapsFalse()) {
 			// P ~> [Cond(x)] False ==> False (can never achieve a state that is impossible).
 			// False ~> [Cond(x)] P ==> False (can never enter impossible starting state).

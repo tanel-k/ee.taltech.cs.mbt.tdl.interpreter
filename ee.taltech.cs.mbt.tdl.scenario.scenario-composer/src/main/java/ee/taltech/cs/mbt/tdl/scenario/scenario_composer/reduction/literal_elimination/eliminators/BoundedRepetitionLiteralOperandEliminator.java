@@ -34,6 +34,7 @@ public class BoundedRepetitionLiteralOperandEliminator extends AbsLiteralOperand
 			BooleanValueWrapperNode childLeaf,
 			Deque<BooleanValueWrapperNode> remainingLeaves
 	) {
+		// FIXME: Double-check.
 		Bound bound = parentNode.getBound();
 
 		BigInteger boundValue = bound.getBoundValue();

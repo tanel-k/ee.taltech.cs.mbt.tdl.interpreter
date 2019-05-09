@@ -37,11 +37,13 @@ public class DisjunctionLiteralOperandEliminator extends AbsLiteralOperandElimin
 		AbsBooleanInternalNode leftChild = parentNode.getChildContainer().getLeftChild();
 		boolean rightChildIsBoolValue = rightChild == childLeaf;
 
-		if (childLeaf.wrapsTrue()) { // True or x ==> True.
+		if (childLeaf.wrapsTrue()) {
+			// True or X reduces to True.
 			BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.trueWrapper();
 			expression.replaceDescendant(parentNode, replacementNode);
 			remainingLeaves.addFirst(replacementNode);
-		} else { // False or x ==> x.
+		} else {
+			// False or X reduces to X.
 			expression.replaceDescendant(parentNode, rightChildIsBoolValue ? leftChild : rightChild);
 		}
 	}

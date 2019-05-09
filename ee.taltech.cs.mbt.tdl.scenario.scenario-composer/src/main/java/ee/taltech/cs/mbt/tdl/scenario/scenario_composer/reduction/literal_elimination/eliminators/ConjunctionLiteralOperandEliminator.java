@@ -37,9 +37,11 @@ public class ConjunctionLiteralOperandEliminator extends AbsLiteralOperandElimin
 		AbsBooleanInternalNode leftChild = conjunction.getChildContainer().getLeftChild();
 		boolean rightChildIsBoolValue = rightChild == childLeaf;
 
-		if (childLeaf.wrapsTrue()) { // True and x ==> x.
+		if (childLeaf.wrapsTrue()) {
+			// True and X reduces to X.
 			expression.replaceDescendant(conjunction, rightChildIsBoolValue ? leftChild : rightChild);
-		} else { // False and x ==> False.
+		} else {
+			// False and X reduces to False.
 			BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.falseWrapper();
 			expression.replaceDescendant(conjunction, replacementNode);
 			remainingLeaves.addFirst(replacementNode);

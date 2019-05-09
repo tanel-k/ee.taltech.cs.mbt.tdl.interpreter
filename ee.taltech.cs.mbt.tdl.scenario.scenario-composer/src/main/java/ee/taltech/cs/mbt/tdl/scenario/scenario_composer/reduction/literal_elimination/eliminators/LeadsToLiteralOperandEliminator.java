@@ -33,6 +33,7 @@ public class LeadsToLiteralOperandEliminator extends AbsLiteralOperandEliminator
 			BooleanValueWrapperNode childLeaf,
 			Deque<BooleanValueWrapperNode> remainingLeaves
 	) {
+		// FIXME: Double-check.
 		AbsBooleanInternalNode rightChild = leadsTo.getChildContainer().getRightChild();
 		AbsBooleanInternalNode leftChild = leadsTo.getChildContainer().getLeftChild();
 		boolean rightChildIsBoolValue = rightChild == childLeaf;
