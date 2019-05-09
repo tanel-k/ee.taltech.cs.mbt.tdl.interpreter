@@ -25,55 +25,16 @@ public class BoundedLeadsToNormalizingReducer extends AbsReducer<BoundedLeadsToN
 			return boundedLeadsTo;
 
 		/*
+		 * The reasoning here would be similar to that for not(~>) in LeadsToNormalizingReducer.
+		 * Theoretically we could have the following reduction rules:
 		 * not(a ~>(>n) b)  ==> a ~>(<=n) b or not(a ~> b)
 		 * not(a ~>(<n) b)  ==> a ~>(>=n) b or not(a ~> b)
 		 * not(a ~>(>=n) b) ==> a ~>(<n) b or not(a ~> b)
 		 * not(a ~>(<=n) b) ==> a ~>(>n) b or not(a ~> b)
 		 * not(a ~>(=n) b)  ==> (a ~>(<n) b or a ~>(>n) b) or not(a ~> b)
+		 * However, since not(~>) isn't implementable, we need to throw an Exception here as well.
+		 * TODO!
 		 */
-		AbsBooleanInternalNode leftChild = boundedLeadsTo.getChildContainer().getLeftChild();
-		AbsBooleanInternalNode rightChild = boundedLeadsTo.getChildContainer().getRightChild();
-
-		DisjunctionNode disjunction = new DisjunctionNode();
-		LeadsToNode negatedLeadsTo = new LeadsToNode();
-		negatedLeadsTo.setNegated(true);
-		negatedLeadsTo.getChildContainer().setLeftChild(leftChild.deepClone());
-		negatedLeadsTo.getChildContainer().setRightChild(rightChild.deepClone());
-
-		disjunction.getChildContainer().setLeftChild(boundedLeadsTo);
-		disjunction.getChildContainer().setRightChild(negatedLeadsTo);
-
-		Bound bound = boundedLeadsTo.getBound();
-		switch (bound.getBoundType()) {
-			case GREATER_THAN:
-				expression.replaceDescendant(boundedLeadsTo, disjunction);
-				bound.setBoundType(EBoundType.LESS_THAN_OR_EQUAL_TO);
-				break;
-			case LESS_THAN:
-				expression.replaceDescendant(boundedLeadsTo, disjunction);
-				bound.setBoundType(EBoundType.GREATER_THAN_OR_EQUAL_TO);
-				break;
-			case GREATER_THAN_OR_EQUAL_TO:
-				expression.replaceDescendant(boundedLeadsTo, disjunction);
-				bound.setBoundType(EBoundType.LESS_THAN);
-				break;
-			case LESS_THAN_OR_EQUAL_TO:
-				expression.replaceDescendant(boundedLeadsTo, disjunction);
-				bound.setBoundType(EBoundType.GREATER_THAN);
-				break;
-			case EQUALS:
-				expression.replaceDescendant(boundedLeadsTo, disjunction);
-				bound.setBoundType(EBoundType.GREATER_THAN);
-				BoundedLeadsToNode boundedLeadsToClone = boundedLeadsTo.deepClone();
-				boundedLeadsToClone.getBound().setBoundType(EBoundType.LESS_THAN);
-				DisjunctionNode boundDisjunction = new DisjunctionNode();
-				boundDisjunction.getChildContainer().setLeftChild(boundedLeadsToClone);
-				boundDisjunction.getChildContainer().setRightChild(boundedLeadsTo);
-				disjunction.getChildContainer().setLeftChild(boundDisjunction);
-				disjunction.getChildContainer().setRightChild(negatedLeadsTo);
-				break;
-		}
-
-		return disjunction;
+		throw new UnsupportedOperationException("Placeholder,FIXME.");
 	}
 }

@@ -17,7 +17,6 @@ public class LeadsToNormalizingReducer extends AbsReducer<LeadsToNode> {
 
 	@Override
 	public AbsBooleanInternalNode reduce(TdlExpression expression, LeadsToNode leadsTo) {
-		// FIXME: Discussed with prof Vain - turns out this is way more complicated.
 		if (!leadsTo.isNegated())
 			return leadsTo;
 
