@@ -36,6 +36,7 @@ public class ScenarioSystemComposer {
 	private ScenarioWrapperFactory wrapperFactory;
 	private ScenarioCompositionParameters parameters;
 
+	@Deprecated
 	private static void processGloballyApplicableTransitionSynch(
 			UtaSystem system,
 			Synchronization globalSynch,

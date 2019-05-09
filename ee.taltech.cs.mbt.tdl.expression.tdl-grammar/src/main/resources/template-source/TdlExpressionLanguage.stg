@@ -28,9 +28,9 @@ expression(ctx) ::= <%
 
 trapsetQuantifier(ctx) ::= <%
     <if(ctx.existentialTrapsetQuantification)>
-        A(<trapsetExpression(ctx.domain)>)
+        E(<trapsetExpression(ctx.domain)>)
     <elseif(ctx.universalTrapsetQuantification)>
-        U(<trapsetExpression(ctx.domain)>)
+        A(<trapsetExpression(ctx.domain)>)
     <endif>
 %>
 

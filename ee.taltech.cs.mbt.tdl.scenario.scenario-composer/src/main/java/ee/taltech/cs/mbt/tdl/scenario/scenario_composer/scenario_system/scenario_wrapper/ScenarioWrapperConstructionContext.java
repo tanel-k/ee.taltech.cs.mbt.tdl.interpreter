@@ -119,6 +119,7 @@ public class ScenarioWrapperConstructionContext {
 		return trapsetEvaluationMap;
 	}
 
+	@Deprecated
 	public List<Synchronization> getGloballyApplicableTransitionSynchs() {
 		return globallyApplicableTransitionSynchs;
 	}
