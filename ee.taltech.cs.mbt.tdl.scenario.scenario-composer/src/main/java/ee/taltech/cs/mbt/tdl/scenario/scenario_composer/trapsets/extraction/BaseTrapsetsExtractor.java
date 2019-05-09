@@ -68,35 +68,6 @@ public class BaseTrapsetsExtractor {
 		}
 	}
 
-	public static class EmptyTrapsetException extends InvalidBaseTrapsetDefinitionException {
-		private static final String SINGLE_EMPTY_TRAPSET_FORMAT = "Invalid trapset definition %s: empty trapset.";
-
-		private static String formattedMessage(Collection<TrapsetNode> emptyTrapsets) {
-			if (emptyTrapsets.size() == 0)
-				return null;
-
-			if (emptyTrapsets.size() == 1) {
-				return String.format(SINGLE_EMPTY_TRAPSET_FORMAT, emptyTrapsets.iterator().next());
-			}
-
-			StringBuilder sb = new StringBuilder("Invalid trapset definitions: ");
-			Iterator<TrapsetNode> iter = emptyTrapsets.iterator();
-			while (iter.hasNext()) {
-				TrapsetNode emptyTrapset = iter.next();
-				sb.append(emptyTrapset.getName());
-				if (iter.hasNext())
-					sb.append(", ");
-			}
-			sb.append(" are empty.");
-
-			return sb.toString();
-		}
-
-		EmptyTrapsetException(Collection<TrapsetNode> emptyTrapsets) {
-			super(formattedMessage(emptyTrapsets));
-		}
-	}
-
 	public static class MissingTrapsetDeclarationException extends InvalidBaseTrapsetDefinitionException {
 		MissingTrapsetDeclarationException(TrapsetNode node) {
 			super(node, "missing global declaration");
@@ -239,14 +210,6 @@ public class BaseTrapsetsExtractor {
 					}
 				}
 			}
-
-			List<TrapsetNode> emptyTrapsets = baseTrapsetMap.entrySet().stream()
-					.filter(e -> e.getValue().isEmpty())
-					.map(Entry::getKey)
-					.collect(Collectors.toList());
-
-			if (!emptyTrapsets.isEmpty())
-				throw new EmptyTrapsetException(emptyTrapsets);
 		}
 	}
 

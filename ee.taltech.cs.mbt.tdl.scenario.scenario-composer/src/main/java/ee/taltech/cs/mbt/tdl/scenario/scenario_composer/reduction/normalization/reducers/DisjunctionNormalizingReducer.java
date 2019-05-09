@@ -17,6 +17,7 @@ public class DisjunctionNormalizingReducer extends AbsReducer<DisjunctionNode> {
 
 	@Override
 	public AbsBooleanInternalNode reduce(TdlExpression expression, DisjunctionNode disjunction) {
+		// not(X || Y) normalizes to not(X) && not(Y).
 		if (!disjunction.isNegated())
 			return disjunction;
 

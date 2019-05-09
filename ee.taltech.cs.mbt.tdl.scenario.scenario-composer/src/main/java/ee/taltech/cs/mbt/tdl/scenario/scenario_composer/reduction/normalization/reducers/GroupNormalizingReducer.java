@@ -16,6 +16,7 @@ public class GroupNormalizingReducer extends AbsReducer<GroupNode> {
 
 	@Override
 	public AbsBooleanInternalNode reduce(TdlExpression expression, GroupNode group) {
+		// ( X ) reduces to X.
 		AbsBooleanInternalNode<?, ?> groupedNode = group.getChildContainer().getChild();
 		expression.replaceDescendant(group, groupedNode);
 		groupedNode.setNegated(groupedNode.isNegated() ^ group.isNegated());

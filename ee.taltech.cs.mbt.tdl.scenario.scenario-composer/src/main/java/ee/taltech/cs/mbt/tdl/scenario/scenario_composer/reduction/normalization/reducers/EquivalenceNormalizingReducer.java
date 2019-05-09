@@ -18,6 +18,7 @@ public class EquivalenceNormalizingReducer extends AbsReducer<EquivalenceNode> {
 
 	@Override
 	public AbsBooleanInternalNode reduce(TdlExpression expression, EquivalenceNode equivalence) {
+		// X <-> Y reduces to X -> && Y -> X.
 		ImplicationNode implyLeftToRight = new ImplicationNode();
 		implyLeftToRight.getChildContainer()
 				.setLeftChild(equivalence.getChildContainer().getLeftChild())

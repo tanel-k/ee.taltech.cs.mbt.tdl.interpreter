@@ -17,6 +17,7 @@ public class ConjunctionNormalizingReducer extends AbsReducer<ConjunctionNode> {
 
 	@Override
 	public AbsBooleanInternalNode reduce(TdlExpression expression, ConjunctionNode conjunction) {
+		// not(X && Y) normalizes to not(X) || not(Y).
 		if (!conjunction.isNegated())
 			return conjunction;
 

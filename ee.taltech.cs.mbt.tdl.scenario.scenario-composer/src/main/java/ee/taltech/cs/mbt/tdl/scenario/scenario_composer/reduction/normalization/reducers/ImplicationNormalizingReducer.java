@@ -17,6 +17,7 @@ public class ImplicationNormalizingReducer extends AbsReducer<ImplicationNode> {
 
 	@Override
 	public AbsBooleanInternalNode reduce(TdlExpression expression, ImplicationNode implication) {
+		// X -> Y reduces to not(X) || Y.
 		DisjunctionNode disjunction = new DisjunctionNode();
 		expression.replaceDescendant(implication, disjunction);
 

@@ -47,6 +47,11 @@ public class TrapsetQuantifierEvaluator {
 		return trapsetQuantifiers;
 	}
 
+	/**
+	 * @return the total number of transitions in the system.<br/>
+	 * Could be used to test if a trapset unconditionally covers the entire system.
+	 */
+	@SuppressWarnings("unused")
 	private static int getSystemTransitionCount(UtaSystem system) {
 		return system.getTemplates().stream()
 				.map(Template::getLocationGraph)
@@ -56,6 +61,10 @@ public class TrapsetQuantifierEvaluator {
 
 	private Flag completionFlag = Flag.newInstance();
 
+	/**
+	 * @see #getSystemTransitionCount(UtaSystem)
+	 */
+	@SuppressWarnings("unused")
 	private UtaSystem system;
 	private TdlExpression expression;
 	private Map<AbsTrapsetExpressionNode, AbsEvaluatedTrapset> trapsetEvaluationMap;
@@ -71,21 +80,25 @@ public class TrapsetQuantifierEvaluator {
 	}
 
 	private void evaluateTrapsetQuantifiers() {
-		final int systemTransitionCount = getSystemTransitionCount(system);
 		for (AbsTrapsetQuantifierNode trapsetQuantifier : extractTrapsetQuantifiers(expression)) {
 			AbsTrapsetExpressionNode trapsetExpression = trapsetQuantifier.getChildContainer().getChild();
 			AbsEvaluatedTrapset trapset = trapsetEvaluationMap.get(trapsetExpression);
-			/*
-			 * Reduction rules:
-			 * E(universal) = True.
-			 * U(universal) = True.
-			 * not(E(universal)) = False.
-			 * not(U(universal)) = False.
-			 *
-			 * Note that trapsets cannot be empty as that would result in Uppaal syntax errors.
-			 */
-			if (trapset.getUnconditionalTrapCount() == systemTransitionCount) {
-				BooleanValueWrapperNode wrapper = BooleanValueWrapperNode.of(!trapsetQuantifier.isNegated());
+
+			// Only quantifiers over empty trapsets can be reduced at this time.
+			// Technically we could also reduce E(ALL) -> to some True node that requires at least one transition to be taken.
+			// We'll skip this for now as we would have to differentiate between multiple types of 'True'.
+			if (trapset.getTrapCount() == 0) {
+				// E({}) = False:
+				// Because E({}) is the same as 'exists tr in {} such that assignment(tr) = true' (by definition of empty set).
+
+				// A({}) = True:
+				// Because A({}) is the same as 'for all tr : tr in {} -> assignment(tr) = true' (by def of implication).
+				BooleanValueWrapperNode wrapper;
+				if (trapsetQuantifier instanceof UniversalQuantificationNode) {
+					wrapper = BooleanValueWrapperNode.of(!trapsetQuantifier.isNegated());
+				} else {
+					wrapper = BooleanValueWrapperNode.of(trapsetQuantifier.isNegated());
+				}
 				expression.replaceDescendant(trapsetQuantifier, wrapper);
 			}
 		}

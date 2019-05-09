@@ -61,7 +61,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.TransitionLa
 
 import java.util.LinkedList;
 
-/** Generated on 09/May/2019 using the UTA pickler plugin. */
+/** Generated on 10/May/2019 using the UTA pickler plugin. */
 public class ScenarioWrapperBaseSystemFactory {
   public static class TdlScenarioStopwatchTemplateFactory {
     public static TdlScenarioStopwatchTemplateFactory getInstance() {
@@ -114,7 +114,7 @@ public class ScenarioWrapperBaseSystemFactory {
                           new InvariantLabel()
                               .setCoordinates(GuiCoordinates.of(-264, -80))
                               .setContent(
-                                  new LessThanOrEqualExpression()
+                                  new LessThanExpression()
                                       .setLeftChild(IdentifierExpression.of("timeoutClock"))
                                       .setRightChild(IdentifierExpression.of("TDL_TIMEOUT")))))
           .setCoordinates(GuiCoordinates.of(-280, -56));
@@ -159,7 +159,7 @@ public class ScenarioWrapperBaseSystemFactory {
                           new GuardLabel()
                               .setCoordinates(GuiCoordinates.of(-272, 32))
                               .setContent(
-                                  new EqualityExpression()
+                                  new GreaterThanOrEqualExpression()
                                       .setLeftChild(IdentifierExpression.of("timeoutClock"))
                                       .setRightChild(IdentifierExpression.of("TDL_TIMEOUT")))))
           .addNail(GuiCoordinates.of(-280, 56));
@@ -3893,7 +3893,7 @@ public class ScenarioWrapperBaseSystemFactory {
     protected Location newId49Location() {
       return new Location()
           .setId("id49")
-          .setName(new LocationName().setName("Idle").setCoordinates(GuiCoordinates.of(-10, -30)))
+          .setName(new LocationName().setName("NoOp").setCoordinates(GuiCoordinates.of(-40, -32)))
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(0, 0));

@@ -20,6 +20,7 @@ public class BoundedRepetitionNormalizingReducer extends AbsReducer<BoundedRepet
 
 	@Override
 	public AbsBooleanInternalNode reduce(TdlExpression expression, BoundedRepetitionNode boundedRepetition) {
+		// FIXME: Discussed with prof Vain - turns out this is way more complicated.
 		Bound bound = boundedRepetition.getBound();
 		BigInteger boundValue = bound.getBoundValue();
 		BooleanValueWrapperNode replacementNode = null;

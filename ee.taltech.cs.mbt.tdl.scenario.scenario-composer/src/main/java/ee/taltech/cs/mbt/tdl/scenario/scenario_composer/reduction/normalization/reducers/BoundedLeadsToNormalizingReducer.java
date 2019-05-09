@@ -20,6 +20,7 @@ public class BoundedLeadsToNormalizingReducer extends AbsReducer<BoundedLeadsToN
 
 	@Override
 	public AbsBooleanInternalNode reduce(TdlExpression expression, BoundedLeadsToNode boundedLeadsTo) {
+		// FIXME: Discussed with prof Vain - turns out this is way more complicated.
 		if (!boundedLeadsTo.isNegated())
 			return boundedLeadsTo;
 
