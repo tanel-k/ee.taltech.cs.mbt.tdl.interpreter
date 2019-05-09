@@ -3866,6 +3866,102 @@ public class ScenarioWrapperBaseSystemFactory {
     }
   }
 
+  public static class TdlTrivialFalseRecognizerTemplateFactory {
+    public static TdlTrivialFalseRecognizerTemplateFactory getInstance() {
+      return new TdlTrivialFalseRecognizerTemplateFactory();
+    }
+
+    public static final Identifier TEMPLATE_NAME = Identifier.of("TdlTrivialFalseRecognizer");
+
+    public Identifier getTemplateName() {
+      return TEMPLATE_NAME;
+    }
+
+    protected TdlTrivialFalseRecognizerTemplateFactory() {}
+
+    protected ParameterDeclaration new_treeIndexParameterDeclaration() {
+      return new ParameterDeclaration()
+          .setIdentifier(Identifier.of("treeIndex"))
+          .setType(
+              new Type()
+                  .setBaseType(
+                      new BaseType()
+                          .setPrefix(ETypePrefix.CONSTANT)
+                          .setTypeId(CustomTypeId.of(Identifier.of("TdlTreeIndex")))));
+    }
+
+    protected Location newId49Location() {
+      return new Location()
+          .setId("id49")
+          .setName(new LocationName().setName("Idle").setCoordinates(GuiCoordinates.of(-10, -30)))
+          .setExitPolicy(ELocationExitPolicy.NORMAL)
+          .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(0, 0));
+    }
+
+    protected Transition newId49ToId49Transition(Location source, Location target) {
+      return new Transition()
+          .setSource(source)
+          .setTarget(target)
+          .setLabels(
+              new TransitionLabels()
+                  .setSynchronizationLabel(
+                      (SynchronizationLabel)
+                          new SynchronizationLabel()
+                              .setCoordinates(GuiCoordinates.of(88, -16))
+                              .setContent(
+                                  new Synchronization()
+                                      .setActiveSync(false)
+                                      .setExpression(
+                                          new ArrayLookupExpression()
+                                              .setLeftChild(
+                                                  IdentifierExpression.of("TdlActivatorChannels"))
+                                              .setRightChild(
+                                                  IdentifierExpression.of("treeIndex"))))))
+          .addNail(GuiCoordinates.of(80, -88))
+          .addNail(GuiCoordinates.of(80, 80));
+    }
+
+    public TemplateInstantiation createInstantiation(
+        Identifier newTemplateName, AbsExpression arg_treeIndex) {
+      TemplateInstantiation inst =
+          new TemplateInstantiation()
+              .setNewTemplateName(newTemplateName)
+              .setSourceTemplateName(getTemplateName());
+
+      // Set arguments/parameters:
+      if (arg_treeIndex != null) {
+        inst.addArgument(arg_treeIndex);
+      } else { // Either provide treeIndex argument or leave a parameter:
+        inst.addParameter(new_treeIndexParameterDeclaration());
+      }
+
+      return inst;
+    }
+
+    public Template newTemplate() {
+      Template TdlTrivialFalseRecognizer = new Template().setName(getTemplateName());
+
+      // Set parameter declarations:
+      CollectionUtils.addIfNonNull(
+          TdlTrivialFalseRecognizer.getParameters(), new_treeIndexParameterDeclaration());
+
+      // Set local declarations:
+
+      // Set locations:
+      Location locationId49 = newId49Location();
+      TdlTrivialFalseRecognizer.getLocationGraph().addVertex(locationId49);
+      TdlTrivialFalseRecognizer.setInitialLocation(locationId49);
+
+      // Set transitions:
+      Transition transitionId49ToId49 = newId49ToId49Transition(locationId49, locationId49);
+      TdlTrivialFalseRecognizer.getLocationGraph()
+          .addEdge(locationId49, locationId49, transitionId49ToId49);
+
+      return TdlTrivialFalseRecognizer;
+    }
+  }
+
   public static class ScenarioWrapperBaseSystemDefinitionFactory {
     public static ScenarioWrapperBaseSystemDefinitionFactory getInstance() {
       return new ScenarioWrapperBaseSystemDefinitionFactory();
@@ -3944,6 +4040,8 @@ public class ScenarioWrapperBaseSystemFactory {
       Identifier.of("TdlQuantificationRecognizer");
   public static final Identifier DECLARED_NAME_TdlTrivialTrueRecognizer =
       Identifier.of("TdlTrivialTrueRecognizer");
+  public static final Identifier DECLARED_NAME_TdlTrivialFalseRecognizer =
+      Identifier.of("TdlTrivialFalseRecognizer");
 
   protected ScenarioWrapperBaseSystemFactory() {}
 
@@ -4218,6 +4316,10 @@ public class ScenarioWrapperBaseSystemFactory {
     return TdlTrivialTrueRecognizerTemplateFactory.getInstance().newTemplate();
   }
 
+  protected Template new_TdlTrivialFalseRecognizerTemplate() {
+    return TdlTrivialFalseRecognizerTemplateFactory.getInstance().newTemplate();
+  }
+
   protected SystemDefinition newSystemDefinition() {
     return ScenarioWrapperBaseSystemDefinitionFactory.getInstance().newSystemDefinition();
   }
@@ -4274,6 +4376,8 @@ public class ScenarioWrapperBaseSystemFactory {
         ScenarioWrapperBase.getTemplates(), new_TdlQuantificationRecognizerTemplate());
     CollectionUtils.addIfNonNull(
         ScenarioWrapperBase.getTemplates(), new_TdlTrivialTrueRecognizerTemplate());
+    CollectionUtils.addIfNonNull(
+        ScenarioWrapperBase.getTemplates(), new_TdlTrivialFalseRecognizerTemplate());
     // Set system definition:
     SystemDefinition systemDefinition = newSystemDefinition();
     if (systemDefinition != null) {

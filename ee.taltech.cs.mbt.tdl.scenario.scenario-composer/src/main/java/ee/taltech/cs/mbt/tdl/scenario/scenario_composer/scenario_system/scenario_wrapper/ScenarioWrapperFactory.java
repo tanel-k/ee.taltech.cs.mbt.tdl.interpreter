@@ -185,6 +185,14 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 	}
 
 	@Override
+	protected Template new_TdlTrivialFalseRecognizerTemplate() {
+		if (ctx.getTrivialFalseInclusionFlag().isNotSet())
+			return null;
+
+		return super.new_TdlTrivialFalseRecognizerTemplate();
+	}
+
+	@Override
 	protected Template new_TdlQuantificationRecognizerTemplate() {
 		// Prevent adding the base quantification recognizer template.
 		return null;
@@ -317,16 +325,27 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 			@Override
 			public Void visitValueWrapper(BooleanValueWrapperNode node) {
-				// FIXME: What if node == False??
-				ctx.getTrivialTrueInclusionFlag().set();
-
-				// Note: This represents a condition that holds on every transition in the SUT.
 				Integer treeIndex = ctx.getTreeIndexMap().get(node);
-				TemplateInstantiation inst = TdlTrivialTrueRecognizerTemplateFactory.getInstance().createInstantiation(
-						Identifier.of(TdlTrivialTrueRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
-						NaturalNumberLiteral.of(treeIndex)
-				);
+				TemplateInstantiation inst;
 
+				if (node.wrapsTrue()) {
+					ctx.getTrivialTrueInclusionFlag().set();
+					inst = TdlTrivialTrueRecognizerTemplateFactory.getInstance().createInstantiation(
+							Identifier.of(TdlTrivialTrueRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
+							NaturalNumberLiteral.of(treeIndex)
+					);
+				} else {
+					ctx.getTrivialFalseInclusionFlag().set();
+					inst = TdlTrivialFalseRecognizerTemplateFactory.getInstance().createInstantiation(
+							Identifier.of(TdlTrivialFalseRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
+							NaturalNumberLiteral.of(treeIndex)
+					);
+				}
+				ctx.getTemplateInstantiations().add(inst);
+
+				// FIXME: No longer supported!
+				// Note: This represents a condition that holds on every transition in the SUT.
+				/*
 				ctx.getGloballyApplicableTransitionSynchs().add(
 						new Synchronization()
 								.setExpression(new ArrayLookupExpression()
@@ -335,8 +354,8 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 								)
 								.setActiveSync(true)
 				);
+				*/
 
-				ctx.getTemplateInstantiations().add(inst);
 				return null;
 			}
 

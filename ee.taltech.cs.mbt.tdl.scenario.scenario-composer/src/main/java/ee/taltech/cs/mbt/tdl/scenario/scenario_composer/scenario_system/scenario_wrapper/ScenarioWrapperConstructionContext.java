@@ -22,6 +22,7 @@ public class ScenarioWrapperConstructionContext {
 	private int trapsetNodeCount = 0;
 
 	private Flag trivialTrueInclusionFlag = Flag.newInstance();
+	private Flag trivialFalseInclusionFlag = Flag.newInstance();
 	private Flag disjunctionInclusionFlag = Flag.newInstance();
 	private Flag conjunctionInclusionFlag = Flag.newInstance();
 	private Flag leadsToInclusionFlag = Flag.newInstance();
@@ -60,6 +61,10 @@ public class ScenarioWrapperConstructionContext {
 
 	Flag getTrivialTrueInclusionFlag() {
 		return trivialTrueInclusionFlag;
+	}
+
+	Flag getTrivialFalseInclusionFlag() {
+		return trivialFalseInclusionFlag;
 	}
 
 	Flag getDisjunctionInclusionFlag() {
