@@ -33,62 +33,62 @@
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
-        <artifactId>st_facade</artifactId>
+        <artifactId>st-facade</artifactId>
         <version>${commons.stFacade.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
-        <artifactId>antlr_facade</artifactId>
+        <artifactId>antlr-facade</artifactId>
         <version>${commons.antlrFacade.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-        <artifactId>uta_model</artifactId>
+        <artifactId>uta-model</artifactId>
         <version>${uta.model.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
-        <artifactId>tdl_model</artifactId>
+        <artifactId>tdl-model</artifactId>
         <version>${tdl.model.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
-        <artifactId>tdl_grammar</artifactId>
+        <artifactId>tdl-grammar</artifactId>
         <version>${tdl.grammar.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-        <artifactId>uta_grammar</artifactId>
+        <artifactId>uta-grammar</artifactId>
         <version>${uta.grammar.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-        <artifactId>uta_parser</artifactId>
+        <artifactId>uta-parser</artifactId>
         <version>${uta.parser.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-        <artifactId>uta_pickler_plugin</artifactId>
+        <artifactId>uta-pickler-plugin</artifactId>
         <version>${uta.pickler.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
-        <artifactId>tdl_parser</artifactId>
+        <artifactId>tdl-parser</artifactId>
         <version>${tdl.parser.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.scenario</groupId>
-        <artifactId>scenario_composer</artifactId>
+        <artifactId>scenario-composer</artifactId>
         <version>${scenario.composer.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.user_interface</groupId>
-        <artifactId>user_interface_core</artifactId>
+        <artifactId>user-interface-core</artifactId>
         <version>${interface.core.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.user_interface</groupId>
-        <artifactId>user_interface_cli</artifactId>
+        <artifactId>user-interface-cli</artifactId>
         <version>${interface.cli.version}</version>
       </dependency>
     </dependencies>

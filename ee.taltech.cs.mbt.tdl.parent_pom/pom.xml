@@ -16,18 +16,18 @@
 
   <modules>
     <module>../ee.taltech.cs.mbt.tdl.commons.utils</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.antlr_facade</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.st_facade</module>
-    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_model</module>
-    <module>../ee.taltech.cs.mbt.tdl.expression.tdl_model</module>
-    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_grammar</module>
-    <module>../ee.taltech.cs.mbt.tdl.expression.tdl_grammar</module>
-    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_parser</module>
-    <module>../ee.taltech.cs.mbt.tdl.expression.tdl_parser</module>
-    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin</module>
-    <module>../ee.taltech.cs.mbt.tdl.scenario.scenario_composer</module>
-    <module>../ee.taltech.cs.mbt.tdl.user_interface.user_interface_core</module>
-    <module>../ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.antlr-facade</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.st-facade</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta-model</module>
+    <module>../ee.taltech.cs.mbt.tdl.expression.tdl-model</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta-grammar</module>
+    <module>../ee.taltech.cs.mbt.tdl.expression.tdl-grammar</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta-parser</module>
+    <module>../ee.taltech.cs.mbt.tdl.expression.tdl-parser</module>
+    <module>../ee.taltech.cs.mbt.tdl.uppaal.uta-pickler-plugin</module>
+    <module>../ee.taltech.cs.mbt.tdl.scenario.scenario-composer</module>
+    <module>../ee.taltech.cs.mbt.tdl.user_interface.user-interface-core</module>
+    <module>../ee.taltech.cs.mbt.tdl.user_interface.user-interface-cli</module>
   </modules>
 
   <dependencyManagement>
@@ -67,7 +67,7 @@
         </plugin>
         <plugin>
           <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
-          <artifactId>uta_pickler_plugin</artifactId>
+          <artifactId>uta-pickler-plugin</artifactId>
           <version>${uta.pickler.version}</version>
         </plugin>
         <plugin>
