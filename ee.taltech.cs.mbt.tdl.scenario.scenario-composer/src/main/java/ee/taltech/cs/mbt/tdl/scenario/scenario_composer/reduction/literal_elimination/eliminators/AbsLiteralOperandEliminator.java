@@ -43,11 +43,12 @@ public abstract class AbsLiteralOperandEliminator<T extends AbsBooleanInternalNo
 			Deque<BooleanValueWrapperNode> remainingLeaves
 	);
 
-	protected void renormalizeSubtree(
+	@SuppressWarnings("unused")
+	protected static void renormalizeSubtree(
 			TdlExpression expression,
 			AbsBooleanInternalNode subtreeRoot,
 			Deque<BooleanValueWrapperNode> remainingLeaves
-	) throws NormalizationException { // FIXME
+	) throws NormalizationException {
 		Deque<BooleanValueWrapperNode> newLeaves = ExpressionNormalizer
 				.getInstance(expression, subtreeRoot)
 				.normalize();
