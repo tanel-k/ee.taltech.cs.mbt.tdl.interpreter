@@ -32,10 +32,9 @@ public class BoundedLeadsToLiteralOperandEliminator extends AbsLiteralOperandEli
 			BooleanValueWrapperNode childLeaf,
 			Deque<BooleanValueWrapperNode> remainingLeaves
 	) {
-		// FIXME: Double-check.
 		if (childLeaf.wrapsFalse()) {
-			// P ~> [Cond(x)] False ==> False (can never achieve a state that is impossible).
-			// False ~> [Cond(x)] P ==> False (can never enter impossible starting state).
+			// X ~> [Cond(x)] False reduces to False (can never achieve a state that is impossible).
+			// False ~> [Cond(x)] X reduces to False (can never enter impossible starting state).
 			BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.falseWrapper();
 			expression.replaceDescendant(boundedLeadsTo, replacementNode);
 			remainingLeaves.addFirst(replacementNode);
@@ -49,7 +48,7 @@ public class BoundedLeadsToLiteralOperandEliminator extends AbsLiteralOperandEli
 		 * True ~> [cond(x)] P ==> P (P's occurrence must still satisfy the clock condition  cond(x)).
 		 *
 		 * Abstraction leak:
-		 * We leave the True node as-is because we know it will be replaced with TdlTerminatorChannelAdapter.
+		 * We leave the True node as-is because we know it will be replaced with TdlTrivialTrueRecognizer.
 		 * The latter will help us ensure that the delay specified by the bound will be respected.
 		 */
 	}
