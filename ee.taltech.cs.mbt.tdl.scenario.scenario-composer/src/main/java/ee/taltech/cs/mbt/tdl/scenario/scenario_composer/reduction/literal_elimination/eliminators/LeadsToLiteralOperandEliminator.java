@@ -33,22 +33,21 @@ public class LeadsToLiteralOperandEliminator extends AbsLiteralOperandEliminator
 			BooleanValueWrapperNode childLeaf,
 			Deque<BooleanValueWrapperNode> remainingLeaves
 	) {
-		// FIXME: Double-check.
 		AbsBooleanInternalNode rightChild = leadsTo.getChildContainer().getRightChild();
 		AbsBooleanInternalNode leftChild = leadsTo.getChildContainer().getLeftChild();
 		boolean rightChildIsBoolValue = rightChild == childLeaf;
 
 		if (childLeaf.wrapsTrue()) {
 			if (rightChildIsBoolValue) {
-				// p ~> True ==> p.
+				// X ~> True reduces to X.
 				expression.replaceDescendant(leadsTo, leftChild);
 			} else {
-				// True ~> p ==> p.
+				// True ~> X reduces to X.
 				expression.replaceDescendant(leadsTo, rightChild);
 			}
 		} else {
-			// False ~> p ==> False.
-			// p ~> False ==> False.
+			// False ~> X reduces to False.
+			// X ~> False reduces to False.
 			BooleanValueWrapperNode replacementNode = BooleanValueWrapperNode.falseWrapper();
 			expression.replaceDescendant(leadsTo, replacementNode);
 			remainingLeaves.addFirst(replacementNode);
