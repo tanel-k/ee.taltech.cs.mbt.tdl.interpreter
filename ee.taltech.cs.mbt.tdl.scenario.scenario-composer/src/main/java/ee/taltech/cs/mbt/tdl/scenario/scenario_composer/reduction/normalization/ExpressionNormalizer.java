@@ -26,6 +26,13 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class ExpressionNormalizer {
+	private class TunneledNormalizationException extends RuntimeException {
+		private NormalizationException cause;
+		TunneledNormalizationException(NormalizationException cause) {
+			this.cause = cause;
+		}
+	}
+
 	public static ExpressionNormalizer getInstance(TdlExpression expression) {
 		return new ExpressionNormalizer(expression);
 	}
@@ -99,18 +106,26 @@ public class ExpressionNormalizer {
 
 		@Override
 		public Void visitLeadsTo(LeadsToNode leadsTo) {
-			return visitChildren(
-					LeadsToNormalizingReducer.getInstance()
-							.reduce(expression, leadsTo)
-			);
+			try {
+				return visitChildren(
+						LeadsToNormalizingReducer.getInstance()
+								.reduce(expression, leadsTo)
+				);
+			} catch (NormalizationException ex) {
+				throw new TunneledNormalizationException(ex);
+			}
 		}
 
 		@Override
 		public Void visitBoundedLeadsTo(BoundedLeadsToNode boundedLeadsTo) {
-			return visitChildren(
-					BoundedLeadsToNormalizingReducer.getInstance()
-							.reduce(expression, boundedLeadsTo)
-			);
+			try {
+				return visitChildren(
+						BoundedLeadsToNormalizingReducer.getInstance()
+								.reduce(expression, boundedLeadsTo)
+				);
+			} catch (NormalizationException ex) {
+				throw new TunneledNormalizationException(ex);
+			}
 		}
 	}
 
@@ -129,12 +144,16 @@ public class ExpressionNormalizer {
 		this.subtreeRoot = subtreeRoot;
 	}
 
-	public Deque<BooleanValueWrapperNode> normalize() {
+	public Deque<BooleanValueWrapperNode> normalize() throws NormalizationException {
 		if (completionFlag.isSet())
 			return booleanValueWrappers;
 
 		NormalizingVisitor normalizingVisitor = new NormalizingVisitor(expression, booleanValueWrappers);
-		subtreeRoot.accept(normalizingVisitor);
+		try {
+			subtreeRoot.accept(normalizingVisitor);
+		} catch (TunneledNormalizationException tEx) {
+			throw tEx.cause;
+		}
 
 		completionFlag.set();
 		return booleanValueWrappers;

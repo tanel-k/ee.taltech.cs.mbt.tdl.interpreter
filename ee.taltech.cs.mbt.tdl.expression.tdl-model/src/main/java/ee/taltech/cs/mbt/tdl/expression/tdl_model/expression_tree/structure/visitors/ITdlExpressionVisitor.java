@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.vis
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.*;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.AbsoluteComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.TrapsetWrapperNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.LinkedPairsNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.ExistentialQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
@@ -24,7 +24,7 @@ public interface ITdlExpressionVisitor<T> {
 	T visitImplication(ImplicationNode node);
 	T visitBoundedLeadsTo(BoundedLeadsToNode node);
 	T visitAbsoluteComplement(AbsoluteComplementNode node);
-	T visitLinkedPair(LinkedPairNode node);
+	T visitLinkedPairs(LinkedPairsNode node);
 	T visitRelativeComplement(RelativeComplementNode node);
 	T visitFalse(FalseNode node);
 	T visitTrue(TrueNode node);

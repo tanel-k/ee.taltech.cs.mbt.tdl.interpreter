@@ -1,12 +1,11 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.DisjunctionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.LeadsToNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.generic.AbsReducer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 
-public class LeadsToNormalizingReducer extends AbsReducer<LeadsToNode> {
+public class LeadsToNormalizingReducer extends AbsNormalizingReducer<LeadsToNode> {
 	public static LeadsToNormalizingReducer getInstance() {
 		return INSTANCE;
 	}
@@ -16,7 +15,7 @@ public class LeadsToNormalizingReducer extends AbsReducer<LeadsToNode> {
 	private LeadsToNormalizingReducer() { }
 
 	@Override
-	public AbsBooleanInternalNode reduce(TdlExpression expression, LeadsToNode leadsTo) {
+	public AbsBooleanInternalNode reduce(TdlExpression expression, LeadsToNode leadsTo) throws NormalizationException {
 		if (!leadsTo.isNegated())
 			return leadsTo;
 
@@ -50,9 +49,7 @@ public class LeadsToNormalizingReducer extends AbsReducer<LeadsToNode> {
 		 * * replace with something meaningful.
 		 *
 		 * We'll throw an Exception as it is more informative.
-		 * TODO!
 		 */
-
-		throw new UnsupportedOperationException("Placeholder, FIXME.");
+		throw new NormalizationException("Negation of leads to is not supported.", leadsTo, expression);
 	}
 }

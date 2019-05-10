@@ -19,6 +19,11 @@ public class DisjunctionNode extends AbsBooleanInternalNode<
 	}
 
 	@Override
+	public String getHumanReadableName() {
+		return "Disjunction";
+	}
+
+	@Override
 	public <T> T accept(IBooleanNodeVisitor<T> visitor) {
 		return visitor.visitDisjunction(this);
 	}

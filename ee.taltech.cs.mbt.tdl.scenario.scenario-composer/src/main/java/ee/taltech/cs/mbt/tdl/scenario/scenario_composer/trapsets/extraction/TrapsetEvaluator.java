@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.AbsoluteComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.LinkedPairNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.LinkedPairsNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.TrapsetWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
@@ -11,7 +11,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseTdlExpressionVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation.AbsoluteComplementEvaluator;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation.LinkedPairEvaluator;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation.LinkedPairsEvaluator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation.RelativeComplementEvaluator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.evaluation.TrapsetWrapperEvaluator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.BaseTrapset;
@@ -61,7 +61,7 @@ public class TrapsetEvaluator {
 			}
 
 			@Override
-			public Void visitLinkedPair(LinkedPairNode node) {
+			public Void visitLinkedPairs(LinkedPairsNode node) {
 				trapsetOperators.add(node);
 				return null;
 			}
@@ -86,9 +86,9 @@ public class TrapsetEvaluator {
 				}
 
 				@Override
-				public AbsEvaluatedTrapset visitLinkedPair(LinkedPairNode linkedPair) {
-					return LinkedPairEvaluator
-							.getInstance(system, linkedPair, baseTrapsetMap)
+				public AbsEvaluatedTrapset visitLinkedPairs(LinkedPairsNode linkedPairs) {
+					return LinkedPairsEvaluator
+							.getInstance(system, linkedPairs, baseTrapsetMap)
 							.evaluate();
 				}
 

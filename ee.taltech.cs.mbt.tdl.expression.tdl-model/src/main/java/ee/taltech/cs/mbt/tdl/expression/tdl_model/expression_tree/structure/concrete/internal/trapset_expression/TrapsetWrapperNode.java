@@ -27,4 +27,9 @@ public class TrapsetWrapperNode extends AbsTrapsetExpressionNode<UnaryChildConta
 	public <T> T accept(ITdlExpressionVisitor<T> visitor) {
 		return visitor.visitTrapsetWrapper(this);
 	}
+
+	@Override
+	public String getHumanReadableName() {
+		return getChildContainer().getChild().getHumanReadableName();
+	}
 }

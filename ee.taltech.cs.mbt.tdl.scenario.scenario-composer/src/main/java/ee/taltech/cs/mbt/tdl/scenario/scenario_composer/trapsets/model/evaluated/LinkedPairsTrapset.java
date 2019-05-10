@@ -11,8 +11,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
 
-public class LinkedPairTrapset extends AbsEvaluatedTrapset<LinkedPairTrap> {
-	public LinkedPairTrapset() { }
+public class LinkedPairsTrapset extends AbsEvaluatedTrapset<LinkedPairTrap> {
+	public LinkedPairsTrapset() { }
 
 	// An egress transition in this trapset can have multiple ingress transitions - these actually represent distinct traps.
 	private Map<Transition, Vector<BaseTrapset>> mapIngressTrapsetVectors = new LinkedHashMap<>();
@@ -32,7 +32,7 @@ public class LinkedPairTrapset extends AbsEvaluatedTrapset<LinkedPairTrap> {
 
 	@Override
 	public <T> T accept(ITrapsetVisitor<T> visitor) {
-		return visitor.visitLinkedPair(this);
+		return visitor.visitLinkedPairs(this);
 	}
 
 	public Vector<BaseTrapset> getIngressTrapsetVector(Transition transition) {
@@ -56,6 +56,6 @@ public class LinkedPairTrapset extends AbsEvaluatedTrapset<LinkedPairTrap> {
 
 	@Override
 	public <T> T accept(IEvaluatedTrapsetVisitor<T> visitor) {
-		return visitor.visitLinkedPair(this);
+		return visitor.visitLinkedPairs(this);
 	}
 }

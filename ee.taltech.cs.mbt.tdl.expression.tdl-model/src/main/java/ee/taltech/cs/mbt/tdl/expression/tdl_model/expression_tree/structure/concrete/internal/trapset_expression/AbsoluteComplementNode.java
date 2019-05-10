@@ -29,4 +29,14 @@ public class AbsoluteComplementNode extends AbsTrapsetExpressionNode<
 		clone.getChildContainer().setChild(getChildContainer().getChild());
 		return clone;
 	}
+
+	@Override
+	public String toString() {
+		return getHumanReadableName();
+	}
+
+	@Override
+	public String getHumanReadableName() {
+		return "Absolute Complement";
+	}
 }

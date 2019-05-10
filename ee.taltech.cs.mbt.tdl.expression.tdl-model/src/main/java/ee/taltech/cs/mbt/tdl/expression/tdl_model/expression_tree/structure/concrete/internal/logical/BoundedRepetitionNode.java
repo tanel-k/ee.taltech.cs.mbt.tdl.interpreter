@@ -61,4 +61,9 @@ public class BoundedRepetitionNode extends AbsBooleanInternalNode<
 
 		return false;
 	}
+
+	@Override
+	public String getHumanReadableName() {
+		return "Bounded Repetition";
+	}
 }

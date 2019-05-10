@@ -28,4 +28,9 @@ public class UniversalQuantificationNode extends AbsTrapsetQuantifierNode {
 		clone.getChildContainer().setChild(getChildContainer().getChild().deepClone());
 		return clone;
 	}
+
+	@Override
+	public String getHumanReadableName() {
+		return "Trapset Universal Quantification";
+	}
 }

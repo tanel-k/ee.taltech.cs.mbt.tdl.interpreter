@@ -20,7 +20,7 @@ public class TdlExpressionLanguageParser extends Parser {
 		LEFT_BRACKET=1, RIGHT_BRACKET=2, LEFT_PAREN=3, RIGHT_PAREN=4, LOP_UNIVERSAL_QUANTIFIER=5, 
 		LOP_EXISTENTIAL_QUANTIFIER=6, LOP_NEGATION=7, LOP_CONJUNCTION=8, LOP_DISJUNCTION=9, 
 		LOP_IMPLICATION=10, LOP_EQUIVALENCE=11, LOP_LEADS_TO=12, LOP_REPETITION_COUNT=13, 
-		TOP_ABSOLUTE_COMPLEMENT=14, TOP_RELATIVE_COMPLEMENT=15, TOP_LINKED_PAIR=16, 
+		TOP_ABSOLUTE_COMPLEMENT=14, TOP_RELATIVE_COMPLEMENT=15, TOP_LINKED_PAIRS=16, 
 		REL_LESS_THAN_OR_EQ=17, REL_GREATER_THAN_OR_EQ=18, REL_LESS_THAN=19, REL_GREATER_THAN=20, 
 		REL_EQUAL=21, TRAPSET_ID=22, NATURAL_NUMBER=23, NUMERIC_ID=24, WS=25;
 	public static final int
@@ -38,7 +38,7 @@ public class TdlExpressionLanguageParser extends Parser {
 		null, "LEFT_BRACKET", "RIGHT_BRACKET", "LEFT_PAREN", "RIGHT_PAREN", "LOP_UNIVERSAL_QUANTIFIER", 
 		"LOP_EXISTENTIAL_QUANTIFIER", "LOP_NEGATION", "LOP_CONJUNCTION", "LOP_DISJUNCTION", 
 		"LOP_IMPLICATION", "LOP_EQUIVALENCE", "LOP_LEADS_TO", "LOP_REPETITION_COUNT", 
-		"TOP_ABSOLUTE_COMPLEMENT", "TOP_RELATIVE_COMPLEMENT", "TOP_LINKED_PAIR", 
+		"TOP_ABSOLUTE_COMPLEMENT", "TOP_RELATIVE_COMPLEMENT", "TOP_LINKED_PAIRS", 
 		"REL_LESS_THAN_OR_EQ", "REL_GREATER_THAN_OR_EQ", "REL_LESS_THAN", "REL_GREATER_THAN", 
 		"REL_EQUAL", "TRAPSET_ID", "NATURAL_NUMBER", "NUMERIC_ID", "WS"
 	};
@@ -672,7 +672,7 @@ public class TdlExpressionLanguageParser extends Parser {
 		public TerminalNode TRAPSET_ID(int i) {
 			return getToken(TdlExpressionLanguageParser.TRAPSET_ID, i);
 		}
-		public TerminalNode TOP_LINKED_PAIR() { return getToken(TdlExpressionLanguageParser.TOP_LINKED_PAIR, 0); }
+		public TerminalNode TOP_LINKED_PAIRS() { return getToken(TdlExpressionLanguageParser.TOP_LINKED_PAIRS, 0); }
 		public LinkedTrapsetPairExpressionContext(TrapsetExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -741,7 +741,7 @@ public class TdlExpressionLanguageParser extends Parser {
 				setState(68);
 				match(TRAPSET_ID);
 				setState(69);
-				match(TOP_LINKED_PAIR);
+				match(TOP_LINKED_PAIRS);
 				setState(70);
 				match(TRAPSET_ID);
 				}

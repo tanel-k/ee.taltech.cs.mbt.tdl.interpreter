@@ -5,9 +5,8 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.EquivalenceNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.ImplicationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.generic.AbsReducer;
 
-public class EquivalenceNormalizingReducer extends AbsReducer<EquivalenceNode> {
+public class EquivalenceNormalizingReducer extends AbsNormalizingReducer<EquivalenceNode> {
 	public static EquivalenceNormalizingReducer getInstance() {
 		return INSTANCE;
 	}

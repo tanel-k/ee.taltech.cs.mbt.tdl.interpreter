@@ -2,15 +2,11 @@ package ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr.converter;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageBaseVisitor;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.AbsoluteTrapsetComplementExpressionContext;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.BaseTrapsetExpressionContext;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.LinkedTrapsetPairExpressionContext;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.RelativeTrapsetComplementExpressionContext;
-import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.TrapsetExpressionContext;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.AbsoluteComplementNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.LinkedPairNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.RelativeComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.AbsoluteComplementNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.LinkedPairsNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.TrapsetWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -56,13 +52,13 @@ public class TrapsetExpressionConverter extends TdlExpressionLanguageBaseVisitor
 
 	@Override
 	public AbsTrapsetExpressionNode visitLinkedTrapsetPairExpression(LinkedTrapsetPairExpressionContext ctx) {
-		LinkedPairNode linkedPair = new LinkedPairNode();
+		LinkedPairsNode linkedPairs = new LinkedPairsNode();
 
-		linkedPair.getChildContainer()
+		linkedPairs.getChildContainer()
 				.setLeftChild(newTrapsetSymbol(ctx.TRAPSET_ID(0)))
 				.setRightChild(newTrapsetSymbol(ctx.TRAPSET_ID(1)));
 
-		return linkedPair;
+		return linkedPairs;
 	}
 
 	@Override

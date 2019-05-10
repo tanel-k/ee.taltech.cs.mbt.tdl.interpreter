@@ -2,14 +2,10 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BoundedLeadsToNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.DisjunctionNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.LeadsToNode;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.Bound;
-import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.EBoundType;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.generic.AbsReducer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 
-public class BoundedLeadsToNormalizingReducer extends AbsReducer<BoundedLeadsToNode> {
+public class BoundedLeadsToNormalizingReducer extends AbsNormalizingReducer<BoundedLeadsToNode> {
 	public static BoundedLeadsToNormalizingReducer getInstance() {
 		return INSTANCE;
 	}
@@ -19,8 +15,7 @@ public class BoundedLeadsToNormalizingReducer extends AbsReducer<BoundedLeadsToN
 	private BoundedLeadsToNormalizingReducer() { }
 
 	@Override
-	public AbsBooleanInternalNode reduce(TdlExpression expression, BoundedLeadsToNode boundedLeadsTo) {
-		// FIXME: Discussed with prof Vain - turns out this is way more complicated.
+	public AbsBooleanInternalNode reduce(TdlExpression expression, BoundedLeadsToNode boundedLeadsTo) throws NormalizationException {
 		if (!boundedLeadsTo.isNegated())
 			return boundedLeadsTo;
 
@@ -33,8 +28,7 @@ public class BoundedLeadsToNormalizingReducer extends AbsReducer<BoundedLeadsToN
 		 * not(a ~>(<=n) b) ==> a ~>(>n) b or not(a ~> b)
 		 * not(a ~>(=n) b)  ==> (a ~>(<n) b or a ~>(>n) b) or not(a ~> b)
 		 * However, since not(~>) isn't implementable, we need to throw an Exception here as well.
-		 * TODO!
 		 */
-		throw new UnsupportedOperationException("Placeholder,FIXME.");
+		throw new NormalizationException("Negation of bounded leads to is not supported.", boundedLeadsTo, expression);
 	}
 }

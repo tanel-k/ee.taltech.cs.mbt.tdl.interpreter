@@ -41,6 +41,11 @@ public class BooleanValueWrapperNode extends AbsBooleanInternalNode<AbsBooleanLe
 		return visitor.visitBooleanValueWrapper(this);
 	}
 
+	@Override
+	public String getHumanReadableName() {
+		return wrapsTrue() ? "TRUE" : "FALSE";
+	}
+
 	public boolean wrapsTrue() {
 		return getChildContainer().getChild() == TrueNode.getInstance();
 	}

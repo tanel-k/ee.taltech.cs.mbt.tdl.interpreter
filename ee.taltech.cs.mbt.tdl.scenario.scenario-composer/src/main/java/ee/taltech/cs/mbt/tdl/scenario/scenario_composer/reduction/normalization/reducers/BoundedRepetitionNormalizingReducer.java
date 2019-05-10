@@ -5,11 +5,10 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BoundedRepetitionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.modifier.Bound;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.generic.AbsReducer;
 
 import java.math.BigInteger;
 
-public class BoundedRepetitionNormalizingReducer extends AbsReducer<BoundedRepetitionNode> {
+public class BoundedRepetitionNormalizingReducer extends AbsNormalizingReducer<BoundedRepetitionNode> {
 	public static BoundedRepetitionNormalizingReducer getInstance() {
 		return INSTANCE;
 	}
@@ -20,7 +19,9 @@ public class BoundedRepetitionNormalizingReducer extends AbsReducer<BoundedRepet
 
 	@Override
 	public AbsBooleanInternalNode reduce(TdlExpression expression, BoundedRepetitionNode boundedRepetition) {
-		// FIXME: Discussed with prof Vain - turns out this is way more complicated.
+		// FIXME:
+		// We deprecated ScenarioSystemComposer.processGloballyApplicableTransitionSynch -
+		// need to think about the implications of that here.
 		Bound bound = boundedRepetition.getBound();
 		BigInteger boundValue = bound.getBoundValue();
 		BooleanValueWrapperNode replacementNode = null;
@@ -61,9 +62,9 @@ public class BoundedRepetitionNormalizingReducer extends AbsReducer<BoundedRepet
 					// #[=0]P ==> True.
 					if (BigInteger.ZERO.equals(boundValue))
 						replacementNode = BooleanValueWrapperNode.trueWrapper();
-					// Otherwise we need to count.
+					// Otherwise we need to count. (FIXME)
 					break;
-				case GREATER_THAN: // Need to count.
+				case GREATER_THAN: // Need to count. (FIXME)
 					break;
 			}
 		}

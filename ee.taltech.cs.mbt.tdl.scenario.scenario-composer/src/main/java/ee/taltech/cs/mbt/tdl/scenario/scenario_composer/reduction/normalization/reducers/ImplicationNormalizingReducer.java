@@ -4,9 +4,8 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.DisjunctionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.ImplicationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.generic.AbsReducer;
 
-public class ImplicationNormalizingReducer extends AbsReducer<ImplicationNode> {
+public class ImplicationNormalizingReducer extends AbsNormalizingReducer<ImplicationNode> {
 	public static ImplicationNormalizingReducer getInstance() {
 		return INSTANCE;
 	}

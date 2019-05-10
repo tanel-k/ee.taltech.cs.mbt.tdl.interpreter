@@ -3,9 +3,8 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.GroupNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.generic.AbsReducer;
 
-public class GroupNormalizingReducer extends AbsReducer<GroupNode> {
+public class GroupNormalizingReducer extends AbsNormalizingReducer<GroupNode> {
 	public static GroupNormalizingReducer getInstance() {
 		return INSTANCE;
 	}

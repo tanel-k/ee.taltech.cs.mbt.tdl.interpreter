@@ -24,33 +24,30 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.TransitionLa
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class BaseTrapsetsExtractor {
-	public static class InvalidBaseTrapsetDefinitionException extends Exception {
+	public static class BaseTrapsetDefinitionException extends Exception {
 		private static final String MSG_FORMAT = "Invalid trapset definition %s: %s.";
 
 		private static String formattedMessage(TrapsetNode node, String errMsg) {
 			return String.format(MSG_FORMAT, node.getName(), errMsg);
 		}
 
-		InvalidBaseTrapsetDefinitionException(TrapsetNode node, String errMsg) {
+		BaseTrapsetDefinitionException(TrapsetNode node, String errMsg) {
 			super(formattedMessage(node, errMsg));
 		}
 
-		InvalidBaseTrapsetDefinitionException(String msg) {
+		BaseTrapsetDefinitionException(String msg) {
 			super(msg);
 		}
 	}
 
-	public static class DuplicateLabelingException extends InvalidBaseTrapsetDefinitionException {
+	public static class DuplicateLabelingException extends BaseTrapsetDefinitionException {
 		public static final String MSG_FORMAT = "System/%s/%s->%s has been labeled more than once";
 
 		private static String formattedMessage(Template template, Transition transition) {
@@ -68,7 +65,7 @@ public class BaseTrapsetsExtractor {
 		}
 	}
 
-	public static class MissingTrapsetDeclarationException extends InvalidBaseTrapsetDefinitionException {
+	public static class MissingTrapsetDeclarationException extends BaseTrapsetDefinitionException {
 		MissingTrapsetDeclarationException(TrapsetNode node) {
 			super(node, "missing global declaration");
 		}
@@ -136,7 +133,7 @@ public class BaseTrapsetsExtractor {
 		this.expression = expression;
 	}
 
-	private void populateTrapsetMap() throws InvalidBaseTrapsetDefinitionException {
+	private void populateTrapsetMap() throws BaseTrapsetDefinitionException {
 		Set<TrapsetNode> trapsetNodes = collectTrapsetNodes(expression);
 		for (AbsDeclarationStatement declarationStatement : system.getDeclarations()) {
 			if (declarationStatement instanceof VariableDeclaration) {
@@ -213,7 +210,7 @@ public class BaseTrapsetsExtractor {
 		}
 	}
 
-	public Map<TrapsetNode, BaseTrapset> extract() throws InvalidBaseTrapsetDefinitionException {
+	public Map<TrapsetNode, BaseTrapset> extract() throws BaseTrapsetDefinitionException {
 		if (completionFlag.isSet())
 			return baseTrapsetMap;
 

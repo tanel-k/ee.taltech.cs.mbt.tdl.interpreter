@@ -21,8 +21,10 @@ public abstract class AbsExpressionNode implements IDeepCloneable<AbsExpressionN
 	public abstract <T> T accept(ITdlExpressionVisitor<T> visitor);
 
 	@Override
-	public abstract int hashCode();
+	public abstract int hashCode(); // Force impl.
 
 	@Override
-	public abstract boolean equals(Object object);
+	public abstract boolean equals(Object object); // Force impl.
+
+	public abstract String getHumanReadableName();
 }

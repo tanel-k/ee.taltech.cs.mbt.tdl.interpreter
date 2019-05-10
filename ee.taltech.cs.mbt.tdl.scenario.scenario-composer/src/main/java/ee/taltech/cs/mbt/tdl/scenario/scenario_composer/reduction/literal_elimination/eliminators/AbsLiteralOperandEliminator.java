@@ -5,6 +5,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.ExpressionNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 
 import java.util.Deque;
 
@@ -46,7 +47,7 @@ public abstract class AbsLiteralOperandEliminator<T extends AbsBooleanInternalNo
 			TdlExpression expression,
 			AbsBooleanInternalNode subtreeRoot,
 			Deque<BooleanValueWrapperNode> remainingLeaves
-	) {
+	) throws NormalizationException { // FIXME
 		Deque<BooleanValueWrapperNode> newLeaves = ExpressionNormalizer
 				.getInstance(expression, subtreeRoot)
 				.normalize();

@@ -30,4 +30,9 @@ public class GroupNode extends AbsBooleanInternalNode<
 		clone.getChildContainer().setChild(getChildContainer().getChild().deepClone());
 		return clone;
 	}
+
+	@Override
+	public String getHumanReadableName() {
+		return "Group";
+	}
 }

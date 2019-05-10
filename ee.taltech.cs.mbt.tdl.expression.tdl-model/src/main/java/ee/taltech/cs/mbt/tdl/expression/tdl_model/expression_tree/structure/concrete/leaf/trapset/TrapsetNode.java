@@ -60,4 +60,9 @@ public class TrapsetNode extends AbsLeafNode {
 		TrapsetNode other = (TrapsetNode) obj;
 		return Objects.equals(this.name, other.name);
 	}
+
+	@Override
+	public String getHumanReadableName() {
+		return "Trapset '" + getName() + "'";
+	}
 }

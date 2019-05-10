@@ -31,4 +31,9 @@ public class RelativeComplementNode extends AbsTrapsetExpressionNode<
 				.setRightChild(getChildContainer().getRightChild().deepClone());
 		return clone;
 	}
+
+	@Override
+	public String getHumanReadableName() {
+		return "Relative Complement";
+	}
 }

@@ -39,7 +39,7 @@ trapsetExpression(ctx) ::= <%
         !<leafNode(ctx.child)>
     <elseif(ctx.relativeComplement)>
         <leafNode(ctx.leftChild)> \ <leafNode(ctx.rightChild)>
-    <elseif(ctx.linkedPair)>
+    <elseif(ctx.linkedPairs)>
         <leafNode(ctx.leftChild)> ; <leafNode(ctx.rightChild)>
     <elseif(ctx.trapsetWrapper)>
         <leafNode(ctx.child)>

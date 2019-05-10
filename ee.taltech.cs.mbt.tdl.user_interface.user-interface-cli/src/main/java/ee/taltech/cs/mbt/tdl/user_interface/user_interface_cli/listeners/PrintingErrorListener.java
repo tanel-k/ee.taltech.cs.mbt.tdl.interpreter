@@ -2,9 +2,12 @@ package ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.listeners;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListener.SyntaxError;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.GenerationException;
+import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.TdlGeneratorFactory;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.EReturnStatus;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.listeners.IErrorListener;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor.InvalidBaseTrapsetDefinitionException;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor.BaseTrapsetDefinitionException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.SyntaxRepresentationException;
@@ -75,9 +78,25 @@ public class PrintingErrorListener implements IErrorListener {
 	}
 
 	@Override
-	public void onScenarioCompositionFailure(InvalidBaseTrapsetDefinitionException ex) {
+	public void onScenarioCompositionFailure(BaseTrapsetDefinitionException ex) {
 		out.println("ERROR: " + ex.getMessage());
 		handleFailure(ex, EReturnStatus.SCENARIO_COMPOSITION_FAILED);
+	}
+
+	@Override
+	public void onScenarioCompositionFailure(NormalizationException ex) {
+		out.println("ERROR: Unable to normalize TDL expression.");
+		out.println(ex.getMessage());
+		try {
+			String expression = TdlGeneratorFactory.getInstance()
+					.expressionGenerator()
+					.generate(ex.getExpression());
+			out.println("Expression:");
+			out.println(expression);
+		} catch (GenerationException e) {
+			e.printStackTrace();
+		}
+		handleFailure(ex, EReturnStatus.INVALID_EXPRESSION);
 	}
 
 	@Override

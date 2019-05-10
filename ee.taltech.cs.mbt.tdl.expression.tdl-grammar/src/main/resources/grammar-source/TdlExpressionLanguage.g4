@@ -21,7 +21,7 @@ quantifiedTrapsetExpression : LOP_UNIVERSAL_QUANTIFIER LEFT_PAREN trapsetExpress
 // Trapset expressions:
 trapsetExpression : TOP_ABSOLUTE_COMPLEMENT TRAPSET_ID #AbsoluteTrapsetComplementExpression
                   | TRAPSET_ID TOP_RELATIVE_COMPLEMENT TRAPSET_ID #RelativeTrapsetComplementExpression
-                  | TRAPSET_ID TOP_LINKED_PAIR TRAPSET_ID #LinkedTrapsetPairExpression
+                  | TRAPSET_ID TOP_LINKED_PAIRS TRAPSET_ID #LinkedTrapsetPairExpression
                   | TRAPSET_ID #BaseTrapsetExpression
                   ;
 
@@ -54,7 +54,7 @@ LOP_REPETITION_COUNT        : '#' ;
 // Trapset operators:
 TOP_ABSOLUTE_COMPLEMENT : '!' ;
 TOP_RELATIVE_COMPLEMENT : '\\' ;
-TOP_LINKED_PAIR         : ';' ;
+TOP_LINKED_PAIRS         : ';' ;
 
 // Relations over natural numbers:
 REL_LESS_THAN_OR_EQ     : '<' BLANK* '=' ;

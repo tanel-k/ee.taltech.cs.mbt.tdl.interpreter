@@ -3,6 +3,7 @@ package ee.taltech.cs.mbt.tdl.user_interface.user_interface_core;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.listeners.NoOpErrorListener;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.listeners.NoOpProgressListener;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.listeners.IErrorListener;
@@ -10,7 +11,7 @@ import ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.listeners.IProgr
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.ScenarioComposer;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.ScenarioCompositionResults;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.ScenarioSpecification;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor.InvalidBaseTrapsetDefinitionException;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor.BaseTrapsetDefinitionException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.UtaParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
@@ -90,7 +91,10 @@ public class TdlInterpreterUI {
 						.newInstance(spec)
 						.compose();
 				progressListener.afterScenarioComposition(spec, results);
-			} catch (InvalidBaseTrapsetDefinitionException ex) {
+			} catch (BaseTrapsetDefinitionException ex) {
+				errorListener.onScenarioCompositionFailure(ex);
+				return;
+			} catch (NormalizationException ex) {
 				errorListener.onScenarioCompositionFailure(ex);
 				return;
 			}

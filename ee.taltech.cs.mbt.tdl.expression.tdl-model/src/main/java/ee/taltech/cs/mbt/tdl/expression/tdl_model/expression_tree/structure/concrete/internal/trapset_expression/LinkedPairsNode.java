@@ -6,29 +6,34 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visi
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.arity.BinaryChildContainer;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITrapsetExpressionVisitor;
 
-public class LinkedPairNode extends AbsTrapsetExpressionNode<
+public class LinkedPairsNode extends AbsTrapsetExpressionNode<
 		BinaryChildContainer<TrapsetNode>
 		> {
-	public LinkedPairNode() {
+	public LinkedPairsNode() {
 		super(new BinaryChildContainer<>(), Boolean.FALSE);
 	}
 
 	@Override
 	public <T> T accept(ITdlExpressionVisitor<T> visitor) {
-		return visitor.visitLinkedPair(this);
+		return visitor.visitLinkedPairs(this);
 	}
 
 	@Override
 	public <T> T accept(ITrapsetExpressionVisitor<T> visitor) {
-		return visitor.visitLinkedPair(this);
+		return visitor.visitLinkedPairs(this);
 	}
 
 	@Override
 	public AbsTrapsetExpressionNode<BinaryChildContainer<TrapsetNode>> deepClone() {
-		LinkedPairNode clone = new LinkedPairNode();
+		LinkedPairsNode clone = new LinkedPairsNode();
 		clone.getChildContainer()
 				.setLeftChild(getChildContainer().getLeftChild().deepClone())
 				.setRightChild(getChildContainer().getRightChild().deepClone());
 		return clone;
 	}
+	@Override
+	public String getHumanReadableName() {
+		return "Linked Pairs";
+	}
+
 }

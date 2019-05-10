@@ -34,7 +34,7 @@ public class TrueNode extends AbsBooleanLeafNode {
 	}
 
 	@Override
-	public String toString() {
-		return "True";
+	public String getHumanReadableName() {
+		return "TRUE";
 	}
 }

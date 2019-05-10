@@ -31,4 +31,9 @@ public class LeadsToNode extends AbsBooleanInternalNode<
 		clone.getChildContainer().setRightChild(getChildContainer().getRightChild().deepClone());
 		return clone;
 	}
+
+	@Override
+	public String getHumanReadableName() {
+		return "Leads To";
+	}
 }

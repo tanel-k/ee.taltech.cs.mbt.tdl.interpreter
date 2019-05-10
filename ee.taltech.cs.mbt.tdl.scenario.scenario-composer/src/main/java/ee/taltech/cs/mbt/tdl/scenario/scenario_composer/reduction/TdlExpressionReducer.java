@@ -5,6 +5,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.ExpressionNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 
 import java.util.Deque;
 
@@ -20,7 +21,7 @@ public class TdlExpressionReducer {
 		this.expression = expression;
 	}
 
-	public void reduce() {
+	public void reduce() throws NormalizationException {
 		if (completionFlag.isSet())
 			return;
 

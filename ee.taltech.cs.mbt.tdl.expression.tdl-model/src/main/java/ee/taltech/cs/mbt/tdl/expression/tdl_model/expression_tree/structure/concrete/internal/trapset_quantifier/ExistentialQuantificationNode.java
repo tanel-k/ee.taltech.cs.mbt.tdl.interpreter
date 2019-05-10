@@ -28,4 +28,9 @@ public class ExistentialQuantificationNode extends AbsTrapsetQuantifierNode {
 		clone.getChildContainer().setChild(getChildContainer().getChild().deepClone());
 		return clone;
 	}
+
+	@Override
+	public String getHumanReadableName() {
+		return "Trapset Existential Quantification";
+	}
 }
