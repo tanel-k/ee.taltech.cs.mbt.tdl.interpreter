@@ -24,6 +24,13 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimin
 import java.util.Deque;
 
 public class LiteralEliminator {
+	private class TunneledLiteralEliminationException extends RuntimeException {
+		private LiteralEliminationException cause;
+		TunneledLiteralEliminationException(LiteralEliminationException ex) {
+			this.cause = ex;
+		}
+	}
+
 	public static LiteralEliminator getInstance(TdlExpression expression, Deque<BooleanValueWrapperNode> remainingBooleanLeaves) {
 		return new LiteralEliminator(expression, remainingBooleanLeaves);
 	}
@@ -31,73 +38,135 @@ public class LiteralEliminator {
 	private class EliminatingVisitor implements IBooleanNodeVisitor<Void> {
 		@Override
 		public Void visitBoundedRepetition(BoundedRepetitionNode parentNode) {
-			BoundedRepetitionLiteralOperandEliminator
-					.getInstance(expression, parentNode, currentLeaf, remainingBooleanLeaves)
-					.eliminate();
+			try {
+				BoundedRepetitionLiteralOperandEliminator
+						.getInstance(expression, parentNode, currentLeaf, remainingBooleanLeaves)
+						.eliminate();
+			} catch (LiteralEliminationException ex) {
+				throw new TunneledLiteralEliminationException(ex);
+			}
 			return null;
 		}
 
 		@Override
 		public Void visitBoundedLeadsTo(BoundedLeadsToNode parentNode) {
-			BoundedLeadsToLiteralOperandEliminator
+			try {
+				BoundedLeadsToLiteralOperandEliminator
 					.getInstance(expression, parentNode, currentLeaf, remainingBooleanLeaves)
 					.eliminate();
+			} catch (LiteralEliminationException ex) {
+				throw new TunneledLiteralEliminationException(ex);
+			}
 			return null;
 		}
 
 		@Override
 		public Void visitLeadsTo(LeadsToNode parentNode) {
-			LeadsToLiteralOperandEliminator
+			try {
+				LeadsToLiteralOperandEliminator
 					.getInstance(expression, parentNode, currentLeaf, remainingBooleanLeaves)
 					.eliminate();
+			} catch (LiteralEliminationException ex) {
+				throw new TunneledLiteralEliminationException(ex);
+			}
 			return null;
 		}
 
 		@Override
 		public Void visitConjunction(ConjunctionNode parentNode) {
-			ConjunctionLiteralOperandEliminator
+			try {
+				ConjunctionLiteralOperandEliminator
 					.getInstance(expression, parentNode, currentLeaf, remainingBooleanLeaves)
 					.eliminate();
+			} catch (LiteralEliminationException ex) {
+				throw new TunneledLiteralEliminationException(ex);
+			}
 			return null;
 		}
 
 		@Override
 		public Void visitDisjunction(DisjunctionNode parentNode) {
-			DisjunctionLiteralOperandEliminator
+			try {
+				DisjunctionLiteralOperandEliminator
 					.getInstance(expression, parentNode, currentLeaf, remainingBooleanLeaves)
 					.eliminate();
+			} catch (LiteralEliminationException ex) {
+				throw new TunneledLiteralEliminationException(ex);
+			}
 			return null;
 		}
 
 		@Override
 		public Void visitEquivalence(EquivalenceNode node) {
-			throw new UnsupportedOperationException("Literal elimination for equivalence has not been implemented.");
+			throw new TunneledLiteralEliminationException(
+					new LiteralEliminationException(
+							"Literal elimination for equivalence has not been implemented.",
+							expression,
+							node,
+							currentLeaf
+					)
+			);
 		}
 
 		@Override
 		public Void visitGroup(GroupNode node) {
-			throw new UnsupportedOperationException("Literal elimination for groups has not been implemented.");
+			throw new TunneledLiteralEliminationException(
+					new LiteralEliminationException(
+							"Literal elimination for groups has not been implemented.",
+							expression,
+							node,
+							currentLeaf
+					)
+			);
 		}
 
 		@Override
 		public Void visitImplication(ImplicationNode node) {
-			throw new UnsupportedOperationException("Literal elimination for implication has not been implemented.");
+			throw new TunneledLiteralEliminationException(
+					new LiteralEliminationException(
+							"Literal elimination for implication has not been implemented.",
+							expression,
+							node,
+							currentLeaf
+					)
+			);
 		}
 
 		@Override
 		public Void visitUniversalQuantification(UniversalQuantificationNode node) {
-			throw new UnsupportedOperationException("Literal elimination for quantification has not been implemented.");
+			throw new TunneledLiteralEliminationException(
+					new LiteralEliminationException(
+							"Literal elimination for quantification has not been implemented.",
+							expression,
+							node,
+							currentLeaf
+					)
+			);
 		}
 
 		@Override
 		public Void visitExistentialQuantification(ExistentialQuantificationNode node) {
-			throw new UnsupportedOperationException("Literal elimination for quantification has not been implemented.");
+			throw new TunneledLiteralEliminationException(
+					new LiteralEliminationException(
+							"Literal elimination for quantification has not been implemented.",
+							expression,
+							node,
+							currentLeaf
+					)
+			);
 		}
 
 		@Override
 		public Void visitValueWrapper(BooleanValueWrapperNode node) {
 			// Not possible in context: BooleanValueWrapperNode cannot have BooleanValueWrapperNode as its parent.
-			throw new IllegalStateException("Unrecognized node layout encountered. Literal node cannot be the child of another literal node.");
+			throw new TunneledLiteralEliminationException(
+					new LiteralEliminationException(
+						"Unrecognized node layout encountered. Literal node cannot be the child of another literal node.",
+						expression,
+						node,
+						currentLeaf
+					)
+			);
 		}
 	}
 
@@ -113,7 +182,7 @@ public class LiteralEliminator {
 		this.remainingBooleanLeaves = remainingBooleanLeaves;
 	}
 
-	public void eliminate() {
+	public void eliminate() throws LiteralEliminationException {
 		if (completionFlag.isSet())
 			return;
 
@@ -150,7 +219,11 @@ public class LiteralEliminator {
 				continue;
 
 			AbsBooleanInternalNode parentNode = (AbsBooleanInternalNode) currentLeaf.getParentNode();
-			parentNode.accept(eliminatingVisitor);
+			try {
+				parentNode.accept(eliminatingVisitor);
+			} catch (TunneledLiteralEliminationException ex) {
+				throw ex.cause;
+			}
 		}
 
 		completionFlag.set();

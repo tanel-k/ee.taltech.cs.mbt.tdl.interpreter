@@ -65,7 +65,7 @@ public class PrintingProgressListener implements IProgressListener {
 	}
 
 	@Override
-	public void afterFullReduction(TdlExpression tdlExpression) {
+	public void onFullReduction(TdlExpression tdlExpression) {
 		if (out != null)
 			out.println("Progress halted; expression fully reduced.");
 	}

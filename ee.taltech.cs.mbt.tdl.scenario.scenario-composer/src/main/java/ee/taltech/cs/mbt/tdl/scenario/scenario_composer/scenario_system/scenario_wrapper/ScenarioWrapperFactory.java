@@ -326,26 +326,25 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 			@Override
 			public Void visitValueWrapper(BooleanValueWrapperNode node) {
 				Integer treeIndex = ctx.getTreeIndexMap().get(node);
-				TemplateInstantiation inst;
+				TemplateInstantiation instantiation;
 
 				if (node.wrapsTrue()) {
 					ctx.getTrivialTrueInclusionFlag().set();
-					inst = TdlTrivialTrueRecognizerTemplateFactory.getInstance().createInstantiation(
+					instantiation = TdlTrivialTrueRecognizerTemplateFactory.getInstance().createInstantiation(
 							Identifier.of(TdlTrivialTrueRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
 							NaturalNumberLiteral.of(treeIndex)
 					);
 				} else {
 					ctx.getTrivialFalseInclusionFlag().set();
-					inst = TdlTrivialFalseRecognizerTemplateFactory.getInstance().createInstantiation(
+					instantiation = TdlTrivialFalseRecognizerTemplateFactory.getInstance().createInstantiation(
 							Identifier.of(TdlTrivialFalseRecognizerTemplateFactory.TEMPLATE_NAME + "_" + treeIndex),
 							NaturalNumberLiteral.of(treeIndex)
 					);
 				}
-				ctx.getTemplateInstantiations().add(inst);
+				ctx.getTemplateInstantiations().add(instantiation);
 
-				// FIXME: No longer supported!
-				// Note: This represents a condition that holds on every transition in the SUT.
 				/*
+				// Note: This represents a condition that holds on every transition in the SUT.
 				ctx.getGloballyApplicableTransitionSynchs().add(
 						new Synchronization()
 								.setExpression(new ArrayLookupExpression()

@@ -8,11 +8,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 public interface IProgressListener {
 	void beforeExpressionParsed();
 	void afterExpressionParsed(TdlExpression expression);
+
 	void beforeModelParsed();
 	void afterModelParsed(UtaSystem sutModel);
+
 	void beforeScenarioComposition(ScenarioSpecification specification);
 	void afterScenarioComposition(ScenarioSpecification specification, ScenarioCompositionResults results);
-	void afterFullReduction(TdlExpression tdlExpression);
+	void onFullReduction(TdlExpression tdlExpression);
+
 	void beforeScenarioSerialized(UtaSystem scenarioModel);
 	void afterScenarioSerialized();
 }

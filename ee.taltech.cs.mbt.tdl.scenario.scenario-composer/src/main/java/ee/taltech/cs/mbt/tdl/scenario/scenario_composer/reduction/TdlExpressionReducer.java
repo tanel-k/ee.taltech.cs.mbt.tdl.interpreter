@@ -3,6 +3,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.ExpressionNormalizer;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
@@ -21,7 +22,7 @@ public class TdlExpressionReducer {
 		this.expression = expression;
 	}
 
-	public void reduce() throws NormalizationException {
+	public void reduce() throws NormalizationException, LiteralEliminationException {
 		if (completionFlag.isSet())
 			return;
 

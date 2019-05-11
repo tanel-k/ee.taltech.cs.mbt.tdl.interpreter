@@ -44,8 +44,8 @@ public class BoundedLeadsToLiteralOperandEliminator extends AbsLiteralOperandEli
 		 * cond(x) in { f(x) = clk < x, f(x) = clk <= x, f(x) = clk > x, f(x) = clk >= x, f(x) = clk == x }.
 		 *
 		 * Otherwise:
-		 * P ~> [cond(x)] ==> True (we must still wait for the delay after P's satisfaction).
-		 * True ~> [cond(x)] P ==> P (P's occurrence must still satisfy the clock condition  cond(x)).
+		 * P ~> [cond(x)] True.
+		 * True ~> [cond(x)] P.
 		 *
 		 * Abstraction leak:
 		 * We leave the True node as-is because we know it will be replaced with TdlTrivialTrueRecognizer.

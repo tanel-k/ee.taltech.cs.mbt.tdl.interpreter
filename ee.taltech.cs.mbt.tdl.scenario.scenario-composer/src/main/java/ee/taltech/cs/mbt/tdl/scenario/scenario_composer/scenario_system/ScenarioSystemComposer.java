@@ -233,9 +233,9 @@ public class ScenarioSystemComposer {
 		Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap = new ObjectIdentityMap<>();
 		// Globally applicable transition synchronizations should be added to every transition in the system.
 		// They represent conditions that hold on every system transition.
-		for (Synchronization globalTransitionSynch : wrapperContext.getGloballyApplicableTransitionSynchs()) {
-			processGloballyApplicableTransitionSynch(parameters.getSutModel(), globalTransitionSynch, transitionSynchHooksMap);
-		}
+		// for (Synchronization globalTransitionSynch : wrapperContext.getGloballyApplicableTransitionSynchs()) {
+		//	processGloballyApplicableTransitionSynch(parameters.getSutModel(), globalTransitionSynch, transitionSynchHooksMap);
+		//}
 
 		// Apply derived trapset labels to applicable transitions in the system:
 		TrapsetAnnotator trapsetAnnotator = new TrapsetAnnotator(parameters.getSutModel(), transitionSynchHooksMap);

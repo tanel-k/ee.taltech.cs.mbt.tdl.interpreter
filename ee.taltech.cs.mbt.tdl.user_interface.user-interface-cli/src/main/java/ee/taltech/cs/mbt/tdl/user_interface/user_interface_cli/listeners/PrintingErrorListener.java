@@ -4,6 +4,8 @@ import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseExce
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListener.SyntaxError;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.GenerationException;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.TdlGeneratorFactory;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.EReturnStatus;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.listeners.IErrorListener;
@@ -18,6 +20,16 @@ import java.io.PrintStream;
 import java.util.function.Consumer;
 
 public class PrintingErrorListener implements IErrorListener {
+	private static void tryPrintExpression(TdlExpression expr, PrintStream out) {
+		try {
+			String expression = TdlGeneratorFactory.getInstance()
+					.expressionGenerator()
+					.generate(expr);
+			out.println("Expression:");
+			out.println(expression);
+		} catch (GenerationException e) { /* Ignore */ }
+	}
+
 	private boolean printTraces;
 	private PrintStream out;
 	private Consumer<EReturnStatus> errorStatusHandler;
@@ -87,15 +99,15 @@ public class PrintingErrorListener implements IErrorListener {
 	public void onScenarioCompositionFailure(NormalizationException ex) {
 		out.println("ERROR: Unable to normalize TDL expression.");
 		out.println(ex.getMessage());
-		try {
-			String expression = TdlGeneratorFactory.getInstance()
-					.expressionGenerator()
-					.generate(ex.getExpression());
-			out.println("Expression:");
-			out.println(expression);
-		} catch (GenerationException e) {
-			e.printStackTrace();
-		}
+		tryPrintExpression(ex.getExpression(), out);
+		handleFailure(ex, EReturnStatus.INVALID_EXPRESSION);
+	}
+
+	@Override
+	public void onScenarioCompositionFailure(LiteralEliminationException ex) {
+		out.println("ERROR: Unable to eliminate Boolean literal from TDL expression.");
+		out.println(ex.getMessage());
+		tryPrintExpression(ex.getExpression(), out);
 		handleFailure(ex, EReturnStatus.INVALID_EXPRESSION);
 	}
 

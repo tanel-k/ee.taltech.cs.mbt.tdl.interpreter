@@ -3,6 +3,7 @@ package ee.taltech.cs.mbt.tdl.user_interface.user_interface_core;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlExpressionParser;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.listeners.NoOpErrorListener;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.listeners.NoOpProgressListener;
@@ -97,11 +98,15 @@ public class TdlInterpreterUI {
 			} catch (NormalizationException ex) {
 				errorListener.onScenarioCompositionFailure(ex);
 				return;
+			} catch (LiteralEliminationException ex) {
+				errorListener.onScenarioCompositionFailure(ex);
+				return;
 			}
 
+			// FIXME: API unclear here.
 			Optional<UtaSystem> optScenarioSystem = results.getScenarioSystem();
 			if (!optScenarioSystem.isPresent()) {
-				progressListener.afterFullReduction(spec.getTdlExpression());
+				progressListener.onFullReduction(spec.getTdlExpression());
 				return;
 			}
 

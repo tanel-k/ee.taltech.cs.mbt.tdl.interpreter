@@ -25,7 +25,7 @@ public class NoOpProgressListener implements IProgressListener {
 	public void afterScenarioComposition(ScenarioSpecification specification, ScenarioCompositionResults results) { /* Do nothing */ }
 
 	@Override
-	public void afterFullReduction(TdlExpression tdlExpression) { /* Do nothing */ }
+	public void onFullReduction(TdlExpression tdlExpression) { /* Do nothing */ }
 
 	@Override
 	public void beforeScenarioSerialized(UtaSystem scenarioModel) { /* Do nothing */ }

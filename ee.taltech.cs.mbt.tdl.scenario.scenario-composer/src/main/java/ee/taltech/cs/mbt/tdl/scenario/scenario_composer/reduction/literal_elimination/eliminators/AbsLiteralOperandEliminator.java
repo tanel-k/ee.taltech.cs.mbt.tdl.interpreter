@@ -4,6 +4,7 @@ import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.ExpressionNormalizer;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 
@@ -29,7 +30,7 @@ public abstract class AbsLiteralOperandEliminator<T extends AbsBooleanInternalNo
 		this.remainingLeaves = remainingLeaves;
 	}
 
-	public void eliminate() {
+	public void eliminate() throws LiteralEliminationException {
 		if (completionFlag.isSet())
 			return;
 		eliminate(expression, parentNode, childLeaf, remainingLeaves);
@@ -41,7 +42,7 @@ public abstract class AbsLiteralOperandEliminator<T extends AbsBooleanInternalNo
 			T parentNode,
 			BooleanValueWrapperNode childLeaf,
 			Deque<BooleanValueWrapperNode> remainingLeaves
-	);
+	) throws LiteralEliminationException;
 
 	@SuppressWarnings("unused")
 	protected static void renormalizeSubtree(

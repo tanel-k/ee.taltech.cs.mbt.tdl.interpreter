@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.listeners;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.extraction.BaseTrapsetsExtractor.BaseTrapsetDefinitionException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
@@ -31,6 +32,9 @@ public class NoOpErrorListener implements IErrorListener {
 
 	@Override
 	public void onScenarioCompositionFailure(NormalizationException ex) { /* Do nothing. */ }
+
+	@Override
+	public void onScenarioCompositionFailure(LiteralEliminationException ex) { /* Do nothing. */ }
 
 	@Override
 	public void onScenarioSerializationFailure(MarshallingException ex) { /* Do nothing. */ }

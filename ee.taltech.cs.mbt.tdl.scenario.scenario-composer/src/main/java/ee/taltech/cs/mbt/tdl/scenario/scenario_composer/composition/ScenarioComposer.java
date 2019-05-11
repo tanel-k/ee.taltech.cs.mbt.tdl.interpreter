@@ -5,6 +5,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.TdlExpressionReducer;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.TrapsetQuantifierEvaluator;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioCompositionParameters;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioSystemComposer;
@@ -28,7 +29,9 @@ public class ScenarioComposer {
 		this.specification = specification;
 	}
 
-	public ScenarioCompositionResults compose() throws BaseTrapsetDefinitionException, NormalizationException {
+	public ScenarioCompositionResults compose()
+			throws BaseTrapsetDefinitionException, NormalizationException, LiteralEliminationException
+	{
 		TdlExpression tdlExpressionCpy = specification
 				.getTdlExpression()
 				.deepClone();
