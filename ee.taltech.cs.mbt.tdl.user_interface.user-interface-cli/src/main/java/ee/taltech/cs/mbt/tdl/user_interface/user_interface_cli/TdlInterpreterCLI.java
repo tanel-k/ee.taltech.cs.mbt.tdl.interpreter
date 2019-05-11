@@ -2,6 +2,8 @@ package ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
+import ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.cli_config.TdlCommandLineOptions;
+import ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.cli_config.custom_options.StringOrFile;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.listeners.PrintingErrorListener;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.listeners.PrintingProgressListener;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.TdlInterpreterUI;
@@ -15,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Optional;
@@ -44,10 +47,20 @@ public class TdlInterpreterCLI {
 		printHelp(err);
 	}
 
+	private static Optional<FileInputStream> getFileInputStream(File file) {
+		try {
+			return Optional.of(new FileInputStream(file));
+		} catch (FileNotFoundException ex) {
+			err.println("ERROR: " + file.getAbsolutePath() + " not found.");
+			System.exit(EReturnStatus.FILE_NOT_FOUND.value());
+			return Optional.empty(); // Formality.
+		}
+	}
+
 	private static void executeInterpretation(TdlCommandLineOptions options) {
 		boolean verbose = options.isVerbose();
 		boolean tracesEnabled = options.isTracePrintingEnabled();
-		String expression = options.getExpression();
+		StringOrFile exprStrOrFile = options.getExpression();
 		File modelFile = options.getModelFile();
 		Optional<File> optOutputFile = options.getOutputFile();
 		Optional<File> optUppaalJARFile = options.getUppaalJAR();
@@ -75,16 +88,27 @@ public class TdlInterpreterCLI {
 				completionFlag
 		);
 
-		FileInputStream sutModelStream;
-		try {
-			sutModelStream = new FileInputStream(modelFile);
-		} catch (FileNotFoundException ex) {
-			err.println("ERROR: " + modelFile.getAbsolutePath() + " not found.");
-			System.exit(EReturnStatus.FILE_NOT_FOUND.value());
-			return; // Formality.
+		InputStream sutModelStream;
+		Optional<FileInputStream> optSutModelStream = getFileInputStream(modelFile);
+		if (!optSutModelStream.isPresent()) {
+			return;
+		} else {
+			sutModelStream = optSutModelStream.get();
 		}
 
-		ByteArrayInputStream expressionStream = new ByteArrayInputStream(expression.getBytes());
+		InputStream expressionStream;
+		Optional<File> optExprFile = exprStrOrFile.getFile();
+		if (optExprFile.isPresent()) {
+			File exprFile = optExprFile.get();
+			Optional<FileInputStream> optExpressionStream = getFileInputStream(exprFile);
+			if (!optExpressionStream.isPresent()) {
+				return;
+			} else {
+				expressionStream = optExpressionStream.get();
+			}
+		} else {
+			expressionStream = new ByteArrayInputStream(exprStrOrFile.getString().getBytes());
+		}
 
 		TdlInterpreterUI tdlInterpreterUI = TdlInterpreterUI
 				.getInstance(errorListener, progressListener);
@@ -118,11 +142,11 @@ public class TdlInterpreterCLI {
 				);
 				out.println("Starting UPPAAL with command: " + command);
 				Runtime.getRuntime().exec(command);
-			} catch (IOException ex) {
+			} catch (Throwable t) {
 				err.println("ERROR: Cannot send command to Uppaal JAR.");
 
 				if (tracesEnabled)
-					ex.printStackTrace(err);
+					t.printStackTrace(err);
 
 				System.exit(EReturnStatus.UPPAAL_RUN_FAILURE.value());
 				return; // Formality.
