@@ -5,7 +5,9 @@ import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import java.io.IOException;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributeView;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
@@ -24,6 +26,15 @@ public class FileUtils {
 			PosixFilePermission.OTHERS_EXECUTE,
 			PosixFilePermission.OTHERS_WRITE
 	));
+
+	public static boolean isFilePathString(String str) {
+		try {
+			Paths.get(str);
+		} catch (InvalidPathException | NullPointerException ex) {
+			return false;
+		}
+		return true;
+	}
 
 	public static void setReadOnly(Path filePath, boolean readOnly) throws IOException {
 		FileStore fileStore = Files.getFileStore(filePath);
