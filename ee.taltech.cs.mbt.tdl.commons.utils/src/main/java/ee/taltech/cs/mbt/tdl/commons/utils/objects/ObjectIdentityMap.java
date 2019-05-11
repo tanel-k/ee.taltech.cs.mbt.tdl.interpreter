@@ -2,7 +2,6 @@ package ee.taltech.cs.mbt.tdl.commons.utils.objects;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;

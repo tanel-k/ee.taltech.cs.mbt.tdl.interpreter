@@ -47,10 +47,22 @@ All notable changes to this project will be documented in this file.
 
 ## [1.5] - 2019-05-??
 ### Added
-- *Placeholder*
+- #58: Support for checked normalization exceptions (NormalizationException).
+- #58: Support for checked literal elimination exceptions (LiteralEliminationException).
+- #58: TdlTrivialTrueRecognizer.
+- #58: TdlTrivialFalseRecognizer.
 
 ### Removed
-- *Placeholder*
+- #58: Logic for TdlTerminatorAdapter.
+- #58: Iteration of ScenarioWrapperConstructionContext.getGloballyApplicableTransitionSynchs() in ScenarioSystemComposer.compose().
 
 ### Changed
-- *Placeholder*
+- #58: Fixed incorrect usage of GroupNormalizingReducer in ExpressionNormalizer.
+- #58: Use hyphens in all artifact names (seems to be a common practice in Maven projects).
+- #58: Fix TDL grammar (matches original BNF more closely now).
+- #58: "linked pair trapset" is actually "linked pairs trapset".
+- #58: Add getHumanReadableNames() to TDL expression node objects.
+- #58: Semantics of boolean literals in TDL expressions has changed (they now represent "instant" truth).
+- #58: TDL ChildContainer: relax rules in replaceChild() (support for object identity checking).
+- #58: A({}) -> True; E({}) -> False.
+- #58: Deprecate ScenarioSystemComposer.processGloballyApplicableTransitionSynch().
