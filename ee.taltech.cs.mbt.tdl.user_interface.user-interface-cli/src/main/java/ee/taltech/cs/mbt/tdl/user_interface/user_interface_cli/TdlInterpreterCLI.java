@@ -1,6 +1,5 @@
 package ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli;
 
-import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.BiTuple;
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.cli_config.TdlCommandLineOptions;
@@ -21,9 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 import static java.lang.System.err;
