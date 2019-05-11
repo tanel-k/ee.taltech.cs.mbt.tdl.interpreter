@@ -2,20 +2,20 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extract
 
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
-import ee.taltech.cs.mbt.tdl.commons.utils.streams.StreamUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.BiTuple;
 import ee.taltech.cs.mbt.tdl.commons.utils.functions.NoOpConsumer;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.declaration.DeclarationCtxExtractor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.parameter.ParameterCtxExtractor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.locations.LocationCtxExtractor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.transitions.TransitionCtxExtractor;
+import ee.taltech.cs.mbt.tdl.commons.utils.streams.StreamUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.templates.Template;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.Transition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.IPicklerContextExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.declaration.DeclarationCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.language.parameter.ParameterCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.locations.LocationCtxExtractor;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.transitions.TransitionCtxExtractor;
 
 import java.util.Collection;
 import java.util.HashMap;

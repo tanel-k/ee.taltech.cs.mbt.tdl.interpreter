@@ -1,7 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.declaration;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.expression.ExpressionConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ArrayVariableLookupContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ChannelArrayLookupContext;
@@ -16,6 +15,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.channel_prior
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.ArrayVariableLookup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.expression.ExpressionConverter;
 
 public class ChannelReferenceConverter extends UtaLanguageBaseVisitor<AbsChannelReference>
 		implements IParseTreeConverter<AbsChannelReference, ChannelReferenceContext> {

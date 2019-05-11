@@ -4,13 +4,6 @@ import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.ErrorStrategyCon
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListener;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorStrategyConfig;
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.declaration.DeclarationSequenceConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.expression.ExpressionConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.parameter.ParameterSequenceConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.system.SystemDefinitionConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.template.AssignmentsConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.template.SelectionSequenceConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.template.SynchronizationConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.DeclarationSequenceContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ExpressionContext;
@@ -25,6 +18,13 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclar
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Selection;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Synchronization;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.declaration.DeclarationSequenceConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.expression.ExpressionConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.parameter.ParameterSequenceConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.system.SystemDefinitionConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.template.AssignmentsConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.template.SelectionSequenceConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.template.SynchronizationConverter;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.LinkedList;

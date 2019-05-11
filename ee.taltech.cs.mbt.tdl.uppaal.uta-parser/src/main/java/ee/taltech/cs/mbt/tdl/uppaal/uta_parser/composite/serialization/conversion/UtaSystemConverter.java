@@ -1,11 +1,11 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.conversion;
 
+import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.UtaGeneratorFactory;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.GenerationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.GlobalDeclarationsNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.SystemDefinitionNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.UtaNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.UtaGeneratorFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 
 public class UtaSystemConverter {
 	public static UtaSystemConverter getInstance(UtaGeneratorFactory generatorFactory, GenerationQueue generationQueue) {

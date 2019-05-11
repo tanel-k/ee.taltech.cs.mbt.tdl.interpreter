@@ -2,6 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.ErrorStrategyConfigFactory;
 import ee.taltech.cs.mbt.tdl.commons.utils.validation.ValidationResult;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.conversion.UtaNodeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;
@@ -11,7 +12,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.UtaLanguageParserFactory
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.UtaNodeMarshaller.MarshallingException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.UtaNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 
 import java.io.InputStream;
 

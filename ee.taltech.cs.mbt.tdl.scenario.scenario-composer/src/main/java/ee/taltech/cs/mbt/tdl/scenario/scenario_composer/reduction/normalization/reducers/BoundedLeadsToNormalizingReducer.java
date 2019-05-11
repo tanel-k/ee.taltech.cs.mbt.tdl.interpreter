@@ -22,11 +22,11 @@ public class BoundedLeadsToNormalizingReducer extends AbsNormalizingReducer<Boun
 		/*
 		 * The reasoning here would be similar to the one we have for not(~>) in LeadsToNormalizingReducer.
 		 * Theoretically we could have the following reduction rules:
-		 * not(a ~>(>n) b)  ==> a ~>(<=n) b or not(a ~> b);
-		 * not(a ~>(<n) b)  ==> a ~>(>=n) b or not(a ~> b);
-		 * not(a ~>(>=n) b) ==> a ~>(<n) b or not(a ~> b);
-		 * not(a ~>(<=n) b) ==> a ~>(>n) b or not(a ~> b);
-		 * not(a ~>(=n) b)  ==> (a ~>(<n) b or a ~>(>n) b) or not(a ~> b).
+		 * - not(a ~>(>n) b)  reduces to a ~>(<=n) b or not(a ~> b);
+		 * - not(a ~>(<n) b)  reduces to a ~>(>=n) b or not(a ~> b);
+		 * - not(a ~>(>=n) b) reduces to a ~>(<n) b or not(a ~> b);
+		 * - not(a ~>(<=n) b) reduces to a ~>(>n) b or not(a ~> b);
+		 * - not(a ~>(=n) b)  reduces to (a ~>(<n) b or a ~>(>n) b) or not(a ~> b).
 		 * However, since not(~>) isn't implementable, we need to throw an Exception here as well.
 		 */
 		throw new NormalizationException("Negation of bounded leads to is not supported.", boundedLeadsTo, expression);

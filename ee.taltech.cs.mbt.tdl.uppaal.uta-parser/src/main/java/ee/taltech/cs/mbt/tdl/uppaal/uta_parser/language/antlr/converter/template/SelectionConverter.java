@@ -1,12 +1,12 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.template;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.type.BaseTypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.SelectionContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Selection;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.BaseType;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.type.BaseTypeConverter;
 
 public class SelectionConverter extends UtaLanguageBaseVisitor<Selection>
 		implements IParseTreeConverter<Selection, SelectionContext> {

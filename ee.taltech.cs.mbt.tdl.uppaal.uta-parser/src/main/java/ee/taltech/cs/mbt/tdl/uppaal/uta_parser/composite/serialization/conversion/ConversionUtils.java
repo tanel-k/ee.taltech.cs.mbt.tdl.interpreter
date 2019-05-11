@@ -1,11 +1,11 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.conversion;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.IdReferenceNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.NameNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.gui.Color;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.locations.Location.LocationName;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.IdReferenceNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.NameNode;
 
 public class ConversionUtils {
 	public static NameNode nameNodeFor(String name, GuiCoordinates coordinates) {

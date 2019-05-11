@@ -1,7 +1,5 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.conversion;
 
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.GenerationQueue;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.UtaGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.gui.IPositionable;
@@ -15,6 +13,19 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.impl.Synchronizat
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.locations.Location;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.templates.Template;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.Transition;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.GenerationQueue;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.EAttrTransitionLabelKindAttr;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.ELocationLabelKindAttr;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.InitialLocationNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.LocalDeclarationsNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.LocationLabelNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.LocationNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.MarkerNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.ParametersNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TemplateNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionLabelNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionNailNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionNode;
 
 import java.util.Objects;
 

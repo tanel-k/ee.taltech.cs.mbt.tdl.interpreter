@@ -1,12 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.declaration;
 
 import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.expression.ArgumentSequenceConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.identifier.IdentifierDeclarationConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.identifier.IdentifierDeclarationConverter.IdentifierData;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.parameter.ParameterSequenceConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.statement.StatementSequenceConverter;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.type.BaseTypeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.*;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.AbsDeclarationStatement;
@@ -23,6 +17,12 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.BaseTypeExtensionMap
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.StatementBlock;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.BaseType;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.expression.ArgumentSequenceConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.identifier.IdentifierDeclarationConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.identifier.IdentifierDeclarationConverter.IdentifierData;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.parameter.ParameterSequenceConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.statement.StatementSequenceConverter;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr.converter.type.BaseTypeConverter;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.Collection;

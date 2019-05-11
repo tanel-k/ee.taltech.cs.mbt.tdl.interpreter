@@ -2,10 +2,9 @@ package ee.taltech.cs.mbt.tdl.commons.st_utils.generator;
 
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry.MissingSTException;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STFacade.InvalidSTFormatException;
 import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STFacade.STRenderingException;
-import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
+import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry.MissingSTException;
 import org.stringtemplate.v4.ST;
 
 import java.util.Collection;

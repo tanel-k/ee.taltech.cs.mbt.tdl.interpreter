@@ -1,15 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.conversion;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.ParseQueue;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.UtaLanguageParserFactory;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.InitialLocationNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.LocationLabelNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.LocationNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.NameNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TemplateNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionLabelNode;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionNode;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.gui.GuiCoordinates;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.gui.IPositionable;
@@ -27,6 +18,15 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.locations.LocationLabels
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.templates.Template;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.Transition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.TransitionLabels;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.ParseQueue;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.UtaLanguageParserFactory;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.InitialLocationNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.LocationLabelNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.LocationNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.NameNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TemplateNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionLabelNode;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.structure.jaxb.TransitionNode;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
