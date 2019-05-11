@@ -51,6 +51,7 @@ All notable changes to this project will be documented in this file.
 - #58: Support for checked literal elimination exceptions (LiteralEliminationException).
 - #58: TdlTrivialTrueRecognizer.
 - #58: TdlTrivialFalseRecognizer.
+- #60: Added custom args4j option StringOrFile.
 
 ### Removed
 - #58: Logic for TdlTerminatorAdapter.
@@ -66,3 +67,4 @@ All notable changes to this project will be documented in this file.
 - #58: TDL ChildContainer: relax rules in replaceChild() (support for object identity checking).
 - #58: A({}) -> True; E({}) -> False.
 - #58: Deprecate ScenarioSystemComposer.processGloballyApplicableTransitionSynch().
+- #60: -e|--expression in CLI to support **both** file path strings and TDL<sup>TP</sup> expression strings.
