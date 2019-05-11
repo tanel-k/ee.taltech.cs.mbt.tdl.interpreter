@@ -16,8 +16,11 @@
 
   <modules>
     <module>../ee.taltech.cs.mbt.tdl.commons.utils</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.antlr-facade</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.st-facade</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.sexpr.s-expression-grammar</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.sexpr.s-expression-model</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.sexpr.s-expression-parser</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.facades.antlr-facade</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.facades.st-facade</module>
     <module>../ee.taltech.cs.mbt.tdl.uppaal.uta-model</module>
     <module>../ee.taltech.cs.mbt.tdl.expression.tdl-model</module>
     <module>../ee.taltech.cs.mbt.tdl.uppaal.uta-grammar</module>

@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language;
 
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParserFacade.ParseException;
 import ee.taltech.cs.mbt.tdl.commons.parser.AbsAntlrParser;
 import ee.taltech.cs.mbt.tdl.commons.utils.operations.IOperation;
 import ee.taltech.cs.mbt.tdl.commons.utils.operations.OperationQueue;

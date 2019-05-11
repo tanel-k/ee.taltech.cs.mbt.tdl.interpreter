@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.templates;
 
-import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.BiTuple;
 import ee.taltech.cs.mbt.tdl.commons.utils.functions.NoOpConsumer;

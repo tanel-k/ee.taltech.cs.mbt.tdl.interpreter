@@ -79,7 +79,7 @@
       <artifactId>uta-grammar</artifactId>
     </dependency>
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+      <groupId>ee.taltech.cs.mbt.tdl.commons.facades</groupId>
       <artifactId>antlr-facade</artifactId>
     </dependency>
     <dependency>

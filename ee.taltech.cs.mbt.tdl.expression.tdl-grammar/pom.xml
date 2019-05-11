@@ -71,7 +71,7 @@
   <dependencies>
     <!-- Internal -->
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+      <groupId>ee.taltech.cs.mbt.tdl.commons.facades</groupId>
       <artifactId>st-facade</artifactId>
     </dependency>
     <dependency>

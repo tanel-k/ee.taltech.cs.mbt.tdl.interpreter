@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator;
 
-import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.AbsSTGenerator;
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.IContextExtractor;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.AbsSTGenerator;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.STRegistry;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.extractors.ExpressionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 

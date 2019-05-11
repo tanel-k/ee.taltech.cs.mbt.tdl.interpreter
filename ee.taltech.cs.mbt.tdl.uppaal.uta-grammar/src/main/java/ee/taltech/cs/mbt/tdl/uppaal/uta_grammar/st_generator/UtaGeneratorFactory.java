@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator;
 
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.STRegistry;
 
 public class UtaGeneratorFactory {
 	private static final String TEMPLATE_GROUP_PATH = "template-source/UtaLanguage.stg";

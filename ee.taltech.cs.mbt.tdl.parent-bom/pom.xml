@@ -10,8 +10,11 @@
 
   <properties>
     <commons.utils.version>1.5-SNAPSHOT</commons.utils.version>
-    <commons.stFacade.version>1.5-SNAPSHOT</commons.stFacade.version>
-    <commons.antlrFacade.version>1.5-SNAPSHOT</commons.antlrFacade.version>
+    <commons.sexpr.grammar.version>1.5-SNAPSHOT</commons.sexpr.grammar.version>
+    <commons.sexpr.model.version>1.5-SNAPSHOT</commons.sexpr.model.version>
+    <commons.sexpr.parser.version>1.5-SNAPSHOT</commons.sexpr.parser.version>
+    <commons.facades.stFacade.version>1.5-SNAPSHOT</commons.facades.stFacade.version>
+    <commons.facades.antlrFacade.version>1.5-SNAPSHOT</commons.facades.antlrFacade.version>
     <uta.model.version>1.5-SNAPSHOT</uta.model.version>
     <uta.grammar.version>1.5-SNAPSHOT</uta.grammar.version>
     <uta.parser.version>1.5-SNAPSHOT</uta.parser.version>
@@ -32,14 +35,14 @@
         <version>${commons.utils.version}</version>
       </dependency>
       <dependency>
-        <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+        <groupId>ee.taltech.cs.mbt.tdl.commons.facades</groupId>
         <artifactId>st-facade</artifactId>
-        <version>${commons.stFacade.version}</version>
+        <version>${commons.facades.stFacade.version}</version>
       </dependency>
       <dependency>
-        <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+        <groupId>ee.taltech.cs.mbt.tdl.commons.facades</groupId>
         <artifactId>antlr-facade</artifactId>
-        <version>${commons.antlrFacade.version}</version>
+        <version>${commons.facades.antlrFacade.version}</version>
       </dependency>
       <dependency>
         <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
@@ -90,6 +93,21 @@
         <groupId>ee.taltech.cs.mbt.tdl.user_interface</groupId>
         <artifactId>user-interface-cli</artifactId>
         <version>${interface.cli.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ee.taltech.cs.mbt.tdl.commons.sexpr</groupId>
+        <artifactId>s-expression-model</artifactId>
+        <version>${commons.sexpr.model.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ee.taltech.cs.mbt.tdl.commons.sexpr</groupId>
+        <artifactId>s-expression-grammar</artifactId>
+        <version>${commons.sexpr.grammar.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>ee.taltech.cs.mbt.tdl.commons.sexpr</groupId>
+        <artifactId>s-expression-parser</artifactId>
+        <version>${commons.sexpr.parser.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
