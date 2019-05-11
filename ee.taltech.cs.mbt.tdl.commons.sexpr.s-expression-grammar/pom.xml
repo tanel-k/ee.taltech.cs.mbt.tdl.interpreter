@@ -54,7 +54,7 @@
               <visitor>true</visitor>
               <arguments>
                 <argument>-package</argument>
-                <argument>ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar</argument>
+                <argument>ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser</argument>
               </arguments>
               <includes>SExpressionLanguage.g4</includes>
               <!-- treatWarningsAsErrors>false</treatWarningsAsErrors -->
