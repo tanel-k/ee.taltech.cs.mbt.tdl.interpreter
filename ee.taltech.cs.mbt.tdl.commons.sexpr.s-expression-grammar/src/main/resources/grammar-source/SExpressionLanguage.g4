@@ -23,5 +23,6 @@ LPAREN                  : '(' ;
 RPAREN                  : ')' ;
 ALPHANUMERIC            : [A-Za-z0-9] ;
 SPECIAL                 : [#~!@$%^&*_\-?`=<>|{}[\]/:;,] ;
-ESCAPED_RESERVED_TOK    : '\\.' | '\\(' | '\\)' ;
-WS                      : BLANK+ -> skip ;
+ESCAPED_RESERVED_TOK    : '\\.' | '\\(' | '\\)' | '\\"' ;
+
+WS : BLANK+ -> skip ;

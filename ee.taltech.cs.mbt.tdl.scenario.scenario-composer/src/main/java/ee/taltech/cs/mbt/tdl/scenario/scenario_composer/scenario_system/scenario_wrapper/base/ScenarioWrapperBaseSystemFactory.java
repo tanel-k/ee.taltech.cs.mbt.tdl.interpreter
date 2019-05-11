@@ -61,7 +61,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.TransitionLa
 
 import java.util.LinkedList;
 
-/** Generated on 11/May/2019 using the UTA pickler plugin. */
+/** Generated on 12/May/2019 using the UTA pickler plugin. */
 public class ScenarioWrapperBaseSystemFactory {
   public static class TdlScenarioStopwatchTemplateFactory {
     public static TdlScenarioStopwatchTemplateFactory getInstance() {
