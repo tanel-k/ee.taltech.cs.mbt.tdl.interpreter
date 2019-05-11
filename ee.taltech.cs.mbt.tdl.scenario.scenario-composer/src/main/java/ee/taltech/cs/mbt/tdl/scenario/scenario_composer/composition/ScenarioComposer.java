@@ -65,7 +65,7 @@ public class ScenarioComposer {
 
 		if (tdlExpressionCpy.getRootBooleanWrapper().isPresent()) {
 			// Makes no sense to compose a scenario for a single True/False node; just return the expression.
-			return ScenarioCompositionResults.of(tdlExpressionCpy);
+			return ScenarioCompositionResults.ofTrivialExpression(tdlExpressionCpy);
 		}
 
 		ScenarioCompositionParameters compositionParameters = new ScenarioCompositionParameters()

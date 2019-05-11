@@ -34,50 +34,43 @@ public class BoundedRepetitionLiteralOperandEliminator extends AbsLiteralOperand
 			BooleanValueWrapperNode childLeaf,
 			Deque<BooleanValueWrapperNode> remainingLeaves
 	) {
-		// FIXME: Double-check.
 		Bound bound = parentNode.getBound();
 
 		BigInteger boundValue = bound.getBoundValue();
 		BooleanValueWrapperNode replacement = null;
 		switch (bound.getBoundType()) {
 			case LESS_THAN:
-				// #[<n]True ==> n > 0.
-				// #[<n]False ==> n > 0.
+				// #[<n]True reduces to n > 0.
+				// #[<n]False reduces to n > 0.
 				replacement = BooleanValueWrapperNode.of(
 						BigInteger.ZERO.compareTo(boundValue) < 0
 				);
 				break;
 			case GREATER_THAN:
-				if (childLeaf.wrapsFalse()) // #[>n]False ==> False.
-					replacement = BooleanValueWrapperNode.falseWrapper();
-				// #[>n]True ==> length(traceSinceLastCount) > n.
+				// #[>n]False reduces to False.
+				// #[>n]True reduces to True (in this interpretation; see recognizer).
+				replacement = BooleanValueWrapperNode.of(childLeaf.wrapsTrue());
 				break;
 			case LESS_THAN_OR_EQUAL_TO:
-				// #[<=n]True ==> True.
-				// #[<=n]False ==> True.
+				// #[<=n]True reduces to True.
+				// #[<=n]False reduces True.
 				replacement = BooleanValueWrapperNode.trueWrapper();
 				break;
 			case GREATER_THAN_OR_EQUAL_TO:
 			case EQUALS:
-				// #[>=n]False ==> n == 0.
-				// #[=n]False ==> n == 0.
-				if (childLeaf.wrapsFalse())
+				// #[>=n]False reduces to n == 0.
+				// #[=n]False reduces to n == 0.
+				// #[>=n]True reduces to True (in this interpretation; see recognizer).
+				// #[=n]True reduces to True (in this interpretation; see recognizer).
+				if (childLeaf.wrapsFalse()) {
 					replacement = BooleanValueWrapperNode.of(
 							BigInteger.ZERO.equals(boundValue)
 					);
-				// #[>=n]True ==> length(traceSinceLastCount) >= n.
-				// #[=n]True ==> length(traceSinceLastCount) == 0.
+				} else {
+					replacement = BooleanValueWrapperNode.trueWrapper();
+				}
 				break;
 		}
-
-		/*
-		 * FIXME:
-		 * Abstraction leak:
-		 * We leave #[>n]True, #[>=n]True, #[=n]True as is without removing boolean leaves
-		 * because we know True will be replaced with TdlTerminatorChannelAdapter.
-		 * The latter fires a synch on every transition
-		 * - this will help us ensure we have the appropriate trace segment length.
-		 */
 
 		if (replacement != null) {
 			expression.replaceDescendant(parentNode, replacement);

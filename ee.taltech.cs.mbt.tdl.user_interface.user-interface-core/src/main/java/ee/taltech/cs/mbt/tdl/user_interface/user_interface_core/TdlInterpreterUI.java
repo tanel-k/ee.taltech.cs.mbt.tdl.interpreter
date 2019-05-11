@@ -103,9 +103,9 @@ public class TdlInterpreterUI {
 				return;
 			}
 
-			// FIXME: API unclear here.
 			Optional<UtaSystem> optScenarioSystem = results.getScenarioSystem();
 			if (!optScenarioSystem.isPresent()) {
+				// This means there was nothing to generate the scenario from (trivial TDL expr).
 				progressListener.onFullReduction(spec.getTdlExpression());
 				return;
 			}

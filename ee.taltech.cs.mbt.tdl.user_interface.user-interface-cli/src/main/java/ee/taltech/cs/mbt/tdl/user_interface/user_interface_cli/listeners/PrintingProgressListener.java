@@ -55,9 +55,9 @@ public class PrintingProgressListener implements IProgressListener {
 		if (out == null)
 			return;
 		out.println("Scenario composition successful.");
-		if (!specification.getTdlExpression().equals(results.getTdlExpression())) {
+		if (!specification.getTdlExpression().equals(results.getExpression())) {
 			try {
-				String reducedExpression = TdlGeneratorFactory.getInstance().expressionGenerator().generate(results.getTdlExpression());
+				String reducedExpression = TdlGeneratorFactory.getInstance().expressionGenerator().generate(results.getExpression());
 				out.println("Expression reduced to:");
 				out.println(reducedExpression);
 			} catch (GenerationException e) { /* Doesn't matter. */ }
