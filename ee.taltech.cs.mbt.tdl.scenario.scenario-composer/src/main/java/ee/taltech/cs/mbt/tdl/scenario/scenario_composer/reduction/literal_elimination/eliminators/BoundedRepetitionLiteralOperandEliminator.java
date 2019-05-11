@@ -71,8 +71,9 @@ public class BoundedRepetitionLiteralOperandEliminator extends AbsLiteralOperand
 		}
 
 		/*
+		 * FIXME:
 		 * Abstraction leak:
-		 * We leave #[>n]True, #[>=n]True, #[=n]True as is without removing boolean leafs
+		 * We leave #[>n]True, #[>=n]True, #[=n]True as is without removing boolean leaves
 		 * because we know True will be replaced with TdlTerminatorChannelAdapter.
 		 * The latter fires a synch on every transition
 		 * - this will help us ensure we have the appropriate trace segment length.
