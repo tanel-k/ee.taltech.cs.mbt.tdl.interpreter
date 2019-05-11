@@ -52,6 +52,7 @@ All notable changes to this project will be documented in this file.
 - #58: TdlTrivialTrueRecognizer.
 - #58: TdlTrivialFalseRecognizer.
 - #60: Added custom args4j option StringOrFile.
+- #66: Added parser/generator for a limited version of S-Expressions.
 
 ### Removed
 - #58: Logic for TdlTerminatorAdapter.

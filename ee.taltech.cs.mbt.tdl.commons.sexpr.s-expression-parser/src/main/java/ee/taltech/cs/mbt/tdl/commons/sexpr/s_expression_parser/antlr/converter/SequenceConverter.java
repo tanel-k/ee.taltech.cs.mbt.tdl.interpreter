@@ -5,10 +5,10 @@ import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser.SEx
 import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.EmptySequenceContext;
 import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.NonEmptySequenceContext;
 import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.SequenceContext;
-import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_model.nodes.SExprSequenceNode;
+import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_model.nodes.SExpressionSequenceNode;
 
-public class SequenceConverter extends SExpressionLanguageBaseVisitor<SExprSequenceNode>
-		implements IParseTreeConverter<SExprSequenceNode, SequenceContext> {
+public class SequenceConverter extends SExpressionLanguageBaseVisitor<SExpressionSequenceNode>
+		implements IParseTreeConverter<SExpressionSequenceNode, SequenceContext> {
 	private static final SequenceConverter INSTANCE = new SequenceConverter();
 
 	public static SequenceConverter getInstance() {
@@ -18,18 +18,18 @@ public class SequenceConverter extends SExpressionLanguageBaseVisitor<SExprSeque
 	private SequenceConverter() { }
 
 	@Override
-	public SExprSequenceNode convert(SequenceContext ctx) {
+	public SExpressionSequenceNode convert(SequenceContext ctx) {
 		return ctx.accept(this);
 	}
 
 	@Override
-	public SExprSequenceNode visitEmptySequence(EmptySequenceContext ctx) {
-		return new SExprSequenceNode();
+	public SExpressionSequenceNode visitEmptySequence(EmptySequenceContext ctx) {
+		return new SExpressionSequenceNode();
 	}
 
 	@Override
-	public SExprSequenceNode visitNonEmptySequence(NonEmptySequenceContext ctx) {
-		SExprSequenceNode sequenceNode = new SExprSequenceNode();
+	public SExpressionSequenceNode visitNonEmptySequence(NonEmptySequenceContext ctx) {
+		SExpressionSequenceNode sequenceNode = new SExpressionSequenceNode();
 		ctx.item().stream().forEachOrdered(
 				itemCtx -> sequenceNode.getChildren().add(ItemConverter.getInstance().convert(itemCtx))
 		);

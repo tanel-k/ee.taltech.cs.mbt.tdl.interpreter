@@ -20,9 +20,9 @@ public class SExpressionLanguageParser extends Parser {
 		DELIMITED_STRING=1, NON_DELIMITED_STRING=2, SEQ_SEP=3, LPAREN=4, RPAREN=5, 
 		ALPHANUMERIC=6, SPECIAL=7, ESCAPED_RESERVED_TOK=8, WS=9;
 	public static final int
-		RULE_sexpr = 0, RULE_sequence = 1, RULE_item = 2, RULE_string = 3;
+		RULE_sExpr = 0, RULE_sequence = 1, RULE_item = 2, RULE_string = 3;
 	public static final String[] ruleNames = {
-		"sexpr", "sequence", "item", "string"
+		"sExpr", "sequence", "item", "string"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -81,32 +81,32 @@ public class SExpressionLanguageParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class SexprContext extends ParserRuleContext {
+	public static class SExprContext extends ParserRuleContext {
 		public SequenceContext sequence() {
 			return getRuleContext(SequenceContext.class,0);
 		}
-		public SexprContext(ParserRuleContext parent, int invokingState) {
+		public SExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_sexpr; }
+		@Override public int getRuleIndex() { return RULE_sExpr; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SExpressionLanguageListener ) ((SExpressionLanguageListener)listener).enterSexpr(this);
+			if ( listener instanceof SExpressionLanguageListener ) ((SExpressionLanguageListener)listener).enterSExpr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SExpressionLanguageListener ) ((SExpressionLanguageListener)listener).exitSexpr(this);
+			if ( listener instanceof SExpressionLanguageListener ) ((SExpressionLanguageListener)listener).exitSExpr(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SExpressionLanguageVisitor ) return ((SExpressionLanguageVisitor<? extends T>)visitor).visitSexpr(this);
+			if ( visitor instanceof SExpressionLanguageVisitor ) return ((SExpressionLanguageVisitor<? extends T>)visitor).visitSExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final SexprContext sexpr() throws RecognitionException {
-		SexprContext _localctx = new SexprContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_sexpr);
+	public final SExprContext sExpr() throws RecognitionException {
+		SExprContext _localctx = new SExprContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_sExpr);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

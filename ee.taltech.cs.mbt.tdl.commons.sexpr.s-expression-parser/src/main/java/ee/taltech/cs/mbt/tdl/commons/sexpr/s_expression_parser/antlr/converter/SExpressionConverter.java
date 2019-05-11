@@ -1,10 +1,10 @@
 package ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_parser.antlr.converter;
 
 import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.SexprContext;
+import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.SExprContext;
 import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_model.SExpression;
 
-public class SExpressionConverter implements IParseTreeConverter<SExpression, SexprContext> {
+public class SExpressionConverter implements IParseTreeConverter<SExpression, SExprContext> {
 	private static final SExpressionConverter INSTANCE = new SExpressionConverter();
 
 	public static SExpressionConverter getInstance() {
@@ -14,7 +14,7 @@ public class SExpressionConverter implements IParseTreeConverter<SExpression, Se
 	private SExpressionConverter() { }
 
 	@Override
-	public SExpression convert(SexprContext ctx) {
+	public SExpression convert(SExprContext ctx) {
 		return new SExpression().setRoot(
 				SequenceConverter.getInstance().convert(ctx.sequence())
 		);

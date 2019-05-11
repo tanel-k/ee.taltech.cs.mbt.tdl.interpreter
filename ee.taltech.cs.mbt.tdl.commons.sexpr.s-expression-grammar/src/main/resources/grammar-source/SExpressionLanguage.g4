@@ -1,6 +1,6 @@
 grammar SExpressionLanguage;
 
-sexpr : sequence ;
+sExpr : sequence ;  // Root production.
 
 sequence : LPAREN item (SEQ_SEP item)* RPAREN   #NonEmptySequence
          | LPAREN RPAREN                        #EmptySequence

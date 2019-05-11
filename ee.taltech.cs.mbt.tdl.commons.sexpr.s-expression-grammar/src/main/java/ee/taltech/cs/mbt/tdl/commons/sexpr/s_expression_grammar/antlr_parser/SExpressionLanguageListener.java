@@ -9,15 +9,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface SExpressionLanguageListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link SExpressionLanguageParser#sexpr}.
+	 * Enter a parse tree produced by {@link SExpressionLanguageParser#sExpr}.
 	 * @param ctx the parse tree
 	 */
-	void enterSexpr(SExpressionLanguageParser.SexprContext ctx);
+	void enterSExpr(SExpressionLanguageParser.SExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SExpressionLanguageParser#sexpr}.
+	 * Exit a parse tree produced by {@link SExpressionLanguageParser#sExpr}.
 	 * @param ctx the parse tree
 	 */
-	void exitSexpr(SExpressionLanguageParser.SexprContext ctx);
+	void exitSExpr(SExpressionLanguageParser.SExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code NonEmptySequence}
 	 * labeled alternative in {@link SExpressionLanguageParser#sequence}.

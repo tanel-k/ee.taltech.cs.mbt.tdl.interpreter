@@ -12,11 +12,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface SExpressionLanguageVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link SExpressionLanguageParser#sexpr}.
+	 * Visit a parse tree produced by {@link SExpressionLanguageParser#sExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSexpr(SExpressionLanguageParser.SexprContext ctx);
+	T visitSExpr(SExpressionLanguageParser.SExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code NonEmptySequence}
 	 * labeled alternative in {@link SExpressionLanguageParser#sequence}.

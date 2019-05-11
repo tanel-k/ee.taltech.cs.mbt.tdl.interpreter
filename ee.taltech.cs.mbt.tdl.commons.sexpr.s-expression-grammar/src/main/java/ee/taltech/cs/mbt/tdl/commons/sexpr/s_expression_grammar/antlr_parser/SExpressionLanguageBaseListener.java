@@ -17,13 +17,13 @@ public class SExpressionLanguageBaseListener implements SExpressionLanguageListe
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSexpr(SExpressionLanguageParser.SexprContext ctx) { }
+	@Override public void enterSExpr(SExpressionLanguageParser.SExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSexpr(SExpressionLanguageParser.SexprContext ctx) { }
+	@Override public void exitSExpr(SExpressionLanguageParser.SExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

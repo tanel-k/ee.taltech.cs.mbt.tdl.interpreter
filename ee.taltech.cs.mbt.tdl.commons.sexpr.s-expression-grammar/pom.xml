@@ -74,6 +74,10 @@
       <groupId>ee.taltech.cs.mbt.tdl.commons.facades</groupId>
       <artifactId>st-facade</artifactId>
     </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.commons.sexpr</groupId>
+      <artifactId>s-expression-model</artifactId>
+    </dependency>
     <!-- /Internal -->
     <dependency>
       <groupId>org.antlr</groupId>

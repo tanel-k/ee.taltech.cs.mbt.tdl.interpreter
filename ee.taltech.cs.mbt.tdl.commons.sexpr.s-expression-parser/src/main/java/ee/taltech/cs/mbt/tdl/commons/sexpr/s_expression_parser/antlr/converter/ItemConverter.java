@@ -5,11 +5,11 @@ import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser.SEx
 import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.ItemContext;
 import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.SequenceItemContext;
 import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.StringItemContext;
-import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_model.nodes.AbsSExprNode;
-import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_model.nodes.SExprStringNode;
+import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_model.nodes.AbsSExpressionNode;
+import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_model.nodes.SExpressionStringNode;
 
-public class ItemConverter extends SExpressionLanguageBaseVisitor<AbsSExprNode>
-		implements IParseTreeConverter<AbsSExprNode, ItemContext> {
+public class ItemConverter extends SExpressionLanguageBaseVisitor<AbsSExpressionNode>
+		implements IParseTreeConverter<AbsSExpressionNode, ItemContext> {
 	private static final ItemConverter INSTANCE = new ItemConverter();
 
 	public static ItemConverter getInstance() {
@@ -19,18 +19,18 @@ public class ItemConverter extends SExpressionLanguageBaseVisitor<AbsSExprNode>
 	private ItemConverter() { }
 
 	@Override
-	public AbsSExprNode convert(ItemContext ctx) {
+	public AbsSExpressionNode convert(ItemContext ctx) {
 		return ctx.accept(this);
 	}
 
 	@Override
-	public AbsSExprNode visitSequenceItem(SequenceItemContext ctx) {
+	public AbsSExpressionNode visitSequenceItem(SequenceItemContext ctx) {
 		return SequenceConverter.getInstance().convert(ctx.sequence());
 	}
 
 	@Override
-	public AbsSExprNode visitStringItem(StringItemContext ctx) {
-		return new SExprStringNode().setString(
+	public AbsSExpressionNode visitStringItem(StringItemContext ctx) {
+		return new SExpressionStringNode().setString(
 				StringConverter.getInstance().convert(ctx.string())
 		);
 	}

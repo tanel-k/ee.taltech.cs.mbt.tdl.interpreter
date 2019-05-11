@@ -1,15 +1,15 @@
 package ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_model;
 
-import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_model.nodes.SExprSequenceNode;
+import ee.taltech.cs.mbt.tdl.commons.sexpr.s_expression_model.nodes.SExpressionSequenceNode;
 
 public class SExpression {
-	private SExprSequenceNode root;
+	private SExpressionSequenceNode root;
 
-	public SExprSequenceNode getRoot() {
+	public SExpressionSequenceNode getRoot() {
 		return root;
 	}
 
-	public SExpression setRoot(SExprSequenceNode root) {
+	public SExpression setRoot(SExpressionSequenceNode root) {
 		this.root = root;
 		return this;
 	}
