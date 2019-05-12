@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<TestPlan>
+  <Configuration>
+    <InputPipeline>
+      <Step type="configuredTransform" />
+      <Step type="transform"
+            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.AssignmentsToSExprTransformer"
+      />
+    </InputPipeline>
+    <OutputPipeline>
+      <Step type="transform"
+            transformerClass="ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.impl.StringToSExpressionTransformer"
+      />
+    </OutputPipeline>
+  </Configuration>
+  <TestCases>
+    <TestCase name="Simple assignment: integer">
+      <ProvidedInput>x = 1</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (x)) . 1)))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: boolean">
+      <ProvidedInput>flag = true</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (flag)) . TRUE)))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: addition">
+      <ProvidedInput>value = x + y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . (+ . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: subtraction">
+      <ProvidedInput>value = x - y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . (- . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: multiplication">
+      <ProvidedInput>value = x * y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . (* . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: division">
+      <ProvidedInput>value = x / y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . (/ . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: maximum">
+      <ProvidedInput><![CDATA[value = x >? y]]></ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)).(>? . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: minimum">
+      <ProvidedInput><![CDATA[value = x <? y]]></ProvidedInput>
+      <ExpectedOutput><![CDATA[((= . ((ID . (value)) . (<? . ((ID . (x)) . (ID . (y)))))))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: modulo">
+      <ProvidedInput>value = x % y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . (% . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: additive inverse">
+      <ProvidedInput>x = -a</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (x)) . (+EXPR . ((ID . (a)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: additive identity">
+      <ProvidedInput>x = +a</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (x)) . (-EXPR . ((ID . (a)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: postfix increment">
+      <ProvidedInput>var++</ProvidedInput>
+      <ExpectedOutput>((EXPR++ . ((ID . (var)))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: postfix decrement">
+      <ProvidedInput>var--</ProvidedInput>
+      <ExpectedOutput>((EXPR-- . ((ID . (var)))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: prefix increment">
+      <ProvidedInput>++var</ProvidedInput>
+      <ExpectedOutput>((++EXPR . ((ID . (var)))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: prefix decrement">
+      <ProvidedInput>--var</ProvidedInput>
+      <ExpectedOutput>((--EXPR . ((ID . (var)))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: left shift">
+      <ProvidedInput><![CDATA[value = x << y]]></ProvidedInput>
+      <ExpectedOutput><![CDATA[((= . ((ID . (value)) . (<< . ((ID . (x)) . (ID . (y)))))))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: right shift">
+      <ProvidedInput><![CDATA[value = x >> y]]></ProvidedInput>
+      <ExpectedOutput><![CDATA[((= . ((ID . (value)) . (>> . ((ID . (x)) . (ID . (y)))))))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: bitwise or">
+      <ProvidedInput>value = x | y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . (| . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: bitwise and">
+      <ProvidedInput><![CDATA[value = x & y]]></ProvidedInput>
+      <ExpectedOutput><![CDATA[((= . ((ID . (value)) . (& . ((ID.(x)) . (ID . (y)))))))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: bitwise xor">
+      <ProvidedInput>value = x | y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . (| . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: disjunction">
+      <ProvidedInput>flag = x || y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (flag)) . (|| . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: disjunction (phrase)">
+      <ProvidedInput>flag = x or y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (flag)) . (or . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: conjunction">
+      <ProvidedInput><![CDATA[flag = x && y]]></ProvidedInput>
+      <ExpectedOutput><![CDATA[((= . ((ID . (flag)) . (&& . ((ID . (x)) . (ID . (y)))))))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: conjunction (phrase)">
+      <ProvidedInput>flag = x and y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (flag)) . (and . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: implication (phrase)">
+      <ProvidedInput>value = x imply y</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . (implies . ((ID . (x)) . (ID . (y)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: ternary">
+      <ProvidedInput>value = cond ? a : b</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . (?: . ((ID . (cond)) . (ID . (a)) . (ID . (b)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: field access">
+      <ProvidedInput>value = rec.field</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . ("\." . (field . (ID . (rec)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple assignment: array access">
+      <ProvidedInput>value = arr[0]</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . ([] . ((ID . (arr)) . 0)))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Feature: negation">
+      <ProvidedInput>flag = !boolVar</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (flag)) . (! . ((ID . (boolVar)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Feature: negation (phrase)">
+      <ProvidedInput>flag = not boolVar</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (flag)) . (not . ((ID . (boolVar)))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Feature: group">
+      <ProvidedInput>value = (x * y)</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (value)) . ("\(\)" . ((* . ((ID . (x)) . (ID . (y)))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Multi-expression: boolean assignment">
+      <ProvidedInput>a = true, b = false, c = true</ProvidedInput>
+      <ExpectedOutput>((= . ((ID . (a)) . TRUE)) . (= . ((ID . (b)) . FALSE)) . (= . ((ID . (c)) . TRUE)))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Sub-expression test 1: group, field access, bitwise and, conjunction, disjunction, minimum, maximum, ternary, bitwise or">
+      <ProvidedInput>
+        <![CDATA[
+          obj.field = (x & ((x && y || z) ? a <? b : a >? b) | 123)
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[
+          ((=.(("\.".(field.(ID.(obj)))).("\(\)".((|.((&.((ID.(x)).("\(\)".((?:.(("\(\)".((||.((&&.((ID.(x)).(ID.(y)))).(ID.(z)))))).(<?.((ID.(a)).(ID.(b)))).(>?.((ID.(a)).(ID.(b)))))))))).123)))))))
+        ]]>
+      </ExpectedOutput>
+    </TestCase>
+  </TestCases>
+</TestPlan>

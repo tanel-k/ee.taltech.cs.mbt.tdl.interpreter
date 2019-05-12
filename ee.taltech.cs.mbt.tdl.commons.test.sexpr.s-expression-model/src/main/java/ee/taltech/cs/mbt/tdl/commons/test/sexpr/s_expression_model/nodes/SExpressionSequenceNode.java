@@ -1,5 +1,7 @@
 package ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes;
 
+import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.SExpression;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +17,13 @@ public class SExpressionSequenceNode extends AbsSExpressionNode {
 	public SExpressionSequenceNode addChild(AbsSExpressionNode child) {
 		children.add(child);
 		child.setParent(this);
+		return this;
+	}
+
+	public SExpressionSequenceNode addChild(SExpression subtree) {
+		children.add(subtree.getRoot());
+		subtree.getRoot().setParent(this);
+		subtree.setRoot(null);
 		return this;
 	}
 
