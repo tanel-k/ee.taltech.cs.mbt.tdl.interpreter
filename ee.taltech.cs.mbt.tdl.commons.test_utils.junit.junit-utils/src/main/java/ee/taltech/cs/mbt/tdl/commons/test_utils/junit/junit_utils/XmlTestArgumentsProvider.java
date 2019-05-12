@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.commons.test_utils.junit.junit_utils;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -39,8 +40,12 @@ public class XmlTestArgumentsProvider implements ArgumentsProvider, AnnotationCo
 		for (Object testCase : testCaseNodes) {
 			Node testCaseNode = (Node) testCase;
 			String name = ((Element) testCaseNode).attributeValue("name");
+
 			String providedInputAsString = testCaseNode.selectSingleNode("ProvidedInput").getText();
 			String expectedOutputAsString = testCaseNode.selectSingleNode("ExpectedOutput").getText();
+			providedInputAsString = StringUtils.trimAndNormalizeWS(providedInputAsString);
+			expectedOutputAsString = StringUtils.trimAndNormalizeWS(expectedOutputAsString);
+
 			testContext.addTestCase(new TestCase(name, providedInputAsString, expectedOutputAsString));
 		}
 

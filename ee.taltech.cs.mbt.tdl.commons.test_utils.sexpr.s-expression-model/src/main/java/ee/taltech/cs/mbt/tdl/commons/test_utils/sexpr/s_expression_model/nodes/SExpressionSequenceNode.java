@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr.s_expression_model.nodes;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -20,8 +21,15 @@ public class SExpressionSequenceNode extends AbsSExpressionNode {
 	@Override
 	public String toString() {
 		StringBuilder buf = new StringBuilder("(");
-		for (AbsSExpressionNode child : children)
-			buf.append(child.toString());
+		Iterator<AbsSExpressionNode> childIter = children.iterator();
+
+		while (childIter.hasNext()) {
+			AbsSExpressionNode next = childIter.next();
+			buf.append(next.toString());
+			if (childIter.hasNext())
+				buf.append(" . ");
+		}
+
 		return buf.append(")").toString();
 	}
 

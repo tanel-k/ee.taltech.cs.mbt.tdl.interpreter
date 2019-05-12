@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<TestPlan>
+  <Configuration>
+    <InputMapperClass>ee.taltech.cs.mbt.tdl.expression.tdl_parser.TdlToSExprMapper</InputMapperClass>
+    <OutputMapperClass>ee.taltech.cs.mbt.tdl.expression.tdl_parser.StringToSExprMapper</OutputMapperClass>
+  </Configuration>
+  <TestCases>
+    <TestCase name="Parses trapset ids">
+      <ProvidedInput>E(TS1234) || E(ts0123)</ProvidedInput>
+      <ExpectedOutput>("||" . (("E" . ("TS1234")) . ("E" . ("TS0123"))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses universal trapset quantification">
+      <ProvidedInput>A(TS)</ProvidedInput>
+      <ExpectedOutput>("A" . ("TS"))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses existential quantification">
+      <ProvidedInput>E(TS)</ProvidedInput>
+      <ExpectedOutput>("E" . ("TS"))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses linked pairs trapset">
+      <ProvidedInput>E(TS1 ; TS2)</ProvidedInput>
+      <ExpectedOutput>("E" . ((";" . ("TS1" . "TS2"))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses absolute complement">
+      <ProvidedInput>E(!TS)</ProvidedInput>
+      <ExpectedOutput>("E" . (("!" . ("TS"))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses relative complement">
+      <ProvidedInput>E(TS1 \ TS2)</ProvidedInput>
+      <ExpectedOutput>("E" . (("\" . ("TS1" . "TS2"))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses conjunction">
+      <ProvidedInput><![CDATA[E(TS1) && A(TS2)]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("&&" . (
+          ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses disjunction">
+      <ProvidedInput>E(TS1) || A(TS2)</ProvidedInput>
+      <ExpectedOutput>
+        ("||" . (
+          ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses implication">
+      <ProvidedInput><![CDATA[E(TS1) -> A(TS2))]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("==>" . (
+          ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses equivalence">
+      <ProvidedInput><![CDATA[E(TS1) <-> A(TS2))]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("<=>" . (
+          ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses leads to">
+      <ProvidedInput><![CDATA[E(TS1) ~> A(TS2))]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("~>" . (
+          ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses bounded leads to (less than)">
+      <ProvidedInput><![CDATA[E(TS1) ~>[<123] A(TS2))]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("~>" . (
+        ("<" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses bounded leads to (greater than)">
+      <ProvidedInput><![CDATA[E(TS1) ~>[>123] A(TS2))]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("~>" . (
+        (">" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses bounded leads to (less than or equal)">
+      <ProvidedInput><![CDATA[E(TS1) ~>[<=123] A(TS2))]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("~>" . (
+        ("<=" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses bounded leads to (greater than or equal)">
+      <ProvidedInput><![CDATA[E(TS1) ~>[>=123] A(TS2))]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("~>" . (
+          (">=" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+          ))]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses bounded leads to (equal)">
+      <ProvidedInput><![CDATA[E(TS1) ~>[=123] A(TS2))]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("~>" . (
+            ("=" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+          ))
+        ]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses bounded repetition (less than)">
+      <ProvidedInput><![CDATA[#[<123]E(TS1)]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("#" . (
+            ("<" . "123") . ("E" . ("TS1"))
+          ))
+        ]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses bounded repetition (greater than)">
+      <ProvidedInput><![CDATA[#[>123]E(TS1)]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("#" . (
+            (">" . "123") . ("E" . ("TS1"))
+          ))
+        ]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses bounded repetition (less than or equal)">
+      <ProvidedInput><![CDATA[#[<=123]E(TS1)]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("#" . (
+            ("<=" . "123") . ("E" . ("TS1"))
+          ))
+        ]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses bounded repetition (greater than or equal)">
+      <ProvidedInput><![CDATA[#[>=123]E(TS1)]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("#" . (
+            (">=" . "123") . ("E" . ("TS1"))
+          ))
+        ]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses bounded repetition (equal)">
+      <ProvidedInput><![CDATA[#[=123]E(TS1)]]></ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[("#" . (
+            ("=" . "123") . ("E" . ("TS1"))
+          ))
+        ]]>
+      </ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parses grouped expression">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            (E(TS) ~> E(TS)) &&
+            (A(TS) || A(TS))
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[
+          (
+            "\(\)".
+            (
+              "&&".
+              (
+                ("\(\)".("~>".(("E".("TS")).("E".("TS")))))
+                .
+                ("\(\)".("||".(("A".("TS")).("A".("TS")))))
+              )
+            )
+          )
+        ]]>
+      </ExpectedOutput>
+    </TestCase>
+  </TestCases>
+</TestPlan>

@@ -42,10 +42,8 @@ public class TdlToSExprMapper implements Mapper {
 		@Override
 		public AbsSExpressionNode visitGroup(GroupNode node) {
 			return wrapIfNegated(new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("("))
-					.addChild(new SExpressionSequenceNode()
-							.addChild(node.getChildContainer().getChild().accept(this)))
-					.addChild(new SExpressionStringNode().setString(")")), node);
+					.addChild(new SExpressionStringNode().setString("()"))
+					.addChild(node.getChildContainer().getChild().accept(this)), node);
 		}
 
 		@Override

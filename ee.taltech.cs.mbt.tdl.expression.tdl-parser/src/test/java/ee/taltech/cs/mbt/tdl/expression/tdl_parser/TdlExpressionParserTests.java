@@ -11,7 +11,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class TdlExpressionParserTests {
@@ -25,15 +27,20 @@ public class TdlExpressionParserTests {
 	}
 
 	@ParameterizedTest(name = "{2}: `{3}` -> `{4}`")
-	@XmlTestArgumentsSource(path = "/TdlParserTests.xml")
+	@XmlTestArgumentsSource(path = "/TdlExpressionParserCorrectTests.xml")
 	public void testParsesCorrectExpressions(
 			TestContext testContext,
 			TestCase testCase,
 			String name,
 			String inputString,
 			String outputString
-	) throws ParseException {
-		TdlExpression tdlExpr = tdlParser.parseInput(inputString);
+	) {
+		TdlExpression tdlExpr = null;
+		try {
+			tdlExpr = tdlParser.parseInput(inputString);
+		} catch (ParseException ex) {
+			fail("Failed to parse `" + inputString + "`", ex);
+		}
 		Object actual = testContext.getInputMapper().map(tdlExpr);
 		Object expected = testContext.getOutputMapper().map(outputString);
 		assertEquals(expected, actual, "hello?");
