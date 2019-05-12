@@ -38,7 +38,6 @@ public class SExpressionContextExtractor implements IContextExtractor<SExpressio
 		String str = node.getString();
 		if (SExpressionStringUtils.shouldDelimit(str)) {
 			str = SExpressionStringUtils.escape(str);
-			str = SExpressionStringUtils.delimit(str);
 			return ContextBuilder.newBuilder()
 					.put("delimited", true)
 					.put("str", str);

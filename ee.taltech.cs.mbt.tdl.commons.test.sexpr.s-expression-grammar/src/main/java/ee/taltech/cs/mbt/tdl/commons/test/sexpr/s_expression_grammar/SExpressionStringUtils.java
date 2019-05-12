@@ -12,7 +12,7 @@ public class SExpressionStringUtils {
 	private static final Set<Character> RESERVED_CHARS = CollectionUtils.newSet(
 			'"', '(', ')', '.'
 	);
-	private static final Pattern ESCAPED_CHAR_PTTN = Pattern.compile("\\\\([\"()])");
+	private static final Pattern ESCAPED_CHAR_PTTN = Pattern.compile("\\\\([\"().])");
 
 	private static String escapeCharacter(Character chr) {
 		return "\\" + chr;
