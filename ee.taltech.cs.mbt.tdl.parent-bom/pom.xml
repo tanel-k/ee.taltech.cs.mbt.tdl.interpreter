@@ -10,7 +10,7 @@
 
   <properties>
     <commons.utils.version>1.5-SNAPSHOT</commons.utils.version>
-    <commons.junitUtils.version>1.5-SNAPSHOT</commons.junitUtils.version>
+    <commons.testUtils.version>1.5-SNAPSHOT</commons.testUtils.version>
     <commons.sexpr.grammar.version>1.5-SNAPSHOT</commons.sexpr.grammar.version>
     <commons.sexpr.model.version>1.5-SNAPSHOT</commons.sexpr.model.version>
     <commons.sexpr.parser.version>1.5-SNAPSHOT</commons.sexpr.parser.version>
@@ -95,26 +95,32 @@
         <artifactId>user-interface-cli</artifactId>
         <version>${interface.cli.version}</version>
       </dependency>
+      <!-- Test utilities -->
       <dependency>
-        <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr</groupId>
+        <groupId>ee.taltech.cs.mbt.tdl.commons.test.sexpr</groupId>
         <artifactId>s-expression-model</artifactId>
         <version>${commons.sexpr.model.version}</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr</groupId>
+        <groupId>ee.taltech.cs.mbt.tdl.commons.test.sexpr</groupId>
         <artifactId>s-expression-grammar</artifactId>
         <version>${commons.sexpr.grammar.version}</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr</groupId>
+        <groupId>ee.taltech.cs.mbt.tdl.commons.test.sexpr</groupId>
         <artifactId>s-expression-parser</artifactId>
         <version>${commons.sexpr.parser.version}</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.junit</groupId>
-        <artifactId>junit-utils</artifactId>
-        <version>${commons.junitUtils.version}</version>
+        <groupId>ee.taltech.cs.mbt.tdl.commons.test</groupId>
+        <artifactId>test-utils</artifactId>
+        <version>${commons.testUtils.version}</version>
+        <scope>test</scope>
       </dependency>
+      <!-- /Test utilities -->
     </dependencies>
   </dependencyManagement>
 

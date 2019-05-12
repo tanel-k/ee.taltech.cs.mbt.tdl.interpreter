@@ -16,10 +16,10 @@
 
   <modules>
     <module>../ee.taltech.cs.mbt.tdl.commons.utils</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.test_utils.junit.junit-utils</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr.s-expression-grammar</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr.s-expression-model</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr.s-expression-parser</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test.test-utils</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test.sexpr.s-expression-grammar</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test.sexpr.s-expression-model</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test.sexpr.s-expression-parser</module>
     <module>../ee.taltech.cs.mbt.tdl.commons.facades.antlr-facade</module>
     <module>../ee.taltech.cs.mbt.tdl.commons.facades.st-facade</module>
     <module>../ee.taltech.cs.mbt.tdl.uppaal.uta-model</module>
@@ -88,6 +88,14 @@
           </configuration>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${surefirePlugin.version}</version>
+          <configuration>
+            <useFile>false</useFile>
+          </configuration>
+        </plugin>
+        <plugin>
           <groupId>ee.taltech.cs.mbt.tdl.uppaal</groupId>
           <artifactId>uta-pickler-plugin</artifactId>
           <version>${uta.pickler.version}</version>
@@ -119,6 +127,7 @@
     <mavenCompiler.version>3.3</mavenCompiler.version>
     <mavenCleaner.version>3.1.0</mavenCleaner.version>
     <stringTemplate.version>4.0.8</stringTemplate.version>
+    <surefirePlugin.version>2.22.1</surefirePlugin.version>
     <mavenShadePlugin.version>3.2.0</mavenShadePlugin.version>
     <jaxb2Plugin.version>2.3</jaxb2Plugin.version>
     <junit.version>5.4.2</junit.version>

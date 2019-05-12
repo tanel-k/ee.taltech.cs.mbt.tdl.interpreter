@@ -18,10 +18,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
       <!-- Fix issues with interfaces that have default methods: -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

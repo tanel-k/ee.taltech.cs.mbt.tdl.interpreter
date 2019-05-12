@@ -14,6 +14,10 @@ public class StringUtils {
 		return str == null || str.trim().isEmpty();
 	}
 
+	public static String stripWhitespace(String str) {
+		return str.replaceAll("\\s", "");
+	}
+
 	public static String trimAndNormalizeWS(String str) {
 		return normalizeWhitespace(trim(str));
 	}
@@ -30,6 +34,10 @@ public class StringUtils {
 
 	public static String defaultString(String str, String defaultStr) {
 		return !isEmpty(str) ? str : defaultStr;
+	}
+
+	public static String defaultString(String str) {
+		return defaultString(str, "");
 	}
 
 	public static boolean containsCharacters(String str, Character... characters) {
@@ -63,5 +71,11 @@ public class StringUtils {
 
 	public static LineIterator lineExtractor(String str) {
 		return LineIterator.forString(str);
+	}
+
+	public static boolean equalsIgnoreCase(String a, String b) {
+		return StringUtils.defaultString(a).toLowerCase().equals(
+				StringUtils.defaultString(b).toLowerCase()
+		);
 	}
 }

@@ -41,6 +41,7 @@
       <plugin>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-maven-plugin</artifactId>
+        <version>${antlr.version}</version>
         <executions>
           <execution>
             <id>generate-parser</id>
@@ -83,6 +84,28 @@
       <groupId>org.antlr</groupId>
       <artifactId>antlr4</artifactId>
     </dependency>
+    <!-- Test -->
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.commons.test</groupId>
+      <artifactId>test-utils</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- /Test -->
   </dependencies>
 
   <properties>

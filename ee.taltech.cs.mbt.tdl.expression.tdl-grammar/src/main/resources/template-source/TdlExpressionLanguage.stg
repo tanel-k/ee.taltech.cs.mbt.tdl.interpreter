@@ -1,9 +1,7 @@
 expression(ctx) ::= <%
-    <if(ctx.negated)>~(<endif>
+    <if(ctx.negated)>~<endif>
     <if(ctx.group)>
-        <if(!ctx.negated)>(<endif>
-        <expression(ctx.child)>
-        <if(!ctx.negated)>)<endif>
+        (<expression(ctx.child)>)
     <elseif(ctx.conjunction)>
         <expression(ctx.leftChild)> && <expression(ctx.rightChild)>
     <elseif(ctx.disjunction)>
@@ -17,13 +15,12 @@ expression(ctx) ::= <%
     <elseif(ctx.boundedLeadsTo)>
         <expression(ctx.leftChild)> ~>[<bound(ctx.bound)>] <expression(ctx.rightChild)>
     <elseif(ctx.boundedRepetition)>
-        #[<bound(ctx.bound)>](<expression(ctx.child)>)
+        #[<bound(ctx.bound)>]<expression(ctx.child)>
     <elseif(ctx.valueWrapper)>
         <leafNode(ctx.child)>
     <elseif(ctx.trapsetQuantifier)>
         <trapsetQuantifier(ctx)>
     <endif>
-    <if(ctx.negated)>)<endif>
 %>
 
 trapsetQuantifier(ctx) ::= <%
