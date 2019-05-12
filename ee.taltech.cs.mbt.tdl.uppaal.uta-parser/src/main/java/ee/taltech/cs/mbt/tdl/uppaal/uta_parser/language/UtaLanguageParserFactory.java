@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language;
 
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade;
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListener;
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorStrategyConfig;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParserFacade;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.configuration.base.ErrorListener;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.configuration.base.ErrorStrategyConfig;
 import ee.taltech.cs.mbt.tdl.commons.parser.AbsAntlrParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExpression;

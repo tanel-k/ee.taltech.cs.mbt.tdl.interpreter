@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.listeners;
 
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.GenerationException;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.GenerationException;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.TdlGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;

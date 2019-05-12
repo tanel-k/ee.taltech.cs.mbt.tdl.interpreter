@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<TestPlan>
+  <Configuration>
+    <InputPipeline>
+      <Step type="transform"
+        transformerClass="ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.impl.StringToSExpressionTransformer"
+      />
+      <Step type="transform"
+        transformerClass="ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.utils.SToTdlExpressionTransformer"
+      />
+      <Step type="configuredTransform" />
+      <Step type="transform"
+        transformerClass="ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.impl.WhitespaceStrippingTransformer"
+      />
+    </InputPipeline>
+    <OutputPipeline>
+      <Step type="transform"
+        transformerClass="ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.impl.WhitespaceStrippingTransformer"
+      />
+    </OutputPipeline>
+  </Configuration>
+  <TestCases>
+    <TestCase name="Trapset ids">
+      <ProvidedInput>("||" . (("E" . ("TS1234")) . ("E" . ("TS0123"))))</ProvidedInput>
+      <ExpectedOutput>E(TS1234) || E(TS0123)</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Universal trapset quantification">
+      <ProvidedInput>("A" . ("TS"))</ProvidedInput>
+      <ExpectedOutput>A(TS)</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated universal trapset quantification">
+      <ProvidedInput>("~" . ("A" . ("TS")))</ProvidedInput>
+      <ExpectedOutput>~A(TS)</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Existential quantification">
+      <ProvidedInput>("E" . ("TS"))</ProvidedInput>
+      <ExpectedOutput>E(TS)</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated existential quantification">
+      <ProvidedInput>("~" . ("E" . ("TS")))</ProvidedInput>
+      <ExpectedOutput>~E(TS)</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Linked pairs trapset">
+      <ProvidedInput>("E" . ((";" . ("TS1" . "TS2"))))</ProvidedInput>
+      <ExpectedOutput>E(TS1 ; TS2)</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Absolute complement">
+      <ProvidedInput>("E" . (("!" . ("TS"))))</ProvidedInput>
+      <ExpectedOutput>E(!TS)</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Relative complement">
+      <ProvidedInput>("E" . (("\" . ("TS1" . "TS2"))))</ProvidedInput>
+      <ExpectedOutput>E(TS1 \ TS2)</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Conjunction">
+      <ProvidedInput>
+        <![CDATA[("&&" . (
+          ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[E(TS1) && A(TS2)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated conjunction">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" .
+            (
+              "\(\)" .
+              (
+                "&&" . (("E" . ("TS1")) . ("A" . ("TS2")))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~(E(TS1) && A(TS2))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Disjunction">
+      <ProvidedInput>
+        ("||" . (
+        ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))
+      </ProvidedInput>
+      <ExpectedOutput>E(TS1) || A(TS2)</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated disjunction">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" .
+            (
+              "\(\)" .
+              (
+                "||" . (("E" . ("TS1")) . ("A" . ("TS2")))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~(E(TS1) || A(TS2))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Implication">
+      <ProvidedInput>
+        <![CDATA[("==>" . (
+          ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[E(TS1) -> A(TS2)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated implication">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" .
+            (
+              "\(\)" .
+              (
+                "==>" . (("E" . ("TS1")) . ("A" . ("TS2")))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~(E(TS1) -> A(TS2))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Equivalence">
+      <ProvidedInput>
+        <![CDATA[("<=>" . (
+          ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[E(TS1) <-> A(TS2)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated equivalence">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" .
+            (
+              "\(\)" .
+              (
+                "<=>" . (("E" . ("TS1")) . ("A" . ("TS2")))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~(E(TS1) <-> A(TS2))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Leads to">
+      <ProvidedInput>
+        <![CDATA[("~>" . (
+          ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[E(TS1) ~> A(TS2)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated leads to">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" .
+            (
+              "\(\)" .
+              (
+                "~>" . (("E" . ("TS1")) . ("A" . ("TS2")))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~(E(TS1) ~> A(TS2))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Bounded leads to (less than)">
+      <ProvidedInput>
+        <![CDATA[("~>" . (
+        ("<" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[E(TS1) ~>[<123] A(TS2)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated bounded leads to (less than)">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" . (
+              "\(\)" .
+              (
+                "~>" . (
+                  ("<" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+                )
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~(E(TS1) ~>[<123] A(TS2))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Bounded leads to (greater than)">
+      <ProvidedInput>
+        <![CDATA[("~>" . (
+        (">" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[E(TS1) ~>[>123] A(TS2)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated bounded leads to (greater than)">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" . (
+              "\(\)" .
+              (
+                "~>" . (
+                  (">" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+                )
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~(E(TS1) ~>[>123] A(TS2))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Bounded leads to (less than or equal)">
+      <ProvidedInput>
+        <![CDATA[("~>" . (
+        ("<=" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+        ))]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[E(TS1) ~>[<=123] A(TS2)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated bounded leads to (less than or equal)">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" . (
+              "\(\)" .
+              (
+                "~>" . (
+                  ("<=" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+                )
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~(E(TS1) ~>[<=123] A(TS2))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Bounded leads to (greater than or equal)">
+      <ProvidedInput>
+        <![CDATA[("~>" . (
+          (">=" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+          ))]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[E(TS1) ~>[>=123] A(TS2)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated bounded leads to (greater than or equal)">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" . (
+              "\(\)" .
+              (
+                "~>" . (
+                  (">=" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+                )
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~(E(TS1) ~>[>=123] A(TS2))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Bounded leads to (equal)">
+      <ProvidedInput>
+        <![CDATA[("~>" . (
+            ("=" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+          ))
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[E(TS1) ~>[=123] A(TS2)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated bounded leads to (equal)">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" . (
+              "\(\)" .
+              (
+                "~>" . (
+                  ("=" . "123") . ("E" . ("TS1")) . ("A" . ("TS2"))
+                )
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~(E(TS1) ~>[=123] A(TS2))]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Bounded repetition (less than)">
+      <ProvidedInput>
+        <![CDATA[("#" . (
+            ("<" . "123") . ("E" . ("TS1"))
+          ))
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[#[<123]E(TS1)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated bounded repetition (less than)">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" . (
+              "#" . (
+                ("<" . "123") . ("E" . ("TS1"))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~#[<123]E(TS1)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Bounded repetition (greater than)">
+      <ProvidedInput>
+        <![CDATA[("#" . (
+            (">" . "123") . ("E" . ("TS1"))
+          ))
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[#[>123]E(TS1)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated bounded repetition (greater than)">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" . (
+              "#" . (
+                (">" . "123") . ("E" . ("TS1"))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~#[>123]E(TS1)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Bounded repetition (less than or equal)">
+      <ProvidedInput>
+        <![CDATA[("#" . (
+            ("<=" . "123") . ("E" . ("TS1"))
+          ))
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[#[<=123]E(TS1)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated bounded repetition (less than or equal)">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" . (
+              "#" . (
+                ("<=" . "123") . ("E" . ("TS1"))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~#[<=123]E(TS1)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Bounded repetition (greater than or equal)">
+      <ProvidedInput>
+        <![CDATA[("#" . (
+            (">=" . "123") . ("E" . ("TS1"))
+          ))
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[#[>=123]E(TS1)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated bounded repetition (greater than or equal)">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" . (
+              "#" . (
+                (">=" . "123") . ("E" . ("TS1"))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~#[>=123]E(TS1)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Bounded repetition (equal)">
+      <ProvidedInput>
+        <![CDATA[("#" . (
+            ("=" . "123") . ("E" . ("TS1"))
+          ))
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[#[=123]E(TS1)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Negated bounded repetition (equal)">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "~" . (
+              "#" . (
+                ("=" . "123") . ("E" . ("TS1"))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput><![CDATA[~#[=123]E(TS1)]]></ExpectedOutput>
+    </TestCase>
+    <TestCase name="Grouped expression">
+      <ProvidedInput>
+        <![CDATA[
+          (
+            "\(\)".
+            (
+              "&&".
+              (
+                ("\(\)".("~>".(("E".("TS")).("E".("TS")))))
+                .
+                ("\(\)".("||".(("A".("TS")).("A".("TS")))))
+              )
+            )
+          )
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput>
+        <![CDATA[
+          (
+            (E(TS) ~> E(TS)) &&
+            (A(TS) || A(TS))
+          )
+        ]]>
+      </ExpectedOutput>
+    </TestCase>
+  </TestCases>
+</TestPlan>

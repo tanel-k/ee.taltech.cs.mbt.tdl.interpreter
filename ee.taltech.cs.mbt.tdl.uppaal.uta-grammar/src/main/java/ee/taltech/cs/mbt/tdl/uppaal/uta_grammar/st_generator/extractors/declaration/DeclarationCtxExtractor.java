@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.declaration;
 
-import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
-import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.expression.ExpressionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.misc.BaseTypeExtensionCtxExtractor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.st_generator.extractors.parameter.ParameterCtxExtractor;

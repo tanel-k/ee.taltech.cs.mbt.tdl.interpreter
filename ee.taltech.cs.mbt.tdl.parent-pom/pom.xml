@@ -16,8 +16,12 @@
 
   <modules>
     <module>../ee.taltech.cs.mbt.tdl.commons.utils</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.antlr-facade</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.st-facade</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test.test-utils</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test.sexpr.s-expression-grammar</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test.sexpr.s-expression-model</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test.sexpr.s-expression-parser</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.facades.antlr-facade</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.facades.st-facade</module>
     <module>../ee.taltech.cs.mbt.tdl.uppaal.uta-model</module>
     <module>../ee.taltech.cs.mbt.tdl.expression.tdl-model</module>
     <module>../ee.taltech.cs.mbt.tdl.uppaal.uta-grammar</module>
@@ -42,6 +46,24 @@
         <artifactId>ST4</artifactId>
         <version>${stringTemplate.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-params</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -63,6 +85,14 @@
           <configuration>
             <source>${source.version}</source>
             <target>${target.version}</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${surefirePlugin.version}</version>
+          <configuration>
+            <useFile>false</useFile>
           </configuration>
         </plugin>
         <plugin>
@@ -97,8 +127,10 @@
     <mavenCompiler.version>3.3</mavenCompiler.version>
     <mavenCleaner.version>3.1.0</mavenCleaner.version>
     <stringTemplate.version>4.0.8</stringTemplate.version>
+    <surefirePlugin.version>2.22.1</surefirePlugin.version>
     <mavenShadePlugin.version>3.2.0</mavenShadePlugin.version>
     <jaxb2Plugin.version>2.3</jaxb2Plugin.version>
+    <junit.version>5.4.2</junit.version>
   </properties>
 
   <name>TDL(TP) Interpreter Parent POM</name>

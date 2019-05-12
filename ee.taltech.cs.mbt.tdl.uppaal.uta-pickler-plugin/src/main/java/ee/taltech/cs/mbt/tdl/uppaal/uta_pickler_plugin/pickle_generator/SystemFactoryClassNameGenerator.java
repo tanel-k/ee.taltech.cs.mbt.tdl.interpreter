@@ -1,9 +1,9 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator;
 
-import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.ContextBuilder;
-import ee.taltech.cs.mbt.tdl.commons.st_utils.context_mapping.IContextExtractor;
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.AbsSTGenerator;
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.IContextExtractor;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.AbsSTGenerator;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.STRegistry;
 
 import java.util.Optional;
 

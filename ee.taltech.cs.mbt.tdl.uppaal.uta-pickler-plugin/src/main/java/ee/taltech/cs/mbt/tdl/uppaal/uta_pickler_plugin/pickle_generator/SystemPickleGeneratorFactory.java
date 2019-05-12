@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator;
 
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.STRegistry;
 import org.stringtemplate.v4.StringRenderer;
 
 public class SystemPickleGeneratorFactory {

@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr.converter;
 
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.ConditionalRepetitionExpressionContext;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.ConjunctiveExpressionContext;

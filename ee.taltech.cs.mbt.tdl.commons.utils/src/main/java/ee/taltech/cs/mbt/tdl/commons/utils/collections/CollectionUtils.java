@@ -71,11 +71,15 @@ public class CollectionUtils {
 		return new HashSet<>(from);
 	}
 
-	public static <T> Set<T> newSet(T... items) {
+	public static <T> Set<T> arrayToSet(T[] items) {
 		Set<T> set = new HashSet<>();
 		for (T item : items)
 			set.add(item);
 		return set;
+	}
+
+	public static <T> Set<T> newSet(T... items) {
+		return arrayToSet(items);
 	}
 
 	public static <T> List<T> newList(T... items) {

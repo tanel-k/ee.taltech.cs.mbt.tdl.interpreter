@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language;
 
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade.ParseException;
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListener.SyntaxError;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParserFacade.ParseException;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.configuration.base.ErrorListener.SyntaxError;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

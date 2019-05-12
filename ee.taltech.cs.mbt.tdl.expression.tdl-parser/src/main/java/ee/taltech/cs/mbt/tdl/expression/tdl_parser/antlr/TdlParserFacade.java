@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_parser.antlr;
 
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.AbsAntlrParserFacade;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParserFacade;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageLexer;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.antlr_parser.TdlExpressionLanguageParser.ExpressionContext;

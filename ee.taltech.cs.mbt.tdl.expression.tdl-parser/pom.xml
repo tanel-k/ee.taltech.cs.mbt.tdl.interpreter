@@ -36,10 +36,42 @@
       <artifactId>tdl-grammar</artifactId>
     </dependency>
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+      <groupId>ee.taltech.cs.mbt.tdl.commons.facades</groupId>
       <artifactId>antlr-facade</artifactId>
     </dependency>
     <!-- /Internal -->
+    <!-- Test -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.commons.test</groupId>
+      <artifactId>test-utils</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.commons.test.sexpr</groupId>
+      <artifactId>s-expression-model</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.commons.test.sexpr</groupId>
+      <artifactId>s-expression-parser</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- /Test -->
   </dependencies>
 
   <properties>

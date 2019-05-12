@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator;
 
-import ee.taltech.cs.mbt.tdl.commons.st_utils.generator.STRegistry;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.STRegistry;
 
 public class TdlGeneratorFactory {
 	private static final String TEMPLATE_GROUP_PATH = "template-source/TdlExpressionLanguage.stg";

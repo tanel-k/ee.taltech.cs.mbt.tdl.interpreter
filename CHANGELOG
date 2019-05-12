@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
     Can be used to decouple higher level logic from ANTLR generated code
 - #26: Created ee.taltech.cs.mbt.tdl.expression.grammar_facade.
 - #31: Created ee.taltech.cs.mbt.tdl.commons.utils.
-- #31: Created ee.taltech.cs.mbt.tdl.commons.antlr_facade (from ee.taltech.cs.mbt.tdl.expression.grammar_facade):
+- #31: Created ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade (from ee.taltech.cs.mbt.tdl.expression.grammar_facade):
     Interface simplification library for ANTLR-generated lexers/parsers.
 - #31: Created ee.taltech.cs.mbt.tdl.commons.st_facade:
     Interface simplification library for StringTemplate-based code generation.
@@ -52,6 +52,14 @@ All notable changes to this project will be documented in this file.
 - #58: TdlTrivialTrueRecognizer.
 - #58: TdlTrivialFalseRecognizer.
 - #60: Added custom args4j option StringOrFile.
+- #66: Added parser/generator for a limited version of S-Expressions:
+    * s-expression-model;
+    * s-expression-grammar;
+    * s-expression-parser.
+- #66: Added artifact for organizing test utilities: test-utils.
+- #66: Additional utilities added to commons.utils.
+- #66: Added positive test cases for TDL(TP) parser (TdlExpressionParserValidSyntaxTests).
+- #66: Added positive test cases for TDL(TP) code generator (TdlExpressionGeneratorValidStructureTests).
 
 ### Removed
 - #58: Logic for TdlTerminatorAdapter.
@@ -68,3 +76,8 @@ All notable changes to this project will be documented in this file.
 - #58: A({}) -> True; E({}) -> False.
 - #58: Deprecate ScenarioSystemComposer.processGloballyApplicableTransitionSynch().
 - #60: -e|--expression in CLI to support **both** file path strings and TDL<sup>TP</sup> expression strings.
+- #66: Moved added 'facade' qualifier to facade artifact groupIds.
+- #66: Fix TDL code generation logic:
+    * negation, group now printed as-is;
+    * removed redundant parentheses added for bounded repetition.
+- #66: Maven plugins no longer duplicated for child project POMs unless overrides are required.

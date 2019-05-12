@@ -1,9 +1,9 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.antlr;
 
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.ErrorStrategyConfigFactory;
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorListener;
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.configuration.base.ErrorStrategyConfig;
-import ee.taltech.cs.mbt.tdl.commons.antlr_facade.converter.IParseTreeConverter;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.configuration.ErrorStrategyConfigFactory;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.configuration.base.ErrorListener;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.configuration.base.ErrorStrategyConfig;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.converter.IParseTreeConverter;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.DeclarationSequenceContext;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_grammar.antlr_parser.UtaLanguageParser.ExpressionContext;

@@ -1,0 +1,23 @@
+sExpr(ctx) ::= <%
+    <sequence(ctx.root)>
+%>
+
+sequence(ctx) ::= <%
+    (
+        <ctx.items:{itemCtx|
+            <if(itemCtx.sequence)>
+                <sequence(itemCtx)>
+            <else>
+                <string(itemCtx)>
+            <endif>
+        }; separator=".">
+    )
+%>
+
+string(ctx) ::= <%
+    <if(ctx.delimited)>
+        "<ctx.str>"
+    <else>
+        <ctx.str>
+    <endif>
+%>
