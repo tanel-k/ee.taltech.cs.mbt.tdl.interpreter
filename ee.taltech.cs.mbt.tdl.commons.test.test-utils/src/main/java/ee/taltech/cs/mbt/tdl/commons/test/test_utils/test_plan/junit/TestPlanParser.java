@@ -1,8 +1,8 @@
-package ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan;
+package ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.junit;
 
-import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleTransformer;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.model.TestCase;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.model.TestPlan;
+import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleTransformer;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.SimpleTransformationPipeline;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.impl.ConfigurableTransformer;
 import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;

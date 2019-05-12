@@ -27,154 +27,149 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.arity.BinaryChildContainer;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.internal.arity.UnaryChildContainer;
 
 import java.math.BigInteger;
 
 public class SToTdlExpressionTransformer implements ISimpleTransformer {
-	/*
-	 * ==>
-	 * <=>
-	 * ||
-	 *
-	 * &&
-	 * A
-	 * E
-	 * ~>
-	 * ~> [...]
-	 * # [>|>=|=|<|<= number]
-	 * TS...
-	 * !
-	 * ;
-	 * \
-	 * FALSE|TRUE
-	 */
 	private class TransformerVisitor implements ISExpressionVisitor<AbsExpressionNode> {
+		public static final int ORD_ZERO = 0;
+		public static final int ORD_ONE = 1;
+		public static final int ORD_TWO = 2;
+
+		private void populateBinaryBooleanExprChildContainer(
+				BinaryChildContainer<AbsBooleanInternalNode> childContainer, SExpressionSequenceNode node
+		) {
+			SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(ORD_ONE);
+			childContainer
+					.setLeftChild((AbsBooleanInternalNode) childSequence.getChildren().get(ORD_ZERO).accept(this))
+					.setRightChild((AbsBooleanInternalNode) childSequence.getChildren().get(ORD_ONE).accept(this));
+		}
+
+		private void populateUnaryBooleanExprChildContainer(
+				UnaryChildContainer<AbsBooleanInternalNode> childContainer, SExpressionSequenceNode node
+		) {
+			SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(ORD_ONE);
+			childContainer
+					.setChild((AbsBooleanInternalNode) childSequence.getChildren().get(ORD_ONE).accept(this));
+		}
+
+		private void populateTrapsetQuantifierChildContainer(
+				UnaryChildContainer<AbsTrapsetExpressionNode> childContainer, SExpressionSequenceNode node
+		) {
+			SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(ORD_ONE);
+			Object transformedChild = childSequence.getChildren().get(ORD_ZERO).accept(this);
+			if (transformedChild instanceof TrapsetNode) {
+				TrapsetNode trapsetNode = (TrapsetNode) transformedChild;
+				transformedChild = new TrapsetWrapperNode();
+				((TrapsetWrapperNode) transformedChild).getChildContainer().setChild(trapsetNode);
+			}
+			childContainer.setChild((AbsTrapsetExpressionNode) transformedChild);
+		}
+
+		private void populateBinaryTrapsetExprChildContainer(
+				BinaryChildContainer<TrapsetNode> childContainer, SExpressionSequenceNode node
+		) {
+			SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(ORD_ONE);
+			childContainer
+					.setLeftChild((TrapsetNode) childSequence.getChildren().get(ORD_ZERO).accept(this))
+					.setRightChild((TrapsetNode) childSequence.getChildren().get(ORD_ONE).accept(this));
+		}
+
+		private void populateUnaryTrapsetExprChildContainer(
+				UnaryChildContainer<TrapsetNode> childContainer, SExpressionSequenceNode node
+		) {
+			SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(ORD_ONE);
+			childContainer.setChild((TrapsetNode) childSequence.getChildren().get(ORD_ZERO).accept(this));
+		}
+
 		@Override
 		public AbsExpressionNode visitSequence(SExpressionSequenceNode node) {
-			SExpressionStringNode stringNode = (SExpressionStringNode) node.getChildren().get(0);
+			SExpressionStringNode stringNode = (SExpressionStringNode) node.getChildren().get(ORD_ZERO);
 			AbsExpressionNode expressionNode = null;
 			switch (stringNode.getString()) {
 			case "==>": {
 				expressionNode = new ImplicationNode();
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
-				((ImplicationNode) expressionNode).getChildContainer()
-						.setLeftChild((AbsBooleanInternalNode) childSequence.getChildren().get(0).accept(this))
-						.setRightChild((AbsBooleanInternalNode) childSequence.getChildren().get(1).accept(this));
+				populateBinaryBooleanExprChildContainer(((ImplicationNode) expressionNode).getChildContainer(), node);
 				break;
 			}
 			case "<=>": {
 				expressionNode = new EquivalenceNode();
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
-				((EquivalenceNode) expressionNode).getChildContainer()
-						.setLeftChild((AbsBooleanInternalNode) childSequence.getChildren().get(0).accept(this))
-						.setRightChild((AbsBooleanInternalNode) childSequence.getChildren().get(1).accept(this));
+				populateBinaryBooleanExprChildContainer(((EquivalenceNode) expressionNode).getChildContainer(), node);
 				break;
 			}
 			case "||": {
 				expressionNode = new DisjunctionNode();
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
-				((DisjunctionNode) expressionNode).getChildContainer()
-						.setLeftChild((AbsBooleanInternalNode) childSequence.getChildren().get(0).accept(this))
-						.setRightChild((AbsBooleanInternalNode) childSequence.getChildren().get(1).accept(this));
+				populateBinaryBooleanExprChildContainer(((DisjunctionNode) expressionNode).getChildContainer(), node);
 				break;
 			}
 			case "&&": {
 				expressionNode = new ConjunctionNode();
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
-				((ConjunctionNode) expressionNode).getChildContainer()
-						.setLeftChild((AbsBooleanInternalNode) childSequence.getChildren().get(0).accept(this))
-						.setRightChild((AbsBooleanInternalNode) childSequence.getChildren().get(1).accept(this));
+				populateBinaryBooleanExprChildContainer(((ConjunctionNode) expressionNode).getChildContainer(), node);
 				break;
 			}
 			case "~>": {
-				// FIXME (bound).
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
+				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(ORD_ONE);
 				if (childSequence.getChildren().size() == 2) {
 					expressionNode = new LeadsToNode();
-					((LeadsToNode) expressionNode).getChildContainer()
-							.setLeftChild((AbsBooleanInternalNode) childSequence.getChildren().get(0).accept(this))
-							.setRightChild((AbsBooleanInternalNode) childSequence.getChildren().get(1).accept(this));
+					populateBinaryBooleanExprChildContainer(((LeadsToNode) expressionNode).getChildContainer(), node);
 				} else {
 					expressionNode = new BoundedLeadsToNode();
 					((BoundedLeadsToNode) expressionNode).setBound(
-							visitBound((SExpressionSequenceNode) childSequence.getChildren().get(0))
+							visitBound((SExpressionSequenceNode) childSequence.getChildren().get(ORD_ZERO))
 					);
 					((BoundedLeadsToNode) expressionNode).getChildContainer()
-							.setLeftChild((AbsBooleanInternalNode) childSequence.getChildren().get(1).accept(this))
-							.setRightChild((AbsBooleanInternalNode) childSequence.getChildren().get(2).accept(this));
+							.setLeftChild((AbsBooleanInternalNode) childSequence.getChildren().get(ORD_ONE).accept(this))
+							.setRightChild((AbsBooleanInternalNode) childSequence.getChildren().get(ORD_TWO).accept(this));
 				}
 				break;
 			}
 			case "#": {
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
 				expressionNode = new BoundedRepetitionNode();
+				populateUnaryBooleanExprChildContainer(((BoundedRepetitionNode) expressionNode).getChildContainer(), node);
+				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(ORD_ONE);
 				((BoundedRepetitionNode) expressionNode).setBound(
-						visitBound((SExpressionSequenceNode) childSequence.getChildren().get(0))
+						visitBound((SExpressionSequenceNode) childSequence.getChildren().get(ORD_ZERO))
 				);
-				((BoundedRepetitionNode) expressionNode).getChildContainer()
-						.setChild((AbsBooleanInternalNode) childSequence.getChildren().get(1).accept(this));
 				break;
 			}
 			case "~": {
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
+				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(ORD_ONE);
 				expressionNode = childSequence.accept(this);
 				((AbsBooleanInternalNode) expressionNode).setNegated(true);
 				break;
 			}
 			case "()": {
 				expressionNode = new GroupNode();
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
+				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(ORD_ONE);
 				((GroupNode) expressionNode).getChildContainer()
 						.setChild((AbsBooleanInternalNode) childSequence.accept(this));
 				break;
 			}
 			case "A": {
 				expressionNode = new UniversalQuantificationNode();
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
-				Object transformedChild = childSequence.getChildren().get(0).accept(this);
-				if (transformedChild instanceof TrapsetNode) {
-					TrapsetNode trapsetNode = (TrapsetNode) transformedChild;
-					transformedChild = new TrapsetWrapperNode();
-					((TrapsetWrapperNode) transformedChild).getChildContainer().setChild(trapsetNode);
-				}
-				((UniversalQuantificationNode) expressionNode).getChildContainer()
-						.setChild((AbsTrapsetExpressionNode) transformedChild);
+				populateTrapsetQuantifierChildContainer(((UniversalQuantificationNode) expressionNode).getChildContainer(), node);
 				break;
 			}
 			case "E": {
 				expressionNode = new ExistentialQuantificationNode();
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
-				Object transformedChild = childSequence.getChildren().get(0).accept(this);
-				if (transformedChild instanceof TrapsetNode) {
-					TrapsetNode trapsetNode = (TrapsetNode) transformedChild;
-					transformedChild = new TrapsetWrapperNode();
-					((TrapsetWrapperNode) transformedChild).getChildContainer().setChild(trapsetNode);
-				}
-				((ExistentialQuantificationNode) expressionNode).getChildContainer()
-						.setChild((AbsTrapsetExpressionNode) transformedChild);
+				populateTrapsetQuantifierChildContainer(((ExistentialQuantificationNode) expressionNode).getChildContainer(), node);
 				break;
 			}
 			case "!": {
 				expressionNode = new AbsoluteComplementNode();
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
-				((AbsoluteComplementNode) expressionNode).getChildContainer()
-						.setChild((TrapsetNode) childSequence.getChildren().get(0).accept(this));
+				populateUnaryTrapsetExprChildContainer(((AbsoluteComplementNode) expressionNode).getChildContainer(), node);
 				break;
 			}
 			case ";": {
 				expressionNode = new LinkedPairsNode();
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
-				((LinkedPairsNode) expressionNode).getChildContainer()
-						.setLeftChild((TrapsetNode) childSequence.getChildren().get(0).accept(this))
-						.setRightChild((TrapsetNode) childSequence.getChildren().get(1).accept(this));
+				populateBinaryTrapsetExprChildContainer(((LinkedPairsNode) expressionNode).getChildContainer(), node);
 				break;
 			}
 			case "\\": {
 				expressionNode = new RelativeComplementNode();
-				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(1);
-				((RelativeComplementNode) expressionNode).getChildContainer()
-						.setLeftChild((TrapsetNode) childSequence.getChildren().get(0).accept(this))
-						.setRightChild((TrapsetNode) childSequence.getChildren().get(1).accept(this));
+				populateBinaryTrapsetExprChildContainer(((RelativeComplementNode) expressionNode).getChildContainer(), node);
 				break;
 			}
 			default:
@@ -185,8 +180,8 @@ public class SToTdlExpressionTransformer implements ISimpleTransformer {
 
 		private Bound visitBound(SExpressionSequenceNode node) {
 			Bound bound = new Bound();
-			String boundTypeStr = ((SExpressionStringNode) node.getChildren().get(0)).getString();
-			String boundValueStr = ((SExpressionStringNode) node.getChildren().get(1)).getString();
+			String boundTypeStr = ((SExpressionStringNode) node.getChildren().get(ORD_ZERO)).getString();
+			String boundValueStr = ((SExpressionStringNode) node.getChildren().get(ORD_ONE)).getString();
 			switch (boundTypeStr) {
 			case "<":
 				bound.setBoundType(EBoundType.LESS_THAN);

@@ -1,6 +1,5 @@
 package ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.junit;
 
-import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.TestPlanParser;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.model.TestPlan;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;

@@ -26,13 +26,13 @@ class TestTdlExpressionParser {
 	private TdlExpressionParser tdlParser;
 
 	@BeforeEach
-	void init() {
+	void prepareForTest() {
 		tdlParser = TdlExpressionParser
 				.getInstance();
 	}
 
 	@DisplayName("Test whether TDL parser accepts syntactically correct expressions.")
-	@ParameterizedTest(name = "{1}: TDL:`{2}` -> SExpr:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: TDL:`{2}` -> SExpr:`{3}`.")
 	@XmlTestArgumentsSource(path = "/TdlExpressionParserValidSyntaxTests.xml")
 	void testParsesSyntacticallyCorrectExpressions(
 			TestPlan testPlan,
@@ -53,10 +53,10 @@ class TestTdlExpressionParser {
 
 		SExpression actual = (SExpression) testPlan.getInputTransformer().transform(input);
 		SExpression expected = (SExpression) testPlan.getOutputTransformer().transform(expectation);
-		assertEquals(expected, actual, getMsgSupplier(expected, actual));
+		assertEquals(expected, actual, getMsgSupplier(name, expected, actual));
 	}
 
-	private Supplier<String> getMsgSupplier(SExpression expected, SExpression actual) {
+	private Supplier<String> getMsgSupplier(String name, SExpression expected, SExpression actual) {
 		return () -> {
 			String expectedStr;
 			try {
@@ -70,7 +70,8 @@ class TestTdlExpressionParser {
 			} catch (GenerationException e) {
 				actualStr = "ERROR";
 			}
-			return "\nExpected S-expression: `" + expectedStr
+			return "Test: " + name
+					+ "\nExpected S-expression: `" + expectedStr
 					+ "`.\nActual S-expression: `" + actualStr + "`.\n";
 		};
 	}

@@ -18,14 +18,14 @@ public class TestTdlExpressionGenerator {
 	private TdlExpressionGenerator exprGen;
 
 	@BeforeEach
-	void init() {
+	void prepareForTest() {
 		exprGen = TdlGeneratorFactory
 				.getInstance()
 				.expressionGenerator();
 	}
 
 	@DisplayName("Test whether TDL generator works correctly for structurally correct object structures.")
-	@ParameterizedTest(name = "{1}: SExpr:`{2}` -> TDL:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: SExpr:`{2}` -> TDL:`{3}`.")
 	@XmlTestArgumentsSource(path = "/TdlExpressionGeneratorValidStructureTests.xml")
 	void testGeneratesStructurallyCorrectExpressions(
 			TestPlan testPlan,
@@ -47,11 +47,12 @@ public class TestTdlExpressionGenerator {
 
 		String actual = (String) testPlan.getInputTransformer().transform(input);
 		String expected = (String) testPlan.getOutputTransformer().transform(expectation);
-		assertEquals(expected, actual, getMsgSupplier(expected, actual));
+		assertEquals(expected, actual, getMsgSupplier(name, expected, actual));
 	}
 
-	private Supplier<String> getMsgSupplier(String expectedStr, String actualStr) {
-		return () -> "\nExpected TDL expression: `" + expectedStr
+	private Supplier<String> getMsgSupplier(String name, String expectedStr, String actualStr) {
+		return () -> "Test: " + name
+				+ "\nExpected TDL expression: `" + expectedStr
 				+ "`.\nActual TDL expression: `" + actualStr + "`.\n";
 	}
 }
