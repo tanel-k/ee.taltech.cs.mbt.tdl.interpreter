@@ -11,9 +11,9 @@
     <relativePath>../ee.taltech.cs.mbt.tdl.parent-pom/pom.xml</relativePath>
   </parent>
 
-  <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
-  <artifactId>tdl-parser</artifactId>
-  <version>${tdl.parser.version}</version>
+  <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr</groupId>
+  <artifactId>s-expression-parser</artifactId>
+  <version>${commons.sexpr.parser.version}</version>
   <packaging>jar</packaging>
 
   <build>
@@ -28,61 +28,26 @@
   <dependencies>
     <!-- Internal -->
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
-      <artifactId>tdl-model</artifactId>
+      <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr</groupId>
+      <artifactId>s-expression-model</artifactId>
     </dependency>
     <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.expression</groupId>
-      <artifactId>tdl-grammar</artifactId>
+      <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr</groupId>
+      <artifactId>s-expression-grammar</artifactId>
     </dependency>
     <dependency>
       <groupId>ee.taltech.cs.mbt.tdl.commons.facades</groupId>
       <artifactId>antlr-facade</artifactId>
     </dependency>
     <!-- /Internal -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.junit</groupId>
-      <artifactId>junit-utils</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr</groupId>
-      <artifactId>s-expression-model</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr</groupId>
-      <artifactId>s-expression-parser</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr</groupId>
-      <artifactId>s-expression-grammar</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <name>TDL(TP) Parser Implementation</name>
-  <description>Provides a simplified interface for the TDL(TP) parser/lexer implementation.</description>
+  <name>Commons - Utils - S-Expression Parser Implementation</name>
+  <description>Provides a simplified interface for the S-Expression parser/lexer implementation.</description>
   <inceptionYear>2019</inceptionYear>
   <organization>
     <name>TalTech</name>

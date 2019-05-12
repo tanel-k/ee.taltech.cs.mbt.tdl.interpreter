@@ -16,9 +16,10 @@
 
   <modules>
     <module>../ee.taltech.cs.mbt.tdl.commons.utils</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.utils.sexpr.s-expression-grammar</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.utils.sexpr.s-expression-model</module>
-    <module>../ee.taltech.cs.mbt.tdl.commons.utils.sexpr.s-expression-parser</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test_utils.junit.junit-utils</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr.s-expression-grammar</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr.s-expression-model</module>
+    <module>../ee.taltech.cs.mbt.tdl.commons.test_utils.sexpr.s-expression-parser</module>
     <module>../ee.taltech.cs.mbt.tdl.commons.facades.antlr-facade</module>
     <module>../ee.taltech.cs.mbt.tdl.commons.facades.st-facade</module>
     <module>../ee.taltech.cs.mbt.tdl.uppaal.uta-model</module>
@@ -44,6 +45,24 @@
         <groupId>org.antlr</groupId>
         <artifactId>ST4</artifactId>
         <version>${stringTemplate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-params</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -102,6 +121,7 @@
     <stringTemplate.version>4.0.8</stringTemplate.version>
     <mavenShadePlugin.version>3.2.0</mavenShadePlugin.version>
     <jaxb2Plugin.version>2.3</jaxb2Plugin.version>
+    <junit.version>5.4.2</junit.version>
   </properties>
 
   <name>TDL(TP) Interpreter Parent POM</name>
