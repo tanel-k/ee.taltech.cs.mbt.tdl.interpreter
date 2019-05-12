@@ -22,8 +22,8 @@ public class XmlTestArgumentsProvider implements ArgumentsProvider, AnnotationCo
 						testPlan,
 						testCase.getName(),
 						testCase.getProvidedInputString(),
-						testCase.getExpectedOutputString())
-				);
+						testCase.getExpectedOutputString()
+				));
 	}
 
 	@Override

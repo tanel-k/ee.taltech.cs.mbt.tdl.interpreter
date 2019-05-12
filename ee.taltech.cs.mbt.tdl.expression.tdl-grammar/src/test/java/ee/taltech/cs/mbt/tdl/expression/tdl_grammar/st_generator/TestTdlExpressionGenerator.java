@@ -39,7 +39,7 @@ public class TestTdlExpressionGenerator {
 				try {
 					exprStr = exprGen.generate((TdlExpression) expr);
 				} catch (GenerationException ex) {
-					fail("Failed to generate TDL expression from `" + input + "`", ex);
+					fail("Unable to generate TDL expression from `" + input + "`.", ex);
 				}
 				return exprStr;
 			}

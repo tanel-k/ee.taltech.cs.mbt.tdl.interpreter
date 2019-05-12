@@ -34,9 +34,9 @@ import java.math.BigInteger;
 
 public class SToTdlExpressionTransformer implements ISimpleTransformer {
 	private class TransformerVisitor implements ISExpressionVisitor<AbsExpressionNode> {
-		public static final int ORD_ZERO = 0;
-		public static final int ORD_ONE = 1;
-		public static final int ORD_TWO = 2;
+		private static final int ORD_ZERO = 0;
+		private static final int ORD_ONE = 1;
+		private static final int ORD_TWO = 2;
 
 		private void populateBinaryBooleanExprChildContainer(
 				BinaryChildContainer<AbsBooleanInternalNode> childContainer, SExpressionSequenceNode node
@@ -111,10 +111,10 @@ public class SToTdlExpressionTransformer implements ISimpleTransformer {
 			}
 			case "~>": {
 				SExpressionSequenceNode childSequence = (SExpressionSequenceNode) node.getChildren().get(ORD_ONE);
-				if (childSequence.getChildren().size() == 2) {
+				if (childSequence.getChildren().size() == 2) { // first arg, second arg
 					expressionNode = new LeadsToNode();
 					populateBinaryBooleanExprChildContainer(((LeadsToNode) expressionNode).getChildContainer(), node);
-				} else {
+				} else { // bound, first arg, second arg
 					expressionNode = new BoundedLeadsToNode();
 					((BoundedLeadsToNode) expressionNode).setBound(
 							visitBound((SExpressionSequenceNode) childSequence.getChildren().get(ORD_ZERO))

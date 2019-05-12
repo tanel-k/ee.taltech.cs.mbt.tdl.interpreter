@@ -17,12 +17,12 @@ public class TestPlan {
 		this.outputTransformer = outputTransformer;
 	}
 
-	public SimpleTransformationPipeline getOutputTransformer() {
-		return outputTransformer;
-	}
-
 	public SimpleTransformationPipeline getInputTransformer() {
 		return inputTransformer;
+	}
+
+	public SimpleTransformationPipeline getOutputTransformer() {
+		return outputTransformer;
 	}
 
 	public List<TestCase> getTestCases() {

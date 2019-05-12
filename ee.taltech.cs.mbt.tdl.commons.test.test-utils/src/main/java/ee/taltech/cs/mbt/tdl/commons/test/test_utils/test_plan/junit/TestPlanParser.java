@@ -90,7 +90,6 @@ public class TestPlanParser {
 
 				testPlan.addTestCase(new TestCase(name, providedInputAsString, expectedOutputAsString));
 			}
-
 			return testPlan;
 		} catch (Throwable t) {
 			throw new TestPlanParseException(t);

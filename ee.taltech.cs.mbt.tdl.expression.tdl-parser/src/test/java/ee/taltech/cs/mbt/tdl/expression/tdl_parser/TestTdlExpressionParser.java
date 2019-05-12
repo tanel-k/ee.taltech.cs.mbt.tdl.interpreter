@@ -46,7 +46,7 @@ class TestTdlExpressionParser {
 			try {
 				expr = tdlParser.parseInput(input);
 			} catch (ParseException ex) {
-				fail("Failed to parse `" + input + "`", ex);
+				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return expr;
 		});
