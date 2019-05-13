@@ -17,70 +17,82 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.ITypeIdentifierV
 
 public class TypeIdTransformer implements ISimpleTransformer {
 	private class TransformerVisitor implements ITypeIdentifierVisitor<SExpressionSequenceNode> {
+		private SExpressionSequenceNode wrap(SExpressionSequenceNode seqNode) {
+			return new SExpressionSequenceNode()
+					.addChild(new SExpressionStringNode().setString("TYPEID"))
+					.addChild(seqNode);
+		}
+
 		@Override
 		public SExpressionSequenceNode visitStructTypeIdentifier(StructTypeId id) {
 			SExpressionSequenceNode fieldDeclSeq = new SExpressionSequenceNode();
 			for (AbsFieldDeclaration fieldDeclaration : id.getFieldDeclarations()) {
 				fieldDeclSeq.addChild((SExpressionSequenceNode) new FieldDeclarationTransformer().transform(fieldDeclaration));
 			}
-			return new SExpressionSequenceNode()
+			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("STRUCT"))
 					.addChild(
 							new SExpressionSequenceNode()
 									.addChild(fieldDeclSeq)
-					);
+					)
+			);
 		}
 
 		@Override
 		public SExpressionSequenceNode visitScalarTypeIdentifier(ScalarTypeId id) {
-			return new SExpressionSequenceNode()
+			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("SCALAR"))
 					.addChild(new SExpressionSequenceNode()
 							.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(id.getSizeExpression()))
-					);
+					)
+			);
 		}
 
 		@Override
 		public SExpressionSequenceNode visitBoundedIntegerTypeIdentifier(BoundedIntegerTypeId id) {
-			return new SExpressionSequenceNode()
+			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("BOUNDEDINT"))
 					.addChild(new SExpressionSequenceNode()
 							.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(id.getMinimumBound()))
 							.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(id.getMaximumBound()))
-					);
+					)
+			);
 		}
 
 		@Override
 		public SExpressionSequenceNode visitBooleanTypeIdentifier(BooleanTypeId id) {
-			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("BOOLEAN"));
+			return wrap(new SExpressionSequenceNode()
+					.addChild(new SExpressionStringNode().setString("BOOLEAN"))
+			);
 		}
 
 		@Override
 		public SExpressionSequenceNode visitIntegerTypeIdentifier(IntegerTypeId id) {
-			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("INT"));
+			return wrap(new SExpressionSequenceNode()
+					.addChild(new SExpressionStringNode().setString("INT"))
+			);
 		}
 
 		@Override
 		public SExpressionSequenceNode visitChannelTypeIdentifier(ChannelTypeId id) {
-			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("CHANNEL"));
+			return wrap(new SExpressionSequenceNode()
+					.addChild(new SExpressionStringNode().setString("CHANNEL"))
+			);
 		}
 
 		@Override
 		public SExpressionSequenceNode visitClockTypeIdentifier(ClockTypeId id) {
-			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("CLOCK"));
+			return wrap(new SExpressionSequenceNode()
+					.addChild(new SExpressionStringNode().setString("CLOCK"))
+			);
 		}
 
 		@Override
 		public SExpressionSequenceNode visitCustomTypeIdentifier(CustomTypeId id) {
-			return new SExpressionSequenceNode()
+			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("CUSTOM"))
-					.addChild(new SExpressionSequenceNode()
-							.addChild(new SExpressionStringNode().setString(id.getIdentifier().toString()))
-					);
+					.addChild(new SExpressionStringNode().setString(id.getIdentifier().toString()))
+			);
 		}
 	}
 

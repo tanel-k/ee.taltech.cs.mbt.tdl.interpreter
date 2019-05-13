@@ -1,6 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.fragments;
 
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionSequenceNode;
+import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionStringNode;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleTransformer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.initializer.AbsVariableInitializer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.initializer.FlatVariableInitializer;
@@ -26,6 +27,8 @@ public class VariableInitializerTransformer implements ISimpleTransformer {
 
 	@Override
 	public Object transform(Object in) {
-		return ((AbsVariableInitializer) in).accept(new TransformerVisitor());
+		return new SExpressionSequenceNode()
+				.addChild(new SExpressionStringNode().setString("INITR"))
+				.addChild(((AbsVariableInitializer) in).accept(new TransformerVisitor()));
 	}
 }

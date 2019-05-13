@@ -27,6 +27,10 @@ public class FieldDeclarationTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		AbsFieldDeclaration fieldDeclaration = (AbsFieldDeclaration) in;
-		return fieldDeclaration.accept(new TransformerVisitor());
+		return new SExpressionSequenceNode()
+				.addChild(new SExpressionStringNode().setString("FIELD"))
+				.addChild(new SExpressionSequenceNode()
+						.addChild(fieldDeclaration.accept(new TransformerVisitor()))
+				);
 	}
 }

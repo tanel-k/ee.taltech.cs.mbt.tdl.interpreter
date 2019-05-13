@@ -2,6 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils;
 
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.SExpression;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionSequenceNode;
+import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionStringNode;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleTransformer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.fragments.DeclarationTransformer;
@@ -16,6 +17,10 @@ public class DeclarationListToSExprTransformer implements ISimpleTransformer {
 		for (AbsDeclarationStatement declarationStatement : declarations) {
 			sequenceNode.addChild((SExpressionSequenceNode) new DeclarationTransformer().transform(declarationStatement));
 		}
-		return new SExpression().setRoot(sequenceNode);
+		return new SExpression().setRoot(
+				new SExpressionSequenceNode()
+						.addChild(new SExpressionStringNode().setString("DECLARATIONS"))
+						.addChild(sequenceNode)
+		);
 	}
 }

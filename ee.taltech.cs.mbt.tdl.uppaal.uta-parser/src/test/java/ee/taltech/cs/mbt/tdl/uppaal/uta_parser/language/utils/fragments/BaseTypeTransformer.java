@@ -25,11 +25,14 @@ public class BaseTypeTransformer implements ISimpleTransformer {
 			break;
 		case NONE:
 		default:
-			prefix = "-";
+			prefix = "NOPREFIX";
 			break;
 		}
 		return new SExpressionSequenceNode()
-				.addChild(new SExpressionStringNode().setString(prefix))
-				.addChild((SExpressionSequenceNode) new TypeIdTransformer().transform(baseType.getTypeId()));
+				.addChild(new SExpressionStringNode().setString("BASETYPE"))
+				.addChild(new SExpressionSequenceNode()
+						.addChild(new SExpressionStringNode().setString(prefix))
+						.addChild((SExpressionSequenceNode) new TypeIdTransformer().transform(baseType.getTypeId()))
+				);
 	}
 }

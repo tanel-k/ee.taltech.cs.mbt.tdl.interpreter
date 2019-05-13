@@ -19,9 +19,15 @@ public class SystemDefinitionToSExprTransformer implements ISimpleTransformer {
 			}
 		}
 		return new SExpression().setRoot(new SExpressionSequenceNode()
-				.addChild((SExpression) new DeclarationListToSExprTransformer().transform(systemDefinition.getDeclarations()))
-				.addChild((SExpression) new ExpressionListToSExprTransformer().transform(systemDefinition.getProgressMeasureExpressions()))
-				.addChild(systemLineSeq)
+				.addChild(new SExpressionStringNode().setString("SYSDEF"))
+				.addChild(new SExpressionSequenceNode()
+						.addChild((SExpression) new DeclarationListToSExprTransformer().transform(systemDefinition.getDeclarations()))
+						.addChild((SExpression) new ExpressionListToSExprTransformer().transform(systemDefinition.getProgressMeasureExpressions()))
+						.addChild(new SExpressionSequenceNode()
+								.addChild(new SExpressionStringNode().setString("SYSLINE"))
+								.addChild(systemLineSeq)
+						)
+				)
 		);
 	}
 }

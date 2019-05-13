@@ -32,6 +32,8 @@ public class ArrayModifierTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		AbsArrayModifier arrayModifier = (AbsArrayModifier) in;
-		return arrayModifier.accept(new TransformerVisitor());
+		return new SExpressionSequenceNode()
+				.addChild(new SExpressionStringNode().setString("ARRAYMODIFIER"))
+				.addChild((SExpressionSequenceNode) arrayModifier.accept(new TransformerVisitor()));
 	}
 }

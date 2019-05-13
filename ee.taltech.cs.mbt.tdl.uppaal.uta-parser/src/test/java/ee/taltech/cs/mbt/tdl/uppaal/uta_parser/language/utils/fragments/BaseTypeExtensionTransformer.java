@@ -25,6 +25,8 @@ public class BaseTypeExtensionTransformer implements ISimpleTransformer {
 							.addChild(arrayModifiers)
 			);
 		}
-		return sequenceNode;
+		return new SExpressionSequenceNode()
+				.addChild(new SExpressionStringNode().setString("BASETYPEEXT"))
+				.addChild(sequenceNode);
 	}
 }

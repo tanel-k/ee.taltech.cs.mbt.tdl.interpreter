@@ -16,8 +16,10 @@ public class TypeTransformer implements ISimpleTransformer {
 		}
 		return new SExpressionSequenceNode()
 				.addChild(new SExpressionStringNode().setString("TYPE"))
-				.addChild(new SExpressionStringNode().setString(type.isReferenceType() ? "&" : "-"))
-				.addChild((SExpressionSequenceNode) new BaseTypeTransformer().transform(type.getBaseType()))
-				.addChild(arrayModifiers);
+				.addChild(new SExpressionSequenceNode()
+						.addChild(new SExpressionStringNode().setString(type.isReferenceType() ? "REF" : "NORM"))
+						.addChild((SExpressionSequenceNode) new BaseTypeTransformer().transform(type.getBaseType()))
+						.addChild(arrayModifiers)
+				);
 	}
 }

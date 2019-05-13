@@ -10,7 +10,10 @@ public class ParameterTransformer implements ISimpleTransformer {
 	public Object transform(Object in) {
 		ParameterDeclaration parameterDeclaration = (ParameterDeclaration) in;
 		return new SExpressionSequenceNode()
-				.addChild(new SExpressionStringNode().setString(parameterDeclaration.getIdentifier().toString()))
-				.addChild((SExpressionSequenceNode) new TypeTransformer().transform(parameterDeclaration.getType()));
+				.addChild(new SExpressionStringNode().setString("PARAM"))
+				.addChild(new SExpressionSequenceNode()
+						.addChild(new SExpressionStringNode().setString(parameterDeclaration.getIdentifier().toString()))
+						.addChild((SExpressionSequenceNode) new TypeTransformer().transform(parameterDeclaration.getType()))
+				);
 	}
 }

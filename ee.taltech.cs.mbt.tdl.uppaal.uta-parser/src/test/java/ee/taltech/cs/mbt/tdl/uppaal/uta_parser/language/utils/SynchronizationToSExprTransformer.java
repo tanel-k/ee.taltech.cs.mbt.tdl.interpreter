@@ -12,8 +12,11 @@ public class SynchronizationToSExprTransformer implements ISimpleTransformer {
 	public Object transform(Object in) {
 		Synchronization synchronization = (Synchronization) in;
 		return new SExpression().setRoot(new SExpressionSequenceNode()
-				.addChild(new SExpressionStringNode().setString(synchronization.isActiveSync() ? "!" : "?"))
-				.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(synchronization.getExpression()))
+					.addChild(new SExpressionStringNode().setString("SYNCH"))
+					.addChild(new SExpressionSequenceNode()
+							.addChild(new SExpressionStringNode().setString(synchronization.isActiveSync() ? "INPUT" : "OUTPUT"))
+							.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(synchronization.getExpression()))
+					)
 		);
 	}
 }

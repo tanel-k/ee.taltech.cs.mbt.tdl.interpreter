@@ -10,7 +10,10 @@ public class SelectionTransformer implements ISimpleTransformer {
 	public Object transform(Object in) {
 		Selection selection = (Selection) in;
 		return new SExpressionSequenceNode()
-				.addChild(new SExpressionStringNode().setString(selection.getVariableName().toString()))
-				.addChild((SExpressionSequenceNode) new BaseTypeTransformer().transform(selection.getSelectType()));
+				.addChild(new SExpressionStringNode().setString("SELECT"))
+				.addChild(new SExpressionSequenceNode()
+						.addChild(new SExpressionStringNode().setString(selection.getVariableName().toString()))
+						.addChild((SExpressionSequenceNode) new BaseTypeTransformer().transform(selection.getSelectType()))
+				);
 	}
 }
