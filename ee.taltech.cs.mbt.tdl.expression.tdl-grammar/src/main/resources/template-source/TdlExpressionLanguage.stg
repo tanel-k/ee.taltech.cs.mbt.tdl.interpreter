@@ -7,9 +7,9 @@ expression(ctx) ::= <%
     <elseif(ctx.disjunction)>
         <expression(ctx.leftChild)> || <expression(ctx.rightChild)>
     <elseif(ctx.equivalence)>
-        <expression(ctx.leftChild)> \<-> <expression(ctx.rightChild)>
+        <expression(ctx.leftChild)> \<=> <expression(ctx.rightChild)>
     <elseif(ctx.implication)>
-        <expression(ctx.leftChild)> -> <expression(ctx.rightChild)>
+        <expression(ctx.leftChild)> => <expression(ctx.rightChild)>
     <elseif(ctx.leadsTo)>
         <expression(ctx.leftChild)> ~> <expression(ctx.rightChild)>
     <elseif(ctx.boundedLeadsTo)>

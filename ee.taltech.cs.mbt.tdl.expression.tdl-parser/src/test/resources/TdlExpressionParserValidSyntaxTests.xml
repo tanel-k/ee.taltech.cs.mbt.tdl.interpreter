@@ -95,7 +95,7 @@
       </ExpectedOutput>
     </TestCase>
     <TestCase name="Implication">
-      <ProvidedInput><![CDATA[E(TS1) -> A(TS2)]]></ProvidedInput>
+      <ProvidedInput><![CDATA[E(TS1) => A(TS2)]]></ProvidedInput>
       <ExpectedOutput>
         <![CDATA[("==>" . (
           ("E" . ("TS1")) . ("A" . ("TS2"))
@@ -103,7 +103,7 @@
       </ExpectedOutput>
     </TestCase>
     <TestCase name="Negated implication">
-      <ProvidedInput><![CDATA[~(E(TS1) -> A(TS2))]]></ProvidedInput>
+      <ProvidedInput><![CDATA[~(E(TS1) => A(TS2))]]></ProvidedInput>
       <ExpectedOutput>
         <![CDATA[
           (
@@ -119,7 +119,7 @@
       </ExpectedOutput>
     </TestCase>
     <TestCase name="Equivalence">
-      <ProvidedInput><![CDATA[E(TS1) <-> A(TS2)]]></ProvidedInput>
+      <ProvidedInput><![CDATA[E(TS1) <=> A(TS2)]]></ProvidedInput>
       <ExpectedOutput>
         <![CDATA[("<=>" . (
           ("E" . ("TS1")) . ("A" . ("TS2"))
@@ -127,7 +127,7 @@
       </ExpectedOutput>
     </TestCase>
     <TestCase name="Negated equivalence">
-      <ProvidedInput><![CDATA[~(E(TS1) <-> A(TS2))]]></ProvidedInput>
+      <ProvidedInput><![CDATA[~(E(TS1) <=> A(TS2))]]></ProvidedInput>
       <ExpectedOutput>
         <![CDATA[
           (
