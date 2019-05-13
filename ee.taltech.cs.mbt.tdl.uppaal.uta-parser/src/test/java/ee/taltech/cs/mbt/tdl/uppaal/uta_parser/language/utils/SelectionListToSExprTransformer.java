@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils;
 
+import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.SExpression;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionSequenceNode;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleTransformer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Selection;
@@ -15,6 +16,6 @@ public class SelectionListToSExprTransformer implements ISimpleTransformer {
 		for (Selection selection : selections) {
 			sequenceNode.addChild((SExpressionSequenceNode) new SelectionTransformer().transform(selection));
 		}
-		return sequenceNode;
+		return new SExpression().setRoot(sequenceNode);
 	}
 }

@@ -379,22 +379,30 @@ public class ExpressionTransformer implements ISimpleTransformer {
 
 		@Override
 		public AbsSExpressionNode visitDeadlockLiteral(DeadlockLiteral literal) {
-			return new SExpressionStringNode().setString("DEADLOCK");
+			return new SExpressionSequenceNode().addChild(
+					new SExpressionStringNode().setString("DEADLOCK")
+			);
 		}
 
 		@Override
 		public AbsSExpressionNode visitFalseLiteral(FalseLiteral literal) {
-			return new SExpressionStringNode().setString("FALSE");
+			return new SExpressionSequenceNode().addChild(
+					new SExpressionStringNode().setString("FALSE")
+			);
 		}
 
 		@Override
 		public AbsSExpressionNode visitTrueLiteral(TrueLiteral literal) {
-			return new SExpressionStringNode().setString("TRUE");
+			return new SExpressionSequenceNode().addChild(
+					new SExpressionStringNode().setString("TRUE")
+			);
 		}
 
 		@Override
 		public AbsSExpressionNode visitNaturalNumberLiteral(NaturalNumberLiteral literal) {
-			return new SExpressionStringNode().setString(literal.getValue().toString());
+			return new SExpressionSequenceNode().addChild(
+					new SExpressionStringNode().setString(literal.getValue().toString())
+			);
 		}
 	}
 

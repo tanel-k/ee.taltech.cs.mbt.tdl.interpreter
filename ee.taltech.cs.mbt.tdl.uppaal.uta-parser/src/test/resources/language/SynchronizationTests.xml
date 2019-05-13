@@ -15,7 +15,7 @@
   </Configuration>
   <TestCases>
     <TestCase name="???">
-      <ProvidedInput>!out</ProvidedInput>
+      <ProvidedInput>out!</ProvidedInput>
       <ExpectedOutput>()</ExpectedOutput>
     </TestCase>
   </TestCases>

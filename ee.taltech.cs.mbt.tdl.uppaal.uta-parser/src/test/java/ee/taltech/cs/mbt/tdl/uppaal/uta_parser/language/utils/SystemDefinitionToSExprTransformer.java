@@ -1,5 +1,6 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils;
 
+import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.SExpression;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionSequenceNode;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionStringNode;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleTransformer;
@@ -17,9 +18,10 @@ public class SystemDefinitionToSExprTransformer implements ISimpleTransformer {
 				systemLineSeq.addChild(new SExpressionStringNode().setString(identifier.toString()));
 			}
 		}
-		return new SExpressionSequenceNode()
-				.addChild((SExpressionSequenceNode) new DeclarationListToSExprTransformer().transform(systemDefinition.getDeclarations()))
-				.addChild((SExpressionSequenceNode) new ExpressionListToSExprTransformer().transform(systemDefinition.getProgressMeasureExpressions()))
-				.addChild(systemLineSeq);
+		return new SExpression().setRoot(new SExpressionSequenceNode()
+				.addChild((SExpression) new DeclarationListToSExprTransformer().transform(systemDefinition.getDeclarations()))
+				.addChild((SExpression) new ExpressionListToSExprTransformer().transform(systemDefinition.getProgressMeasureExpressions()))
+				.addChild(systemLineSeq)
+		);
 	}
 }
