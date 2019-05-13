@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class SExpressionSequenceNode extends AbsSExpressionNode {
+public class SExpressionSequenceNode extends AbsSExpressionNode implements Iterable<AbsSExpressionNode> {
 	private List<AbsSExpressionNode> children = new LinkedList<>();
 
 	public List<AbsSExpressionNode> getChildren() {
@@ -42,5 +42,10 @@ public class SExpressionSequenceNode extends AbsSExpressionNode {
 			return false;
 		SExpressionSequenceNode other = (SExpressionSequenceNode) obj;
 		return Objects.equals(other.children, this.children);
+	}
+
+	@Override
+	public Iterator<AbsSExpressionNode> iterator() {
+		return getChildren().iterator();
 	}
 }

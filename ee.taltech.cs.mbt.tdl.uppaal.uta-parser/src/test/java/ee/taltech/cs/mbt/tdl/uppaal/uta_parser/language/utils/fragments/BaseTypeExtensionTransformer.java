@@ -19,9 +19,10 @@ public class BaseTypeExtensionTransformer implements ISimpleTransformer {
 			for (AbsArrayModifier arrayModifier : baseTypeExtension.getArrayModifiers()) {
 				arrayModifiers.addChild((SExpressionSequenceNode) new ArrayModifierTransformer().transform(arrayModifier));
 			}
-			extensions.addChild(new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString(baseTypeExtension.getIdentifier().toString()))
-					.addChild(arrayModifiers)
+			extensions.addChild(
+					new SExpressionSequenceNode()
+							.addChild(new SExpressionStringNode().setString(baseTypeExtension.getIdentifier().toString()))
+							.addChild(arrayModifiers)
 			);
 		}
 		return sequenceNode;

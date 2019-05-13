@@ -19,12 +19,14 @@ public class StatementTransformer implements ISimpleTransformer {
 		@Override
 		public SExpressionSequenceNode visitReturnStatement(ReturnStatement stmt) {
 			// TODO
+			stmt.getExpression();
 			return null;
 		}
 
 		@Override
 		public SExpressionSequenceNode visitExpressionStatement(ExpressionStatement stmt) {
 			// TODO
+			stmt.getExpression();
 			return null;
 		}
 
@@ -37,36 +39,52 @@ public class StatementTransformer implements ISimpleTransformer {
 		@Override
 		public SExpressionSequenceNode visitConditionalStatement(ConditionalStatement stmt) {
 			// TODO
+			stmt.getCondition();
+			stmt.getPrimaryStatement();
+			stmt.getAlternativeStatement();
 			return null;
 		}
 
 		@Override
 		public SExpressionSequenceNode visitBlockStatement(StatementBlock stmt) {
 			// TODO
+			stmt.getDeclarations();
+			stmt.getStatements();
 			return null;
 		}
 
 		@Override
 		public SExpressionSequenceNode visitWhileStatement(WhileLoop stmt) {
 			// TODO
+			stmt.getCondition();
+			stmt.getStatement();
 			return null;
 		}
 
 		@Override
 		public SExpressionSequenceNode visitDoWhileStatement(DoWhileLoop stmt) {
 			// TODO
+			stmt.getCondition();
+			stmt.getStatement();
 			return null;
 		}
 
 		@Override
 		public SExpressionSequenceNode visitForStatement(ForLoop stmt) {
 			// TODO
+			stmt.getInitializer();
+			stmt.getCondition();
+			stmt.getUpdate();
+			stmt.getStatement();
 			return null;
 		}
 
 		@Override
 		public SExpressionSequenceNode visitIterationStatement(IterationLoop stmt) {
 			// TODO
+			stmt.getLoopVariable();
+			stmt.getIteratedType();
+			stmt.getStatement();
 			return null;
 		}
 	}

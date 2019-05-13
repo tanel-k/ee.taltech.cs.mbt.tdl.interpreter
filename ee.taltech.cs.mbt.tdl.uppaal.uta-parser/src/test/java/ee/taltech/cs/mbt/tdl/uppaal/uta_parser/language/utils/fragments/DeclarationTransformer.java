@@ -4,16 +4,25 @@ import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.AbsSExp
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionSequenceNode;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionStringNode;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleTransformer;
+import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectUtils;
+import ee.taltech.cs.mbt.tdl.commons.utils.streams.StreamUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.AbsDeclarationStatement;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.FunctionDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.TemplateInstantiation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.channel_priority.ChannelPrioritySequence;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.channel_priority.ChannelReferenceGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.channel_priority.channel_reference.AbsChannelReference;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.channel_priority.channel_reference.ChannelArrayLookup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.channel_priority.channel_reference.ChannelIdentifierReference;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.channel_priority.channel_reference.DefaultChannelReference;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.type.TypeDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.type.TypeDeclarationGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.VariableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.VariableDeclarationGroup;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.initializer.AbsVariableInitializer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclaration;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.IChannelReferenceVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.IDeclarationVisitor;
 
 public class DeclarationTransformer implements ISimpleTransformer {
@@ -82,36 +91,68 @@ public class DeclarationTransformer implements ISimpleTransformer {
 
 		@Override
 		public SExpressionSequenceNode visitChannelPriorityDeclaration(ChannelPrioritySequence decl) {
+			SExpressionSequenceNode channelReferenceGrpSeq = new SExpressionSequenceNode();
+			for (ChannelReferenceGroup channelReferenceGroup : decl.getPrioritySequence()) {
+				for (AbsChannelReference channelReference : channelReferenceGroup) {
+					channelReference.accept(new IChannelReferenceVisitor<AbsSExpressionNode>() {
+						@Override
+						public AbsSExpressionNode visitChannelArrayLookup(ChannelArrayLookup ref) {
+							return new SExpressionSequenceNode()
+									.addChild(new SExpressionStringNode().setString("ChannelArrayLookup"))
+									.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(ref));
+						}
+
+						@Override
+						public AbsSExpressionNode visitChannelIdentifierReference(ChannelIdentifierReference ref) {
+							return new SExpressionSequenceNode()
+									.addChild(new SExpressionStringNode().setString("ChannelIdRef"))
+									.addChild(new SExpressionStringNode().setString(ref.getIdentifier().toString()));
+						}
+
+						@Override
+						public AbsSExpressionNode visitDefaultChannelReference(DefaultChannelReference ref) {
+							return new SExpressionSequenceNode()
+									.addChild(new SExpressionStringNode().setString("DefaultPriorityRef"))
+									.addChild(new SExpressionStringNode().setString("DEFAULT"));
+						}
+					});
+				}
+			}
+
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("ChannelPriorityDecl"));
-			// TODO
-			/*
-			decl.getPrioritySequence();
-			return null;
-			*/
+					.addChild(new SExpressionStringNode().setString("ChannelPriorityDecl"))
+					.addChild(channelReferenceGrpSeq);
 		}
 
 		@Override
 		public SExpressionSequenceNode visitVariableDeclarationGroup(VariableDeclarationGroup decl) {
+			SExpressionSequenceNode typeExtensionSequence = (SExpressionSequenceNode) new BaseTypeExtensionTransformer()
+					.transform(decl.getBaseTypeExtensionMap());
+			StreamUtils.zipSequential(
+					typeExtensionSequence.getChildren().stream(),
+					decl.getBaseTypeExtensionMap().streamView(),
+					(node, typeExt, i) -> {
+						SExpressionSequenceNode typeExtSeq = (SExpressionSequenceNode) node;
+						AbsVariableInitializer initializer = decl.getInitializerMap().get(typeExt.getIdentifier());
+						SExpressionSequenceNode initializerSeq = null;
+						if (initializer != null) {
+							initializerSeq = (SExpressionSequenceNode) new VariableInitializerTransformer()
+									.transform(initializer);
+						}
+						typeExtSeq.addChild(ObjectUtils.defaultObject(initializerSeq, SExpressionSequenceNode::new));
+						return null;
+					}
+			);
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("VariableDecl"));
-			// TODO
-			/*
-			decl.getBaseTypeExtensionMap();
-			decl.getInitializerMap();
-			return null;
-			*/
+					.addChild(new SExpressionStringNode().setString("VariableDecl"))
+					.addChild(typeExtensionSequence);
 		}
 
 		@Override
 		public SExpressionSequenceNode visitTypeDeclarationGroup(TypeDeclarationGroup decl) {
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("TypeDeclGroup"));
-			// TODO
-			/*
-			decl.getBaseTypeExtensionMap();
-			return null;
-			*/
+					.addChild(new SExpressionStringNode().setString("TypeDeclGroup"))
+					.addChild((SExpressionSequenceNode) new BaseTypeExtensionTransformer().transform(decl.getBaseTypeExtensionMap()));
 		}
 	}
 
