@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.fragments.Selectio
 
 import java.util.List;
 
-public class SelectionsToSExprTransformer implements ISimpleTransformer {
+public class SelectionListToSExprTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		List<Selection> selections = (List<Selection>) in;

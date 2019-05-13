@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.fragments.Paramete
 
 import java.util.List;
 
-public class ParametersToSExprTransformer implements ISimpleTransformer {
+public class ParameterListToSExprTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		List<ParameterDeclaration> declarations = (List<ParameterDeclaration>) in;

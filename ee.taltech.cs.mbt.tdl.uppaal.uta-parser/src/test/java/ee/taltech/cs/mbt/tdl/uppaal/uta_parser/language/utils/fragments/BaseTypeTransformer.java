@@ -12,16 +12,16 @@ public class BaseTypeTransformer implements ISimpleTransformer {
 		String prefix;
 		switch (baseType.getPrefix()) {
 		case URGENT:
-			prefix = "urgent";
+			prefix = "URGENT";
 			break;
 		case META:
-			prefix = "meta";
+			prefix = "META";
 			break;
 		case CONSTANT:
-			prefix = "constant";
+			prefix = "CONSTANT";
 			break;
 		case BROADCAST:
-			prefix = "broadcast";
+			prefix = "BROADCAST";
 			break;
 		case NONE:
 		default:

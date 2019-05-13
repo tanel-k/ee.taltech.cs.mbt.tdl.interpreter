@@ -13,7 +13,7 @@ public class FieldDeclarationTransformer implements ISimpleTransformer {
 		@Override
 		public SExpressionSequenceNode visitFieldDeclaration(FieldDeclaration decl) {
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("field"))
+					.addChild(new SExpressionStringNode().setString("FIELD"))
 					.addChild((SExpressionSequenceNode) new TypeTransformer().transform(decl.getType()))
 					.addChild(new SExpressionStringNode().setString(decl.getIdentifier().toString()));
 		}

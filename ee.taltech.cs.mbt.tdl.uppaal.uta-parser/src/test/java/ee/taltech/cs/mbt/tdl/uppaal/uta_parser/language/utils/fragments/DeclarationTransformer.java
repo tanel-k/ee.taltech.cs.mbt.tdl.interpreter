@@ -30,7 +30,7 @@ public class DeclarationTransformer implements ISimpleTransformer {
 		@Override
 		public SExpressionSequenceNode visitVariableDeclaration(VariableDeclaration decl) {
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("VarDecl"))
+					.addChild(new SExpressionStringNode().setString("VARDECL"))
 					.addChild(new SExpressionSequenceNode()
 							.addChild((SExpressionSequenceNode) new TypeTransformer().transform(decl.getType()))
 							.addChild(new SExpressionStringNode().setString(decl.getIdentifier().toString()))
@@ -41,7 +41,7 @@ public class DeclarationTransformer implements ISimpleTransformer {
 		@Override
 		public SExpressionSequenceNode visitTypeDeclaration(TypeDeclaration decl) {
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("TypeDecl"))
+					.addChild(new SExpressionStringNode().setString("TYPEDECL"))
 					.addChild(new SExpressionSequenceNode()
 							.addChild((SExpressionSequenceNode) new TypeTransformer().transform(decl.getType()))
 							.addChild(new SExpressionStringNode().setString(decl.getIdentifier().toString()))
@@ -59,7 +59,7 @@ public class DeclarationTransformer implements ISimpleTransformer {
 				parameters.addChild((SExpressionSequenceNode) new ParameterTransformer().transform(parameter));
 			}
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("TemplateInst"))
+					.addChild(new SExpressionStringNode().setString("TEMPLATEINST"))
 					.addChild(new SExpressionSequenceNode()
 							.addChild(new SExpressionStringNode().setString(decl.getNewTemplateName().toString()))
 							.addChild(parameters)
@@ -78,9 +78,9 @@ public class DeclarationTransformer implements ISimpleTransformer {
 			}
 			AbsSExpressionNode type = (AbsSExpressionNode) (decl.getValueType() != null
 					? new BaseTypeTransformer().transform(decl.getValueType())
-					: new SExpressionStringNode().setString("void"));
+					: new SExpressionStringNode().setString("VOID"));
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("FuncDecl"))
+					.addChild(new SExpressionStringNode().setString("FUNCDECL"))
 					.addChild(new SExpressionSequenceNode()
 							.addChild(type)
 							.addChild(new SExpressionStringNode().setString(decl.getName().toString()))
@@ -98,21 +98,21 @@ public class DeclarationTransformer implements ISimpleTransformer {
 						@Override
 						public AbsSExpressionNode visitChannelArrayLookup(ChannelArrayLookup ref) {
 							return new SExpressionSequenceNode()
-									.addChild(new SExpressionStringNode().setString("ChannelArrayLookup"))
+									.addChild(new SExpressionStringNode().setString("CHANARRLOOKUP"))
 									.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(ref));
 						}
 
 						@Override
 						public AbsSExpressionNode visitChannelIdentifierReference(ChannelIdentifierReference ref) {
 							return new SExpressionSequenceNode()
-									.addChild(new SExpressionStringNode().setString("ChannelIdRef"))
+									.addChild(new SExpressionStringNode().setString("CHANIDREF"))
 									.addChild(new SExpressionStringNode().setString(ref.getIdentifier().toString()));
 						}
 
 						@Override
 						public AbsSExpressionNode visitDefaultChannelReference(DefaultChannelReference ref) {
 							return new SExpressionSequenceNode()
-									.addChild(new SExpressionStringNode().setString("DefaultPriorityRef"))
+									.addChild(new SExpressionStringNode().setString("DEFAULTCHANREF"))
 									.addChild(new SExpressionStringNode().setString("DEFAULT"));
 						}
 					});
@@ -120,7 +120,7 @@ public class DeclarationTransformer implements ISimpleTransformer {
 			}
 
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("ChannelPriorityDecl"))
+					.addChild(new SExpressionStringNode().setString("CHANPRIORITY"))
 					.addChild(channelReferenceGrpSeq);
 		}
 
@@ -144,14 +144,14 @@ public class DeclarationTransformer implements ISimpleTransformer {
 					}
 			);
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("VariableDecl"))
+					.addChild(new SExpressionStringNode().setString("VARDECLGROUP"))
 					.addChild(typeExtensionSequence);
 		}
 
 		@Override
 		public SExpressionSequenceNode visitTypeDeclarationGroup(TypeDeclarationGroup decl) {
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("TypeDeclGroup"))
+					.addChild(new SExpressionStringNode().setString("TYPEDECLGROUP"))
 					.addChild((SExpressionSequenceNode) new BaseTypeExtensionTransformer().transform(decl.getBaseTypeExtensionMap()));
 		}
 	}

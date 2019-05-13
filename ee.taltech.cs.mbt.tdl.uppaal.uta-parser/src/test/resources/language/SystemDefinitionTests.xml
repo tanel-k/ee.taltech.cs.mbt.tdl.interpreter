@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<TestPlan>
+  <Configuration>
+    <InputPipeline>
+      <Step type="configuredTransform" />
+      <Step type="transform"
+            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.SystemDefinitionToSExprTransformer"
+      />
+    </InputPipeline>
+    <OutputPipeline>
+      <Step type="transform"
+            transformerClass="ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.impl.StringToSExpressionTransformer"
+      />
+    </OutputPipeline>
+  </Configuration>
+  <TestCases>
+    <TestCase name="???">
+      <ProvidedInput>system proc;</ProvidedInput>
+      <ExpectedOutput>()</ExpectedOutput>
+    </TestCase>
+  </TestCases>
+</TestPlan>

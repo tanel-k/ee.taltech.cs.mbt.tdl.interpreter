@@ -8,7 +8,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.fragments.Expressi
 
 import java.util.List;
 
-public class AssignmentsToSExprTransformer implements ISimpleTransformer {
+public class ExpressionListToSExprTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		List<AbsExpression> assignments = (List<AbsExpression>) in;

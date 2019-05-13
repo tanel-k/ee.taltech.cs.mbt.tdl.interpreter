@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.fragments.Declarat
 
 import java.util.List;
 
-public class DeclarationsToSExprTransformer implements ISimpleTransformer {
+public class DeclarationListToSExprTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		List<AbsDeclarationStatement> declarations = (List<AbsDeclarationStatement>) in;

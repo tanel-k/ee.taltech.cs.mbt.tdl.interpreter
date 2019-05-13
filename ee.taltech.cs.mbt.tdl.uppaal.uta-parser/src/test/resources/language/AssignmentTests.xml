@@ -4,7 +4,7 @@
     <InputPipeline>
       <Step type="configuredTransform" />
       <Step type="transform"
-            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.AssignmentsToSExprTransformer"
+            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.ExpressionListToSExprTransformer"
       />
     </InputPipeline>
     <OutputPipeline>

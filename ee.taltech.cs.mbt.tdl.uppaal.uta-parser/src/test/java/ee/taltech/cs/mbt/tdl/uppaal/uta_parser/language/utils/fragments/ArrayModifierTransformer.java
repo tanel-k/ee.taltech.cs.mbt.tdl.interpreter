@@ -16,7 +16,7 @@ public class ArrayModifierTransformer implements ISimpleTransformer {
 		public SExpressionSequenceNode visitSizeExpressionModifier(SizeExpressionArrayModifier modifier) {
 			AbsExpression expression = modifier.getSizeSpecifier();
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("[Expr]"))
+					.addChild(new SExpressionStringNode().setString("ARRSIZEEXPR"))
 					.addChild(((SExpressionSequenceNode) new ExpressionTransformer().transform(expression)));
 		}
 
@@ -24,7 +24,7 @@ public class ArrayModifierTransformer implements ISimpleTransformer {
 		public SExpressionSequenceNode visitSizeTypeModifier(SizeTypeArrayModifier modifier) {
 			BaseType baseType = modifier.getSizeSpecifier();
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("[Type]"))
+					.addChild(new SExpressionStringNode().setString("ARRSIZETYPE"))
 					.addChild(((SExpressionSequenceNode) new BaseTypeTransformer().transform(baseType)));
 		}
 	}
