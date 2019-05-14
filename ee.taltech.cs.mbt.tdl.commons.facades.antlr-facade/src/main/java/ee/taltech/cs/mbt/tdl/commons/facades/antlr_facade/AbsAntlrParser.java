@@ -1,6 +1,5 @@
 package ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade;
 
-import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParserFacade;
 import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParserFacade.ParseException;
 
 import java.io.ByteArrayInputStream;
