@@ -1,10 +1,10 @@
-package ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator;
+package ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator;
 
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.ContextBuilder;
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.IContextExtractor;
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.STFacade.InvalidSTFormatException;
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.STFacade.STRenderingException;
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.STRegistry.MissingSTException;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.STFacade.InvalidSTFormatException;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.STFacade.STRenderingException;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.context_mapping.IContextExtractor;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.STRegistry.MissingSTException;
 import org.stringtemplate.v4.ST;
 
 import java.util.Collection;

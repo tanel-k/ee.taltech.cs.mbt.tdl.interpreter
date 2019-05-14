@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_parser;
 
 import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParserFacade;
-import ee.taltech.cs.mbt.tdl.commons.parser.AbsAntlrParser;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParser;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.SExpression;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_parser.antlr.SExpressionParserFacade;
 

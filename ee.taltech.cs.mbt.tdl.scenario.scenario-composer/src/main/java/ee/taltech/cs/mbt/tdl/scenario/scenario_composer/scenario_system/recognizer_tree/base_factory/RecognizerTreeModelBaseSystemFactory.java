@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.base;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.recognizer_tree.base_factory;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 
@@ -61,8 +61,8 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.TransitionLa
 
 import java.util.LinkedList;
 
-/** Generated on 12/May/2019 using the UTA pickler plugin. */
-public class ScenarioWrapperBaseSystemFactory {
+/** Generated on 14/May/2019 using the UTA pickler plugin. */
+public class RecognizerTreeModelBaseSystemFactory {
   public static class TdlScenarioStopwatchTemplateFactory {
     public static TdlScenarioStopwatchTemplateFactory getInstance() {
       return new TdlScenarioStopwatchTemplateFactory();
@@ -3962,12 +3962,12 @@ public class ScenarioWrapperBaseSystemFactory {
     }
   }
 
-  public static class ScenarioWrapperBaseSystemDefinitionFactory {
-    public static ScenarioWrapperBaseSystemDefinitionFactory getInstance() {
-      return new ScenarioWrapperBaseSystemDefinitionFactory();
+  public static class RecognizerTreeModelBaseSystemDefinitionFactory {
+    public static RecognizerTreeModelBaseSystemDefinitionFactory getInstance() {
+      return new RecognizerTreeModelBaseSystemDefinitionFactory();
     }
 
-    protected ScenarioWrapperBaseSystemDefinitionFactory() {}
+    protected RecognizerTreeModelBaseSystemDefinitionFactory() {}
 
     protected TemplateInstantiation new_TdlStopwatchDeclaration() {
       return new TemplateInstantiation()
@@ -3997,8 +3997,8 @@ public class ScenarioWrapperBaseSystemFactory {
     }
   }
 
-  public static ScenarioWrapperBaseSystemFactory getInstance() {
-    return new ScenarioWrapperBaseSystemFactory();
+  public static RecognizerTreeModelBaseSystemFactory getInstance() {
+    return new RecognizerTreeModelBaseSystemFactory();
   }
 
   public static final Identifier DECLARED_NAME_TDL_MAX_INT = Identifier.of("TDL_MAX_INT");
@@ -4043,7 +4043,7 @@ public class ScenarioWrapperBaseSystemFactory {
   public static final Identifier DECLARED_NAME_TdlTrivialFalseRecognizer =
       Identifier.of("TdlTrivialFalseRecognizer");
 
-  protected ScenarioWrapperBaseSystemFactory() {}
+  protected RecognizerTreeModelBaseSystemFactory() {}
 
   protected VariableDeclaration new_TDL_MAX_INTDeclaration() {
     return new VariableDeclaration()
@@ -4321,68 +4321,74 @@ public class ScenarioWrapperBaseSystemFactory {
   }
 
   protected SystemDefinition newSystemDefinition() {
-    return ScenarioWrapperBaseSystemDefinitionFactory.getInstance().newSystemDefinition();
+    return RecognizerTreeModelBaseSystemDefinitionFactory.getInstance().newSystemDefinition();
   }
 
   public UtaSystem constructSystem() {
-    UtaSystem ScenarioWrapperBase = new UtaSystem();
+    UtaSystem RecognizerTreeModelBase = new UtaSystem();
 
     // Set global declarations:
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TDL_MAX_INTDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_TDL_MAX_INTDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TDL_TIMEOUTDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_TDL_TIMEOUTDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TRAPSET_COUNTDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_TRAPSET_COUNTDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TDL_TREE_NODE_COUNTDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioWrapperBase.getDeclarations(), new_BoundTypeDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_TDL_TREE_NODE_COUNTDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_BoundValueDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_BoundTypeDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TrapsetIndexDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_BoundValueDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TdlTreeIndexDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioWrapperBase.getDeclarations(), new_BOUND_EQDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioWrapperBase.getDeclarations(), new_BOUND_GTDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioWrapperBase.getDeclarations(), new_BOUND_GTEDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioWrapperBase.getDeclarations(), new_BOUND_LTDeclaration());
-    CollectionUtils.addIfNonNull(ScenarioWrapperBase.getDeclarations(), new_BOUND_LTEDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_TrapsetIndexDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TdlActivatorChannelsDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_TdlTreeIndexDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TdlTerminatorChannelsDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_BOUND_EQDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TrapsetActivatorChannelsDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_BOUND_GTDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TrapsetTerminatorChannelsDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_BOUND_GTEDeclaration());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getDeclarations(), new_TdlDiagnosticsDeclaration());
+        RecognizerTreeModelBase.getDeclarations(), new_BOUND_LTDeclaration());
+    CollectionUtils.addIfNonNull(
+        RecognizerTreeModelBase.getDeclarations(), new_BOUND_LTEDeclaration());
+    CollectionUtils.addIfNonNull(
+        RecognizerTreeModelBase.getDeclarations(), new_TdlActivatorChannelsDeclaration());
+    CollectionUtils.addIfNonNull(
+        RecognizerTreeModelBase.getDeclarations(), new_TdlTerminatorChannelsDeclaration());
+    CollectionUtils.addIfNonNull(
+        RecognizerTreeModelBase.getDeclarations(), new_TrapsetActivatorChannelsDeclaration());
+    CollectionUtils.addIfNonNull(
+        RecognizerTreeModelBase.getDeclarations(), new_TrapsetTerminatorChannelsDeclaration());
+    CollectionUtils.addIfNonNull(
+        RecognizerTreeModelBase.getDeclarations(), new_TdlDiagnosticsDeclaration());
 
     // Set templates:
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getTemplates(), new_TdlScenarioStopwatchTemplate());
+        RecognizerTreeModelBase.getTemplates(), new_TdlScenarioStopwatchTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getTemplates(), new_TdlBoundedLeadsToRecognizerTemplate());
+        RecognizerTreeModelBase.getTemplates(), new_TdlBoundedLeadsToRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getTemplates(), new_TdlBoundedRepetitionRecognizerTemplate());
+        RecognizerTreeModelBase.getTemplates(), new_TdlBoundedRepetitionRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getTemplates(), new_TdlConjunctionRecognizerTemplate());
+        RecognizerTreeModelBase.getTemplates(), new_TdlConjunctionRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getTemplates(), new_TdlDisjunctionRecognizerTemplate());
+        RecognizerTreeModelBase.getTemplates(), new_TdlDisjunctionRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getTemplates(), new_TdlLeadsToRecognizerTemplate());
+        RecognizerTreeModelBase.getTemplates(), new_TdlLeadsToRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getTemplates(), new_TdlQuantificationRecognizerTemplate());
+        RecognizerTreeModelBase.getTemplates(), new_TdlQuantificationRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getTemplates(), new_TdlTrivialTrueRecognizerTemplate());
+        RecognizerTreeModelBase.getTemplates(), new_TdlTrivialTrueRecognizerTemplate());
     CollectionUtils.addIfNonNull(
-        ScenarioWrapperBase.getTemplates(), new_TdlTrivialFalseRecognizerTemplate());
+        RecognizerTreeModelBase.getTemplates(), new_TdlTrivialFalseRecognizerTemplate());
     // Set system definition:
     SystemDefinition systemDefinition = newSystemDefinition();
     if (systemDefinition != null) {
-      ScenarioWrapperBase.setSystemDefinition(systemDefinition);
+      RecognizerTreeModelBase.setSystemDefinition(systemDefinition);
     }
-    return ScenarioWrapperBase;
+    return RecognizerTreeModelBase;
   }
 }

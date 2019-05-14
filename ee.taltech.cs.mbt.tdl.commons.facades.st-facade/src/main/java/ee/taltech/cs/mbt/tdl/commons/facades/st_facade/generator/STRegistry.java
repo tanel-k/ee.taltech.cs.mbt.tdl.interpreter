@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator;
+package ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator;
 
 import org.stringtemplate.v4.AttributeRenderer;
 import org.stringtemplate.v4.ST;

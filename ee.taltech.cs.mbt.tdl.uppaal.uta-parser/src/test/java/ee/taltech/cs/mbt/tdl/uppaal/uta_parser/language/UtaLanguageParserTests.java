@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language;
 
 import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParserFacade.ParseException;
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.GenerationException;
-import ee.taltech.cs.mbt.tdl.commons.parser.AbsAntlrParser;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.GenerationException;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParser;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.st_generator.SExpressionGenerator;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.st_generator.SExpressionGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.SExpression;
@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -44,7 +45,7 @@ class UtaLanguageParserTests {
 			List<AbsExpression> assignments = null;
 			try {
 				assignments = assignmentsParser.parseInput(input);
-			} catch (ParseException ex) {
+			} catch (ParseException | IOException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return assignments;
@@ -70,7 +71,7 @@ class UtaLanguageParserTests {
 			List<AbsDeclarationStatement> assignments = null;
 			try {
 				assignments = declarationsParser.parseInput(input);
-			} catch (ParseException ex) {
+			} catch (ParseException | IOException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return assignments;
@@ -97,7 +98,7 @@ class UtaLanguageParserTests {
 			List<ParameterDeclaration> parameterDeclarations = null;
 			try {
 				parameterDeclarations = parameterParser.parseInput(input);
-			} catch (ParseException ex) {
+			} catch (ParseException | IOException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return parameterDeclarations;
@@ -123,7 +124,7 @@ class UtaLanguageParserTests {
 			List<Selection> selections = null;
 			try {
 				selections = selectionsParser.parseInput(input);
-			} catch (ParseException ex) {
+			} catch (ParseException | IOException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return selections;
@@ -149,7 +150,7 @@ class UtaLanguageParserTests {
 			Synchronization assignments = null;
 			try {
 				assignments = synchronizationParser.parseInput(input);
-			} catch (ParseException ex) {
+			} catch (ParseException | IOException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return assignments;
@@ -175,7 +176,7 @@ class UtaLanguageParserTests {
 			SystemDefinition systemDefinition = null;
 			try {
 				systemDefinition = systemDefinitionParser.parseInput(input);
-			} catch (ParseException ex) {
+			} catch (ParseException | IOException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return systemDefinition;

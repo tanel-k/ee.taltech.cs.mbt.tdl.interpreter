@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator;
 
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.GenerationException;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.GenerationException;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.junit.XmlTestArgumentsSource;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.model.TestPlan;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;

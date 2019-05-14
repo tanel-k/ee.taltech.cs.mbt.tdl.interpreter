@@ -15,7 +15,7 @@
   </Configuration>
   <TestCases>
     <TestCase name="Trapset ids">
-      <ProvidedInput>E(TS1234) || E(ts0123)</ProvidedInput>
+      <ProvidedInput>E(TS1234) | E(ts0123)</ProvidedInput>
       <ExpectedOutput>("||" . (("E" . ("TS1234")) . ("E" . ("TS0123"))))</ExpectedOutput>
     </TestCase>
     <TestCase name="Universal trapset quantification">
@@ -47,7 +47,7 @@
       <ExpectedOutput>("E" . (("\" . ("TS1" . "TS2"))))</ExpectedOutput>
     </TestCase>
     <TestCase name="Conjunction">
-      <ProvidedInput><![CDATA[E(TS1) && A(TS2)]]></ProvidedInput>
+      <ProvidedInput><![CDATA[E(TS1) & A(TS2)]]></ProvidedInput>
       <ExpectedOutput>
         <![CDATA[("&&" . (
           ("E" . ("TS1")) . ("A" . ("TS2"))
@@ -55,7 +55,7 @@
       </ExpectedOutput>
     </TestCase>
     <TestCase name="Negated conjunction">
-      <ProvidedInput><![CDATA[~(E(TS1) && A(TS2))]]></ProvidedInput>
+      <ProvidedInput><![CDATA[~(E(TS1) & A(TS2))]]></ProvidedInput>
       <ExpectedOutput>
         <![CDATA[
           (
@@ -71,7 +71,7 @@
       </ExpectedOutput>
     </TestCase>
     <TestCase name="Disjunction">
-      <ProvidedInput>E(TS1) || A(TS2)</ProvidedInput>
+      <ProvidedInput>E(TS1) | A(TS2)</ProvidedInput>
       <ExpectedOutput>
         ("||" . (
           ("E" . ("TS1")) . ("A" . ("TS2"))
@@ -79,7 +79,7 @@
       </ExpectedOutput>
     </TestCase>
     <TestCase name="Negated disjunction">
-      <ProvidedInput><![CDATA[~(E(TS1) || A(TS2))]]></ProvidedInput>
+      <ProvidedInput><![CDATA[~(E(TS1) | A(TS2))]]></ProvidedInput>
       <ExpectedOutput>
         <![CDATA[
           (
@@ -411,8 +411,8 @@
       <ProvidedInput>
         <![CDATA[
           (
-            (E(TS) ~> E(TS)) &&
-            (A(TS) || A(TS))
+            (E(TS) ~> E(TS)) &
+            (A(TS) | A(TS))
           )
         ]]>
       </ProvidedInput>

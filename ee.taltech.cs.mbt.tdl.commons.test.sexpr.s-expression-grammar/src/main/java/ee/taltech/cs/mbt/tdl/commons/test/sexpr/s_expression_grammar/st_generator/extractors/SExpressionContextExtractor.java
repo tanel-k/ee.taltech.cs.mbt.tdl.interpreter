@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.st_generator.extractors;
 
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.ContextBuilder;
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.IContextExtractor;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.SExpressionStringUtils;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.SExpression;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.ISExpressionVisitor;

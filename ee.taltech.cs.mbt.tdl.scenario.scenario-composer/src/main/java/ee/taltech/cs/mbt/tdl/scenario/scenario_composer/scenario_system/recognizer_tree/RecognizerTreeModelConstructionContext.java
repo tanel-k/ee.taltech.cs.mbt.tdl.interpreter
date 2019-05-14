@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.recognizer_tree;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class ScenarioWrapperConstructionContext {
+public class RecognizerTreeModelConstructionContext {
 	private int treeNodeCount = 0;
 	private int trapsetNodeCount = 0;
 
@@ -41,7 +41,7 @@ public class ScenarioWrapperConstructionContext {
 	private List<TemplateInstantiation> templateInstantiations = new LinkedList<>();
 	private List<Synchronization> globallyApplicableTransitionSynchs = new LinkedList<>();
 
-	ScenarioWrapperConstructionContext() { }
+	RecognizerTreeModelConstructionContext() { }
 
 	int getTreeNodeCount() {
 		return treeNodeCount;

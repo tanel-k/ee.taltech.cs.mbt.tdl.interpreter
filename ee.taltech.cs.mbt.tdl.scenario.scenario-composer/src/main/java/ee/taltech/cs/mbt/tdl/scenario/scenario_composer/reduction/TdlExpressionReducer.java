@@ -26,9 +26,9 @@ public class TdlExpressionReducer {
 		if (completionFlag.isSet())
 			return;
 
-		// Two concurrent sub-ops:
+		// Two interleaved sub-ops:
 		// 1. Push negation to leaves (i.e. trapset quantifiers);
-		// 2. Replace operators for which there is no recognizer implementation.
+		// 2. Explode operators for which there is no recognizer implementation.
 		ExpressionNormalizer normalizer = ExpressionNormalizer.getInstance(expression);
 		Deque<BooleanValueWrapperNode> booleanLeaves = normalizer.normalize();
 

@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.recognizer_tree;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
@@ -18,7 +18,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.ScenarioCompositionParameters;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.base.ScenarioWrapperBaseSystemFactory;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.recognizer_tree.base_factory.RecognizerTreeModelBaseFactory;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset.TrapsetImplementationDetail;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
@@ -44,9 +44,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.templates.Template;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
-	public static ScenarioWrapperFactory getInstance(ScenarioCompositionParameters parameters) {
-		return new ScenarioWrapperFactory(parameters);
+public class RecognizerTreeModelFactory extends RecognizerTreeModelBaseFactory {
+	public static RecognizerTreeModelFactory getInstance(ScenarioCompositionParameters parameters) {
+		return new RecognizerTreeModelFactory(parameters);
 	}
 
 	private static class QuantifierRecognizerFactory extends TdlQuantificationRecognizerTemplateFactory {
@@ -112,9 +112,9 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 
 	private UtaSystem wrapperSystem;
 	private ScenarioCompositionParameters parameters;
-	private ScenarioWrapperConstructionContext ctx;
+	private RecognizerTreeModelConstructionContext ctx;
 
-	private ScenarioWrapperFactory(ScenarioCompositionParameters parameters) {
+	private RecognizerTreeModelFactory(ScenarioCompositionParameters parameters) {
 		this.parameters = parameters;
 	}
 
@@ -211,7 +211,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 	}
 
 	private void prepareConstructionContext() {
-		ctx = new ScenarioWrapperConstructionContext();
+		ctx = new RecognizerTreeModelConstructionContext();
 
 		IntIterator treeNodeCounter = IntIterator.newInstance();
 		IntIterator trapsetNodeCounter = IntIterator.newInstance();
@@ -538,7 +538,7 @@ public class ScenarioWrapperFactory extends ScenarioWrapperBaseSystemFactory {
 		});
 	}
 
-	public ScenarioWrapperConstructionContext getConstructionContext() {
+	public RecognizerTreeModelConstructionContext getConstructionContext() {
 		return ctx;
 	}
 

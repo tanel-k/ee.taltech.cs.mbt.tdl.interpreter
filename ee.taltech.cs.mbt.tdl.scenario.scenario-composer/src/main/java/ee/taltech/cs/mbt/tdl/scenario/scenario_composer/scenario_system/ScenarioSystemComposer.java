@@ -4,8 +4,8 @@ import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.ScenarioWrapperConstructionContext;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.ScenarioWrapperFactory;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.recognizer_tree.RecognizerTreeModelConstructionContext;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.recognizer_tree.RecognizerTreeModelFactory;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Synchronization;
@@ -33,24 +33,25 @@ public class ScenarioSystemComposer {
 
 	private Flag completionFlag = Flag.newInstance();
 
-	private ScenarioWrapperFactory wrapperFactory;
+	private RecognizerTreeModelFactory recognizerWrapperFactory;
 	private ScenarioCompositionParameters parameters;
 
-	@Deprecated
-	private static void processGloballyApplicableTransitionSynch(
-			UtaSystem system,
-			Synchronization globalSynch,
-			Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap
-	) {
-		system.getTemplates().stream().forEachOrdered(template -> {
-			Map<Transition, Collection<Synchronization>> templateSynchMap = transitionSynchHooksMap.computeIfAbsent(template, k -> new HashMap<>());
-			for (Transition transition : template.getLocationGraph().getEdges()) {
-				Collection<Synchronization> transitionSynchs = templateSynchMap
-						.computeIfAbsent(transition, k -> new LinkedList<>());
-				transitionSynchs.add(globalSynch);
-			}
-		});
-	}
+// The following procedure is deprecated, we'll it around for potential future use:
+//	@Deprecated
+//	private static void processGloballyApplicableTransitionSynch(
+//			UtaSystem system,
+//			Synchronization globalSynch,
+//			Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap
+//	) {
+//		system.getTemplates().stream().forEachOrdered(template -> {
+//			Map<Transition, Collection<Synchronization>> templateSynchMap = transitionSynchHooksMap.computeIfAbsent(template, k -> new HashMap<>());
+//			for (Transition transition : template.getLocationGraph().getEdges()) {
+//				Collection<Synchronization> transitionSynchs = templateSynchMap
+//						.computeIfAbsent(transition, k -> new LinkedList<>());
+//				transitionSynchs.add(globalSynch);
+//			}
+//		});
+//	}
 
 	private static void appendNailsIfApplicable(LinkedList<LinkedList<GuiCoordinates>> nailSegments, Transition transition) {
 		if (!nailSegments.isEmpty()) {
@@ -219,18 +220,19 @@ public class ScenarioSystemComposer {
 
 	public ScenarioSystemComposer(ScenarioCompositionParameters parameters) {
 		this.parameters = parameters;
-		this.wrapperFactory = ScenarioWrapperFactory.getInstance(parameters);
+		this.recognizerWrapperFactory = RecognizerTreeModelFactory.getInstance(parameters);
 	}
 
 	public void compose() {
 		if (completionFlag.isSet())
 			return;
 
-		// Construct scenario wrapper (recognizer architecture):
-		UtaSystem wrapperSystem = wrapperFactory.constructSystem();
-		ScenarioWrapperConstructionContext wrapperContext = wrapperFactory.getConstructionContext();
+		// Construct scenario wrapper (recognizer structure):
+		UtaSystem recognizerStructureModel = recognizerWrapperFactory.constructSystem();
+		RecognizerTreeModelConstructionContext recognizerModelCtx = recognizerWrapperFactory.getConstructionContext();
 
 		Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap = new ObjectIdentityMap<>();
+		// The following code has been deprecated but we should keep it here in case we need it.
 		// Globally applicable transition synchronizations should be added to every transition in the system.
 		// They represent conditions that hold on every system transition.
 		// for (Synchronization globalTransitionSynch : wrapperContext.getGloballyApplicableTransitionSynchs()) {
@@ -238,15 +240,15 @@ public class ScenarioSystemComposer {
 		//}
 
 		// Apply derived trapset labels to applicable transitions in the system:
-		TrapsetAnnotator trapsetAnnotator = new TrapsetAnnotator(parameters.getSutModel(), transitionSynchHooksMap);
-		for (AbsEvaluatedTrapset trapset : wrapperContext.getTrapsetEvaluationMap().values()) {
-			trapsetAnnotator.annotateAccordingTo(trapset);
+		TrapsetInjector trapsetInjector = new TrapsetInjector(parameters.getSutModel(), transitionSynchHooksMap);
+		for (AbsEvaluatedTrapset trapset : recognizerModelCtx.getTrapsetEvaluationMap().values()) {
+			trapsetInjector.inject(trapset);
 		}
 
 		injectSynchronizationHooks(transitionSynchHooksMap);
 
 		// Merge scenario wrapper into modified SUT model to form the final scenario model:
-		parameters.getSutModel().merge(wrapperSystem);
+		parameters.getSutModel().merge(recognizerStructureModel);
 
 		completionFlag.set();
 	}

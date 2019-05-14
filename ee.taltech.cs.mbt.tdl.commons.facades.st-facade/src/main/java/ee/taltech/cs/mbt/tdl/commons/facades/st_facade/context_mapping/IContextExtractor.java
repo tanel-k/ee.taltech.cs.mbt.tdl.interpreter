@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping;
+package ee.taltech.cs.mbt.tdl.commons.facades.st_facade.context_mapping;
 
 import java.util.Collection;
 import java.util.LinkedList;

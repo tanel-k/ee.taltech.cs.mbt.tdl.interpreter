@@ -37,16 +37,16 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Vector;
 
-class TrapsetAnnotator implements IEvaluatedTrapsetVisitor<Void> {
+class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 	private final UtaSystem annotationTargetSystem;
 	private final Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap;
 
-	TrapsetAnnotator(UtaSystem sutModel, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
+	TrapsetInjector(UtaSystem sutModel, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
 		this.annotationTargetSystem = sutModel;
 		this.transitionSynchHooksMap = transitionSynchHooksMap;
 	}
 
-	public void annotateAccordingTo(AbsEvaluatedTrapset trapset) {
+	public void inject(AbsEvaluatedTrapset trapset) {
 		trapset.accept(this);
 	}
 

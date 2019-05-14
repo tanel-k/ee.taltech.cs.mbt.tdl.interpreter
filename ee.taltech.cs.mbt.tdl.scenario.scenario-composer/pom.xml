@@ -29,9 +29,9 @@
             </goals>
             <configuration>
               <outputDirectory>src/main/java</outputDirectory>
-              <sourceFile>src/main/resources/ScenarioWrapperBaseProject.xml</sourceFile>
-              <pickleName>ScenarioWrapperBase</pickleName>
-              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.scenario_wrapper.base</picklePackage>
+              <sourceFile>src/main/resources/RecognizerTreeModelBase.xml</sourceFile>
+              <pickleName>RecognizerTreeModelBase</pickleName>
+              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.recognizer_tree.base_factory</picklePackage>
               <writeProtect>true</writeProtect>
             </configuration>
           </execution>

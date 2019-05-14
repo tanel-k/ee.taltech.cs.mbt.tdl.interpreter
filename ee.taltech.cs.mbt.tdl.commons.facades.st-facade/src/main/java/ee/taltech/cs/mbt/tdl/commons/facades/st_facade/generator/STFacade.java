@@ -1,6 +1,6 @@
-package ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator;
+package ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator;
 
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.context_mapping.ContextBuilder;
 import org.stringtemplate.v4.AutoIndentWriter;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STErrorListener;
