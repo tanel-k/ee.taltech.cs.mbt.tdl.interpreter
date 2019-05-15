@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.ConjunctionNode;
@@ -6,18 +6,18 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.ImplicationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 
-public class EquivalenceNormalizingReducer extends AbsNormalizingReducer<EquivalenceNode> {
-	public static EquivalenceNormalizingReducer getInstance() {
+public class EquivalenceNormalizer extends AbsNormalizer<EquivalenceNode> {
+	public static EquivalenceNormalizer getInstance() {
 		return INSTANCE;
 	}
 
-	private static final EquivalenceNormalizingReducer INSTANCE = new EquivalenceNormalizingReducer();
+	private static final EquivalenceNormalizer INSTANCE = new EquivalenceNormalizer();
 
-	private EquivalenceNormalizingReducer() { }
+	private EquivalenceNormalizer() { }
 
 	@Override
-	public AbsBooleanInternalNode reduce(TdlExpression expression, EquivalenceNode equivalence) {
-		// X <-> Y reduces to X -> && Y -> X.
+	public AbsBooleanInternalNode normalize(TdlExpression expression, EquivalenceNode equivalence) {
+		// X <-> Y normalizes to X -> && Y -> X.
 		ImplicationNode implyLeftToRight = new ImplicationNode();
 		implyLeftToRight.getChildContainer()
 				.setLeftChild(equivalence.getChildContainer().getLeftChild())
@@ -35,7 +35,7 @@ public class EquivalenceNormalizingReducer extends AbsNormalizingReducer<Equival
 				.setRightChild(implyRightToLeft);
 
 		expression.replaceDescendant(equivalence, conjunction);
-		return ConjunctionNormalizingReducer.getInstance()
-				.reduce(expression, conjunction);
+		return ConjunctionNormalizer.getInstance()
+				.normalize(expression, conjunction);
 	}
 }

@@ -1,20 +1,20 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.GroupNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 
-public class GroupNormalizingReducer extends AbsNormalizingReducer<GroupNode> {
-	public static GroupNormalizingReducer getInstance() {
+public class GroupNormalizer extends AbsNormalizer<GroupNode> {
+	public static GroupNormalizer getInstance() {
 		return INSTANCE;
 	}
 
-	private static final GroupNormalizingReducer INSTANCE = new GroupNormalizingReducer();
+	private static final GroupNormalizer INSTANCE = new GroupNormalizer();
 
-	private GroupNormalizingReducer() { }
+	private GroupNormalizer() { }
 
 	@Override
-	public AbsBooleanInternalNode reduce(TdlExpression expression, GroupNode group) {
+	public AbsBooleanInternalNode normalize(TdlExpression expression, GroupNode group) {
 		// ( X ) reduces to X.
 		AbsBooleanInternalNode<?, ?> groupedNode = group.getChildContainer().getChild();
 		expression.replaceDescendant(group, groupedNode);

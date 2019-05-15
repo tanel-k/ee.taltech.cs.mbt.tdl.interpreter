@@ -10,19 +10,19 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.
 
 import java.util.Deque;
 
-public class TdlExpressionReducer {
-	public static TdlExpressionReducer getInstance(TdlExpression expression) {
-		return new TdlExpressionReducer(expression);
+public class TdlExpressionNormalizingReducer {
+	public static TdlExpressionNormalizingReducer getInstance(TdlExpression expression) {
+		return new TdlExpressionNormalizingReducer(expression);
 	}
 
 	private Flag completionFlag = Flag.newInstance();
 	private TdlExpression expression;
 
-	private TdlExpressionReducer(TdlExpression expression) {
+	private TdlExpressionNormalizingReducer(TdlExpression expression) {
 		this.expression = expression;
 	}
 
-	public void reduce() throws NormalizationException, LiteralEliminationException {
+	public void normalizeAndReduce() throws NormalizationException, LiteralEliminationException {
 		if (completionFlag.isSet())
 			return;
 

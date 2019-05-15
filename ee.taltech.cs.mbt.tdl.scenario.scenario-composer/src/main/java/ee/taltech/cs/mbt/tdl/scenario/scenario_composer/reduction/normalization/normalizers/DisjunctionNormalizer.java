@@ -1,21 +1,21 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.ConjunctionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.DisjunctionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 
-public class DisjunctionNormalizingReducer extends AbsNormalizingReducer<DisjunctionNode> {
-	public static DisjunctionNormalizingReducer getInstance() {
+public class DisjunctionNormalizer extends AbsNormalizer<DisjunctionNode> {
+	public static DisjunctionNormalizer getInstance() {
 		return INSTANCE;
 	}
 
-	private static final DisjunctionNormalizingReducer INSTANCE = new DisjunctionNormalizingReducer();
+	private static final DisjunctionNormalizer INSTANCE = new DisjunctionNormalizer();
 
-	private DisjunctionNormalizingReducer() { }
+	private DisjunctionNormalizer() { }
 
 	@Override
-	public AbsBooleanInternalNode reduce(TdlExpression expression, DisjunctionNode disjunction) {
+	public AbsBooleanInternalNode normalize(TdlExpression expression, DisjunctionNode disjunction) {
 		// not(X || Y) normalizes to not(X) && not(Y).
 		if (!disjunction.isNegated())
 			return disjunction;

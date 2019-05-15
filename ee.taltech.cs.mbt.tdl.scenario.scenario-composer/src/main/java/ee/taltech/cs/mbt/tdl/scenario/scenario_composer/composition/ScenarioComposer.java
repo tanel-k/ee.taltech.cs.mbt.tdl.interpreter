@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.TdlExpressionReducer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.TdlExpressionNormalizingReducer;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.TrapsetQuantifierEvaluator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
@@ -59,9 +59,9 @@ public class ScenarioComposer {
 				.evaluate();
 
 		// Normalize the TDL expression and pull True/False up the tree according to TDL operator semantics:
-		TdlExpressionReducer
+		TdlExpressionNormalizingReducer
 				.getInstance(tdlExpressionCpy)
-				.reduce();
+				.normalizeAndReduce();
 
 		if (tdlExpressionCpy.getRootBooleanWrapper().isPresent()) {
 			// Makes no sense to compose a scenario for a single True/False node; just return the expression.

@@ -1,21 +1,21 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BoundedLeadsToNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 
-public class BoundedLeadsToNormalizingReducer extends AbsNormalizingReducer<BoundedLeadsToNode> {
-	public static BoundedLeadsToNormalizingReducer getInstance() {
+public class BoundedLeadsToNormalizer extends AbsNormalizer<BoundedLeadsToNode> {
+	public static BoundedLeadsToNormalizer getInstance() {
 		return INSTANCE;
 	}
 
-	private static final BoundedLeadsToNormalizingReducer INSTANCE = new BoundedLeadsToNormalizingReducer();
+	private static final BoundedLeadsToNormalizer INSTANCE = new BoundedLeadsToNormalizer();
 
-	private BoundedLeadsToNormalizingReducer() { }
+	private BoundedLeadsToNormalizer() { }
 
 	@Override
-	public AbsBooleanInternalNode reduce(TdlExpression expression, BoundedLeadsToNode boundedLeadsTo) throws NormalizationException {
+	public AbsBooleanInternalNode normalize(TdlExpression expression, BoundedLeadsToNode boundedLeadsTo) throws NormalizationException {
 		if (!boundedLeadsTo.isNegated())
 			return boundedLeadsTo;
 

@@ -1,21 +1,21 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.LeadsToNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
 
-public class LeadsToNormalizingReducer extends AbsNormalizingReducer<LeadsToNode> {
-	public static LeadsToNormalizingReducer getInstance() {
+public class LeadsToNormalizer extends AbsNormalizer<LeadsToNode> {
+	public static LeadsToNormalizer getInstance() {
 		return INSTANCE;
 	}
 
-	private static final LeadsToNormalizingReducer INSTANCE = new LeadsToNormalizingReducer();
+	private static final LeadsToNormalizer INSTANCE = new LeadsToNormalizer();
 
-	private LeadsToNormalizingReducer() { }
+	private LeadsToNormalizer() { }
 
 	@Override
-	public AbsBooleanInternalNode reduce(TdlExpression expression, LeadsToNode leadsTo) throws NormalizationException {
+	public AbsBooleanInternalNode normalize(TdlExpression expression, LeadsToNode leadsTo) throws NormalizationException {
 		if (!leadsTo.isNegated())
 			return leadsTo;
 

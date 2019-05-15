@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
@@ -9,17 +9,17 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 
 import java.math.BigInteger;
 
-public class BoundedRepetitionNormalizingReducer extends AbsNormalizingReducer<BoundedRepetitionNode> {
-	public static BoundedRepetitionNormalizingReducer getInstance() {
+public class BoundedRepetitionNormalizer extends AbsNormalizer<BoundedRepetitionNode> {
+	public static BoundedRepetitionNormalizer getInstance() {
 		return INSTANCE;
 	}
 
-	private static final BoundedRepetitionNormalizingReducer INSTANCE = new BoundedRepetitionNormalizingReducer();
+	private static final BoundedRepetitionNormalizer INSTANCE = new BoundedRepetitionNormalizer();
 
-	private BoundedRepetitionNormalizingReducer() { }
+	private BoundedRepetitionNormalizer() { }
 
 	@Override
-	public AbsBooleanInternalNode reduce(TdlExpression expression, BoundedRepetitionNode boundedRepetition) {
+	public AbsBooleanInternalNode normalize(TdlExpression expression, BoundedRepetitionNode boundedRepetition) {
 		Bound bound = boundedRepetition.getBound();
 		BigInteger boundValue = bound.getBoundValue();
 		BooleanValueWrapperNode replacementNode = null;
