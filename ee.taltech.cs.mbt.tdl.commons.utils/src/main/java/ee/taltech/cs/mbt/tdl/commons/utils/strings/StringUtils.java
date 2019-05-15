@@ -67,8 +67,8 @@ public class StringUtils {
 		return buf.toString();
 	}
 
-	public static LineIterator lineExtractor(String str) {
-		return LineIterator.forString(str);
+	public static StringLineIterator lineExtractor(String str) {
+		return StringLineIterator.newInstance(str);
 	}
 
 	public static boolean equalsIgnoreCase(String a, String b) {

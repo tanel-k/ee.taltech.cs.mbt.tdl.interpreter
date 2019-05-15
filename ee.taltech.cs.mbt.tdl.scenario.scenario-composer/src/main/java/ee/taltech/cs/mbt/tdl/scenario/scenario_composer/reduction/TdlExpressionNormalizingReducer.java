@@ -26,7 +26,7 @@ public class TdlExpressionNormalizingReducer {
 		if (completionFlag.isSet())
 			return;
 
-		// Two interleaved sub-ops:
+		// Two sequential encapsulated sub-ops:
 		// 1. Push negation to leaves (i.e. trapset quantifiers);
 		// 2. Explode operators for which there is no recognizer implementation.
 		ExpressionNormalizer normalizer = ExpressionNormalizer.getInstance(expression);
