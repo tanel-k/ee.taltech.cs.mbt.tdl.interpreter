@@ -34,7 +34,7 @@ public class LeadsToNormalizer extends AbsNormalizer<LeadsToNode> {
 		 *
 		 * In terms of the implementation, we would either have to wait for A to *never* occur or
 		 * for B to *never* occur after A.
-		 * The notion of 'waiting' is not well-defined.
+		 * The notion of 'waiting' is not well-defined here.
 		 * We obviously cannot wait until the end of time.
 		 * The TDL(TP) architecture described in the source article does not provide any structures
 		 * which could support implementing this waiting logic.

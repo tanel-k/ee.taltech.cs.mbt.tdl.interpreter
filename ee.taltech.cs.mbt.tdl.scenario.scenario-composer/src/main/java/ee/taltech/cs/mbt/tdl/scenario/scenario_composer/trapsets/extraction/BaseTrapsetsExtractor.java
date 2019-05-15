@@ -88,7 +88,7 @@ public class BaseTrapsetsExtractor {
 				VariableDeclarationGroup group = (VariableDeclarationGroup) trapsetArrayDeclaration;
 				group.removeItem(trapset.getName());
 
-				// Retain group as until it's empty (may contain unrelated variable decls):
+				// Retain group as is until it's empty (may contain unrelated variable decls):
 				if (group.getBaseTypeExtensionMap().isEmpty()) {
 					globalDeclarations.remove(group);
 				}

@@ -50,8 +50,8 @@ public class AbsoluteComplementEvaluator extends AbsTrapsetExpressionEvaluator<A
 		AbsoluteComplementTrapset resultTrapset = new AbsoluteComplementTrapset();
 		resultTrapset.setName(trapsetName);
 
-		for (Template parentTemplate : system.getTemplates()) {
-			for (Transition candidateTransition : parentTemplate.getLocationGraph().getEdges()) {
+		for (Template template : system.getTemplates()) {
+			for (Transition candidateTransition : template.getLocationGraph().getEdges()) {
 				AssignmentExpression markerExpression;
 				if (excludedTrapset.contains(candidateTransition)) {
 					// In excludedTrapset, check if conditionally:
@@ -71,7 +71,7 @@ public class AbsoluteComplementEvaluator extends AbsTrapsetExpressionEvaluator<A
 							.setRightChild(LiteralConsts.TRUE);
 				}
 				resultTrapset.addTrap(
-						BaseTrap.of(parentTemplate, candidateTransition, markerExpression)
+						BaseTrap.of(template, candidateTransition, markerExpression)
 				);
 			}
 		}

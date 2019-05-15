@@ -98,6 +98,7 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitEquivalence(EquivalenceNode node) {
+			// A call shouldn't occur during normal operation but throw an exception just in case:
 			throw new TunneledLiteralEliminationException(
 					new LiteralEliminationException(
 							"Literal elimination for equivalence has not been implemented.",
@@ -110,6 +111,7 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitGroup(GroupNode node) {
+			// A call shouldn't occur during normal operation but throw an exception just in case:
 			throw new TunneledLiteralEliminationException(
 					new LiteralEliminationException(
 							"Literal elimination for groups has not been implemented.",
@@ -122,6 +124,7 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitImplication(ImplicationNode node) {
+			// A call shouldn't occur during normal operation but throw an exception just in case:
 			throw new TunneledLiteralEliminationException(
 					new LiteralEliminationException(
 							"Literal elimination for implication has not been implemented.",
@@ -134,6 +137,7 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitUniversalQuantification(UniversalQuantificationNode node) {
+			// A call shouldn't occur during normal operation but throw an exception just in case:
 			throw new TunneledLiteralEliminationException(
 					new LiteralEliminationException(
 							"Literal elimination for quantification has not been implemented.",
@@ -146,6 +150,7 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitExistentialQuantification(ExistentialQuantificationNode node) {
+			// A call shouldn't occur during normal operation but throw an exception just in case:
 			throw new TunneledLiteralEliminationException(
 					new LiteralEliminationException(
 							"Literal elimination for quantification has not been implemented.",
