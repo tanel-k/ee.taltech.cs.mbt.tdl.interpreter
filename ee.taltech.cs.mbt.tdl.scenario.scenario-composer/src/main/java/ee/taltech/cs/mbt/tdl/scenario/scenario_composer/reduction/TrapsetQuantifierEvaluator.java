@@ -9,7 +9,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapsets.model.generic.AbsEvaluatedTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.templates.Template;
 
@@ -22,7 +22,7 @@ public class TrapsetQuantifierEvaluator {
 	public static TrapsetQuantifierEvaluator getInstance(
 			UtaSystem system,
 			TdlExpression expression,
-			Map<AbsTrapsetExpressionNode, AbsEvaluatedTrapset> trapsetEvaluationMap
+			Map<AbsTrapsetExpressionNode, AbsTrapsetEvaluation> trapsetEvaluationMap
 	) {
 		return new TrapsetQuantifierEvaluator(system, expression, trapsetEvaluationMap);
 	}
@@ -67,12 +67,12 @@ public class TrapsetQuantifierEvaluator {
 	@SuppressWarnings("unused")
 	private UtaSystem system;
 	private TdlExpression expression;
-	private Map<AbsTrapsetExpressionNode, AbsEvaluatedTrapset> trapsetEvaluationMap;
+	private Map<AbsTrapsetExpressionNode, AbsTrapsetEvaluation> trapsetEvaluationMap;
 
 	private TrapsetQuantifierEvaluator(
 			UtaSystem system,
 			TdlExpression expression,
-			Map<AbsTrapsetExpressionNode, AbsEvaluatedTrapset> trapsetEvaluationMap
+			Map<AbsTrapsetExpressionNode, AbsTrapsetEvaluation> trapsetEvaluationMap
 	) {
 		this.system = system;
 		this.expression = expression;
@@ -82,7 +82,7 @@ public class TrapsetQuantifierEvaluator {
 	private void evaluateTrapsetQuantifiers() {
 		for (AbsTrapsetQuantifierNode trapsetQuantifier : extractTrapsetQuantifiers(expression)) {
 			AbsTrapsetExpressionNode trapsetExpression = trapsetQuantifier.getChildContainer().getChild();
-			AbsEvaluatedTrapset trapset = trapsetEvaluationMap.get(trapsetExpression);
+			AbsTrapsetEvaluation trapset = trapsetEvaluationMap.get(trapsetExpression);
 
 			// Only quantifiers over empty trapsets can be reduced at this time.
 			// Technically we could also reduce E(ALL) -> to some True node that requires at least one transition to be taken.

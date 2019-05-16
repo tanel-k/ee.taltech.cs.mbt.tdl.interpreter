@@ -31,7 +31,7 @@
               <outputDirectory>src/main/java</outputDirectory>
               <sourceFile>src/main/resources/RecognizerTreeModelBase.xml</sourceFile>
               <pickleName>RecognizerTreeModelBase</pickleName>
-              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_composer.scenario_system.recognizer_tree.base_factory</picklePackage>
+              <picklePackage>ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.recognizer_tree.base_factory</picklePackage>
               <writeProtect>true</writeProtect>
             </configuration>
           </execution>
