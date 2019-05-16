@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.commons.utils.streams;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.functions.ITernaryFunction;
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntGenerator;
 
 import java.util.Iterator;
 import java.util.Spliterator;
@@ -26,7 +26,7 @@ public class StreamUtils {
 		final Iterator<A> itrA = Spliterators.iterator(splitterA);
 		final Iterator<B> itrB = Spliterators.iterator(splitterB);
 
-		final IntIterator indexProvider = IntIterator.newInstance(0);
+		final IntGenerator indexProvider = IntGenerator.newInstance(0);
 		return StreamSupport.stream(new AbstractSpliterator<R>(Math.min(splitterA.estimateSize(), splitterB.estimateSize()), characteristics) {
 			public boolean tryAdvance(Consumer<? super R> action) {
 				if (itrA.hasNext() && itrB.hasNext()) {

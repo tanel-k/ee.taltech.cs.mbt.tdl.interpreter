@@ -29,6 +29,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.Subtracti
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.literal.LiteralConsts;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.literal.NaturalNumberLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.array_modifier.SizeExpressionArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.ExpressionStatement;
@@ -60,7 +61,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.TransitionLa
 
 import java.util.LinkedList;
 
-/** Generated on 14/May/2019 using the UTA pickler plugin. */
+/** Generated on 16/May/2019 using the UTA pickler plugin. */
 public class RecognizerTreeModelBaseSystemFactory {
   public static class TdlScenarioStopwatchTemplateFactory {
     public static TdlScenarioStopwatchTemplateFactory getInstance() {

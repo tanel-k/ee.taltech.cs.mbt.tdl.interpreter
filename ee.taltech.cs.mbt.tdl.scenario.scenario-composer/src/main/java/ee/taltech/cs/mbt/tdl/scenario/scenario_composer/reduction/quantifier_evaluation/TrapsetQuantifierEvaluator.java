@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.quantifier_evaluation;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;

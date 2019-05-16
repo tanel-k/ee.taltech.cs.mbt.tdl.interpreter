@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.recognizer_
 
 import ee.taltech.cs.mbt.tdl.commons.utils.objects.ObjectIdentityMap;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntGenerator;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation;
@@ -33,7 +33,7 @@ public class RecognizerTreeModelConstructionContext {
 	private Map<AbsTrapsetExpressionNode, Integer> trapsetIndexMap = new ObjectIdentityMap<>();
 
 	private Map<Identifier, Integer> trapsetOccurrenceCountMap = new HashMap<>();
-	private Map<Identifier, IntIterator> trapsetCounterMap = new HashMap<>();
+	private Map<Identifier, IntGenerator> trapsetCounterMap = new HashMap<>();
 	private Map<Identifier, AbsTrapsetEvaluation> trapsetEvaluationMap = new HashMap<>();
 
 	private List<Template> quantifierTemplates = new LinkedList<>();
@@ -99,7 +99,7 @@ public class RecognizerTreeModelConstructionContext {
 		return templateInstantiations;
 	}
 
-	Map<Identifier, IntIterator> getTrapsetCounterMap() {
+	Map<Identifier, IntGenerator> getTrapsetCounterMap() {
 		return trapsetCounterMap;
 	}
 

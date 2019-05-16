@@ -1,6 +1,6 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated;
 
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntGenerator;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trap.BaseTrap;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.AbsTrapset;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
@@ -16,12 +16,12 @@ public abstract class AbsTrapsetEvaluation<TrapType extends BaseTrap> extends Ab
 		}
 
 		private Identifier flagArrayName;
-		private IntIterator indexCounter;
+		private IntGenerator indexCounter;
 		private Synchronization activatingSynchronization;
 
 		private TrapsetImplementationDetail(Identifier flagArrayName, Synchronization activatingSynchronization) {
 			this.flagArrayName = flagArrayName;
-			this.indexCounter = IntIterator.newInstance();
+			this.indexCounter = IntGenerator.newInstance();
 			this.activatingSynchronization = activatingSynchronization;
 		}
 
@@ -29,7 +29,7 @@ public abstract class AbsTrapsetEvaluation<TrapType extends BaseTrap> extends Ab
 			return flagArrayName;
 		}
 
-		public IntIterator getIndexCounter() {
+		public IntGenerator getIndexCounter() {
 			return indexCounter;
 		}
 

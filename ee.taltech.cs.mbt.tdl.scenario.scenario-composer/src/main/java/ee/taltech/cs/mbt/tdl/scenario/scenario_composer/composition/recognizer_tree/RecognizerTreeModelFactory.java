@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.recognizer_tree;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
-import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntIterator;
+import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntGenerator;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsTrapsetQuantifierNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
@@ -213,8 +213,8 @@ public class RecognizerTreeModelFactory extends RecognizerTreeModelBaseSystemFac
 	private void prepareConstructionContext() {
 		ctx = new RecognizerTreeModelConstructionContext();
 
-		IntIterator treeNodeCounter = IntIterator.newInstance();
-		IntIterator trapsetNodeCounter = IntIterator.newInstance();
+		IntGenerator treeNodeCounter = IntGenerator.newInstance();
+		IntGenerator trapsetNodeCounter = IntGenerator.newInstance();
 		parameters.getTdlExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
 			@Override
 			public Void visitBoundedRepetition(BoundedRepetitionNode node) {
@@ -259,7 +259,7 @@ public class RecognizerTreeModelFactory extends RecognizerTreeModelBaseSystemFac
 			private Void visitQuantification(AbsTrapsetQuantifierNode node) {
 				AbsTrapsetExpressionNode trapsetExpressionNode = node.getChildContainer().getChild();
 				AbsTrapsetEvaluation evaluatedTrapset = parameters.getTrapsetEvaluationMap().get(trapsetExpressionNode);
-				ctx.getTrapsetCounterMap().computeIfAbsent(evaluatedTrapset.getName(), k -> IntIterator.newInstance(1)).next();
+				ctx.getTrapsetCounterMap().computeIfAbsent(evaluatedTrapset.getName(), k -> IntGenerator.newInstance(1)).next();
 
 				ctx.getTreeIndexMap().put(node, treeNodeCounter.next());
 				ctx.getTrapsetIndexMap().put(node.getChildContainer().getChild(), trapsetNodeCounter.next());
@@ -297,7 +297,7 @@ public class RecognizerTreeModelFactory extends RecognizerTreeModelBaseSystemFac
 				(k, v) -> ctx.getTrapsetOccurrenceCountMap().put(k, v.getCurrentValue() - 1)
 		);
 
-		Map<Identifier, IntIterator> trapsetQualifierCounters = new HashMap<>();
+		Map<Identifier, IntGenerator> trapsetQualifierCounters = new HashMap<>();
 		parameters.getTdlExpression().getRootNode().accept(new BaseBooleanNodeVisitor<Void>() {
 			private AbsExpression getBoundTypeExpression(Bound bound) {
 				Identifier boundTypeName = null;
@@ -475,7 +475,7 @@ public class RecognizerTreeModelFactory extends RecognizerTreeModelBaseSystemFac
 				Identifier trapsetName = trapset.getName();
 				if (ctx.getTrapsetOccurrenceCountMap().get(trapsetName) > 1) {
 					Integer trapsetNameQualifier = trapsetQualifierCounters
-							.computeIfAbsent(trapset.getName(), k -> IntIterator.newInstance(1))
+							.computeIfAbsent(trapset.getName(), k -> IntGenerator.newInstance(1))
 							.next();
 					trapsetName = Identifier.of(trapsetName + "_" + trapsetNameQualifier);
 				}
