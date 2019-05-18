@@ -33,7 +33,7 @@
               <shadedArtifactAttached>false</shadedArtifactAttached>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>ee.taltech.cs.mbt.tdl.interface.interface_cli.TdlInterpreterCLI</mainClass>
+                  <mainClass>ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.TdlInterpreterCLI</mainClass>
                 </transformer>
               </transformers>
             </configuration>
