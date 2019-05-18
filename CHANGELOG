@@ -60,6 +60,7 @@ All notable changes to this project will be documented in this file.
 - #66: Additional utilities added to commons.utils.
 - #66: Added positive test cases for TDL(TP) parser (TdlExpressionParserValidSyntaxTests).
 - #66: Added positive test cases for TDL(TP) code generator (TdlExpressionGeneratorValidStructureTests).
+- #67: Added positive test cases for UPPAAL system definition language parser (UtaLanguageParserTests).
 
 ### Removed
 - #58: Logic for TdlTerminatorAdapter.
@@ -81,3 +82,6 @@ All notable changes to this project will be documented in this file.
     * negation, group now printed as-is;
     * removed redundant parentheses added for bounded repetition.
 - #66: Maven plugins no longer duplicated for child project POMs unless overrides are required.
+- #67: (out of scope) Fixed TDL grammar (match original BNF more closely).
+- #67: (out of scope) Changed package structure for general facade modules.
+- #67: (out of scope) Changed package structure in scenario composer.
