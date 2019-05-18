@@ -33,8 +33,6 @@ public class ParseQueue extends OperationQueue<ParseOperation<?>, EmbeddedCodeSy
 				resultConsumer.accept(output);
 			} catch (ParseException ex) {
 				throw new EmbeddedCodeSyntaxException(code, ex);
-			} catch (IOException io) {
-				throw new RuntimeException(io);
 			}
 		}
 	}

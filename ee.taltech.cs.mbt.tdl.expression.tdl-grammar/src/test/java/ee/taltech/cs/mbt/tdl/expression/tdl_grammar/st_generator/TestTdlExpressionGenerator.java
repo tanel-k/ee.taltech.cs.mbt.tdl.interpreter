@@ -25,7 +25,7 @@ public class TestTdlExpressionGenerator {
 	}
 
 	@DisplayName("Test whether TDL generator works correctly for structurally correct object structures.")
-	@ParameterizedTest(name = "#[{index}] {1}: SExpr:`{2}` -> TDL:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: S-Expr:`{2}` -> TDL:`{3}`.")
 	@XmlTestArgumentsSource(path = "/TdlExpressionGeneratorValidStructureTests.xml")
 	void testGeneratesStructurallyCorrectExpressions(
 			TestPlan testPlan,

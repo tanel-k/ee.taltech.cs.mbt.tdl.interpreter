@@ -33,7 +33,7 @@ class TestTdlExpressionParser {
 	}
 
 	@DisplayName("Test whether TDL parser accepts syntactically correct expressions.")
-	@ParameterizedTest(name = "#[{index}] {1}: TDL:`{2}` -> SExpr:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: TDL:`{2}` -> S-Expr:`{3}`.")
 	@XmlTestArgumentsSource(path = "/TdlExpressionParserValidSyntaxTests.xml")
 	void testParsesSyntacticallyCorrectExpressions(
 			TestPlan testPlan,
@@ -46,7 +46,7 @@ class TestTdlExpressionParser {
 			TdlExpression expr = null;
 			try {
 				expr = tdlParser.parseInput(input);
-			} catch (ParseException | IOException ex) {
+			} catch (ParseException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return expr;

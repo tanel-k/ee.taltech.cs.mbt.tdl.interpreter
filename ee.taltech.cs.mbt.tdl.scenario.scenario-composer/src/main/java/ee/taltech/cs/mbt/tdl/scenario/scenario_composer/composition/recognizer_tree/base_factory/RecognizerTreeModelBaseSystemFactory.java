@@ -61,7 +61,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.TransitionLa
 
 import java.util.LinkedList;
 
-/** Generated on 16/May/2019 using the UTA pickler plugin. */
+/** Generated on 18/May/2019 using the UTA pickler plugin. */
 public class RecognizerTreeModelBaseSystemFactory {
   public static class TdlScenarioStopwatchTemplateFactory {
     public static TdlScenarioStopwatchTemplateFactory getInstance() {

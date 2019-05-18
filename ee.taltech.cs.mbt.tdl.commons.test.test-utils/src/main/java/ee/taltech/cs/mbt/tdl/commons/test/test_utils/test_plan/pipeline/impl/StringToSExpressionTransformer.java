@@ -12,7 +12,7 @@ public class StringToSExpressionTransformer implements ISimpleTransformer {
 		try {
 			return SExpressionParser.getInstance()
 					.parseInput((String) in);
-		} catch (ParseException | IOException ex) {
+		} catch (ParseException ex) {
 			throw new RuntimeException(ex);
 		}
 	}

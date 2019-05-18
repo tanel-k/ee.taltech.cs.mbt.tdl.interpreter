@@ -31,7 +31,7 @@ class UtaLanguageParserTests {
 			.getExpressionGenerator();
 
 	@DisplayName("Test whether UTA parser accepts syntactically correct assignment expressions.")
-	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> SExpr:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> S-Expr:`{3}`.")
 	@XmlTestArgumentsSource(path = "/language/AssignmentTests.xml")
 	void testParsesSyntacticallyCorrectAssignments(
 			TestPlan testPlan,
@@ -45,7 +45,7 @@ class UtaLanguageParserTests {
 			List<AbsExpression> assignments = null;
 			try {
 				assignments = assignmentsParser.parseInput(input);
-			} catch (ParseException | IOException ex) {
+			} catch (ParseException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return assignments;
@@ -57,7 +57,7 @@ class UtaLanguageParserTests {
 	}
 
 	@DisplayName("Test whether UTA parser accepts syntactically correct declarations.")
-	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> SExpr:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> S-Expr:`{3}`.")
 	@XmlTestArgumentsSource(path = "/language/DeclarationTests.xml")
 	void testParsesSyntacticallyCorrectDeclarations(
 			TestPlan testPlan,
@@ -71,7 +71,7 @@ class UtaLanguageParserTests {
 			List<AbsDeclarationStatement> assignments = null;
 			try {
 				assignments = declarationsParser.parseInput(input);
-			} catch (ParseException | IOException ex) {
+			} catch (ParseException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return assignments;
@@ -84,7 +84,7 @@ class UtaLanguageParserTests {
 
 
 	@DisplayName("Test whether UTA parser accepts syntactically correct parameter declarations.")
-	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> SExpr:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> S-Expr:`{3}`.")
 	@XmlTestArgumentsSource(path = "/language/ParametersTests.xml")
 	void testParsesSyntacticallyCorrectParameters(
 			TestPlan testPlan,
@@ -98,7 +98,7 @@ class UtaLanguageParserTests {
 			List<ParameterDeclaration> parameterDeclarations = null;
 			try {
 				parameterDeclarations = parameterParser.parseInput(input);
-			} catch (ParseException | IOException ex) {
+			} catch (ParseException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return parameterDeclarations;
@@ -110,7 +110,7 @@ class UtaLanguageParserTests {
 	}
 
 	@DisplayName("Test whether UTA parser accepts syntactically correct selections.")
-	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> SExpr:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> S-Expr:`{3}`.")
 	@XmlTestArgumentsSource(path = "/language/SelectionsTests.xml")
 	void testParsesSyntacticallyCorrectSelections(
 			TestPlan testPlan,
@@ -124,7 +124,7 @@ class UtaLanguageParserTests {
 			List<Selection> selections = null;
 			try {
 				selections = selectionsParser.parseInput(input);
-			} catch (ParseException | IOException ex) {
+			} catch (ParseException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return selections;
@@ -136,7 +136,7 @@ class UtaLanguageParserTests {
 	}
 
 	@DisplayName("Test whether UTA parser accepts syntactically correct synchronizations.")
-	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> SExpr:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> S-Expr:`{3}`.")
 	@XmlTestArgumentsSource(path = "/language/SynchronizationTests.xml")
 	void testParsesSyntacticallyCorrectSynchronization(
 			TestPlan testPlan,
@@ -150,7 +150,7 @@ class UtaLanguageParserTests {
 			Synchronization assignments = null;
 			try {
 				assignments = synchronizationParser.parseInput(input);
-			} catch (ParseException | IOException ex) {
+			} catch (ParseException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return assignments;
@@ -162,7 +162,7 @@ class UtaLanguageParserTests {
 	}
 
 	@DisplayName("Test whether UTA parser accepts syntactically correct system definitions.")
-	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> SExpr:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: UTA:`{2}` -> S-Expr:`{3}`.")
 	@XmlTestArgumentsSource(path = "/language/SystemDefinitionTests.xml")
 	void testParsesSyntacticallyCorrectSystemDefinition(
 			TestPlan testPlan,
@@ -176,7 +176,7 @@ class UtaLanguageParserTests {
 			SystemDefinition systemDefinition = null;
 			try {
 				systemDefinition = systemDefinitionParser.parseInput(input);
-			} catch (ParseException | IOException ex) {
+			} catch (ParseException ex) {
 				fail("Unable to parse `" + input + "`.", ex);
 			}
 			return systemDefinition;
