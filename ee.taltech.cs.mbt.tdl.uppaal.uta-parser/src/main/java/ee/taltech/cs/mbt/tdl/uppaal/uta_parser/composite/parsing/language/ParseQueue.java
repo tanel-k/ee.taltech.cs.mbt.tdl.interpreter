@@ -1,13 +1,14 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language;
 
 import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParserFacade.ParseException;
-import ee.taltech.cs.mbt.tdl.commons.parser.AbsAntlrParser;
+import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParser;
 import ee.taltech.cs.mbt.tdl.commons.utils.operations.IOperation;
 import ee.taltech.cs.mbt.tdl.commons.utils.operations.OperationQueue;
-import ee.taltech.cs.mbt.tdl.commons.utils.strings.LineIterator;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringLineIterator;
 import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.ParseQueue.ParseOperation;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -55,7 +56,8 @@ public class ParseQueue extends OperationQueue<ParseOperation<?>, EmbeddedCodeSy
 	 */
 	private static boolean onlyContainsComments(String input) {
 		String simpleInput = removeMultiLineComments(input);
-		Iterator<String> lineIterator = LineIterator.forString(simpleInput);
+		Iterator<String> lineIterator = StringLineIterator.newInstance(simpleInput);
+		// Ensure at least one line that isn't a comment exists:
 		while (lineIterator.hasNext()) {
 			String line = lineIterator.next();
 			if (StringUtils.isEmpty(line))

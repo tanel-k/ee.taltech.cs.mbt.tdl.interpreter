@@ -15,15 +15,31 @@ public class Flag {
 		this.wrappedBoolean = initialState;
 	}
 
-	public boolean xor(Flag other) {
+	public void xor(Flag other) {
+		this.wrappedBoolean = this.wrappedBoolean ^ other.wrappedBoolean;
+	}
+
+	public void or(Flag other) {
+		this.wrappedBoolean = this.wrappedBoolean || other.wrappedBoolean;
+	}
+
+	public void and(Flag other) {
+		this.wrappedBoolean = this.wrappedBoolean && other.wrappedBoolean;
+	}
+
+	public boolean negatedValue() {
+		return !this.wrappedBoolean;
+	}
+
+	public boolean xorValue(Flag other) {
 		return wrappedBoolean ^ other.wrappedBoolean;
 	}
 
-	public boolean or(Flag other) {
+	public boolean orValue(Flag other) {
 		return wrappedBoolean || other.wrappedBoolean;
 	}
 
-	public boolean and(Flag other) {
+	public boolean andValue(Flag other) {
 		return wrappedBoolean && other.wrappedBoolean;
 	}
 

@@ -13,14 +13,14 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.LeadsToNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers.BoundedLeadsToNormalizingReducer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers.BoundedRepetitionNormalizingReducer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers.ConjunctionNormalizingReducer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers.DisjunctionNormalizingReducer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers.EquivalenceNormalizingReducer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers.GroupNormalizingReducer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers.ImplicationNormalizingReducer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.reducers.LeadsToNormalizingReducer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.BoundedLeadsToNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.BoundedRepetitionNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.ConjunctionNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.DisjunctionNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.EquivalenceNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.GroupNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.ImplicationNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.LeadsToNormalizer;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -59,48 +59,48 @@ public class ExpressionNormalizer {
 
 		@Override
 		public Void visitGroup(GroupNode group) {
-			GroupNormalizingReducer.getInstance()
-					.reduce(expression, group).accept(this);
+			GroupNormalizer.getInstance()
+					.normalize(expression, group).accept(this);
 			return null;
 		}
 
 		@Override
 		public Void visitConjunction(ConjunctionNode conjunction) {
 			return visitChildren(
-					ConjunctionNormalizingReducer.getInstance()
-							.reduce(expression, conjunction)
+					ConjunctionNormalizer.getInstance()
+							.normalize(expression, conjunction)
 			);
 		}
 
 		@Override
 		public Void visitDisjunction(DisjunctionNode disjunction) {
 			return visitChildren(
-					DisjunctionNormalizingReducer.getInstance()
-							.reduce(expression, disjunction)
+					DisjunctionNormalizer.getInstance()
+							.normalize(expression, disjunction)
 			);
 		}
 
 		@Override
 		public Void visitImplication(ImplicationNode implication) {
 			return visitChildren(
-					ImplicationNormalizingReducer.getInstance()
-							.reduce(expression, implication)
+					ImplicationNormalizer.getInstance()
+							.normalize(expression, implication)
 			);
 		}
 
 		@Override
 		public Void visitEquivalence(EquivalenceNode equivalence) {
 			return visitChildren(
-					EquivalenceNormalizingReducer.getInstance()
-							.reduce(expression, equivalence)
+					EquivalenceNormalizer.getInstance()
+							.normalize(expression, equivalence)
 			);
 		}
 
 		@Override
 		public Void visitBoundedRepetition(BoundedRepetitionNode boundedRepetition) {
 			return visitChildren(
-					BoundedRepetitionNormalizingReducer.getInstance()
-							.reduce(expression, boundedRepetition)
+					BoundedRepetitionNormalizer.getInstance()
+							.normalize(expression, boundedRepetition)
 			);
 		}
 
@@ -108,8 +108,8 @@ public class ExpressionNormalizer {
 		public Void visitLeadsTo(LeadsToNode leadsTo) {
 			try {
 				return visitChildren(
-						LeadsToNormalizingReducer.getInstance()
-								.reduce(expression, leadsTo)
+						LeadsToNormalizer.getInstance()
+								.normalize(expression, leadsTo)
 				);
 			} catch (NormalizationException ex) {
 				throw new TunneledNormalizationException(ex);
@@ -120,8 +120,8 @@ public class ExpressionNormalizer {
 		public Void visitBoundedLeadsTo(BoundedLeadsToNode boundedLeadsTo) {
 			try {
 				return visitChildren(
-						BoundedLeadsToNormalizingReducer.getInstance()
-								.reduce(expression, boundedLeadsTo)
+						BoundedLeadsToNormalizer.getInstance()
+								.normalize(expression, boundedLeadsTo)
 				);
 			} catch (NormalizationException ex) {
 				throw new TunneledNormalizationException(ex);

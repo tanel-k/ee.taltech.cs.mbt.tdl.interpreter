@@ -212,7 +212,10 @@ public class ExpressionConverter extends UtaLanguageBaseVisitor<AbsExpression>
 
 	@Override
 	public AbsExpression visitNegationExpression(NegationExpressionContext ctx) {
-		return visitUnaryNode(new NegationExpression(), ctx.expression());
+		NegationExpression negationExpression = new NegationExpression();
+		if (ctx.PHRASE_NOT() != null)
+			negationExpression.setPhrase(true);
+		return visitUnaryNode(negationExpression, ctx.expression());
 	}
 
 	@Override

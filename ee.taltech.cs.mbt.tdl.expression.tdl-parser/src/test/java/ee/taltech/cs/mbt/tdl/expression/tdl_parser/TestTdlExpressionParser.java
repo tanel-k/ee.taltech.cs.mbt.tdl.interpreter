@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.expression.tdl_parser;
 
 import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.AbsAntlrParserFacade.ParseException;
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.GenerationException;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.GenerationException;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.st_generator.SExpressionGenerator;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.st_generator.SExpressionGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.SExpression;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 @DisplayName("TDL parser tests.")
 class TestTdlExpressionParser {
-	private final SExpressionGenerator exprGen = SExpressionGeneratorFactory
+	private final SExpressionGenerator sExprGen = SExpressionGeneratorFactory
 			.getInstance()
 			.getExpressionGenerator();
 
@@ -32,7 +32,7 @@ class TestTdlExpressionParser {
 	}
 
 	@DisplayName("Test whether TDL parser accepts syntactically correct expressions.")
-	@ParameterizedTest(name = "#[{index}] {1}: TDL:`{2}` -> SExpr:`{3}`.")
+	@ParameterizedTest(name = "#[{index}] {1}: TDL:`{2}` -> S-Expr:`{3}`.")
 	@XmlTestArgumentsSource(path = "/TdlExpressionParserValidSyntaxTests.xml")
 	void testParsesSyntacticallyCorrectExpressions(
 			TestPlan testPlan,
@@ -60,13 +60,13 @@ class TestTdlExpressionParser {
 		return () -> {
 			String expectedStr;
 			try {
-				expectedStr = exprGen.generate(expected);
+				expectedStr = sExprGen.generate(expected);
 			} catch (GenerationException ex) {
 				expectedStr = "ERROR";
 			}
 			String actualStr;
 			try {
-				actualStr = exprGen.generate(actual);
+				actualStr = sExprGen.generate(actual);
 			} catch (GenerationException e) {
 				actualStr = "ERROR";
 			}

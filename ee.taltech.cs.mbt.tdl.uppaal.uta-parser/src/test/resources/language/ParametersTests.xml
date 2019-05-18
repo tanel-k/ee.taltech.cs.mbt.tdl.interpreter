@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<TestPlan>
+  <Configuration>
+    <InputPipeline>
+      <Step type="configuredTransform" />
+      <Step type="transform"
+            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.ParameterListToSExprTestTransformer"
+      />
+    </InputPipeline>
+    <OutputPipeline>
+      <Step type="transform"
+            transformerClass="ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.impl.StringToSExpressionTransformer"
+      />
+    </OutputPipeline>
+  </Configuration>
+  <TestCases>
+    <TestCase name="Parameter: integer">
+      <ProvidedInput>int x</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (x . (TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ()))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: simple boolean parameter">
+      <ProvidedInput>bool flag</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (flag . (TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (BOOLEAN)))) . ()))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: simple integer parameter">
+      <ProvidedInput>int value</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (value . (TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ()))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: simple channel parameter">
+      <ProvidedInput>chan ch</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (ch . (TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (CHANNEL)))) . ()))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: simple clock parameter">
+      <ProvidedInput>clock ck</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (ck . (TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (CLOCK)))) . ()))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: boolean array">
+      <ProvidedInput>bool arr[2]</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (arr . (TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (BOOLEAN)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (2))))))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: integer array">
+      <ProvidedInput>int value[4]</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (value . (TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (4))))))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: channel array">
+      <ProvidedInput>chan channels[8]</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (channels . (TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (CHANNEL)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (8))))))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: clock array">
+      <ProvidedInput>clock ck[16]</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (ck . (TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (CLOCK)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (16))))))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: array of arrays">
+      <ProvidedInput>int matrix[3][3]</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (matrix . (TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (3))))) . (ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (3))))))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: constant parameter">
+      <ProvidedInput>const bool CONSTANT</ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (CONSTANT . (TYPE . (NORM . (BASETYPE . (CONSTANT . (TYPEID . (BOOLEAN)))) . ()))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Parameter: reference parameter">
+      <ProvidedInput><![CDATA[int &ref]]]></ProvidedInput>
+      <ExpectedOutput>(PARAMETERS . ((PARAM . (ref . (TYPE . (REF . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ()))))))</ExpectedOutput>
+    </TestCase>
+  </TestCases>
+</TestPlan>

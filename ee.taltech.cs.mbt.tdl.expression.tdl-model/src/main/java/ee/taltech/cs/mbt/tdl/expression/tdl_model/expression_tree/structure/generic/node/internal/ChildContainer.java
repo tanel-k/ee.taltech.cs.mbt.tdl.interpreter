@@ -122,10 +122,9 @@ public class ChildContainer<ChildType extends AbsExpressionNode> {
 		for (int i = 0; i < arity; i++) {
 			ChildType childCandidate = getChildNode(i);
 			if (childCandidate != null && prevChild.hashCode() == childCandidate.hashCode()) {
-				boolean candidateMatch = prevChild == childCandidate
-						|| (prevChild.hashCode() == childCandidate.hashCode() && prevChild.equals(childCandidate));
-				if (candidateMatch) {
+				if (prevChild.equals(childCandidate)) {
 					setChildNode(i, newChild);
+					break;
 				}
 			}
 		}

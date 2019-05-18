@@ -15,11 +15,11 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_quantifier.UniversalQuantificationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.IBooleanNodeVisitor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.BoundedLeadsToLiteralOperandEliminator;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.BoundedRepetitionLiteralOperandEliminator;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.ConjunctionLiteralOperandEliminator;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.DisjunctionLiteralOperandEliminator;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.LeadsToLiteralOperandEliminator;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.impl.BoundedLeadsToLiteralOperandEliminator;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.impl.BoundedRepetitionLiteralOperandEliminator;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.impl.ConjunctionLiteralOperandEliminator;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.impl.DisjunctionLiteralOperandEliminator;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.eliminators.impl.LeadsToLiteralOperandEliminator;
 
 import java.util.Deque;
 
@@ -98,6 +98,7 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitEquivalence(EquivalenceNode node) {
+			// A call shouldn't occur during normal operation but throw an exception just in case:
 			throw new TunneledLiteralEliminationException(
 					new LiteralEliminationException(
 							"Literal elimination for equivalence has not been implemented.",
@@ -110,6 +111,7 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitGroup(GroupNode node) {
+			// A call shouldn't occur during normal operation but throw an exception just in case:
 			throw new TunneledLiteralEliminationException(
 					new LiteralEliminationException(
 							"Literal elimination for groups has not been implemented.",
@@ -122,6 +124,7 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitImplication(ImplicationNode node) {
+			// A call shouldn't occur during normal operation but throw an exception just in case:
 			throw new TunneledLiteralEliminationException(
 					new LiteralEliminationException(
 							"Literal elimination for implication has not been implemented.",
@@ -134,6 +137,7 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitUniversalQuantification(UniversalQuantificationNode node) {
+			// A call shouldn't occur during normal operation but throw an exception just in case:
 			throw new TunneledLiteralEliminationException(
 					new LiteralEliminationException(
 							"Literal elimination for quantification has not been implemented.",
@@ -146,6 +150,7 @@ public class LiteralEliminator {
 
 		@Override
 		public Void visitExistentialQuantification(ExistentialQuantificationNode node) {
+			// A call shouldn't occur during normal operation but throw an exception just in case:
 			throw new TunneledLiteralEliminationException(
 					new LiteralEliminationException(
 							"Literal elimination for quantification has not been implemented.",

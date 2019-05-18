@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language;
 
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.AbsSTGenerator;
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.GenerationException;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.AbsSTGenerator;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.GenerationException;
 import ee.taltech.cs.mbt.tdl.commons.utils.operations.IOperation;
 import ee.taltech.cs.mbt.tdl.commons.utils.operations.OperationQueue;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.serialization.language.GenerationQueue.GenerationOperation;

@@ -1,12 +1,12 @@
 package ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_parser.antlr.converter;
 
 import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.ItemContext;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.SequenceItemContext;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.StringItemContext;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.AbsSExpressionNode;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionStringNode;
+import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageBaseVisitor;
 
 public class ItemConverter extends SExpressionLanguageBaseVisitor<AbsSExpressionNode>
 		implements IParseTreeConverter<AbsSExpressionNode, ItemContext> {

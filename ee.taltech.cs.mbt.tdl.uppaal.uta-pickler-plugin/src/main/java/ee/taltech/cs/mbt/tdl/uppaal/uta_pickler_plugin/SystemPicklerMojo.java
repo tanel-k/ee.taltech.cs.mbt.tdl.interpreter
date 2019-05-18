@@ -2,7 +2,7 @@ package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin;
 
 import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.GenerationException;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.GenerationException;
 import ee.taltech.cs.mbt.tdl.commons.utils.files.FileUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;

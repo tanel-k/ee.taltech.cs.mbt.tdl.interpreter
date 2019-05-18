@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StringUtils {
 	public static boolean isEmpty(String str) {
@@ -69,8 +67,8 @@ public class StringUtils {
 		return buf.toString();
 	}
 
-	public static LineIterator lineExtractor(String str) {
-		return LineIterator.forString(str);
+	public static StringLineIterator lineExtractor(String str) {
+		return StringLineIterator.newInstance(str);
 	}
 
 	public static boolean equalsIgnoreCase(String a, String b) {

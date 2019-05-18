@@ -1,7 +1,7 @@
 package ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.st_generator.extractors;
 
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.ContextBuilder;
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.IContextExtractor;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.context_mapping.IContextExtractor;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.SExpressionStringUtils;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.SExpression;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.ISExpressionVisitor;
@@ -38,7 +38,6 @@ public class SExpressionContextExtractor implements IContextExtractor<SExpressio
 		String str = node.getString();
 		if (SExpressionStringUtils.shouldDelimit(str)) {
 			str = SExpressionStringUtils.escape(str);
-			str = SExpressionStringUtils.delimit(str);
 			return ContextBuilder.newBuilder()
 					.put("delimited", true)
 					.put("str", str);

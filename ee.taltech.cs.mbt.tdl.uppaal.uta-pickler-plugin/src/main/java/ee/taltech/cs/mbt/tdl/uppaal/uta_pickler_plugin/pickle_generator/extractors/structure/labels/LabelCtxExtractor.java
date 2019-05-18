@@ -1,8 +1,8 @@
 package ee.taltech.cs.mbt.tdl.uppaal.uta_pickler_plugin.pickle_generator.extractors.structure.labels;
 
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.context_mapping.ContextBuilder;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.context_mapping.ContextBuilder;
 import ee.taltech.cs.mbt.tdl.commons.utils.collections.CollectionUtils;
-import ee.taltech.cs.mbt.tdl.commons.utils.strings.LineIterator;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.StringLineIterator;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.AbsUtaLabel;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.labels.ILabelVisitor;
@@ -54,7 +54,7 @@ public class LabelCtxExtractor implements IPicklerContextExtractor<AbsUtaLabel<?
 	public ContextBuilder visitComment(CommentLabel label) {
 		requiredClasses.add(label.getClass());
 		List<String> textLines = new LinkedList<>();
-		for (String line : LineIterator.forString(label.getContent())) {
+		for (String line : StringLineIterator.newInstance(label.getContent())) {
 			line = line.replace("\"", "\\\"");
 			textLines.add(line);
 		}

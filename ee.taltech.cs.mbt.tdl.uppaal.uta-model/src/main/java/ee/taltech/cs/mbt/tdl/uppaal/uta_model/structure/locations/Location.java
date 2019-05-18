@@ -51,7 +51,7 @@ public class Location implements IPositionable, IColorable, IDeepCloneable<Locat
 	}
 
 	private String id;
-	private LocationName name;
+	private LocationName locationName;
 	private LocationLabels labels;
 	private ELocationExitPolicy exitPolicy = ELocationExitPolicy.NORMAL;
 	private Color color;
@@ -69,11 +69,11 @@ public class Location implements IPositionable, IColorable, IDeepCloneable<Locat
 	}
 
 	public LocationName getName() {
-		return name;
+		return locationName;
 	}
 
 	public Location setName(LocationName name) {
-		this.name = name;
+		this.locationName = name;
 		return this;
 	}
 
@@ -141,8 +141,8 @@ public class Location implements IPositionable, IColorable, IDeepCloneable<Locat
 		clone.id = id;
 		clone.coordinates = coordinates;
 		clone.exitPolicy = exitPolicy;
-		clone.name = name != null
-				? (new LocationName().setName(name.name).setCoordinates(name.coordinates))
+		clone.locationName = locationName != null
+				? (new LocationName().setName(locationName.name).setCoordinates(locationName.coordinates))
 				: null;
 		clone.labels = labels != null
 				? labels.deepClone()

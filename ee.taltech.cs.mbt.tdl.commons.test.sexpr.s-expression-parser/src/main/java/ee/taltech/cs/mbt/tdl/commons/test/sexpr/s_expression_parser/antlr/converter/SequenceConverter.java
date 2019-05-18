@@ -1,11 +1,11 @@
 package ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_parser.antlr.converter;
 
 import ee.taltech.cs.mbt.tdl.commons.facades.antlr_facade.converter.IParseTreeConverter;
-import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageBaseVisitor;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.EmptySequenceContext;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.NonEmptySequenceContext;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageParser.SequenceContext;
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionSequenceNode;
+import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_grammar.antlr_parser.SExpressionLanguageBaseVisitor;
 
 public class SequenceConverter extends SExpressionLanguageBaseVisitor<SExpressionSequenceNode>
 		implements IParseTreeConverter<SExpressionSequenceNode, SequenceContext> {

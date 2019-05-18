@@ -1,11 +1,11 @@
 package ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.listeners;
 
-import ee.taltech.cs.mbt.tdl.commons.facades.st_utils.generator.GenerationException;
+import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.GenerationException;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.TdlGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.ScenarioCompositionResults;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition.ScenarioSpecification;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioCompositionResults;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioSpecification;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.user_interface.user_interface_core.listeners.IProgressListener;
 

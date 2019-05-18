@@ -44,10 +44,10 @@ RIGHT_PAREN     : ')' ;
 LOP_UNIVERSAL_QUANTIFIER    : [Aa] ;
 LOP_EXISTENTIAL_QUANTIFIER  : [Ee] ;
 LOP_NEGATION                : '~' ;
-LOP_CONJUNCTION             : '&&' ;
-LOP_DISJUNCTION             : '||' ;
-LOP_IMPLICATION             : '-' BLANK* '>' ;
-LOP_EQUIVALENCE             : '<' BLANK* '-' BLANK* '>' ;
+LOP_CONJUNCTION             : '&' ;
+LOP_DISJUNCTION             : '|' ;
+LOP_IMPLICATION             : '=' BLANK* '>' ;
+LOP_EQUIVALENCE             : '<' BLANK* '=' BLANK* '>' ;
 LOP_LEADS_TO                : '~' BLANK* '>' ;
 LOP_REPETITION_COUNT        : '#' ;
 
