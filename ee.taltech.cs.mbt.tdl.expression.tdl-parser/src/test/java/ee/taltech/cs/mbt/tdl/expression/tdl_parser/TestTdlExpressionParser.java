@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 
-import java.io.IOException;
 import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 @DisplayName("TDL parser tests.")
 class TestTdlExpressionParser {
-	private final SExpressionGenerator exprGen = SExpressionGeneratorFactory
+	private final SExpressionGenerator sExprGen = SExpressionGeneratorFactory
 			.getInstance()
 			.getExpressionGenerator();
 
@@ -61,13 +60,13 @@ class TestTdlExpressionParser {
 		return () -> {
 			String expectedStr;
 			try {
-				expectedStr = exprGen.generate(expected);
+				expectedStr = sExprGen.generate(expected);
 			} catch (GenerationException ex) {
 				expectedStr = "ERROR";
 			}
 			String actualStr;
 			try {
-				actualStr = exprGen.generate(actual);
+				actualStr = sExprGen.generate(actual);
 			} catch (GenerationException e) {
 				actualStr = "ERROR";
 			}

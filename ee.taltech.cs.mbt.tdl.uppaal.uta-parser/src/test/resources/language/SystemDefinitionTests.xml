@@ -4,7 +4,7 @@
     <InputPipeline>
       <Step type="configuredTransform" />
       <Step type="transform"
-            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.SystemDefinitionToSExprTransformer"
+            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.SystemDefinitionToSExprTestTransformer"
       />
     </InputPipeline>
     <OutputPipeline>
@@ -14,9 +14,17 @@
     </OutputPipeline>
   </Configuration>
   <TestCases>
-    <TestCase name="???">
+    <TestCase name="Simple system line: one process">
       <ProvidedInput>system proc;</ProvidedInput>
-      <ExpectedOutput>()</ExpectedOutput>
+      <ExpectedOutput>(SYSDEF . ((DECLARATIONS . ()) . (EXPRESSIONS . ()) . (SYSLINE . ((GROUP . (proc))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple system line: two processes">
+      <ProvidedInput>system process1, process2;</ProvidedInput>
+      <ExpectedOutput>(SYSDEF . ((DECLARATIONS . ()) . (EXPRESSIONS . ()) . (SYSLINE . ((GROUP . (process1 . process2))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Simple system line: two process priority groups">
+      <ProvidedInput><![CDATA[system process1, process2 < process3, process4;]]></ProvidedInput>
+      <ExpectedOutput>(SYSDEF . ((DECLARATIONS . ()) . (EXPRESSIONS . ()) . (SYSLINE . ((GROUP . (process1 . process2)) . (GROUP . (process3 . process4))))))</ExpectedOutput>
     </TestCase>
   </TestCases>
 </TestPlan>

@@ -32,7 +32,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.gene
 
 import java.math.BigInteger;
 
-public class SToTdlExpressionTransformer implements ISimpleTransformer {
+public class SToTdlExpressionTestTransformer implements ISimpleTransformer {
 	private class TransformerVisitor implements ISExpressionVisitor<AbsExpressionNode> {
 		private static final int ORD_ZERO = 0;
 		private static final int ORD_ONE = 1;

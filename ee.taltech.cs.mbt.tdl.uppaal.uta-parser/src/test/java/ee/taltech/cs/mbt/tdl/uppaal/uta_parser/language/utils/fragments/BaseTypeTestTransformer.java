@@ -5,7 +5,7 @@ import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpres
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleTransformer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.BaseType;
 
-public class BaseTypeTransformer implements ISimpleTransformer {
+public class BaseTypeTestTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		BaseType baseType = (BaseType) in;
@@ -32,7 +32,7 @@ public class BaseTypeTransformer implements ISimpleTransformer {
 				.addChild(new SExpressionStringNode().setString("BASETYPE"))
 				.addChild(new SExpressionSequenceNode()
 						.addChild(new SExpressionStringNode().setString(prefix))
-						.addChild((SExpressionSequenceNode) new TypeIdTransformer().transform(baseType.getTypeId()))
+						.addChild((SExpressionSequenceNode) new TypeIdTestTransformer().transform(baseType.getTypeId()))
 				);
 	}
 }

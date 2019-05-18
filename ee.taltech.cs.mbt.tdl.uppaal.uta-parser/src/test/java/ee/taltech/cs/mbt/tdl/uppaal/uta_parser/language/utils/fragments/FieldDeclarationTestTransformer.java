@@ -8,19 +8,18 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.identifier.field.Fie
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.identifier.field.FieldDeclarationGroup;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.IFieldDeclarationVisitor;
 
-public class FieldDeclarationTransformer implements ISimpleTransformer {
+public class FieldDeclarationTestTransformer implements ISimpleTransformer {
 	private class TransformerVisitor implements IFieldDeclarationVisitor<SExpressionSequenceNode> {
 		@Override
 		public SExpressionSequenceNode visitFieldDeclaration(FieldDeclaration decl) {
 			return new SExpressionSequenceNode()
-					.addChild(new SExpressionStringNode().setString("FIELD"))
-					.addChild((SExpressionSequenceNode) new TypeTransformer().transform(decl.getType()))
+					.addChild((SExpressionSequenceNode) new TypeTestTransformer().transform(decl.getType()))
 					.addChild(new SExpressionStringNode().setString(decl.getIdentifier().toString()));
 		}
 
 		@Override
 		public SExpressionSequenceNode visitFieldDeclarationGroup(FieldDeclarationGroup decl) {
-			return (SExpressionSequenceNode) new BaseTypeExtensionTransformer().transform(decl);
+			return (SExpressionSequenceNode) new BaseTypeExtensionTestTransformer().transform(decl);
 		}
 	}
 

@@ -15,9 +15,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.ForLoop;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.IterationLoop;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.statement.loop.WhileLoop;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.IStatementVisitor;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.DeclarationListToSExprTransformer;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.DeclarationListToSExprTestTransformer;
 
-public class StatementTransformer implements ISimpleTransformer {
+public class StatementTestTransformer implements ISimpleTransformer {
 	private class TransformerVisitor implements IStatementVisitor<SExpressionSequenceNode> {
 		private SExpressionSequenceNode wrap(SExpressionSequenceNode seqNode) {
 			return new SExpressionSequenceNode()
@@ -29,7 +29,7 @@ public class StatementTransformer implements ISimpleTransformer {
 		public SExpressionSequenceNode visitReturnStatement(ReturnStatement stmt) {
 			SExpressionSequenceNode returnedExprSeq = null;
 			if (stmt.getExpression() != null) {
-				returnedExprSeq = (SExpressionSequenceNode) new ExpressionTransformer().transform(stmt.getExpression());
+				returnedExprSeq = (SExpressionSequenceNode) new ExpressionTestTransformer().transform(stmt.getExpression());
 			}
 			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("RETURNSTMT"))
@@ -45,7 +45,7 @@ public class StatementTransformer implements ISimpleTransformer {
 					.addChild(new SExpressionStringNode().setString("EXPRSTMT"))
 					.addChild(
 							new SExpressionSequenceNode()
-									.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(stmt.getExpression()))
+									.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(stmt.getExpression()))
 					));
 		}
 
@@ -62,7 +62,7 @@ public class StatementTransformer implements ISimpleTransformer {
 					.addChild(new SExpressionStringNode().setString("IFSTMT"))
 					.addChild(
 							new SExpressionSequenceNode()
-								.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(stmt.getCondition()))
+								.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(stmt.getCondition()))
 								.addChild(stmt.getPrimaryStatement().accept(this))
 								.addChild(stmt.getAlternativeStatement() != null
 										? stmt.getAlternativeStatement().accept(this)
@@ -80,7 +80,7 @@ public class StatementTransformer implements ISimpleTransformer {
 					.addChild(new SExpressionStringNode().setString("BLOCKSTMT"))
 					.addChild(
 							new SExpressionSequenceNode()
-									.addChild((SExpressionSequenceNode) new DeclarationListToSExprTransformer().transform(stmt.getDeclarations()))
+									.addChild((SExpressionSequenceNode) new DeclarationListToSExprTestTransformer().transform(stmt.getDeclarations()))
 									.addChild(stmtSeqNode)
 					));
 		}
@@ -91,7 +91,7 @@ public class StatementTransformer implements ISimpleTransformer {
 					.addChild(new SExpressionStringNode().setString("WHILESTMT"))
 					.addChild(
 							new SExpressionSequenceNode()
-									.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(stmt.getCondition()))
+									.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(stmt.getCondition()))
 									.addChild(stmt.getStatement().accept(this))
 					));
 		}
@@ -102,7 +102,7 @@ public class StatementTransformer implements ISimpleTransformer {
 					.addChild(new SExpressionStringNode().setString("DOWHILESTMT"))
 					.addChild(
 							new SExpressionSequenceNode()
-									.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(stmt.getCondition()))
+									.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(stmt.getCondition()))
 									.addChild(stmt.getStatement().accept(this))
 					));
 		}
@@ -113,9 +113,9 @@ public class StatementTransformer implements ISimpleTransformer {
 					.addChild(new SExpressionStringNode().setString("FORLOOPSTMT"))
 					.addChild(
 							new SExpressionSequenceNode()
-									.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(stmt.getInitializer()))
-									.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(stmt.getCondition()))
-									.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(stmt.getUpdate()))
+									.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(stmt.getInitializer()))
+									.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(stmt.getCondition()))
+									.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(stmt.getUpdate()))
 									.addChild(stmt.getStatement().accept(this))
 					));
 		}
@@ -127,7 +127,7 @@ public class StatementTransformer implements ISimpleTransformer {
 					.addChild(
 							new SExpressionSequenceNode()
 									.addChild(new SExpressionStringNode().setString(stmt.getLoopVariable().toString()))
-									.addChild((SExpressionSequenceNode) new BaseTypeTransformer().transform(stmt.getIteratedType()))
+									.addChild((SExpressionSequenceNode) new BaseTypeTestTransformer().transform(stmt.getIteratedType()))
 									.addChild(stmt.getStatement().accept(this))
 					));
 		}

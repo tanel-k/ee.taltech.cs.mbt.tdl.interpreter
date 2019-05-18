@@ -28,6 +28,9 @@ public abstract class AbsSTGenerator<T> {
 		return stRegistry;
 	}
 
+	protected void prepareContext(ContextBuilder ctx) { }
+	protected void prepareContext(Collection<ContextBuilder> ctxBuilders) { }
+
 	protected ContextBuilder extractContext(T inst) {
 		// Get context from provider if possible:
 		ContextBuilder providedCtx = ctxProvidingGenerator != null
@@ -71,6 +74,7 @@ public abstract class AbsSTGenerator<T> {
 			STFacade stFacade = STFacade.wrap(st);
 			ContextBuilder ctxBuilder =
 					(lastContext = extractContext(inst));
+			prepareContext(ctxBuilder);
 			stFacade.setRootContext(ctxBuilder);
 			return stFacade.render();
 		} catch (MissingSTException | InvalidSTFormatException ex) {
@@ -90,6 +94,7 @@ public abstract class AbsSTGenerator<T> {
 			STFacade stFacade = STFacade.wrap(st);
 			Collection<ContextBuilder> ctxBuilders =
 					(lastContextCollection = extractContext(instances));
+			prepareContext(ctxBuilders);
 			stFacade.setRootIterable(ctxBuilders);
 			return stFacade.render();
 		} catch (MissingSTException | InvalidSTFormatException ex) {

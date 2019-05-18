@@ -8,11 +8,11 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.init
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.initializer.StructuredVariableInitializer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.IInitializerVisitor;
 
-public class VariableInitializerTransformer implements ISimpleTransformer {
+public class VariableInitializerTestTransformer implements ISimpleTransformer {
 	private class TransformerVisitor implements IInitializerVisitor<SExpressionSequenceNode> {
 		@Override
 		public SExpressionSequenceNode visitFlatInitializer(FlatVariableInitializer init) {
-			return (SExpressionSequenceNode) new ExpressionTransformer().transform(init.getExpression());
+			return (SExpressionSequenceNode) new ExpressionTestTransformer().transform(init.getExpression());
 		}
 
 		@Override

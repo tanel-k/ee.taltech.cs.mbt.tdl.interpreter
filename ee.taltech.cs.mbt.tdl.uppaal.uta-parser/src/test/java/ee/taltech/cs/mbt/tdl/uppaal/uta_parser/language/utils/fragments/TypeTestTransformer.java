@@ -6,19 +6,19 @@ import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleT
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.array_modifier.AbsArrayModifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.Type;
 
-public class TypeTransformer implements ISimpleTransformer {
+public class TypeTestTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		Type type = (Type) in;
 		SExpressionSequenceNode arrayModifiers = new SExpressionSequenceNode();
 		for (AbsArrayModifier arrayModifier : type.getArrayModifiers()) {
-			arrayModifiers.addChild((SExpressionSequenceNode) new ArrayModifierTransformer().transform(arrayModifier));
+			arrayModifiers.addChild((SExpressionSequenceNode) new ArrayModifierTestTransformer().transform(arrayModifier));
 		}
 		return new SExpressionSequenceNode()
 				.addChild(new SExpressionStringNode().setString("TYPE"))
 				.addChild(new SExpressionSequenceNode()
 						.addChild(new SExpressionStringNode().setString(type.isReferenceType() ? "REF" : "NORM"))
-						.addChild((SExpressionSequenceNode) new BaseTypeTransformer().transform(type.getBaseType()))
+						.addChild((SExpressionSequenceNode) new BaseTypeTestTransformer().transform(type.getBaseType()))
 						.addChild(arrayModifiers)
 				);
 	}

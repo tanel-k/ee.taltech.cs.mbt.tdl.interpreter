@@ -4,7 +4,7 @@
     <InputPipeline>
       <Step type="configuredTransform" />
       <Step type="transform"
-            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.SelectionListToSExprTransformer"
+            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.SelectionListToSExprTestTransformer"
       />
     </InputPipeline>
     <OutputPipeline>
@@ -14,9 +14,13 @@
     </OutputPipeline>
   </Configuration>
   <TestCases>
-    <TestCase name="???">
+    <TestCase name="Selection: select from bounded integer type">
       <ProvidedInput>t : int[0, 1000]</ProvidedInput>
-      <ExpectedOutput>()</ExpectedOutput>
+      <ExpectedOutput>(SELECTION . ((SELECT . (t . (BASETYPE . (NOPREFIX . (TYPEID . (BOUNDEDINT . ((EXPR . (LITERAL . (0))) . (EXPR . (LITERAL . (1000))))))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Selection: select from custom type">
+      <ProvidedInput>t : RangeType</ProvidedInput>
+      <ExpectedOutput>(SELECTION . ((SELECT . (t . (BASETYPE . (NOPREFIX . (TYPEID . (CUSTOM . RangeType))))))))</ExpectedOutput>
     </TestCase>
   </TestCases>
 </TestPlan>

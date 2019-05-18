@@ -15,7 +15,7 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.identifier.StructTyp
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.identifier.field.AbsFieldDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.ITypeIdentifierVisitor;
 
-public class TypeIdTransformer implements ISimpleTransformer {
+public class TypeIdTestTransformer implements ISimpleTransformer {
 	private class TransformerVisitor implements ITypeIdentifierVisitor<SExpressionSequenceNode> {
 		private SExpressionSequenceNode wrap(SExpressionSequenceNode seqNode) {
 			return new SExpressionSequenceNode()
@@ -27,14 +27,11 @@ public class TypeIdTransformer implements ISimpleTransformer {
 		public SExpressionSequenceNode visitStructTypeIdentifier(StructTypeId id) {
 			SExpressionSequenceNode fieldDeclSeq = new SExpressionSequenceNode();
 			for (AbsFieldDeclaration fieldDeclaration : id.getFieldDeclarations()) {
-				fieldDeclSeq.addChild((SExpressionSequenceNode) new FieldDeclarationTransformer().transform(fieldDeclaration));
+				fieldDeclSeq.addChild((SExpressionSequenceNode) new FieldDeclarationTestTransformer().transform(fieldDeclaration));
 			}
 			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("STRUCT"))
-					.addChild(
-							new SExpressionSequenceNode()
-									.addChild(fieldDeclSeq)
-					)
+					.addChild(fieldDeclSeq)
 			);
 		}
 
@@ -43,7 +40,7 @@ public class TypeIdTransformer implements ISimpleTransformer {
 			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("SCALAR"))
 					.addChild(new SExpressionSequenceNode()
-							.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(id.getSizeExpression()))
+							.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(id.getSizeExpression()))
 					)
 			);
 		}
@@ -53,8 +50,8 @@ public class TypeIdTransformer implements ISimpleTransformer {
 			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("BOUNDEDINT"))
 					.addChild(new SExpressionSequenceNode()
-							.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(id.getMinimumBound()))
-							.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(id.getMaximumBound()))
+							.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(id.getMinimumBound()))
+							.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(id.getMaximumBound()))
 					)
 			);
 		}

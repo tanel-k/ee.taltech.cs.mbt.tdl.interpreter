@@ -4,7 +4,7 @@
     <InputPipeline>
       <Step type="configuredTransform" />
       <Step type="transform"
-            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.SynchronizationToSExprTransformer"
+            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.SynchronizationToSExprTestTransformer"
       />
     </InputPipeline>
     <OutputPipeline>
@@ -14,9 +14,21 @@
     </OutputPipeline>
   </Configuration>
   <TestCases>
-    <TestCase name="???">
+    <TestCase name="Channel variable synchronization: output">
       <ProvidedInput>out!</ProvidedInput>
-      <ExpectedOutput>()</ExpectedOutput>
+      <ExpectedOutput>(SYNCH . (OUTPUT . (EXPR . (ID . (out)))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Channel variable synchronization: input">
+      <ProvidedInput>in?</ProvidedInput>
+      <ExpectedOutput>(SYNCH . (INPUT . (EXPR . (ID . (in)))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Channel array synchronization: output">
+      <ProvidedInput>channelArray[0]!</ProvidedInput>
+      <ExpectedOutput>(SYNCH . (OUTPUT . (EXPR . ([] . ((EXPR . (ID . (channelArray))) . (EXPR . (LITERAL . (0))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Channel array synchronization: input">
+      <ProvidedInput>channelArray[0]?</ProvidedInput>
+      <ExpectedOutput>(SYNCH . (INPUT . (EXPR . ([] . ((EXPR . (ID . (channelArray))) . (EXPR . (LITERAL . (0))))))))</ExpectedOutput>
     </TestCase>
   </TestCases>
 </TestPlan>

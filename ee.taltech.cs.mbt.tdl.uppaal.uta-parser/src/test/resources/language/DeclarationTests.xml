@@ -4,7 +4,7 @@
     <InputPipeline>
       <Step type="configuredTransform" />
       <Step type="transform"
-            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.DeclarationListToSExprTransformer"
+            transformerClass="ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.DeclarationListToSExprTestTransformer"
       />
     </InputPipeline>
     <OutputPipeline>
@@ -14,9 +14,76 @@
     </OutputPipeline>
   </Configuration>
   <TestCases>
-    <TestCase name="???">
+    <TestCase name="Declaration: simple boolean variable">
       <ProvidedInput>bool flag;</ProvidedInput>
-      <ExpectedOutput>()</ExpectedOutput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (BOOLEAN)))) . ())) . flag . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: simple integer variable">
+      <ProvidedInput>int value;</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ())) . value . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: simple channel variable">
+      <ProvidedInput>chan ch;</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (CHANNEL)))) . ())) . ch . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: simple clock variable">
+      <ProvidedInput>clock ck;</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (CLOCK)))) . ())) . ck . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: boolean array">
+      <ProvidedInput>bool arr[2];</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (BOOLEAN)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (2)))))))) . arr . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: integer array">
+      <ProvidedInput>int value[4];</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (4)))))))) . value . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: channel array">
+      <ProvidedInput>chan channels[8];</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (CHANNEL)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (8)))))))) . channels . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: clock array">
+      <ProvidedInput>clock ck[16];</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (CLOCK)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (16)))))))) . ck . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: array of arrays">
+      <ProvidedInput>int matrix[3][3];</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (3))))) . (ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (3)))))))) . matrix . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: constant">
+      <ProvidedInput>const bool CONSTANT = 1;</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (CONSTANT . (TYPEID . (BOOLEAN)))) . ())) . CONSTANT . (INITR . (EXPR . (LITERAL . (1)))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: meta variable">
+      <ProvidedInput>meta int metaVar;</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (META . (TYPEID . (INT)))) . ())) . metaVar . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: bounded integer variable">
+      <ProvidedInput>int[0, 100] a = 5;</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (BOUNDEDINT . ((EXPR . (LITERAL . (0))) . (EXPR . (LITERAL . (100)))))))) . ())) . a . (INITR . (EXPR . (LITERAL . (5)))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: multi-dimensional integer array (initialized)">
+      <ProvidedInput>int a[2][3] = { { 1, 2, 3 }, { 4, 5, 6} };</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ((ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (2))))) . (ARRAYMODIFIER . (ARRSIZEEXPR . (EXPR . (LITERAL . (3)))))))) . a . (INITR . (((EXPR . (LITERAL . (1))) . (EXPR . (LITERAL . (2))) . (EXPR . (LITERAL . (3)))) . ((EXPR . (LITERAL . (4))) . (EXPR . (LITERAL . (5))) . (EXPR . (LITERAL . (6)))))))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: record">
+      <ProvidedInput>struct { int varOne; int varTwo; int varThree; } S;</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (STRUCT . ((FIELD . (((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ())) . varOne))) . (FIELD . (((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ())) . varTwo))) . (FIELD . (((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ())) . varThree)))))))) . ())) . S . ())))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: multiple variables">
+      <ProvidedInput>clock x, y;</ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (VARDECLGROUP . (BASETYPEEXT . (((BASETYPE . (NOPREFIX . (TYPEID . (CLOCK))))) . ((x . ()) . (y . ())) . (x . ())))))))</ExpectedOutput>
+    </TestCase>
+    <TestCase name="Declaration: record type">
+      <ProvidedInput>
+        <![CDATA[
+          typedef struct {
+            boolean flag;
+            int counter;
+          } StructuredType;
+        ]]>
+      </ProvidedInput>
+      <ExpectedOutput>(DECLARATIONS . ((DECL . (TYPEDECL . ((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (STRUCT . ((FIELD . (((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (CUSTOM . boolean)))) . ())) . flag))) . (FIELD . (((TYPE . (NORM . (BASETYPE . (NOPREFIX . (TYPEID . (INT)))) . ())) . counter)))))))) . ())) . StructuredType)))))</ExpectedOutput>
     </TestCase>
   </TestCases>
 </TestPlan>

@@ -7,17 +7,17 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.BaseTypeExtensionMap
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.BaseTypeExtensionMap.BaseTypeExtension;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.array_modifier.AbsArrayModifier;
 
-public class BaseTypeExtensionTransformer implements ISimpleTransformer {
+public class BaseTypeExtensionTestTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		BaseTypeExtensionMap extensionMap = (BaseTypeExtensionMap) in;
-		SExpressionSequenceNode sequenceNode = new SExpressionSequenceNode()
-				.addChild((SExpressionSequenceNode) new BaseTypeTransformer().transform(extensionMap.getBaseType()));
+		SExpressionSequenceNode baseTypeNode = new SExpressionSequenceNode()
+				.addChild((SExpressionSequenceNode) new BaseTypeTestTransformer().transform(extensionMap.getBaseType()));
 		SExpressionSequenceNode extensions = new SExpressionSequenceNode();
 		for (BaseTypeExtension baseTypeExtension : extensionMap.collectionView()) {
 			SExpressionSequenceNode arrayModifiers = new SExpressionSequenceNode();
 			for (AbsArrayModifier arrayModifier : baseTypeExtension.getArrayModifiers()) {
-				arrayModifiers.addChild((SExpressionSequenceNode) new ArrayModifierTransformer().transform(arrayModifier));
+				arrayModifiers.addChild((SExpressionSequenceNode) new ArrayModifierTestTransformer().transform(arrayModifier));
 			}
 			extensions.addChild(
 					new SExpressionSequenceNode()
@@ -25,8 +25,9 @@ public class BaseTypeExtensionTransformer implements ISimpleTransformer {
 							.addChild(arrayModifiers)
 			);
 		}
-		return new SExpressionSequenceNode()
-				.addChild(new SExpressionStringNode().setString("BASETYPEEXT"))
-				.addChild(sequenceNode);
+		return new SExpressionSequenceNode().addChild(new SExpressionStringNode().setString("BASETYPEEXT"))
+				.addChild(new SExpressionSequenceNode().addChild(baseTypeNode)
+				.addChild(extensions)
+		);
 	}
 }

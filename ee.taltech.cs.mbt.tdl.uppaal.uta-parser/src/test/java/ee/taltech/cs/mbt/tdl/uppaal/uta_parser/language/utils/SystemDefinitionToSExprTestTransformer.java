@@ -8,21 +8,26 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.system.system_line.ProcessReferenceGroup;
 
-public class SystemDefinitionToSExprTransformer implements ISimpleTransformer {
+public class SystemDefinitionToSExprTestTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		SystemDefinition systemDefinition = (SystemDefinition) in;
 		SExpressionSequenceNode systemLineSeq = new SExpressionSequenceNode();
 		for (ProcessReferenceGroup group : systemDefinition.getSystemLine()) {
+			SExpressionSequenceNode groupNode = new SExpressionSequenceNode()
+					.addChild(new SExpressionStringNode().setString("GROUP"));
+			SExpressionSequenceNode groupSeq = new SExpressionSequenceNode();
+			groupNode.addChild(groupSeq);
 			for (Identifier identifier : group) {
-				systemLineSeq.addChild(new SExpressionStringNode().setString(identifier.toString()));
+				groupSeq.addChild(new SExpressionStringNode().setString(identifier.toString()));
 			}
+			systemLineSeq.addChild(groupNode);
 		}
 		return new SExpression().setRoot(new SExpressionSequenceNode()
 				.addChild(new SExpressionStringNode().setString("SYSDEF"))
 				.addChild(new SExpressionSequenceNode()
-						.addChild((SExpression) new DeclarationListToSExprTransformer().transform(systemDefinition.getDeclarations()))
-						.addChild((SExpression) new ExpressionListToSExprTransformer().transform(systemDefinition.getProgressMeasureExpressions()))
+						.addChild((SExpression) new DeclarationListToSExprTestTransformer().transform(systemDefinition.getDeclarations()))
+						.addChild((SExpression) new ExpressionListToSExprTestTransformer().transform(systemDefinition.getProgressMeasureExpressions()))
 						.addChild(new SExpressionSequenceNode()
 								.addChild(new SExpressionStringNode().setString("SYSLINE"))
 								.addChild(systemLineSeq)

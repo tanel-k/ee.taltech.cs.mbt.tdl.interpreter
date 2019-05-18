@@ -28,7 +28,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.ITdlExpressionVisitor;
 
-public class TdlToSExpressionTransformer implements ISimpleTransformer {
+public class TdlToSExpressionTestTransformer implements ISimpleTransformer {
 	private class MapperVisitor implements ITdlExpressionVisitor<AbsSExpressionNode> {
 		private SExpressionSequenceNode wrapIfNegated(SExpressionSequenceNode sequenceNode, AbsBooleanInternalNode booleanNode) {
 			if (booleanNode.isNegated()) {

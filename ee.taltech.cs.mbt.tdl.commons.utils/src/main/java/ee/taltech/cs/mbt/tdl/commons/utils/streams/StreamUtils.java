@@ -1,6 +1,8 @@
 package ee.taltech.cs.mbt.tdl.commons.utils.streams;
 
+import ee.taltech.cs.mbt.tdl.commons.utils.functions.IBinaryConsumer;
 import ee.taltech.cs.mbt.tdl.commons.utils.functions.ITernaryFunction;
+import ee.taltech.cs.mbt.tdl.commons.utils.functions.NoOpConsumer;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.IntUtils.IntGenerator;
 
 import java.util.Iterator;
@@ -37,5 +39,12 @@ public class StreamUtils {
 				}
 			}
 		}, false);
+	}
+
+	public static <A, B> void zipConsume(Stream<A> streamA, Stream<B> streamB, IBinaryConsumer<A, B> binaryConsumer) {
+		zipSequential(streamA, streamB, (a, b, i) -> {
+			binaryConsumer.accept(a, b);
+			return null;
+		}).forEach(NoOpConsumer.INSTANCE);
 	}
 }

@@ -4,7 +4,7 @@
     <InputPipeline>
       <Step type="configuredTransform" />
       <Step type="transform"
-        transformerClass="ee.taltech.cs.mbt.tdl.expression.tdl_parser.utils.TdlToSExpressionTransformer"
+        transformerClass="ee.taltech.cs.mbt.tdl.expression.tdl_parser.utils.TdlToSExpressionTestTransformer"
       />
     </InputPipeline>
     <OutputPipeline>

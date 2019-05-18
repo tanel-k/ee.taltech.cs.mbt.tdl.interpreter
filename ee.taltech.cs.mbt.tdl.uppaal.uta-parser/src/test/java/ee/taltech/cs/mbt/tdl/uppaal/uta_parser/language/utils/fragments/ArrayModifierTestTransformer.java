@@ -10,14 +10,14 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.misc.array_modifier.SizeT
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.type.BaseType;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.IArrayModifierVisitor;
 
-public class ArrayModifierTransformer implements ISimpleTransformer {
+public class ArrayModifierTestTransformer implements ISimpleTransformer {
 	private class TransformerVisitor implements IArrayModifierVisitor<SExpressionSequenceNode> {
 		@Override
 		public SExpressionSequenceNode visitSizeExpressionModifier(SizeExpressionArrayModifier modifier) {
 			AbsExpression expression = modifier.getSizeSpecifier();
 			return new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("ARRSIZEEXPR"))
-					.addChild(((SExpressionSequenceNode) new ExpressionTransformer().transform(expression)));
+					.addChild(((SExpressionSequenceNode) new ExpressionTestTransformer().transform(expression)));
 		}
 
 		@Override
@@ -25,7 +25,7 @@ public class ArrayModifierTransformer implements ISimpleTransformer {
 			BaseType baseType = modifier.getSizeSpecifier();
 			return new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("ARRSIZETYPE"))
-					.addChild(((SExpressionSequenceNode) new BaseTypeTransformer().transform(baseType)));
+					.addChild(((SExpressionSequenceNode) new BaseTypeTestTransformer().transform(baseType)));
 		}
 	}
 

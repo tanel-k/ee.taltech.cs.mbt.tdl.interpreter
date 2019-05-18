@@ -5,7 +5,7 @@ import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpres
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleTransformer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclaration;
 
-public class ParameterTransformer implements ISimpleTransformer {
+public class ParameterTestTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		ParameterDeclaration parameterDeclaration = (ParameterDeclaration) in;
@@ -13,7 +13,7 @@ public class ParameterTransformer implements ISimpleTransformer {
 				.addChild(new SExpressionStringNode().setString("PARAM"))
 				.addChild(new SExpressionSequenceNode()
 						.addChild(new SExpressionStringNode().setString(parameterDeclaration.getIdentifier().toString()))
-						.addChild((SExpressionSequenceNode) new TypeTransformer().transform(parameterDeclaration.getType()))
+						.addChild((SExpressionSequenceNode) new TypeTestTransformer().transform(parameterDeclaration.getType()))
 				);
 	}
 }

@@ -6,7 +6,7 @@
         transformerClass="ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.impl.StringToSExpressionTransformer"
       />
       <Step type="transform"
-        transformerClass="ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.utils.SToTdlExpressionTransformer"
+        transformerClass="ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.utils.SToTdlExpressionTestTransformer"
       />
       <Step type="configuredTransform" />
       <Step type="transform"

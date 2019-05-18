@@ -5,17 +5,17 @@ import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpres
 import ee.taltech.cs.mbt.tdl.commons.test.sexpr.s_expression_model.nodes.SExpressionStringNode;
 import ee.taltech.cs.mbt.tdl.commons.test.test_utils.test_plan.pipeline.ISimpleTransformer;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Synchronization;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.fragments.ExpressionTransformer;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.language.utils.fragments.ExpressionTestTransformer;
 
-public class SynchronizationToSExprTransformer implements ISimpleTransformer {
+public class SynchronizationToSExprTestTransformer implements ISimpleTransformer {
 	@Override
 	public Object transform(Object in) {
 		Synchronization synchronization = (Synchronization) in;
 		return new SExpression().setRoot(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("SYNCH"))
 					.addChild(new SExpressionSequenceNode()
-							.addChild(new SExpressionStringNode().setString(synchronization.isActiveSync() ? "INPUT" : "OUTPUT"))
-							.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(synchronization.getExpression()))
+							.addChild(new SExpressionStringNode().setString(synchronization.isActiveSync() ? "OUTPUT" : "INPUT"))
+							.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(synchronization.getExpression()))
 					)
 		);
 	}

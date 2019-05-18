@@ -14,11 +14,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclar
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.system.SystemDefinition;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Selection;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.template.Synchronization;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -26,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class UtaLanguageParserTests {
-	private final SExpressionGenerator exprGen = SExpressionGeneratorFactory
+	private final SExpressionGenerator sExprGen = SExpressionGeneratorFactory
 			.getInstance()
 			.getExpressionGenerator();
 
@@ -191,13 +189,13 @@ class UtaLanguageParserTests {
 		return () -> {
 			String expectedStr;
 			try {
-				expectedStr = exprGen.generate(expected);
+				expectedStr = sExprGen.generate(expected);
 			} catch (GenerationException ex) {
 				expectedStr = "ERROR";
 			}
 			String actualStr;
 			try {
-				actualStr = exprGen.generate(actual);
+				actualStr = sExprGen.generate(actual);
 			} catch (GenerationException e) {
 				actualStr = "ERROR";
 			}

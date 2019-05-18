@@ -25,7 +25,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.parameter.ParameterDeclar
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.IChannelReferenceVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.visitors.IDeclarationVisitor;
 
-public class DeclarationTransformer implements ISimpleTransformer {
+import java.util.stream.Stream;
+
+public class DeclarationTestTransformer implements ISimpleTransformer {
 	private class TransformerVisitor implements IDeclarationVisitor<SExpressionSequenceNode> {
 		private SExpressionSequenceNode wrap(SExpressionSequenceNode seqNode) {
 			return new SExpressionSequenceNode()
@@ -37,12 +39,12 @@ public class DeclarationTransformer implements ISimpleTransformer {
 		public SExpressionSequenceNode visitVariableDeclaration(VariableDeclaration decl) {
 			SExpressionSequenceNode initSeq = null;
 			if (decl.getInitializer() != null) {
-				initSeq = (SExpressionSequenceNode) new ExpressionTransformer().transform(decl.getInitializer());
+				initSeq = (SExpressionSequenceNode) new VariableInitializerTestTransformer().transform(decl.getInitializer());
 			}
 			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("VARDECL"))
 					.addChild(new SExpressionSequenceNode()
-							.addChild((SExpressionSequenceNode) new TypeTransformer().transform(decl.getType()))
+							.addChild((SExpressionSequenceNode) new TypeTestTransformer().transform(decl.getType()))
 							.addChild(new SExpressionStringNode().setString(decl.getIdentifier().toString()))
 							.addChild(ObjectUtils.defaultObject(initSeq, SExpressionSequenceNode::new))
 					)
@@ -54,7 +56,7 @@ public class DeclarationTransformer implements ISimpleTransformer {
 			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("TYPEDECL"))
 					.addChild(new SExpressionSequenceNode()
-							.addChild((SExpressionSequenceNode) new TypeTransformer().transform(decl.getType()))
+							.addChild((SExpressionSequenceNode) new TypeTestTransformer().transform(decl.getType()))
 							.addChild(new SExpressionStringNode().setString(decl.getIdentifier().toString()))
 					)
 			);
@@ -64,11 +66,11 @@ public class DeclarationTransformer implements ISimpleTransformer {
 		public SExpressionSequenceNode visitTemplateInstantiation(TemplateInstantiation decl) {
 			SExpressionSequenceNode arguments = new SExpressionSequenceNode();
 			for (AbsExpression argument : decl.getArguments()) {
-				arguments.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(argument));
+				arguments.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(argument));
 			}
 			SExpressionSequenceNode parameters = new SExpressionSequenceNode();
 			for (ParameterDeclaration parameter : decl.getParameters()) {
-				parameters.addChild((SExpressionSequenceNode) new ParameterTransformer().transform(parameter));
+				parameters.addChild((SExpressionSequenceNode) new ParameterTestTransformer().transform(parameter));
 			}
 			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("TEMPLATEINST"))
@@ -86,10 +88,10 @@ public class DeclarationTransformer implements ISimpleTransformer {
 		public SExpressionSequenceNode visitFunctionDeclaration(FunctionDeclaration decl) {
 			SExpressionSequenceNode parameters = new SExpressionSequenceNode();
 			for (ParameterDeclaration parameter : decl.getParameters()) {
-				parameters.addChild((SExpressionSequenceNode) new ParameterTransformer().transform(parameter));
+				parameters.addChild((SExpressionSequenceNode) new ParameterTestTransformer().transform(parameter));
 			}
 			AbsSExpressionNode type = (AbsSExpressionNode) (decl.getValueType() != null
-					? new BaseTypeTransformer().transform(decl.getValueType())
+					? new BaseTypeTestTransformer().transform(decl.getValueType())
 					: new SExpressionStringNode().setString("VOID"));
 			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("FUNCDECL"))
@@ -97,7 +99,7 @@ public class DeclarationTransformer implements ISimpleTransformer {
 							.addChild(type)
 							.addChild(new SExpressionStringNode().setString(decl.getName().toString()))
 							.addChild(parameters)
-							.addChild((SExpressionSequenceNode) new StatementTransformer().transform(decl.getStatementBlock()))
+							.addChild((SExpressionSequenceNode) new StatementTestTransformer().transform(decl.getStatementBlock()))
 					)
 			);
 		}
@@ -118,7 +120,7 @@ public class DeclarationTransformer implements ISimpleTransformer {
 						public AbsSExpressionNode visitChannelArrayLookup(ChannelArrayLookup ref) {
 							return wrap(new SExpressionSequenceNode()
 									.addChild(new SExpressionStringNode().setString("CHANARRLOOKUP"))
-									.addChild((SExpressionSequenceNode) new ExpressionTransformer().transform(ref))
+									.addChild((SExpressionSequenceNode) new ExpressionTestTransformer().transform(ref))
 							);
 						}
 
@@ -149,23 +151,24 @@ public class DeclarationTransformer implements ISimpleTransformer {
 
 		@Override
 		public SExpressionSequenceNode visitVariableDeclarationGroup(VariableDeclarationGroup decl) {
-			SExpressionSequenceNode typeExtensionSequence = (SExpressionSequenceNode) new BaseTypeExtensionTransformer()
+			SExpressionSequenceNode typeExtensionSequence = (SExpressionSequenceNode) new BaseTypeExtensionTestTransformer()
 					.transform(decl.getBaseTypeExtensionMap());
-			StreamUtils.zipSequential(
-					typeExtensionSequence.getChildren().stream(),
+			Stream<AbsSExpressionNode> typeExtStream = typeExtensionSequence.getChildren().stream();
+			StreamUtils.zipConsume(// Skip s-expression qualifier
+					typeExtensionSequence.getChildren().stream().sequential().skip(1),
 					decl.getBaseTypeExtensionMap().streamView(),
-					(node, typeExt, i) -> {
-						if (i == 0) // s-expression qualifier
-							return null;
+					(node, typeExt) -> {
 						SExpressionSequenceNode typeExtSeq = (SExpressionSequenceNode) node;
 						AbsVariableInitializer initializer = decl.getInitializerMap().get(typeExt.getIdentifier());
 						SExpressionSequenceNode initializerSeq = null;
 						if (initializer != null) {
-							initializerSeq = (SExpressionSequenceNode) new VariableInitializerTransformer()
+							initializerSeq = (SExpressionSequenceNode) new VariableInitializerTestTransformer()
 									.transform(initializer);
 						}
-						typeExtSeq.addChild(ObjectUtils.defaultObject(initializerSeq, SExpressionSequenceNode::new));
-						return null;
+						typeExtSeq.addChild(new SExpressionSequenceNode()
+								.addChild(new SExpressionStringNode().setString(typeExt.getIdentifier().toString()))
+								.addChild(ObjectUtils.defaultObject(initializerSeq, SExpressionSequenceNode::new))
+						);
 					}
 			);
 			return wrap(new SExpressionSequenceNode()
@@ -178,7 +181,7 @@ public class DeclarationTransformer implements ISimpleTransformer {
 		public SExpressionSequenceNode visitTypeDeclarationGroup(TypeDeclarationGroup decl) {
 			return wrap(new SExpressionSequenceNode()
 					.addChild(new SExpressionStringNode().setString("TYPEDECLGROUP"))
-					.addChild((SExpressionSequenceNode) new BaseTypeExtensionTransformer().transform(decl.getBaseTypeExtensionMap()))
+					.addChild((SExpressionSequenceNode) new BaseTypeExtensionTestTransformer().transform(decl.getBaseTypeExtensionMap()))
 			);
 		}
 	}
