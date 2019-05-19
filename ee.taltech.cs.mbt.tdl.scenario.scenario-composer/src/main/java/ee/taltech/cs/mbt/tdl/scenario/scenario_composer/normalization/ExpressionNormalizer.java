@@ -12,6 +12,7 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.ImplicationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.LeadsToNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
+import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.node.AbsExpressionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl.BoundedLeadsToNormalizer;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl.BoundedRepetitionNormalizer;
@@ -51,6 +52,14 @@ public class ExpressionNormalizer {
 			this.leafNodeStorage = valueWrapperStorage;
 		}
 
+		private Void visitChildren(AbsBooleanInternalNode prev, AbsBooleanInternalNode replacement) {
+			if (prev != replacement) {
+				return (Void) replacement.accept(this);
+			} else {
+				return visitChildren(replacement);
+			}
+		}
+
 		@Override
 		public Void visitValueWrapper(BooleanValueWrapperNode valueWrapper) {
 			leafNodeStorage.add(valueWrapper);
@@ -67,6 +76,7 @@ public class ExpressionNormalizer {
 		@Override
 		public Void visitConjunction(ConjunctionNode conjunction) {
 			return visitChildren(
+					conjunction,
 					ConjunctionNormalizer.getInstance()
 							.normalize(expression, conjunction)
 			);
@@ -75,6 +85,7 @@ public class ExpressionNormalizer {
 		@Override
 		public Void visitDisjunction(DisjunctionNode disjunction) {
 			return visitChildren(
+					disjunction,
 					DisjunctionNormalizer.getInstance()
 							.normalize(expression, disjunction)
 			);
@@ -83,6 +94,7 @@ public class ExpressionNormalizer {
 		@Override
 		public Void visitImplication(ImplicationNode implication) {
 			return visitChildren(
+					implication,
 					ImplicationNormalizer.getInstance()
 							.normalize(expression, implication)
 			);
@@ -91,6 +103,7 @@ public class ExpressionNormalizer {
 		@Override
 		public Void visitEquivalence(EquivalenceNode equivalence) {
 			return visitChildren(
+					equivalence,
 					EquivalenceNormalizer.getInstance()
 							.normalize(expression, equivalence)
 			);
@@ -99,6 +112,7 @@ public class ExpressionNormalizer {
 		@Override
 		public Void visitBoundedRepetition(BoundedRepetitionNode boundedRepetition) {
 			return visitChildren(
+					boundedRepetition,
 					BoundedRepetitionNormalizer.getInstance()
 							.normalize(expression, boundedRepetition)
 			);
@@ -108,6 +122,7 @@ public class ExpressionNormalizer {
 		public Void visitLeadsTo(LeadsToNode leadsTo) {
 			try {
 				return visitChildren(
+						leadsTo,
 						LeadsToNormalizer.getInstance()
 								.normalize(expression, leadsTo)
 				);
@@ -120,6 +135,7 @@ public class ExpressionNormalizer {
 		public Void visitBoundedLeadsTo(BoundedLeadsToNode boundedLeadsTo) {
 			try {
 				return visitChildren(
+						boundedLeadsTo,
 						BoundedLeadsToNormalizer.getInstance()
 								.normalize(expression, boundedLeadsTo)
 				);
