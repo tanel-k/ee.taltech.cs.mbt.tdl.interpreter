@@ -144,7 +144,7 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 						);
 					}
 
-					// The ingress transition needs to set the appropriate ingress flag to True.
+					// The ingress transition needs to set the appropriate ingress flag to True (flag = true).
 					ingressTransition.getLabels().getAssignmentsLabel().getContent().add(
 							new AssignmentExpression()
 									.setLeftChild(new ArrayLookupExpression()
@@ -191,6 +191,7 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 						}
 					}
 
+					// The egress transition needs to use the value of the flag (trap = flag).
 					AbsExpression lookupExpression = new ArrayLookupExpression()
 							.setLeftChild(IdentifierExpression.of(detail.getFlagArrayName()))
 							.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
@@ -215,7 +216,7 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 					}
 
 					transitionAssignments.add(assignmentExpression);
-					// Flag reset label:
+					// Flag reset label (flag = false):
 					transitionAssignments.add(new AssignmentExpression()
 							.setLeftChild(new ArrayLookupExpression()
 									.setLeftChild(IdentifierExpression.of(
