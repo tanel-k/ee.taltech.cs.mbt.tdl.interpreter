@@ -1,10 +1,10 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.LeadsToNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.AbsNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.NormalizationException;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.AbsNormalizer;
 
 public class LeadsToNormalizer extends AbsNormalizer<LeadsToNode> {
 	public static LeadsToNormalizer getInstance() {

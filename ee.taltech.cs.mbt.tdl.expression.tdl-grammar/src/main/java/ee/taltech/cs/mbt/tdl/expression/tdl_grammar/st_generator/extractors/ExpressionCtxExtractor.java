@@ -79,7 +79,8 @@ public class ExpressionCtxExtractor implements IContextExtractor<TdlExpression>,
 	> ContextBuilder visitUnaryBooleanNode(String name, T nodeInst) {
 		ContextBuilder builder = ContextBuilder.newBuilder(name)
 				.put("booleanNode", true)
-				.put("negated", nodeInst.isNegated())
+				.put("unary", true)
+				.put("negatedOperator", nodeInst.isNegated())
 				.put("child", nodeInst.getChildContainer().getChild().accept(this));
 		if (nodeInst instanceof IBounded) {
 			Bound bound = ((IBounded) nodeInst).getBound();
@@ -94,7 +95,8 @@ public class ExpressionCtxExtractor implements IContextExtractor<TdlExpression>,
 	> ContextBuilder visitBinaryBooleanNode(String name, T nodeInst) {
 		ContextBuilder builder = ContextBuilder.newBuilder(name)
 				.put("booleanNode", true)
-				.put("negated", nodeInst.isNegated())
+				.put("binary", true)
+				.put("negatedOperator", nodeInst.isNegated())
 				.put("leftChild", nodeInst.getChildContainer().getLeftChild().accept(this))
 				.put("rightChild", nodeInst.getChildContainer().getRightChild().accept(this));
 		if (nodeInst instanceof IBounded) {
@@ -109,7 +111,7 @@ public class ExpressionCtxExtractor implements IContextExtractor<TdlExpression>,
 	> ContextBuilder visitTrapsetQuantifier(String name, T nodeInst) {
 		return ContextBuilder.newBuilder(name)
 				.put("trapsetQuantifier", true)
-				.put("negated", nodeInst.isNegated())
+				.put("negatedLeaf", nodeInst.isNegated())
 				.put("domain", nodeInst.getChildContainer().getChild().accept(this));
 	}
 

@@ -21,8 +21,8 @@
   </Configuration>
   <TestCases>
     <TestCase name="Trapset ids">
-      <ProvidedInput>("||" . (("E" . ("TS1234")) . ("E" . ("TS0123"))))</ProvidedInput>
-      <ExpectedOutput>E(TS1234) || E(TS0123)</ExpectedOutput>
+      <ProvidedInput>("|" . (("E" . ("TS1234")) . ("E" . ("TS0123"))))</ProvidedInput>
+      <ExpectedOutput>E(TS1234) | E(TS0123)</ExpectedOutput>
     </TestCase>
     <TestCase name="Universal trapset quantification">
       <ProvidedInput>("A" . ("TS"))</ProvidedInput>
@@ -54,11 +54,11 @@
     </TestCase>
     <TestCase name="Conjunction">
       <ProvidedInput>
-        <![CDATA[("&&" . (
+        <![CDATA[("&" . (
           ("E" . ("TS1")) . ("A" . ("TS2"))
         ))]]>
       </ProvidedInput>
-      <ExpectedOutput><![CDATA[E(TS1) && A(TS2)]]></ExpectedOutput>
+      <ExpectedOutput><![CDATA[E(TS1) & A(TS2)]]></ExpectedOutput>
     </TestCase>
     <TestCase name="Negated conjunction">
       <ProvidedInput>
@@ -68,21 +68,21 @@
             (
               "\(\)" .
               (
-                "&&" . (("E" . ("TS1")) . ("A" . ("TS2")))
+                "&" . (("E" . ("TS1")) . ("A" . ("TS2")))
               )
             )
           )
         ]]>
       </ProvidedInput>
-      <ExpectedOutput><![CDATA[~(E(TS1) && A(TS2))]]></ExpectedOutput>
+      <ExpectedOutput><![CDATA[~(E(TS1) & A(TS2))]]></ExpectedOutput>
     </TestCase>
     <TestCase name="Disjunction">
       <ProvidedInput>
-        ("||" . (
+        ("|" . (
         ("E" . ("TS1")) . ("A" . ("TS2"))
         ))
       </ProvidedInput>
-      <ExpectedOutput>E(TS1) || A(TS2)</ExpectedOutput>
+      <ExpectedOutput>E(TS1) | A(TS2)</ExpectedOutput>
     </TestCase>
     <TestCase name="Negated disjunction">
       <ProvidedInput>
@@ -92,13 +92,13 @@
             (
               "\(\)" .
               (
-                "||" . (("E" . ("TS1")) . ("A" . ("TS2")))
+                "|" . (("E" . ("TS1")) . ("A" . ("TS2")))
               )
             )
           )
         ]]>
       </ProvidedInput>
-      <ExpectedOutput><![CDATA[~(E(TS1) || A(TS2))]]></ExpectedOutput>
+      <ExpectedOutput><![CDATA[~(E(TS1) | A(TS2))]]></ExpectedOutput>
     </TestCase>
     <TestCase name="Implication">
       <ProvidedInput>
@@ -419,11 +419,11 @@
           (
             "\(\)".
             (
-              "&&".
+              "&".
               (
                 ("\(\)".("~>".(("E".("TS")).("E".("TS")))))
                 .
-                ("\(\)".("||".(("A".("TS")).("A".("TS")))))
+                ("\(\)".("|".(("A".("TS")).("A".("TS")))))
               )
             )
           )
@@ -432,8 +432,8 @@
       <ExpectedOutput>
         <![CDATA[
           (
-            (E(TS) ~> E(TS)) &&
-            (A(TS) || A(TS))
+            (E(TS) ~> E(TS)) &
+            (A(TS) | A(TS))
           )
         ]]>
       </ExpectedOutput>

@@ -5,8 +5,8 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.BooleanValueWrapperNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.ExpressionNormalizer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.ExpressionNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.NormalizationException;
 
 import java.util.Deque;
 

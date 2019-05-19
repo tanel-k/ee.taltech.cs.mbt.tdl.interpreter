@@ -85,6 +85,7 @@ public class TdlInterpreterCLI {
 		);
 		PrintingProgressListener progressListener = new PrintingProgressListener(
 				verbose ? out : null,
+				err,
 				completionFlag
 		);
 
@@ -132,6 +133,12 @@ public class TdlInterpreterCLI {
 		}
 
 		if (outputFile != null && completionFlag.isSet() && optUppaalJARFile.isPresent()) {
+			/*
+			 * Note:
+			 * UPPAAL will generate a file named 'license.txt' some where near the working directory.
+			 * This happens after it launches.
+			 * Fixing this (tiny) issue is out of scope.
+			 */
 			File uppaalJARFile = optUppaalJARFile.get();
 			try {
 				String command = String.format(

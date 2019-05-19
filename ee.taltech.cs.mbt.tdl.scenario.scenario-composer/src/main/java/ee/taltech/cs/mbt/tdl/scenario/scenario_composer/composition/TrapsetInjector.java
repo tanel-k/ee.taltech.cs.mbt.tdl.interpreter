@@ -2,20 +2,23 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.base.BaseTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation.TrapsetImplementationDetail;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.IEvaluatedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.AbsoluteComplementTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.LinkedPairsTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.RelativeComplementTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.WrappedTrapsetEvaluation;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation.TrapsetImplementationDetail;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.IEvaluatedTrapsetVisitor;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.utils.UTAExpressionUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.VariableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.ArrayLookupExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.AssignmentExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.ConjunctionExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.GroupedExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.IdentifierExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.TernaryExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.literal.LiteralConsts;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.literal.NaturalNumberLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
@@ -44,6 +47,24 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 	TrapsetInjector(UtaSystem sutModel, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
 		this.targetSystem = sutModel;
 		this.transitionSynchHooksMap = transitionSynchHooksMap;
+	}
+
+	private AbsExpression newLinkedPairEgressTrap(
+			int trapIdx,
+			AbsExpression lookupExpression,
+			TrapsetImplementationDetail detail,
+			Map<TrapsetImplementationDetail, Identifier> mapFlagArrayNames
+	) {
+		return new GroupedExpression().setChild(new TernaryExpression()
+				.setLeftChild(lookupExpression)
+				.setMiddleChild(LiteralConsts.TRUE)
+				.setRightChild(new ArrayLookupExpression()
+						.setLeftChild(IdentifierExpression.of(mapFlagArrayNames.get(detail)))
+						.setRightChild(
+								NaturalNumberLiteral.of(trapIdx)
+						)
+				)
+		);
 	}
 
 	public void inject(AbsTrapsetEvaluation trapset) {
@@ -124,7 +145,7 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 						);
 					}
 
-					// The ingress transition needs to set the appropriate ingress flag to True.
+					// The ingress transition needs to set the appropriate ingress flag to True (flag = true).
 					ingressTransition.getLabels().getAssignmentsLabel().getContent().add(
 							new AssignmentExpression()
 									.setLeftChild(new ArrayLookupExpression()
@@ -142,6 +163,8 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 					// Unrelated transitions departing from the target of the ingress transition should reset the ingress flag:
 					Location ingressTargetLocation = templateGraph.getTargetVertex(ingressTransition);
 					for (Transition egressTransition : templateGraph.getEdgesFrom(ingressTargetLocation)) {
+						if (egressTransition == ingressTransition) // Loop corner case.
+							continue;
 						if (egressTransition != trappedEgressTransition) {
 							if (egressTransition.getLabels() == null)
 								egressTransition.setLabels(new TransitionLabels());
@@ -169,6 +192,7 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 						}
 					}
 
+					// The egress transition needs to use the value of the flag (trap = flag).
 					AbsExpression lookupExpression = new ArrayLookupExpression()
 							.setLeftChild(IdentifierExpression.of(detail.getFlagArrayName()))
 							.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
@@ -176,30 +200,24 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 					AssignmentExpression assignmentExpression = trapset
 							.getMarkerAssignment(trappedEgressTransition).deepClone();
 					assignmentExpression.setLeftChild(lookupExpression);
+					// Create assignment label for egress transition:
 					if (LiteralConsts.TRUE.equals(assignmentExpression.getRightChild())) {
-						assignmentExpression.setRightChild(new ArrayLookupExpression()
-								.setLeftChild(IdentifierExpression.of(
-										mapFlagArrayNames.get(detail)
-								))
-								.setRightChild(
-										NaturalNumberLiteral.of(trapIdx)
-								)
+						// Simple:
+						assignmentExpression.setRightChild(
+								newLinkedPairEgressTrap(trapIdx, lookupExpression, detail, mapFlagArrayNames)
 						);
 					} else {
+						// Possible conditional trap:
 						assignmentExpression.setRightChild(new ConjunctionExpression()
-								.setLeftChild(new ArrayLookupExpression()
-										.setLeftChild(IdentifierExpression.of(
-												mapFlagArrayNames.get(detail)
-										))
-										.setRightChild(
-												NaturalNumberLiteral.of(trapIdx)
-										)
+								.setLeftChild(UTAExpressionUtils.wrapInGroup(assignmentExpression.getRightChild()))
+								.setRightChild(
+										newLinkedPairEgressTrap(trapIdx, lookupExpression, detail, mapFlagArrayNames)
 								)
-								.setRightChild(assignmentExpression.getRightChild())
 						);
 					}
 
 					transitionAssignments.add(assignmentExpression);
+					// Flag reset label (flag = false):
 					transitionAssignments.add(new AssignmentExpression()
 							.setLeftChild(new ArrayLookupExpression()
 									.setLeftChild(IdentifierExpression.of(

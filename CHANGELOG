@@ -85,3 +85,11 @@ All notable changes to this project will be documented in this file.
 - #67: (out of scope) Fixed TDL grammar (match original BNF more closely).
 - #67: (out of scope) Changed package structure for general facade modules.
 - #67: (out of scope) Changed package structure in scenario composer.
+- #70: Fixed ClassCastException issue in BaseBooleanNodeVisitor|ExpressionNormalizer.
+- #70: Generated TDL(TP) code should match TDL(TP) grammar.
+- #70: Fixed logic error in time bounded leads to recognizer template.
+- #70: Display warning when expression has been fully reduced.
+- #70: Fixed several issues related to extracting and evaluating linked trapsets.
+- #70: Fixed logic error in TdlExpression.replaceDescendant().
+- #70: Fixed semantics of linked pairs - value should be retained in trapset when trap has been visited.
+- #70: Auto-group negated subexpressions when presenting reduction results to user.

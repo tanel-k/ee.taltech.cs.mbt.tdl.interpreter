@@ -36,10 +36,11 @@ public class BaseBooleanNodeVisitor<T> implements IBooleanNodeVisitor<T> {
 			O extends AbsInternalNode<C, ? extends ChildContainer<C>>
 			> T visitChildren(T previousResult, O expr) {
 		for (AbsExpressionNode childExpr : expr.getChildContainer().getListView()) {
-			previousResult = mergeResults(
-					previousResult,
-					((AbsBooleanInternalNode<?, ?>) childExpr).accept(this)
-			);
+			if (AbsBooleanInternalNode.class.isAssignableFrom(childExpr.getClass()))
+				previousResult = mergeResults(
+						previousResult,
+						((AbsBooleanInternalNode<?, ?>) childExpr).accept(this)
+				);
 		}
 		return previousResult;
 	}

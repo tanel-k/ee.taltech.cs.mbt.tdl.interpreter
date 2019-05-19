@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioComposer;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioCompositionResults;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioSpecification;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.NormalizationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.extraction.BaseTrapsetsExtractor.BaseTrapsetDefinitionException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
@@ -54,6 +54,7 @@ public class TdlInterpreterUI {
 	}
 
 	public void interpret(InputStream sutModelStream, InputStream expressionStream, OutputStream outStream) {
+		// In the future, consider modeling this as a pipeline.
 		try {
 			TdlExpression expression;
 			try {
@@ -106,7 +107,7 @@ public class TdlInterpreterUI {
 			Optional<UtaSystem> optScenarioSystem = results.getScenarioSystem();
 			if (!optScenarioSystem.isPresent()) {
 				// This means there was nothing to generate the scenario from (trivial TDL expr).
-				progressListener.onFullReduction(spec.getTdlExpression());
+				progressListener.onFullReduction(results.getExpression());
 				return;
 			}
 

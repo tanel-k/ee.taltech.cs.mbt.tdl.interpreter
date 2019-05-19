@@ -6,7 +6,7 @@ import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.GenerationExcep
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.TdlGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.NormalizationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.extraction.BaseTrapsetsExtractor.BaseTrapsetDefinitionException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.parsing.language.EmbeddedCodeSyntaxException;

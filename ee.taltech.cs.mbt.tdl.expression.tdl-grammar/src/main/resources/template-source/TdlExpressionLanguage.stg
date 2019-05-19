@@ -1,11 +1,13 @@
 expression(ctx) ::= <%
-    <if(ctx.negated)>~<endif>
+    <if(ctx.negatedLeaf || (ctx.negatedOperator && ctx.unary))>~<endif>
+    <if(ctx.negatedOperator && !ctx.unary)>~(<endif>
+
     <if(ctx.group)>
         (<expression(ctx.child)>)
     <elseif(ctx.conjunction)>
-        <expression(ctx.leftChild)> && <expression(ctx.rightChild)>
+        <expression(ctx.leftChild)> & <expression(ctx.rightChild)>
     <elseif(ctx.disjunction)>
-        <expression(ctx.leftChild)> || <expression(ctx.rightChild)>
+        <expression(ctx.leftChild)> | <expression(ctx.rightChild)>
     <elseif(ctx.equivalence)>
         <expression(ctx.leftChild)> \<=> <expression(ctx.rightChild)>
     <elseif(ctx.implication)>
@@ -21,6 +23,8 @@ expression(ctx) ::= <%
     <elseif(ctx.trapsetQuantifier)>
         <trapsetQuantifier(ctx)>
     <endif>
+
+    <if(ctx.negatedOperator && !ctx.unary)>)<endif>
 %>
 
 trapsetQuantifier(ctx) ::= <%

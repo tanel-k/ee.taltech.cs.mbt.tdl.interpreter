@@ -63,6 +63,8 @@ public class LinkedPairsEvaluator extends AbsTrapsetExpressionEvaluator<LinkedPa
 
 			// Check edges leaving the target of the ingress transition:
 			for (Transition egressTransition : egressTransitionCandidates) {
+				if (egressTransition == ingressTransition)
+					continue; // Loop corner-case.
 				if (!egressTrapset.contains(egressTransition))
 					continue;
 
