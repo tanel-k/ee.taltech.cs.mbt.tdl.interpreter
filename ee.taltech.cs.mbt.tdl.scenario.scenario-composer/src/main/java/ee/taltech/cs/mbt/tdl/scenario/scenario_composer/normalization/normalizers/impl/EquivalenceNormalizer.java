@@ -20,9 +20,10 @@ public class EquivalenceNormalizer extends AbsNormalizer<EquivalenceNode> {
 	public AbsBooleanInternalNode normalize(TdlExpression expression, EquivalenceNode equivalence) {
 		// X <-> Y normalizes to X -> && Y -> X.
 		ImplicationNode implyLeftToRight = new ImplicationNode();
+
 		implyLeftToRight.getChildContainer()
-				.setLeftChild(equivalence.getChildContainer().getLeftChild())
-				.setRightChild(equivalence.getChildContainer().getRightChild());
+				.setLeftChild(equivalence.getChildContainer().getLeftChild().deepClone())
+				.setRightChild(equivalence.getChildContainer().getRightChild().deepClone());
 
 		ImplicationNode implyRightToLeft = new ImplicationNode();
 		implyRightToLeft.getChildContainer()
@@ -36,6 +37,7 @@ public class EquivalenceNormalizer extends AbsNormalizer<EquivalenceNode> {
 				.setRightChild(implyRightToLeft);
 
 		expression.replaceDescendant(equivalence, conjunction);
+
 		return ConjunctionNormalizer.getInstance()
 				.normalize(expression, conjunction);
 	}
