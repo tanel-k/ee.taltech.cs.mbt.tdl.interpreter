@@ -2,13 +2,13 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.composition;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.data_structures.DirectedMultigraph;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.base.BaseTrapset;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation.TrapsetImplementationDetail;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.IEvaluatedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.AbsoluteComplementTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.LinkedPairsTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.RelativeComplementTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.WrappedTrapsetEvaluation;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation.TrapsetImplementationDetail;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.IEvaluatedTrapsetVisitor;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.VariableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExpression;
@@ -142,6 +142,8 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 					// Unrelated transitions departing from the target of the ingress transition should reset the ingress flag:
 					Location ingressTargetLocation = templateGraph.getTargetVertex(ingressTransition);
 					for (Transition egressTransition : templateGraph.getEdgesFrom(ingressTargetLocation)) {
+						if (egressTransition == ingressTransition) // Loop corner case.
+							continue;
 						if (egressTransition != trappedEgressTransition) {
 							if (egressTransition.getLabels() == null)
 								egressTransition.setLabels(new TransitionLabels());
