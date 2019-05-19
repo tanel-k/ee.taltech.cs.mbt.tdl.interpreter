@@ -473,18 +473,6 @@ public class RecognizerTreeModelBaseSystemFactory {
           .setCoordinates(GuiCoordinates.of(-1304, -96));
     }
 
-    protected Location newId7Location() {
-      return new Location()
-          .setId("id7")
-          .setName(
-              new LocationName()
-                  .setName("ListeningRightOp")
-                  .setCoordinates(GuiCoordinates.of(-552, -136)))
-          .setExitPolicy(ELocationExitPolicy.NORMAL)
-          .setLabels(new LocationLabels())
-          .setCoordinates(GuiCoordinates.of(-504, -96));
-    }
-
     protected Location newId5Location() {
       return new Location()
           .setId("id5")
@@ -510,6 +498,18 @@ public class RecognizerTreeModelBaseSystemFactory {
           .setExitPolicy(ELocationExitPolicy.NORMAL)
           .setLabels(new LocationLabels())
           .setCoordinates(GuiCoordinates.of(-1544, -96));
+    }
+
+    protected Location newId7Location() {
+      return new Location()
+          .setId("id7")
+          .setName(
+              new LocationName()
+                  .setName("ListeningRightOp")
+                  .setCoordinates(GuiCoordinates.of(-552, -136)))
+          .setExitPolicy(ELocationExitPolicy.NORMAL)
+          .setLabels(new LocationLabels())
+          .setCoordinates(GuiCoordinates.of(-504, -96));
     }
 
     protected Location newId8Location() {
@@ -554,7 +554,7 @@ public class RecognizerTreeModelBaseSystemFactory {
           .addNail(GuiCoordinates.of(-1304, -208));
     }
 
-    protected Transition newId6ToId7Transition_Nr1(Location source, Location target) {
+    protected Transition newId6ToId10Transition_Nr2(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -573,7 +573,7 @@ public class RecognizerTreeModelBaseSystemFactory {
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, 24))
-          .addNail(GuiCoordinates.of(-504, 24));
+          .addNail(GuiCoordinates.of(-1304, 24));
     }
 
     protected Transition newId6ToId5Transition_Nr1(Location source, Location target) {
@@ -598,7 +598,7 @@ public class RecognizerTreeModelBaseSystemFactory {
           .addNail(GuiCoordinates.of(-96, -208));
     }
 
-    protected Transition newId6ToId7Transition_Nr2(Location source, Location target) {
+    protected Transition newId6ToId10Transition_Nr3(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -617,7 +617,7 @@ public class RecognizerTreeModelBaseSystemFactory {
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -8))
-          .addNail(GuiCoordinates.of(-504, -8));
+          .addNail(GuiCoordinates.of(-1304, -8));
     }
 
     protected Transition newId6ToId5Transition_Nr2(Location source, Location target) {
@@ -664,7 +664,7 @@ public class RecognizerTreeModelBaseSystemFactory {
           .addNail(GuiCoordinates.of(-96, -144));
     }
 
-    protected Transition newId6ToId10Transition_Nr2(Location source, Location target) {
+    protected Transition newId6ToId10Transition_Nr4(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -745,7 +745,7 @@ public class RecognizerTreeModelBaseSystemFactory {
           .addNail(GuiCoordinates.of(-96, -176));
     }
 
-    protected Transition newId6ToId10Transition_Nr3(Location source, Location target) {
+    protected Transition newId6ToId10Transition_Nr5(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -798,7 +798,7 @@ public class RecognizerTreeModelBaseSystemFactory {
           .addNail(GuiCoordinates.of(-96, -40));
     }
 
-    protected Transition newId6ToId7Transition_Nr3(Location source, Location target) {
+    protected Transition newId6ToId10Transition_Nr6(Location source, Location target) {
       return new Transition()
           .setSource(source)
           .setTarget(target)
@@ -817,7 +817,7 @@ public class RecognizerTreeModelBaseSystemFactory {
                                               .setRightChild(
                                                   IdentifierExpression.of("boundValue"))))))
           .addNail(GuiCoordinates.of(-232, -40))
-          .addNail(GuiCoordinates.of(-504, -40));
+          .addNail(GuiCoordinates.of(-1304, -40));
     }
 
     protected Transition newId7ToId6Transition(Location source, Location target) {
@@ -1014,9 +1014,6 @@ public class RecognizerTreeModelBaseSystemFactory {
       Location locationId10 = newId10Location();
       TdlBoundedLeadsToRecognizer.getLocationGraph().addVertex(locationId10);
 
-      Location locationId7 = newId7Location();
-      TdlBoundedLeadsToRecognizer.getLocationGraph().addVertex(locationId7);
-
       Location locationId5 = newId5Location();
       TdlBoundedLeadsToRecognizer.getLocationGraph().addVertex(locationId5);
 
@@ -1026,6 +1023,9 @@ public class RecognizerTreeModelBaseSystemFactory {
       Location locationId11 = newId11Location();
       TdlBoundedLeadsToRecognizer.getLocationGraph().addVertex(locationId11);
       TdlBoundedLeadsToRecognizer.setInitialLocation(locationId11);
+      Location locationId7 = newId7Location();
+      TdlBoundedLeadsToRecognizer.getLocationGraph().addVertex(locationId7);
+
       Location locationId8 = newId8Location();
       TdlBoundedLeadsToRecognizer.getLocationGraph().addVertex(locationId8);
 
@@ -1036,42 +1036,42 @@ public class RecognizerTreeModelBaseSystemFactory {
       Transition transitionId6ToId10_Nr1 = newId6ToId10Transition_Nr1(locationId6, locationId10);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId6, locationId10, transitionId6ToId10_Nr1);
-      Transition transitionId6ToId7_Nr1 = newId6ToId7Transition_Nr1(locationId6, locationId7);
+      Transition transitionId6ToId10_Nr2 = newId6ToId10Transition_Nr2(locationId6, locationId10);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
-          .addEdge(locationId6, locationId7, transitionId6ToId7_Nr1);
+          .addEdge(locationId6, locationId10, transitionId6ToId10_Nr2);
       Transition transitionId6ToId5_Nr1 = newId6ToId5Transition_Nr1(locationId6, locationId5);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId6, locationId5, transitionId6ToId5_Nr1);
-      Transition transitionId6ToId7_Nr2 = newId6ToId7Transition_Nr2(locationId6, locationId7);
+      Transition transitionId6ToId10_Nr3 = newId6ToId10Transition_Nr3(locationId6, locationId10);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
-          .addEdge(locationId6, locationId7, transitionId6ToId7_Nr2);
+          .addEdge(locationId6, locationId10, transitionId6ToId10_Nr3);
       Transition transitionId6ToId5_Nr2 = newId6ToId5Transition_Nr2(locationId6, locationId5);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId6, locationId5, transitionId6ToId5_Nr2);
       Transition transitionId6ToId5_Nr3 = newId6ToId5Transition_Nr3(locationId6, locationId5);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId6, locationId5, transitionId6ToId5_Nr3);
-      Transition transitionId6ToId10_Nr2 = newId6ToId10Transition_Nr2(locationId6, locationId10);
+      Transition transitionId6ToId10_Nr4 = newId6ToId10Transition_Nr4(locationId6, locationId10);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
-          .addEdge(locationId6, locationId10, transitionId6ToId10_Nr2);
+          .addEdge(locationId6, locationId10, transitionId6ToId10_Nr4);
       Transition transitionId5ToId4 = newId5ToId4Transition(locationId5, locationId4);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId5, locationId4, transitionId5ToId4);
       Transition transitionId6ToId5_Nr4 = newId6ToId5Transition_Nr4(locationId6, locationId5);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId6, locationId5, transitionId6ToId5_Nr4);
-      Transition transitionId6ToId10_Nr3 = newId6ToId10Transition_Nr3(locationId6, locationId10);
+      Transition transitionId6ToId10_Nr5 = newId6ToId10Transition_Nr5(locationId6, locationId10);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
-          .addEdge(locationId6, locationId10, transitionId6ToId10_Nr3);
+          .addEdge(locationId6, locationId10, transitionId6ToId10_Nr5);
       Transition transitionId4ToId11 = newId4ToId11Transition(locationId4, locationId11);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId4, locationId11, transitionId4ToId11);
       Transition transitionId6ToId5_Nr5 = newId6ToId5Transition_Nr5(locationId6, locationId5);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId6, locationId5, transitionId6ToId5_Nr5);
-      Transition transitionId6ToId7_Nr3 = newId6ToId7Transition_Nr3(locationId6, locationId7);
+      Transition transitionId6ToId10_Nr6 = newId6ToId10Transition_Nr6(locationId6, locationId10);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
-          .addEdge(locationId6, locationId7, transitionId6ToId7_Nr3);
+          .addEdge(locationId6, locationId10, transitionId6ToId10_Nr6);
       Transition transitionId7ToId6 = newId7ToId6Transition(locationId7, locationId6);
       TdlBoundedLeadsToRecognizer.getLocationGraph()
           .addEdge(locationId7, locationId6, transitionId7ToId6);
