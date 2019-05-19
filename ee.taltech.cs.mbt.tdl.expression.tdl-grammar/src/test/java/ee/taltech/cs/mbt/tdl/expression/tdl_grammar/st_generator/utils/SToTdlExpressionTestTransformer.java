@@ -99,12 +99,12 @@ public class SToTdlExpressionTestTransformer implements ISimpleTransformer {
 				populateBinaryBooleanExprChildContainer(((EquivalenceNode) expressionNode).getChildContainer(), node);
 				break;
 			}
-			case "||": {
+			case "|": {
 				expressionNode = new DisjunctionNode();
 				populateBinaryBooleanExprChildContainer(((DisjunctionNode) expressionNode).getChildContainer(), node);
 				break;
 			}
-			case "&&": {
+			case "&": {
 				expressionNode = new ConjunctionNode();
 				populateBinaryBooleanExprChildContainer(((ConjunctionNode) expressionNode).getChildContainer(), node);
 				break;
