@@ -1,10 +1,10 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl;
 
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.DisjunctionNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.ImplicationNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.AbsNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.AbsNormalizer;
 
 public class ImplicationNormalizer extends AbsNormalizer<ImplicationNode> {
 	public static ImplicationNormalizer getInstance() {

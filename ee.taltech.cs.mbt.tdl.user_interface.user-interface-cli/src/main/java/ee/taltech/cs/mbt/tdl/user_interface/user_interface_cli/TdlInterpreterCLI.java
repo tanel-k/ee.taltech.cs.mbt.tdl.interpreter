@@ -135,9 +135,9 @@ public class TdlInterpreterCLI {
 		if (outputFile != null && completionFlag.isSet() && optUppaalJARFile.isPresent()) {
 			/*
 			 * Note:
-			 * UPPAAL will generate a file named 'license.txt' in the working directory.
-			 * As this is something an external tool does, there's no reason to try to fix it.
-			 * Of course, the fix would be quite simple: delete the file if it exists (possibly need to wait for the file to be generated).
+			 * UPPAAL will generate a file named 'license.txt' some where near the working directory.
+			 * This happens after it launches.
+			 * Fixing this (tiny) issue is out of scope.
 			 */
 			File uppaalJARFile = optUppaalJARFile.get();
 			try {

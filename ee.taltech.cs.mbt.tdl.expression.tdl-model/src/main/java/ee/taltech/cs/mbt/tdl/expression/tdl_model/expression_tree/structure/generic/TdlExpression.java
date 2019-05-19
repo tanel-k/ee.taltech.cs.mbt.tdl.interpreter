@@ -32,6 +32,7 @@ public class TdlExpression implements IDeepCloneable<TdlExpression> {
 		if (prevChild.getParentNode() == null) {
 			if (prevChild == rootNode) {
 				setRootNode(newChild);
+				newChild.setParentNode(null);
 			}
 		} else {
 			AbsBooleanInternalNode parent = (AbsBooleanInternalNode) prevChild.getParentNode();

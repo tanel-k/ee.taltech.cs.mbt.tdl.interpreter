@@ -7,7 +7,7 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioComposer;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioCompositionResults;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioSpecification;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.literal_elimination.LiteralEliminationException;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.NormalizationException;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.NormalizationException;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.extraction.BaseTrapsetsExtractor.BaseTrapsetDefinitionException;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_parser.composite.InvalidSystemStructureException;

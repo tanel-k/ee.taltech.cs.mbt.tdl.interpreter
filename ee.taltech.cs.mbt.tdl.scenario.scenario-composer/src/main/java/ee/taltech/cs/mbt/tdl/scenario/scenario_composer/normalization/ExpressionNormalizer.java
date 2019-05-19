@@ -1,4 +1,4 @@
-package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization;
+package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization;
 
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.generic.AbsBooleanInternalNode;
@@ -13,14 +13,14 @@ import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.conc
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.logical.LeadsToNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.visitors.impl.BaseBooleanNodeVisitor;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.BoundedLeadsToNormalizer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.BoundedRepetitionNormalizer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.ConjunctionNormalizer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.DisjunctionNormalizer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.EquivalenceNormalizer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.GroupNormalizer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.ImplicationNormalizer;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.reduction.normalization.normalizers.impl.LeadsToNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl.BoundedLeadsToNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl.BoundedRepetitionNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl.ConjunctionNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl.DisjunctionNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl.EquivalenceNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl.GroupNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl.ImplicationNormalizer;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.normalization.normalizers.impl.LeadsToNormalizer;
 
 import java.util.Deque;
 import java.util.LinkedList;
