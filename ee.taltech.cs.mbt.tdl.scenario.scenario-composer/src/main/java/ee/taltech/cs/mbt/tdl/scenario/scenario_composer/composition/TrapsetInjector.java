@@ -15,7 +15,9 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExp
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.ArrayLookupExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.AssignmentExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.ConjunctionExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.GroupedExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.IdentifierExpression;
+import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.TernaryExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.literal.LiteralConsts;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.literal.NaturalNumberLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
@@ -44,6 +46,24 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 	TrapsetInjector(UtaSystem sutModel, Map<Template, Map<Transition, Collection<Synchronization>>> transitionSynchHooksMap) {
 		this.targetSystem = sutModel;
 		this.transitionSynchHooksMap = transitionSynchHooksMap;
+	}
+
+	private AbsExpression newLinkedPairEgressTrap(
+			int trapIdx,
+			AbsExpression lookupExpression,
+			TrapsetImplementationDetail detail,
+			Map<TrapsetImplementationDetail, Identifier> mapFlagArrayNames
+	) {
+		return new GroupedExpression().setChild(new TernaryExpression()
+				.setLeftChild(lookupExpression)
+				.setMiddleChild(LiteralConsts.TRUE)
+				.setRightChild(new ArrayLookupExpression()
+						.setLeftChild(IdentifierExpression.of(mapFlagArrayNames.get(detail)))
+						.setRightChild(
+								NaturalNumberLiteral.of(trapIdx)
+						)
+				)
+		);
 	}
 
 	public void inject(AbsTrapsetEvaluation trapset) {
@@ -178,30 +198,24 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 					AssignmentExpression assignmentExpression = trapset
 							.getMarkerAssignment(trappedEgressTransition).deepClone();
 					assignmentExpression.setLeftChild(lookupExpression);
+					// Create assignment label for egress transition:
 					if (LiteralConsts.TRUE.equals(assignmentExpression.getRightChild())) {
-						assignmentExpression.setRightChild(new ArrayLookupExpression()
-								.setLeftChild(IdentifierExpression.of(
-										mapFlagArrayNames.get(detail)
-								))
-								.setRightChild(
-										NaturalNumberLiteral.of(trapIdx)
-								)
+						// Simple:
+						assignmentExpression.setRightChild(
+								newLinkedPairEgressTrap(trapIdx, lookupExpression, detail, mapFlagArrayNames)
 						);
 					} else {
+						// Possible conditional trap:
 						assignmentExpression.setRightChild(new ConjunctionExpression()
-								.setLeftChild(new ArrayLookupExpression()
-										.setLeftChild(IdentifierExpression.of(
-												mapFlagArrayNames.get(detail)
-										))
-										.setRightChild(
-												NaturalNumberLiteral.of(trapIdx)
-										)
+								.setLeftChild(assignmentExpression.getRightChild())
+								.setRightChild(
+										newLinkedPairEgressTrap(trapIdx, lookupExpression, detail, mapFlagArrayNames)
 								)
-								.setRightChild(assignmentExpression.getRightChild())
 						);
 					}
 
 					transitionAssignments.add(assignmentExpression);
+					// Flag reset label:
 					transitionAssignments.add(new AssignmentExpression()
 							.setLeftChild(new ArrayLookupExpression()
 									.setLeftChild(IdentifierExpression.of(
