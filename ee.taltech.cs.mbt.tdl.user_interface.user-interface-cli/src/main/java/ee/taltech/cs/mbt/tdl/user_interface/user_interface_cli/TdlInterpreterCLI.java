@@ -85,6 +85,7 @@ public class TdlInterpreterCLI {
 		);
 		PrintingProgressListener progressListener = new PrintingProgressListener(
 				verbose ? out : null,
+				err,
 				completionFlag
 		);
 

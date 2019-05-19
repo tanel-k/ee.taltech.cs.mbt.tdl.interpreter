@@ -54,6 +54,7 @@ public class TdlInterpreterUI {
 	}
 
 	public void interpret(InputStream sutModelStream, InputStream expressionStream, OutputStream outStream) {
+		// In the future, consider modeling this as a pipeline.
 		try {
 			TdlExpression expression;
 			try {
@@ -106,7 +107,7 @@ public class TdlInterpreterUI {
 			Optional<UtaSystem> optScenarioSystem = results.getScenarioSystem();
 			if (!optScenarioSystem.isPresent()) {
 				// This means there was nothing to generate the scenario from (trivial TDL expr).
-				progressListener.onFullReduction(spec.getTdlExpression());
+				progressListener.onFullReduction(results.getExpression());
 				return;
 			}
 

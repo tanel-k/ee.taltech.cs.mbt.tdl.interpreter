@@ -2,6 +2,7 @@ package ee.taltech.cs.mbt.tdl.user_interface.user_interface_cli.listeners;
 
 import ee.taltech.cs.mbt.tdl.commons.facades.st_facade.generator.GenerationException;
 import ee.taltech.cs.mbt.tdl.commons.utils.primitives.Flag;
+import ee.taltech.cs.mbt.tdl.commons.utils.strings.WordUtils;
 import ee.taltech.cs.mbt.tdl.expression.tdl_grammar.st_generator.TdlGeneratorFactory;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.generic.TdlExpression;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.ScenarioCompositionResults;
@@ -14,9 +15,11 @@ import java.io.PrintStream;
 public class PrintingProgressListener implements IProgressListener {
 	private Flag completionFlag;
 	private PrintStream out;
+	private PrintStream err;
 
-	public PrintingProgressListener(PrintStream out, Flag completionFlag) {
+	public PrintingProgressListener(PrintStream out, PrintStream err, Flag completionFlag) {
 		this.out = out;
+		this.err = err;
 		this.completionFlag = completionFlag;
 	}
 
@@ -66,8 +69,14 @@ public class PrintingProgressListener implements IProgressListener {
 
 	@Override
 	public void onFullReduction(TdlExpression tdlExpression) {
-		if (out != null)
-			out.println("Progress halted; expression fully reduced.");
+		if (err != null)  {
+			tdlExpression.getRootBooleanWrapper().ifPresent(w ->
+					err.println(
+							"WARNING: Progress halted; expression fully reduced to `"
+									+ WordUtils.capitalize(String.valueOf(w.wrapsTrue())) + "`."
+					)
+			);
+		}
 	}
 
 	@Override
