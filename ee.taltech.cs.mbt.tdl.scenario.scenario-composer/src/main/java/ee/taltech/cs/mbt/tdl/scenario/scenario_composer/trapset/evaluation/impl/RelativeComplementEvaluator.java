@@ -3,6 +3,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.evaluation.impl
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.evaluation.AbsTrapsetExpressionEvaluator;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.evaluation.EvalUtils;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.base.BaseTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.RelativeComplementTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation;
@@ -12,7 +13,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExp
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.AssignmentExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.ConjunctionExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.IdentifierExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.NegationExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.templates.Template;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.structure.transitions.Transition;
@@ -68,10 +68,9 @@ public class RelativeComplementEvaluator extends AbsTrapsetExpressionEvaluator<R
 				// Negate the inclusion expression:
 				conditionExpr = new ConjunctionExpression()
 						.setLeftChild(conditionExpr)
-						.setRightChild(
-								new NegationExpression()
-										.setChild(excludedTrapset.getMarkerCondition(includedTransition).deepClone())
-						);
+						.setRightChild(EvalUtils.negateCondition(
+								excludedTrapset.getMarkerCondition(includedTransition).deepClone()
+						));
 			}
 
 			AssignmentExpression markerExpr = (AssignmentExpression) new AssignmentExpression()
