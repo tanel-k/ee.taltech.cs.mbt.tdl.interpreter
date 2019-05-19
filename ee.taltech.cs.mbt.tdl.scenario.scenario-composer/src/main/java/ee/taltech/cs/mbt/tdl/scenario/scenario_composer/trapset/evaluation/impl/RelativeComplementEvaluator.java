@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.evaluation.impl
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.RelativeComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.evaluation.AbsTrapsetExpressionEvaluator;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.evaluation.EvalUtils;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.utils.UTAExpressionUtils;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.base.BaseTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.RelativeComplementTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation;
@@ -68,7 +68,7 @@ public class RelativeComplementEvaluator extends AbsTrapsetExpressionEvaluator<R
 				// Negate the inclusion expression:
 				conditionExpr = new ConjunctionExpression()
 						.setLeftChild(conditionExpr)
-						.setRightChild(EvalUtils.negateCondition(
+						.setRightChild(UTAExpressionUtils.negateCondition(
 								excludedTrapset.getMarkerCondition(includedTransition).deepClone()
 						));
 			}

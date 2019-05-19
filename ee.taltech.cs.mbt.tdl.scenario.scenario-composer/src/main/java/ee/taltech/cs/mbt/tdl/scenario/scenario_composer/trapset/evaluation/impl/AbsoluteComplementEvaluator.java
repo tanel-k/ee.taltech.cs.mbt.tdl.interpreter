@@ -3,7 +3,7 @@ package ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.evaluation.impl
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.internal.trapset_expression.AbsoluteComplementNode;
 import ee.taltech.cs.mbt.tdl.expression.tdl_model.expression_tree.structure.concrete.leaf.trapset.TrapsetNode;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.evaluation.AbsTrapsetExpressionEvaluator;
-import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.evaluation.EvalUtils;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.utils.UTAExpressionUtils;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.base.BaseTrapset;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.AbsoluteComplementTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.AbsTrapsetEvaluation;
@@ -61,7 +61,7 @@ public class AbsoluteComplementEvaluator extends AbsTrapsetExpressionEvaluator<A
 					// Whenever the condition doesn't hold the transition is not trapped:
 					markerExpression = (AssignmentExpression) new AssignmentExpression()
 							.setLeftChild(IdentifierExpression.of(trapsetName))
-							.setRightChild(EvalUtils.negateCondition(
+							.setRightChild(UTAExpressionUtils.negateCondition(
 									excludedTrapset.getMarkerCondition(candidateTransition).deepClone()
 							));
 				} else {

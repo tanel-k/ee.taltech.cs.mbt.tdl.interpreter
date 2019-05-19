@@ -9,6 +9,7 @@ import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.ev
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.LinkedPairsTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.RelativeComplementTrapsetEvaluation;
 import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.trapset.model.trapset.evaluated.impl.WrappedTrapsetEvaluation;
+import ee.taltech.cs.mbt.tdl.scenario.scenario_composer.utils.UTAExpressionUtils;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.UtaSystem;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.declaration.variable.VariableDeclaration;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.generic.AbsExpression;
@@ -208,7 +209,7 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 					} else {
 						// Possible conditional trap:
 						assignmentExpression.setRightChild(new ConjunctionExpression()
-								.setLeftChild(assignmentExpression.getRightChild())
+								.setLeftChild(UTAExpressionUtils.wrapInGroup(assignmentExpression.getRightChild()))
 								.setRightChild(
 										newLinkedPairEgressTrap(trapIdx, lookupExpression, detail, mapFlagArrayNames)
 								)
