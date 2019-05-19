@@ -5,9 +5,9 @@ expression(ctx) ::= <%
     <if(ctx.group)>
         (<expression(ctx.child)>)
     <elseif(ctx.conjunction)>
-        <expression(ctx.leftChild)> && <expression(ctx.rightChild)>
+        <expression(ctx.leftChild)> & <expression(ctx.rightChild)>
     <elseif(ctx.disjunction)>
-        <expression(ctx.leftChild)> || <expression(ctx.rightChild)>
+        <expression(ctx.leftChild)> | <expression(ctx.rightChild)>
     <elseif(ctx.equivalence)>
         <expression(ctx.leftChild)> \<=> <expression(ctx.rightChild)>
     <elseif(ctx.implication)>
