@@ -1,0 +1,60 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ee.taltech.cs.mbt.tdl</groupId>
+    <artifactId>parent-pom</artifactId>
+    <version>1.5</version>
+    <relativePath>../ee.taltech.cs.mbt.tdl.parent-pom/pom.xml</relativePath>
+  </parent>
+
+  <groupId>ee.taltech.cs.mbt.tdl.commons.facades</groupId>
+  <artifactId>antlr-facade</artifactId>
+  <version>${commons.facades.antlrFacade.version}</version>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <!-- Internal -->
+    <dependency>
+      <groupId>ee.taltech.cs.mbt.tdl.commons</groupId>
+      <artifactId>utils</artifactId>
+    </dependency>
+    <!-- /Internal -->
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr4</artifactId>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <name>Commons - ANTLR Facade</name>
+  <description>Provides utilities for implementing facades for ANTLR grammars.</description>
+  <inceptionYear>2019</inceptionYear>
+  <organization>
+    <name>TalTech</name>
+    <url>https://www.taltech.ee</url>
+  </organization>
+  <developers>
+    <developer>
+      <id>null</id>
+      <name>Tanel Prikk</name>
+      <email>tanel.prikk@taltech.ee</email>
+      <organization>TalTech</organization>
+      <organizationUrl>https://www.taltech.ee</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <system>GitLab</system>
+    <url>https://gitlab.cs.ttu.ee/Tanel.Prikk/iapb/issues</url>
+  </issueManagement>
+</project>

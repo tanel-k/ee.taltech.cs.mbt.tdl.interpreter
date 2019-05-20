@@ -1,0 +1,72 @@
+expression(ctx) ::= <%
+    <if(ctx.negatedLeaf || (ctx.negatedOperator && ctx.unary))>~<endif>
+    <if(ctx.negatedOperator && !ctx.unary)>~(<endif>
+
+    <if(ctx.group)>
+        (<expression(ctx.child)>)
+    <elseif(ctx.conjunction)>
+        <expression(ctx.leftChild)> & <expression(ctx.rightChild)>
+    <elseif(ctx.disjunction)>
+        <expression(ctx.leftChild)> | <expression(ctx.rightChild)>
+    <elseif(ctx.equivalence)>
+        <expression(ctx.leftChild)> \<=> <expression(ctx.rightChild)>
+    <elseif(ctx.implication)>
+        <expression(ctx.leftChild)> => <expression(ctx.rightChild)>
+    <elseif(ctx.leadsTo)>
+        <expression(ctx.leftChild)> ~> <expression(ctx.rightChild)>
+    <elseif(ctx.boundedLeadsTo)>
+        <expression(ctx.leftChild)> ~>[<bound(ctx.bound)>] <expression(ctx.rightChild)>
+    <elseif(ctx.boundedRepetition)>
+        #[<bound(ctx.bound)>]<expression(ctx.child)>
+    <elseif(ctx.valueWrapper)>
+        <leafNode(ctx.child)>
+    <elseif(ctx.trapsetQuantifier)>
+        <trapsetQuantifier(ctx)>
+    <endif>
+
+    <if(ctx.negatedOperator && !ctx.unary)>)<endif>
+%>
+
+trapsetQuantifier(ctx) ::= <%
+    <if(ctx.existentialTrapsetQuantification)>
+        E(<trapsetExpression(ctx.domain)>)
+    <elseif(ctx.universalTrapsetQuantification)>
+        A(<trapsetExpression(ctx.domain)>)
+    <endif>
+%>
+
+trapsetExpression(ctx) ::= <%
+    <if(ctx.absoluteComplement)>
+        !<leafNode(ctx.child)>
+    <elseif(ctx.relativeComplement)>
+        <leafNode(ctx.leftChild)> \ <leafNode(ctx.rightChild)>
+    <elseif(ctx.linkedPairs)>
+        <leafNode(ctx.leftChild)> ; <leafNode(ctx.rightChild)>
+    <elseif(ctx.trapsetWrapper)>
+        <leafNode(ctx.child)>
+    <endif>
+%>
+
+leafNode(ctx) ::= <%
+    <if(ctx.trueValue)>
+        True
+    <elseif(ctx.falseValue)>
+        False
+    <elseif(ctx.trapsetName)>
+        <ctx.name>
+    <endif>
+%>
+
+bound(ctx) ::= <%
+    <if(ctx.lessThan)>
+        \< <ctx.boundValue>
+    <elseif(ctx.greaterThan)>
+        > <ctx.boundValue>
+    <elseif(ctx.greaterThanOrEqualTo)>
+        >= <ctx.boundValue>
+    <elseif(ctx.lessThanOrEqualTo)>
+        \<= <ctx.boundValue>
+    <elseif(ctx.equals)>
+        = <ctx.boundValue>
+    <endif>
+%>

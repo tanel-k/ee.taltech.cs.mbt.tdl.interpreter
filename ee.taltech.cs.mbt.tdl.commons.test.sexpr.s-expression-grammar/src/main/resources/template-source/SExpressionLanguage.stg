@@ -1,0 +1,28 @@
+sExpr(ctx) ::= <<
+<if(ctx.prettyPrint)><prettySequence(ctx.root)><else><sequence(ctx.root)><endif>
+>>
+
+sequence(ctx) ::= <%
+    (
+        <ctx.items:{itemCtx|
+            <if(itemCtx.sequence)>
+                <sequence(itemCtx)>
+            <else>
+                <string(itemCtx)>
+            <endif>
+        }; separator=" . ">
+    )
+%>
+
+prettySequence(ctx) ::=
+<<(
+  <ctx.items:{itemCtx| <if(itemCtx.sequence)><prettySequence(itemCtx)><else><string(itemCtx)><endif> }; separator=" . ">
+)>>
+
+string(ctx) ::= <%
+    <if(ctx.delimited)>
+        "<ctx.str>"
+    <else>
+        <ctx.str>
+    <endif>
+%>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>// Place global declarations here.
+bool TS1, TS2;
+int intValue = 2;
+const int INT_CONSTANT = 2;
+bool ts1Condition() {
+  return true;
+}
+bool ts2Condition() {
+  return true;
+}
+</declaration><template><name x="5" y="5">Template</name><declaration>// Place local declarations here.
+</declaration><location id="id0" x="-584" y="-80"></location><location id="id1" x="-384" y="-80"></location><location id="id2" x="-208" y="-80"></location><location id="id3" x="-208" y="-232"></location><location id="id4" x="-384" y="-232"></location><location id="id5" x="-584" y="-232"></location><init ref="id5"/><transition><source ref="id5"/><target ref="id2"/></transition><transition><source ref="id0"/><target ref="id5"/><label kind="assignment" x="-656" y="-176">TS1 = true</label></transition><transition><source ref="id1"/><target ref="id0"/><label kind="assignment" x="-544" y="-80">TS1 = ts1Condition(),
+TS2 = ts2Condition()</label></transition><transition><source ref="id2"/><target ref="id1"/><label kind="assignment" x="-344" y="-72">TS1 = true,
+TS2 = true</label></transition><transition><source ref="id2"/><target ref="id2"/><label kind="assignment" x="-256" y="-8">TS2 = ts2Condition()</label><nail x="-280" y="-16"/><nail x="-112" y="-16"/></transition><transition><source ref="id3"/><target ref="id2"/><label kind="assignment" x="-200" y="-168">TS1 = intValue == INT_CONSTANT</label></transition><transition><source ref="id4"/><target ref="id3"/></transition><transition><source ref="id5"/><target ref="id4"/><label kind="assignment" x="-568" y="-272">TS1 = true,
+TS2 = intValue == INT_CONSTANT</label></transition></template><system>// Place template instantiations here.
+Process = Template();
+
+// List one or more processes to be composed into a system.
+system Process;</system></nta>

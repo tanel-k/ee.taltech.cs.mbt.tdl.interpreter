@@ -3,18 +3,18 @@ package ee.taltech.cs.mbt.tdl.commons.utils.primitives;
 import java.util.Iterator;
 
 public class IntUtils {
-	public static class IntIterator implements Iterator<Integer>, Iterable<Integer> {
+	public static class IntGenerator implements Iterator<Integer>, Iterable<Integer> {
 		public static final int DEFAULT_START_VALUE = 0;
 
-		public static IntIterator newInstance(Integer startValue) {
-			return new IntIterator(startValue);
+		public static IntGenerator newInstance(Integer startValue) {
+			return new IntGenerator(startValue);
 		}
 
-		public static IntIterator newInstance() {
-			return new IntIterator(DEFAULT_START_VALUE);
+		public static IntGenerator newInstance() {
+			return new IntGenerator(DEFAULT_START_VALUE);
 		}
 
-		private IntIterator(Integer startValue) {
+		private IntGenerator(Integer startValue) {
 			this.currentValue = (this.startValue = startValue);
 		}
 
@@ -41,7 +41,8 @@ public class IntUtils {
 
 		@Override
 		public Iterator<Integer> iterator() {
-			return newInstance(startValue);
+			this.currentValue = startValue;
+			return this;
 		}
 	}
 }
