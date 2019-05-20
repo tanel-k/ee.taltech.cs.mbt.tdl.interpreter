@@ -45,7 +45,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 - #26: Removed ee.taltech.cs.mbt.tdl.expression.parser.
 
-## [1.5] - 2019-05-??
+## [1.5] - 2019-05-20
 ### Added
 - #58: Support for checked normalization exceptions (NormalizationException).
 - #58: Support for checked literal elimination exceptions (LiteralEliminationException).
