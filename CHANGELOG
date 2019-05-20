@@ -93,3 +93,5 @@ All notable changes to this project will be documented in this file.
 - #70: Fixed logic error in TdlExpression.replaceDescendant().
 - #70: Fixed semantics of linked pairs - value should be retained in trapset when trap has been visited.
 - #70: Auto-group negated subexpressions when presenting reduction results to user.
+- #69: Upload test inputs for manual integration tests.
+- #70: Fix conditional trap logic for absolute complement and relative complement.
