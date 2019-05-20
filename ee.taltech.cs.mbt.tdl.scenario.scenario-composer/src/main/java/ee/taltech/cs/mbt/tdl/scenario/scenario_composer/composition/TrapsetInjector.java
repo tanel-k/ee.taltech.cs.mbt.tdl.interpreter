@@ -294,10 +294,19 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 						.setLeftChild(IdentifierExpression.of(detail.getFlagArrayName()))
 						.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
 
-				AssignmentExpression assignmentExpression = trapset.getMarkerAssignment(transition).deepClone();
-				assignmentExpression.setLeftChild(lookupExpression);
+				AssignmentExpression trapAssignment = trapset.getMarkerAssignment(transition).deepClone();
+				trapAssignment.setLeftChild(lookupExpression); // TS[index] = ...
+				if (trapset.isConditional(transition)) {
+					// Ensure trap visitations aren't reset:
+					AbsExpression condExpression = trapAssignment.getRightChild();
+					trapAssignment.setRightChild(UTAExpressionUtils.ternary(
+							lookupExpression.deepClone(),
+							LiteralConsts.TRUE,
+							UTAExpressionUtils.wrapInGroup(condExpression)
+					));
+				}
 
-				transitionAssignments.add(assignmentExpression);
+				transitionAssignments.add(trapAssignment);
 				transitionSynchs.add(detail.getActivatingSynchronization());
 			}
 		}
