@@ -2,10 +2,10 @@ package ee.taltech.cs.mbt.tdl.commons.utils.primitives;
 
 public class Flag {
 	public static Flag newInstance() {
-		return newInstance(false);
+		return of(false);
 	}
 
-	public static Flag newInstance(boolean initialState) {
+	public static Flag of(boolean initialState) {
 		return new Flag(initialState);
 	}
 
@@ -16,15 +16,19 @@ public class Flag {
 	}
 
 	public void xor(Flag other) {
-		this.wrappedBoolean = this.wrappedBoolean ^ other.wrappedBoolean;
+		this.wrappedBoolean ^= other.wrappedBoolean;
 	}
 
 	public void or(Flag other) {
-		this.wrappedBoolean = this.wrappedBoolean || other.wrappedBoolean;
+		this.wrappedBoolean |= other.wrappedBoolean;
 	}
 
 	public void and(Flag other) {
-		this.wrappedBoolean = this.wrappedBoolean && other.wrappedBoolean;
+		this.wrappedBoolean &= other.wrappedBoolean;
+	}
+
+	public boolean negate() {
+		return this.wrappedBoolean = !this.wrappedBoolean;
 	}
 
 	public boolean negatedValue() {
@@ -41,10 +45,6 @@ public class Flag {
 
 	public boolean andValue(Flag other) {
 		return wrappedBoolean && other.wrappedBoolean;
-	}
-
-	public boolean flip() {
-		return this.wrappedBoolean = !this.wrappedBoolean;
 	}
 
 	public void set(boolean state) {

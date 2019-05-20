@@ -41,7 +41,8 @@ public class IntUtils {
 
 		@Override
 		public Iterator<Integer> iterator() {
-			return newInstance(startValue);
+			this.currentValue = startValue;
+			return this;
 		}
 	}
 }

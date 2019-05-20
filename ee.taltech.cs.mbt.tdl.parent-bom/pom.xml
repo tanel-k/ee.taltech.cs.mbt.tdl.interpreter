@@ -3,6 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <!--
+    The Maven Bill of Materials pattern is explained here:
+    https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html
+  -->
+
   <groupId>ee.taltech.cs.mbt.tdl</groupId>
   <artifactId>parent-bom</artifactId>
   <version>1.5-SNAPSHOT</version>

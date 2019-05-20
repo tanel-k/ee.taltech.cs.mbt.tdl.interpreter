@@ -18,7 +18,6 @@ import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.Assignmen
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.ConjunctionExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.GroupedExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.IdentifierExpression;
-import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.TernaryExpression;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.literal.LiteralConsts;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.expression.impl.literal.NaturalNumberLiteral;
 import ee.taltech.cs.mbt.tdl.uppaal.uta_model.language.identifier.Identifier;
@@ -49,20 +48,36 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 		this.transitionSynchHooksMap = transitionSynchHooksMap;
 	}
 
-	private AbsExpression newLinkedPairEgressTrap(
+	private AbsExpression newLinkedPairElementaryEgressTrap(
 			int trapIdx,
 			AbsExpression lookupExpression,
 			TrapsetImplementationDetail detail,
 			Map<TrapsetImplementationDetail, Identifier> mapFlagArrayNames
 	) {
-		return new GroupedExpression().setChild(new TernaryExpression()
-				.setLeftChild(lookupExpression)
-				.setMiddleChild(LiteralConsts.TRUE)
-				.setRightChild(new ArrayLookupExpression()
+		return UTAExpressionUtils.ternary(
+				lookupExpression,
+				LiteralConsts.TRUE,
+				new ArrayLookupExpression()
 						.setLeftChild(IdentifierExpression.of(mapFlagArrayNames.get(detail)))
-						.setRightChild(
-								NaturalNumberLiteral.of(trapIdx)
-						)
+						.setRightChild(NaturalNumberLiteral.of(trapIdx))
+		);
+	}
+
+	private AbsExpression newLinkedPairConditionalEgressTrap(
+			int trapIdx,
+			AbsExpression lookupExpression,
+			AbsExpression trapCondition,
+			TrapsetImplementationDetail detail,
+			Map<TrapsetImplementationDetail, Identifier> mapFlagArrayNames
+	) {
+		return UTAExpressionUtils.ternary(
+				lookupExpression,
+				LiteralConsts.TRUE,
+				UTAExpressionUtils.wrapInGroup(new ConjunctionExpression()
+						.setLeftChild(new ArrayLookupExpression()
+								.setLeftChild(IdentifierExpression.of(mapFlagArrayNames.get(detail)))
+								.setRightChild(NaturalNumberLiteral.of(trapIdx)))
+						.setRightChild(UTAExpressionUtils.wrapInGroup(trapCondition))
 				)
 		);
 	}
@@ -204,16 +219,12 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 					if (LiteralConsts.TRUE.equals(assignmentExpression.getRightChild())) {
 						// Simple:
 						assignmentExpression.setRightChild(
-								newLinkedPairEgressTrap(trapIdx, lookupExpression, detail, mapFlagArrayNames)
+								newLinkedPairElementaryEgressTrap(trapIdx, lookupExpression, detail, mapFlagArrayNames)
 						);
 					} else {
-						// Possible conditional trap:
-						assignmentExpression.setRightChild(new ConjunctionExpression()
-								.setLeftChild(UTAExpressionUtils.wrapInGroup(assignmentExpression.getRightChild()))
-								.setRightChild(
-										newLinkedPairEgressTrap(trapIdx, lookupExpression, detail, mapFlagArrayNames)
-								)
-						);
+						assignmentExpression.setRightChild(newLinkedPairConditionalEgressTrap(
+								trapIdx, lookupExpression, assignmentExpression.getRightChild(), detail, mapFlagArrayNames
+						));
 					}
 
 					transitionAssignments.add(assignmentExpression);
@@ -283,10 +294,19 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 						.setLeftChild(IdentifierExpression.of(detail.getFlagArrayName()))
 						.setRightChild(NaturalNumberLiteral.of(detail.getIndexCounter().next()));
 
-				AssignmentExpression assignmentExpression = trapset.getMarkerAssignment(transition).deepClone();
-				assignmentExpression.setLeftChild(lookupExpression);
+				AssignmentExpression trapAssignment = trapset.getMarkerAssignment(transition).deepClone();
+				trapAssignment.setLeftChild(lookupExpression); // TS[index] = ...
+				if (trapset.isConditional(transition)) {
+					// Ensure trap visitations aren't reset:
+					AbsExpression condExpression = trapAssignment.getRightChild();
+					trapAssignment.setRightChild(UTAExpressionUtils.ternary(
+							lookupExpression.deepClone(),
+							LiteralConsts.TRUE,
+							UTAExpressionUtils.wrapInGroup(condExpression)
+					));
+				}
 
-				transitionAssignments.add(assignmentExpression);
+				transitionAssignments.add(trapAssignment);
 				transitionSynchs.add(detail.getActivatingSynchronization());
 			}
 		}

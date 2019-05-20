@@ -1,12 +1,15 @@
 # IntelliJ IDEA
 *.iml
 .idea
+
+# Maven
 target
 
-# Ignore Java auxiliaries:
+# Ignore Java aux:
 *.class
+*.jar
 
-# Ignore LaTeX auxiliaries:
+# Ignore LaTeX aux:
 *.log
 *.synctex.gz
 *.aux
