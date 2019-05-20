@@ -222,15 +222,6 @@ class TrapsetInjector implements IEvaluatedTrapsetVisitor<Void> {
 								newLinkedPairElementaryEgressTrap(trapIdx, lookupExpression, detail, mapFlagArrayNames)
 						);
 					} else {
-						// Possible conditional trap: FIXME
-						/*
-						assignmentExpression.setRightChild(new ConjunctionExpression()
-								.setLeftChild(UTAExpressionUtils.wrapInGroup(assignmentExpression.getRightChild()))
-								.setRightChild(
-										newLinkedPairElementaryEgressTrap(trapIdx, lookupExpression, detail, mapFlagArrayNames)
-								)
-						);
-						*/
 						assignmentExpression.setRightChild(newLinkedPairConditionalEgressTrap(
 								trapIdx, lookupExpression, assignmentExpression.getRightChild(), detail, mapFlagArrayNames
 						));
