@@ -10,27 +10,27 @@
 
   <groupId>ee.taltech.cs.mbt.tdl</groupId>
   <artifactId>parent-bom</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5</version>
   <packaging>pom</packaging>
 
   <properties>
-    <commons.utils.version>1.5-SNAPSHOT</commons.utils.version>
-    <commons.testUtils.version>1.5-SNAPSHOT</commons.testUtils.version>
-    <commons.sexpr.grammar.version>1.5-SNAPSHOT</commons.sexpr.grammar.version>
-    <commons.sexpr.model.version>1.5-SNAPSHOT</commons.sexpr.model.version>
-    <commons.sexpr.parser.version>1.5-SNAPSHOT</commons.sexpr.parser.version>
-    <commons.facades.stFacade.version>1.5-SNAPSHOT</commons.facades.stFacade.version>
-    <commons.facades.antlrFacade.version>1.5-SNAPSHOT</commons.facades.antlrFacade.version>
-    <uta.model.version>1.5-SNAPSHOT</uta.model.version>
-    <uta.grammar.version>1.5-SNAPSHOT</uta.grammar.version>
-    <uta.parser.version>1.5-SNAPSHOT</uta.parser.version>
-    <uta.pickler.version>1.5-SNAPSHOT</uta.pickler.version>
-    <tdl.model.version>1.5-SNAPSHOT</tdl.model.version>
-    <tdl.grammar.version>1.5-SNAPSHOT</tdl.grammar.version>
-    <tdl.parser.version>1.5-SNAPSHOT</tdl.parser.version>
-    <scenario.composer.version>1.5-SNAPSHOT</scenario.composer.version>
-    <interface.core.version>1.5-SNAPSHOT</interface.core.version>
-    <interface.cli.version>1.5-SNAPSHOT</interface.cli.version>
+    <commons.utils.version>1.5</commons.utils.version>
+    <commons.testUtils.version>1.5</commons.testUtils.version>
+    <commons.sexpr.grammar.version>1.5</commons.sexpr.grammar.version>
+    <commons.sexpr.model.version>1.5</commons.sexpr.model.version>
+    <commons.sexpr.parser.version>1.5</commons.sexpr.parser.version>
+    <commons.facades.stFacade.version>1.5</commons.facades.stFacade.version>
+    <commons.facades.antlrFacade.version>1.5</commons.facades.antlrFacade.version>
+    <uta.model.version>1.5</uta.model.version>
+    <uta.grammar.version>1.5</uta.grammar.version>
+    <uta.parser.version>1.5</uta.parser.version>
+    <uta.pickler.version>1.5</uta.pickler.version>
+    <tdl.model.version>1.5</tdl.model.version>
+    <tdl.grammar.version>1.5</tdl.grammar.version>
+    <tdl.parser.version>1.5</tdl.parser.version>
+    <scenario.composer.version>1.5</scenario.composer.version>
+    <interface.core.version>1.5</interface.core.version>
+    <interface.cli.version>1.5</interface.cli.version>
   </properties>
 
   <dependencyManagement>

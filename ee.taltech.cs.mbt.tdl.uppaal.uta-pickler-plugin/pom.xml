@@ -7,7 +7,7 @@
   <parent>
     <groupId>ee.taltech.cs.mbt.tdl</groupId>
     <artifactId>parent-pom</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.5</version>
     <relativePath>../ee.taltech.cs.mbt.tdl.parent-pom/pom.xml</relativePath>
   </parent>
 
