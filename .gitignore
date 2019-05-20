@@ -8,6 +8,7 @@ target
 # Ignore Java aux:
 *.class
 *.jar
+!interpreter-*-release.jar
 
 # Ignore LaTeX aux:
 *.log
