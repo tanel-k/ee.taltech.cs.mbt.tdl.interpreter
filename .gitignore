@@ -14,7 +14,7 @@ target
 *.log
 *.synctex.gz
 *.aux
-*.pdf
+#*.pdf
 *.bbl
 *.bcf
 *.blg
